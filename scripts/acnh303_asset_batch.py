@@ -173,6 +173,10 @@ def parse_bars(data: bytes) -> dict:
     if data[:4] != b"BARS" or len(data) < 16:
         raise FormatError("not BARS")
     file_size, bom, version, count = struct.unpack_from("<IHHI", data, 4)
+    trailing_padding = 0
+    if len(data) == file_size + 1 and data[-1:] == bytes([0]):
+        trailing_padding = 1
+        data = data[:file_size]
     if file_size != len(data) or count > 200_000 or 16 + count * 12 > len(data):
         raise FormatError("BARS invalid size or count")
     if bom != 0xFEFF:
@@ -195,6 +199,7 @@ def parse_bars(data: bytes) -> dict:
             "audio_magic": data[audio:audio + 4].decode("ascii", "replace") if audio != 0xFFFFFFFF else None,
         })
     return {"format": "BARS", "version": version, "count": count, "assets": result,
+            "trailing_padding_bytes": trailing_padding,
             "warning": "File has indexed AMTA/audio offsets; PCM decode and WAV export not implemented."}
 
 
