@@ -28,14 +28,14 @@ def parse_bdli(data: bytes) -> dict:
         magic, count, relative, ident = struct.unpack_from("<4sIII", data, p)
         if magic != b"LBLI":
             raise BdliError(f"unsupported BDLI section {i}: {magic!r}")
-        abs_offset = header_start + relative
+        abs_offset = p + relative
         if abs_offset > len(data) or (count > 0 and abs_offset < content_offset):
             raise BdliError(f"BDLI section {i} payload offset out of bounds")
         offsets.append(abs_offset)
         descriptors.append({
             "index": i, "tag": magic.decode("ascii"),
             "count_raw": count, "identifier_hex": f"{ident:08x}",
-            "offset_relative_to_directory": relative,
+            "offset_relative_to_descriptor": relative,
             "offset_absolute": abs_offset,
         })
     all_starts = sorted(set(e["offset_absolute"] for e in descriptors if e["count_raw"] > 0))
@@ -55,5 +55,5 @@ def parse_bdli(data: bytes) -> dict:
         "payload_offset": content_offset, "file_size": len(data),
         "sections": descriptors,
         "status": "structure_only",
-        "note": "Zero-count section offsets may point within the descriptor directory; section identifiers are not semantically resolved; exact BDLI bytes retained.",
+        "note": "Per-section offsets are relative to each 16-byte LBLI descriptor (not BDLI directory start). Zero-count entries may reference header slots. Exact BDLI bytes are retained.",
     }
