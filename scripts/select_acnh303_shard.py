@@ -14,14 +14,14 @@ NCA = "e10617820db06889e1638499478da0de_NCA"
 
 def main():
     a = argparse.ArgumentParser()
-    a.add_argument("--category", required=True, choices=("Model","Layout","Effect","Shader","Sound","EventFlow"))
+    a.add_argument("--category", required=True, choices=("Model","BDLI","Sound","Misc","Layout","Effect","Shader","EventFlow"))
     a.add_argument("--shard", type=int, required=True)
     a.add_argument("--shards", type=int, required=True)
     a.add_argument("--max-count", type=int, default=0)
     args = a.parse_args()
     if args.shards < 1 or args.shard < 0 or args.shard >= args.shards:
         a.error("invalid shard")
-    prefix = f"{NCA}/1/{args.category}/"
+    prefix = f"{NCA}/1/" if args.category == "Misc" else f"{NCA}/1/{args.category}/"
     tree = subprocess.check_output(["git", "ls-tree", "-rz", "HEAD", "--", prefix])
     items = []
     for line in tree.split(b"\x00"):
@@ -29,6 +29,8 @@ def main():
             continue
         head, p = line.split(b"\t", 1)
         path = p.decode("utf-8")
+        if args.category == "Misc" and path.split("/")[2] in ("Model", "BDLI", "Sound"):
+            continue
         n = int.from_bytes(hashlib.sha256(p).digest()[:8], "big") % args.shards
         if n != args.shard:
             continue
