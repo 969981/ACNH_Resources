@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""ACNH 3.0.3 REAL leaf media converters (GLB, PNG, WAV) and validators.
+
+Uses independently maintained format-specific tools, not invented BFRES geometry,
+BNTX pixels or BWAV samples. Source container bytes are always read-only.
+
+Stage: zstd/Yaz0 -> SARC -> BFRES/BNTX leaves, preserving member identity.
+Convert: wmdlt/wimgt/vgmstream-cli binaries; validate actual generated files.
+Every result is audited with source and output SHA-256.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import tempfile
+import wave
+import zlib
+
+from acnh_formats import decompress, detect, parse_sarc
+
+NCA = "e10617820db06889e1638499478da0de_NCA"
+MAX_INPUT = 128 * 1024 * 1024
+MAX_EXPANDED = 256 * 1024 * 1024
+VERSION = "acnh303-media-l3-v1"
+MAGIC = {b"FRES": "bfres", b"BNTX": "bntx", b"BWAV": "bwav"}
+CMD = {"bfres": "wmdlt", "bntx": "wimgt", "bwav": "vgmstream-cli"}
+EXT = {"bfres": ".glb", "bntx": ".png", "bwav": ".wav"}
+
+
+def hexdigest(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def validate_glb(path: Path) -> dict:
+    data = path.read_bytes()
+    if len(data) < 32 or data[:4] != b"glTF":
+        raise ValueError("GLB not glTF magic")
+    _, version, length = struct.unpack_from("<4sII", data)
+    if version != 2 or length != len(data):
+        raise ValueError("GLB incorrect version/length")
+    n, kind = struct.unpack_from("<I4s", data, 12)
+    if kind != b"JSON" or n == 0 or n + 20 > len(data):
+        raise ValueError("GLB JSON chunk invalid")
+    document = json.loads(data[20:20+n])
+    if document.get("asset", {}).get("version") != "2.0":
+        raise ValueError("GLB missing glTF 2.0 asset")
+    meshes = document.get("meshes", [])
+    primitives = [p for mesh in meshes for p in mesh.get("primitives", [])]
+    if not primitives or not any("POSITION" in p.get("attributes", {}) for p in primitives):
+        raise ValueError("GLB has no real triangle/geometry POSITION accessor")
+    accessors = document.get("accessors", [])
+    if not accessors:
+        raise ValueError("GLB missing accessors")
+    for primitive in primitives:
+        for i in list(primitive.get("attributes", {}).values()) + ([primitive["indices"]] if "indices" in primitive else []):
+            if not isinstance(i, int) or not (0 <= i < len(accessors)):
+                raise ValueError("GLB invalid accessor reference")
+    return {"type": "glb", "meshes": len(meshes), "primitives": len(primitives),
+            "accessors": len(accessors), "nodes": len(document.get("nodes", []))}
+
+
+def validate_png(path: Path) -> dict:
+    data = path.read_bytes()
+    if len(data) < 57 or data[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError("not PNG")
+    at = 8
+    have_iend = False
+    ihdr = None
+    while at < len(data):
+        if at + 12 > len(data):
+            raise ValueError("PNG chunk truncated")
+        size = struct.unpack_from(">I", data, at)[0]
+        name = data[at + 4:at + 8]
+        end = at + 12 + size
+        if size > 256 * 1024 * 1024 or end > len(data):
+            raise ValueError("invalid PNG chunk size")
+        actual_crc = struct.unpack_from(">I", data, at + 8 + size)[0]
+        expected_crc = zlib.crc32(data[at+4:at+8+size]) & 0xFFFFFFFF
+        if actual_crc != expected_crc:
+            raise ValueError("PNG CRC mismatch")
+        if at == 8:
+            if name != b"IHDR" or size != 13:
+                raise ValueError("PNG missing IHDR")
+            width, height, depth, color, comp, filter_type, interlace = struct.unpack_from(">IIBBBBB", data, at + 8)
+            if width == 0 or height == 0 or width > 32768 or height > 32768:
+                raise ValueError("implausible PNG dimensions")
+            ihdr = (width, height, depth, color)
+        if name == b"IEND":
+            have_iend = end == len(data)
+            break
+        at = end
+    if not have_iend:
+        raise ValueError("PNG missing final IEND")
+    return {"type": "png", "width": ihdr[0], "height": ihdr[1],
+            "bit_depth": ihdr[2], "color_type": ihdr[3]}
+
+
+def validate_wav(path: Path) -> dict:
+    with wave.open(str(path), "rb") as wav:
+        c = wav.getnchannels()
+        rate = wav.getframerate()
+        frames = wav.getnframes()
+        sample_width = wav.getsampwidth()
+        if not (1 <= c <= 16 and 8000 <= rate <= 384000 and frames > 0
+                and sample_width in (1, 2, 3, 4) and wav.getcomptype() == "NONE"):
+            raise ValueError("invalid PCM WAV properties")
+        wav.readframes(1)
+    return {"type": "wav", "channels": c, "sample_rate": rate,
+            "frames": frames, "sample_width": sample_width,
+            "seconds": round(frames / rate, 4)}
+
+
+VALID = {"glb": validate_glb, "png": validate_png, "wav": validate_wav}
+
+
+def member_path(name: str) -> Path:
+    rel = Path(name.replace("\\", "/"))
+    if rel.is_absolute() or ".." in rel.parts or any(not p or p in (".", "..") for p in rel.parts):
+        raise ValueError(f"unsafe archive member: {name}")
+    return rel
+
+
+def find_leaf(data: bytes, name: str, depth: int = 0):
+    if depth > 5:
+        raise ValueError("archive recursion depth exceeded")
+    kind = detect(data)
+    if kind in ("zstd", "yaz0"):
+        raw, _ = decompress(data, limit=MAX_EXPANDED)
+        yield from find_leaf(raw, name, depth + 1)
+        return
+    if kind == "sarc":
+        _, members = parse_sarc(data)
+        for member_name, payload in members:
+            child = str(member_path(member_name))
+            yield from find_leaf(payload, name + "/_members/" + child, depth + 1)
+        return
+    media = MAGIC.get(data[:4])
+    yield {"source_member": name, "format": media or kind, "data": data}
+
+
+def command(kind: str, binary: str, source: Path, output: Path):
+    if kind in ("bfres", "bntx"):
+        return [binary, "DECODE", str(source), "--dest", str(output)]
+    if kind == "bwav":
+        return [binary, "-i", "-o", str(output), str(source)]
+    raise ValueError(f"unsupported media type: {kind}")
+
+
+def main():
+    a = argparse.ArgumentParser(description=__doc__)
+    a.add_argument("--root", type=Path, default=Path("."))
+    a.add_argument("--source", required=True, help="Original RomFS-relative path e.g. Model/X.zs")
+    a.add_argument("--out", type=Path, default=Path("Unpack_L3"))
+    a.add_argument("--tool-wmdlt", default="wmdlt")
+    a.add_argument("--tool-wimgt", default="wimgt")
+    a.add_argument("--tool-vgmstream", default="vgmstream-cli")
+    a.add_argument("--require", choices=["bfres", "bntx", "bwav", "any"], default="any")
+    a.add_argument("--fail-on-no-conversion", action="store_true")
+    a.add_argument("--max-output-mb", type=int, default=128)
+    args = a.parse_args()
+    root = args.root.resolve()
+    rel = member_path(args.source)
+    romfs = (root / NCA / "1").resolve()
+    original = (romfs / rel).resolve()
+    if not original.is_relative_to(romfs) or not original.is_file():
+        a.error("source missing or outside original RomFS")
+    if original.stat().st_size > MAX_INPUT:
+        a.error("source exceeds safe input size")
+    src = original.read_bytes()
+    source_meta = {"source": args.source, "source_sha256": hexdigest(src),
+                   "source_bytes": len(src), "converter_version": VERSION, "members": []}
+    dest = (root / args.out / NCA / "1" / rel.parent / (rel.name + ".converted")).resolve()
+    if dest.is_relative_to(romfs) or dest == root:
+        a.error("destination may not overwrite original RomFS")
+    dest.mkdir(parents=True, exist_ok=True)
+    binaries = {"bfres": args.tool_wmdlt, "bntx": args.tool_wimgt,
+                "bwav": args.tool_vgmstream}
+    with tempfile.TemporaryDirectory(prefix="acnh303-media-") as tmp:
+        workspace = Path(tmp)
+        for index, leaf in enumerate(find_leaf(src, rel.as_posix())):
+            data = leaf.pop("data")
+            kind = leaf["format"]
+            record = {**leaf, "input_bytes": len(data), "input_sha256": hexdigest(data),
+                      "status": "partial"}
+            if kind in binaries:
+                member = member_path(leaf["source_member"])
+                # Workstation path is only a temp staging file, not a Git artifact.
+                staging = workspace / ("leaf_%05d" % index + "." + kind)
+                staging.write_bytes(data)
+                outpath = dest / ("leaf_%05d" % index + EXT[kind])
+                bin_name = binaries[kind]
+                try:
+                    proc = subprocess.run(command(kind, bin_name, staging, outpath),
+                                          capture_output=True, text=True, timeout=180,
+                                          check=False)
+                    record["tool_exit_code"] = proc.returncode
+                    record["tool_stdout_tail"] = proc.stdout[-1500:]
+                    record["tool_stderr_tail"] = proc.stderr[-1500:]
+                    if proc.returncode != 0:
+                        record["error"] = "external converter error"
+                    elif not outpath.is_file():
+                        record["error"] = "external converter returned success but no output file"
+                    elif outpath.stat().st_size > args.max_output_mb * 1024 * 1024:
+                        record["error"] = "converted file exceeds output size cap"
+                    else:
+                        result = VALID[EXT[kind][1:]](outpath)
+                        record["status"] = "converted"
+                        record["validation"] = result
+                        record["output"] = outpath.relative_to(root).as_posix()
+                        record["output_bytes"] = outpath.stat().st_size
+                        record["output_sha256"] = hexdigest(outpath.read_bytes())
+                except (ValueError, OSError, subprocess.TimeoutExpired, wave.Error) as exc:
+                    record["error"] = f"{type(exc).__name__}: {exc}"
+                if record["status"] != "converted" and outpath.exists():
+                    outpath.unlink()
+            source_meta["members"].append(record)
+    total = sum(r["status"] == "converted" for r in source_meta["members"])
+    source_meta["converted_count"] = total
+    source_meta["leaf_count"] = len(source_meta["members"])
+    source_meta["status"] = "partial" if (not total or any(x["status"] != "converted" for x in source_meta["members"])) else "converted"
+    evidence_path = dest / "_conversion_manifest.json"
+    evidence_path.write_text(json.dumps(source_meta, ensure_ascii=False, sort_keys=True, indent=2) + "\n", "utf-8")
+    print(json.dumps(source_meta, ensure_ascii=False, indent=2), flush=True)
+    if args.fail_on_no_conversion and (not total or args.require != "any" and not any(
+            r["format"] == args.require and r["status"] == "converted" for r in source_meta["members"])):
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
