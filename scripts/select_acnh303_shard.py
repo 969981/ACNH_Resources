@@ -22,9 +22,8 @@ def main():
     if args.shards < 1 or args.shard < 0 or args.shard >= args.shards:
         a.error("invalid shard")
     prefix = f"{NCA}/1/{args.category}/"
-    tree = subprocess.check_output(["git", "ls-tree", "-rlz", "HEAD", "--", prefix])
+    tree = subprocess.check_output(["git", "ls-tree", "-rz", "HEAD", "--", prefix])
     items = []
-    total = 0
     for line in tree.split(b"\x00"):
         if not line:
             continue
@@ -33,23 +32,19 @@ def main():
         n = int.from_bytes(hashlib.sha256(p).digest()[:8], "big") % args.shards
         if n != args.shard:
             continue
-        size_text = head.rsplit(b" ", 1)[-1]
-        try:
-            size = int(size_text)
-        except ValueError:
-            size = 0
-        items.append((path, size))
-        total += size
+        # `ls-tree -l` forces blob fetch on blob:none clones. No size needed to shard.
+        items.append(path)
     items.sort()
     if args.max_count:
         items = items[:args.max_count]
-    patterns = ["/scripts/"] + ["/" + p for p, _ in items]
+    patterns = ["/scripts/"] + ["/" + p for p in items]
     # Keep this within shell process; git sparse-checkout accepts newline patterns.
     subprocess.run(["git", "sparse-checkout", "set", "--no-cone", "--stdin"],
                    input=("\n".join(patterns) + "\n").encode(), check=True)
     payload = {"category":args.category,"shard":args.shard,"shards":args.shards,
-               "selected_files":len(items),"selected_bytes_in_git_tree":sum(s for _,s in items),
-               "paths": [p for p,_ in items[:5]]}
+               "selected_files":len(items),"selected_bytes_in_git_tree":None,
+               "size_note":"use Git Tree API inventory: no blob fetch",
+               "paths": items[:5]}
     print(json.dumps(payload, ensure_ascii=False), flush=True)
     Path("selection.json").write_text(json.dumps(payload, indent=2) + "\n",encoding="utf-8")
 if __name__ == "__main__":
