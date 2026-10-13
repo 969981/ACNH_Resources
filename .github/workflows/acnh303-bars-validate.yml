@@ -35,3 +35,19 @@ jobs:
               print(p.name,"actual",len(b),"reported",n,"delta",len(b)-n,
                     "count",count,"tail",b[-16:].hex(),"header",b[:20].hex())
           PY
+
+      - name: Assert corrected BARS parsing, including 5 validated trailing NUL bytes
+        run: |
+          python - <<'PY'
+          import pathlib,sys
+          sys.path.insert(0,"scripts")
+          from acnh303_asset_batch import parse_bars
+          root=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1/Sound/Resource")
+          files=sorted(root.glob("*.bars"))
+          for p in files:
+              doc=parse_bars(p.read_bytes())
+              expected=0 if p.name=="AirportDemoAirplaneShadow.bars" else 1
+              assert doc["trailing_padding_bytes"]==expected,(p.name,doc)
+              print("PARSED",p.name,"assets",doc["count"],"padding",expected,flush=True)
+          assert len(files)==6
+          PY
