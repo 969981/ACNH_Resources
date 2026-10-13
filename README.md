@@ -147,3 +147,10 @@ For parser internals, known limitations and development guidance see scripts/REA
 - [26 源 104 PNG 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bottomstex-texture-only-26-20261013)
 
 本次纠正后，在已经实测的 252 个媒体源里累计 **82 GLB + 745 PNG + 52 WAV = 879 个有效媒体文件**；Model 108 源有媒体输出，其中只有 82 个属于真实 GLB。其余大部分源仍未做 L3 内容解码。
+
+
+## L3 第四轮扩容：新增 300 源、781 个媒体输出（2026-10-14）
+
+[完整实际转换报告](docs/UNPACK_MEDIA_L3_ITERATION4.md) · [累计 552 源覆盖率](derived/3.0.3/media_iteration4_cumulative/coverage.json) · [1660 个媒体文件 SHA-256](derived/3.0.3/media_iteration4_cumulative/media_index.csv) · [12 分卷可长期下载的 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-iteration4-20261014)
+
+本轮真实执行 Model 200、Layout 60、BWAV 40 共 **300 个新源文件**，新增 **132 GLB、609 PNG、40 WAV**（781 个媒体文件）。此前的源文件不重复；累计 552 个实测源、**214 GLB + 1354 PNG + 92 WAV = 1660 个有效媒体文件（1.24 GB）**，均有源／产物哈希和各格式验证。只在已测样本内计算成功率；大量未测 Model、Layout、BWAV 与 Shader、Effect 等其他资源仍需要继续解包。
