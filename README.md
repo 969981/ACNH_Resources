@@ -105,3 +105,15 @@ For parser internals, known limitations and development guidance see scripts/REA
 - [GitHub Issues 总看板 #17](https://github.com/969981/ACNH_Resources/issues/17)
 
 完整解包分为四层：L0 源文件全集、L1 压缩解压、L2 递归归档成员提取、L3 可验证的 JSON/CSV/PNG/GLB/WAV 等内容转换。只有真正解码和验收通过才能标记为 `converted`。未支持的专有 Shader/Effect 等仍需保留原始字节和详细缺口，不能混同于已完成。Actions 中的新 [source inventory](.github/workflows/acnh303-inventory.yml) 在无需拉取大资源 blob 的前提下建立全量分母。
+
+## 已实际执行的全资源覆盖（2026-10-13）
+
+[完整执行报告](docs/UNPACK_EXECUTION_2026-10-13.md) · [全量覆盖状态 JSON](derived/3.0.3/effective/coverage.json) · [103,400 条 SHA-256 manifest](derived/3.0.3/effective/source_run_manifest.jsonl.gz)
+
+36 个 GitHub Actions 分片对原始 RomFS 的 **103,400/103,400** 个文件做了实际读取、SHA-256、压缩/归档检测与现有解析器处理。针对首轮出现的 1,182 个 BDLI、55 个 EventFlow、5 个 BARS 解析失败已经独立复测并按原始源 SHA-256 覆盖修复，最新有效状态为 **2,105 converted + 101,295 partial + 0 failed**，没有缺失、重复或额外的源路径。
+
+- `Unpack/<NCA>/1/EventFlow/` 包含 877 个真实 EventFlow 图 JSON，Actor/入口/跳转/参数及 ACNH 特有字段均可查询；
+- BDLI 的 36,708 个文件已解压并恢复 LBLI 数据块索引，无损原始 BDLI 派生文件保存在临时 Actions 工件；
+- 大型 Model/Layout/Sound 的压缩容器和原始资源关联已索引，仍需 **BFRES→GLB、BNTX→PNG、BWAV→WAV 以及完整特效/着色器内容解码**。
+
+此处的 100% 指 **L0 全源覆盖与当前 L1/L2 解析器没有报告失败**，绝不是全媒体 L3 转换完成。大型工件目前在 Actions 中且会过期；正式持久发布属于 U13。
