@@ -1,0 +1,190 @@
+name: ACNH 3.0.3 L3 Iteration 4, 300 New Media Source Files
+on:
+  push:
+    branches: [feat/acnh303-l3-iteration4]
+    paths: [".github/workflows/acnh303-media-l3-iteration4.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-iteration4
+  cancel-in-progress: false
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p "test_acnh303_media_l3.py" -v
+  decode:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      max-parallel: 3
+      fail-fast: false
+      matrix:
+        include:
+          - {group: Model, shard: 6, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 7, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 8, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 9, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 10, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 11, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 12, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Model, shard: 13, shards: 32, suffix: ".zs", cap: 25}
+          - {group: Layout, shard: 6, shards: 8, suffix: ".zs", cap: 30}
+          - {group: Layout, shard: 7, shards: 8, suffix: ".zs", cap: 30}
+          - {group: Sound, shard: 6, shards: 8, suffix: ".bwav", cap: 20}
+          - {group: Sound, shard: 7, shards: 8, suffix: ".bwav", cap: 20}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Select next NEW original Git-tree hash shard
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category ${{ matrix.group }}
+          --shard ${{ matrix.shard }}
+          --shards ${{ matrix.shards }}
+          --suffix ${{ matrix.suffix }}
+          --max-count ${{ matrix.cap }}
+      - name: Install pinned media decoder toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo wmdlt >/tmp/wmdlt.path
+          echo wimgt >/tmp/wimgt.path
+          echo vgmstream-cli >/tmp/vgmstream.path
+          if [[ "${{ matrix.group }}" == "Sound" ]]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n1 >/tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 >/tmp/wmdlt.path
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 >/tmp/wimgt.path
+            test -s /tmp/wmdlt.path && test -s /tmp/wimgt.path
+            chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+          fi
+      - name: Decode all selected real geometry/texture/audio leaves
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Batch --report-dir derived/3.0.3/media_iteration4 \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Check complete selected source count, source and output SHA-256
+        run: |
+          python - <<'PY'
+          import json,pathlib,hashlib
+          sel=json.loads(pathlib.Path("selection.json").read_text("utf-8"))
+          g=sel["category"];i=sel["shard"];n=sel["shards"]
+          p=pathlib.Path("derived/3.0.3/media_iteration4")/g/(f"{i:03d}-of-{n:03d}")/"manifest.json"
+          rows=json.loads(p.read_text("utf-8"))
+          assert len(rows)==sel["selected_files"],(len(rows),sel["selected_files"])
+          actual=["e10617820db06889e1638499478da0de_NCA/1/"+r["source_path"] for r in rows]
+          assert actual==sel["paths"]
+          assert len(set(actual))==len(actual)
+          for r in rows:
+              source=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/r["source_path"]
+              assert hashlib.sha256(source.read_bytes()).hexdigest()==r["sha256"]
+              for media in r["validated_outputs"]:
+                  file=pathlib.Path(media["path"])
+                  assert file.is_file() and hashlib.sha256(file.read_bytes()).hexdigest()==media["sha256"]
+          print("VERIFIED",g,i,"sources",len(rows),"media",sum(len(r["validated_outputs"]) for r in rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-iteration4-report-${{ matrix.group }}-${{ matrix.shard }}
+          path: derived/3.0.3/media_iteration4/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-iteration4-data-${{ matrix.group }}-${{ matrix.shard }}
+          path: Unpack_L3_Batch/
+          compression-level: 3
+          retention-days: 14
+          if-no-files-found: warn
+  reconcile:
+    needs: [unit-tests,decode]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: media-iteration4-report-*
+          path: collected
+          merge-multiple: true
+      - name: Verify all new shard manifests against immutable 103400-source original and 252-source corrected baseline
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_bottomstex_corrected/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 12 \
+            --out derived/3.0.3/media_iteration4_cumulative
+      - name: Require 300 new, 552 cumulative unique original source files
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_iteration4_cumulative/coverage.json").read_text())
+          assert j["baseline_source_count"]==252
+          assert j["new_source_count"]==300,(j["new_source_count"],"expected 300")
+          assert j["cumulative_source_count"]==552
+          assert j["new_shard_count"]==12
+          assert j["new_by_format"]["Model"]["new_source_count"]==200
+          assert j["new_by_format"]["Layout"]["new_source_count"]==60
+          assert j["new_by_format"]["Sound"]["new_source_count"]==40
+          print("VERIFIED 300 new distinct original paths and 552 cumulative SHA-256-backed media source records")
+          PY
+      - name: Commit incremental media coverage census with remaining errors and media types
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/media_iteration4_cumulative
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(acnh303): 300 new sources, cumulative 552 verified L3 media records"
+          for i in 1 2 3 4; do
+            git fetch origin feat/acnh303-l3-iteration4
+            git rebase origin/feat/acnh303-l3-iteration4
+            if git push origin HEAD:feat/acnh303-l3-iteration4; then exit 0; fi
+            sleep 3
+          done
+          exit 1
