@@ -1,0 +1,218 @@
+name: ACNH 3.0.3 ALL RomFS — 103400 sources
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-complete-romfs.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-coverage-v3-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Verify parser code and original-source fixtures
+        run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p "test_acnh303_bdli.py" -v
+          python -m unittest discover -s scripts -p "test_acnh_unpack.py" -v
+  extract:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {group: Model, shard: 0, shards: 16, raw_mb: 0, batch_id: "00-of-16"}
+          - {group: Model, shard: 1, shards: 16, raw_mb: 0, batch_id: "01-of-16"}
+          - {group: Model, shard: 2, shards: 16, raw_mb: 0, batch_id: "02-of-16"}
+          - {group: Model, shard: 3, shards: 16, raw_mb: 0, batch_id: "03-of-16"}
+          - {group: Model, shard: 4, shards: 16, raw_mb: 0, batch_id: "04-of-16"}
+          - {group: Model, shard: 5, shards: 16, raw_mb: 0, batch_id: "05-of-16"}
+          - {group: Model, shard: 6, shards: 16, raw_mb: 0, batch_id: "06-of-16"}
+          - {group: Model, shard: 7, shards: 16, raw_mb: 0, batch_id: "07-of-16"}
+          - {group: Model, shard: 8, shards: 16, raw_mb: 0, batch_id: "08-of-16"}
+          - {group: Model, shard: 9, shards: 16, raw_mb: 0, batch_id: "09-of-16"}
+          - {group: Model, shard: 10, shards: 16, raw_mb: 0, batch_id: "10-of-16"}
+          - {group: Model, shard: 11, shards: 16, raw_mb: 0, batch_id: "11-of-16"}
+          - {group: Model, shard: 12, shards: 16, raw_mb: 0, batch_id: "12-of-16"}
+          - {group: Model, shard: 13, shards: 16, raw_mb: 0, batch_id: "13-of-16"}
+          - {group: Model, shard: 14, shards: 16, raw_mb: 0, batch_id: "14-of-16"}
+          - {group: Model, shard: 15, shards: 16, raw_mb: 0, batch_id: "15-of-16"}
+          - {group: BDLI, shard: 0, shards: 8, raw_mb: 1, batch_id: "00-of-08"}
+          - {group: BDLI, shard: 1, shards: 8, raw_mb: 1, batch_id: "01-of-08"}
+          - {group: BDLI, shard: 2, shards: 8, raw_mb: 1, batch_id: "02-of-08"}
+          - {group: BDLI, shard: 3, shards: 8, raw_mb: 1, batch_id: "03-of-08"}
+          - {group: BDLI, shard: 4, shards: 8, raw_mb: 1, batch_id: "04-of-08"}
+          - {group: BDLI, shard: 5, shards: 8, raw_mb: 1, batch_id: "05-of-08"}
+          - {group: BDLI, shard: 6, shards: 8, raw_mb: 1, batch_id: "06-of-08"}
+          - {group: BDLI, shard: 7, shards: 8, raw_mb: 1, batch_id: "07-of-08"}
+          - {group: Sound, shard: 0, shards: 8, raw_mb: 0, batch_id: "00-of-08"}
+          - {group: Sound, shard: 1, shards: 8, raw_mb: 0, batch_id: "01-of-08"}
+          - {group: Sound, shard: 2, shards: 8, raw_mb: 0, batch_id: "02-of-08"}
+          - {group: Sound, shard: 3, shards: 8, raw_mb: 0, batch_id: "03-of-08"}
+          - {group: Sound, shard: 4, shards: 8, raw_mb: 0, batch_id: "04-of-08"}
+          - {group: Sound, shard: 5, shards: 8, raw_mb: 0, batch_id: "05-of-08"}
+          - {group: Sound, shard: 6, shards: 8, raw_mb: 0, batch_id: "06-of-08"}
+          - {group: Sound, shard: 7, shards: 8, raw_mb: 0, batch_id: "07-of-08"}
+          - {group: Misc, shard: 0, shards: 4, raw_mb: 1, batch_id: "00-of-04"}
+          - {group: Misc, shard: 1, shards: 4, raw_mb: 1, batch_id: "01-of-04"}
+          - {group: Misc, shard: 2, shards: 4, raw_mb: 1, batch_id: "02-of-04"}
+          - {group: Misc, shard: 3, shards: 4, raw_mb: 1, batch_id: "03-of-04"}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install format parsers
+        run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Compute exact Git tree path partition and fetch only selected blobs
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category "${{ matrix.group }}"
+          --shard "${{ matrix.shard }}"
+          --shards "${{ matrix.shards }}"
+      - name: Source hash, real decompress/parse, output manifest
+        run: >
+          python scripts/acnh303_asset_batch.py
+          --root . --group "${{ matrix.group }}"
+          --out Unpack_Batch --report-dir reports
+          --batch-id "${{ matrix.batch_id }}"
+          --raw-limit-mb "${{ matrix.raw_mb }}"
+      - name: Check selector/manifest coverage for this shard
+        if: success()
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          selection=json.loads(pathlib.Path("selection.json").read_text())
+          p=pathlib.Path("reports")/selection["category"]/os.environ["BATCH_ID"]/"manifest.json"
+          manifest=json.loads(p.read_text())
+          if len(manifest)!=selection["selected_files"]:
+              raise SystemExit(f"Source coverage mismatch: selected {selection['selected_files']}, analyzed {len(manifest)}")
+          actual={v["source_path"] for v in manifest}
+          if len(actual)!=len(manifest):
+              raise SystemExit("duplicate source manifest records")
+          print(f"Verified shard: {len(manifest)} unique source files")
+          PY
+        env:
+          BATCH_ID: ${{ matrix.batch_id }}
+      - name: Preserve per-source reports and errors
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-v3-report-${{ matrix.group }}-${{ matrix.batch_id }}
+          path: |
+            reports/
+            selection.json
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Preserve extracted source-mirror artifacts (time limited)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-v3-data-${{ matrix.group }}-${{ matrix.batch_id }}
+          path: Unpack_Batch/
+          retention-days: 14
+          compression-level: 3
+          if-no-files-found: warn
+  audit:
+    if: always()
+    needs: [validate, extract]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-v3-report-*
+          path: collected
+          merge-multiple: true
+      - name: Retrieve immutable baseline and reconcile ALL source paths
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail --location --retry 3 --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -o /tmp/acnh303-source-manifest.csv.gz \
+            "https://raw.githubusercontent.com/969981/ACNH_Resources/3.0.3/derived/3.0.3/inventory/source_manifest.csv.gz"
+          python - <<'PY'
+          import collections,csv,gzip,json,os,pathlib
+          with gzip.open("/tmp/acnh303-source-manifest.csv.gz","rt",encoding="utf-8") as fh:
+              expected={r["source_relative_path"] for r in csv.DictReader(fh)}
+          reports=sorted(pathlib.Path("collected").rglob("manifest.json"))
+          groups=collections.Counter()
+          states=collections.Counter()
+          observed={}
+          duplicates=[]
+          failures=[]
+          for path in reports:
+              for item in json.loads(path.read_text("utf-8")):
+                  name=item["source_path"]
+                  if name in observed:
+                      duplicates.append(name)
+                  observed[name]=path.as_posix()
+                  groups[name.split("/",1)[0]]+=1
+                  states[item["status"]]+=1
+                  if item["status"]=="failed":
+                      failures.append({"path":name,"reason":item["notes"]})
+          missing=sorted(expected-set(observed))
+          extra=sorted(set(observed)-expected)
+          report={
+              "source_baseline":103400, "baseline_file_count":len(expected),
+              "processed":len(observed),"missing_count":len(missing),
+              "extra_count":len(extra), "duplicate_count":len(duplicates),
+              "manifest_files":len(reports),"expected_shards":36,
+              "status_counts":dict(states),"by_folder":dict(groups),
+              "failed_count":len(failures),
+              "missing_first_200":missing[:200],"unexpected_first_200":extra[:200],
+              "duplicate_first_200":duplicates[:200],"failed_first_200":failures[:200],
+              "scope":"L0 source processing + L1/L2 container/structure; NOT full L3 3D/media decode",
+              "run_id":os.environ["GITHUB_RUN_ID"],
+              "source_commit":os.environ["GITHUB_SHA"],
+          }
+          out=pathlib.Path("derived/3.0.3/asset_batch_runs")
+          out.mkdir(parents=True,exist_ok=True)
+          raw=json.dumps(report,indent=2,ensure_ascii=False,sort_keys=True)+"\n"
+          (out/f"{os.environ['GITHUB_RUN_ID']}.json").write_text(raw,encoding="utf-8")
+          (out/"latest.json").write_text(raw,encoding="utf-8")
+          print(raw)
+          PY
+      - name: Persist global coverage report to feature branch
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/asset_batch_runs
+          if ! git diff --cached --quiet; then
+            git commit -m "data(acnh303): audit all 103400 RomFS source records"
+            git push origin HEAD:feat/acnh303-assets-eventflow
+          fi
