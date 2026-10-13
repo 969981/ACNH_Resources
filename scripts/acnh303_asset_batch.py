@@ -77,6 +77,37 @@ def json_value(obj, depth=0):
 
 def parse_evfl(data: bytes) -> dict:
     import evfl
+    import evfl.entry_point
+    from evfl.util import SeekContext
+
+    # Upstream evfl 1.2 assumes three EntryPoint fields are always zero.
+    # ACNH 3.0.3 actually populates those slots in 55 verified resources.
+    # Decode subflow indexes and main_event; keep extra pointer values raw.
+    def acnh_entrypoint_read(self, stream):
+        offset = stream.read_u64()
+        acnh_ptr_08 = stream.read_u64()
+        acnh_ptr_10 = stream.read_u64()
+        subflow_count = stream.read_u16()
+        acnh_flags_1a = stream.read_u16()
+        self.main_event._idx = stream.read_u16()
+        reserved_1e = stream.read_u16()
+        if reserved_1e != 0 or subflow_count > MAX_GRAPH_EVENTS:
+            raise FormatError("invalid ACNH extended EntryPoint header")
+        for ptr in (offset, acnh_ptr_08, acnh_ptr_10):
+            if ptr and ptr >= len(stream.data):
+                raise FormatError("ACNH EntryPoint pointer out of bounds")
+        if subflow_count:
+            if not offset or offset + subflow_count * 2 > len(stream.data):
+                raise FormatError("invalid ACNH subflow index array")
+            with SeekContext(stream, offset):
+                self._sub_flow_event_indices = [stream.read_u16() for _ in range(subflow_count)]
+        self.acnh_extended_raw = {
+            "offset_08": acnh_ptr_08, "offset_10": acnh_ptr_10,
+            "flags_1a": acnh_flags_1a, "subflow_index_count": subflow_count,
+        }
+    # Read-only compatibility patch; no evfl serializer modifications.
+    evfl.entry_point.EntryPoint._do_read = acnh_entrypoint_read
+
     e = evfl.EventFlow()
     e.read(data)
     fc = e.flowchart
@@ -127,7 +158,8 @@ def parse_evfl(data: bytes) -> dict:
              "params": json_value(actor.params.data if actor.params else {})}
             for actor in fc.actors
         ],
-        "entrypoints": [{"name": entry.name, "main_event": ref(entry.main_event)}
+        "entrypoints": [{"name": entry.name, "main_event": ref(entry.main_event),
+                          "acnh_extended_raw": getattr(entry, "acnh_extended_raw", {})}
                         for entry in fc.entry_points],
         "events": nodes,
         "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis.",
