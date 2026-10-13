@@ -1,4 +1,4 @@
-# ACNH 3.0.3 — 可执行任务清单（U00–U13）
+# ACNH 3.0.3 — 可执行任务清单（U00–U14）
 
 此文件与 GitHub Issues 对应；变更状态必须附真实验证证据。详细验收规则见 [UNPACK_MASTER_PLAN.md](UNPACK_MASTER_PLAN.md)。
 
@@ -16,6 +16,7 @@
 | U09 | P3 | Effect/ELink2/Shader/PTCL/SHARC/BNSH | 特效/着色器结构信息、引用图、可导出叶子 | 偏移/参数/依赖真实，不能生成假的 GLSL/PTCL 画面 | U02 |
 | U10 | P2 | Sound/BARS/流媒体/波形 | 关联清单，真实可解码声音为 WAV/FLAC | 每种 codec 播放/长度/采样率实测通过 | U02 |
 | U11 | P3 | Movie/Font/VTrigDict/Swkbd/System/其余 | unknown 格式字典、专用转换器、原始叶子提取 | 每类均有完整清单、真实解析或明确缺口 | U00,U02 |
+| U14 | P1 | BDLI/*.bdli.zs（36,708 文件） | Zstd→BDLI 原生 chunk/记录 JSON/CSV，语言/对话引用 | 全量 chunk 结构校验、缺口独立统计，不假造对话逻辑 | U00,U01,U02 |
 | U12 | P0 | 全量输出与 manifest | `coverage.json`、`missing/failed/unsupported.csv`、断点恢复 | 源覆盖 100%；failed/missing/冲突/哈希不符为零 | U03–U11 |
 | U13 | P3 | 持久发布/交付 | Git 可读小文件、GitHub Releases 分卷、大文件索引 | 用户可长期下载并核验；非过期 Actions Artifact | U12 |
 
@@ -23,7 +24,7 @@
 
 **Batch A（立刻）**：U00 → U01。跑当前 19-shard Actions，核对真实输入/输出数量，修复失败、增量重新运行。
 
-**Batch B（重点先出可用内容）**：U02 → U05。归档递归，全部 BCSV/BYML/MSBT/事件图、CSV，并形成跨文本/事件引用表。
+**Batch B（重点先出可用内容）**：U02 → U03/U04/U05/U14。归档递归，全部 BCSV/BYML/MSBT/事件图、CSV，并形成跨文本/事件引用表。
 
 **Batch C（游戏资产）**：U06 → U07 → U08。优先同一模型的一套 BFRES 骨架＋真实 PNG，再扩到所有 Model/Layout。遇到 ASTC/BC7 等逐像素格式拆出子任务。
 
