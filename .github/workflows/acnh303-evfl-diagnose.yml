@@ -1,0 +1,45 @@
+name: ACNH 3.0.3 EVFL EntryPoint Compatibility Probe
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-evfl-diagnose.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/Ftr_MoneyBox.bfevfl
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/NNPC_ApproachC_Want.bfevfl
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/1PArbeitExplain5.bfevfl
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install evfl
+      - name: Print actual entry-point fields for supported and failing examples
+        shell: bash
+        run: |
+          python - <<'PY'
+          import struct,traceback,evfl
+          from pathlib import Path
+          from evfl.entry_point import EntryPoint
+          old=EntryPoint._do_read
+          def tracing(self,stream):
+              start=stream.tell()
+              row=stream.data[start:start+0x20]
+              print("ENTRYPOINT",hex(start),struct.unpack_from("<QQQHHHH",row),flush=True)
+              return old(self,stream)
+          EntryPoint._do_read=tracing
+          root=Path("e10617820db06889e1638499478da0de_NCA/1/EventFlow")
+          for p in sorted(root.glob("*.bfevfl")):
+              print("SOURCE",p.name,flush=True)
+              try: e=evfl.EventFlow();e.read(p.read_bytes());print("PARSED",e.name,flush=True)
+              except Exception: traceback.print_exc(limit=5)
+          PY
