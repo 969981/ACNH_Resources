@@ -96,7 +96,16 @@ def do_audit(paths: list[Path], original_inventory: Path, expected_shards: int):
                 if len(row["sha256"]) != 64 or not all(c in "0123456789abcdef" for c in row["sha256"]):
                     raise ValueError(f"invalid SHA-256: {name}")
                 for out in row["validated_outputs"]:
-                    if out.get("validation", {}).get("type") != {"bfres":"glb","bntx":"png","bwav":"wav"}[row["format"]]:
+                    actual_type = out.get("validation", {}).get("type")
+                    expected_type = {"bfres": "glb", "bntx": "png", "bwav": "wav"}[row["format"]]
+                    # Switch BFRES may have no FMDL/FSHP/FVTX, yet embed a
+                    # complete BNTX. Count its pixel-validated PNG as a
+                    # texture-only media export, never as a GLB model.
+                    legitimate_texture_only = (
+                        group == "Model" and actual_type == "png"
+                        and row.get("source_media_class") == "texture_only_fres_bntx"
+                        and out.get("validation", {}).get("pixel_decode") == "Pillow.Image.load")
+                    if actual_type != expected_type and not legitimate_texture_only:
                         raise ValueError(f"output format not verified: {name}")
                     if out.get("size_bytes",0) <= 0 or len(out.get("sha256","")) != 64:
                         raise ValueError(f"output size/hash missing: {name}")

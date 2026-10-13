@@ -135,6 +135,50 @@ def member_path(name: str) -> Path:
     return rel
 
 
+def is_texture_only_switch_fres(data: bytes) -> bool:
+    """Conservative classification: validated Switch FRES without any mesh signatures."""
+    if len(data) < 0x100 or data[:4] != b"FRES":
+        return False
+    # 0xFEFF represented little-endian in Switch resource headers.
+    bom = struct.unpack_from("<H", data, 0x0C)[0]
+    version = struct.unpack_from("<I", data, 8)[0]
+    first_model = struct.unpack_from("<Q", data, 0x28)[0]
+    major = (version >> 16) & 0xFFFF
+    return (bom == 0xFEFF and major >= 9 and first_model == 0
+            and b"FMDL" not in data and b"FSHP" not in data
+            and b"FVTX" not in data and b"BNTX" in data)
+
+
+def extract_embedded_bntx(data: bytes):
+    """Return bounds-checked, self-contained BNTX buffers inside a meshless FRES.
+
+    The BNTX is a standalone subcontainer; its internal pointers remain
+    BNTX-relative. Do not search/copy arbitrary 4-byte strings without checking
+    the Switch BOM, declared size, texture count and platform header.
+    """
+    if not is_texture_only_switch_fres(data):
+        return
+    at = 0
+    while True:
+        at = data.find(b"BNTX", at)
+        if at < 0:
+            break
+        if at % 0x10 != 0 or at + 0x40 > len(data):
+            at += 4
+            continue
+        bom = struct.unpack_from("<H", data, at + 0x0C)[0]
+        size = struct.unpack_from("<I", data, at + 0x1C)[0]
+        count = struct.unpack_from("<I", data, at + 0x24)[0]
+        platform = data[at+0x20:at+0x24]
+        if (bom == 0xFEFF and 0x40 <= size <= len(data)-at
+                and size <= MAX_EXPANDED and platform == b"NX  "
+                and 1 <= count <= 65536):
+            yield at, data[at:at+size]
+            at += size
+        else:
+            at += 4
+
+
 def find_leaf(data: bytes, name: str, depth: int = 0):
     if depth > 5:
         raise ValueError("archive recursion depth exceeded")
@@ -150,6 +194,20 @@ def find_leaf(data: bytes, name: str, depth: int = 0):
             yield from find_leaf(payload, name + "/_members/" + child, depth + 1)
         return
     media = MAGIC.get(data[:4])
+    if media == "bfres" and is_texture_only_switch_fres(data):
+        # These Switch FRES v9 envelopes contain an independently addressable
+        # BNTX at an aligned offset, but no FMDL/FSHP/FVTX model mesh.
+        # Never manufacture a GLB for them. Validate and export the BNTX
+        # using the existing standard PNG decoder.
+        embedded = list(extract_embedded_bntx(data))
+        if not embedded:
+            raise ValueError("texture-only FRES declared no valid embedded BNTX")
+        for offset, payload in embedded:
+            yield {"source_member": name + "/embedded@0x%x/internal.bntx" % offset,
+                   "format": "bntx", "container_format": "bfres",
+                   "origin_type": "texture_only_fres_bntx",
+                   "embedded_bntx_offset": offset, "data": payload}
+        return
     yield {"source_member": name, "format": media or kind, "data": data}
 
 

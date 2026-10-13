@@ -1,0 +1,113 @@
+name: ACNH 3.0.3 Publish 26 Meshless BFRES 104 Real PNGs
+on:
+  push:
+    branches: [feat/acnh303-bottomstex-forensics]
+    paths: [".github/workflows/acnh303-bottomstex-publish.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: acnh303-bottomstex-texture-only-26-20261013
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /Unpack/
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 38423817541
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: acnh303-bottomstex-all26-png-data
+          path: Unpack_BottomsTex
+      - name: Require prior native all-26 job success
+        run: |
+          gh run view 38423817541 -R 969981/ACNH_Resources --json conclusion --jq .conclusion | grep -Fx success
+          python -m py_compile scripts/acnh303_bottomstex_reconcile.py
+      - name: Overlay real PNG results by immutable input source SHA256
+        run: python scripts/acnh303_bottomstex_reconcile.py --root .
+      - name: Verify corrected 252 source census and exactly 104 real PNG textures
+        run: |
+          python - <<'PY'
+          import pathlib,json,hashlib
+          root=pathlib.Path(".")
+          fixed=json.loads((root/"derived/3.0.3/media_bottomstex_corrected/coverage.json").read_text())
+          assert fixed["source_files_audited"]==252
+          assert fixed["resolved_BottomsTex_glb_failures"]==26
+          assert fixed["newly_verified_BottomsTex_png_files"]==104
+          assert fixed["verified_media_output_files_by_type"]=={"glb":82,"png":745,"wav":52}
+          assert fixed["verified_media_output_files"]==879
+          assert fixed["verified_media_output_bytes"]==773026137
+          assert fixed["by_format"]["Model"]["valid_media_source_count"]==108
+          manifest=json.loads((root/"derived/3.0.3/bottomstex_png_batch/Model/000-of-001/manifest.json").read_text())
+          assert len(manifest)==26
+          for x in manifest:
+              assert x["status"]=="converted_media"
+              for v in x["validated_outputs"]:
+                  path=root/"Unpack_BottomsTex"/pathlib.Path(v["path"]).relative_to("Unpack_BottomsTex")
+                  assert path.exists(),str(path)
+                  assert hashlib.sha256(path.read_bytes()).hexdigest()==v["sha256"]
+          print("PASSED: 26 texture-only FRES corrected; 104 images real; 879 cumulative files")
+          PY
+      - name: Mirror 104 PNG files and their source/leaf hash manifests into Unpack
+        run: |
+          mkdir -p Unpack
+          cp -a Unpack_BottomsTex/. Unpack/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A Unpack/e10617820db06889e1638499478da0de_NCA/1/Model
+          git add --sparse -A derived/3.0.3/media_bottomstex_corrected
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): publish 104 verified BottomsTex PNG images and corrected 879-media audit"
+          git fetch origin feat/acnh303-bottomstex-forensics
+          git rebase origin/feat/acnh303-bottomstex-forensics
+          git push origin HEAD:feat/acnh303-bottomstex-forensics
+      - name: Create separately downloadable, SHA256SUMS-verified package
+        run: |
+          mkdir -p packages
+          tar -czf packages/ACNH-3.0.3-BottomsTex-26-FRES-104-PNG.tar.gz \
+            -C Unpack_BottomsTex .
+          cp derived/3.0.3/media_bottomstex_corrected/coverage.json packages/coverage.json
+          cp derived/3.0.3/media_bottomstex_corrected/source_manifest.jsonl.gz packages/source_manifest.jsonl.gz
+          cp derived/3.0.3/bottomstex_forensics/fres_preflight.json packages/fres_preflight.json
+          (cd packages && sha256sum *.tar.gz coverage.json source_manifest.jsonl.gz fres_preflight.json > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+          cat > /tmp/release-notes.md <<'EOF'
+          # 26 BottomsTex FRES → 104 PNGs (actual pixel decode)
+
+          Root cause of native wmdlt ERROR #36: each of the 26 original Switch
+          FRES v9 resources lacks a primary FMDL and contains no FSHP/FVTX;
+          their FRES+0x28 first model pointer is zero, while a standalone
+          NX BNTX begins at FRES+0x1000.
+
+          We have extracted the declared-length embedded BNTX, passed it to
+          SHA-verified wimgt, and individually checked 104 genuine PNG images
+          with Pillow.Image.load and PNG CRC.
+
+          No GLB has been fabricated for texture-only resources. Corrected
+          cumulative 252 original media-source audit: 82 GLBs, 745 PNGs,
+          52 WAVs (879 valid media files). Remaining 28 source Layout
+          archives genuinely lack an independent BNTX.
+
+          Package preserves original RomFS-relative file organization,
+          metadata JSON, source SHA256, and independent SHA256SUMS.txt.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target feat/acnh303-bottomstex-forensics \
+              --title "ACNH 3.0.3: 26 texture-only BFRES → 104 decoded PNG" \
+              --notes-file /tmp/release-notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources packages/* --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'

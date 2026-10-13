@@ -1,0 +1,70 @@
+name: ACNH 3.0.3 26 BottomsTex FRES Structural Diagnosis
+on:
+  push:
+    branches: [feat/acnh303-bottomstex-forensics]
+    paths: [".github/workflows/acnh303-bottomstex-forensics.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  forensic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/media_scaleout_diagnostics/bfres_errors.json
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexApronFox00.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfAloha6.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBasketball3.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBoa0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfExplorer0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBoa3.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBoa6.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfSoccer0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotLace2.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalBondage0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalChimayo2.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalChino2.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalChino4.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalChino6.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBoa4.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfFormal1.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfRco00.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfSurf4.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotDenimholes1.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotMultistripe3.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotRunning1.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotSequins3.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotShaggycheck1.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotThai0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotUnder0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHotYacht3.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday1.Nin_NX_NVN.zs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Parse actual FRES headers and compare 26 native failures versus real GLB successes
+        run: |
+          python scripts/acnh303_fres_forensics.py --romfs e10617820db06889e1638499478da0de_NCA/1 \
+            --diagnostics derived/3.0.3/media_scaleout_diagnostics/bfres_errors.json \
+            --controls Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs \
+            --controls Model/AccessoryGlassBirthday1.Nin_NX_NVN.zs \
+            --output derived/3.0.3/bottomstex_forensics/fres_preflight.json
+      - name: Commit original source SHA-256-backed structural evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/bottomstex_forensics
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "research(acnh303): real header/section evidence for 26 BottomsTex BFRES"
+          git fetch origin feat/acnh303-bottomstex-forensics
+          git rebase origin/feat/acnh303-bottomstex-forensics
+          git push origin HEAD:feat/acnh303-bottomstex-forensics

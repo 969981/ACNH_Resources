@@ -34,3 +34,13 @@
 - .github/workflows/acnh303-media-l3-on-demand.yml：后续通过 workflow_dispatch 自定义 Model/Layout/Sound、分片编号、skip_count、max_count，按固定源路径排序继续处理，限制单批模型/布局 50 源、音频 12 源。每次运行结果单独保存在 media_run_history，支持继续生成新的累计覆盖率。
 
 接下来优先突破 26 个 BottomsTex FRES 真正的数据结构，不把无效几何塞进 GLB；然后扩展未测试的 BWAV 与 Layout 格式分片，并核验材质、骨骼、纹理压缩与音频质量。
+
+
+## 2026-10-13 补充：26 个 BFRES native failure 已找到根因并全部导出 PNG
+
+本文件前面 26 个 wmdlt ERROR #36 是当时的**历史结果**。随后的 26 源 BFRES 结构实证与实际 PNG 解码现已全部完成，不能再将它们当成当前未解决失败：
+
+- 26 个原始 FRES v9 的首 FMDL 指针均为 0，完全不含 FMDL/FSHP/FVTX，但 FRES+0x1000 有有效 BNTX。
+- 26/26 个 FRES 源导出 **104 张有效 PNG**，经 PNG CRC、Pillow.Image.load、源及产物 SHA-256 检查通过，**未伪造 GLB**。
+- 累计 252 源的实际有效媒体由 775 升至 **879（82 GLB、745 PNG、52 WAV）**，仍是 252 个原始源文件，不得把 PNG 当几何模型成功。
+- [完整技术报告](BOTTOMSTEX_FRES_TEXTURE_ONLY_20261013.md) · [新的有效累计审计](../derived/3.0.3/media_bottomstex_corrected/coverage.json) · [104 PNG Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bottomstex-texture-only-26-20261013)。旧报告保留作历史证据。

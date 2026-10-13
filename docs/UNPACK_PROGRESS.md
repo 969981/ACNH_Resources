@@ -38,3 +38,12 @@
 - [媒体覆盖率与失败原因](../derived/3.0.3/media_scaleout_audit/coverage.json) 使用真实 103,400 文件 inventory，并分别报告候选总数、已测、成功、不支持及未测数量；不改变前面的 L0–L2 源文件清单。
 - BFRES 26 个 BottomsTex 原生 decoder 错误统一 Error #36；详情见 [原生错误日志](../derived/3.0.3/media_scaleout_diagnostics/bfres_errors.json)，独立调查 [#21](https://github.com/969981/ACNH_Resources/issues/21)。Layout 的 28 个 no_target_leaf 不代表错误 PNG。
 - 12 个媒体分片和 SHA256SUMS 已做 [长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-media-l3-scaleout-20261013)。详情见 [扩容执行报告](UNPACK_MEDIA_L3_SCALEOUT.md)。未测试的源不算 converted。
+
+
+## 2026-10-13 BottomsTex 原生 FRES 结构及纹理分流突破
+
+26 个 wmdlt ERROR #36 已通过 26 个真实底层 FRES 与 2 个成功模型对照复核：Switch v9 的 FRES+0x28 FMDL 指针为零，无 FMDL/FSHP/FVTX，但在 FRES+0x1000 包含独立 BNTX。3 个原始纹理测试及所有 26 个源的实际 PNG 批处理均已通过；总计 104 张可真实解码的 PNG，已经纳入 Unpack 和永久 Release。
+
+正确有效 L3 统计为 **252 已测原始源、879 媒体文件（82 GLB + 745 PNG + 52 WAV），773,026,137 字节**。原 26 个错误只有 GLB 几何导出不适用，不是坏资源；保留历史审计但将 Model 的有效媒体类进一步拆为 geometry GLB 和 texture-only PNG。
+
+[底层对照+修复说明](BOTTOMSTEX_FRES_TEXTURE_ONLY_20261013.md) · [按源哈希修正后的有效报告](../derived/3.0.3/media_bottomstex_corrected/coverage.json) · [Issue #21](https://github.com/969981/ACNH_Resources/issues/21)。

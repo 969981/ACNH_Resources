@@ -82,3 +82,20 @@ large output sets; never substitute expiring Actions artifacts as final delivery
 See [docs/UNPACK_MEDIA_L3_SCALEOUT.md](docs/UNPACK_MEDIA_L3_SCALEOUT.md) and [scripts/acnh303_media_audit.py](scripts/acnh303_media_audit.py). The audited 2026-10-13 scaleout covers 216 additional source files; together with the previous 36 files it reports **252 unique sources, 775 validated GLB/PNG/WAV files**. Every result must join the original source Git tree inventory with path/size; never extrapolate the sampled success percentages to the untested files.
 
 IMPORTANT: the 26 BottomsTex BFRES native decoder ERROR #36 files are still failures, not converted or proven texture-only. The 28 Layout no_target_leaf files lack an independent BNTX and must not be counted as successful PNG conversions. Follow [Issue #21](https://github.com/969981/ACNH_Resources/issues/21). Use the bounded on-demand workflow with --skip-count for nonoverlapping future source slices; preserve SHA-256 reports and split large WAV output into GitHub Releases, not Git history.
+
+
+## Switch FRES texture-only model subgroup
+
+See docs/BOTTOMSTEX_FRES_TEXTURE_ONLY_20261013.md. The exact 26 real 3.0.3
+BottomsTex cases have FRES v9 + FRES+0x28 first model pointer 0,
+no FMDL/FSHP/FVTX, and a standalone valid BNTX at FRES+0x1000. wmdlt
+ERROR #36 is expected when asked to generate geometry GLB from these.
+scripts/acnh303_media_l3.py now has strict field/bounds/texture-count
+checks before dispatching such *meshless* FRES to wimgt PNG.
+Do not call texture-only FRES a corrupt model or invent GLB geometry.
+No FMDL/FSHP/FVTX + BNTX does not generalize to every FRES version.
+The existing 82 valid model GLB sources remain on BFRES->GLB path.
+The 26 former wmdlt errors became 104 genuinely verified PNGs; the
+corrected 252-source census has 879 files (82 GLB, 745 PNG, 52 WAV),
+not 108 GLBs. Old failure report is immutable history; cumulative
+corrected report lives under derived/3.0.3/media_bottomstex_corrected/.

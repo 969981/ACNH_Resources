@@ -69,7 +69,18 @@ def main():
             meta = json.loads(report.read_text(encoding="utf-8"))
             if meta["source_sha256"] != digest:
                 raise RuntimeError(f"manifest source SHA-256 mismatch: {relative}")
-            hits = [m for m in meta["members"] if m["format"] == target and m["status"] == "converted"]
+            model_textures = group == "Model" and any(
+                m.get("origin_type") == "texture_only_fres_bntx"
+                for m in meta["members"])
+            hits = [m for m in meta["members"]
+                    if m["status"] == "converted" and (
+                        m["format"] == target or
+                        (model_textures and m["format"] == "bntx"
+                         and m.get("origin_type") == "texture_only_fres_bntx"))]
+            result["source_media_class"] = (
+                "texture_only_fres_bntx" if model_textures
+                else "model_geometry_bfres" if group == "Model"
+                else "layout_bntx" if group == "Layout" else "sound_bwav")
             result["validated_outputs"] = [item for m in hits for item in m.get("outputs", [])]
             result["parser_errors"] = [
                 {"member": m["source_member"], "error": m["error"]}
