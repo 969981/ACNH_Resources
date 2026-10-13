@@ -1,0 +1,523 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeSpNpcTurnState",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetPos",
+          "EventFlowActionNpcChangeChangeHandToolState",
+          "EventFlowActionServiceMotionControl",
+          "EventFlowActionNpcChangeHeadCtrlMode"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcIsEquipedHandTool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryEventCheck"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 15,
+        "name": "SetCooking"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 17,
+        "name": "SetNoCooking"
+      }
+    ],
+    "event_count": 27,
+    "event_flow_name": "AI_NPC_Tuk",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeSpNpcTurnState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": false,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 30,
+          "ArgInt1": 2,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cSpNpcTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_tuk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_bey_event"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event10",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cLand:HarvestProgress",
+          "Border": 0,
+          "FlagCheckType": 2
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event13",
+        "next": 0,
+        "params": {
+          "IsUseCreateOffset": true,
+          "SetAngle": 0.0,
+          "SetPosX": 0.0,
+          "SetPosZ": 15.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event15",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          },
+          {
+            "target": 24,
+            "value": 2
+          }
+        ],
+        "index": 11,
+        "name": "Event16",
+        "params": {
+          "EventLabelString": "HarvestFestival"
+        },
+        "query": "EventFlowQueryEventCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 6,
+            "value": 2
+          },
+          {
+            "target": 5,
+            "value": 3
+          }
+        ],
+        "index": 12,
+        "name": "Event4",
+        "params": {
+          "EventLabelString": "HarvestFestival"
+        },
+        "query": "EventFlowQueryEventCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event18",
+        "params": {
+          "ToolType": 2
+        },
+        "query": "EventFlowQueryNpcIsEquipedHandTool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeChangeHandToolState",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "HandToolItem": 13783,
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cChangeHandToolSimple",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_tuk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event23",
+        "next": 16,
+        "params": {
+          "CanServiceMotion": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event24",
+        "next": 19,
+        "params": {
+          "HeadCtrlMode": "cPlayer",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event25",
+        "next": 18,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event26",
+        "next": 20,
+        "params": {
+          "HeadCtrlMode": "cNormal",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          }
+        ],
+        "index": 19,
+        "name": "Event27",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          }
+        ],
+        "index": 20,
+        "name": "Event28",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "AccessKey": "cLandTemp:TukBehaviorControlFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "AccessKey": "cLandTemp:TukBehaviorControlFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetNoCooking",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event12",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetNoCooking",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event17",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetCooking",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event14",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cLand:HarvestProgress",
+          "Border": 0,
+          "FlagCheckType": 2
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Tuk",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5c096de824813f5e05115e2f7c631f2b2974b5cabe5f92b7e5461226d0fdb6ba",
+  "size": 7928,
+  "status": "converted"
+}

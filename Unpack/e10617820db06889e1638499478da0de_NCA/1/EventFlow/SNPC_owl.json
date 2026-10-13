@@ -1,0 +1,2352 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionTurnBody",
+          "EventFlowActionSetDefaultWaitAs"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryMuseumLevel",
+          "EventFlowQueryMuseumComplete",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryMuseumRoomDonateNum",
+          "EventFlowQueryMuseumKindDonateRate",
+          "EventFlowQueryEventFlagSystemInt"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 17
+        },
+        "main_event": 59,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 13,
+        "name": "Asleep"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 16
+        },
+        "main_event": 38,
+        "name": "Owl_Talk_CommonTalk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 20,
+        "name": "Owl_Talk_Today1stChk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 14
+        },
+        "main_event": 91,
+        "name": "OwlTalkAfterWakeup"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 146,
+        "name": "NoTopic"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 88,
+        "name": "Chk_CafeEventReport"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 106,
+        "name": "SkipMuseum1Process"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 122,
+        "name": "1stTalkAtMuseum3"
+      }
+    ],
+    "event_count": 164,
+    "event_flow_name": "SNPC_owl",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event5",
+        "params": {
+          "Border": 1,
+          "Key": "IsSleep"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event66",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event67",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event68",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event140",
+        "next": 30,
+        "params": {
+          "Key": "IsSleep",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event174",
+        "params": {
+          "AccessKey": "cPlayer:FutaTalkedWhenAsleep"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event175",
+        "next": 56,
+        "params": {
+          "AccessKey": "cPlayer:FutaTalkedWhenAsleep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event153",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Asleep",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event37",
+        "next": 5,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 57,
+            "value": 2
+          },
+          {
+            "target": 57,
+            "value": 4
+          }
+        ],
+        "index": 10,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Owl_Talk_CommonTalk",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_90_OtherTown",
+        "index": 12,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event1",
+        "next": 3,
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cLand:Museum2BuiltToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cPlayer:FutaTalkedInMuseumToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event24",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event26",
+        "next": 72,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Select4_Direct",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 19,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event32",
+        "next": 79,
+        "params": {
+          "AccessKey": "cPlayer:FutaTalkedInMuseumToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event7",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event9",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event10",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:002_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event11",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:002_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CmnTodayTalk1st",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 26,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:OwlDonationDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_10_Tent",
+        "index": 29,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event0",
+        "next": 9,
+        "params": {
+          "NpcWaitAsType": "cDefault"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event19",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 162,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cPlayer:OwlFinished1stTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_21_Museum_FirstTimeTalk",
+        "index": 33,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event21",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:004_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event12",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event27",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:004_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 0,
+            "value": 2
+          },
+          {
+            "target": 0,
+            "value": 4
+          }
+        ],
+        "index": 38,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_10_Tent",
+        "index": 39,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Sel_NoFoundFossil",
+        "flowchart": "SNPC_owl_10_Tent",
+        "index": 41,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event38",
+        "next": 28,
+        "params": {
+          "AccessKey": "cPlayer:OwlMultiDonateExplain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayer:OwlMultiDonateExplain"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event44",
+        "next": 45,
+        "params": {
+          "AccessKey": "cPlayer:OwlMultiDonateExplain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event51",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event52",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event53",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event54",
+        "next": 49,
+        "params": {
+          "AccessKey": "cPlayer:OwlMultiDonateExplain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event56",
+        "next": 114,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event57",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event58",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:004_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 53,
+        "name": "Event59",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event60",
+        "next": 55,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:004_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event61",
+        "next": 42,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event25",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "OwlTalkAfterWakeup",
+        "flowchart": "",
+        "index": 57,
+        "name": "Event2",
+        "next": 58,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event63",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event62",
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event47",
+        "next": 72,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event48",
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event43",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event46",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "BeforeRenualQuest",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 66,
+        "name": "Event42",
+        "next": 161,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AfterRenualQuest",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 67,
+        "name": "Event65",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 144,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event69",
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event70",
+        "next": 74,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event71",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_23_Museum_DiveFish",
+        "index": 71,
+        "name": "Event73",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Comp_Direct",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 72,
+        "name": "Event75",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 73,
+        "name": "Event76",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Comp_Direct",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 74,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event79",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "From2ndTime",
+        "flowchart": "SNPC_owl_24_Museum_StampRally",
+        "index": 76,
+        "name": "Event80",
+        "next": 66,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkCompReport",
+        "flowchart": "SNPC_owl_23_Museum_DiveFish",
+        "index": 77,
+        "name": "Event81",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event83",
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 78,
+            "value": 2
+          },
+          {
+            "target": 25,
+            "value": 3
+          },
+          {
+            "target": 119,
+            "value": 4
+          }
+        ],
+        "index": 79,
+        "name": "Event84",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CmnTodayTalk1st",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 80,
+        "name": "Event85",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event86",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event88",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event89",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event90",
+        "next": 73,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Owl_Talk_Today1stChk",
+        "flowchart": "",
+        "index": 85,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NoTopic",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event92",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          }
+        ],
+        "index": 87,
+        "name": "Event94",
+        "params": {
+          "AccessKey": "cPlayer:MuseumCafeEv_3_ConfirmedVisitingTown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event96",
+        "params": {
+          "AccessKey": "cPlayer:MuseumCafeEv_4_ReportedToOwl"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_30_CafeEvent_2_Report",
+        "index": 89,
+        "name": "Event95",
+        "next": 90,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Chk_CafeEventReport",
+        "flowchart": "",
+        "index": 91,
+        "name": "Event98",
+        "next": 32,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          },
+          {
+            "target": 67,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event104",
+        "params": {
+          "AccessKey": "cLand:Museum2BuiltSkippedMuseum1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event105",
+        "next": 94,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 96,
+            "value": 1
+          }
+        ],
+        "index": 94,
+        "name": "Event106",
+        "params": {
+          "AccessKey": "cLand:Museum3BuiltToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event107",
+        "next": 99,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event108",
+        "next": 99,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event109",
+        "next": 100,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:002_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 98,
+        "name": "Event110",
+        "next": 100,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:002_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 98,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event111",
+        "params": {
+          "AccessKey": "cPlayer:OwlDonationDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event112",
+        "next": 102,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event101",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 102,
+        "name": "Event115",
+        "params": {
+          "MuseumRoomType": 3,
+          "Num": 1
+        },
+        "query": "EventFlowQueryMuseumRoomDonateNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event116",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 105,
+            "value": 0
+          },
+          {
+            "target": 103,
+            "value": 1
+          }
+        ],
+        "index": 104,
+        "name": "Event117",
+        "params": {
+          "MuseumKindType": "cKindArt",
+          "Rate": 100
+        },
+        "query": "EventFlowQueryMuseumKindDonateRate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event118",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 106,
+        "name": "Event102",
+        "next": 107,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 107,
+        "name": "Event114",
+        "next": 108,
+        "params": {
+          "AccessKey": "cPlayer:OwlPaintingDiveFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 108,
+        "name": "Event119",
+        "next": 109,
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 109,
+        "name": "Event120",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SkipMuseum1Process",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event122",
+        "next": 111,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 160,
+            "value": 0
+          },
+          {
+            "target": 112,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event113",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event123",
+        "next": 113,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 113,
+        "name": "Event124",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event126",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 117,
+            "value": 0
+          },
+          {
+            "target": 116,
+            "value": 1
+          }
+        ],
+        "index": 115,
+        "name": "Event128",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 116,
+        "name": "Event129",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 117,
+        "name": "Event130",
+        "next": 118,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1502"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 118,
+        "name": "Event131",
+        "next": 42,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event133",
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum3"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CmnTodayTalk1st",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 120,
+        "name": "Event134",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "1stTalkAtMuseum3",
+        "flowchart": "",
+        "index": 121,
+        "name": "Event136",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event137",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          }
+        ],
+        "index": 123,
+        "name": "Event138",
+        "params": {
+          "AccessKey": "cLand:MuseumCafeConstruction_3_OpenDay"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event139",
+        "next": 137,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 125,
+        "name": "Event141",
+        "next": 136,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_11_Museum1stTalk:1502"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 125,
+            "value": 0
+          },
+          {
+            "target": 124,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event142",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 127,
+        "name": "Event143",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 128,
+        "name": "Event144",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:031_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 132,
+            "value": 0
+          },
+          {
+            "target": 141,
+            "value": 1
+          }
+        ],
+        "index": 129,
+        "name": "Event145",
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 131,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 130,
+        "name": "Event146",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event147",
+        "next": 133,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 132,
+        "name": "Event148",
+        "next": 133,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:032_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event149",
+        "next": 134,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event150",
+        "next": 135,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event151",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event152",
+        "next": 137,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 137,
+        "name": "Event154",
+        "next": 139,
+        "params": {
+          "AccessKey": "cPlayer:OwlMultiDonateExplain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 138,
+        "name": "Event155",
+        "next": 140,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 139,
+        "name": "Event156",
+        "next": 138,
+        "params": {
+          "AccessKey": "cPlayer:Owl1stTalkMuseum1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 140,
+        "name": "Event157",
+        "next": 135,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 141,
+        "name": "Event158",
+        "next": 142,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event159",
+        "next": 126,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_30_CafeEvent:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Owl_GetPoster",
+        "flowchart": "SNPC_owl_25_Museum_Poster",
+        "index": 143,
+        "name": "Event161",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Owl_Poster_CompJudge",
+        "flowchart": "SNPC_owl_25_Museum_Poster",
+        "index": 144,
+        "name": "Event166",
+        "next": 145,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 163,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 145,
+        "name": "Event164",
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlGetPosterCount",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Owl_GetPoster",
+        "flowchart": "SNPC_owl_25_Museum_Poster",
+        "index": 146,
+        "name": "Event167",
+        "next": 147,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Chk_PosterSelUnlock",
+        "flowchart": "SNPC_owl_25_Museum_Poster",
+        "index": 147,
+        "name": "Event168",
+        "next": 148,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 155,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 148,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:MuseumPosterUnlockBuySel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Select4_Direct_2",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 149,
+        "name": "Event169",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 150,
+        "name": "Event170",
+        "next": 157,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 159,
+            "value": 1
+          }
+        ],
+        "index": 151,
+        "name": "Event171",
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 153,
+            "value": 0
+          },
+          {
+            "target": 158,
+            "value": 1
+          }
+        ],
+        "index": 152,
+        "name": "Event173",
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlWokeHimUp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 153,
+        "name": "Event176",
+        "next": 156,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Comp_Direct_2",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 154,
+        "name": "Event178",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 151,
+            "value": 0
+          },
+          {
+            "target": 152,
+            "value": 1
+          }
+        ],
+        "index": 155,
+        "name": "Event179",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 156,
+        "name": "Event180",
+        "next": 149,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:1007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 157,
+        "name": "Event177",
+        "next": 154,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:1008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 158,
+        "name": "Event172",
+        "next": 149,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:1009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 159,
+        "name": "Event82",
+        "next": 154,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:1010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 160,
+        "name": "Event183",
+        "next": 114,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowFossilMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SkipMultiDonateNoticeAtComp",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 161,
+        "name": "Event185",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event162",
+        "next": 15,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event165",
+        "next": 143,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_owl",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "231e7c1a157d0fb30a289342f03a5d12ce19d37a735df1a9836f688a874e0502",
+  "size": 30408,
+  "status": "converted"
+}

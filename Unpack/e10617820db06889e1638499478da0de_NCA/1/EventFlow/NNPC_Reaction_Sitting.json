@@ -1,0 +1,668 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcSetReactionType",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionSetItemName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcIsSitting",
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryNpcActivityType",
+          "EventFlowQueryNpcHaveQuestType",
+          "EventFlowQueryNpcIsQuestClient",
+          "EventFlowQueryIsDeliveryQuestReceiver",
+          "EventFlowQueryNpcIsQuestFlagOn",
+          "EventFlowQueryHasNpcRequestedItem"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 15,
+        "name": "QuestGive_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 22,
+        "name": "StandingUp_Chk"
+      }
+    ],
+    "event_count": 38,
+    "event_flow_name": "NNPC_Reaction_Sitting",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Sitting:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Sitting:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Sitting:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          },
+          {
+            "target": 23,
+            "value": 2
+          },
+          {
+            "target": 23,
+            "value": 3
+          },
+          {
+            "target": 23,
+            "value": 5
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event10",
+        "next": 3,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event3",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Sitting:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          },
+          {
+            "target": 31,
+            "value": 3
+          }
+        ],
+        "index": 7,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetReactionType",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event16",
+        "next": 9,
+        "params": {
+          "ReactionType": "cSitting"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cNpcTemp:ContinuousReactionTalkCount",
+          "Border": 3,
+          "FlagCheckType": 4
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 10,
+        "name": "Event6",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryNpcActivityType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event24",
+        "next": 12,
+        "params": {
+          "AccessKey": "cNpcMemory:StandingUpFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          },
+          {
+            "target": 16,
+            "value": 3
+          },
+          {
+            "target": 36,
+            "value": 4
+          }
+        ],
+        "index": 14,
+        "name": "Event13",
+        "params": {
+          "IncludeFinish": ""
+        },
+        "query": "EventFlowQueryNpcHaveQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event14",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cMyQuest"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event28",
+        "params": {
+          "QuestFlag": "cDeliveryEnd"
+        },
+        "query": "EventFlowQueryNpcIsQuestFlagOn",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryIsDeliveryQuestReceiver",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryHasNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          }
+        ],
+        "index": 19,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryHasNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event40",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/BO_Connect_StandingUp:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event41",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/BO_Connect_StandingUp:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          },
+          {
+            "target": 20,
+            "value": 2
+          },
+          {
+            "target": 20,
+            "value": 3
+          },
+          {
+            "target": 20,
+            "value": 5
+          }
+        ],
+        "index": 22,
+        "name": "Event42",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "QuestGive_Chk",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event8",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event48",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event49",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event19",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          }
+        ],
+        "index": 30,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryHasNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event20",
+        "next": 6,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 32,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event11",
+        "params": {
+          "QuestFlag": "cDeliveryEnd"
+        },
+        "query": "EventFlowQueryNpcIsQuestFlagOn",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event18",
+        "params": {
+          "QuestFlag": "cLostUseHint"
+        },
+        "query": "EventFlowQueryNpcIsQuestFlagOn",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          },
+          {
+            "target": 30,
+            "value": 2
+          },
+          {
+            "target": 33,
+            "value": 3
+          },
+          {
+            "target": 33,
+            "value": 4
+          },
+          {
+            "target": 33,
+            "value": 5
+          },
+          {
+            "target": 33,
+            "value": 6
+          },
+          {
+            "target": 33,
+            "value": 7
+          }
+        ],
+        "index": 34,
+        "name": "Event12",
+        "params": {
+          "IncludeFinish": "cNotInclude"
+        },
+        "query": "EventFlowQueryNpcHaveQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event17",
+        "next": 5,
+        "params": {
+          "AccessKey": "cNpcMemory:SitBenchFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          }
+        ],
+        "index": 36,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryHasNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "StandingUp_Chk",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_Sitting",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0f50f108229a4024aab591426bfa7fe06ab63ba451eeb8769e36e1f7b7807a07",
+  "size": 6928,
+  "status": "converted"
+}

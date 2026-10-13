@@ -1,0 +1,753 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionPlayerDrawEasterEggRecipe",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionPlayerSetCraftRecipe",
+          "EventFlowActionSetTagFromSystem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerGetEasterEggRecipe",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryPlayerHasCraftRecipe",
+          "EventFlowQueryCatchFesFreeQuery2",
+          "EventFlowQueryNetIsDreaming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerOpenFishGetMessage",
+          "EventFlowActionPlayerPlayPutawayWaitAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerCheckAI",
+          "EventFlowQueryPlayerHasExchaneableItem"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 37,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 42,
+        "name": "GetWaterEgg"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 16,
+        "name": "GetEarthEgg"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "GetDemo_Normal"
+      }
+    ],
+    "event_count": 45,
+    "event_flow_name": "Player_GetDemo_Easter",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 0,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:515"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 1,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:518"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event8",
+        "next": 31,
+        "params": {
+          "AccessKey": "cPlayer:PynInventRecipeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDrawEasterEggRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event6",
+        "next": 14,
+        "params": {
+          "EggType": "cFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "EntryPointName": "GetDemo_Normal",
+          "EventFileName": "Player_GetDemo_Easter",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNextDemoEnd_Simple"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerOpenFishGetMessage",
+        "actor": "Player",
+        "index": 5,
+        "name": "Event12",
+        "next": 34,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event13",
+        "params": {
+          "PlayerEventFlowAI": "cGetDemo_FishFullItem"
+        },
+        "query": "EventFlowQueryPlayerCheckAI",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event14",
+        "params": {
+          "CheckKindBury": false,
+          "CheckKindFishAndDiveFish": true,
+          "CheckKindInsect": true,
+          "CheckKindPut": true
+        },
+        "query": "EventFlowQueryPlayerHasExchaneableItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event15",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event17",
+        "next": 13,
+        "params": {
+          "FilterType": "cFishGetFull",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cExchangeByHarvest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 11,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPlayPutawayWaitAnimation",
+        "actor": "Player",
+        "index": 12,
+        "name": "Event19",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          }
+        ],
+        "index": 13,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          }
+        ],
+        "index": 14,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDrawEasterEggRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event22",
+        "next": 24,
+        "params": {
+          "EggType": "cGround"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event27",
+        "params": {
+          "PlayerEventFlowAI": "cGetDemo_ScoopFullItem"
+        },
+        "query": "EventFlowQueryPlayerCheckAI",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event28",
+        "params": {
+          "CheckKindBury": false,
+          "CheckKindFishAndDiveFish": true,
+          "CheckKindInsect": true,
+          "CheckKindPut": true
+        },
+        "query": "EventFlowQueryPlayerHasExchaneableItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 18,
+        "name": "Event29",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          }
+        ],
+        "index": 19,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event31",
+        "next": 23,
+        "params": {
+          "FilterType": "cScoopDigFull",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cExchangeByScoop"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 21,
+        "name": "Event32",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPlayPutawayWaitAnimation",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event33",
+        "next": 20,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          }
+        ],
+        "index": 23,
+        "name": "Event34",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          }
+        ],
+        "index": 24,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          }
+        ],
+        "index": 25,
+        "name": "Event23",
+        "params": {
+          "ItemUniqueId": 12439,
+          "UnlockType": "EasterGround"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          }
+        ],
+        "index": 26,
+        "name": "Event24",
+        "params": {
+          "ItemUniqueId": 12440,
+          "UnlockType": "EasterRock"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          }
+        ],
+        "index": 27,
+        "name": "Event25",
+        "params": {
+          "ItemUniqueId": 12441,
+          "UnlockType": "EasterLeaf"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event26",
+        "params": {
+          "ItemUniqueId": 12442,
+          "UnlockType": "EasterForest"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          }
+        ],
+        "index": 29,
+        "name": "Event36",
+        "params": {
+          "ItemUniqueId": 12443,
+          "UnlockType": "EasterSky"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          }
+        ],
+        "index": 30,
+        "name": "Event37",
+        "params": {
+          "ItemUniqueId": 12444,
+          "UnlockType": "EasterFish"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event38",
+        "params": {
+          "ItemUniqueId": 12446,
+          "UnlockType": "EasterCapHat"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerSetCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event46",
+        "next": 33,
+        "params": {
+          "ItemUniqueId": 12446,
+          "UnlockType": "EasterCapHat"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerSetCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event47",
+        "next": 1,
+        "params": {
+          "ItemUniqueId": 12448,
+          "UnlockType": "EasterTops"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cPlayer:BeyDaily_QuestStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BeyDailyQ_GetFish",
+        "flowchart": "Player_GetDemo_BeyDaily",
+        "index": 35,
+        "name": "Event51",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 36,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryPlayerGetEasterEggRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          }
+        ],
+        "index": 37,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryPlayerGetEasterEggRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event2",
+        "params": {
+          "CatchFesQueryType": "cCatchFesQueryType_IsEntryQuestBey"
+        },
+        "query": "EventFlowQueryCatchFesFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 39,
+        "name": "Event3",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Get_Insect_Fish_Fes:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event40",
+        "next": 44,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cChachFish",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 44,
+        "name": "Event41",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Get_Fish:021"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Player_GetDemo_Easter",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "173ad3b03c31e7820f60541619750b39a45589e3689eebc8caf17950a2d0a2a6",
+  "size": 10480,
+  "status": "converted"
+}

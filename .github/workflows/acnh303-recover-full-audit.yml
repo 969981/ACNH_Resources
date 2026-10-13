@@ -1,0 +1,96 @@
+name: ACNH 3.0.3 Recover Full 103400-File Manifest
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-recover-full-audit.yml"]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 38388960509
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: acnh303-v3-report-*
+          path: collected_reports
+          merge-multiple: true
+      - name: Reconcile source and output manifests; persist failures by cause
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -fL --retry 3 -sS -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -o /tmp/original.csv.gz \
+          "https://raw.githubusercontent.com/969981/ACNH_Resources/3.0.3/derived/3.0.3/inventory/source_manifest.csv.gz"
+          python - <<'PY'
+          import collections,csv,gzip,hashlib,io,json,os,pathlib
+          with gzip.open("/tmp/original.csv.gz","rt",encoding="utf-8") as fh:
+              expected={row["source_relative_path"]:row for row in csv.DictReader(fh)}
+          manifests=sorted(pathlib.Path("collected_reports").rglob("manifest.json"))
+          all_rows={}
+          duplicates=[]
+          for file in manifests:
+              for record in json.loads(file.read_text(encoding="utf-8")):
+                  name=record["source_path"]
+                  if name in all_rows: duplicates.append(name)
+                  all_rows[name]=record
+          missing=sorted(expected.keys()-all_rows.keys())
+          extra=sorted(all_rows.keys()-expected.keys())
+          badsize=sorted(n for n in all_rows.keys() & expected.keys()
+                         if int(expected[n]["source_size"])!=all_rows[n]["source_size"])
+          status=collections.Counter(row["status"] for row in all_rows.values())
+          byfolder=collections.Counter(n.split("/",1)[0] for n in all_rows)
+          failures=[r for r in all_rows.values() if r["status"]=="failed"]
+          reasons=collections.Counter((r.get("notes","").splitlines()[-1] if r.get("notes") else "unknown")
+                                      for r in failures)
+          report={
+              "run_id":38388960509,"baseline":len(expected),
+              "processed":len(all_rows),"input_shard_reports":len(manifests),
+              "missing_count":len(missing),"duplicate_count":len(duplicates),
+              "unexpected_count":len(extra),"source_size_mismatch_count":len(badsize),
+              "statuses":dict(status),"folders":dict(byfolder),
+              "failed_by_reason":dict(reasons.most_common()),
+              "notes":"L0 coverage complete if all mismatches zero; partial does NOT mean full media/text conversion.",
+              "missing":missing[:250],"extra":extra[:250],
+              "duplicates":duplicates[:250],"size_mismatches":badsize[:250],
+          }
+          target=pathlib.Path("derived/3.0.3/asset_batch_runs")
+          target.mkdir(parents=True,exist_ok=True)
+          payload=(json.dumps(report,ensure_ascii=False,sort_keys=True,indent=2)+"\n")
+          (target/"latest.json").write_text(payload,encoding="utf-8")
+          (target/"38388960509.json").write_text(payload,encoding="utf-8")
+          with (target/"failed.csv").open("w",newline="",encoding="utf-8") as f:
+              writer=csv.writer(f)
+              writer.writerow(["source_path","source_size","source_sha256","failure"])
+              for r in sorted(failures,key=lambda x:x["source_path"]):
+                  writer.writerow([r["source_path"],r["source_size"],r["source_sha256"],r["notes"]])
+          with (target/"source_run_manifest.jsonl.gz").open("wb") as raw:
+              with gzip.GzipFile(fileobj=raw,mode="wb",filename="",mtime=0,compresslevel=9) as z:
+                  for n in sorted(all_rows):
+                      z.write((json.dumps(all_rows[n],sort_keys=True,ensure_ascii=False)+"\n").encode("utf-8"))
+          print(payload)
+          if missing or duplicates or extra or badsize or len(manifests)!=36:
+              raise SystemExit("INVALID COVERAGE: mismatched paths, sizes or missing shard reports")
+          PY
+      - name: Commit durable 103400-file audit and parser failure dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/asset_batch_runs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(acnh303): persist all 103400 SHA-256 manifest records and 1242 failure reasons"
+          git fetch origin feat/acnh303-assets-eventflow
+          git rebase origin/feat/acnh303-assets-eventflow
+          git push origin HEAD:feat/acnh303-assets-eventflow

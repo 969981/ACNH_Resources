@@ -1,0 +1,134 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionRequestSimple",
+          "EventFlowActionTurnBody",
+          "EventFlowActionNpcWaitTurn"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcNowPosture"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "NNPC_CloudIsland",
+    "events": [
+      {
+        "action": "EventFlowActionRequestSimple",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "AsCommand": "NpcGreeting",
+          "WaitFinish": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event3",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 3,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 4,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event1",
+        "next": 0,
+        "params": {
+          "WaitFrame": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 0,
+            "value": 2
+          },
+          {
+            "target": 0,
+            "value": 3
+          }
+        ],
+        "index": 5,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryNpcNowPosture",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_CloudIsland",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "4f818a9f31ac5f1310c87991bd2b2a8cf21b93fe7189695e7787562c3eb1c837",
+  "size": 1696,
+  "status": "converted"
+}

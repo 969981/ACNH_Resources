@@ -1,0 +1,401 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcPastDaysFromLastTalkDateToTag",
+          "EventFlowActionSetNpcFeel"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckPastDays",
+          "EventFlowQueryNpcPastYMFromLastTalkDate"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryPlayerPastDaysFromLastPlay",
+          "EventFlowQueryIsMyVillage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 20,
+        "name": "Root"
+      }
+    ],
+    "event_count": 24,
+    "event_flow_name": "NNPC_Reaction_Missing",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing30:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing30:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing30:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing30:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing30:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event9",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 30
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 7,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 7
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event14",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing7:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event15",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Missing7:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event22",
+        "params": {
+          "Border": 7
+        },
+        "query": "EventFlowQueryPlayerPastDaysFromLastPlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event23",
+        "params": {
+          "Border": 30
+        },
+        "query": "EventFlowQueryPlayerPastDaysFromLastPlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPastDaysFromLastTalkDateToTag",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event24",
+        "next": 8,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event25",
+        "params": {
+          "Border": 30
+        },
+        "query": "EventFlowQueryPlayerPastDaysFromLastPlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 365
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPastDaysFromLastTalkDateToTag",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event27",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryNpcPastYMFromLastTalkDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPastDaysFromLastTalkDateToTag",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event29",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPastDaysFromLastTalkDateToTag",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event4",
+        "next": 16,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          }
+        ],
+        "index": 20,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event5",
+        "next": 23,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 365
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Facility_Chk",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 23,
+        "name": "Event10",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_Missing",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b4e956d401fa3e51e390f8ea0dcf83578cd21bd07351baa58e0ebbefc7d6004c",
+  "size": 5104,
+  "status": "converted"
+}

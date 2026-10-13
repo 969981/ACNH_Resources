@@ -1,0 +1,983 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryShopHasBellCount"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionUIShopBuyReselectionAppear",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryIsMyVillage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionUIShopBuyDisappear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[Sub]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionUIShopBuyDisappear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[Sub1]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionUIShopBuyAppear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[UI]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 24,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 7,
+        "name": "skk_Again_Look"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 8,
+        "name": "skk_Again_Buy"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 28,
+        "name": "skk_Again_NoMoney"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 35,
+        "name": "Skk_DC_Buy_Again"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 32,
+        "name": "Boc_DC_1st"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 34,
+        "name": "Boc_DC_Buy"
+      }
+    ],
+    "event_count": 65,
+    "event_flow_name": "SNPC_skk",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event6",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event9",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event26",
+        "params": {
+          "CapacityCheckType": "cShopping",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyAppear",
+        "actor": "EventFlowSystemActor[UI]",
+        "index": 5,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "ItemBitType": "cShoes"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event174",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event76",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event77",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event78",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event81",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "skk_Again_Buy",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event27",
+        "next": 15,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event28",
+        "next": 9,
+        "params": {
+          "TagID": 1,
+          "TagType": "cItemPrice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "skk_Again_Look",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event116",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyReselectionAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event128",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event1",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/skk/SP_skk:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event2",
+        "params": {
+          "Rate": 1.0
+        },
+        "query": "EventFlowQueryShopHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event3",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event5",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayer:SkkPurchaseToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:SkkPurchaseToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 25,
+            "value": 2
+          }
+        ],
+        "index": 24,
+        "name": "Event21",
+        "params": {
+          "Hour": 22,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyDisappear",
+        "actor": "EventFlowSystemActor[Sub1]",
+        "index": 26,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event24",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "skk_Again_NoMoney",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event30",
+        "next": 0,
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event31",
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event4",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cPlayer:SkkPurchaseToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event33",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event34",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event35",
+        "next": 32,
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo_Cmn_Shopping",
+        "flowchart": "Demo_Common",
+        "index": 37,
+        "name": "Event17",
+        "next": 1,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_SkkTalkFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_SkkBuyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event37",
+        "next": 46,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_SkkTalkFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event38",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_SkkBuyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event39",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_SkkBuyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Boc_DC_1st",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Boc_DC_Buy",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Skk_DC_Buy_Again",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor[Sub]",
+        "index": 49,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          27,
+          49,
+          26
+        ],
+        "index": 50,
+        "join": 51,
+        "name": "Event19",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 51,
+        "name": "Event45",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyDisappear",
+        "actor": "EventFlowSystemActor[Sub]",
+        "index": 52,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          53,
+          52
+        ],
+        "index": 54,
+        "join": 55,
+        "name": "Event49",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 55,
+        "name": "Event50",
+        "next": 44,
+        "type": "JoinEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkFirstTimeCommune"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event15",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event48",
+        "next": 60,
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkFirstTimeCommune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event52",
+        "next": 58,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event53",
+        "next": 63,
+        "params": {
+          "AccessKey": "cPlayer:SkkTalkTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event54",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/skk/SP_skk:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          62,
+          5
+        ],
+        "index": 63,
+        "join": 64,
+        "name": "Event55",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 64,
+        "name": "Event56",
+        "next": 12,
+        "type": "JoinEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_skk",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e7fb4426a4ab234356a0c82429c6a02250132fa5d0dd81535d55e3fdc0e6db97",
+  "size": 12008,
+  "status": "converted"
+}

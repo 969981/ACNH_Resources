@@ -1,0 +1,2490 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionDecideEventReward",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionSetItemName",
+          "EventFlowActionHgcThemeMessage",
+          "EventFlowActionRequestSimple",
+          "EventFlowActionNpcChangeHandTool",
+          "EventFlowActionMessageSuspend"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryHgcIsChangeOutfit",
+          "EventFlowQueryHgcPlayerDefaultOutfit",
+          "EventFlowQueryHgcFashionCheckResult",
+          "EventFlowQueryNpcIsEquipedHandTool",
+          "EventFlowQueryHgcFreeQuery2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSystemMailSend",
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionPlayReport",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSetMemoryEventPlayer"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQuerySubflowResultChoice3",
+          "EventFlowQueryPlayerIsEquipItem"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerIsUseCoordinate",
+          "EventFlowQueryPlayerOutfitMarinesuit",
+          "EventFlowQueryHotelMannequinIsRentalAny"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 63,
+        "name": "hgc_Comment"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 17,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 136,
+        "name": "Hgc_Check_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 16,
+        "name": "Hgc_Sample_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 67,
+        "name": "Hgc_Clear"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 44,
+        "name": "Hgc_Get_Coupon"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 0,
+        "name": "Hgc_Chk_OK"
+      }
+    ],
+    "event_count": 156,
+    "event_flow_name": "SNPC_hgc_01_NowQuest",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 62,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          },
+          {
+            "target": 35,
+            "value": 2
+          },
+          {
+            "target": 36,
+            "value": 3
+          }
+        ],
+        "index": 1,
+        "name": "Event60",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event65",
+        "next": 100,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestCount",
+          "AddNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event66",
+        "next": 99,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestCount",
+          "AddNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event68",
+        "next": 97,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestCount",
+          "AddNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event69",
+        "next": 98,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestCount",
+          "AddNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          },
+          {
+            "target": 40,
+            "value": 3
+          }
+        ],
+        "index": 6,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          },
+          {
+            "target": 4,
+            "value": 3
+          }
+        ],
+        "index": 7,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Hgc_Check_Chk",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event42",
+        "next": 61,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event4",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event5",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event6",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event10",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event35",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event36",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event11",
+        "next": 101,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cPlayer:KotonoGotSampleFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Hgc_Sample_Chk",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event39",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionDecideEventReward",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event40",
+        "next": 19,
+        "params": {
+          "RewardType": "cKotonoHint"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event41",
+        "next": 20,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          }
+        ],
+        "index": 20,
+        "name": "Event55",
+        "params": {
+          "CapacityCheckType": "cReward",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Hgc_Get_Sample",
+        "flowchart": "SNPC_hgc_00_BeforeQuest",
+        "index": 21,
+        "name": "Event62",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event64",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event93",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event95",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event97",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:043"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event99",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:045"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event103",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event106",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestClearFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event26",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:047"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event27",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:067"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:300"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event49",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event51",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:303"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:320"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:321"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:322"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:323"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event74",
+        "next": 102,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "hgc_Comment",
+        "flowchart": "",
+        "index": 42,
+        "name": "Event75",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          },
+          {
+            "target": 68,
+            "value": 2
+          },
+          {
+            "target": 68,
+            "value": 3
+          }
+        ],
+        "index": 43,
+        "name": "Event81",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event84",
+        "params": {
+          "AccessKey": "cPlayer:KotonoGotTicketFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event85",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event88",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event90",
+        "next": 64,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event92",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event102",
+        "params": {
+          "CapacityCheckType": "cReward",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDecideEventReward",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event104",
+        "next": 49,
+        "params": {
+          "RewardType": "cKotonoReward"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event105",
+        "params": {
+          "HgcQueryType": "cHgcQueryType_FirstGet"
+        },
+        "query": "EventFlowQueryHgcFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event107",
+        "next": 103,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Hgc_Clear",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event108",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Hgc_Clear",
+        "flowchart": "",
+        "index": 54,
+        "name": "Event109",
+        "next": 94,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Hgc_Clear",
+        "flowchart": "",
+        "index": 55,
+        "name": "Event110",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event117",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event119",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event121",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event132",
+        "next": 78,
+        "params": {
+          "AccessKey": "cPlayer:KotonoGotTicketFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event133",
+        "next": 53,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 7,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 11,
+            "value": 2
+          }
+        ],
+        "index": 61,
+        "name": "Event2",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 14,
+            "value": 2
+          }
+        ],
+        "index": 62,
+        "name": "Event8",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 6,
+            "value": 2
+          }
+        ],
+        "index": 63,
+        "name": "Event22",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event12",
+        "next": 53,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 8,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event24",
+        "next": 53,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 9,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          },
+          {
+            "target": 56,
+            "value": 2
+          }
+        ],
+        "index": 66,
+        "name": "Event34",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          },
+          {
+            "target": 32,
+            "value": 2
+          }
+        ],
+        "index": 67,
+        "name": "Event37",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          },
+          {
+            "target": 57,
+            "value": 2
+          }
+        ],
+        "index": 68,
+        "name": "Event16",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event13",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:044"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event15",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          },
+          {
+            "target": 70,
+            "value": 2
+          }
+        ],
+        "index": 71,
+        "name": "Event20",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          },
+          {
+            "target": 58,
+            "value": 2
+          }
+        ],
+        "index": 72,
+        "name": "Event14",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 1,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 2,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 3,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          },
+          {
+            "target": 75,
+            "value": 2
+          }
+        ],
+        "index": 76,
+        "name": "Event30",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Hgc_Get_Coupon",
+        "flowchart": "",
+        "index": 77,
+        "name": "Event38",
+        "next": 150,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          },
+          {
+            "target": 89,
+            "value": 2
+          },
+          {
+            "target": 90,
+            "value": 3
+          }
+        ],
+        "index": 78,
+        "name": "Event45",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 4,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event47",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 5,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event82",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SNpc_hgc",
+          "FromType": "cHgc",
+          "LabelIndex": 6,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 79,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          },
+          {
+            "target": 81,
+            "value": 2
+          }
+        ],
+        "index": 82,
+        "name": "Event87",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event98",
+        "params": {
+          "ToolType": 0
+        },
+        "query": "EventFlowQueryNpcIsEquipedHandTool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          },
+          {
+            "target": 85,
+            "value": 2
+          },
+          {
+            "target": 122,
+            "value": 3
+          }
+        ],
+        "index": 84,
+        "name": "Event111",
+        "params": {},
+        "query": "EventFlowQueryHgcFashionCheckResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionHgcThemeMessage",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event120",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionHgcThemeMessage",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestSimple",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event9",
+        "next": 96,
+        "params": {
+          "AsCommand": "MaReHgcCheck",
+          "WaitFinish": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestSimple",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event44",
+        "next": 96,
+        "params": {
+          "AsCommand": "MaReHgcCheckRain",
+          "WaitFinish": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event17",
+        "next": 76,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5932,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event50",
+        "next": 82,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5932,
+          "RemakePatternIndex": 0,
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event57",
+        "next": 41,
+        "params": {
+          "HandToolItemID": 65534,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event58",
+        "next": null,
+        "params": {
+          "HandToolItemID": 7285,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event67",
+        "params": {
+          "ToolType": 0
+        },
+        "query": "EventFlowQueryNpcIsEquipedHandTool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 92,
+            "value": 1
+          }
+        ],
+        "index": 94,
+        "name": "Event70",
+        "params": {
+          "ToolType": 0
+        },
+        "query": "EventFlowQueryNpcIsEquipedHandTool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event72",
+        "next": 52,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event73",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:040_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event33",
+        "next": 110,
+        "params": {
+          "Num0": 3,
+          "PlayReportKind": "cHgcFashionCheckResult"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event53",
+        "next": 110,
+        "params": {
+          "Num0": 2,
+          "PlayReportKind": "cHgcFashionCheckResult"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 99,
+        "name": "Event54",
+        "next": 30,
+        "params": {
+          "Num0": 1,
+          "PlayReportKind": "cHgcFashionCheckResult"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 100,
+        "name": "Event56",
+        "next": 30,
+        "params": {
+          "Num0": 0,
+          "PlayReportKind": "cHgcFashionCheckResult"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 101,
+        "name": "Event76",
+        "next": 83,
+        "params": {
+          "WaitFrame": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 102,
+        "name": "Event77",
+        "params": {
+          "AccessKey": "cPlayer:KotonoKateTalkFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event79",
+        "next": 93,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 104,
+        "name": "Event78",
+        "next": 54,
+        "params": {
+          "AccessKey": "cPlayer:KotonoKateTalkFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event80",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:048"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event83",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:049"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          },
+          {
+            "target": 109,
+            "value": 2
+          }
+        ],
+        "index": 107,
+        "name": "Event94",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event96",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event100",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:068"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 110,
+        "name": "Event101",
+        "next": 30,
+        "params": {
+          "AccessKey": "cPlayer:KotonoQuestClearCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 112,
+            "value": 0
+          },
+          {
+            "target": 117,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event112",
+        "params": {},
+        "query": "EventFlowQueryPlayerIsUseCoordinate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 114,
+            "value": 1
+          },
+          {
+            "target": 115,
+            "value": 2
+          }
+        ],
+        "index": 112,
+        "name": "Event113",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event114",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:035"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event115",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 115,
+        "name": "Event116",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:037"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 116,
+        "name": "Event118",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 148,
+            "value": 0
+          },
+          {
+            "target": 144,
+            "value": 1
+          }
+        ],
+        "index": 117,
+        "name": "Event123",
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event122",
+        "next": 121,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:167"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 119,
+        "name": "Event125",
+        "next": 121,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:168"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 118,
+            "value": 0
+          },
+          {
+            "target": 118,
+            "value": 1
+          },
+          {
+            "target": 119,
+            "value": 2
+          }
+        ],
+        "index": 120,
+        "name": "Event126",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 121,
+        "name": "Event127",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          },
+          {
+            "target": 131,
+            "value": 1
+          },
+          {
+            "target": 132,
+            "value": 2
+          }
+        ],
+        "index": 122,
+        "name": "Event131",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Hgc_Chk_OK",
+        "flowchart": "",
+        "index": 123,
+        "name": "Event134",
+        "next": 129,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 133,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          },
+          {
+            "target": 134,
+            "value": 2
+          }
+        ],
+        "index": 124,
+        "name": "Event138",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 126,
+            "value": 1
+          }
+        ],
+        "index": 125,
+        "name": "Event139",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 7210,
+          "ItemUniqueID2": 4287,
+          "ItemUniqueID3": 8228,
+          "ItemUniqueID4": 4288,
+          "ItemUniqueID5": 8372,
+          "ItemUniqueID6": 8370,
+          "ItemUniqueID7": 8254,
+          "ItemUniqueID8": 8252,
+          "PutawayType": false,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 127,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event140",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 8368,
+          "ItemUniqueID2": 8251,
+          "ItemUniqueID3": 8367,
+          "ItemUniqueID4": 8369,
+          "ItemUniqueID5": 8253,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 135,
+            "value": 1
+          }
+        ],
+        "index": 127,
+        "name": "Event141",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 5837,
+          "ItemUniqueID2": 5836,
+          "ItemUniqueID3": 5822,
+          "ItemUniqueID4": 9557,
+          "ItemUniqueID5": 9558,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 128,
+        "name": "Event142",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 129,
+        "name": "Event143",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 130,
+        "name": "Event144",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:164"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event145",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:165"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 132,
+        "name": "Event146",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:166"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event128",
+        "next": 128,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:160"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event129",
+        "next": 128,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:161"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 142,
+            "value": 1
+          }
+        ],
+        "index": 135,
+        "name": "Event135",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 9555,
+          "ItemUniqueID2": 9552,
+          "ItemUniqueID3": 9556,
+          "ItemUniqueID4": 9553,
+          "ItemUniqueID5": 9554,
+          "ItemUniqueID6": 5530,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 141,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 136,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryHgcPlayerDefaultOutfit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event3",
+        "next": 140,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 138,
+        "name": "Event29",
+        "next": 140,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 139,
+        "name": "Event31",
+        "next": 140,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 140,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 137,
+            "value": 0
+          },
+          {
+            "target": 138,
+            "value": 1
+          },
+          {
+            "target": 139,
+            "value": 2
+          }
+        ],
+        "index": 141,
+        "name": "Event86",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 142,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryHgcIsChangeOutfit",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 143,
+        "name": "Event130",
+        "params": {},
+        "query": "EventFlowQueryHgcIsChangeOutfit",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          },
+          {
+            "target": 152,
+            "value": 1
+          }
+        ],
+        "index": 144,
+        "name": "Event136",
+        "params": {},
+        "query": "EventFlowQueryPlayerOutfitMarinesuit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 145,
+        "name": "Event137",
+        "next": 149,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:038_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 146,
+        "name": "Event147",
+        "next": 149,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:038_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 147,
+        "name": "Event148",
+        "next": 149,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:038_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 0
+          },
+          {
+            "target": 146,
+            "value": 1
+          },
+          {
+            "target": 147,
+            "value": 2
+          }
+        ],
+        "index": 148,
+        "name": "Event149",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 149,
+        "name": "Event150",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetMemoryEventPlayer",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event124",
+        "next": 43,
+        "params": {
+          "AccessKey": "cBlancoEventPlayer:PE_Hgc_CheckEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 154,
+            "value": 0
+          },
+          {
+            "target": 154,
+            "value": 1
+          },
+          {
+            "target": 155,
+            "value": 2
+          }
+        ],
+        "index": 151,
+        "name": "Event152",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 151,
+            "value": 0
+          },
+          {
+            "target": 125,
+            "value": 1
+          }
+        ],
+        "index": 152,
+        "name": "Event153",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 153,
+        "name": "Event154",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 154,
+        "name": "Event155",
+        "next": 153,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:181"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 155,
+        "name": "Event156",
+        "next": 153,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/hgc/SP_hgc:182"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_hgc_01_NowQuest",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5dcfd05c077a1bdddcd4a290cf614d74bdfb0b5601890dfec2075c4bf3d47588",
+  "size": 35800,
+  "status": "converted"
+}

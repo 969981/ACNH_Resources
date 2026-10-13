@@ -1,0 +1,284 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionPlayerOpenEmoticonGetMessage",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionNetUploadEmoticon",
+          "EventFlowActionGetGymnasticsEmoticon",
+          "EventFlowActionGetReaction"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetMode",
+          "EventFlowQueryNetHasPOPID",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 1,
+        "name": "Get_Emoticon"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 4,
+        "name": "UploadEmoticon"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 8,
+        "name": "Get_Emoticon_byRadioGymnastics"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 16,
+        "name": "Get_Emoticon_FesDance"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "Player_GetDemo_Emoticons",
+    "events": [
+      {
+        "action": "EventFlowActionPlayerOpenEmoticonGetMessage",
+        "actor": "Player",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          5,
+          0
+        ],
+        "index": 1,
+        "join": 2,
+        "name": "Event1",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNetMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "IsRawDataCheck": false
+        },
+        "query": "EventFlowQueryNetHasPOPID",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "UploadEmoticon",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadEmoticon",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "CheckHash": false,
+          "SkipError": true,
+          "Timeout": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 7,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:Activate_WebService"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "forks": [
+          10,
+          12
+        ],
+        "index": 8,
+        "join": 9,
+        "name": "Event10",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 9,
+        "name": "Event11",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "entrypoint": "UploadEmoticon",
+        "flowchart": "",
+        "index": 10,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 11,
+        "name": "Event15",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:1110_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 12,
+        "name": "Event9",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:1110_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionGetGymnasticsEmoticon",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event16",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:1320"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionGetReaction",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "GetActionType": "cFes2_0"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          18,
+          14
+        ],
+        "index": 16,
+        "join": 17,
+        "name": "Event19",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 17,
+        "name": "Event21",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "entrypoint": "UploadEmoticon",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "Player_GetDemo_Emoticons",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a00d013692e2dc4819aea7acfec59104e34664e869a7ba004b6c22a081d9c27b",
+  "size": 3408,
+  "status": "converted"
+}

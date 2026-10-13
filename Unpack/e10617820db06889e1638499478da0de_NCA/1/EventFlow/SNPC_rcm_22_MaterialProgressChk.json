@@ -1,0 +1,808 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionEntryVariableAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryCheckEntryVariableInt",
+          "EventFlowQuerySubflowResultChoice4"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 14,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 8840,
+          "offset_10": 8880,
+          "subflow_index_count": 0
+        },
+        "main_event": 4,
+        "name": "Chk_HowManyType"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 19,
+        "name": "Chk_Materials3"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 8920,
+          "offset_10": 8960,
+          "subflow_index_count": 0
+        },
+        "main_event": 26,
+        "name": "Chk_Materials2"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 37,
+        "name": "Chk_Materials"
+      }
+    ],
+    "event_count": 47,
+    "event_flow_name": "SNPC_rcm_22_MaterialProgressChk",
+    "events": [
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_SoftWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_Iron"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_Wood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_HardWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event17",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 1,
+          "Value": "MaterialRemain"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event18",
+        "next": 5,
+        "params": {
+          "AddValue": 1,
+          "Key": "MaterialRemain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event19",
+        "next": 1,
+        "params": {
+          "AddValue": 1,
+          "Key": "MaterialRemain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event20",
+        "next": 2,
+        "params": {
+          "AddValue": 1,
+          "Key": "MaterialRemain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event21",
+        "next": 44,
+        "params": {
+          "AddValue": 1,
+          "Key": "MaterialRemain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event22",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 2,
+          "Value": "MaterialRemain"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Chk_HowManyType",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event25",
+        "next": 15,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 17,
+            "value": 2
+          },
+          {
+            "target": 16,
+            "value": 3
+          }
+        ],
+        "index": 15,
+        "name": "Event26",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Chk_Materials3",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Chk_Materials2",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Chk_Materials",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_Wood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event31",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_HardWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_SoftWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_Wood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_HardWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_SoftWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_HardWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_SoftWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_Wood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_HardWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event43",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterial_SoftWood"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event46",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 0,
+          "Value": "MaterialRemain"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event11",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 3,
+          "Value": "MaterialRemain"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rcm_22_MaterialProgressChk",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5d842cdde3f1e3aa92a2bb81ffc2ff646148450ac572e308fbc73f4f9aafebcf",
+  "size": 10240,
+  "status": "converted"
+}

@@ -1,0 +1,143 @@
+name: ACNH 3.0.3 Large Assets and EventFlow Batch
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths:
+      - ".github/workflows/acnh303-large-assets.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-large-assets-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {group: Model, shard: 0, shards: 8, batch_id: "00-of-08"}
+          - {group: Model, shard: 1, shards: 8, batch_id: "01-of-08"}
+          - {group: Model, shard: 2, shards: 8, batch_id: "02-of-08"}
+          - {group: Model, shard: 3, shards: 8, batch_id: "03-of-08"}
+          - {group: Model, shard: 4, shards: 8, batch_id: "04-of-08"}
+          - {group: Model, shard: 5, shards: 8, batch_id: "05-of-08"}
+          - {group: Model, shard: 6, shards: 8, batch_id: "06-of-08"}
+          - {group: Model, shard: 7, shards: 8, batch_id: "07-of-08"}
+          - {group: Layout, shard: 0, shards: 3, batch_id: "00-of-03"}
+          - {group: Layout, shard: 1, shards: 3, batch_id: "01-of-03"}
+          - {group: Layout, shard: 2, shards: 3, batch_id: "02-of-03"}
+          - {group: Effect, shard: 0, shards: 1, batch_id: "00-of-01"}
+          - {group: Shader, shard: 0, shards: 1, batch_id: "00-of-01"}
+          - {group: Sound, shard: 0, shards: 4, batch_id: "00-of-04"}
+          - {group: Sound, shard: 1, shards: 4, batch_id: "01-of-04"}
+          - {group: Sound, shard: 2, shards: 4, batch_id: "02-of-04"}
+          - {group: Sound, shard: 3, shards: 4, batch_id: "03-of-04"}
+          - {group: EventFlow, shard: 0, shards: 2, batch_id: "00-of-02"}
+          - {group: EventFlow, shard: 1, shards: 2, batch_id: "01-of-02"}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install verified parsers
+        run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Select and fetch only this Git-tree file shard
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category "${{ matrix.group }}"
+          --shard "${{ matrix.shard }}"
+          --shards "${{ matrix.shards }}"
+      - name: Execute real bounded decompression / SARC / event graph / audio index
+        run: >
+          python scripts/acnh303_asset_batch.py
+          --root . --group "${{ matrix.group }}"
+          --out Unpack_Batch --report-dir reports
+          --batch-id "${{ matrix.batch_id }}" --raw-limit-mb 1
+      - name: Persist file-level SHA-256 audit, including failures
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-report-${{ matrix.group }}-${{ matrix.batch_id }}
+          path: |
+            reports/
+            selection.json
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Save extracted mirror subset as downloadable artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-data-${{ matrix.group }}-${{ matrix.batch_id }}
+          path: Unpack_Batch/
+          retention-days: 14
+          compression-level: 3
+          if-no-files-found: warn
+
+  aggregate:
+    if: always()
+    needs: [extract]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-report-*
+          path: collected_reports
+          merge-multiple: true
+      - name: Build durable summary from all completed shard reports
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          reports=sorted(Path("collected_reports").rglob("summary.json"))
+          records=[json.loads(f.read_text(encoding="utf-8")) for f in reports]
+          status={}
+          for r in records:
+              for key,value in r["statuses"].items():
+                  status[key]=status.get(key,0)+value
+          out={
+              "game":"ACNH","version":"3.0.3",
+              "workflow_run_id":os.environ["GITHUB_RUN_ID"],
+              "source_commit":os.environ["GITHUB_SHA"],
+              "expected_shards":19,"completed_shards":len(records),
+              "processed_sources":sum(r["processed"] for r in records),
+              "output_count":sum(r["output_count"] for r in records),
+              "status_counts":status,"shards":records,
+              "disclaimer":"Reports cover only processed shards. BFRES to GLB, BNTX to PNG and audio PCM are not implied.",
+          }
+          target=Path("derived/3.0.3/asset_batch_runs")
+          target.mkdir(parents=True,exist_ok=True)
+          (target / f'{os.environ["GITHUB_RUN_ID"]}.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          (target / "latest.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - name: Commit persistent audit summary without duplicating large binaries
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/asset_batch_runs
+          if ! git diff --cached --quiet; then
+            git commit -m "data(acnh303): archive verified large asset batch audit"
+            git push origin HEAD:feat/acnh303-assets-eventflow
+          fi

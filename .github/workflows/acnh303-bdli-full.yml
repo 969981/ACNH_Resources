@@ -1,0 +1,128 @@
+name: ACNH 3.0.3 BDLI Complete 36708 Resource Retry
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-bdli-full.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements.txt evfl
+      - run: python -m unittest discover -s scripts -p "test_acnh303_bdli.py" -v
+  extract:
+    needs: regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Select BDLI source shard from git tree without downloading other blobs
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category BDLI --shard ${{ matrix.shard }} --shards 8
+      - name: Real Zstd decompress and per-section LBLI structure validation
+        run: >
+          python scripts/acnh303_asset_batch.py --root . --group BDLI
+          --out Unpack_Batch --report-dir reports
+          --batch-id "${{ matrix.shard }}-of-8" --raw-limit-mb 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bdli-report-${{ matrix.shard }}
+          path: reports/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bdli-unpack-${{ matrix.shard }}
+          path: Unpack_Batch/
+          compression-level: 3
+          retention-days: 14
+  audit:
+    needs: [regression,extract]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bdli-report-*
+          path: collected
+          merge-multiple: true
+      - name: Aggregate BDLI source SHA-256, parsed sections and failed paths
+        run: |
+          python - <<'PY'
+          import csv,gzip,json,os,pathlib
+          paths=sorted(pathlib.Path("collected").rglob("manifest.json"))
+          records={}
+          duplicates=[]
+          for path in paths:
+              for item in json.loads(path.read_text("utf-8")):
+                  name=item["source_path"]
+                  if name in records:duplicates.append(name)
+                  records[name]=item
+          failures=[r for r in records.values() if r["status"]=="failed"]
+          status={}
+          for r in records.values():status[r["status"]]=status.get(r["status"],0)+1
+          obj={"source_total":36708,"scanned":len(records),"shards":len(paths),
+               "duplicates":len(duplicates),"status_counts":status,
+               "failed_first_100":[{"path":r["source_path"],"reason":r["notes"]} for r in failures[:100]],
+               "limitations":"BDLI block directory and lossless decompressed bytes only; gameplay semantics unproven",
+               "run_id":os.environ["GITHUB_RUN_ID"]}
+          out=pathlib.Path("derived/3.0.3/bdli_full")
+          out.mkdir(parents=True,exist_ok=True)
+          (out/"summary.json").write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          with (out/"errors.csv").open("w",newline="",encoding="utf-8") as f:
+              w=csv.writer(f);w.writerow(["path","source_sha256","reason"])
+              for r in failures:w.writerow([r["source_path"],r["source_sha256"],r["notes"]])
+          with (out/"source_manifest.jsonl.gz").open("wb") as f:
+              with gzip.GzipFile(fileobj=f,mode="wb",filename="",mtime=0) as gz:
+                  for name in sorted(records):
+                      gz.write((json.dumps(records[name],sort_keys=True,ensure_ascii=False)+"\n").encode("utf-8"))
+          print(json.dumps(obj,ensure_ascii=False,indent=2))
+          if len(records)!=36708 or len(paths)!=8 or duplicates:
+              raise SystemExit("BDLI selected source coverage failure")
+          PY
+      - name: Commit validated BDLI coverage to repository
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/bdli_full
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(acnh303): BDLI complete source coverage and failure audit"
+          git fetch origin feat/acnh303-assets-eventflow
+          git rebase origin/feat/acnh303-assets-eventflow
+          git push origin HEAD:feat/acnh303-assets-eventflow

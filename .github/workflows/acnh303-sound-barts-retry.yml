@@ -1,0 +1,60 @@
+name: ACNH 3.0.3 Sound Five BARS Parsing Fix
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-sound-barts-retry.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /Unpack/
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/BGM_DJ_016_Ska.bars
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/BGM_DJ_026_Minyo.bars
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/BGM_DJ_107_Android.bars
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/FtrGlobe.bars
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/PhotoStudio_Wind.bars
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Re-evaluate five BARS sources and generate verified JSON indexes
+        run: |
+          python - <<'PY'
+          import sys,json,pathlib
+          sys.path.insert(0,"scripts")
+          from acnh303_asset_batch import Batch
+          nca="e10617820db06889e1638499478da0de_NCA"
+          rom=(pathlib.Path(nca)/"1").resolve()
+          source=rom/"Sound/Resource"
+          names=("BGM_DJ_016_Ska.bars","BGM_DJ_026_Minyo.bars",
+                 "BGM_DJ_107_Android.bars","FtrGlobe.bars","PhotoStudio_Wind.bars")
+          job=Batch(rom,pathlib.Path("Unpack"),"Sound",0)
+          for name in names:job.process(source/name)
+          rc=job.finish(pathlib.Path("derived/3.0.3/sound_hotfix"),"five_bars")
+          assert rc==0,job.rows
+          assert len(job.rows)==5
+          assert all(x["status"]=="partial" and x["outputs"] for x in job.rows)
+          print("FIVE_BARS_REPAIRED",json.dumps(job.rows,ensure_ascii=False),flush=True)
+          PY
+      - name: Persist five index JSON files and source-hash manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A Unpack/e10617820db06889e1638499478da0de_NCA/1/Sound derived/3.0.3/sound_hotfix
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "fix(sound): verify five BARS with trailing NUL and publish raw index JSON"
+          git fetch origin feat/acnh303-assets-eventflow
+          git rebase origin/feat/acnh303-assets-eventflow
+          git push origin HEAD:feat/acnh303-assets-eventflow

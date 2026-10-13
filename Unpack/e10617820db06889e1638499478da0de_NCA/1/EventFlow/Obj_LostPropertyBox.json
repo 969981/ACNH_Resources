@@ -1,0 +1,155 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUILostListHandling",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionStartAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "GeneralObject",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 5,
+        "name": "Root"
+      }
+    ],
+    "event_count": 7,
+    "event_flow_name": "Obj_LostPropertyBox",
+    "events": [
+      {
+        "action": "EventFlowActionUILostListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cPlayer:AccessLostPropertyBox1st"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event4",
+        "next": 3,
+        "params": {
+          "AccessKey": "cPlayer:AccessLostPropertyBox1st"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 3,
+        "name": "Event1",
+        "next": 0,
+        "params": {
+          "ActionName": "Open",
+          "ActionType": "アクション終了を待たない"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 4,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "ActionName": "Close",
+          "ActionType": "アクション終了を待たない"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 6,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Telepathy:514"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_LostPropertyBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f753ee3bb2780e5cd267c177360e96269540d103ace03979159a0e0ee573322f",
+  "size": 2176,
+  "status": "converted"
+}

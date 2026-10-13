@@ -1,0 +1,1568 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryMuseumLevel",
+          "EventFlowQueryHasKindItem",
+          "EventFlowQueryGeneralTalkChoice5",
+          "EventFlowQueryGeneralTalkChoice4",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryMuseumComplete",
+          "EventFlowQueryGeneralTalkChoice6",
+          "EventFlowQueryNetHasVisitor"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionOwlOpenItemMessage",
+          "EventFlowActionOwlDonationDone"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 27,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 0,
+        "name": "Select5_DiveFish"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 2,
+          "offset_08": 15016,
+          "offset_10": 15072,
+          "subflow_index_count": 0
+        },
+        "main_event": 45,
+        "name": "DonateDiveFish"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 9
+        },
+        "main_event": 7,
+        "name": "Select4_DiveFish"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 88,
+        "name": "Select5_DiveFish_Again"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 12,
+        "name": "Select4_DiveFish_Again"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 49,
+        "name": "TodayTalk1st"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 55,
+        "name": "ChkCompReport"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 95,
+        "name": "SkipDIveFishNotice_Comp"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 96,
+        "name": "ChkDiveFishNoticeAtToday1stTalk"
+      }
+    ],
+    "event_count": 104,
+    "event_flow_name": "SNPC_owl_23_Museum_DiveFish",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event3",
+        "params": {
+          "CheckItemKindType": "cKind",
+          "ItemFilterType": "",
+          "ItemKindType": "DiveFish"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 3,
+            "value": 2
+          },
+          {
+            "target": 4,
+            "value": 3
+          },
+          {
+            "target": 5,
+            "value": 4
+          }
+        ],
+        "index": 1,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 2,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 3,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_03_Museum_Commentary",
+        "index": 4,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 5,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateDiveFish",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 72,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event11",
+        "params": {
+          "CheckItemKindType": "cKind",
+          "ItemFilterType": "",
+          "ItemKindType": "DiveFish"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          },
+          {
+            "target": 66,
+            "value": 2
+          },
+          {
+            "target": 67,
+            "value": 3
+          },
+          {
+            "target": 68,
+            "value": 4
+          },
+          {
+            "target": 69,
+            "value": 5
+          }
+        ],
+        "index": 8,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DonateDiveFish",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Painting_Again",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 10,
+        "name": "Event26",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Select3_Again",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 11,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event27",
+        "params": {
+          "CheckItemKindType": "cKind",
+          "ItemFilterType": "",
+          "ItemKindType": "DiveFish"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event19",
+        "params": {
+          "CheckItemKindType": "cKind",
+          "ItemFilterType": "",
+          "ItemKindType": "DiveFish"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          },
+          {
+            "target": 17,
+            "value": 3
+          },
+          {
+            "target": 18,
+            "value": 4
+          }
+        ],
+        "index": 14,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 15,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 16,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_03_Museum_Commentary",
+        "index": 17,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 18,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateDiveFish",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event44",
+        "next": 73,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event45",
+        "next": 21,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event39",
+        "next": 44,
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Select5_DiveFish",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event34",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event37",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event65",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 28,
+        "name": "Event55",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 29,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event62",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event41",
+        "next": 20,
+        "params": {
+          "FilterType": "cItemKind",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "DiveFish",
+          "ItemUniqueID": 65534,
+          "Mode": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 1
+          },
+          {
+            "target": 61,
+            "value": 2
+          },
+          {
+            "target": 102,
+            "value": 4
+          }
+        ],
+        "index": 33,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Select4_DiveFish",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          },
+          {
+            "target": 37,
+            "value": 3
+          }
+        ],
+        "index": 35,
+        "name": "Event68",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 36,
+        "name": "Event69",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 37,
+        "name": "Event70",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateDiveFish",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event71",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 39,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          },
+          {
+            "target": 28,
+            "value": 4
+          }
+        ],
+        "index": 40,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "OwlTentDefaultChoice",
+        "flowchart": "SNPC_owl_10_Tent",
+        "index": 41,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event1",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event18",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event30",
+        "next": 54,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event31",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event35",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:120"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event32",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event52",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event54",
+        "params": {},
+        "query": "EventFlowQueryMuseumComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event56",
+        "next": 58,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event57",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event58",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event60",
+        "next": 22,
+        "params": {
+          "AccessKey": "cPlayer:FutaExplanationDonationComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event59",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event61",
+        "params": {
+          "AccessKey": "cPlayer:OwlExplainDiveFishAfterComp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event63",
+        "next": 51,
+        "params": {
+          "AccessKey": "cPlayer:OwlExplainDiveFishAfterComp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event66",
+        "next": 52,
+        "params": {
+          "AccessKey": "cPlayer:OwlPaintingDiveFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          }
+        ],
+        "index": 59,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          }
+        ],
+        "index": 60,
+        "name": "Event75",
+        "params": {
+          "AccessKey": "cPlayer:OwlPaintingDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          }
+        ],
+        "index": 61,
+        "name": "Event53",
+        "params": {
+          "AccessKey": "cPlayer:OwlPaintingDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event76",
+        "params": {
+          "AccessKey": "cLand:OwlWantsPainting"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event77",
+        "params": {
+          "AccessKey": "cLand:MuseumGrowupEnable2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event78",
+        "params": {
+          "AccessKey": "cPlayer:OwlPaintingQuestExplain"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event74",
+        "params": {
+          "CheckItemKindType": "cFilter",
+          "ItemFilterType": "OwlDonation1_5",
+          "ItemKindType": "Picture"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 66,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 67,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_03_Museum_Commentary",
+        "index": 68,
+        "name": "Event80",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 69,
+        "name": "Event81",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonatePainting",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 70,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Select5_DiveFish",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event82",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          }
+        ],
+        "index": 72,
+        "name": "Event83",
+        "params": {
+          "CheckItemKindType": "cFilter",
+          "ItemFilterType": "OwlDonation1_5",
+          "ItemKindType": "Picture"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event85",
+        "next": 46,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 76,
+            "value": 1
+          }
+        ],
+        "index": 74,
+        "name": "Event86",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event87",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:205"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event88",
+        "next": 80,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:207"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event89",
+        "next": 82,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:206"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event90",
+        "next": 79,
+        "params": {
+          "Command": 3,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOwlDonationDone",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event91",
+        "next": 48,
+        "params": {
+          "EntryVariableKeyBool_MultiComplete": "MultiComplete",
+          "EntryVariableKeyInt_CompleteRoomType": "CompleteRoomType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event92",
+        "next": 48,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event36",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event38",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:131"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event43",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:132"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOwlOpenItemMessage",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event47",
+        "next": 87,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event49",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:134"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event50",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event51",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_00_Common:133"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event93",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NoTopic",
+        "flowchart": "SNPC_owl",
+        "index": 89,
+        "name": "Event94",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event95",
+        "params": {
+          "AccessKey": "cLand:Museum3Built"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 91,
+        "name": "Event96",
+        "params": {
+          "AccessKey": "cLand:Museum3Built"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "owlNoFishArt",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 92,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event100",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event105",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          }
+        ],
+        "index": 95,
+        "name": "Event127",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          }
+        ],
+        "index": 96,
+        "name": "Event140",
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event141",
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event142",
+        "next": 100,
+        "params": {
+          "AccessKey": "cPlayer:OwlShowDiveFishReport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event143",
+        "next": 98,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_23_Museum_DiveFish:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 100,
+        "name": "Event144",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Select5_Painting",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 101,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 102,
+        "name": "Event99",
+        "next": 103,
+        "params": {
+          "AccessKey": "cLand:OwlFoundDiveFish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_owl_22_Museum_RenualQuest",
+        "index": 103,
+        "name": "Event102",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_owl_23_Museum_DiveFish",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e9b35bacbb1c8b25006c0bfd5dde0c6b497d7f05e33b7cf838677c462cd3e1af",
+  "size": 18520,
+  "status": "converted"
+}

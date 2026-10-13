@@ -1,0 +1,664 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionReturnStage",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionWherearenOrderCallback",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSystemBGMVolumeFadeOut",
+          "EventFlowActionReserveSkipSceneStartDemo"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckAmiiboNPC",
+          "EventFlowQueryWherearenOrderStatus"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetReplaceSNPCMsgLabel",
+          "EventFlowActionWherearenTakeOnNpcOrder",
+          "EventFlowActionWherearenSetHousemate",
+          "EventFlowActionWherearenSetTagHousemateNpcName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcCharacterSize",
+          "EventFlowQueryWherearenIsNpcLiveTogether",
+          "EventFlowQueryIsVillagerNpc"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 5,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 10,
+        "name": "NewBuild"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 19,
+        "name": "ShareHouse"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 38,
+        "name": "GoToNextSeq"
+      }
+    ],
+    "event_count": 41,
+    "event_flow_name": "Obj_WherearenAmiiboDeviceCall",
+    "events": [
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": 6,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Small",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 22,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 6,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Normal",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": 6,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "ExtraLarge",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Large",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 2
+          },
+          {
+            "target": 3,
+            "value": 3
+          }
+        ],
+        "index": 5,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcCharacterSize",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_Amiibo:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenTakeOnNpcOrder",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event15",
+        "next": 9,
+        "params": {
+          "MovingType": "",
+          "NewType": "",
+          "OrderType": "cNewHouse",
+          "ReformType": "",
+          "ThemeIndex": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event20",
+        "next": 24,
+        "params": {
+          "CallBackTiming": "cStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event17",
+        "params": {
+          "Kind": "cSNPC"
+        },
+        "query": "EventFlowQueryCheckAmiiboNPC",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event18",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NewBuild",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event29",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetHousemate",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event30",
+        "next": 15,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event31",
+        "next": 40,
+        "params": {
+          "CallBackTiming": "cFinishLookForHousemate"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event35",
+        "next": 17,
+        "params": {
+          "AssetKeyName": "ReturnFromAmiiboPhone",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReturnStage",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "FadeColorString": "cWhite",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.20000000298023224,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.5,
+          "NextInfoKey": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ShareHouse",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsNpcLiveTogether",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event12",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event11",
+        "next": 7,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CallSNPCAmiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 12,
+            "value": 2
+          },
+          {
+            "target": 12,
+            "value": 3
+          },
+          {
+            "target": 12,
+            "value": 4
+          },
+          {
+            "target": 12,
+            "value": 5
+          },
+          {
+            "target": 12,
+            "value": 6
+          },
+          {
+            "target": 12,
+            "value": 7
+          }
+        ],
+        "index": 22,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetReplaceSNPCMsgLabel",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event16",
+        "next": 21,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GoToNextSeq",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cOrderWherearen",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cOrderWherearen",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenOrderDemo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetOrderCamera",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 26,
+        "name": "Event21",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event22",
+        "next": 36,
+        "params": {
+          "AssetKeyName": "ReturnFromAmiiboPhone",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GoToNextSeq",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryIsVillagerNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event32",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryIsVillagerNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event34",
+        "params": {},
+        "query": "EventFlowQueryIsVillagerNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event37",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event39",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenAmiibo:203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetTagHousemateNpcName",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event0",
+        "next": 31,
+        "params": {
+          "ID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event40",
+        "next": 37,
+        "params": {
+          "AssetKeyName": "Demo_Oshigoto_Wipe",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event41",
+        "next": 25,
+        "params": {
+          "WaitFrame": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemBGMVolumeFadeOut",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event42",
+        "next": 39,
+        "params": {
+          "DelaySec": 0.0,
+          "FadeCurveType": 0,
+          "FadeSec": 0.699999988079071
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event43",
+        "next": 26,
+        "params": {
+          "WaitFrame": 21
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSkipSceneStartDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event44",
+        "next": 28,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_WherearenAmiiboDeviceCall",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d34515bdcce6e37bb3cabc58b2fff40a11b10b70b39413dcfb91d9f623785e36",
+  "size": 10360,
+  "status": "converted"
+}

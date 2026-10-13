@@ -1,0 +1,540 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSwapSpeaker",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionNetDemoNextStep",
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionMessageUnlockNext",
+          "EventFlowActionPlayReport",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionFadeOut",
+          "EventFlowActionNetDemoNextStep",
+          "EventFlowActionSoundTriggerEmit"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[BgmActor]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame",
+          "EventFlowActionNetMeasureBitRate"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[NetActor]",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryNetMode"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 30,
+        "name": "Root"
+      }
+    ],
+    "event_count": 40,
+    "event_flow_name": "Demo_MainFieldLandingNet",
+    "events": [
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 16,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "Cut0",
+          "CameraParamKey": "Cut0End",
+          "CameraTargetKey": "Keep",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 14,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSwapSpeaker",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "DispNameTag": true,
+          "SwapSpeaker": "cDoc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event6",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_30_Flight_Announce:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 4,
+        "name": "Event4",
+        "next": 17,
+        "params": {
+          "BGMProperty": 48
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "BGMProperty": 46
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event11",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cGrowUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event20",
+        "next": 10,
+        "params": {
+          "WaitFrame": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event13",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_30_Flight_Announce:140"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event22",
+        "next": 13,
+        "params": {
+          "WaitFrame": 40
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event23",
+        "next": 32,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event26",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event24",
+        "next": 11,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event27",
+        "next": 26,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 17,
+        "name": "Event29",
+        "next": 33,
+        "params": {
+          "WaitFrame": 400
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeOut",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 18,
+        "name": "Event30",
+        "next": 19,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.25,
+          "IsUseDucking": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 19,
+        "name": "Event31",
+        "next": 20,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 20,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "BGMProperty": 46
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[NetActor]",
+        "index": 21,
+        "name": "Event33",
+        "next": 25,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor[NetActor]",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event34",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetMeasureBitRate",
+        "actor": "EventFlowSystemActor[NetActor]",
+        "index": 23,
+        "name": "Event36",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor[NetActor]",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          },
+          {
+            "target": 23,
+            "value": 2
+          }
+        ],
+        "index": 24,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryNetMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[NetActor]",
+        "index": 25,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event40",
+        "next": 28,
+        "params": {
+          "WaitIconType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event39",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          3,
+          4
+        ],
+        "index": 28,
+        "join": 29,
+        "name": "Event17",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 29,
+        "name": "Event28",
+        "next": 27,
+        "type": "JoinEvent"
+      },
+      {
+        "forks": [
+          22,
+          2
+        ],
+        "index": 30,
+        "join": 31,
+        "name": "Event32",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 31,
+        "name": "Event38",
+        "next": 7,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event41",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_30_Flight_Announce:151"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDemoNextStep",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 33,
+        "name": "Event8",
+        "next": 37,
+        "params": {
+          "Step": "cStartArriveDemo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 34,
+        "name": "Event19",
+        "next": 18,
+        "params": {
+          "WaitFrame": 140
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event25",
+        "next": 39,
+        "params": {
+          "Num0": 0,
+          "PlayReportKind": "cVisitFriend"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DALNoveltyCountUp",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 36,
+        "name": "Event44",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 37,
+        "name": "Event47",
+        "next": 34,
+        "params": {
+          "AssetKeyName": "Flight_Landing",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDemoNextStep",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "Step": "cArriveVisitor"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event1",
+        "next": 36,
+        "params": {
+          "AccessKey": "cPlayer:VisitFriendMileageGet"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Demo_MainFieldLandingNet",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b3aa3104eaf391e3addf12f340fb1ce608569b2116d7b5b50bd9646fe51ede3e",
+  "size": 7904,
+  "status": "converted"
+}

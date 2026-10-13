@@ -1,0 +1,2135 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionNpcReservrForErase",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcAISetCheckRobFunc",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcAISetPos",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcAISetExitStrc",
+          "EventFlowActionNpcChangeTurnDefaultState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionCameraReserveFirstStateCommand"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryWherearenLookForHousemateState",
+          "EventFlowQueryWherearenOrderStatus",
+          "EventFlowQueryWherearenOrderInfoType",
+          "EventFlowQueryWherearenFacilityTypeOnOrder",
+          "EventFlowQueryWherearenNpcOrderType",
+          "EventFlowQueryOtgFacilityFrontCreatePos",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQuerySubflowResultChoice10",
+          "EventFlowQueryIsWherearenWorkMode",
+          "EventFlowQueryWherearenFacilityOrderType",
+          "EventFlowQuerySubflowResultChoice4",
+          "EventFlowQuerySystemCheckPreStage",
+          "EventFlowQueryDuringTransitionByUIStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 16
+        },
+        "main_event": 31,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 24
+        },
+        "main_event": 63,
+        "name": "StoryEventChk_House"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 10,
+        "name": "StoryEventChk_Facility"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 24,
+        "name": "StoryEventChk_Entry"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 32,
+        "name": "ChkDelete"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 40,
+        "name": "CameraReserve_Right"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 64,
+        "name": "StoryEventChk_ShareHouse"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 92,
+        "name": "CheckRob"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 107,
+        "name": "SetPhoneCall"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 132,
+        "name": "ContinueDisableWorkMotion"
+      }
+    ],
+    "event_count": 136,
+    "event_flow_name": "AI_NPC_Otg_WherearenOffice",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event4",
+        "next": 57,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 133,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_OtgTalkReserve_Office"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cWherearenPlayer:TutorialDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryWherearenLookForHousemateState",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event15",
+        "next": 35,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_OtgTalkReserve_Office"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqUniformTutorialOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 6,
+        "name": "Event13",
+        "next": 49,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_10_WherearenEvent_Tutorial"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_House",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event18",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 3
+          },
+          {
+            "target": 16,
+            "value": 5
+          }
+        ],
+        "index": 8,
+        "name": "Event41",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 126,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event59",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderInfoType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          },
+          {
+            "target": 12,
+            "value": 2
+          },
+          {
+            "target": 23,
+            "value": 3
+          },
+          {
+            "target": 21,
+            "value": 4
+          }
+        ],
+        "index": 10,
+        "name": "Event65",
+        "params": {},
+        "query": "EventFlowQueryWherearenFacilityTypeOnOrder",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event66",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Faclility_School"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event69",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Faclility_Restaurant"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          },
+          {
+            "target": 17,
+            "value": 2
+          },
+          {
+            "target": 17,
+            "value": 3
+          }
+        ],
+        "index": 13,
+        "name": "Event75",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 14,
+        "name": "Event52",
+        "next": 97,
+        "params": {
+          "EntryName": "ReturnOffice",
+          "FlowName": "SNPC_otg_15_WherearenEvent_School"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 15,
+        "name": "Event67",
+        "next": 97,
+        "params": {
+          "EntryName": "ReturnOffice",
+          "FlowName": "SNPC_otg_19_WherearenEvent_RestaurantCafe"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 16,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "EntryName": "Force_EditCanceled",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 17,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "EntryName": "Force_CommonWorkDone",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_Facility",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event76",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event31",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Faclility_Hospital"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 20,
+        "name": "Event110",
+        "next": 97,
+        "params": {
+          "EntryName": "ReturnOffice",
+          "FlowName": "SNPC_otg_20_WherearenEvent_Hospital"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event112",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Faclility_Tailor"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 22,
+        "name": "Event113",
+        "next": 97,
+        "params": {
+          "EntryName": "ReturnOffice",
+          "FlowName": "SNPC_otg_21_WherearenEvent_Tailor"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Faclility_Cafe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 24,
+        "name": "Event122",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqEventReserveInOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event126",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqExchangeMachineEventReady"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          }
+        ],
+        "index": 26,
+        "name": "Event127",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqResortStudyEventReady"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event78",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event115",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcReservrForErase",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event116",
+        "next": 28,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          }
+        ],
+        "index": 30,
+        "name": "Event117",
+        "params": {
+          "CheckStage": "cWherearenOffice"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkDelete",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event123",
+        "next": 127,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          },
+          {
+            "target": 30,
+            "value": 2
+          },
+          {
+            "target": 30,
+            "value": 3
+          },
+          {
+            "target": 30,
+            "value": 4
+          },
+          {
+            "target": 52,
+            "value": 5
+          }
+        ],
+        "index": 32,
+        "name": "Event79",
+        "params": {},
+        "query": "EventFlowQueryOtgFacilityFrontCreatePos",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 33,
+        "name": "Event77",
+        "next": 50,
+        "params": {
+          "EntryName": "Root_OfficeMachine",
+          "FlowName": "SNPC_otg_31_WherearenEvent_EntryOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 34,
+        "name": "Event128",
+        "next": 51,
+        "params": {
+          "EntryName": "Root_ResortStudy",
+          "FlowName": "SNPC_otg_31_WherearenEvent_EntryOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_Entry",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event124",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event153",
+        "next": 37,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event154",
+        "next": 41,
+        "params": {
+          "Flag": true,
+          "SettingType": 21
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event159",
+        "next": 27,
+        "params": {
+          "Command": "Demo:OverlookRight",
+          "DemoTarget": "CameraTag:RoomCenter",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event129",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event125",
+        "next": null,
+        "params": {
+          "Command": "Demo:Overlook",
+          "DemoTarget": "CameraTag:RoomCenter",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 105,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event156",
+        "params": {
+          "AccessKey": "cWherearenPlayer:MncGenerateInOfficeTemp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event163",
+        "next": 27,
+        "params": {
+          "Command": "Demo:Overlook",
+          "DemoTarget": "CameraTag:RoomCenter",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event165",
+        "params": {
+          "AccessKey": "cWherearenPlayer:MncMovetoBridge"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_ShareHouse",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event171",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DoOfficerWait",
+        "flowchart": "AI_NPC_Wherearen_Common",
+        "index": 45,
+        "name": "Event186",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DoOfficerWait",
+        "flowchart": "AI_NPC_Wherearen_Common",
+        "index": 46,
+        "name": "Event187",
+        "next": null,
+        "params": {
+          "EntryName": "ClothesChk",
+          "FlowName": "SNPC_otg_10_WherearenEvent_Tutorial"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DoOfficerWait",
+        "flowchart": "AI_NPC_Wherearen_Common",
+        "index": 47,
+        "name": "Event188",
+        "next": null,
+        "params": {
+          "EntryName": "LookforHouseMate",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 48,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "EntryName": "NotWorkReturn",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqOtgSickDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          }
+        ],
+        "index": 53,
+        "name": "Event49",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqOtgSickOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event50",
+        "next": 130,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event62",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqFirstVistCustomerOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 56,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "EntryName": "Return_FirstVisitCustomer",
+          "FlowName": "SNPC_otg_11_WherearenEvent_StartWork"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event73",
+        "next": 98,
+        "params": {
+          "Key": "IsReturnHouseCompleteActing",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 58,
+        "name": "Event6",
+        "next": 97,
+        "params": {
+          "EntryName": "ReturnOffice_2nd",
+          "FlowName": "SNPC_otg_19_WherearenEvent_RestaurantCafe"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          }
+        ],
+        "index": 59,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqRestaurantEdit2Ongoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          },
+          {
+            "target": 69,
+            "value": 2
+          },
+          {
+            "target": 86,
+            "value": 3
+          },
+          {
+            "target": 85,
+            "value": 4
+          },
+          {
+            "target": 80,
+            "value": 5
+          },
+          {
+            "target": 71,
+            "value": 6
+          },
+          {
+            "target": 111,
+            "value": 7
+          },
+          {
+            "target": 76,
+            "value": 8
+          },
+          {
+            "target": 81,
+            "value": 9
+          }
+        ],
+        "index": 60,
+        "name": "Event43",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          },
+          {
+            "target": 79,
+            "value": 2
+          },
+          {
+            "target": 110,
+            "value": 3
+          },
+          {
+            "target": 89,
+            "value": 4
+          },
+          {
+            "target": 87,
+            "value": 5
+          },
+          {
+            "target": 90,
+            "value": 6
+          },
+          {
+            "target": 82,
+            "value": 7
+          },
+          {
+            "target": 75,
+            "value": 8
+          },
+          {
+            "target": 84,
+            "value": 9
+          }
+        ],
+        "index": 61,
+        "name": "Event53",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 1
+          },
+          {
+            "target": 88,
+            "value": 2
+          },
+          {
+            "target": 117,
+            "value": 3
+          }
+        ],
+        "index": 62,
+        "name": "Event56",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_AfterNewBuild",
+        "flowchart": "Demo_Common_Wherearen",
+        "index": 63,
+        "name": "Event102",
+        "next": 60,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "StoryEventChk_AfterShareHouse",
+        "flowchart": "Demo_Common_Wherearen",
+        "index": 64,
+        "name": "Event104",
+        "next": 65,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event105",
+        "params": {
+          "SetIndex": 15
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 66,
+        "name": "Event106",
+        "next": 67,
+        "params": {
+          "EntryName": "Done",
+          "FlowName": "SNPC_otg_22_WherearenEvent_ShareHouse"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event107",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 68,
+        "name": "Event144",
+        "next": 73,
+        "params": {
+          "EntryName": "Root_StartingSalary",
+          "FlowName": "SNPC_otg_10_WherearenEvent_Tutorial"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 69,
+        "name": "Event146",
+        "next": 73,
+        "params": {
+          "EntryName": "GetApp",
+          "FlowName": "SNPC_otg_12_WherearenEvent_CustomerList"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 70,
+        "name": "Event147",
+        "next": 73,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_13_WherearenEvent_DustCloth"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 71,
+        "name": "Event155",
+        "next": 73,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_16_WherearenEvent_Kabetasu"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 72,
+        "name": "Event160",
+        "next": 73,
+        "params": {
+          "EntryName": "Party1",
+          "FlowName": "SNPC_otg_18_WherearenEvent_Party"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event168",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 74,
+        "name": "Event177",
+        "next": 77,
+        "params": {
+          "EntryName": "Party2",
+          "FlowName": "SNPC_otg_18_WherearenEvent_Party"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 75,
+        "name": "Event181",
+        "next": 77,
+        "params": {
+          "EntryName": "Party3",
+          "FlowName": "SNPC_otg_18_WherearenEvent_Party"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 76,
+        "name": "Event190",
+        "next": 73,
+        "params": {
+          "EntryName": "FuncUpdate",
+          "FlowName": "SNPC_otg_12_WherearenEvent_CustomerList"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event194",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 78,
+        "name": "Event196",
+        "next": 77,
+        "params": {
+          "EntryName": "EventStart_EnvSound01",
+          "FlowName": "SNPC_otg_30_WherearenEvent_EnvSound"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 79,
+        "name": "Event200",
+        "next": 77,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_23_WherearenEvent_ExtentionHouse"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 80,
+        "name": "Event203",
+        "next": 73,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_17_WherearenEvent_DIYCatalog"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 81,
+        "name": "Event208",
+        "next": 73,
+        "params": {
+          "EntryName": "Root_DIYCatalogMerge",
+          "FlowName": "SNPC_otg_17_WherearenEvent_DIYCatalog"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 82,
+        "name": "Event211",
+        "next": 77,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_26_WherearenEvent_ItemCatalog"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 83,
+        "name": "Event212",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 84,
+        "name": "Event215",
+        "next": 77,
+        "params": {
+          "EntryName": "Root_BuildStage",
+          "FlowName": "SNPC_otg_27_WherearenEvent_KKFes"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 85,
+        "name": "Event219",
+        "next": 73,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_28_WherearenEvent_Break"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event222",
+        "next": 70,
+        "params": {
+          "Command": "Demo:OverlookRight",
+          "DemoTarget": "CameraTag:RoomCenter",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 87,
+        "name": "Event226",
+        "next": 77,
+        "params": {
+          "EntryName": "EventStart_EnvSound02",
+          "FlowName": "SNPC_otg_30_WherearenEvent_EnvSound"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 88,
+        "name": "Event227",
+        "next": 83,
+        "params": {
+          "EntryName": "EventStart_EnvSound03",
+          "FlowName": "SNPC_otg_30_WherearenEvent_EnvSound"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 89,
+        "name": "Event232",
+        "next": 77,
+        "params": {
+          "EntryName": "Finish",
+          "FlowName": "SNPC_otg_24_WherearenEvent_OtgSick"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 90,
+        "name": "Event238",
+        "next": 77,
+        "params": {
+          "EntryName": "Root_StartBuildStage",
+          "FlowName": "SNPC_otg_27_WherearenEvent_KKFes"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 91,
+        "name": "Event108",
+        "next": 83,
+        "params": {
+          "EntryName": "PartyPatterned",
+          "FlowName": "SNPC_otg_18_WherearenEvent_Party"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event136",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenWorkMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event137",
+        "next": null,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event138",
+        "next": null,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event161",
+        "next": 114,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event132",
+        "next": null,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cWherearenAmiiboDevice",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "OtgTalk",
+          "TalkEventFlowName": "Obj_WherearenAmiiboDevice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 98,
+        "name": "Event20",
+        "next": 95,
+        "params": {
+          "Key": "CheckWorkContinue",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event21",
+        "params": {
+          "Border": 1,
+          "Key": "CheckWorkContinue"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 100,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "EntryName": "CheckWorkContinue",
+          "FlowName": "SNPC_otg_01_WherearenOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event26",
+        "next": 112,
+        "params": {
+          "Key": "CheckWorkContinue",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          },
+          {
+            "target": 42,
+            "value": 3
+          },
+          {
+            "target": 103,
+            "value": 4
+          }
+        ],
+        "index": 102,
+        "name": "Event22",
+        "params": {},
+        "query": "EventFlowQueryWherearenFacilityTypeOnOrder",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          }
+        ],
+        "index": 103,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryWherearenFacilityOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 104,
+        "name": "Event25",
+        "next": 27,
+        "params": {
+          "Command": "Demo:PostTailorCeremony",
+          "DemoTarget": "Npc:otg",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          },
+          {
+            "target": 38,
+            "value": 4294967295
+          }
+        ],
+        "index": 105,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderInfoType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event38",
+        "next": 109,
+        "params": {
+          "Flag": true,
+          "SettingType": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event40",
+        "next": 108,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event42",
+        "next": 106,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetPhoneCall",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event47",
+        "next": 74,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetPhoneCall",
+        "flowchart": "",
+        "index": 111,
+        "name": "Event16",
+        "next": 72,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event17",
+        "next": 113,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event19",
+        "next": 100,
+        "params": {
+          "Flag": true,
+          "SettingType": 21
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event27",
+        "next": 118,
+        "params": {
+          "Key": "WaitMutter",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 123,
+            "value": 1
+          }
+        ],
+        "index": 115,
+        "name": "Event34",
+        "params": {
+          "AccessKey": "cWherearenPlayer:VisitHouseReturn"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 116,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_31_WherearenEvent_EntryOffice"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 117,
+        "name": "Event36",
+        "next": 83,
+        "params": {
+          "EntryName": "Root_Choco",
+          "FlowName": "SNPC_otg_28_WherearenEvent_Break"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event37",
+        "next": 122,
+        "params": {
+          "Key": "ItemCatalogGetDemoEnd",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event48",
+        "params": {
+          "Border": 1,
+          "Key": "ItemCatalogGetDemoEnd"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 120,
+        "name": "Event51",
+        "next": 121,
+        "params": {
+          "Key": "ItemCatalogGetDemoEnd",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 121,
+        "name": "Event54",
+        "next": null,
+        "params": {
+          "EntryName": "ContinueEventTalk",
+          "FlowName": "SNPC_otg_26_WherearenEvent_ItemCatalog"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event55",
+        "next": 96,
+        "params": {
+          "Key": "FixWorkMotion",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 123,
+        "name": "Event57",
+        "next": 116,
+        "params": {
+          "Key": "FixWorkMotion",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event58",
+        "next": 125,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 125,
+        "name": "Event60",
+        "next": 120,
+        "params": {
+          "Flag": true,
+          "SettingType": 21
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 126,
+        "name": "Event61",
+        "next": 18,
+        "params": {
+          "IsUseCreateOffset": true,
+          "SetAngle": 270.0,
+          "SetPosX": 0.0,
+          "SetPosZ": 0.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 128,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 127,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenWorkMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetExitStrc",
+        "actor": "MainNpc",
+        "index": 128,
+        "name": "Event64",
+        "next": 1,
+        "params": {
+          "Frame": 0,
+          "Reaction": "Smiling",
+          "TriggerType": "cTriggerType_ExitStrc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetExitStrc",
+        "actor": "MainNpc",
+        "index": 129,
+        "name": "Event68",
+        "next": 1,
+        "params": {
+          "Frame": 0,
+          "Reaction": "AddWaveHands",
+          "TriggerType": "cTriggerType_ExitStrc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 131,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 130,
+        "name": "Event70",
+        "params": {
+          "PreStage": "cWherearenOffice2F"
+        },
+        "query": "EventFlowQuerySystemCheckPreStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 2,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "ClothesChk",
+          "TalkEventFlowName": "SNPC_otg_10_WherearenEvent_Tutorial"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 135,
+            "value": 0
+          }
+        ],
+        "index": 132,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cWherearenPlayer:IsDisableOtgWorkMotion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueDisableWorkMotion",
+        "flowchart": "",
+        "index": 133,
+        "name": "Event14",
+        "next": 99,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          }
+        ],
+        "index": 135,
+        "name": "Event72",
+        "params": {},
+        "query": "EventFlowQueryDuringTransitionByUIStage",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Otg_WherearenOffice",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "cd1120cb3a534275cacc387a6c3482ec15ca291b33ff7b506727b5d59a3294c7",
+  "size": 29704,
+  "status": "converted"
+}

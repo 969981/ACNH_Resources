@@ -1,0 +1,116 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSaveOnBackupRestoringSettingNotice"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySaveLastBackupElapsedDaysGreaterThan",
+          "EventFlowQuerySaveIsOnBackupRestoringSettingNotice"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "StartCheck"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 4,
+        "name": "RecoveringNotice"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "System_BootSeqence_SaveRestoreChk",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event14",
+        "params": {
+          "Days": 7
+        },
+        "query": "EventFlowQuerySaveLastBackupElapsedDaysGreaterThan",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSaveOnBackupRestoringSettingNotice",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQuerySaveIsOnBackupRestoringSettingNotice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event3",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9010"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_BootSeqence_SaveRestoreChk",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5a24ca8886f4dae2fb19fce8b7067bc2ce7dd803d105bba189af2420963e081b",
+  "size": 1592,
+  "status": "converted"
+}

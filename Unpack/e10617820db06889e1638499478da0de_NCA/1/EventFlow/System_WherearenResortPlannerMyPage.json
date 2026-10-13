@@ -1,0 +1,1537 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNetWherearenSearchOpusList",
+          "EventFlowActionUINetConnectWaitAppear",
+          "EventFlowActionUINetConnectWaitDisappear",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIPortfolioPromotionDisappear",
+          "EventFlowActionUIPortfolioPromotionReManipulateAndWait",
+          "EventFlowActionUIClientListHandling",
+          "EventFlowActionUISetIsPromotionFlowFlag",
+          "EventFlowActionNetWherearenUploadOpusData",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionNetWherearenDeleteOpusData",
+          "EventFlowActionUIConstructionPortfolioSNSShareHandling",
+          "EventFlowActionNetWherearenPostToSNS",
+          "EventFlowActionNetWherearenSortOpusData",
+          "EventFlowActionUIConstructionPortfolioSNSShareDisappearHandling",
+          "EventFlowActionUIPortfolioPromotionToSetting",
+          "EventFlowActionUIPortfolioPromotionFromSetting",
+          "EventFlowActionUIPortfolioPromotionAppear",
+          "EventFlowActionUIPortfolioPromotionWaitManipulate",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionWherearenTodayFlagOn",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryUIConstructionPortfolioPromotionResult",
+          "EventFlowQueryNetHasWherearenAuthorID",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryUIClientListResult",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryCheckEntryVariableBool",
+          "EventFlowQueryWherearenTodayFlagBool",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySubflowResultChoice5",
+          "EventFlowQuerySubflowResultChoice3",
+          "EventFlowQueryUIPortfolioPromotionNewTargetFailure",
+          "EventFlowQueryIsPlayingOn"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 22
+        },
+        "main_event": 21,
+        "name": "MyPromotion"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 21
+        },
+        "main_event": 86,
+        "name": "FromMyPage"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 21
+        },
+        "main_event": 20,
+        "name": "FromMyPageFinishUpload"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 42,
+        "name": "Process_Promote"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 55,
+        "name": "Process_StopPromote"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 56,
+        "name": "Process_UpdateSNS"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 73,
+        "name": "Process_UpdateSlot"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 78,
+        "name": "ExitMyPage"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 21
+        },
+        "main_event": 20,
+        "name": "FromMyPageConfig"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 41,
+        "name": "v300_SkipSNS"
+      }
+    ],
+    "event_count": 110,
+    "event_flow_name": "System_WherearenResortPlannerMyPage",
+    "events": [
+      {
+        "action": "EventFlowActionNetWherearenSearchOpusList",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "Type": "cMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event4",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event5",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ExitMyPage",
+        "flowchart": "",
+        "index": 4,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DownloadOpusData",
+        "flowchart": "System_WherearenResortPlannerInspect",
+        "index": 5,
+        "name": "Event8",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event9",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "InspectHouse",
+        "flowchart": "System_WherearenResortPlannerInspect",
+        "index": 7,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromMyPage",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Process_StopPromote",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event12",
+        "next": 101,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_WherearenResortPlanner_Config",
+        "index": 10,
+        "name": "Event14",
+        "next": 80,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSNS",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event15",
+        "next": 12,
+        "params": {
+          "is_new": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromMyPage",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event18",
+        "next": 7,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_ResortPlannerFromMyPage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Process_Promote",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event19",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromMyPage",
+        "flowchart": "",
+        "index": 15,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromMyPage",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event22",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          },
+          {
+            "target": 15,
+            "value": 3
+          },
+          {
+            "target": 105,
+            "value": 4
+          }
+        ],
+        "index": 18,
+        "name": "Event23",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FromMyPageFinishUpload",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionReManipulateAndWait",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event25",
+        "next": 90,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryNetHasWherearenAuthorID",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ExitMyPage",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSlot",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event30",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSlot",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event31",
+        "next": 25,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event32",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FromMyPage",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSlot",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event34",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event35",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSlot",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event36",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event37",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSlot",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event38",
+        "next": 32,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event39",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIClientListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event43",
+        "next": 52,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISetIsPromotionFlowFlag",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event44",
+        "next": 33,
+        "params": {
+          "IsPromotionFlow": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenUploadOpusData",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event45",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Process_UpdateSNS",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event46",
+        "next": 51,
+        "params": {
+          "is_new": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event47",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:1106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event49",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event50",
+        "next": 45,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event51",
+        "next": 45,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event52",
+        "next": 45,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SignIn_ResortPlannerRoot",
+        "flowchart": "System_WherearenResortPlanner_Net",
+        "index": 42,
+        "name": "Event53",
+        "next": 43,
+        "params": {
+          "GetRAID": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event54",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISetIsPromotionFlowFlag",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event56",
+        "next": null,
+        "params": {
+          "IsPromotionFlow": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenSearchOpusList",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event57",
+        "next": 49,
+        "params": {
+          "Type": "cMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event58",
+        "next": 35,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event59",
+        "next": 40,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event60",
+        "next": 103,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event61",
+        "next": 36,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event62",
+        "next": 45,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          },
+          {
+            "target": 47,
+            "value": 3
+          },
+          {
+            "target": 39,
+            "value": 4
+          }
+        ],
+        "index": 52,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQueryUIClientListResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenDeleteOpusData",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event67",
+        "next": 54,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event68",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event69",
+        "next": 53,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIConstructionPortfolioSNSShareHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event70",
+        "next": 57,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event71",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenPostToSNS",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event72",
+        "next": 69,
+        "params": {
+          "Type": "cNew"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event73",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event74",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 62,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event75",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event76",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenSortOpusData",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event77",
+        "next": 74,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event78",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event79",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event80",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event81",
+        "params": {
+          "Value": "is_new"
+        },
+        "query": "EventFlowQueryCheckEntryVariableBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenPostToSNS",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event82",
+        "next": 69,
+        "params": {
+          "Type": "cLater"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIConstructionPortfolioSNSShareDisappearHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event83",
+        "next": 61,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIConstructionPortfolioSNSShareDisappearHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event84",
+        "next": 60,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event85",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event86",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event88",
+        "next": 63,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event89",
+        "next": 65,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenSearchOpusList",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event90",
+        "next": 77,
+        "params": {
+          "Type": "cMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event91",
+        "next": 71,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event92",
+        "next": 99,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "WherearenInspectList",
+        "flowchart": "System_WherearenResortPlannerInspect",
+        "index": 78,
+        "name": "Event93",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionToSetting",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event27",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionFromSetting",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event28",
+        "next": 81,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FromMyPageConfig",
+        "flowchart": "",
+        "index": 81,
+        "name": "Event63",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 82,
+        "name": "Event65",
+        "next": 24,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 83,
+        "name": "Event66",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event94",
+        "next": 29,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event95",
+        "next": 31,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event40",
+        "next": 91,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionWaitManipulate",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event41",
+        "next": 90,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event96",
+        "next": 89,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionWaitManipulate",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event97",
+        "next": 106,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          },
+          {
+            "target": 83,
+            "value": 2
+          },
+          {
+            "target": 84,
+            "value": 3
+          },
+          {
+            "target": 85,
+            "value": 4
+          },
+          {
+            "target": 79,
+            "value": 5
+          }
+        ],
+        "index": 90,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryUIConstructionPortfolioPromotionResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event1",
+        "next": 87,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event7",
+        "params": {
+          "FlagName": "cTkkrInfoSNS"
+        },
+        "query": "EventFlowQueryWherearenTodayFlagBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event13",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:1105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 94,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:WHEREAREN_IsSnsShareCanceled"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 98,
+            "value": 1
+          }
+        ],
+        "index": 95,
+        "name": "Event87",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 96,
+        "name": "Event98",
+        "next": 37,
+        "params": {
+          "AccessKey": "cPlayer:WHEREAREN_IsSnsShareCanceled"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenTodayFlagOn",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event99",
+        "next": 93,
+        "params": {
+          "FlagName": "cTkkrInfoSNS"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event100",
+        "next": 50,
+        "params": {
+          "AccessKey": "cPlayer:WHEREAREN_IsSnsShareCanceled"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event48",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 100,
+        "name": "Event101",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          },
+          {
+            "target": 102,
+            "value": 2
+          }
+        ],
+        "index": 101,
+        "name": "Event102",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ExitMyPage",
+        "flowchart": "",
+        "index": 102,
+        "name": "Event103",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 103,
+        "name": "Event104",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 104,
+        "name": "Event105",
+        "next": 45,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ExitMyPage",
+        "flowchart": "",
+        "index": 105,
+        "name": "Event106",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          }
+        ],
+        "index": 106,
+        "name": "Event107",
+        "params": {},
+        "query": "EventFlowQueryUIPortfolioPromotionNewTargetFailure",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIPortfolioPromotionDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 107,
+        "name": "Event108",
+        "next": 104,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 109,
+            "value": 1
+          }
+        ],
+        "index": 108,
+        "name": "Event109",
+        "params": {},
+        "query": "EventFlowQueryIsPlayingOn",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "v300_SkipSNS",
+        "flowchart": "",
+        "index": 109,
+        "name": "Event112",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "System_WherearenResortPlannerMyPage",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "51d892583965f4fcc0cf77c60328a2871acc1e5f78af0266b73f29f8fa8a7cc0",
+  "size": 15472,
+  "status": "converted"
+}

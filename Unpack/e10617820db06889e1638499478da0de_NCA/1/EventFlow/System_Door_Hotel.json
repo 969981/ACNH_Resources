@@ -1,0 +1,138 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionReleaseVersionFile",
+          "EventFlowActionSetCheckResultStructureDoor",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsDuringBusinessHours",
+          "EventFlowQueryNetIsDreaming"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 7,
+    "event_flow_name": "System_Door_Hotel",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "Type": "Hotel"
+        },
+        "query": "EventFlowQueryIsDuringBusinessHours",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReleaseVersionFile",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 4,
+        "params": {
+          "ReleaseVersion": 30000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "CheckResult": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Door:1001"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_Door_Hotel",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "bb85592589499a3bc31e9ea341b7b8127343e276037d7bbae5b9a6a546dd944d",
+  "size": 1816,
+  "status": "converted"
+}

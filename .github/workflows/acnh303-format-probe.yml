@@ -1,0 +1,58 @@
+name: ACNH 3.0.3 Assets Format Probe
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths:
+      - "scripts/probe_acnh303.py"
+      - "scripts/acnh303_bdli.py"
+      - "scripts/test_acnh303_bdli.py"
+      - "scripts/acnh303_asset_batch.py"
+      - ".github/workflows/acnh303-format-probe.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/*
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_Article.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_BestFriendNotice.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/TalkNNpc/CNzh/AN_ApproachA_Always.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Stage/commonPlayerHouse.byml
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Effect/Park_Idr.Nin_NX_NVN.szs
+            /e10617820db06889e1638499478da0de_NCA/1/Shader/Park_Proc.Nin_NX_NVN.release.szs
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/AirportDemoAirplaneShadow.bars
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/1PArbeitExplain5.bfevfl
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Dependencies
+        run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Native BDLI three real fixture tests
+        run: python -m unittest discover -s scripts -p "test_acnh303_bdli.py" -v
+      - name: Inspect formats and parse real BFEVFL
+        run: python scripts/probe_acnh303.py
+      - name: Execute real source parsing for six categories
+        run: |
+          for group in Model Layout Effect Shader Sound EventFlow BDLI Misc; do
+            python scripts/acnh303_asset_batch.py --root . --group "$group" --out Unpack_Batch --report-dir reports
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-probe-decoded
+          path: |
+            reports/
+            Unpack_Batch/
+          if-no-files-found: warn
+          retention-days: 7

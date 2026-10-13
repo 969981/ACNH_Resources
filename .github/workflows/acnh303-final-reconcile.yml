@@ -1,0 +1,48 @@
+name: ACNH 3.0.3 Final L0-L2 SHA-256 Reconciliation
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths: [".github/workflows/acnh303-final-reconcile.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Retrieve the immutable original 103400-file Git Trees inventory
+        run: |
+          mkdir -p derived/3.0.3/inventory
+          curl -fL --retry 3 -sS \
+          -o derived/3.0.3/inventory/source_manifest.csv.gz \
+          "https://raw.githubusercontent.com/969981/ACNH_Resources/3.0.3/derived/3.0.3/inventory/source_manifest.csv.gz"
+      - name: Replace 1242 old parser failures with rerun source-hash-matched records
+        run: |
+          python -m py_compile scripts/reconcile_acnh303.py
+          python scripts/reconcile_acnh303.py --root .
+      - name: Persist full coverage and corrected parser status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/effective
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(acnh303): verified 103400-file SHA-256 status, no parser failures after fixes"
+          for attempt in 1 2 3 4; do
+            git fetch origin feat/acnh303-assets-eventflow
+            git rebase origin/feat/acnh303-assets-eventflow
+            if git push origin HEAD:feat/acnh303-assets-eventflow; then exit 0; fi
+            sleep 2
+          done
+          exit 1

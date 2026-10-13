@@ -1,0 +1,579 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcAdd"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcCheckPastDays",
+          "EventFlowQueryNpcIsFleaHolder"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionSetCheckResultConvReaction"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsInsectChasingPlayer",
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcCheckPastDays",
+          "EventFlowQueryNpcIsFleaHolder"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 22
+        },
+        "main_event": 8,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 4,
+        "name": "Check_ConvReaction"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 23,
+        "name": "Situation_Spot"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 29,
+        "name": "Facility_Chk"
+      }
+    ],
+    "event_count": 42,
+    "event_flow_name": "NNPC_Talk_Situation",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event23",
+        "params": {
+          "CheckInsect": 0
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 30
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultConvReaction",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "CheckResult": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultConvReaction",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event31",
+        "next": 0,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 5,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cLastTalk",
+          "Border": 30
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_1P_LifeStart",
+        "index": 7,
+        "name": "Event4",
+        "next": 14,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_GEvent_Quest",
+        "index": 8,
+        "name": "Event13",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Run",
+        "index": 9,
+        "name": "Event14",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_First_Root",
+        "index": 10,
+        "name": "Event15",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Missing",
+        "index": 11,
+        "name": "Event16",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Mood",
+        "index": 12,
+        "name": "Event17",
+        "next": 13,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Beeface",
+        "index": 13,
+        "name": "Event18",
+        "next": 7,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_NewYear",
+        "index": 14,
+        "name": "Event19",
+        "next": 41,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Talk_GEvent",
+        "index": 15,
+        "name": "Event22",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Quest",
+        "index": 16,
+        "name": "Event29",
+        "next": 39,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Itching",
+        "index": 17,
+        "name": "Event30",
+        "next": 37,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Sitting",
+        "index": 18,
+        "name": "Event32",
+        "next": 20,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_GEvent_BirthdayP",
+        "index": 19,
+        "name": "Event2",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_EarlyLate",
+        "index": 20,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryNpcIsFleaHolder",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNpcIsFleaHolder",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_First_Root",
+        "index": 23,
+        "name": "Event3",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Missing",
+        "index": 24,
+        "name": "Event6",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Quest",
+        "index": 25,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_GEvent_BirthdayP",
+        "index": 26,
+        "name": "Event8",
+        "next": 25,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MoveOut",
+        "flowchart": "NNPC_Reaction_Moving",
+        "index": 27,
+        "name": "Event9",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MoveIn",
+        "flowchart": "NNPC_Reaction_Moving",
+        "index": 28,
+        "name": "Event10",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event11",
+        "params": {
+          "CheckStage": "cMuseumInsect"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event12",
+        "params": {
+          "CheckStage": "cMuseumFish"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event21",
+        "params": {
+          "CheckStage": "cMuseumFossil"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event33",
+        "params": {
+          "CheckStage": "cMametubu"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          }
+        ],
+        "index": 33,
+        "name": "Event34",
+        "params": {
+          "CheckStage": "cTailor"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcAdd",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkCountInFacilityToday",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Receive",
+        "index": 35,
+        "name": "Event36",
+        "next": 15,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pumpking_Look",
+        "flowchart": "NNPC_Reaction_GEvent_Halloween",
+        "index": 36,
+        "name": "Event37",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reaction_GEvent_Christmas",
+        "flowchart": "NNPC_Reaction_GEvent_Christmas",
+        "index": 37,
+        "name": "Event38",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Birthday_Judge",
+        "flowchart": "NNPC_Talk_GEvent",
+        "index": 38,
+        "name": "Event40",
+        "next": 26,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_AfterCoordinateNpcHouse",
+        "index": 39,
+        "name": "Event41",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_Cooking",
+        "index": 40,
+        "name": "Event44",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_DIY",
+        "index": 41,
+        "name": "Event20",
+        "next": 40,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Talk_Situation",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f028df91ab872c37bc7a93230d257a45bd4a7c8e8ad84e0c5053bf2bf4cb915e",
+  "size": 5888,
+  "status": "converted"
+}

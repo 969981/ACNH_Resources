@@ -1,0 +1,729 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcOpenFreeMessage",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSelectFreeCFurnitureFurniture",
+          "EventFlowActionSetItemName",
+          "EventFlowActionNpcSelectFreeTalk",
+          "EventFlowActionEventFlagNpcSet",
+          "EventFlowActionSetNpcName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcHasFreeMessage",
+          "EventFlowQueryNpcIsExistOtherNpc",
+          "EventFlowQueryIsNnpcTent"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryNowRoomFtrNum",
+          "EventFlowQuerySystemCountPlayerNum",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryExistAnyItemInNowRoom"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 2,
+        "name": "Furniture_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 37,
+        "name": "FunitureN_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 43,
+        "name": "FunitureP_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 24,
+        "name": "Room_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 15,
+        "name": "RoomN_Chk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 32,
+        "name": "RoomN_withG"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 27,
+        "name": "RoomP"
+      }
+    ],
+    "event_count": 44,
+    "event_flow_name": "NNPC_FreeC",
+    "events": [
+      {
+        "entrypoint": "FunitureN_Chk",
+        "flowchart": "",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FunitureP_Chk",
+        "flowchart": "",
+        "index": 1,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event32",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event33",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event34",
+        "next": 31,
+        "params": {
+          "OpenMessageType": "cFreeCFurniture"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event40",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomG:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectFreeCFurnitureFurniture",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event41",
+        "next": 8,
+        "params": {
+          "SelectType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event42",
+        "params": {
+          "QueryMessageType": "cFreeCFurniture"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event43",
+        "next": 7,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 13,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event44",
+        "params": {
+          "QueryMessageType": "cFreeCFurniture"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectFreeCFurnitureFurniture",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event45",
+        "next": 12,
+        "params": {
+          "SelectType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event49",
+        "next": 41,
+        "params": {
+          "OpenMessageType": "cFreeCFurniture"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event50",
+        "next": 9,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 13,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event51",
+        "params": {
+          "Count": 1
+        },
+        "query": "EventFlowQueryNowRoomFtrNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectFreeTalk",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event46",
+        "next": 42,
+        "params": {
+          "IsCheckAttr": true,
+          "MessageID0": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event55",
+        "params": {
+          "Border": 2
+        },
+        "query": "EventFlowQuerySystemCountPlayerNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event56",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event57",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event58",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event59",
+        "params": {},
+        "query": "EventFlowQueryNpcIsExistOtherNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event60",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event61",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event62",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomH:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          },
+          {
+            "target": 22,
+            "value": 2
+          }
+        ],
+        "index": 23,
+        "name": "Event63",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event64",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event65",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RoomN_Chk",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event66",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectFreeTalk",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event67",
+        "next": 33,
+        "params": {
+          "IsCheckAttr": true,
+          "MessageID0": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomG",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event68",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          }
+        ],
+        "index": 29,
+        "name": "Event53",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event54",
+        "next": 34,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkReSelectLast",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event4",
+        "next": 23,
+        "params": {
+          "ID": 1,
+          "NpcNameType": 16
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event5",
+        "next": 28,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkReSelectLast",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RoomN_Chk",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsNnpcTent",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RoomP",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RoomP",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HouseQuestions_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 40,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryExistAnyItemInNowRoom",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeC",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6982c3e8fb8ac2ab4cf03ade523c4890fb91b73d4e329b10674f6d2b286e080d",
+  "size": 9624,
+  "status": "converted"
+}

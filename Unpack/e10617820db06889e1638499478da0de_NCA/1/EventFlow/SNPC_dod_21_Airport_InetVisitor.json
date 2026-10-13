@@ -1,0 +1,1818 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionMessageUnlockNext",
+          "EventFlowActionUISoftwareKeyboardPasswordHandling",
+          "EventFlowActionNetFindSessionVillage",
+          "EventFlowActionOpenVillageList",
+          "EventFlowActionNetJoinSessionVillage",
+          "EventFlowActionNetDemoLock",
+          "EventFlowActionNetEndSessionVillage",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIVersionGuideDisappear",
+          "EventFlowActionUIVersionGuideAppear",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryNetFoundVillageNum",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryNetIsDecidedVillage",
+          "EventFlowQueryNetAllSessionIsFull",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryNetIsNeedPassword",
+          "EventFlowQueryNetHasFriend",
+          "EventFlowQueryNetLockFailReason",
+          "EventFlowQueryNetIsFriendOnlySession",
+          "EventFlowQueryNetFindOnlyOneSessionIsOver8NX"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryHotelMannequinIsRentalAny"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 27
+        },
+        "main_event": 79,
+        "name": "EntryPoint_ResearchInet"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 11
+        },
+        "main_event": 77,
+        "name": "EntryPoint_RockRetryInet"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 34
+        },
+        "main_event": 93,
+        "name": "EntryPoint_InetVisitor"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 27
+        },
+        "main_event": 85,
+        "name": "EntryPoint_Reinput_Keyword"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 30
+        },
+        "main_event": 3,
+        "name": "EntryPoint_Reselect"
+      }
+    ],
+    "event_count": 135,
+    "event_flow_name": "SNPC_dod_21_Airport_InetVisitor",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event5",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:130"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 2,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event18",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_41_MultiPlayInet:500"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          },
+          {
+            "target": 55,
+            "value": 2
+          }
+        ],
+        "index": 4,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 5,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event21",
+        "next": 72,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event22",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_41_MultiPlayInet:600"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 9,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event26",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetFindSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event27",
+        "next": 13,
+        "params": {
+          "Type": "cFriend"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event28",
+        "next": 73,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event29",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event30",
+        "next": 75,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event31",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetFindSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event32",
+        "next": 18,
+        "params": {
+          "Type": "cPassword"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event33",
+        "next": 73,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event34",
+        "next": 17,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          },
+          {
+            "target": 88,
+            "value": 2
+          }
+        ],
+        "index": 19,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryNetFoundVillageNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event36",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 22,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event40",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 53,
+            "value": 2
+          }
+        ],
+        "index": 25,
+        "name": "Event41",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event42",
+        "next": 117,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenVillageList",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event43",
+        "next": 114,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event45",
+        "next": 31,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetJoinSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event46",
+        "next": 32,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event47",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDemoLock",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event48",
+        "next": 34,
+        "params": {
+          "Situation": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 103,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event49",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event50",
+        "next": 40,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event51",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:109"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event52",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          }
+        ],
+        "index": 37,
+        "name": "Event53",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event54",
+        "next": 39,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event55",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event56",
+        "next": 78,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_RockRetryInet",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event57",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event58",
+        "next": 43,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 43,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 56,
+            "value": 2
+          }
+        ],
+        "index": 44,
+        "name": "Event61",
+        "params": {},
+        "query": "EventFlowQueryNetIsDecidedVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 45,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 46,
+        "name": "Event63",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event64",
+        "next": 74,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event65",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetFindSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event66",
+        "next": 51,
+        "params": {
+          "Type": "cRetry"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event67",
+        "next": 73,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event68",
+        "next": 50,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event69",
+        "next": 22,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event70",
+        "next": 46,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event72",
+        "next": 9,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event73",
+        "next": 5,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event74",
+        "next": 45,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 57,
+        "name": "Event82",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event83",
+        "params": {},
+        "query": "EventFlowQueryNetAllSessionIsFull",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event84",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event85",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event86",
+        "next": 70,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 62,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 63,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event2",
+        "next": 63,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuFriendList"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event60",
+        "params": {},
+        "query": "EventFlowQueryNetHasFriend",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event75",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_41_MultiPlayInet:220"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event76",
+        "next": 67,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Depart",
+        "flowchart": "SNPC_dod_30_Airport_DepartVisitor",
+        "index": 69,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 70,
+        "name": "Event78",
+        "next": 97,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PostProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 71,
+        "name": "Event92",
+        "next": 98,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 72,
+        "name": "Event93",
+        "next": 10,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PostProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 73,
+        "name": "Event94",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 74,
+        "name": "Event95",
+        "next": 48,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 75,
+        "name": "Event96",
+        "next": 15,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 76,
+        "name": "Event98",
+        "next": 29,
+        "params": {
+          "ContinueAS": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 77,
+        "name": "Event99",
+        "next": 38,
+        "params": {
+          "ContinueAS": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PostProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 78,
+        "name": "Event100",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event97",
+        "params": {
+          "Type": "cNeedPassword"
+        },
+        "query": "EventFlowQueryNetIsNeedPassword",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Reinput_Keyword",
+        "flowchart": "",
+        "index": 80,
+        "name": "Event101",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 132,
+            "value": 0
+          },
+          {
+            "target": 131,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event104",
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "LandMakingRemove_Visitor",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 82,
+        "name": "Event105",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUISoftwareKeyboardPasswordHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 83,
+        "name": "Event103",
+        "next": 8,
+        "params": {
+          "IsClearString": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISoftwareKeyboardPasswordHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event106",
+        "next": 8,
+        "params": {
+          "IsClearString": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event23",
+        "next": 83,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event102",
+        "next": 7,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event107",
+        "next": 14,
+        "params": {
+          "InType": "cNormal",
+          "Mount": "cOn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event108",
+        "next": 26,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event110",
+        "next": 81,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event111",
+        "next": 68,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event112",
+        "next": 92,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:092"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event113",
+        "next": 94,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_Msg:0804"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event114",
+        "params": {
+          "AccessKey": "cPlayer:OdekakeFirstInternet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event115",
+        "next": 0,
+        "params": {
+          "AccessKey": "cPlayer:OdekakeFirstInternet"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_Hint_Going",
+        "flowchart": "SNPC_dod_11_Airport_LocalVisitor",
+        "index": 95,
+        "name": "Event123",
+        "next": 96,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event124",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "UserRegist",
+        "flowchart": "System_ServerRegistration",
+        "index": 97,
+        "name": "Event117",
+        "next": 71,
+        "params": {
+          "Terminate": true,
+          "WithLogin": true,
+          "WithSave": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 98,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cPlayer:UploadPlayerProfileIllegal"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:ImprovePlayerProfile"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_41_MultiPlayInet:700"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 101,
+        "name": "Event10",
+        "next": 100,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_dod_22_Airport_InstallFriendList",
+        "index": 102,
+        "name": "Event11",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 104,
+            "value": 1
+          },
+          {
+            "target": 113,
+            "value": 2
+          }
+        ],
+        "index": 103,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryNetLockFailReason",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event13",
+        "next": 105,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:140"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event14",
+        "next": 106,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:150"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 109,
+            "value": 0
+          },
+          {
+            "target": 107,
+            "value": 1
+          }
+        ],
+        "index": 106,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 107,
+        "name": "Event16",
+        "next": 108,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 108,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Reselect",
+        "flowchart": "",
+        "index": 109,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 111,
+            "value": 0
+          },
+          {
+            "target": 76,
+            "value": 1
+          }
+        ],
+        "index": 110,
+        "name": "Event80",
+        "params": {
+          "Type": "cFriendOnly"
+        },
+        "query": "EventFlowQueryNetIsFriendOnlySession",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 112,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event81",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuFriendList"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_dod_22_Airport_InstallFriendList",
+        "index": 112,
+        "name": "Event118",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event119",
+        "next": 105,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_41_MultiPlayInet:550"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 118,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event121",
+        "params": {
+          "AccessKey": "cPlayerTemp:AirportTripListError"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 115,
+        "name": "Event122",
+        "next": 116,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 116,
+        "name": "Event125",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 117,
+        "name": "Event120",
+        "next": 27,
+        "params": {
+          "AccessKey": "cPlayerTemp:AirportTripListError"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 118,
+        "name": "Event126",
+        "next": 44,
+        "params": {
+          "InType": "cNormal",
+          "Mount": "cOn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event109",
+        "params": {},
+        "query": "EventFlowQueryNetFindOnlyOneSessionIsOver8NX",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 120,
+        "name": "Event127",
+        "next": 121,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:105_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 122,
+            "value": 1
+          },
+          {
+            "target": 126,
+            "value": 2
+          }
+        ],
+        "index": 121,
+        "name": "Event128",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event129",
+        "next": 124,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:105_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 123,
+        "name": "Event130",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event131",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:105_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 125,
+        "name": "Event132",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 126,
+        "name": "Event133",
+        "next": 125,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 127,
+        "name": "Event134",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel_Nega",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 128,
+        "name": "Event135",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 129,
+        "name": "Event136",
+        "next": 128,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_ResearchInet",
+        "flowchart": "",
+        "index": 130,
+        "name": "Event137",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 133,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 131,
+        "name": "Event138",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 132,
+        "name": "Event139",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RentalMannequinCodeRemove",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 133,
+        "name": "Event145",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "LandMakingRemove_Visitor",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 134,
+        "name": "Event140",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_dod_21_Airport_InetVisitor",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "36ee635989edca779a8d7161d28d967cfbc9b853f60d242afdbf802265140548",
+  "size": 21344,
+  "status": "converted"
+}

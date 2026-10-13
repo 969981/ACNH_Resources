@@ -1,0 +1,893 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionStoreNormalCamera",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryWherearenShopLoan",
+          "EventFlowQuerySubflowResultChoice2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionShopCheckItemSet",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionShopBuyDone",
+          "EventFlowActionNpcSetAIBlackBoard"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryShopHasBellCount"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 45,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 46,
+        "name": "CheckChoco"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 56,
+        "name": "PreCheck"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 17,
+        "name": "PreProcess"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 49,
+        "name": "SetTalkCamera"
+      }
+    ],
+    "event_count": 59,
+    "event_flow_name": "SNPC_man_02_WherearenOffice_ItemCheck",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event21",
+        "next": 2,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqManTalkAboutCatalogShop"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqManTalkAboutChocolate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event29",
+        "next": 29,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqManTalkAboutChocolate"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event31",
+        "params": {
+          "Rate": 3.0
+        },
+        "query": "EventFlowQueryShopHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event32",
+        "params": {
+          "CapacityCheckType": "cWherearenItem3",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionShopBuyDone",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event33",
+        "next": 37,
+        "params": {
+          "Flag1": false,
+          "Flag2": true,
+          "Flag3": false,
+          "Set5": false,
+          "UseTailorTicket": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event40",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event42",
+        "next": 47,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event43",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event10",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event27",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cWherearenPlayer:OtgGetStartingSalary"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event45",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PreCheck",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event48",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionShopCheckItemSet",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event49",
+        "next": 19,
+        "params": {
+          "BlackBoardKey": "CheckItemIndex",
+          "ShopType": "cWherearenOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event50",
+        "next": 20,
+        "params": {
+          "TagID": 0,
+          "TagType": "cWherearenItemPrice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event51",
+        "next": 18,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event52",
+        "next": 21,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 21,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event54",
+        "next": 12,
+        "params": {
+          "TagID": 1,
+          "TagType": "cWherearenItem3Price"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PreProcess",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event56",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PreCheck",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event57",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PreProcess",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event59",
+        "next": 22,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 9,
+            "value": 2
+          }
+        ],
+        "index": 26,
+        "name": "Event58",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event4",
+        "params": {
+          "Rate": 1.0
+        },
+        "query": "EventFlowQueryShopHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event9",
+        "next": 30,
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_ManDeferredPayment"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event19",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event20",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionShopBuyDone",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event36",
+        "next": 37,
+        "params": {
+          "Flag1": false,
+          "Flag2": false,
+          "Flag3": false,
+          "Set5": false,
+          "UseTailorTicket": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event37",
+        "params": {
+          "CapacityCheckType": "cWherearenItem",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DeferredPaymentChk",
+        "flowchart": "SNPC_man_01_WherearenOffice",
+        "index": 33,
+        "name": "Event34",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ManCatalogChk",
+        "flowchart": "SNPC_man_01_WherearenOffice",
+        "index": 34,
+        "name": "Event35",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event38",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event39",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event15",
+        "next": 53,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event8",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          }
+        ],
+        "index": 40,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_ManDeferredPayment"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryWherearenShopLoan",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionShopBuyDone",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event61",
+        "next": 44,
+        "params": {
+          "Flag1": true,
+          "Flag2": false,
+          "Flag3": false,
+          "Set5": false,
+          "UseTailorTicket": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event68",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event75",
+        "next": 24,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event76",
+        "next": 16,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          }
+        ],
+        "index": 47,
+        "name": "Event77",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event79",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/man/SP_man_WherearenOffice:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStoreNormalCamera",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event60",
+        "next": 50,
+        "params": {
+          "CameraInterpolateKey": "",
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "WaitFrame": 25
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetTalkCamera",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event70",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetTalkCamera",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event80",
+        "next": 39,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetTalkCamera",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event81",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event14",
+        "next": 34,
+        "params": {
+          "Key": "IsNodding",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event16",
+        "next": 58,
+        "params": {
+          "Key": "IsNodding",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cWherearenPlayer:ManGenerateInFieldTemp"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event3",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Wherearen_OfficeShop:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event7",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayer:OtgTipsExplainManCatalog"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_man_02_WherearenOffice_ItemCheck",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "84cf9604cbafe81f77e52a71133a45b4c4db2d152b7a3b9817e013fa953971d0",
+  "size": 12592,
+  "status": "converted"
+}

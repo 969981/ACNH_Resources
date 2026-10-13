@@ -1,0 +1,140 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionSetItemToPocket"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemHasBaggageSpace"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionFtrCrsSocksRemovePresent"
+        ],
+        "argument_name": "",
+        "identifier": "Ftr",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "Ftr_CrsSocksWall",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 0,
+        "name": "Event2",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkFtr/FTR_CrsSocksWall:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkFtr/FTR_CrsSocksWall:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event9",
+        "next": 4,
+        "params": {
+          "ItemUniqueId": 13862,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "EntryPointName": "GetDemo_NpcSpReiPhoto",
+          "EventFileName": "Player_GetDemo_MileExchange",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNextDemoEnd_GetItem"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFtrCrsSocksRemovePresent",
+        "actor": "Ftr",
+        "index": 5,
+        "name": "Event6",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_CrsSocksWall",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "82bf41b09bcd84cc954cde7edba1c95ac23502886b26ae0ffafef93926cdbab3",
+  "size": 2312,
+  "status": "converted"
+}
