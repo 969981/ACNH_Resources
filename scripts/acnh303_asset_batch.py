@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import struct
 import tempfile
+import traceback
 from datetime import datetime, timezone
 
 from acnh_formats import FormatError, bounded, detect, decompress, parse_bcsv, parse_byml, parse_msbt, parse_sarc, safe_member_name
@@ -273,7 +274,7 @@ class Batch:
         except (OSError, ValueError, AssertionError, MemoryError, RecursionError) as exc:
             self.failed += 1
             result["status"] = "failed"
-            result["notes"] = f"{type(exc).__name__}: {exc}"
+            result["notes"] = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__, limit=8))[-1800:]
         self.rows.append(result)
 
     def finish(self, output_report: Path, batch_id: str = "single"):
