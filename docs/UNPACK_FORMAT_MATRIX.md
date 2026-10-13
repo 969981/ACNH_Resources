@@ -4,6 +4,7 @@
 
 | 原文件/魔数 | 实际资源链 | 预期标准输出 | 工具优先候选 | 当前证据/限制 |
 | --- | --- | --- | --- | --- |
+| `.bdli.zs` / Zstd→BDLI | BDLI 多语言对话/结构 chunk，实测内含 `LBLI` | .bdli + 可证明结构 JSON/CSV | U14 专用 parser（待研发） | **36,708** 源文件、91,771,187 B；严禁错当 MSBT/SARC |
 | `.bcsv` / VSCB | 表头、哈希字段、行数据 | .csv + .json | 现有 acnh_formats.py | 234 个已在 3.0.3 主分支转换；哈希没有原始列名/类型 |
 | `.byml` / YB,BY | BYML typed nodes | .json | 现有 acnh_formats.py | 首批 275 已转换 |
 | `.sarc.zs` / zstd | zstd→SARC→MSBT/other | .sarc + members + .json/.csv | 现有脚本 | 两个中文样本已发布，其余语言需要批处理 |
