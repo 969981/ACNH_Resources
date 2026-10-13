@@ -1,0 +1,787 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionShopBuyDone"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionUISonkatsuPointAppear",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionLifeSupportPointCountDown",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionUISonkatsuPointDisappear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryHasLifeSupportPoint",
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUIShopBuyDisappear",
+          "EventFlowActionUIShopBuyAppear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[UI]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 40,
+        "name": "Root"
+      },
+      {
+        "main_event": 8,
+        "name": "DocCmnCancel"
+      },
+      {
+        "main_event": 47,
+        "name": "ExchangeCancel"
+      },
+      {
+        "main_event": 45,
+        "name": "CloseUI"
+      },
+      {
+        "main_event": 38,
+        "name": "FaintEntry"
+      },
+      {
+        "main_event": 53,
+        "name": "Root_Init"
+      }
+    ],
+    "event_count": 55,
+    "event_flow_name": "SNPC_doc_50_MysteryTour",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cPlayerTemp:DodTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 12,
+        "params": {
+          "AccessKey": "cPlayerTemp:DodTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          },
+          {
+            "target": 8,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event7",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cDALWithLoadWait",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cFromOutlierToHomeland"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event13",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event14",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DocCmnCancel",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:DocMysterytourExplain1st"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event16",
+        "next": 14,
+        "params": {
+          "AccessKey": "cPlayer:DocMysterytourExplain1st"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event4",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event5",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:001_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event3",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyAppear",
+        "actor": "EventFlowSystemActor[UI]",
+        "index": 16,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "ItemBitType": "cRodly"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event17",
+        "next": 33,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event29",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event42",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ExchangeCancel",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event23",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event28",
+        "params": {
+          "LifeSupportPointCheckType": "Now",
+          "Point": 100
+        },
+        "query": "EventFlowQueryHasLifeSupportPoint",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event19",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event21",
+        "next": 29,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event22",
+        "next": 32,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event26",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CloseUI",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event27",
+        "next": 34,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event32",
+        "next": 25,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 100
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionShopBuyDone",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event15",
+        "next": 30,
+        "params": {
+          "Flag1": false,
+          "Flag2": false,
+          "Flag3": false,
+          "Set5": false,
+          "UseTailorTicket": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event33",
+        "next": 36,
+        "params": {
+          "BGMProperty": 76
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event36",
+        "next": 37,
+        "params": {
+          "AssetKeyName": "Airplane_Takeoff_Short",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event38",
+        "next": 5,
+        "params": {
+          "AccessKey": "cLandTemp:DocReturnFromIsland"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event39",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_51_MysteryTour:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:DodTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event41",
+        "next": 42,
+        "params": {
+          "AccessKey": "cPlayer:RcoMachineExplainAboutPlaneTicket"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionLifeSupportPointCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event35",
+        "next": 48,
+        "params": {
+          "Point": -100,
+          "Reverse": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event57",
+        "params": {
+          "CheckStage": "cCheckStageSymbol01"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_doc_54_MayDayTour",
+        "index": 43,
+        "name": "Event49",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopBuyDisappear",
+        "actor": "EventFlowSystemActor[UI]",
+        "index": 44,
+        "name": "Event52",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          52,
+          44
+        ],
+        "index": 45,
+        "join": 46,
+        "name": "Event59",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 46,
+        "name": "Event60",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "entrypoint": "CloseUI",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event18",
+        "next": 20,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CloseUI",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event30",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUISonkatsuPointAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          49,
+          16
+        ],
+        "index": 50,
+        "join": 51,
+        "name": "Event47",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 51,
+        "name": "Event48",
+        "next": 19,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionUISonkatsuPointDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          }
+        ],
+        "index": 53,
+        "name": "Event51",
+        "params": {
+          "Border": 1,
+          "Key": "SceneReenter"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:DodTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_doc_50_MysteryTour",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0cfbf5a4266aa6e7b0121970c8bafb6b9dde7b93e70322a0d856219828b85422",
+  "size": 12184,
+  "status": "converted"
+}

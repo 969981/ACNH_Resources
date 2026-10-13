@@ -1,0 +1,1390 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionMessageSuspend"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetItemName",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcSetRewardRecipe",
+          "EventFlowActionEventFlagNpcSet",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryIsNpcDIYRecipeCollected",
+          "EventFlowQueryIsInTheActOfDIY",
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryIsDIYHalloweenItem",
+          "EventFlowQueryIsDIYItemFenceHalloween",
+          "EventFlowQueryIsDIYOrnamentItem"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 18,
+        "name": "Root"
+      },
+      {
+        "main_event": 25,
+        "name": "DIY_Item_Full"
+      },
+      {
+        "main_event": 2,
+        "name": "DIY_AfterItemGet"
+      },
+      {
+        "main_event": 45,
+        "name": "DIY_PumpkinFtr"
+      },
+      {
+        "main_event": 41,
+        "name": "DIY_GetItem"
+      },
+      {
+        "main_event": 63,
+        "name": "DIY_Ornament"
+      },
+      {
+        "main_event": 86,
+        "name": "DIY_GetItem_Ornament"
+      }
+    ],
+    "event_count": 95,
+    "event_flow_name": "NNPC_Reaction_DIY",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event43",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event44",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event48",
+        "next": 31,
+        "params": {
+          "AccessKey": "cNpcMemory:GotRecipeorMaterial"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event49",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event52",
+        "params": {
+          "AccessKey": "cNpcMemory:GotRecipeorMaterial"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event53",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event54",
+        "next": 4,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 16,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event56",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event57",
+        "params": {},
+        "query": "EventFlowQueryIsNpcDIYRecipeCollected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event58",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event59",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event64",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event65",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event66",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event67",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cNpcMemory:GotMaterialItemFull"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event87",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryIsInTheActOfDIY",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Conceal_NpcHouseBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 19,
+        "name": "Event92",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event93",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event51",
+        "next": 30,
+        "params": {
+          "DIYNpcItem": true,
+          "ItemUniqueId": 65534
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event55",
+        "next": 39,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event60",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event61",
+        "params": {
+          "CapacityCheckType": "cNpcTrade",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event62",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event63",
+        "next": 29,
+        "params": {
+          "AccessKey": "cNpcMemory:GotMaterialItemFull"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event76",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event91",
+        "params": {},
+        "query": "EventFlowQueryIsNpcDIYRecipeCollected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event83",
+        "next": 24,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event47",
+        "next": 32,
+        "params": {
+          "AccessKey": "cPlayerTemp:GotRecipeorMaterial"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event50",
+        "next": 94,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkDIY"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event2",
+        "params": {
+          "Percent": 70
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event7",
+        "next": 60,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13197,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event8",
+        "next": 59,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4525,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event10",
+        "params": {
+          "CapacityCheckType": "cNpcTrade",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DIY_Item_Full",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DIY_PumpkinFtr",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event18",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryIsDIYHalloweenItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event24",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 81,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event27",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event31",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event32",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 67,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryIsDIYHalloweenItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event25",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event26",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:035"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event34",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:037"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DIY_GetItem",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event5",
+        "next": 79,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event23",
+        "next": 36,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event30",
+        "next": 9,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DIY_AfterItemGet",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event38",
+        "next": 58,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event40",
+        "next": 55,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13197,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event41",
+        "next": 55,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4525,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event42",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event45",
+        "next": 35,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event68",
+        "next": 34,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event1",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event4",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 62,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsDIYItemFenceHalloween",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cPlayer:EnableDiyRemake"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event12",
+        "next": 64,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event15",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event16",
+        "next": 71,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DIY_Ornament",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event39",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event69",
+        "params": {},
+        "query": "EventFlowQueryIsDIYOrnamentItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event75",
+        "params": {
+          "CapacityCheckType": "cNpcTrade",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DIY_Item_Full",
+        "flowchart": "",
+        "index": 69,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event85",
+        "next": 68,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DIY_AfterItemGet",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event90",
+        "next": 74,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 73,
+        "name": "Event78",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event72",
+        "next": 65,
+        "params": {
+          "ID": 1,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event74",
+        "next": 70,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5731,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event81",
+        "next": 70,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5730,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event82",
+        "next": 70,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5732,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event71",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DIY_GetItem_Ornament",
+        "flowchart": "",
+        "index": 79,
+        "name": "Event84",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event96",
+        "next": 72,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 53,
+            "value": 0
+          }
+        ],
+        "index": 81,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event95",
+        "next": 75,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event97",
+        "next": 76,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event98",
+        "next": 77,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event99",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 4,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 86,
+        "name": "Event100",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 3,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          }
+        ],
+        "index": 87,
+        "name": "Event101",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenDIYGetItem",
+          "Border": 5,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event22",
+        "next": 70,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_DIY:043"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event86",
+        "next": 88,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5731,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event102",
+        "next": 88,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5730,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event103",
+        "next": 88,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 5732,
+          "RemakePatternIndex": 0,
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event104",
+        "next": 52,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event105",
+        "next": 22,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event107",
+        "next": 3,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_DIY",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "3ebdab3c25c55ada69ad6e48c8d86a8eac7b665c8da16a0084b124bc64359eda",
+  "size": 20520,
+  "status": "converted"
+}

@@ -1,0 +1,291 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeBlockWanderState",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcAISetPos"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard",
+          "EventFlowQueryCanMoveUnit",
+          "EventFlowQueryCheckCurrentNpcAIState"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckEventStateAtSceneCreateTime"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 7,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      }
+    ],
+    "event_count": 14,
+    "event_flow_name": "AI_NPC_Pkn",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 4,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 6,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_pkn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_pkn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": 10,
+        "params": {
+          "Key": "ForceVisible",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event8",
+        "params": {
+          "Border": 1,
+          "Key": "ForceVisible"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event9",
+        "next": 5,
+        "params": {
+          "Key": "ForceVisible",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          },
+          {
+            "target": 5,
+            "value": 3
+          }
+        ],
+        "index": 7,
+        "name": "Event10",
+        "params": {
+          "EventLabelString": "Halloween"
+        },
+        "query": "EventFlowQueryCheckEventStateAtSceneCreateTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event4",
+        "params": {
+          "IsCheckCliffLevel": true,
+          "IsExpandArea": false
+        },
+        "query": "EventFlowQueryCanMoveUnit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event5",
+        "next": 12,
+        "params": {
+          "IsUseCreateOffset": false,
+          "SetAngle": 0.0,
+          "SetPosX": 0.0,
+          "SetPosZ": 0.0,
+          "isUseEventPlazaOffset": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "Key": "AfterAnnouncement",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event14",
+        "params": {
+          "Border": 1,
+          "Key": "AfterAnnouncement"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event11",
+        "next": 2,
+        "params": {
+          "Key": "AfterAnnouncement",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event12",
+        "params": {
+          "StateName": "cInvisible"
+        },
+        "query": "EventFlowQueryCheckCurrentNpcAIState",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Pkn",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "02a0b00beaa4c87ff5f9a3f998998abe6e88c98620e32a419451afc4cdaaa4dd",
+  "size": 5208,
+  "status": "converted"
+}

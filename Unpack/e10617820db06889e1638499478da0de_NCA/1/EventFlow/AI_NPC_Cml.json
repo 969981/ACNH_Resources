@@ -1,0 +1,159 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeBlockWanderState",
+          "EventFlowActionNpcChangeInvisibleState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEnvHourCompare"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "AI_NPC_Cml",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 1,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_cml"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_cml"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 3,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Cml",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "190fff917053f3686d5918b0ba04d2fecf110bb9242c843cd9e6c9eaa433cfb2",
+  "size": 3168,
+  "status": "converted"
+}

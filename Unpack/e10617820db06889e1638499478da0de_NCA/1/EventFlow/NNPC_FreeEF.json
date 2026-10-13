@@ -1,0 +1,1637 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcOpenFreeMessage",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcHasFreeMessage",
+          "EventFlowQueryNpcLivingDays",
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryIsNnpcTent"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetTagFromSystem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryEnvSameDate",
+          "EventFlowQueryCurrentRegionLanguage",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryGlobalEventNow",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryEnvHourOverGrowUp",
+          "EventFlowQueryRandomChoiceExcludePrevious5",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryHalloweenFtrNum",
+          "EventFlowQueryEnvCheckBetweenDate",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryCheckNearEvent",
+          "EventFlowQueryRandomChoiceExcludePrevious4"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 24,
+        "name": "FreeF_Chk"
+      },
+      {
+        "main_event": 7,
+        "name": "Event_Chk"
+      },
+      {
+        "main_event": 92,
+        "name": "HHA_Chk"
+      },
+      {
+        "main_event": 29,
+        "name": "Snpc_Chk"
+      },
+      {
+        "main_event": 25,
+        "name": "ChineseZodiac"
+      },
+      {
+        "main_event": 33,
+        "name": "MultiDayEvent_Easter"
+      },
+      {
+        "main_event": 14,
+        "name": "FreeF_Main"
+      },
+      {
+        "main_event": 52,
+        "name": "MultiDayEvent_EarthDay"
+      },
+      {
+        "main_event": 63,
+        "name": "MultiDayEvent_Halloween"
+      },
+      {
+        "main_event": 80,
+        "name": "MultiDayEvent_Christmas"
+      }
+    ],
+    "event_count": 99,
+    "event_flow_name": "NNPC_FreeEF",
+    "events": [
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 30,
+        "params": {
+          "OpenMessageType": "cFreeESnpc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "QueryMessageType": "cFreeEEvent"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "QueryMessageType": "cFreeESnpc"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 9,
+        "params": {
+          "OpenMessageType": "cFreeEEvent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cLand:AnyGlobalEventFinished"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 9,
+        "params": {
+          "OpenMessageType": "cFreeEEventFirst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {
+          "CheckDays": 3
+        },
+        "query": "EventFlowQueryNpcLivingDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeEventNow"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event18",
+        "next": 8,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeEventNow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cLand:IsNpcIncreased"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event8",
+        "next": 16,
+        "params": {
+          "OpenMessageType": "cFreeFEvent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          }
+        ],
+        "index": 13,
+        "name": "Event22",
+        "params": {
+          "QueryMessageType": "cFreeFEvent"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeFNow"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event26",
+        "next": 15,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeFNow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          }
+        ],
+        "index": 17,
+        "name": "Event6",
+        "params": {
+          "CheckDateType": "cNewYear",
+          "TimeType": "cGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event7",
+        "params": {
+          "CheckDateType": "cLunarNewYear",
+          "TimeType": "cGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          }
+        ],
+        "index": 19,
+        "name": "Event9",
+        "params": {
+          "QueryMessageType": "cFreeFEto"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 18,
+            "value": 3
+          },
+          {
+            "target": 18,
+            "value": 4
+          },
+          {
+            "target": 18,
+            "value": 5
+          },
+          {
+            "target": 18,
+            "value": 6
+          },
+          {
+            "target": 18,
+            "value": 7
+          },
+          {
+            "target": 18,
+            "value": 8
+          },
+          {
+            "target": 18,
+            "value": 9
+          },
+          {
+            "target": 18,
+            "value": 10
+          },
+          {
+            "target": 18,
+            "value": 11
+          },
+          {
+            "target": 18,
+            "value": 12
+          },
+          {
+            "target": 18,
+            "value": 13
+          }
+        ],
+        "index": 20,
+        "name": "Event27",
+        "params": {
+          "SettingType": "cCurrentMachine"
+        },
+        "query": "EventFlowQueryCurrentRegionLanguage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          }
+        ],
+        "index": 21,
+        "name": "Event28",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event29",
+        "next": 26,
+        "params": {
+          "OpenMessageType": "cFreeFEto"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChineseZodiac",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event31",
+        "next": 41,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event33",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeZodiacNow"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event34",
+        "next": 23,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeZodiacNow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          }
+        ],
+        "index": 27,
+        "name": "Event35",
+        "params": {
+          "SettingType": "cCurrentVillage"
+        },
+        "query": "EventFlowQueryCurrentRegionLanguage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 1
+          },
+          {
+            "target": 22,
+            "value": 2
+          },
+          {
+            "target": 22,
+            "value": 3
+          },
+          {
+            "target": 22,
+            "value": 4
+          },
+          {
+            "target": 22,
+            "value": 5
+          },
+          {
+            "target": 22,
+            "value": 6
+          },
+          {
+            "target": 22,
+            "value": 7
+          },
+          {
+            "target": 22,
+            "value": 8
+          },
+          {
+            "target": 22,
+            "value": 9
+          },
+          {
+            "target": 22,
+            "value": 10
+          },
+          {
+            "target": 22,
+            "value": 11
+          },
+          {
+            "target": 22,
+            "value": 12
+          },
+          {
+            "target": 22,
+            "value": 13
+          }
+        ],
+        "index": 28,
+        "name": "Event36",
+        "params": {
+          "SettingType": "cCurrentVillage"
+        },
+        "query": "EventFlowQueryCurrentRegionLanguage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cPlayer:TalkSnpcTodayAnyone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event38",
+        "next": 10,
+        "params": {
+          "AccessKey": "cPlayer:TalkSnpcTodayAnyone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          }
+        ],
+        "index": 31,
+        "name": "Event32",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          }
+        ],
+        "index": 33,
+        "name": "Event41",
+        "params": {
+          "CheckNowTime": false,
+          "DayType": "cReadyOnly",
+          "EventLabelString": "Easter"
+        },
+        "query": "EventFlowQueryGlobalEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          },
+          {
+            "target": 44,
+            "value": 2
+          },
+          {
+            "target": 91,
+            "value": 3
+          }
+        ],
+        "index": 34,
+        "name": "Event42",
+        "params": {
+          "ChoiceNumber": 4,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event43",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Easter:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event44",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Easter:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event45",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Easter:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event46",
+        "next": 39,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MultiDayEvent_Easter",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event48",
+        "next": 60,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FreeF_Main",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event49",
+        "next": 32,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkFreeFNow"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event51",
+        "next": 37,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cHour",
+          "TagID": 0,
+          "TagType": "cEasterMonthDay",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event52",
+        "params": {},
+        "query": "EventFlowQueryEnvHourOverGrowUp",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event40",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRndDailyQuest"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          },
+          {
+            "target": 49,
+            "value": 2
+          },
+          {
+            "target": 50,
+            "value": 3
+          },
+          {
+            "target": 51,
+            "value": 4
+          }
+        ],
+        "index": 46,
+        "name": "Event57",
+        "params": {
+          "ChoiceNumber": 5,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event58",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event59",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event60",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event61",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event62",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          }
+        ],
+        "index": 52,
+        "name": "Event63",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "EarthDay"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event65",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event66",
+        "params": {
+          "AccessKey": "cPlayer:ReijiTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 58,
+            "value": 2
+          }
+        ],
+        "index": 55,
+        "name": "Event67",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event68",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event69",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event70",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_EarthDay:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MultiDayEvent_EarthDay",
+        "flowchart": "",
+        "index": 60,
+        "name": "Event73",
+        "next": 71,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event74",
+        "next": 53,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event75",
+        "next": 59,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          }
+        ],
+        "index": 63,
+        "name": "Event64",
+        "params": {
+          "CheckNowTime": false,
+          "DayType": "cReadyOnly",
+          "EventLabelString": "Halloween"
+        },
+        "query": "EventFlowQueryGlobalEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event76",
+        "params": {
+          "BorderNum": 3
+        },
+        "query": "EventFlowQueryHalloweenFtrNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event77",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Halloween:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event78",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Halloween:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event79",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Halloween:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event80",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Halloween:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event81",
+        "params": {
+          "BorderNum": 8
+        },
+        "query": "EventFlowQueryHalloweenFtrNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event82",
+        "params": {
+          "BorderNum": 15
+        },
+        "query": "EventFlowQueryHalloweenFtrNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MultiDayEvent_Halloween",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event71",
+        "next": 79,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event84",
+        "next": 72,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 74,
+        "name": "Event85",
+        "params": {
+          "BorderNum": 30
+        },
+        "query": "EventFlowQueryHalloweenFtrNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event53",
+        "params": {
+          "Day0": 26,
+          "Day1": 30,
+          "Month0": 10,
+          "Month1": 10,
+          "TimeType": "cLastGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvCheckBetweenDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event90",
+        "next": 76,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeMultiDayEventTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event93",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MultiDayEvent_Christmas",
+        "flowchart": "",
+        "index": 79,
+        "name": "Event94",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          }
+        ],
+        "index": 80,
+        "name": "Event96",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "XmasReady2"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          },
+          {
+            "target": 87,
+            "value": 2
+          }
+        ],
+        "index": 81,
+        "name": "Event88",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event97",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event86",
+        "params": {
+          "BcatCheck": false,
+          "EndDays": 1,
+          "EventLabelString": "HarvestFestival",
+          "StartDays": 5
+        },
+        "query": "EventFlowQueryCheckNearEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 84,
+        "name": "Event101",
+        "params": {
+          "BcatCheck": false,
+          "EndDays": 1,
+          "EventLabelString": "XmasEve",
+          "StartDays": 5
+        },
+        "query": "EventFlowQueryCheckNearEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event100",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Christmas:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event102",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Christmas:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event103",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Christmas:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event91",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Christmas:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event92",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Christmas:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event98",
+        "params": {
+          "BcatCheck": false,
+          "EndDays": 1,
+          "EventLabelString": "Carnival",
+          "StartDays": 5
+        },
+        "query": "EventFlowQueryCheckNearEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event99",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeF_Easter:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event105",
+        "params": {
+          "AccessKey": "cPlayer:TalkHHATodayAnyone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event106",
+        "next": 96,
+        "params": {
+          "OpenMessageType": "cFreeEHHA"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          }
+        ],
+        "index": 94,
+        "name": "Event107",
+        "params": {
+          "QueryMessageType": "cFreeEHHA"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event108",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 96,
+        "name": "Event109",
+        "next": 95,
+        "params": {
+          "AccessKey": "cPlayer:TalkHHATodayAnyone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 94,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event110",
+        "params": {},
+        "query": "EventFlowQueryIsNnpcTent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 98,
+        "name": "Event112",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "MayDay"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeEF",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6fbab1e04edc66940e076a62b2848d48e35a5caf583765b4677bb2e1bc26cbc7",
+  "size": 21088,
+  "status": "converted"
+}

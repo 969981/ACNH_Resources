@@ -1,0 +1,366 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNetEnterVillage",
+          "EventFlowActionOpenVillageGate",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSoundTriggerEmit"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerMoveToTarget",
+          "EventFlowActionTurnBody",
+          "EventFlowActionPlayerWaitTurn"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcRailMove",
+          "EventFlowActionTurnBody",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "Npc_1",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnBody",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 5,
+        "name": "EntryPoint_Depart"
+      }
+    ],
+    "event_count": 25,
+    "event_flow_name": "SNPC_dod_30_Airport_DepartVisitor",
+    "events": [
+      {
+        "action": "EventFlowActionNetEnterVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenVillageGate",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event0",
+        "next": 2,
+        "params": {
+          "IsColDisable": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerMoveToTarget",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event2",
+        "next": 18,
+        "params": {
+          "MiddleTargetX": 0.0,
+          "MiddleTargetZ": 0.0,
+          "PosIsOffset": false,
+          "StateAfterWait": "cAutoWait",
+          "TargetX": 160.0,
+          "TargetZ": 125.0,
+          "UseStateAfterWait": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerMoveToTarget",
+        "actor": "Player",
+        "index": 3,
+        "name": "Event3",
+        "next": 22,
+        "params": {
+          "MiddleTargetX": 0.0,
+          "MiddleTargetZ": 0.0,
+          "PosIsOffset": false,
+          "StateAfterWait": "cAutoWait",
+          "TargetX": 160.0,
+          "TargetZ": 165.0,
+          "UseStateAfterWait": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerMoveToTarget",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "MiddleTargetX": 0.0,
+          "MiddleTargetZ": 0.0,
+          "PosIsOffset": false,
+          "StateAfterWait": "cAutoWait",
+          "TargetX": 190.0,
+          "TargetZ": 125.0,
+          "UseStateAfterWait": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event5",
+        "next": 3,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "Cut0",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "Npc_1",
+        "index": 6,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": true,
+          "MoveType": 1,
+          "PointA": -1,
+          "PointB": -1,
+          "RailID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          9,
+          8
+        ],
+        "index": 7,
+        "join": 10,
+        "name": "Event7",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Npc_1",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 10,
+        "name": "Event10",
+        "next": 11,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event11",
+        "next": 12,
+        "params": {
+          "WaitFrame": 25
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          14,
+          13
+        ],
+        "index": 12,
+        "join": 15,
+        "name": "Event12",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Npc_1",
+        "index": 13,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "DodRoger"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "DodRoger"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 15,
+        "name": "Event15",
+        "next": 24,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event17",
+        "next": 17,
+        "params": {
+          "BGMProperty": 75
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event18",
+        "next": 0,
+        "params": {
+          "AssetKeyName": "Airplane_Takeoff",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event19",
+        "next": 19,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          4,
+          20
+        ],
+        "index": 19,
+        "join": 21,
+        "name": "Event20",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event21",
+        "next": 6,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 21,
+        "name": "Event22",
+        "next": 7,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event23",
+        "next": 23,
+        "params": {
+          "TurnAngle": 180.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWaitTurn",
+        "actor": "Player",
+        "index": 23,
+        "name": "Event24",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event16",
+        "next": 16,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_dod_30_Airport_DepartVisitor",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5e182f24b2862ac9176b835a2407556d0fc0ce57674633db34495e0c850a500a",
+  "size": 6808,
+  "status": "converted"
+}

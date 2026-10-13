@@ -1,0 +1,144 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionSetDefaultWaitAs",
+          "EventFlowActionNpcAISetLookIKParamKey",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionStopLiveMusicShufflePlay"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "main_event": 5,
+        "name": "Root"
+      }
+    ],
+    "event_count": 9,
+    "event_flow_name": "AI_NPC_Tkk_FirstLive",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 4,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 6,
+        "params": {
+          "NpcWaitAsType": "cTkkAGuitarWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetLookIKParamKey",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 3,
+        "params": {
+          "ParamKey": "NeckOnly"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "EntryName": "Tkk_LandFirstLive",
+          "FlowName": "SNPC_tkk_Live"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 8,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStopLiveMusicShufflePlay",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Tkk_FirstLive",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5f7c36dba971c8c30f434b92085a8bb7e8bd677df39bcd008d0aa8950e02a9f8",
+  "size": 2536,
+  "status": "converted"
+}

@@ -1,0 +1,237 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsWherearenResumeFirstShareHouse"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionWherearenMainFieldActionStart",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionServiceMotionControl"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenNpcIsLocatedSea",
+          "EventFlowQueryWherearenIsSuspendedNpc",
+          "EventFlowQueryWherearenNpcOrderRelationKind",
+          "EventFlowQueryWherearenNpcActorFreeQuery2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 11,
+        "name": "Init"
+      }
+    ],
+    "event_count": 12,
+    "event_flow_name": "AI_NPC_Wherearen",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_WherearenMainField"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event4",
+        "next": 7,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcIsLocatedSea",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cSwimWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_WherearenMainField"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsSuspendedNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 3
+          }
+        ],
+        "index": 5,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderRelationKind",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenMainFieldActionStart",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenResumeFirstShareHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event14",
+        "params": {
+          "Type": "cSecondCustomer"
+        },
+        "query": "EventFlowQueryWherearenNpcActorFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event5",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          }
+        ],
+        "index": 11,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderRelationKind",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Wherearen",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "56810ef029741414e36bacdc4939f339cd5f35cc299c01961222350196eae682",
+  "size": 3120,
+  "status": "converted"
+}

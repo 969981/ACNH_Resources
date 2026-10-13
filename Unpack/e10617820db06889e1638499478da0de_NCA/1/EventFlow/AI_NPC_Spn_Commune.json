@@ -1,0 +1,1804 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeSpNpcTurnState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcAISetPos",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionNpcAISetCheckRobFunc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionNpcSetPos"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryIsReturnJuneBridePhotoStudio",
+          "EventFlowQueryFlagSystemIntValue3",
+          "EventFlowQueryCommuneShopEvent",
+          "EventFlowQueryFlagSystemIntValue5"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 8,
+        "name": "Root"
+      },
+      {
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "main_event": 27,
+        "name": "ShopOpen"
+      },
+      {
+        "main_event": 58,
+        "name": "CheckRob"
+      },
+      {
+        "main_event": 119,
+        "name": "Commune_LandExpansion_Event"
+      },
+      {
+        "main_event": 93,
+        "name": "Spn_Pos"
+      },
+      {
+        "main_event": 112,
+        "name": "Check_Expansion_Pos"
+      }
+    ],
+    "event_count": 120,
+    "event_flow_name": "AI_NPC_Spn_Commune",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeSpNpcTurnState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": false,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 30,
+          "ArgInt1": 2,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSpNpcTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "HeadCtrlMode": "cPlayer",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 7,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 6,
+        "params": {
+          "IsUseCreateOffset": true,
+          "SetAngle": 90.0,
+          "SetPosX": 22.0,
+          "SetPosZ": 25.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayer:SpnJuneBrideTalkEventFrag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event6",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "JuneBride"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": 24,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "alw",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 26,
+        "params": {
+          "Key": "DemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event10",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event11",
+        "params": {
+          "Border": 1,
+          "Key": "DemoSpeak"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event12",
+        "next": 22,
+        "params": {
+          "Key": "DemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event13",
+        "next": 10,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 12,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "EntryName": "Spn_FirstJuneBride",
+          "FlowName": "SNPC_spn_04_JuneBride"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSpnReturnJB",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryIsReturnJuneBridePhotoStudio",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 117,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event18",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cLandTemp:JuneBrideCeremonyDemoAfterNow"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event20",
+        "next": 19,
+        "params": {
+          "IsUseCreateOffset": true,
+          "SetAngle": 69.0,
+          "SetPosX": 7.0,
+          "SetPosZ": 14.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event22",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event23",
+        "next": 21,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event24",
+        "next": 11,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event31",
+        "next": 25,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cPlayer:CommuneIslandAvailable"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event27",
+        "next": 12,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event37",
+        "next": 55,
+        "params": {
+          "Key": "CommuneDemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event45",
+        "params": {
+          "ShopEvent": "cSloShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event49",
+        "next": 57,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event52",
+        "next": 30,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "slo",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Slo_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event53",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event54",
+        "params": {
+          "ShopEvent": "cCmlShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event55",
+        "params": {
+          "ShopEvent": "cFoxShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event56",
+        "params": {
+          "ShopEvent": "cBptShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event57",
+        "params": {
+          "ShopEvent": "cSkkShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event58",
+        "params": {
+          "ShopEvent": "cAlpShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event59",
+        "next": 60,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event61",
+        "next": 38,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "cml",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Cml_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event63",
+        "next": 61,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event65",
+        "next": 41,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "fox",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Fox_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event66",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event67",
+        "next": 62,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event69",
+        "next": 44,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "bpt",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Bpt_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event70",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event71",
+        "next": 63,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event73",
+        "next": 47,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "skk",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Skk_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event74",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event75",
+        "next": 64,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event77",
+        "next": 50,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "alp",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Alp_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event78",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          }
+        ],
+        "index": 51,
+        "name": "Event79",
+        "params": {
+          "ShopEvent": "cTtlShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event80",
+        "next": 65,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event81",
+        "next": 54,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "ttl",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Ttl_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event82",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event85",
+        "next": null,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event95",
+        "next": null,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event93",
+        "next": 29,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnSloShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Slo_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event86",
+        "params": {
+          "ShopEvent": "cSloShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event87",
+        "next": null,
+        "params": {
+          "Key": "CheckRobResult",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event88",
+        "next": 37,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnCmlShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Cml_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event89",
+        "next": 40,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnFoxShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Fox_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event90",
+        "next": 43,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnBptShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Bpt_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event91",
+        "next": 46,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnSkkShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Skk_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event92",
+        "next": 49,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnAlpShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Alp_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetCheckRobFunc",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event94",
+        "next": 53,
+        "params": {
+          "AIEntryPointName": "CheckRob",
+          "CheckRobType": "cCommuneSpnTtlShopEvent",
+          "IsUnregist": false,
+          "RobContinue": false,
+          "TalkEntryPointName": "Ttl_ShopOpen",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 67,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event96",
+        "params": {
+          "ShopEvent": "cCmlShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event97",
+        "params": {
+          "ShopEvent": "cFoxShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event99",
+        "params": {
+          "ShopEvent": "cBptShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event100",
+        "params": {
+          "ShopEvent": "cSkkShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event101",
+        "params": {
+          "ShopEvent": "cAlpShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event102",
+        "params": {
+          "ShopEvent": "cTtlShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 72,
+        "name": "Event110",
+        "params": {
+          "AccessKey": "cPlayer:ReserveCommuneExpansion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event111",
+        "next": 74,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event113",
+        "next": 80,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "poo",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn_11_Commune_LandExpansion"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event117",
+        "params": {
+          "Border": 1,
+          "Key": "CommuneDemoSpeak"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 76,
+        "name": "Event118",
+        "next": 81,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_spn_11_Commune_LandExpansion"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event119",
+        "next": 76,
+        "params": {
+          "Key": "CommuneDemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ShopOpen",
+        "flowchart": "",
+        "index": 78,
+        "name": "Event122",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Commune_LandExpansion_Event",
+        "flowchart": "",
+        "index": 79,
+        "name": "Event29",
+        "next": 118,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 82,
+        "name": "Event38",
+        "next": 75,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 83,
+        "name": "Event39",
+        "next": 94,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event40",
+        "next": 95,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event41",
+        "next": 96,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event42",
+        "next": 97,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event43",
+        "next": 98,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event46",
+        "next": 99,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event47",
+        "next": 100,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event84",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "spn",
+          "SetPosX": 650.0,
+          "SetPosZ": 795.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event103",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "spn",
+          "SetPosX": 680.0,
+          "SetPosZ": 620.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event105",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "spn",
+          "SetPosX": 680.0,
+          "SetPosZ": 650.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          },
+          {
+            "target": 92,
+            "value": 2
+          }
+        ],
+        "index": 93,
+        "name": "Event104",
+        "params": {
+          "AccessKey": "cPlayerTemp:SpnCheckPlace",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SloOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 94,
+        "name": "Event108",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CmlOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 95,
+        "name": "Event51",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FoxOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 96,
+        "name": "Event60",
+        "next": 39,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BptOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 97,
+        "name": "Event64",
+        "next": 42,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SkkOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 98,
+        "name": "Event68",
+        "next": 45,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AlpOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 99,
+        "name": "Event72",
+        "next": 48,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "TtlOpen_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 100,
+        "name": "Event76",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event83",
+        "next": 77,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CommuneExpand_SpnPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 102,
+        "name": "Event125",
+        "next": 73,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 109,
+            "value": 1
+          }
+        ],
+        "index": 103,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cPlayer:SpnTodayExplainedPhotoStudio"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 104,
+        "name": "Event32",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 1
+          },
+          {
+            "target": 107,
+            "value": 2
+          }
+        ],
+        "index": 105,
+        "name": "Event48",
+        "params": {
+          "AccessKey": "cPlayerTemp:SpnCheckPlace",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event50",
+        "next": 108,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event106",
+        "next": 115,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event107",
+        "next": 116,
+        "params": {
+          "Flag": false,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          }
+        ],
+        "index": 109,
+        "name": "Event109",
+        "params": {
+          "AccessKey": "cLand:CommuneExpanded"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          }
+        ],
+        "index": 110,
+        "name": "Event114",
+        "params": {
+          "AccessKey": "cPlayer:SpnPhotoStudioGuideDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 111,
+        "name": "Event115",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 112,
+        "name": "Event116",
+        "next": 103,
+        "params": {
+          "AccessKey": "cPlayerTemp:PhotoStudioDoorClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Spn_Pos",
+        "flowchart": "",
+        "index": 113,
+        "name": "Event120",
+        "next": 105,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event121",
+        "next": 111,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 2
+          }
+        ],
+        "index": 115,
+        "name": "Event123",
+        "params": {
+          "AccessKey": "cPlayerTemp:PooCheckPlace",
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryFlagSystemIntValue5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 116,
+        "name": "Event124",
+        "next": 111,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cCommuneWanderWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_spn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Commune_LandExpansion_Event",
+        "flowchart": "",
+        "index": 117,
+        "name": "Event129",
+        "next": 13,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Check_Expansion_Pos",
+        "flowchart": "",
+        "index": 118,
+        "name": "Event112",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          }
+        ],
+        "index": 119,
+        "name": "Event130",
+        "params": {
+          "AccessKey": "cLand:CommuneExpanded"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Spn_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "46b778aac190c1d08ce97ee12fbd7e56f083599dbe44494d53a317e3278259bd",
+  "size": 30288,
+  "status": "converted"
+}

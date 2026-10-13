@@ -1,0 +1,1865 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionCountdownRctManualChoice",
+          "EventFlowActionRctSetNewYearHat",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionMessageSuspend"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionPlayReport",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionEventFlagSystemAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryGeneralTalkChoice5",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQuerySubflowResultChoice2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 3,
+        "name": "Root"
+      },
+      {
+        "main_event": 24,
+        "name": "Rco_Select_Buy"
+      },
+      {
+        "main_event": 96,
+        "name": "Rco_Cracker_Get"
+      },
+      {
+        "main_event": 116,
+        "name": "Rco_Get_Cracker_Chk"
+      },
+      {
+        "main_event": 62,
+        "name": "Rco_Common_ItemFull_Get"
+      },
+      {
+        "main_event": 64,
+        "name": "Rco_Common_NoMoney"
+      },
+      {
+        "main_event": 66,
+        "name": "Rco_Common_ItemFull_Buy"
+      },
+      {
+        "main_event": 97,
+        "name": "Rco_Common_Cancel"
+      },
+      {
+        "main_event": 125,
+        "name": "Rco_Common_Buy"
+      },
+      {
+        "main_event": 117,
+        "name": "Rco_Common_DemoBuy"
+      }
+    ],
+    "event_count": 136,
+    "event_flow_name": "SNPC_rco_GEvent_Countdown",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          },
+          {
+            "target": 83,
+            "value": 2
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 1,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event8",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          },
+          {
+            "target": 26,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event9",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          },
+          {
+            "target": 10,
+            "value": 2
+          },
+          {
+            "target": 11,
+            "value": 3
+          },
+          {
+            "target": 84,
+            "value": 4
+          }
+        ],
+        "index": 4,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event11",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCountdownRctManualChoice",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event22",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRctSetNewYearHat",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event23",
+        "next": 8,
+        "params": {
+          "SelectIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 102,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event27",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionRctSetNewYearHat",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event24",
+        "next": 8,
+        "params": {
+          "SelectIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRctSetNewYearHat",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event25",
+        "next": 8,
+        "params": {
+          "SelectIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRctSetNewYearHat",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event44",
+        "next": 8,
+        "params": {
+          "SelectIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event46",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAfterCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event47",
+        "next": 45,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event56",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotCracker"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event57",
+        "next": 132,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event59",
+        "next": 43,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event60",
+        "next": 46,
+        "params": {
+          "Command": 2,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event63",
+        "next": 17,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event64",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event66",
+        "next": 14,
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkBeforeCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event67",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event4",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event7",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event70",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event71",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event72",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event73",
+        "next": 48,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event74",
+        "params": {
+          "AccessKey": "cPlayerVisit:RcoVisitorTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event79",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event20",
+        "next": 30,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 1,
+          "TagType": "cFlow",
+          "Value": 300
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event43",
+        "next": 31,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 500
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event75",
+        "params": {
+          "AccessKey": "cPlayerVisit:RcoVisitorTalkAfterCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event76",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event81",
+        "next": 28,
+        "params": {
+          "AccessKey": "cPlayerVisit:RcoVisitorTalkBeforeCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event82",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          }
+        ],
+        "index": 38,
+        "name": "Event84",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event85",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event53",
+        "next": 111,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          },
+          {
+            "target": 44,
+            "value": 2
+          }
+        ],
+        "index": 43,
+        "name": "Event69",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event86",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event87",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event89",
+        "next": 133,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event90",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 103,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event91",
+        "params": {
+          "AccessKey": "cPlayerVisit:VisitorGotCracker"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event93",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event96",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotCracker"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 106,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event97",
+        "params": {
+          "AccessKey": "cPlayerVisit:VisitorGotCracker"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event99",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Select_Buy",
+        "flowchart": "",
+        "index": 54,
+        "name": "Event104",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event105",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event106",
+        "next": 55,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event111",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event49",
+        "next": 42,
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAfterCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event108",
+        "next": 107,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event80",
+        "next": 56,
+        "params": {
+          "AccessKey": "cPlayerVisit:RcoVisitorTalkAfterCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 61,
+        "name": "Event52",
+        "next": 109,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event54",
+        "next": 70,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 63,
+        "name": "Event55",
+        "next": 50,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event17",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event28",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Buy",
+        "flowchart": "",
+        "index": 68,
+        "name": "Event94",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Buy",
+        "flowchart": "",
+        "index": 69,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event33",
+        "next": 72,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Get",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 73,
+        "name": "Event92",
+        "next": 20,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event58",
+        "next": 88,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event62",
+        "next": 90,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event119",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event102",
+        "next": 114,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:107"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 78,
+        "name": "Event103",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 79,
+        "name": "Event78",
+        "next": 110,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 80,
+        "name": "Event98",
+        "next": 53,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 81,
+        "name": "Event107",
+        "next": 82,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Get",
+        "flowchart": "",
+        "index": 82,
+        "name": "Event109",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_Cancel",
+        "flowchart": "",
+        "index": 83,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_Cancel",
+        "flowchart": "",
+        "index": 84,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Get_Cracker_Chk",
+        "flowchart": "",
+        "index": 85,
+        "name": "Event26",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Cracker_Get",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event77",
+        "next": 85,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event118",
+        "next": 71,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event120",
+        "next": 61,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event121",
+        "next": 73,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event122",
+        "next": 63,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event123",
+        "next": 78,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event124",
+        "next": 79,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event125",
+        "next": 81,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event126",
+        "next": 80,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 0
+          },
+          {
+            "target": 112,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event127",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event100",
+        "next": 98,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event101",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event15",
+        "next": 118,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 100,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event35",
+        "next": 131,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_Buy",
+        "flowchart": "",
+        "index": 102,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 103,
+        "name": "Event40",
+        "next": 91,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 104,
+        "name": "Event41",
+        "next": 89,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 105,
+        "name": "Event42",
+        "next": 92,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 106,
+        "name": "Event129",
+        "next": 95,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 107,
+        "name": "Event130",
+        "next": 94,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 108,
+        "name": "Event131",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Get",
+        "flowchart": "",
+        "index": 109,
+        "name": "Event132",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_ItemFull_Get",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event133",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event48",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          }
+        ],
+        "index": 112,
+        "name": "Event134",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event135",
+        "next": 114,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/GEvent/SP_rco_GEvent_Countdown:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event136",
+        "next": 19,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          }
+        ],
+        "index": 115,
+        "name": "Event137",
+        "params": {
+          "CapacityCheckType": "cReward",
+          "ItemUniqueId": 2753
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 116,
+        "name": "Event138",
+        "next": 115,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 2753,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 117,
+        "name": "Event51",
+        "next": 120,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo_Rco_Countdown_Shopping",
+        "flowchart": "Demo_Common",
+        "index": 118,
+        "name": "Event5",
+        "next": 101,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 119,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "Money": 300,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          }
+        ],
+        "index": 120,
+        "name": "Event65",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 121,
+        "name": "Event68",
+        "next": 128,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 124,
+            "value": 1
+          }
+        ],
+        "index": 122,
+        "name": "Event39",
+        "params": {
+          "Money": 300
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event113",
+        "next": 135,
+        "params": {
+          "Num0": 300,
+          "PlayReportKind": "cCountdownBuyCracker"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_NoMoney",
+        "flowchart": "",
+        "index": 124,
+        "name": "Event114",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 126,
+            "value": 0
+          },
+          {
+            "target": 122,
+            "value": 1
+          }
+        ],
+        "index": 125,
+        "name": "Event115",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event16",
+        "params": {
+          "Money": 500
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 127,
+        "name": "Event116",
+        "next": 134,
+        "params": {
+          "Num0": 500,
+          "PlayReportKind": "cCountdownBuyHat"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_Buy",
+        "flowchart": "",
+        "index": 128,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Common_NoMoney",
+        "flowchart": "",
+        "index": 129,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 130,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "Money": 500,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 123,
+            "value": 1
+          }
+        ],
+        "index": 131,
+        "name": "Event21",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 132,
+        "name": "Event31",
+        "next": 108,
+        "params": {
+          "AccessKey": "cPlayer:SzaGotCracker"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 133,
+        "name": "Event61",
+        "next": 108,
+        "params": {
+          "AccessKey": "cPlayerVisit:VisitorGotCracker"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 134,
+        "name": "Event95",
+        "next": 100,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:HowmuchBuyItem",
+          "AddNum": 500
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event110",
+        "next": 100,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:HowmuchBuyItem",
+          "AddNum": 300
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_GEvent_Countdown",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9aa6094cf3a344c157081d727df96e602bb735384ab0dd755f3029acc38b7508",
+  "size": 25056,
+  "status": "converted"
+}

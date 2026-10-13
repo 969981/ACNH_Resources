@@ -1,0 +1,266 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetting"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryNetHasVisitor"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 6,
+        "name": "ExitStrc"
+      }
+    ],
+    "event_count": 13,
+    "event_flow_name": "AI_NPC_Camp",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cCampWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_Camp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLand:CampFirstCamperVisit"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cPlayer:CampFirstTalk_FirstVisitor"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cCampWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_Camp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 11,
+        "params": {
+          "Flag": true,
+          "SettingType": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cExitReaction",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cCampWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_Camp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event11",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event13",
+        "next": 12,
+        "params": {
+          "Flag": true,
+          "SettingType": 18
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 12,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "NNPC_Spot_Camp"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Camp",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "7b693279887521b1a86c7ec88b33384962a5ce0f91fb91e31ce5d37b8ebf85dd",
+  "size": 4360,
+  "status": "converted"
+}

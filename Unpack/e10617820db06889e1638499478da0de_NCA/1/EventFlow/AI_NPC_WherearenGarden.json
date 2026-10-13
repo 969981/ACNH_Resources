@@ -1,0 +1,658 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionChangeHouseMode",
+          "EventFlowActionSetNpcTalkFlowName",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionServiceMotionControl",
+          "EventFlowActionChangeEditMode"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenNpcOrderRelationKind",
+          "EventFlowQueryNpcBlackBoard",
+          "EventFlowQueryIsStartEnterDemoNpc"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionCameraReserveFirstStateCommand",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryWherearenOrderStatus",
+          "EventFlowQueryFlagSystemIntValue3",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 34,
+        "name": "Root"
+      },
+      {
+        "main_event": 37,
+        "name": "Init"
+      },
+      {
+        "main_event": 4,
+        "name": "NotForceTalk"
+      },
+      {
+        "main_event": 15,
+        "name": "GoOut"
+      },
+      {
+        "main_event": 3,
+        "name": "EnterGardenDemoCheck"
+      }
+    ],
+    "event_count": 43,
+    "event_flow_name": "AI_NPC_WherearenGarden",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event3",
+        "next": 41,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 1,
+        "name": "Event9",
+        "next": 35,
+        "params": {
+          "EntryName": "VisitTogether",
+          "FlowName": "NNPC_Spot_WherearenGarden"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event14",
+        "next": 6,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CustomerTalkReserve_Garden"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 2
+          },
+          {
+            "target": 10,
+            "value": 3
+          },
+          {
+            "target": 2,
+            "value": 4
+          },
+          {
+            "target": 10,
+            "value": 6
+          }
+        ],
+        "index": 4,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeHouseMode",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcTalkFlowName",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": 5,
+        "params": {
+          "EntryPointName": "PlayerVisit",
+          "EventFlowName": "NNPC_Spot_WherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event10",
+        "next": 25,
+        "params": {
+          "Key": "LeaveHome",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event11",
+        "next": 0,
+        "params": {
+          "Key": "LeaveHome",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 13,
+            "value": 3
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderRelationKind",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event20",
+        "next": 12,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionChangeHouseMode",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcTalkFlowName",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event26",
+        "next": 11,
+        "params": {
+          "EntryPointName": "UnderShooting",
+          "EventFlowName": "NNPC_Spot_WherearenGardenWork"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NotForceTalk",
+        "flowchart": "",
+        "index": 13,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NotForceTalk",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cLeaveHome",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 16,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "EntryName": "FromHouse",
+          "FlowName": "NNPC_Spot_WherearenEndShareHouseDemo"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 17,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "NNPC_Spot_WherearenEndShareHouseDemo"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          }
+        ],
+        "index": 18,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cWherearenPlayer:RequestEndShareHouseDemo",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          },
+          {
+            "target": 20,
+            "value": 2
+          }
+        ],
+        "index": 19,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cWherearenPlayer:RequestEndShareHouseDemo",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event13",
+        "next": 21,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event15",
+        "next": 22,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event22",
+        "next": 33,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 24,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "EntryName": "ForceTalk_PostCameraDemo",
+          "FlowName": "NNPC_Spot_WherearenGardenWork"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event27",
+        "next": 39,
+        "params": {
+          "Key": "CompleteDemoEnd",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event28",
+        "params": {
+          "Border": 1,
+          "Key": "CompleteDemoEnd"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 27,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "EntryName": "ForceTalk_PostCameraDemo_Direct",
+          "FlowName": "NNPC_Spot_WherearenGardenWork"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event30",
+        "next": 27,
+        "params": {
+          "Key": "CompleteDemoEnd",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_MncTalkReserve_AfterCompleteDemo",
+          "Border": 0,
+          "FlagCheckType": 2
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event31",
+        "next": 31,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event32",
+        "next": 32,
+        "params": {
+          "Flag": true,
+          "SettingType": 21
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event33",
+        "next": 24,
+        "params": {
+          "Command": "Demo:LandingTalk",
+          "DemoTarget": "Place:SafeArea",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event36",
+        "next": 1,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EnterGardenDemoCheck",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event34",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          }
+        ],
+        "index": 36,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryIsStartEnterDemoNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event39",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event40",
+        "next": 19,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "Key": "ReformStart",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event42",
+        "params": {
+          "CheckStage": "cWherearenNpcGarden"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcTalkFlowName",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event43",
+        "next": 42,
+        "params": {
+          "EntryPointName": "UnderOrder",
+          "EventFlowName": "NNPC_Spot_WherearenGardenWork"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionChangeEditMode",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_WherearenGarden",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "12133587f17e92a54f8dfff10e93ac5f8a909f30b2f207f42b3e9ffb25fcdb82",
+  "size": 10000,
+  "status": "converted"
+}

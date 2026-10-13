@@ -1,0 +1,217 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNetWaitDemo",
+          "EventFlowActionNetEnterDream",
+          "EventFlowActionNetReturnFromDream",
+          "EventFlowActionNetReplyDream",
+          "EventFlowActionNetCancelDownloadDream",
+          "EventFlowActionReturnStageForDreamEnd",
+          "EventFlowActionWaitCanRequestChangeScene",
+          "EventFlowActionNetCloudIslandCleanupStatus"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetDemoType",
+          "EventFlowQueryNetDreamingTime"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 3,
+        "name": "EnterDream"
+      },
+      {
+        "main_event": 4,
+        "name": "ExitDream"
+      },
+      {
+        "main_event": 10,
+        "name": "CancelDream"
+      }
+    ],
+    "event_count": 14,
+    "event_flow_name": "System_NetDream",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 4
+          },
+          {
+            "target": 2,
+            "value": 5
+          },
+          {
+            "target": 9,
+            "value": 6
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryNetDemoType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EnterDream",
+        "flowchart": "",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ExitDream",
+        "flowchart": "",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetWaitDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": 5,
+        "params": {
+          "Kind": "cEnterDream"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetWaitDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": 7,
+        "params": {
+          "Kind": "cExitDream"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEnterDream",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetReturnFromDream",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event8",
+        "params": {
+          "CheckValue": 20
+        },
+        "query": "EventFlowQueryNetDreamingTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetReplyDream",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event9",
+        "next": 6,
+        "params": {
+          "Kind": "cHistory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CancelDream",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetCancelDownloadDream",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReturnStageForDreamEnd",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cDream",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cDream",
+          "FadeOutSpeed": 1.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitCanRequestChangeScene",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event13",
+        "next": 13,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandCleanupStatus",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event14",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_NetDream",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a1b41bf152cd78d9a0dbd6ef5164aaac5dbf15346306fd275cef8d9b8887a45d",
+  "size": 2824,
+  "status": "converted"
+}

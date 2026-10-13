@@ -1,0 +1,851 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIRemakeOrderHandling",
+          "EventFlowActionSaveSetFromUIResult",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionUIDisappearAlpRemakeWipe",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionUIRemakeOrderCreate",
+          "EventFlowActionSoundDuckingOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryRandomChoiceExcludePrevious2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionAlpRemakePayment",
+          "EventFlowActionNpcStartAS",
+          "EventFlowActionNpcAITalkSubCastEntry",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionTurnBody",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionNpcWaitTurn",
+          "EventFlowActionNpcAISetPos"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryShopHasBellCount",
+          "EventFlowQueryAlpCanRemake"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcStartAS"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc[Sub]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionTurnBody"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 47,
+        "name": "Root"
+      },
+      {
+        "main_event": 43,
+        "name": "SelectOrder"
+      },
+      {
+        "main_event": 35,
+        "name": "Root_Init"
+      }
+    ],
+    "event_count": 57,
+    "event_flow_name": "SNPC_alp_02_Commune",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIRemakeOrderHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event6",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event7",
+        "next": 2,
+        "params": {
+          "FilterType": "cAlpRemake",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cItemSelectRemakeAlp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event13",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event15",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event16",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 6,
+            "value": 2
+          }
+        ],
+        "index": 12,
+        "name": "Event17",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayer:AlpJuneBrideTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cPlayer:AlpCommuneTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SelectOrder",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event2",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event3",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryAlpCanRemake",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event24",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event33",
+        "next": 28,
+        "params": {
+          "AccessKey": "cPlayer:AlpCommuneTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event36",
+        "params": {
+          "Rate": 1.0
+        },
+        "query": "EventFlowQueryShopHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAlpRemakePayment",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event8",
+        "next": 31,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cPlayer:TalkAlpCommuneOpenEvent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event28",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/alp/SP_alp_02_Commune:012_1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event29",
+        "next": 29,
+        "params": {
+          "AccessKey": "cPlayer:DoneCommuneAlpOpenEvent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:AlpJuneBrideTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSetFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event31",
+        "next": 49,
+        "params": {
+          "SaveType": "cAlpRemake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event40",
+        "next": 30,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc[Sub]",
+        "index": 32,
+        "name": "Event27",
+        "next": 53,
+        "params": {
+          "ASType": "AlpMotorcycle",
+          "IsContinueEmot": true,
+          "IsWaitEnd": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event42",
+        "next": 34,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event44",
+        "next": 56,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkSubCastEntry",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event51",
+        "next": null,
+        "params": {
+          "CastID": 1,
+          "FindLabel": "alw"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event48",
+        "next": 48,
+        "params": {
+          "ASType": "AlpMotorcycleKeep",
+          "IsContinueEmot": true,
+          "IsWaitEnd": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIDisappearAlpRemakeWipe",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event49",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event50",
+        "next": 32,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event53",
+        "next": 46,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event37",
+        "next": 44,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 54
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "Command": 2,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event54",
+        "next": 3,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": false,
+          "Reaction": "FaintSmile"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event55",
+        "next": 4,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": false,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event56",
+        "next": 22,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIRemakeOrderCreate",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event57",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event58",
+        "next": 40,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "SubNpc",
+        "index": 47,
+        "name": "Event59",
+        "next": 12,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event60",
+        "next": 37,
+        "params": {
+          "Id": 65
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event62",
+        "next": 36,
+        "params": {
+          "IsUseCreateOffset": true,
+          "SetAngle": 0.0,
+          "SetPosX": 0.0,
+          "SetPosZ": 0.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 50,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "Continue": true,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Love"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 51,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": false,
+          "Reaction": "Clapping"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event32",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "forks": [
+          21,
+          55
+        ],
+        "index": 53,
+        "join": 54,
+        "name": "Event34",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 54,
+        "name": "Event41",
+        "next": 33,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event45",
+        "next": 52,
+        "params": {
+          "WaitFrame": 40
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event46",
+        "next": 39,
+        "params": {
+          "BGMProperty": 176
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_alp_02_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a365e8b228e4e52ea788c8e810005c22eeef9683563c4fe7b7362791ce3aee1d",
+  "size": 13912,
+  "status": "converted"
+}

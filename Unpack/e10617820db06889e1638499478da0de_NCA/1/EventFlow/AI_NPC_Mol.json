@@ -1,0 +1,180 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeBlockWanderState",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcWarpTidyingPos"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "AI_NPC_Mol",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 1,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_mol"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "Key": "UserSelectCallSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "Border": 1,
+          "Key": "UserSelectCallSpeak"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 8,
+        "params": {
+          "Key": "UserSelectCallSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "EntryName": "Tidying_UserSelect",
+          "FlowName": "SNPC_mol"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWarpTidyingPos",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": 6,
+        "params": {
+          "WarpTypeString": "cNextPlayer"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event9",
+        "next": 7,
+        "params": {
+          "Flag": true,
+          "SettingType": 14
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event10",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 14
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Mol",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9d57ff82304ab2dcb0ed178e8735bdd369a28bb39f6e22ab3cac2306cfd218cb",
+  "size": 3624,
+  "status": "converted"
+}

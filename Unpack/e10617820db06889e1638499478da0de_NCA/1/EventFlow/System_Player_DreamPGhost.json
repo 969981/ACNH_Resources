@@ -1,0 +1,87 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcSetPlayerProfileComment",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcHasPlayerProfileComment"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 4,
+    "event_flow_name": "System_Player_DreamPGhost",
+    "events": [
+      {
+        "action": "EventFlowActionNpcSetPlayerProfileComment",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryNpcHasPlayerProfileComment",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:1106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:1105"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_Player_DreamPGhost",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6212c0bdaee3df93f49f19d1d1ba45d957638148c11c9ff9d9f72b2150ecbcf6",
+  "size": 1248,
+  "status": "converted"
+}

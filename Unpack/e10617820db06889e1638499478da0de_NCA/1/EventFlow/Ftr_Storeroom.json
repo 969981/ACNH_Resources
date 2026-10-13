@@ -1,0 +1,378 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionUIStorageHandling",
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionUISelectedItemMoveChest",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 1,
+        "name": "Storeroom_RndText"
+      },
+      {
+        "main_event": 19,
+        "name": "StoreRoom_UseAtMyField"
+      },
+      {
+        "main_event": 15,
+        "name": "Storeroom_ChkFirstWhereren"
+      }
+    ],
+    "event_count": 21,
+    "event_flow_name": "Ftr_Storeroom",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_Storeroom:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Storeroom_RndText",
+        "flowchart": "",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Storeroom_RndText",
+        "flowchart": "",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event9",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          },
+          {
+            "target": 13,
+            "value": 2
+          },
+          {
+            "target": 13,
+            "value": 3
+          },
+          {
+            "target": 13,
+            "value": 4
+          },
+          {
+            "target": 13,
+            "value": 5
+          },
+          {
+            "target": 13,
+            "value": 6
+          },
+          {
+            "target": 13,
+            "value": 7
+          },
+          {
+            "target": 13,
+            "value": 8
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 7,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_Storeroom:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event14",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_Storeroom:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIStorageHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event17",
+        "next": 12,
+        "params": {
+          "FilterType": "cMoveToChest",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cPutInStorage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISelectedItemMoveChest",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "StoreRoom_UseAtMyField",
+        "flowchart": "",
+        "index": 13,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event6",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          }
+        ],
+        "index": 15,
+        "name": "Event7",
+        "params": {
+          "CheckStage": "cWherearenOffice1"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cWherearenPlayer:FirstOfficeStoreroomFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:FirstOfficeStoreroomFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 18,
+        "name": "Event13",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkFtr/FTR_Storeroom:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Storeroom_ChkFirstWhereren",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event20",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event21",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:0126"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_Storeroom",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6b75955c4905dda4b1b209b68c0951b1e030be3603a961ecf9d2b15b4941bea9",
+  "size": 4656,
+  "status": "converted"
+}

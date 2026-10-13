@@ -1,0 +1,119 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionServiceMotionControl",
+          "EventFlowActionNpcSetEquip"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcLabel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 5,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "main_event": 4,
+        "name": "EquipSet"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "AI_NPC_DemoNormal",
+    "events": [
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 2,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetEquip",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "EquipCategory": 0,
+          "ItemUniqueID": 14700
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "NpcLabel": "man"
+        },
+        "query": "EventFlowQueryNpcLabel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EquipSet",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event5",
+        "next": 1,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_DemoNormal",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "52ae4997198c9ef23a4e9d8e36823b5376ca4d9e715fa16aa85f85d11b370629",
+  "size": 2064,
+  "status": "converted"
+}

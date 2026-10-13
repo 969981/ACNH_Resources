@@ -1,0 +1,3894 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionNpcAddFriendship",
+          "EventFlowActionNpcDecideGeneralQuestReward",
+          "EventFlowActionSetNpcName",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionSetItemName",
+          "EventFlowActionNpcMailSendRandom",
+          "EventFlowActionSetItemToNpcStockList",
+          "EventFlowActionNpcPlayReport",
+          "EventFlowActionSetDeliveryItemApplySave",
+          "EventFlowActionEventFlagNpcSet",
+          "EventFlowActionRegistValentinePresentInfo",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryCheckNpcFavorLevel",
+          "EventFlowQueryIsSameBirthdayNpc",
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryIsTargetNpcHouse"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionSystemDeletePlayerItem",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionSetCalcPriceBySolo",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoice3",
+          "EventFlowQueryRandomChoiceExcludePrevious5",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryMultiKindItemSelectInclude",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryKindBitParamItemSelectInclude",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryMultiItemSelectInclude",
+          "EventFlowQueryUISelectedItemIsWrapping",
+          "EventFlowQueryUISelectedItemIsEquiped",
+          "EventFlowQueryUICheckSelectedItemPrice",
+          "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQuerySubflowResultChoice3",
+          "EventFlowQueryMultiMessageCategoryItemSelectInclude",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryHaveValentineItem"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 51,
+        "name": "Root"
+      },
+      {
+        "main_event": 143,
+        "name": "Root_Out"
+      },
+      {
+        "main_event": 142,
+        "name": "Root_In"
+      },
+      {
+        "main_event": 64,
+        "name": "ItemComment"
+      },
+      {
+        "main_event": 115,
+        "name": "Add_Coloseness"
+      },
+      {
+        "main_event": 120,
+        "name": "Reward_Normal"
+      },
+      {
+        "main_event": 119,
+        "name": "Reward_Rere"
+      },
+      {
+        "main_event": 118,
+        "name": "Reward_SuperRere"
+      },
+      {
+        "main_event": 223,
+        "name": "ValentineChk"
+      }
+    ],
+    "event_count": 244,
+    "event_flow_name": "NNPC_GEvent_BirthdayN_H",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 200,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkInFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkOutFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 171,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNPresentFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          },
+          {
+            "target": 12,
+            "value": 3
+          },
+          {
+            "target": 13,
+            "value": 4
+          }
+        ],
+        "index": 10,
+        "name": "Event21",
+        "params": {
+          "ChoiceNumber": 5,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event22",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:056"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 17,
+            "value": 2
+          }
+        ],
+        "index": 16,
+        "name": "Event28",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event29",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event30",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event31",
+        "next": 20,
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 196,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event32",
+        "params": {},
+        "query": "EventFlowQueryIsSameBirthdayNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event33",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event34",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 24,
+            "value": 2
+          }
+        ],
+        "index": 23,
+        "name": "Event35",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event36",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event37",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          },
+          {
+            "target": 30,
+            "value": 2
+          }
+        ],
+        "index": 27,
+        "name": "Event39",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event43",
+        "next": 32,
+        "params": {
+          "FilterType": "cBirthdayPresent",
+          "IsSingleSelect": true,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cItemSelect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 141,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event44",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event46",
+        "next": 101,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          },
+          {
+            "target": 37,
+            "value": 2
+          }
+        ],
+        "index": 35,
+        "name": "Event79",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event80",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event81",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event82",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNPresentFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 43,
+            "value": 2
+          }
+        ],
+        "index": 40,
+        "name": "Event8",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event9",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:067"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event10",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:068"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event11",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:069"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          },
+          {
+            "target": 47,
+            "value": 2
+          }
+        ],
+        "index": 44,
+        "name": "Event12",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event13",
+        "next": 58,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event14",
+        "next": 58,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event15",
+        "next": 58,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:066"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event83",
+        "next": 39,
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkOutFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event84",
+        "next": 2,
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkInFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 201,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event85",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event91",
+        "next": 133,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event102",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event103",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event104",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event105",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event106",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event107",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event108",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 59,
+        "name": "Event125",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event126",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event127",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event142",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 157,
+            "value": 0
+          },
+          {
+            "target": 197,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event47",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUISelectedItemIsWrapping",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event48",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          },
+          {
+            "target": 67,
+            "value": 2
+          }
+        ],
+        "index": 66,
+        "name": "Event49",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event50",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event51",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event52",
+        "next": 145,
+        "params": {
+          "Command": 6,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event53",
+        "next": 72,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event54",
+        "next": 92,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event55",
+        "next": 90,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event56",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event57",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event58",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 77,
+        "name": "Event60",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 203,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event61",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 0
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 206,
+            "value": 0
+          },
+          {
+            "target": 162,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event62",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 8
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event64",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event65",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event66",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event67",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event68",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event70",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event71",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event72",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event73",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 213,
+            "value": 1
+          }
+        ],
+        "index": 91,
+        "name": "Event74",
+        "params": {
+          "BitParamType": "食べる",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryKindBitParamItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event75",
+        "next": 72,
+        "params": {
+          "AddValue": -5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 163,
+            "value": 0
+          },
+          {
+            "target": 96,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event76",
+        "params": {
+          "Border": 2000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 164,
+            "value": 0
+          },
+          {
+            "target": 165,
+            "value": 1
+          }
+        ],
+        "index": 94,
+        "name": "Event96",
+        "params": {
+          "Border": 2001,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 163,
+            "value": 0
+          },
+          {
+            "target": 94,
+            "value": 1
+          }
+        ],
+        "index": 95,
+        "name": "Event109",
+        "params": {
+          "Border": 8000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 164,
+            "value": 0
+          },
+          {
+            "target": 165,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event111",
+        "params": {
+          "Border": 501,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 98,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event116",
+        "params": {
+          "ItemKindType1": "Money",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 98,
+        "name": "Event119",
+        "params": {
+          "ItemKindType1": "LostQuestDust",
+          "ItemKindType2": "TurnipExpired",
+          "ItemKindType3": "Trash",
+          "ItemKindType4": "JohnnyQuestDust",
+          "ItemKindType5": "TreasureQuestDust",
+          "ItemKindType6": "Weed",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event120",
+        "params": {
+          "ItemKindType1": "Turnip",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 100,
+        "name": "Event121",
+        "params": {
+          "ItemUniqueID1": 2779,
+          "ItemUniqueID2": 3592,
+          "ItemUniqueID3": 7146,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ItemComment",
+        "flowchart": "",
+        "index": 101,
+        "name": "Event145",
+        "next": 112,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 102,
+        "name": "Event92",
+        "next": 109,
+        "params": {
+          "AddValue": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event110",
+        "next": 108,
+        "params": {
+          "AddValue": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event112",
+        "next": 110,
+        "params": {
+          "AddValue": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event113",
+        "next": 109,
+        "params": {
+          "AddValue": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event114",
+        "next": 108,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event115",
+        "next": 110,
+        "params": {
+          "AddValue": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 116,
+            "value": 1
+          },
+          {
+            "target": 116,
+            "value": 2
+          },
+          {
+            "target": 116,
+            "value": 3
+          },
+          {
+            "target": 123,
+            "value": 4
+          },
+          {
+            "target": 123,
+            "value": 5
+          }
+        ],
+        "index": 108,
+        "name": "Event124",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          },
+          {
+            "target": 110,
+            "value": 1
+          },
+          {
+            "target": 110,
+            "value": 2
+          },
+          {
+            "target": 110,
+            "value": 3
+          },
+          {
+            "target": 126,
+            "value": 4
+          },
+          {
+            "target": 126,
+            "value": 5
+          }
+        ],
+        "index": 109,
+        "name": "Event134",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 110,
+        "name": "Event137",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event138",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 0
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Add_Coloseness",
+        "flowchart": "",
+        "index": 112,
+        "name": "Event150",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event158",
+        "next": 34,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event77",
+        "next": 219,
+        "params": {
+          "Command": 3,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 115,
+        "name": "Event78",
+        "next": 132,
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNPresentFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 117,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event94",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 125,
+            "value": 1
+          }
+        ],
+        "index": 117,
+        "name": "Event100",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 0
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event87",
+        "next": 175,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 119,
+        "name": "Event88",
+        "next": 173,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 120,
+        "name": "Event89",
+        "next": 174,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          },
+          {
+            "target": 168,
+            "value": 1
+          }
+        ],
+        "index": 121,
+        "name": "Event90",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 131,
+            "value": 0
+          },
+          {
+            "target": 169,
+            "value": 1
+          }
+        ],
+        "index": 122,
+        "name": "Event153",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Reward_Normal",
+        "flowchart": "",
+        "index": 123,
+        "name": "Event163",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reward_Normal",
+        "flowchart": "",
+        "index": 124,
+        "name": "Event164",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reward_Rere",
+        "flowchart": "",
+        "index": 125,
+        "name": "Event165",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reward_Rere",
+        "flowchart": "",
+        "index": 126,
+        "name": "Event166",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reward_Rere",
+        "flowchart": "",
+        "index": 127,
+        "name": "Event167",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reward_SuperRere",
+        "flowchart": "",
+        "index": 128,
+        "name": "Event168",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 129,
+        "name": "Event169",
+        "next": 199,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:CelebrateVillagersBithday",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSendRandom",
+        "actor": "MainNpc",
+        "index": 130,
+        "name": "Event170",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_XX_BirthDayN",
+          "LabelIndexBegin": 1,
+          "LabelIndexEnd": 3,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSendRandom",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event132",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_XX_BirthDayN",
+          "LabelIndexBegin": 4,
+          "LabelIndexEnd": 6,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 132,
+        "name": "Event136",
+        "next": 194,
+        "params": {
+          "AccessKey": "cPlayer:BirthdayNGavePresentFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          }
+        ],
+        "index": 133,
+        "name": "Event171",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 136,
+            "value": 0
+          },
+          {
+            "target": 137,
+            "value": 1
+          }
+        ],
+        "index": 134,
+        "name": "Event173",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 135,
+        "name": "Event159",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 140,
+            "value": 0
+          },
+          {
+            "target": 135,
+            "value": 1
+          }
+        ],
+        "index": 136,
+        "name": "Event182",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 138,
+            "value": 0
+          },
+          {
+            "target": 139,
+            "value": 1
+          }
+        ],
+        "index": 137,
+        "name": "Event183",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 138,
+        "name": "Event184",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:072"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 139,
+        "name": "Event185",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:073"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 140,
+        "name": "Event186",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:071"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPlayReport",
+        "actor": "MainNpc",
+        "index": 141,
+        "name": "Event18",
+        "next": 113,
+        "params": {
+          "NpcPlayReportKind": "cNpcBirthdayPresent",
+          "Num0": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event86",
+        "next": 59,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 143,
+        "name": "Event95",
+        "next": 61,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FirstMeeting_FlagProcess",
+        "flowchart": "NNPC_Reaction_First_Root",
+        "index": 144,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemApplySave",
+        "actor": "MainNpc",
+        "index": 145,
+        "name": "Event16",
+        "next": 152,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 147,
+            "value": 0
+          },
+          {
+            "target": 148,
+            "value": 1
+          }
+        ],
+        "index": 146,
+        "name": "Event155",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 147,
+        "name": "Event162",
+        "next": 151,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:048"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 148,
+        "name": "Event172",
+        "next": 151,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:049"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 149,
+        "name": "Event174",
+        "next": 176,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 150,
+        "name": "Event175",
+        "next": 146,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event176",
+        "next": 149,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 152,
+        "name": "Event98",
+        "next": 190,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDeletePlayerItem",
+        "actor": "EventFlowSystemActor",
+        "index": 153,
+        "name": "Event117",
+        "next": 100,
+        "params": {
+          "DeleteNum": 1,
+          "DeleteType": "cItemWindowSub"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 155,
+            "value": 1
+          }
+        ],
+        "index": 154,
+        "name": "Event181",
+        "params": {
+          "ItemKindType1": "Money",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 153,
+            "value": 1
+          }
+        ],
+        "index": 155,
+        "name": "Event187",
+        "params": {
+          "ItemKindType1": "LostQuestDust",
+          "ItemKindType2": "TurnipExpired",
+          "ItemKindType3": "Trash",
+          "ItemKindType4": "JohnnyQuestDust",
+          "ItemKindType5": "TreasureQuestDust",
+          "ItemKindType6": "Weed",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 156,
+        "name": "Event188",
+        "next": 154,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 157,
+        "name": "Event93",
+        "next": 66,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 103,
+            "value": 0
+          },
+          {
+            "target": 106,
+            "value": 1
+          }
+        ],
+        "index": 158,
+        "name": "Event99",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 102,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 159,
+        "name": "Event101",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          },
+          {
+            "target": 107,
+            "value": 1
+          }
+        ],
+        "index": 160,
+        "name": "Event118",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 161,
+        "name": "Event129",
+        "next": 156,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 162,
+        "name": "Event130",
+        "params": {
+          "ItemKindType1": "Honeycomb",
+          "ItemKindType2": "Fruit",
+          "ItemKindType3": "Mushroom",
+          "ItemKindType4": "ShellDrift",
+          "ItemKindType5": "Insect",
+          "ItemKindType6": "Fish",
+          "ItemKindType7": "Fossil",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event122",
+        "next": 82,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event128",
+        "next": 85,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 165,
+        "name": "Event133",
+        "next": 88,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 160,
+            "value": 0
+          },
+          {
+            "target": 159,
+            "value": 1
+          },
+          {
+            "target": 158,
+            "value": 2
+          }
+        ],
+        "index": 166,
+        "name": "Event135",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 167,
+        "name": "Event123",
+        "next": 177,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:080"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 167,
+            "value": 1
+          }
+        ],
+        "index": 168,
+        "name": "Event131",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 167,
+            "value": 1
+          }
+        ],
+        "index": 169,
+        "name": "Event141",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 234,
+            "value": 0
+          },
+          {
+            "target": 172,
+            "value": 1
+          }
+        ],
+        "index": 170,
+        "name": "Event143",
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 234,
+            "value": 0
+          },
+          {
+            "target": 170,
+            "value": 1
+          }
+        ],
+        "index": 171,
+        "name": "Event144",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 178,
+            "value": 0
+          },
+          {
+            "target": 234,
+            "value": 1
+          }
+        ],
+        "index": 172,
+        "name": "Event146",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 173,
+        "name": "Event147",
+        "next": 122,
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 174,
+        "name": "Event148",
+        "next": 122,
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 175,
+        "name": "Event149",
+        "next": 121,
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 176,
+        "name": "Event152",
+        "next": 243,
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 177,
+        "name": "Event140",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 182,
+            "value": 0
+          },
+          {
+            "target": 179,
+            "value": 1
+          }
+        ],
+        "index": 178,
+        "name": "Event154",
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 181,
+            "value": 0
+          },
+          {
+            "target": 180,
+            "value": 1
+          }
+        ],
+        "index": 179,
+        "name": "Event156",
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 180,
+        "name": "Event160",
+        "next": 188,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 181,
+        "name": "Event161",
+        "next": 188,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 182,
+        "name": "Event177",
+        "next": 188,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 183,
+        "name": "Event157",
+        "next": 185,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 184,
+        "name": "Event179",
+        "next": 183,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 185,
+        "name": "Event180",
+        "next": 242,
+        "params": {
+          "AccessKey": "cNpcMemory:DC_NPCBirthdayFlag",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToNpcStockList",
+        "actor": "MainNpc",
+        "index": 186,
+        "name": "Event190",
+        "next": 240,
+        "params": {
+          "GetRoute": 1,
+          "NpcStockTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 187,
+        "name": "Event139",
+        "next": 184,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 188,
+        "name": "Event151",
+        "next": 187,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 189,
+        "name": "Event178",
+        "next": 144,
+        "params": {
+          "AccessKey": "cNpcMemory:BirhdayNTalkInFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 193,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 190,
+        "name": "Event189",
+        "params": {
+          "ItemKindType1": "DIYRecipe",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 191,
+        "name": "Event191",
+        "next": 192,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 192,
+        "name": "Event192",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 193,
+        "name": "Event193",
+        "next": 191,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 194,
+        "name": "Event194",
+        "next": 129,
+        "params": {
+          "AccessKey": "cPlayerVisit:BirthdayNGavePresent_DC"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 195,
+        "name": "Event195",
+        "next": 21,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 195,
+            "value": 1
+          }
+        ],
+        "index": 196,
+        "name": "Event196",
+        "params": {},
+        "query": "EventFlowQueryIsTargetNpcHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetCalcPriceBySolo",
+        "actor": "EventFlowSystemActor",
+        "index": 197,
+        "name": "Event197",
+        "next": 161,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 198,
+        "name": "Event198",
+        "next": 114,
+        "params": {
+          "AccessKey": "cLifeSupportDaily:EDSendFlower"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 198,
+            "value": 0
+          },
+          {
+            "target": 114,
+            "value": 1
+          }
+        ],
+        "index": 199,
+        "name": "Event199",
+        "params": {
+          "ItemKindType1": "Flower",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 200,
+        "name": "Event201",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 201,
+        "name": "Event202",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 211,
+            "value": 0
+          },
+          {
+            "target": 208,
+            "value": 1
+          }
+        ],
+        "index": 202,
+        "name": "Event203",
+        "params": {
+          "ItemKindType1": "Cap",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 202,
+            "value": 1
+          }
+        ],
+        "index": 203,
+        "name": "Event205",
+        "params": {
+          "ItemKindType1": "Tops",
+          "ItemKindType2": "OnePiece",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 212,
+            "value": 0
+          },
+          {
+            "target": 205,
+            "value": 1
+          }
+        ],
+        "index": 204,
+        "name": "Event206",
+        "params": {
+          "ItemKindType1": "Cap",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 210,
+            "value": 0
+          },
+          {
+            "target": 162,
+            "value": 1
+          }
+        ],
+        "index": 205,
+        "name": "Event207",
+        "params": {
+          "ItemKindType1": "Accessory",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 204,
+            "value": 1
+          }
+        ],
+        "index": 206,
+        "name": "Event208",
+        "params": {
+          "ItemKindType1": "Tops",
+          "ItemKindType2": "OnePiece",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 207,
+        "name": "Event209",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:019_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 208,
+        "name": "Event210",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:019_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 209,
+        "name": "Event204",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:020_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 210,
+        "name": "Event211",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_BirthdayN_H:020_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 208,
+            "value": 0
+          },
+          {
+            "target": 207,
+            "value": 1
+          }
+        ],
+        "index": 211,
+        "name": "Event212",
+        "params": {
+          "ItemCategoryType1": "HeadHairAcce",
+          "ItemCategoryType2": "",
+          "ItemCategoryType3": "",
+          "ItemCategoryType4": "",
+          "ItemCategoryType5": "",
+          "ItemCategoryType6": "",
+          "ItemCategoryType7": "",
+          "ItemCategoryType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiMessageCategoryItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 210,
+            "value": 0
+          },
+          {
+            "target": 209,
+            "value": 1
+          }
+        ],
+        "index": 212,
+        "name": "Event213",
+        "params": {
+          "ItemCategoryType1": "HeadHairAcce",
+          "ItemCategoryType2": "",
+          "ItemCategoryType3": "",
+          "ItemCategoryType4": "",
+          "ItemCategoryType5": "",
+          "ItemCategoryType6": "",
+          "ItemCategoryType7": "",
+          "ItemCategoryType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiMessageCategoryItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 218,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 213,
+        "name": "Event216",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "Valentine"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 214,
+        "name": "Event217",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/GEvent/AN_GEvent_BirthdayN_H:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 216,
+            "value": 0
+          },
+          {
+            "target": 214,
+            "value": 1
+          }
+        ],
+        "index": 215,
+        "name": "Event218",
+        "params": {
+          "ItemUniqueID1": 14029,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionRegistValentinePresentInfo",
+        "actor": "MainNpc",
+        "index": 216,
+        "name": "Event219",
+        "next": 214,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 217,
+        "name": "Event220",
+        "next": 215,
+        "params": {
+          "AccessKey": "cNpcMemory:IsReceiptWrappingItem"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 217,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 218,
+        "name": "Event215",
+        "params": {
+          "ItemUniqueID1": 13488,
+          "ItemUniqueID2": 14029,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 221,
+            "value": 0
+          },
+          {
+            "target": 186,
+            "value": 1
+          }
+        ],
+        "index": 219,
+        "name": "Event222",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "Valentine"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 230,
+            "value": 0
+          },
+          {
+            "target": 186,
+            "value": 1
+          }
+        ],
+        "index": 220,
+        "name": "Event223",
+        "params": {
+          "ItemUniqueID1": 13488,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 222,
+            "value": 0
+          },
+          {
+            "target": 220,
+            "value": 1
+          }
+        ],
+        "index": 221,
+        "name": "Event224",
+        "params": {
+          "ItemUniqueID1": 14029,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionRegistValentinePresentInfo",
+        "actor": "MainNpc",
+        "index": 222,
+        "name": "Event225",
+        "next": 230,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 239,
+            "value": 0
+          }
+        ],
+        "index": 223,
+        "name": "Event228",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "Valentine"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 231,
+            "value": 0
+          },
+          {
+            "target": 232,
+            "value": 1
+          },
+          {
+            "target": 233,
+            "value": 2
+          }
+        ],
+        "index": 224,
+        "name": "Event231",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 228,
+            "value": 0
+          },
+          {
+            "target": 235,
+            "value": 1
+          }
+        ],
+        "index": 225,
+        "name": "Event232",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 226,
+        "name": "Event236",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 238,
+            "value": 1
+          }
+        ],
+        "index": 227,
+        "name": "Event237",
+        "params": {
+          "AccessKey": "cNpcMemory:ValentinePresentFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Valentine",
+        "flowchart": "NNPC_Select_Present",
+        "index": 228,
+        "name": "Event238",
+        "next": 229,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 229,
+        "name": "Event239",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 230,
+        "name": "Event240",
+        "next": 240,
+        "params": {
+          "AccessKey": "cNpcMemory:ValentinePresentFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 231,
+        "name": "Event233",
+        "next": 225,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/GEvent/AN_GEvent_BirthdayN_H:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 232,
+        "name": "Event234",
+        "next": 225,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/GEvent/AN_GEvent_BirthdayN_H:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 233,
+        "name": "Event235",
+        "next": 225,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/GEvent/AN_GEvent_BirthdayN_H:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ValentineChk",
+        "flowchart": "",
+        "index": 234,
+        "name": "Event241",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 235,
+        "name": "Event242",
+        "next": 226,
+        "params": {
+          "WaitFrame": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 237,
+            "value": 0
+          }
+        ],
+        "index": 236,
+        "name": "Event243",
+        "params": {
+          "AccessKey": "cNpcMemory:ReceivedFirstPresent"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 224,
+            "value": 0
+          }
+        ],
+        "index": 237,
+        "name": "Event244",
+        "params": {
+          "AccessKey": "cNpcMemory:FriendshipBecomeAcqH"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "PresentAvailable_Chk",
+        "flowchart": "NNPC_Talk_General",
+        "index": 238,
+        "name": "Event245",
+        "next": 236,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 227,
+            "value": 0
+          }
+        ],
+        "index": 239,
+        "name": "Event246",
+        "params": {},
+        "query": "EventFlowQueryHaveValentineItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 240,
+        "name": "Event247",
+        "next": 241,
+        "params": {
+          "Key": "BirthdayEvent_NNPC"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 241,
+        "name": "Event227",
+        "next": 166,
+        "params": {
+          "Key": "Present_ToNNPC"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 242,
+        "name": "Event249",
+        "next": 35,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 243,
+        "name": "Event251",
+        "next": null,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_GEvent_BirthdayN_H",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "cc5f1aa5fa1b96df9dc581b43e7889412ae09fb2f617da515c8df48fe9fb3669",
+  "size": 60352,
+  "status": "converted"
+}

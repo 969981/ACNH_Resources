@@ -1,0 +1,2550 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIWherearenIslandsMapHandling",
+          "EventFlowActionFadeIn",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIHousingOrderListHandling",
+          "EventFlowActionWherearenSetNpcOrderFreeTheme",
+          "EventFlowActionWherearenOrderCallback",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSetWherearenNpcGardenIDDirect",
+          "EventFlowActionSoundDuckingOn",
+          "EventFlowActionSoundDuckingOff",
+          "EventFlowActionSetWherearenPlayerRemoveBinderSeq",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionSoundFadeOutDuckingOff",
+          "EventFlowActionReserveEnterGardenPattern",
+          "EventFlowActionSystemBGMVolumeFadeIn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenNpcOrderType",
+          "EventFlowQueryIsFirstWherearenOrderDemo",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsWherearenNpcOrderNewBuildType",
+          "EventFlowQueryWherearenNpcFreeQuery2",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryIsSharehouseOrderCustomer",
+          "EventFlowQueryEventFlagSystemInt"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionNpcAITalkCastSetting"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "Npc_2",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcLook"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionPlayerStartLookDown",
+          "EventFlowActionPlayerEndLookDown"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionSetNpcName",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetNpcWherearenThemeTag",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcLook",
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryWherearenIsNpcLiveTogether"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[Character]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[sub]",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWherearenExpandNpcHouse"
+        ],
+        "argument_name": "",
+        "identifier": "Npc_1",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 123,
+        "name": "Root"
+      },
+      {
+        "main_event": 82,
+        "name": "NotFade"
+      },
+      {
+        "main_event": 150,
+        "name": "NewHouse"
+      },
+      {
+        "main_event": 151,
+        "name": "MoveHouse"
+      },
+      {
+        "main_event": 70,
+        "name": "SelectField"
+      },
+      {
+        "main_event": 164,
+        "name": "NewHouseTutorial"
+      },
+      {
+        "main_event": 45,
+        "name": "NPC_CloseEmotion"
+      },
+      {
+        "main_event": 68,
+        "name": "Root_Init"
+      },
+      {
+        "main_event": 65,
+        "name": "NPC_CloseEmotion_Officer"
+      },
+      {
+        "main_event": 31,
+        "name": "NPC_CloseEmotion_Customer"
+      },
+      {
+        "main_event": 44,
+        "name": "NPC_CloseEmotion_MncOrHousemate"
+      },
+      {
+        "main_event": 159,
+        "name": "NPC_CloseEmotion_Player"
+      },
+      {
+        "main_event": 68,
+        "name": "NotFade_Init"
+      },
+      {
+        "main_event": 58,
+        "name": "ShowOrder"
+      },
+      {
+        "main_event": 118,
+        "name": "LocationTutorial"
+      },
+      {
+        "main_event": 129,
+        "name": "PostSelectField"
+      },
+      {
+        "main_event": 130,
+        "name": "NewHouseOrderEnd"
+      },
+      {
+        "main_event": 172,
+        "name": "SameLocationRemind"
+      },
+      {
+        "main_event": 181,
+        "name": "FirstSelectExtention"
+      }
+    ],
+    "event_count": 185,
+    "event_flow_name": "SNPC_otg_02_WherearenOrder",
+    "events": [
+      {
+        "action": "EventFlowActionUIWherearenIslandsMapHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "HandlingType": "cSelectSection"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:003_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event6",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event19",
+        "next": 82,
+        "params": {
+          "IsWait": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event20",
+        "next": 140,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHousingOrderListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event10",
+        "next": 60,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NewHouse",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MoveHouse",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event41",
+        "next": 139,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event42",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event43",
+        "next": 179,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 3
+          }
+        ],
+        "index": 11,
+        "name": "Event56",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetNpcOrderFreeTheme",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event57",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event64",
+        "next": 114,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SelectField",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event66",
+        "next": 133,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SelectField",
+        "flowchart": "",
+        "index": 15,
+        "name": "Event67",
+        "next": 134,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event15",
+        "next": 28,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "OrderCut0",
+          "CameraTargetKey": "",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event45",
+        "next": 16,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event18",
+        "params": {},
+        "query": "EventFlowQueryIsFirstWherearenOrderDemo",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NewHouseTutorial",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "SubNpc",
+        "index": 20,
+        "name": "Event4",
+        "next": 18,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cWherearenPlayer:ProposeNPCHouse"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 22,
+        "name": "Event12",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:003_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcWherearenThemeTag",
+        "actor": "SubNpc",
+        "index": 23,
+        "name": "Event11",
+        "next": 20,
+        "params": {
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 24,
+        "name": "Event17",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event22",
+        "next": 24,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CallSNPCAmiibo"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event27",
+        "next": 12,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CallSNPCAmiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event29",
+        "next": 29,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 29,
+        "name": "Event30",
+        "next": 4,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Smiling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          },
+          {
+            "target": 33,
+            "value": 2
+          },
+          {
+            "target": 33,
+            "value": 3
+          },
+          {
+            "target": 32,
+            "value": 4
+          },
+          {
+            "target": 33,
+            "value": 5
+          },
+          {
+            "target": 32,
+            "value": 6
+          },
+          {
+            "target": 33,
+            "value": 7
+          }
+        ],
+        "index": 31,
+        "name": "Event34",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 32,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Clapping"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 33,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Smiling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Player",
+        "index": 34,
+        "name": "Event50",
+        "next": 160,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "RequestOkay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          64,
+          63,
+          62,
+          61
+        ],
+        "index": 35,
+        "join": 36,
+        "name": "Event60",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 36,
+        "name": "Event62",
+        "next": 37,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event103",
+        "next": 17,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event104",
+        "next": 40,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "OrderCameraRP",
+          "CameraParamKey": "OrderCut1",
+          "CameraTargetKey": "",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event105",
+        "next": 35,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Npc_2",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 43,
+            "value": 2
+          },
+          {
+            "target": 43,
+            "value": 3
+          },
+          {
+            "target": 42,
+            "value": 4
+          },
+          {
+            "target": 43,
+            "value": 5
+          },
+          {
+            "target": 42,
+            "value": 6
+          },
+          {
+            "target": 43,
+            "value": 7
+          }
+        ],
+        "index": 41,
+        "name": "Event110",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Npc_2",
+        "index": 42,
+        "name": "Event111",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Clapping"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Npc_2",
+        "index": 43,
+        "name": "Event112",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Smiling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 1
+          },
+          {
+            "target": 166,
+            "value": 3
+          }
+        ],
+        "index": 44,
+        "name": "Event113",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event114",
+        "next": 39,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 46,
+        "name": "Event13",
+        "next": 47,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:601"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event47",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:602"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event49",
+        "next": 89,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:604"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event51",
+        "next": 92,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:605"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event53",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:606"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 51,
+        "name": "Event61",
+        "next": 154,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:607"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SelectField",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event73",
+        "next": 117,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NewHouseOrderEnd",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event78",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event40",
+        "next": 55,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "OrderCut0_1",
+          "CameraTargetKey": "",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event79",
+        "next": 5,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event80",
+        "next": 57,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "OrderCut0",
+          "CameraTargetKey": "",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "WaitFrame": 24
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 58,
+        "name": "Event81",
+        "next": 59,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "AbsentMindedness"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[Character]",
+        "index": 59,
+        "name": "Event93",
+        "next": 54,
+        "params": {
+          "WaitFrame": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 60,
+        "name": "Event94",
+        "next": 56,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NPC_CloseEmotion_MncOrHousemate",
+        "flowchart": "",
+        "index": 61,
+        "name": "Event118",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NPC_CloseEmotion_Customer",
+        "flowchart": "",
+        "index": 62,
+        "name": "Event119",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NPC_CloseEmotion_Officer",
+        "flowchart": "",
+        "index": 63,
+        "name": "Event120",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NPC_CloseEmotion_Player",
+        "flowchart": "",
+        "index": 64,
+        "name": "Event121",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event122",
+        "next": 30,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event123",
+        "next": 176,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event124",
+        "next": 14,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 3
+          }
+        ],
+        "index": 68,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event82",
+        "next": 76,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerStartLookDown",
+        "actor": "Player",
+        "index": 70,
+        "name": "Event92",
+        "next": 162,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerEndLookDown",
+        "actor": "Player",
+        "index": 71,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          0,
+          74
+        ],
+        "index": 72,
+        "join": 73,
+        "name": "Event102",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 73,
+        "name": "Event116",
+        "next": 163,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[sub]",
+        "index": 74,
+        "name": "Event125",
+        "next": 71,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkCastSetting",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event83",
+        "next": null,
+        "params": {
+          "SetupKey": "WherearenOrder"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 136,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event99",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqOtgSickOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 77,
+        "name": "Event100",
+        "next": 66,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event128",
+        "next": 79,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event129",
+        "next": 77,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 80,
+        "name": "Event130",
+        "next": 67,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 81,
+        "name": "Event126",
+        "next": 11,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event127",
+        "next": 81,
+        "params": {
+          "Flag": true,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event134",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:608"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 84,
+        "name": "Event48",
+        "next": 87,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:603"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event68",
+        "next": 91,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:609"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ShowOrder",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event71",
+        "next": 13,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ShowOrder",
+        "flowchart": "",
+        "index": 87,
+        "name": "Event72",
+        "next": 48,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 88,
+        "name": "Event52",
+        "next": 49,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event77",
+        "next": 90,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event97",
+        "next": 88,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 91,
+        "name": "Event46",
+        "next": 103,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event76",
+        "next": 94,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 93,
+        "name": "Event98",
+        "next": 50,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event135",
+        "next": 93,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event142",
+        "next": 97,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 96,
+        "name": "Event143",
+        "next": 85,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event144",
+        "next": 96,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event145",
+        "next": 53,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_MncTalkReserve_Garden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event148",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenNpcOrderNewBuildType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event149",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 102,
+            "value": 0
+          },
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 101,
+        "name": "Event151",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqOtgSickOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NewHouse_OtgSick",
+        "flowchart": "SNPC_mnc_03_WherearenOrder",
+        "index": 102,
+        "name": "Event152",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetWherearenNpcGardenIDDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 103,
+        "name": "Event146",
+        "next": 98,
+        "params": {
+          "NpcGardenID": 32
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NewHouseOrderEnd",
+        "flowchart": "",
+        "index": 104,
+        "name": "Event160",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 105,
+        "name": "Event170",
+        "next": 52,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 106,
+        "name": "Event171",
+        "next": 105,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event176",
+        "next": 109,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 108,
+        "name": "Event177",
+        "next": 119,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 109,
+        "name": "Event178",
+        "next": 108,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 110,
+        "name": "Event179",
+        "next": 120,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 111,
+        "name": "Event180",
+        "next": 113,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 112,
+        "name": "Event181",
+        "next": 121,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 113,
+        "name": "Event182",
+        "next": 112,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 115,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event69",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqLocationTutorialDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "LocationTutorial",
+        "flowchart": "",
+        "index": 115,
+        "name": "Event70",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 116,
+        "name": "Event74",
+        "next": 157,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_WherearenEvent_Once:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 117,
+        "name": "Event75",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_WherearenEvent_Once:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event88",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:621"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 119,
+        "name": "Event89",
+        "next": 106,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:622"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 120,
+        "name": "Event90",
+        "next": 111,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:623"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 121,
+        "name": "Event137",
+        "next": 122,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:624"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 122,
+        "name": "Event138",
+        "next": 104,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqLocationTutorialDone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event141",
+        "next": 38,
+        "params": {
+          "Id": 51
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 124,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearen",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearen",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenNpcGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 125,
+        "name": "Event2",
+        "next": 128,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CustomerTalkReserve_Garden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 126,
+        "name": "Event5",
+        "next": 132,
+        "params": {
+          "CallBackTiming": "cConfirm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 127,
+        "name": "Event14",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NPC_CloseEmotion",
+        "flowchart": "",
+        "index": 128,
+        "name": "Event58",
+        "next": 126,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 129,
+        "name": "Event117",
+        "next": 131,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:003_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 130,
+        "name": "Event131",
+        "next": 125,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event132",
+        "next": 141,
+        "params": {
+          "IsFast": true,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetCamera_GardenVisit",
+        "flowchart": "Demo_Common_Wherearen",
+        "index": 132,
+        "name": "Event147",
+        "next": 138,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PostSelectField",
+        "flowchart": "",
+        "index": 133,
+        "name": "Event150",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PostSelectField",
+        "flowchart": "",
+        "index": 134,
+        "name": "Event153",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "SubNpc",
+        "index": 135,
+        "name": "Event115",
+        "next": 177,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          }
+        ],
+        "index": 136,
+        "name": "Event23",
+        "params": {
+          "FindLabel": "otg",
+          "Type": "cCustomer"
+        },
+        "query": "EventFlowQueryWherearenNpcFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 137,
+        "name": "Event155",
+        "next": 156,
+        "params": {
+          "BGMProperty": 137
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 138,
+        "name": "Event95",
+        "next": 149,
+        "params": {
+          "BGMProperty": 140
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 139,
+        "name": "Event101",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:003_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 140,
+        "name": "Event109",
+        "next": 158,
+        "params": {
+          "Id": 54
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 165,
+            "value": 0
+          },
+          {
+            "target": 127,
+            "value": 1
+          }
+        ],
+        "index": 141,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Extension"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event8",
+        "next": 184,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 143,
+        "name": "Event28",
+        "next": 144,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 0
+          },
+          {
+            "target": 146,
+            "value": 1
+          }
+        ],
+        "index": 144,
+        "name": "Event31",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 145,
+        "name": "Event32",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 146,
+        "name": "Event33",
+        "next": 148,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 147,
+        "name": "Event54",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenExpandNpcHouse",
+        "actor": "Npc_1",
+        "index": 148,
+        "name": "Event59",
+        "next": 147,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetWherearenPlayerRemoveBinderSeq",
+        "actor": "EventFlowSystemActor",
+        "index": 149,
+        "name": "Event65",
+        "next": 155,
+        "params": {
+          "IsRemove": false,
+          "IsRequest": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetWherearenPlayerRemoveBinderSeq",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event154",
+        "next": 23,
+        "params": {
+          "IsRemove": false,
+          "IsRequest": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetWherearenPlayerRemoveBinderSeq",
+        "actor": "EventFlowSystemActor",
+        "index": 151,
+        "name": "Event156",
+        "next": 135,
+        "params": {
+          "IsRemove": false,
+          "IsRequest": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 152,
+        "name": "Event133",
+        "next": 144,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Spot_WherearenOrder:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 152,
+            "value": 1
+          }
+        ],
+        "index": 153,
+        "name": "Event136",
+        "params": {
+          "AccessKey": "cWherearenNpcMemory:ApproachOccurringFlag",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 154,
+        "name": "Event96",
+        "next": 83,
+        "params": {
+          "BGMProperty": 141
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event140",
+        "next": 170,
+        "params": {
+          "AssetKeyName": "WherearenFade_Boat",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundFadeOutDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 156,
+        "name": "Event157",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 157,
+        "name": "Event159",
+        "next": 107,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:621_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemBGMVolumeFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 158,
+        "name": "Event139",
+        "next": 137,
+        "params": {
+          "DelaySec": 0.0,
+          "FadeCurveType": 0,
+          "FadeSec": 0.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 159,
+        "name": "Event158",
+        "next": 161,
+        "params": {
+          "Id": 62
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 160,
+        "name": "Event162",
+        "next": null,
+        "params": {
+          "Id": 62
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 161,
+        "name": "Event163",
+        "next": 34,
+        "params": {
+          "AssetKeyName": "Demo_RequestOkay",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event164",
+        "next": 72,
+        "params": {
+          "Id": 63
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event165",
+        "next": null,
+        "params": {
+          "Id": 63
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemBGMVolumeFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event166",
+        "next": 46,
+        "params": {
+          "DelaySec": 0.0,
+          "FadeCurveType": 0,
+          "FadeSec": 0.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 142,
+            "value": 0
+          },
+          {
+            "target": 142,
+            "value": 2
+          },
+          {
+            "target": 168,
+            "value": 3
+          }
+        ],
+        "index": 165,
+        "name": "Event167",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          }
+        ],
+        "index": 166,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsNpcLiveTogether",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 167,
+        "name": "Event44",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:112_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 167,
+            "value": 0
+          },
+          {
+            "target": 127,
+            "value": 1
+          }
+        ],
+        "index": 168,
+        "name": "Event84",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsNpcLiveTogether",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReserveEnterGardenPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 169,
+        "name": "Event85",
+        "next": 124,
+        "params": {
+          "Pattern": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 171,
+            "value": 0
+          },
+          {
+            "target": 169,
+            "value": 1
+          }
+        ],
+        "index": 170,
+        "name": "Event86",
+        "params": {},
+        "query": "EventFlowQueryIsSharehouseOrderCustomer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReserveEnterGardenPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 171,
+        "name": "Event87",
+        "next": 124,
+        "params": {
+          "Pattern": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 173,
+            "value": 0
+          }
+        ],
+        "index": 172,
+        "name": "Event106",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NewBuildCount",
+          "Border": 8,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 174,
+            "value": 1
+          }
+        ],
+        "index": 173,
+        "name": "Event107",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqSameLocationRemindDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 174,
+        "name": "Event108",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:191"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 175,
+        "name": "Event161",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqSameLocationRemindDone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SameLocationRemind",
+        "flowchart": "",
+        "index": 176,
+        "name": "Event168",
+        "next": 80,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 178,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 177,
+        "name": "Event172",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsNpcLiveTogether",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 178,
+        "name": "Event173",
+        "next": 139,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:201_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SubNpc",
+        "cases": [
+          {
+            "target": 180,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 179,
+        "name": "Event174",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsNpcLiveTogether",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 180,
+        "name": "Event175",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:202_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 183,
+            "value": 1
+          }
+        ],
+        "index": 181,
+        "name": "Event183",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqFirstSelectExtentionDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 182,
+        "name": "Event184",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqFirstSelectExtentionDone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 183,
+        "name": "Event185",
+        "next": 182,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_02_WherearenOrder:113_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FirstSelectExtention",
+        "flowchart": "",
+        "index": 184,
+        "name": "Event186",
+        "next": 153,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_otg_02_WherearenOrder",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "fea449f040a66b761ef79a18f39e863d4e55a0480f4c8a492f99a083adf3301a",
+  "size": 38448,
+  "status": "converted"
+}

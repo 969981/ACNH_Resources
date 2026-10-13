@@ -1,0 +1,350 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeTurnDefaultState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcIsInvisible"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 16,
+        "name": "Init"
+      },
+      {
+        "main_event": 2,
+        "name": "Root"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "AI_NPC_Hgh",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event5",
+        "next": 8,
+        "params": {
+          "Key": "CheckItemIndex",
+          "Value": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event9",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event11",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event30",
+        "next": 6,
+        "params": {
+          "Flag": true,
+          "SettingType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event31",
+        "next": 4,
+        "params": {
+          "Flag": true,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event22",
+        "params": {
+          "CheckStage": "cTailor"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 2,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryNpcIsInvisible",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event8",
+        "params": {
+          "CheckStage": "cMametubu"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "rcm",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event21",
+        "next": 14,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event24",
+        "next": 12,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event26",
+        "params": {
+          "CheckStage": "cMametubu"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "AccessKey": "cLandTemp:HghStayMarketNow"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Hgh",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "92e4378c4f37090a2214598616d49c24deb5e6f58542e4e11809f8ac9aaf1945",
+  "size": 6496,
+  "status": "converted"
+}

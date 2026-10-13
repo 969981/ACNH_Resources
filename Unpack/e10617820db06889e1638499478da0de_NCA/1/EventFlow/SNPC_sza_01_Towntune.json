@@ -1,0 +1,1136 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSzaPlayMelody",
+          "EventFlowActionSzaAchievementChangeSymbol",
+          "EventFlowActionSzaPlayDefaultVillageMelody"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMelodyEditHandling",
+          "EventFlowActionSaveSetFromUIResult",
+          "EventFlowActionNpcPlayerActivity",
+          "EventFlowActionUIMelodyEditCreate",
+          "EventFlowActionSetMemoryEventLand",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionSaveDefaultVillageMelody",
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionEventFlagSystemAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryUIResultMelodyEdit",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryHasChangedVillageMelody",
+          "EventFlowQueryFlagSystemIntValue5",
+          "EventFlowQueryRandomChoice4",
+          "EventFlowQueryFlagSystemIntValue4",
+          "EventFlowQueryEventFlagSystemComqare"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 15,
+        "name": "Root"
+      },
+      {
+        "main_event": 4,
+        "name": "EditNewMelody"
+      },
+      {
+        "main_event": 7,
+        "name": "Cancel_Towntune"
+      },
+      {
+        "main_event": 55,
+        "name": "RecommendOther"
+      },
+      {
+        "main_event": 69,
+        "name": "Recommend"
+      }
+    ],
+    "event_count": 76,
+    "event_flow_name": "SNPC_sza_01_Towntune",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cPlayer:ShizueCmnExplanationTowntune"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": 4,
+        "params": {
+          "AccessKey": "cPlayer:ShizueCmnExplanationTowntune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMelodyEditHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryUIResultMelodyEdit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayMelody",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event8",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event11",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayMelody",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event12",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcPlayerActivity",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event14",
+        "next": 17,
+        "params": {
+          "ActivityType": "cActivityType_ChangeMelody"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Sza_CmnSel_Again",
+        "flowchart": "SNPC_sza_00_Common",
+        "index": 14,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMelodyEditCreate",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event16",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSetFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event17",
+        "next": 5,
+        "params": {
+          "SaveType": "cMelody"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaAchievementChangeSymbol",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event18",
+        "next": 18,
+        "params": {
+          "ChangeSymbolType": "cMelody"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetMemoryEventLand",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event13",
+        "next": 14,
+        "params": {
+          "AccessKey": "cBlancoEventLand:LE_UpdateLandMelody"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          },
+          {
+            "target": 22,
+            "value": 2
+          }
+        ],
+        "index": 19,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryHasChangedVillageMelody",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event22",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Towntune",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event26",
+        "next": 13,
+        "params": {
+          "AccessKey": "cLand:SzaSetTownTuneOriginalRecently"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event28",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EditNewMelody",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event31",
+        "next": 53,
+        "params": {
+          "AccessKey": "cLand:SzaSetTownTuneOriginalRecently"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          },
+          {
+            "target": 40,
+            "value": 2
+          },
+          {
+            "target": 42,
+            "value": 3
+          },
+          {
+            "target": 44,
+            "value": 4
+          }
+        ],
+        "index": 27,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryFlagSystemIntValue5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSaveDefaultVillageMelody",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event33",
+        "next": 71,
+        "params": {
+          "Index": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event35",
+        "next": 49,
+        "params": {
+          "Index": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveDefaultVillageMelody",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event34",
+        "next": 72,
+        "params": {
+          "Index": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event36",
+        "next": 49,
+        "params": {
+          "Index": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveDefaultVillageMelody",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event37",
+        "next": 73,
+        "params": {
+          "Index": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event38",
+        "next": 49,
+        "params": {
+          "Index": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveDefaultVillageMelody",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event39",
+        "next": 70,
+        "params": {
+          "Index": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event40",
+        "next": 49,
+        "params": {
+          "Index": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cLand:SzaSetTownTuneOriginalRecently"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          },
+          {
+            "target": 44,
+            "value": 3
+          },
+          {
+            "target": 38,
+            "value": 4
+          }
+        ],
+        "index": 37,
+        "name": "Event42",
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryFlagSystemIntValue5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event43",
+        "next": 39,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounterStart",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event44",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event45",
+        "next": 41,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounterStart",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event46",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event47",
+        "next": 43,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounterStart",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event48",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event49",
+        "next": 45,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounterStart",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event50",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          },
+          {
+            "target": 44,
+            "value": 3
+          }
+        ],
+        "index": 46,
+        "name": "Event51",
+        "params": {
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryRandomChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event52",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          },
+          {
+            "target": 33,
+            "value": 2
+          },
+          {
+            "target": 35,
+            "value": 3
+          }
+        ],
+        "index": 48,
+        "name": "Event53",
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event54",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          },
+          {
+            "target": 54,
+            "value": 2
+          }
+        ],
+        "index": 50,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          },
+          {
+            "target": 32,
+            "value": 2
+          },
+          {
+            "target": 34,
+            "value": 3
+          }
+        ],
+        "index": 51,
+        "name": "Event56",
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event57",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_08"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Sza_CmnSel_Again",
+        "flowchart": "SNPC_sza_00_Common",
+        "index": 53,
+        "name": "Event58",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Towntune",
+        "flowchart": "",
+        "index": 54,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event60",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event61",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_06"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event62",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:009_07"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event63",
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendEntryLoop"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          },
+          {
+            "target": 60,
+            "value": 2
+          },
+          {
+            "target": 61,
+            "value": 3
+          }
+        ],
+        "index": 59,
+        "name": "Event64",
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event65",
+        "next": 62,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event66",
+        "next": 62,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          },
+          {
+            "target": 68,
+            "value": 2
+          }
+        ],
+        "index": 62,
+        "name": "Event67",
+        "params": {
+          "AccessKey1": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "AccessKey2": "cPlayerTemp:SzaTowntuneRecommendCounterStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemComqare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event68",
+        "next": 68,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendEntryLoop"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event69",
+        "next": 58,
+        "params": {
+          "Index": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event70",
+        "next": 58,
+        "params": {
+          "Index": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event71",
+        "next": 58,
+        "params": {
+          "Index": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaPlayDefaultVillageMelody",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event72",
+        "next": 58,
+        "params": {
+          "Index": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          },
+          {
+            "target": 66,
+            "value": 2
+          },
+          {
+            "target": 67,
+            "value": 3
+          }
+        ],
+        "index": 68,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendCounter",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event74",
+        "next": 47,
+        "params": {
+          "AccessKey": "cPlayerTemp:SzaTowntuneRecommendEntryLoop"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event75",
+        "next": 52,
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event76",
+        "next": 52,
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event77",
+        "next": 52,
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event78",
+        "next": 52,
+        "params": {
+          "AccessKey": "cLand:SzaResetTownTuneRecentlyNo",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Recommend",
+        "flowchart": "",
+        "index": 74,
+        "name": "Event81",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecommendOther",
+        "flowchart": "",
+        "index": 75,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_sza_01_Towntune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d194b5152c3ee4fda4e75067c99c90b75bd252b6c3d803f9e2cc3f9dc3801731",
+  "size": 15896,
+  "status": "converted"
+}

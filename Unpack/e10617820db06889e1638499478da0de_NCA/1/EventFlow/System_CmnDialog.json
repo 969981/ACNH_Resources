@@ -1,0 +1,489 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIInteriorModeMouseDialog"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryIsSwitch2Edition"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "TipsMyHouse"
+      },
+      {
+        "main_event": 1,
+        "name": "TipsChat"
+      },
+      {
+        "main_event": 3,
+        "name": "TipsAccentWall"
+      },
+      {
+        "main_event": 10,
+        "name": "NoticeAboutInteriorModePlus_playerHouse"
+      },
+      {
+        "main_event": 13,
+        "name": "ToPostOpenNfp"
+      },
+      {
+        "main_event": 22,
+        "name": "TipsEffectCloth"
+      },
+      {
+        "main_event": 28,
+        "name": "NoticeAboutInteriorModeMouseDialog"
+      }
+    ],
+    "event_count": 30,
+    "event_flow_name": "System_CmnDialog",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": 29,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuChatLog"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:HasLookMyHouseExplain_CeilingFtrAWall"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event7",
+        "next": 12,
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutInteriorModePlus_playerHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event8",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5206"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event9",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5206_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cPlayer:SpnPhotoStudioGuideDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutInteriorModePlus_playerHouse"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutInteriorModePlus_RoomSize"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ToPostOpenNfp",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ToPostOpenNfp",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event11",
+        "params": {
+          "CheckStage": "cPhotoStudio"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "PostOpenNFP",
+        "flowchart": "System_PhotoStudio_Call",
+        "index": 14,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:AlwJuneBrideDayCount",
+          "Border": 6,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cPlayer:AlwJuneBrideQuestClearFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cPlayer:AlwJuneBrideDayCount",
+          "Border": 7,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayerTemp:InJuneBrideStudio"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event21",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5205"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutMagokoro_MainIsland"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayer:SpnPhotoStudioGuideDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event25",
+        "params": {
+          "CheckStage": "cPhotoStudio"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event26",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5205_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutMouseInteriorMode"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIInteriorModeMouseDialog",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event29",
+        "next": 26,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutMouseInteriorMode"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NoticeAboutInteriorModeMouseDialog",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event32",
+        "params": {},
+        "query": "EventFlowQueryIsSwitch2Edition",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:TipsChatFlag"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_CmnDialog",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "481a81839b93436c0f6664df1830b1e16730250a0120e142b045b9ad69e97ad5",
+  "size": 6864,
+  "status": "converted"
+}

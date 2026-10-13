@@ -1,0 +1,593 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryRandomChoice4",
+          "EventFlowQueryRandomChoiceExcludePrevious2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 23,
+        "name": "Root"
+      }
+    ],
+    "event_count": 37,
+    "event_flow_name": "Tutorials_Prologue4_Orientation2_RcmRct",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLand:Prologue4BuiltPlayer"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cPlayer:PlayerPocketUIEnable"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event8",
+        "next": 6,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event10",
+        "next": 9,
+        "params": {
+          "AccessKey": "cPlayer:PlayerPocketUIEnable"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event11",
+        "next": 2,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2750,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event12",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event13",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Prologue4_AfterBuiltTent",
+        "flowchart": "Tutorials_Prologue_Rco",
+        "index": 8,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event0",
+        "next": 30,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuMap"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event1",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:001_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event4",
+        "next": 13,
+        "params": {
+          "Command": 2,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event5",
+        "next": 10,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event6",
+        "next": 12,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 6058,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event9",
+        "next": 3,
+        "params": {
+          "Command": 2,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cPlayer:PrologueStartedCampfire"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cPlayer:PrologueAfterBuiltTentTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cPlayer:PrologueDone1stTalkAtPlaza"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cPlayer:PrologueForCampfire2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:121"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          },
+          {
+            "target": 21,
+            "value": 2
+          },
+          {
+            "target": 24,
+            "value": 3
+          }
+        ],
+        "index": 22,
+        "name": "Event18",
+        "params": {
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryRandomChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayer:AllowPcTentEntering"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:122"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:131"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event27",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "Tutorials_Prologue3_Orientation1",
+        "index": 27,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cPlayer:PrologueForCampfire1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:OpeningSeqBGMChangeCounter",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event31",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:1001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event32",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:1001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event33",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue3_Orientation2_Rcm:1002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutMovingBelongings"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event38",
+        "next": 33,
+        "params": {
+          "AccessKey": "cPlayer:RcmRctTalkAboutMovingBelongings"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Tutorials_Prologue4_Orientation2_RcmRct",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e63291906caa30056c1f5fb36febf99ef73b475f83a32a1ee703f7459ea62a9e",
+  "size": 9128,
+  "status": "converted"
+}

@@ -1,0 +1,638 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetNpcAIBlackBoardByLabel",
+          "EventFlowActionStoreNormalCamera",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSwapSpeaker",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionSoundFade",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionWaitFaderSleep",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionMessageUnlockNext",
+          "EventFlowActionSoundDuckingOn",
+          "EventFlowActionSoundDuckingOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[BgmActor]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 2,
+        "name": "OpDemo_MncForceTalk"
+      },
+      {
+        "main_event": 9,
+        "name": "OpDemo_MncTalkMove"
+      },
+      {
+        "main_event": 10,
+        "name": "OpDemo_MncTalkWait"
+      },
+      {
+        "main_event": 15,
+        "name": "OpDemo_Introduction"
+      },
+      {
+        "main_event": 44,
+        "name": "FirstLanding"
+      }
+    ],
+    "event_count": 47,
+    "event_flow_name": "Demo_Wherearen_Op",
+    "events": [
+      {
+        "action": "EventFlowActionSetNpcAIBlackBoardByLabel",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "Key": "OpDemoState",
+          "NpcLabel": "mnc",
+          "Option": 0,
+          "Value": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event10",
+        "next": 0,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event11",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_06_WherearenTutorials:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event12",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_06_WherearenTutorials:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event13",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_06_WherearenTutorials:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionStoreNormalCamera",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "CameraInterpolateKey": "",
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event28",
+        "next": 8,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_OtgTalkReserve_Office"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event29",
+        "next": 40,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqEventReserveInOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_06_WherearenTutorials:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_06_WherearenTutorials:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenOpeningMovie"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event4",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event5",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event6",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSwapSpeaker",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event2",
+        "next": 41,
+        "params": {
+          "DispNameTag": true,
+          "SwapSpeaker": "cDoc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event15",
+        "next": 12,
+        "params": {
+          "WaitFrame": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event16",
+        "next": 16,
+        "params": {
+          "AssetKeyName": "Env_PlaneInside",
+          "FadeHandleId": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundFade",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event18",
+        "next": 42,
+        "params": {
+          "FadeHandleId": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event19",
+        "next": 23,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "Landing0",
+          "CameraParamKey": "Landing0End",
+          "CameraTargetKey": "Keep",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenMainIsland"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 21,
+        "name": "Event21",
+        "next": 25,
+        "params": {
+          "WaitFrame": 100
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event22",
+        "next": 21,
+        "params": {
+          "AssetKeyName": "Flight_Landing",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFaderSleep",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event23",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event24",
+        "next": 19,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event25",
+        "next": 46,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_MainIslandLandingDemo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event26",
+        "next": 28,
+        "params": {
+          "WaitIconType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event27",
+        "next": 31,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event30",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event31",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event32",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/doc/SP_doc_31_Flight_WherearenAnnounce:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSwapSpeaker",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event33",
+        "next": 26,
+        "params": {
+          "DispNameTag": true,
+          "SwapSpeaker": "cDoc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event35",
+        "next": 33,
+        "params": {
+          "WaitFrame": 40
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event36",
+        "next": 30,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event37",
+        "next": 36,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event38",
+        "next": 29,
+        "params": {
+          "WaitFrame": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event39",
+        "next": 35,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event40",
+        "next": 22,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event41",
+        "next": 39,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event42",
+        "next": 37,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event43",
+        "next": 6,
+        "params": {
+          "AccessKey": "cWherearenPlayer:MncBridgeTalkToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event44",
+        "next": 17,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event45",
+        "next": 11,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 43,
+        "name": "Event47",
+        "next": 45,
+        "params": {
+          "WaitFrame": 105
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event48",
+        "next": 24,
+        "params": {
+          "Id": 70
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOff",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event49",
+        "next": 20,
+        "params": {
+          "Id": 70
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FadeOut_Cmn",
+        "flowchart": "00_Demo_Fade",
+        "index": 46,
+        "name": "Event50",
+        "next": 43,
+        "params": {
+          "FadeColor": "cBlack",
+          "FadeSpeed": "cNormal",
+          "FadeType": "cCircle",
+          "SoundDucking": "cWorldDucking"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "Demo_Wherearen_Op",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "eda0735c7a73d9427a47483e8ec7e223617b2ea1f9a3b65ac8280457db732a1b",
+  "size": 11592,
+  "status": "converted"
+}

@@ -1,0 +1,2816 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionEventFlagNpcOff",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionWrapDeliveryItem",
+          "EventFlowActionNpcAddFriendship",
+          "EventFlowActionSetItemToNpcStockList",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetXmasRewardItem",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionSetDeliveryItemApplySave"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryIsSantaMissionNpc",
+          "EventFlowQueryIsSantaMissionReward"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetItemToPocket"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventCheck",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryMultiKindItemSelectInclude",
+          "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+          "EventFlowQueryUISelectedItemIsEquiped",
+          "EventFlowQueryUICheckSelectedItemPrice",
+          "EventFlowQueryMultiItemSelectInclude",
+          "EventFlowQueryIsEquipSantaCostume",
+          "EventFlowQueryPlayerIsEquipItem",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryCheckChristmasSantaPresentsProgress",
+          "EventFlowQueryEnvWeatherArea",
+          "EventFlowQueryMultiFromItemSelectInclude",
+          "EventFlowQueryIsReceiveMargeItem",
+          "EventFlowQueryMultiKindItemSelectIncludeChoice5",
+          "EventFlowQueryMultiMessageCategoryItemSelectInclude"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 7,
+        "name": "SantaMission0"
+      },
+      {
+        "main_event": 99,
+        "name": "PresentLottery0"
+      },
+      {
+        "main_event": 149,
+        "name": "GiftExchange"
+      },
+      {
+        "main_event": 74,
+        "name": "PresentJudge0"
+      },
+      {
+        "main_event": 96,
+        "name": "SantaCosplayCheck0"
+      },
+      {
+        "main_event": 126,
+        "name": "OtherChristmas"
+      },
+      {
+        "main_event": 44,
+        "name": "SantaPresentNoBag"
+      },
+      {
+        "main_event": 175,
+        "name": "SantaPresentsNoGet"
+      }
+    ],
+    "event_count": 193,
+    "event_flow_name": "NNPC_GEvent_ChristmasEve",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event16",
+        "params": {
+          "EventLabelString": "XmasEve"
+        },
+        "query": "EventFlowQueryEventCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayer:ReiStartQuest2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 188,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event11",
+        "params": {
+          "CheckEnableTrade": true,
+          "ChristmasPresentProgress": 0
+        },
+        "query": "EventFlowQueryCheckChristmasSantaPresentsProgress",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SantaMission0",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event15",
+        "next": 109,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          },
+          {
+            "target": 135,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event17",
+        "next": 113,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event30",
+        "next": 52,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsNoGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GiftExchange",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event38",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasGiftExchangeFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 108,
+            "value": 0
+          },
+          {
+            "target": 72,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event43",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event45",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 139,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event41",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event47",
+        "next": 20,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event49",
+        "next": 16,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event51",
+        "next": 40,
+        "params": {
+          "Command": 3,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PresentJudge0",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event59",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event61",
+        "next": 164,
+        "params": {
+          "Command": 6,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event64",
+        "next": 125,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event66",
+        "next": 22,
+        "params": {
+          "AddValue": -5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event67",
+        "params": {
+          "ItemKindType1": "Money",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event68",
+        "params": {
+          "ItemKindType1": "LostQuestDust",
+          "ItemKindType2": "TurnipExpired",
+          "ItemKindType3": "Trash",
+          "ItemKindType4": "JohnnyQuestDust",
+          "ItemKindType5": "TreasureQuestDust",
+          "ItemKindType6": "Weed",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event70",
+        "next": 27,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event71",
+        "params": {
+          "ItemKindType1": "DIYRecipe",
+          "ItemKindType2": "\"指定なし\"",
+          "ItemKindType3": "\"指定なし\"",
+          "ItemKindType4": "\"指定なし\"",
+          "ItemKindType5": "\"指定なし\"",
+          "ItemKindType6": "\"指定なし\"",
+          "ItemKindType7": "\"指定なし\"",
+          "ItemKindType8": "\"指定なし\"",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event73",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryItemIsDecoratedAtTalkNpcHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 167,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event74",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 0
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 171,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event75",
+        "params": {
+          "JudgeTarget": "cItemSelect",
+          "ReferenceLook": false,
+          "TargetCharacter": 8
+        },
+        "query": "EventFlowQueryUISelectedItemIsEquiped",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event76",
+        "params": {
+          "Border": 2000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event77",
+        "params": {
+          "Border": 2001,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event78",
+        "params": {
+          "Border": 8000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event79",
+        "params": {
+          "Border": 501,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event80",
+        "params": {
+          "ItemKindType1": "Honeycomb",
+          "ItemKindType2": "Fruit",
+          "ItemKindType3": "Mushroom",
+          "ItemKindType4": "ShellDrift",
+          "ItemKindType5": "Fossil",
+          "ItemKindType6": "None",
+          "ItemKindType7": "None",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event81",
+        "next": 79,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event82",
+        "next": 80,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event83",
+        "next": 81,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 190,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event84",
+        "params": {
+          "ItemFromType1": "Christmas_ShopLv2",
+          "ItemFromType2": "",
+          "ItemFromType3": "",
+          "ItemFromType4": "",
+          "ItemFromType5": "",
+          "ItemFromType6": "",
+          "ItemFromType7": "",
+          "ItemFromType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiFromItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToNpcStockList",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event85",
+        "next": 86,
+        "params": {
+          "GetRoute": 1,
+          "NpcStockTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event14",
+        "next": 45,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasCosJudgeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasCosJudgeFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SantaCosplayCheck0",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event13",
+        "next": 130,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event48",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SantaCosplayCheck0",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event86",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event88",
+        "next": 114,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event96",
+        "next": 102,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event26",
+        "next": 53,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsReturnFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 115,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsReturnFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event101",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event53",
+        "next": 122,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasGiftExchangeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event103",
+        "params": {
+          "ItemUniqueID1": 13245,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event104",
+        "next": null,
+        "params": {
+          "AddValue": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event108",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SantaCosplayCheck0",
+        "flowchart": "",
+        "index": 58,
+        "name": "Event109",
+        "next": 59,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          }
+        ],
+        "index": 59,
+        "name": "Event110",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event120",
+        "next": null,
+        "params": {
+          "AddValue": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event121",
+        "next": null,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event122",
+        "next": null,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event123",
+        "next": null,
+        "params": {
+          "AddValue": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event124",
+        "next": null,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event125",
+        "next": null,
+        "params": {
+          "AddValue": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event133",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event19",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event1",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event6",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event29",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:056"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event94",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event2",
+        "next": 121,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event100",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event44",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:150"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event60",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:151"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event113",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:152"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event114",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:154"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event115",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:153"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event116",
+        "next": 64,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:155"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event117",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:156"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event118",
+        "next": 82,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:157"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event119",
+        "next": null,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event62",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:158"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event72",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:160"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event63",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:159"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event65",
+        "next": 105,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event54",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event106",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:250"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event40",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:251"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "OtherChristmas",
+        "flowchart": "",
+        "index": 90,
+        "name": "Event107",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 91,
+        "name": "Event111",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event126",
+        "next": 162,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:300"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event127",
+        "next": 162,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event136",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event42",
+        "next": 56,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:161"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          }
+        ],
+        "index": 96,
+        "name": "Event112",
+        "params": {},
+        "query": "EventFlowQueryIsEquipSantaCostume",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event3",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 13836,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 112,
+            "value": 0
+          },
+          {
+            "target": 117,
+            "value": 1
+          }
+        ],
+        "index": 98,
+        "name": "Event87",
+        "params": {},
+        "query": "EventFlowQueryIsEquipSantaCostume",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetXmasRewardItem",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event90",
+        "next": 100,
+        "params": {
+          "IsSantaMission": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event137",
+        "next": 101,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 52
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event138",
+        "next": null,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetXmasRewardItem",
+        "actor": "MainNpc",
+        "index": 102,
+        "name": "Event33",
+        "next": 103,
+        "params": {
+          "IsSantaMission": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event34",
+        "next": 104,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 52
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event35",
+        "next": 70,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetXmasRewardItem",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event93",
+        "next": 106,
+        "params": {
+          "IsSantaMission": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event102",
+        "next": 107,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 52
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event139",
+        "next": 87,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 108,
+        "name": "Event57",
+        "next": 15,
+        "params": {
+          "FilterType": "cWrappingPouch",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 109,
+        "name": "Event140",
+        "params": {},
+        "query": "EventFlowQueryIsSantaMissionNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 110,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SantaPresentNoBag",
+        "flowchart": "",
+        "index": 111,
+        "name": "Event141",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event143",
+        "next": 136,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event142",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event91",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 115,
+        "name": "Event22",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event89",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 117,
+        "name": "Event92",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event20",
+        "next": 6,
+        "params": {
+          "Command": 3,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          },
+          {
+            "target": 135,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event144",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 188,
+            "value": 0
+          },
+          {
+            "target": 187,
+            "value": 1
+          }
+        ],
+        "index": 120,
+        "name": "Event150",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 121,
+        "name": "Event151",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 122,
+        "name": "Event152",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 123,
+        "name": "Event135",
+        "next": 137,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2213,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event154",
+        "next": 138,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2213,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 125,
+        "name": "Event55",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 127,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event153",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherArea",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 128,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 127,
+        "name": "Event155",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 128,
+        "name": "Event156",
+        "next": 162,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 129,
+        "name": "Event157",
+        "next": 162,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:303"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 131,
+            "value": 1
+          }
+        ],
+        "index": 130,
+        "name": "Event158",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherArea",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 133,
+            "value": 0
+          },
+          {
+            "target": 132,
+            "value": 1
+          }
+        ],
+        "index": 131,
+        "name": "Event159",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 132,
+        "name": "Event160",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event161",
+        "next": 110,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event162",
+        "next": 123,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 135,
+        "name": "Event163",
+        "next": 124,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 136,
+        "name": "Event31",
+        "next": 119,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasCosJudgeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWrapDeliveryItem",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event132",
+        "next": 9,
+        "params": {
+          "WrappingType": "cWrappingPouchOrnament"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWrapDeliveryItem",
+        "actor": "MainNpc",
+        "index": 138,
+        "name": "Event164",
+        "next": 47,
+        "params": {
+          "WrappingType": "cWrappingPouchOrnament"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 165,
+            "value": 1
+          }
+        ],
+        "index": 139,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWrappingGiftFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 140,
+        "name": "Event105",
+        "next": 141,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 141,
+        "name": "Event165",
+        "next": 142,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 7694,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 159,
+            "value": 0
+          },
+          {
+            "target": 148,
+            "value": 1
+          }
+        ],
+        "index": 142,
+        "name": "Event166",
+        "params": {
+          "ItemUniqueID1": 7694,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "SetNum": 3
+        },
+        "query": "EventFlowQueryIsReceiveMargeItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 143,
+        "name": "Event167",
+        "next": 151,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 144,
+        "name": "Event169",
+        "next": 145,
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWrappingGiftFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 145,
+        "name": "Event170",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 146,
+        "name": "Event171",
+        "next": 166,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasWrappingGiftNoGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 147,
+        "name": "Event172",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 148,
+        "name": "Event173",
+        "next": 146,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 149,
+        "name": "Event174",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasWrappingGiftNoGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 150,
+        "name": "Event176",
+        "next": 152,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event179",
+        "next": 144,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 152,
+        "name": "Event168",
+        "next": 160,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 7694,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 153,
+        "name": "Event177",
+        "next": 158,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 154,
+        "name": "Event178",
+        "next": 163,
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWrappingGiftFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event180",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 156,
+        "name": "Event182",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 157,
+        "name": "Event183",
+        "next": 156,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 158,
+        "name": "Event184",
+        "next": 154,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 159,
+        "name": "Event52",
+        "next": 143,
+        "params": {
+          "ItemUniqueId": 7694,
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 161,
+            "value": 0
+          },
+          {
+            "target": 157,
+            "value": 1
+          }
+        ],
+        "index": 160,
+        "name": "Event58",
+        "params": {
+          "ItemUniqueID1": 7694,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "SetNum": 3
+        },
+        "query": "EventFlowQueryIsReceiveMargeItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 161,
+        "name": "Event69",
+        "next": 153,
+        "params": {
+          "ItemUniqueId": 7694,
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event149",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 163,
+        "name": "Event175",
+        "next": 155,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasWrappingGiftNoGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemApplySave",
+        "actor": "MainNpc",
+        "index": 164,
+        "name": "Event24",
+        "next": 26,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 140,
+            "value": 1
+          }
+        ],
+        "index": 165,
+        "name": "Event148",
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWrappingPresentFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 166,
+        "name": "Event181",
+        "next": 147,
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWrappingPresentFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 170,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          },
+          {
+            "target": 78,
+            "value": 2
+          },
+          {
+            "target": 168,
+            "value": 3
+          },
+          {
+            "target": 170,
+            "value": 4
+          }
+        ],
+        "index": 167,
+        "name": "Event185",
+        "params": {
+          "ChoiceNumber": 5,
+          "ItemKindTypeA": "Tops",
+          "ItemKindTypeB": "OnePiece",
+          "ItemKindTypeC": "Cap",
+          "ItemKindTypeD": "Accessory",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectIncludeChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 170,
+            "value": 0
+          },
+          {
+            "target": 169,
+            "value": 1
+          }
+        ],
+        "index": 168,
+        "name": "Event186",
+        "params": {
+          "ItemCategoryType1": "HeadHairAcce",
+          "ItemCategoryType2": "",
+          "ItemCategoryType3": "",
+          "ItemCategoryType4": "",
+          "ItemCategoryType5": "",
+          "ItemCategoryType6": "",
+          "ItemCategoryType7": "",
+          "ItemCategoryType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiMessageCategoryItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 169,
+        "name": "Event187",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:153_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 170,
+        "name": "Event188",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:153_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 174,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          },
+          {
+            "target": 77,
+            "value": 2
+          },
+          {
+            "target": 172,
+            "value": 3
+          },
+          {
+            "target": 174,
+            "value": 4
+          }
+        ],
+        "index": 171,
+        "name": "Event189",
+        "params": {
+          "ChoiceNumber": 5,
+          "ItemKindTypeA": "Tops",
+          "ItemKindTypeB": "OnePiece",
+          "ItemKindTypeC": "Cap",
+          "ItemKindTypeD": "Accessory",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectIncludeChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 174,
+            "value": 0
+          },
+          {
+            "target": 173,
+            "value": 1
+          }
+        ],
+        "index": 172,
+        "name": "Event190",
+        "params": {
+          "ItemCategoryType1": "HeadHairAcce",
+          "ItemCategoryType2": "",
+          "ItemCategoryType3": "",
+          "ItemCategoryType4": "",
+          "ItemCategoryType5": "",
+          "ItemCategoryType6": "",
+          "ItemCategoryType7": "",
+          "ItemCategoryType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiMessageCategoryItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 173,
+        "name": "Event191",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:154_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 174,
+        "name": "Event192",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:154_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 179,
+            "value": 0
+          }
+        ],
+        "index": 175,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsNoGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 176,
+        "name": "Event7",
+        "next": 182,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsNoGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 177,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 178,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 179,
+        "name": "Event46",
+        "next": 183,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 180,
+        "name": "Event95",
+        "next": 176,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:059"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 181,
+        "name": "Event97",
+        "next": 177,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 182,
+        "name": "Event98",
+        "next": 178,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasSantaPresentsReturnFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 184,
+            "value": 0
+          },
+          {
+            "target": 181,
+            "value": 1
+          }
+        ],
+        "index": 183,
+        "name": "Event99",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetXmasRewardItem",
+        "actor": "MainNpc",
+        "index": 184,
+        "name": "Event145",
+        "next": 185,
+        "params": {
+          "IsSantaMission": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 185,
+        "name": "Event146",
+        "next": 186,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 52
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 186,
+        "name": "Event147",
+        "next": 180,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SantaPresentsNoGet",
+        "flowchart": "",
+        "index": 187,
+        "name": "Event128",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SantaPresentsNoGet",
+        "flowchart": "",
+        "index": 188,
+        "name": "Event129",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 189,
+        "name": "Event130",
+        "next": 118,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 191,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          }
+        ],
+        "index": 190,
+        "name": "Event131",
+        "params": {},
+        "query": "EventFlowQueryIsSantaMissionReward",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 191,
+        "name": "Event134",
+        "next": 192,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_ChristmasEve:162"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 192,
+        "name": "Event193",
+        "next": null,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_GEvent_ChristmasEve",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "406aba296f5eb1c1eed46167399d29df186c73a110594401fc2ee457b07fd4ff",
+  "size": 44384,
+  "status": "converted"
+}

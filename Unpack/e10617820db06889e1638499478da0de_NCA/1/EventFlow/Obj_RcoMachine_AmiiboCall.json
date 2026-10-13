@@ -1,0 +1,435 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionSetAmiiboCamperNPC",
+          "EventFlowActionReturnStage",
+          "EventFlowActionCameraReserveFirstStateCommand",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionEventFlagOffAllLiver"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsAmiiboNpcLiving",
+          "EventFlowQueryAmiiboNpcIsIncludedCamperList"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcCharacterSize"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 20,
+        "name": "Root"
+      }
+    ],
+    "event_count": 28,
+    "event_flow_name": "Obj_RcoMachine_AmiiboCall",
+    "events": [
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 26,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Small",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 11,
+        "params": {
+          "AccessKey": "cLand:AmiiboCampSiteCall"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsAmiiboNpcLiving",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Camp_Amiibo:302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event9",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetAmiiboCamperNPC",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event12",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryAmiiboNpcIsIncludedCamperList",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event16",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Camp_Amiibo:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event18",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Camp_Amiibo:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event19",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Camp_Amiibo:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event21",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event22",
+        "next": 6,
+        "params": {
+          "AccessKey": "cPlayer:CampInvite"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReturnStage",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "FadeColorString": "cWhite",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.20000000298023224,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.5,
+          "NextInfoKey": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event11",
+        "next": 15,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": false,
+          "Reaction": "Smiling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event20",
+        "next": 12,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReturnStage",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "FadeColorString": "cWhite",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.20000000298023224,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.5,
+          "NextInfoKey": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event27",
+        "next": 26,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Normal",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event29",
+        "next": 26,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "ExtraLarge",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event30",
+        "next": 26,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Large",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 19,
+            "value": 2
+          },
+          {
+            "target": 18,
+            "value": 3
+          }
+        ],
+        "index": 20,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcCharacterSize",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event1",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Camp_Amiibo:401"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event7",
+        "next": 13,
+        "params": {
+          "Command": "Talk:AmiiboCall",
+          "DemoTarget": "",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event17",
+        "next": 25,
+        "params": {
+          "Command": "Talk:AmiiboCall",
+          "DemoTarget": "",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event25",
+        "next": 22,
+        "params": {
+          "AssetKeyName": "ReturnFromAmiiboPhone",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event28",
+        "next": 16,
+        "params": {
+          "AssetKeyName": "ReturnFromAmiiboPhone",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event31",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagOffAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event6",
+        "next": 24,
+        "params": {
+          "AccessKey": "cPlayer:CampFirstTalk"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_RcoMachine_AmiiboCall",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "4500c8b52e953ee7077eb5a09002b2b86cfceba3a0bfe96fb046c4d0aef71a04",
+  "size": 8232,
+  "status": "converted"
+}

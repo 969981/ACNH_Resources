@@ -1,0 +1,123 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAITalkCastSetting",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionSetNpcSpeakFlow",
+          "EventFlowActionNpcAISetting"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsOtgOpenFade"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "main_event": 5,
+        "name": "Root"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "AI_NPC_Otg_WherearenOrder",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAITalkCastSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "SetupKey": "WherearenOrder"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cOtgStandby",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryIsOtgOpenFade",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event6",
+        "next": 1,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_otg_02_WherearenOrder"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": 1,
+        "params": {
+          "EntryName": "NotFade",
+          "FlowName": "SNPC_otg_02_WherearenOrder"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Otg_WherearenOrder",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "499b56199cddb7aa48478172244391e291e1b5996d3f7e033dc38ab1baf565cc",
+  "size": 2280,
+  "status": "converted"
+}

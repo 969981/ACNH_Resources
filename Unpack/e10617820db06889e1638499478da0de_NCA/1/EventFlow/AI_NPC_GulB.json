@@ -1,0 +1,345 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcChangeInvisibleState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCanMoveUnit",
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 3,
+        "name": "Init"
+      },
+      {
+        "main_event": 8,
+        "name": "Root"
+      },
+      {
+        "main_event": 5,
+        "name": "Hit"
+      },
+      {
+        "main_event": 18,
+        "name": "CallWithMegaphone"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "AI_NPC_GulB",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cLand:JohnnySitUpFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "InitWakeup",
+        "flowchart": "AI_NPC_Gul",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "InitSleep",
+        "flowchart": "AI_NPC_Gul",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "InitCommon",
+        "flowchart": "AI_NPC_Gul",
+        "index": 3,
+        "name": "Event3",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cLand:JohnnySitUpFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cHit",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_gulB"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "IsCheckCliffLevel": false,
+          "IsExpandArea": false
+        },
+        "query": "EventFlowQueryCanMoveUnit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 13,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SetStateWakeup",
+        "flowchart": "AI_NPC_Gul",
+        "index": 9,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_gulB"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetStateSleep",
+        "flowchart": "AI_NPC_Gul",
+        "index": 10,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_gulB"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event12",
+        "params": {
+          "IsCheckCliffLevel": false,
+          "IsExpandArea": true
+        },
+        "query": "EventFlowQueryCanMoveUnit",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cLand:JohnnySitUpFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:JohnnyInvisible"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:JohnnyInvisible"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cLand:JohnnyInvisible"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SetStateWakeup",
+        "flowchart": "AI_NPC_Gul",
+        "index": 16,
+        "name": "Event17",
+        "next": 14,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_gulB"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetStateSleep",
+        "flowchart": "AI_NPC_Gul",
+        "index": 17,
+        "name": "Event18",
+        "next": 14,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_gulB"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 18,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "EntryName": "MegaphoneWakeUp",
+          "FlowName": "SNPC_gulB"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_GulB",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b0acc6e07cd8ea45ad2942117850bbb42fa58fb87390de54d105948c51e9b450",
+  "size": 5296,
+  "status": "converted"
+}

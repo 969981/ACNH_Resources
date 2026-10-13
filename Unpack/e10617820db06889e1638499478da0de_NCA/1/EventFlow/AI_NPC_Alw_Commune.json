@@ -1,0 +1,279 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeSpNpcTurnState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcDisableServiceMotion"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcCommuneShopOpen"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCommuneShopEvent"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 14,
+    "event_flow_name": "AI_NPC_Alw_Commune",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_alw_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 17
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeSpNpcTurnState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": false,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 30,
+          "ArgInt1": 2,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSpNpcTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_alw_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event1",
+        "params": {
+          "ShopEvent": "cAlpShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event7",
+        "next": 7,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "spn",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Alp_Shop_alw",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 13,
+            "value": 2
+          }
+        ],
+        "index": 8,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryNpcCommuneShopOpen",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event11",
+        "next": 11,
+        "params": {
+          "HeadCtrlMode": "cNormal",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "AlpOpen_AlwPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 10,
+        "name": "Event12",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event8",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWherearenOfficerWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_alw_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event14",
+        "next": 2,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Alw_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "8a72e1c90302a7c1aa9f5b466bab0f13de4c9e2e334f0b2e1075d4e17432b672",
+  "size": 5392,
+  "status": "converted"
+}

@@ -1,0 +1,255 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionChangeHouseMode",
+          "EventFlowActionSetNpcTalkFlowName",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcAISetRequestSpeakFunc",
+          "EventFlowActionNpcSetAIBlackBoard"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsInspectingWherearen"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 5,
+        "name": "Init"
+      },
+      {
+        "main_event": 9,
+        "name": "EnterFacility"
+      },
+      {
+        "main_event": 10,
+        "name": "ExitFacility"
+      },
+      {
+        "main_event": 11,
+        "name": "ExitBalloon"
+      },
+      {
+        "main_event": 12,
+        "name": "EnterBalloon"
+      }
+    ],
+    "event_count": 15,
+    "event_flow_name": "AI_NPC_CafeWaiter",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionChangeHouseMode",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcTalkFlowName",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "EntryPointName": "Root",
+          "EventFlowName": "NNPC_CafeWaiter"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 4,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event6",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event7",
+        "next": 6,
+        "params": {
+          "Key": "EnterBalloonFacility",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": 8,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cEnterBaloonWherearenFacility"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 7,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "EntryName": "EnterFacility",
+          "FlowName": "NNPC_CafeWaiter"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event11",
+        "next": 13,
+        "params": {
+          "Key": "EnterTalked",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event12",
+        "next": 7,
+        "params": {
+          "Key": "EnterTalked",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 10,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "EntryName": "ExitFacility",
+          "FlowName": "NNPC_CafeWaiter"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cExitBalloon",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_CafeWaiter"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cEnterBalloon",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_CafeWaiter"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cLeaveBaloonWherearenFacility"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_CafeWaiter",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d694ab2fcb4a0de19ad4e747066f73ca053db82c58400a129669ab333d5cf906",
+  "size": 5000,
+  "status": "converted"
+}

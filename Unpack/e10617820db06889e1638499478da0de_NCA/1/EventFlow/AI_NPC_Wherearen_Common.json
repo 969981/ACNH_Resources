@@ -1,0 +1,235 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenOrderStatus",
+          "EventFlowQueryIsInspectingWherearen",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsWherearenWorkMode"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionChangeIsControlThemeBalloon",
+          "EventFlowActionNpcChangeAIState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "ControlBalloon"
+      },
+      {
+        "main_event": 6,
+        "name": "DoOfficerWait"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "AI_NPC_Wherearen_Common",
+    "events": [
+      {
+        "action": "EventFlowActionChangeIsControlThemeBalloon",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "Request": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          },
+          {
+            "target": 3,
+            "value": 3
+          },
+          {
+            "target": 2,
+            "value": 4
+          },
+          {
+            "target": 2,
+            "value": 5
+          },
+          {
+            "target": 2,
+            "value": 6
+          },
+          {
+            "target": 2,
+            "value": 7
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeIsControlThemeBalloon",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "Request": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cWherearenPlayer:Prohibit_NewOrder"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWherearenOfficerWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "EntryName",
+          "TalkEventFlowName": "FlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event7",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "EntryName",
+          "TalkEventFlowName": "FlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenWorkMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeIsControlThemeBalloon",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "Request": false
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Wherearen_Common",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9d3a8a799ee70c0bcec9d5457b612a09146c8a32dcb58938b06845523687fa92",
+  "size": 3088,
+  "status": "converted"
+}

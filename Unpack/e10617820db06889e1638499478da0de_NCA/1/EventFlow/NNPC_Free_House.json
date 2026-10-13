@@ -1,0 +1,1440 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionEventFlagSystemAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryRandomChoiceExcludePrevious3"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetNpcName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcFavorLevel",
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryNpcIsSitting"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 21,
+        "name": "ReSelection"
+      },
+      {
+        "main_event": 8,
+        "name": "Free_House1"
+      },
+      {
+        "main_event": 13,
+        "name": "Free_House2"
+      },
+      {
+        "main_event": 90,
+        "name": "Free_House3"
+      },
+      {
+        "main_event": 51,
+        "name": "Friend"
+      },
+      {
+        "main_event": 40,
+        "name": "GoodFriend"
+      },
+      {
+        "main_event": 24,
+        "name": "BestFriend"
+      },
+      {
+        "main_event": 60,
+        "name": "ReSelect1"
+      },
+      {
+        "main_event": 60,
+        "name": "ReSelect2"
+      },
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 76,
+        "name": "Free_HouseH"
+      },
+      {
+        "main_event": 75,
+        "name": "Free_HouseG"
+      },
+      {
+        "main_event": 20,
+        "name": "Free_House4"
+      }
+    ],
+    "event_count": 93,
+    "event_flow_name": "NNPC_Free_House",
+    "events": [
+      {
+        "entrypoint": "Moving_Chk",
+        "flowchart": "NNPC_FreeD",
+        "index": 0,
+        "name": "Event3",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FreeF_Chk",
+        "flowchart": "NNPC_FreeEF",
+        "index": 1,
+        "name": "Event5",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event6",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Event_Chk",
+        "flowchart": "NNPC_FreeEF",
+        "index": 3,
+        "name": "Event7",
+        "next": 87,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event8",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "HHA_Chk",
+        "flowchart": "NNPC_FreeEF",
+        "index": 5,
+        "name": "Event9",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Free_House1",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event13",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rumor_Action_Chk",
+        "flowchart": "NNPC_FreeD",
+        "index": 9,
+        "name": "Event15",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RumorN_Chk",
+        "flowchart": "NNPC_FreeD",
+        "index": 10,
+        "name": "Event19",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event20",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Free_House2",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event22",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Snpc_Chk",
+        "flowchart": "NNPC_FreeEF",
+        "index": 14,
+        "name": "Event24",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ClothesN1_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 15,
+        "name": "Event26",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event27",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ClothesP_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 17,
+        "name": "Event28",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event29",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Free_House3",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event40",
+        "next": 21,
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcTalkSelectCount",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcTalkSelectCount",
+          "Border": 10,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event43",
+        "next": 23,
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcTalkSelectCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 38,
+            "value": 2
+          },
+          {
+            "target": 38,
+            "value": 3
+          },
+          {
+            "target": 38,
+            "value": 4
+          },
+          {
+            "target": 37,
+            "value": 5
+          }
+        ],
+        "index": 23,
+        "name": "Event44",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event45",
+        "params": {
+          "Percent": 26
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Room_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 25,
+        "name": "Event46",
+        "next": 29,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Furniture_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 26,
+        "name": "Event47",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event48",
+        "params": {
+          "Percent": 21
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Week_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 28,
+        "name": "Event49",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event50",
+        "params": {
+          "Percent": 9
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event53",
+        "params": {
+          "Percent": 20
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "AlwaysAB_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 31,
+        "name": "Event54",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ClothesN2_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 32,
+        "name": "Event55",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event56",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Always_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 34,
+        "name": "Event57",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event58",
+        "params": {
+          "Percent": 75
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "HouseQuestions_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 36,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Friend",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event60",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GoodFriend",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event61",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BestFriend",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event63",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Room_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 41,
+        "name": "Event64",
+        "next": 45,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Furniture_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 42,
+        "name": "Event65",
+        "next": 43,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event66",
+        "params": {
+          "Percent": 27
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Week_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 44,
+        "name": "Event67",
+        "next": 46,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event68",
+        "params": {
+          "Percent": 18
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event71",
+        "params": {
+          "Percent": 18
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ClothesN2_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 47,
+        "name": "Event72",
+        "next": 49,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Always_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 48,
+        "name": "Event73",
+        "next": 50,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event74",
+        "params": {
+          "Percent": 67
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "HouseQuestions_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 50,
+        "name": "Event75",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event76",
+        "params": {
+          "Percent": 25
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Room_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 52,
+        "name": "Event77",
+        "next": 56,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Furniture_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 53,
+        "name": "Event78",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event79",
+        "params": {
+          "Percent": 33
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Week_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 55,
+        "name": "Event80",
+        "next": 57,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event81",
+        "params": {
+          "Percent": 30
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event84",
+        "params": {
+          "Percent": 57
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ClothesN2_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 58,
+        "name": "Event85",
+        "next": 59,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HouseQuestions_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 59,
+        "name": "Event86",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event88",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Room_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 61,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 67,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event91",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkReSelectLast",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event93",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkReSelectLast",
+          "Border": 4,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ReSelect1",
+        "flowchart": "",
+        "index": 64,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReSelect2",
+        "flowchart": "",
+        "index": 65,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReSelect2",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReSelection_Week",
+        "flowchart": "NNPC_FreeA",
+        "index": 67,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_InHouse_Chk",
+        "flowchart": "NNPC_FreeH",
+        "index": 68,
+        "name": "Event34",
+        "next": 2,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event35",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomG:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomG:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event70",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeC_RoomG:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          },
+          {
+            "target": 72,
+            "value": 2
+          }
+        ],
+        "index": 73,
+        "name": "Event82",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RoomN_withG",
+        "flowchart": "NNPC_FreeC",
+        "index": 74,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event87",
+        "next": 73,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 74,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event90",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FunitureN_Chk",
+        "flowchart": "NNPC_FreeC",
+        "index": 77,
+        "name": "Event92",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Present_Chk",
+        "flowchart": "NNPC_FreeI",
+        "index": 78,
+        "name": "Event94",
+        "next": 84,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event95",
+        "params": {
+          "Percent": 20
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          },
+          {
+            "target": 84,
+            "value": 2
+          },
+          {
+            "target": 84,
+            "value": 3
+          },
+          {
+            "target": 79,
+            "value": 4
+          },
+          {
+            "target": 84,
+            "value": 5
+          }
+        ],
+        "index": 80,
+        "name": "Event96",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Want_Chk",
+        "flowchart": "NNPC_FreeA",
+        "index": 81,
+        "name": "Event97",
+        "next": 80,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event98",
+        "params": {
+          "Percent": 20
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          },
+          {
+            "target": 84,
+            "value": 2
+          },
+          {
+            "target": 84,
+            "value": 3
+          },
+          {
+            "target": 82,
+            "value": 4
+          },
+          {
+            "target": 84,
+            "value": 5
+          }
+        ],
+        "index": 83,
+        "name": "Event99",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Free_House4",
+        "flowchart": "",
+        "index": 84,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "KeywordA",
+        "flowchart": "NNPC_FreeD",
+        "index": 85,
+        "name": "Event25",
+        "next": 7,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "KeywordB",
+        "flowchart": "NNPC_FreeD",
+        "index": 86,
+        "name": "Event51",
+        "next": 88,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 87,
+        "name": "Event100",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event101",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_Chk",
+        "flowchart": "NNPC_FreeD",
+        "index": 89,
+        "name": "Event1",
+        "next": 83,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event14",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RumorO_Favorite_Chk",
+        "flowchart": "NNPC_FreeD",
+        "index": 91,
+        "name": "Event16",
+        "next": 92,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event17",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Free_House",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "c1cf020d873cada8eb5555145580535dc2ea5bf81bae538b3208437e0188b1cd",
+  "size": 13288,
+  "status": "converted"
+}

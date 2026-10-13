@@ -1,0 +1,514 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeSpNpcTurnState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetRequestSpeakFunc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcSetPos"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryFlagSystemIntValue5",
+          "EventFlowQueryFlagSystemIntValue3"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "main_event": 17,
+        "name": "Poo_Pos"
+      }
+    ],
+    "event_count": 29,
+    "event_flow_name": "AI_NPC_Poo_Commune",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 16,
+        "params": {
+          "Flag": false,
+          "SettingType": 17
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeSpNpcTurnState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": false,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 30,
+          "ArgInt1": 2,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSpNpcTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_poo_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cPlayer:ReserveCommuneExpansion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event13",
+        "next": 6,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "spn",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event9",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event10",
+        "next": 22,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_poo_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event16",
+        "next": 7,
+        "params": {
+          "Flag": false,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Poo_Pos",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event17",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "SetAngle": 90.0,
+          "SetNpc": "poo",
+          "SetPosX": 625.0,
+          "SetPosZ": 815.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "poo",
+          "SetPosX": 750.0,
+          "SetPosZ": 600.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "poo",
+          "SetPosX": 753.0,
+          "SetPosZ": 580.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "SetAngle": 0.0,
+          "SetNpc": "poo",
+          "SetPosX": 690.0,
+          "SetPosZ": 650.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cCommuneSitDown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          },
+          {
+            "target": 14,
+            "value": 3
+          },
+          {
+            "target": 18,
+            "value": 4
+          }
+        ],
+        "index": 17,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cPlayerTemp:PooCheckPlace",
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryFlagSystemIntValue5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPos",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "SetAngle": 90.0,
+          "SetNpc": "poo",
+          "SetPosX": 685.0,
+          "SetPosZ": 580.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 25,
+            "value": 2
+          },
+          {
+            "target": 27,
+            "value": 3
+          },
+          {
+            "target": 28,
+            "value": 4
+          }
+        ],
+        "index": 19,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayerTemp:PooCheckPlace",
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryFlagSystemIntValue5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_poo_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_poo_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 21,
+            "value": 2
+          }
+        ],
+        "index": 22,
+        "name": "Event27",
+        "params": {
+          "AccessKey": "cPlayerTemp:SpnCheckPlace",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event28",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cCommuneWanderWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_poo_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CommuneExpand_PooPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 24,
+        "name": "Event8",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event7",
+        "next": 8,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event14",
+        "next": 9,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event29",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event30",
+        "next": 20,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Poo_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "ee6540fbca34368d360a6fca3269ba5a79e19176c0e8c99993d32ecaaa011cdd",
+  "size": 9560,
+  "status": "converted"
+}

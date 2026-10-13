@@ -1,0 +1,218 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeSpVisitorTurnState",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcChangeTurnDefaultState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySceneCreateHourCompare"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 2,
+        "name": "Init"
+      },
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 9,
+    "event_flow_name": "AI_NPC_Hgh_Visit",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeSpVisitorTurnState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": true,
+          "ArgInt0": 30,
+          "ArgInt1": 1,
+          "ArgInt2": 15,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cSpVisitorTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event15",
+        "next": 5,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {
+          "Hour": 22,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQuerySceneCreateHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event0",
+        "next": 6,
+        "params": {
+          "Flag": false,
+          "SettingType": 17
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "Key": "IsPAnnounce",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event4",
+        "params": {
+          "Border": 1,
+          "Key": "IsPAnnounce"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": -20.0,
+          "ArgInt0": 1,
+          "ArgStr1": "Smiling",
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgh"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Hgh_Visit",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6ff4472eabb7d4229af6ecfbfd0fbc9707049bfc65385f2c0990b82c7e55e6d2",
+  "size": 4640,
+  "status": "converted"
+}

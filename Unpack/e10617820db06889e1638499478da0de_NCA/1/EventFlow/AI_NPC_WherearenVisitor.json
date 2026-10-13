@@ -1,0 +1,108 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionWherearenMainFieldActionStart"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenNpcOrderRelationKind"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 2,
+        "name": "Init"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "AI_NPC_WherearenVisitor",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_WherearenMainFieldVisitor"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ControlBalloon",
+        "flowchart": "AI_NPC_Wherearen_Common",
+        "index": 2,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 3
+          }
+        ],
+        "index": 3,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderRelationKind",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenMainFieldActionStart",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_WherearenVisitor",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "c0d94c7fe71cbf865a9672bb8b48bb60f9a2dc696d25abfd73659332724a6b58",
+  "size": 1720,
+  "status": "converted"
+}

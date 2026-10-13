@@ -1,0 +1,117 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionSystemDeletePlayerItem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionFtrTrashBoxRingSE"
+        ],
+        "argument_name": "",
+        "identifier": "Ftr",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "Ftr_TrashBox",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_TrashBox:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "FilterType": "cTrashBox",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cItemSelect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionFtrTrashBoxRingSE",
+        "actor": "Ftr",
+        "index": 3,
+        "name": "Event3",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDeletePlayerItem",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "DeleteNum": 1,
+          "DeleteType": "cItemWindow"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_TrashBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "83f4c56936efe29ca25ccc7b2807932b4412e99e0c38d7ea4ae63b8e880d328f",
+  "size": 2000,
+  "status": "converted"
+}

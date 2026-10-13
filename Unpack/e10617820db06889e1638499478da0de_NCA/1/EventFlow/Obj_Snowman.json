@@ -1,0 +1,3656 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionDecideEventReward"
+        ],
+        "argument_name": "",
+        "identifier": "SnowMan",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySnowManGrade",
+          "EventFlowQuerySnowManIsSnowMeltSeason",
+          "EventFlowQuerySnowManAge",
+          "EventFlowQuerySnowManIsHeadSmallerThanBody",
+          "EventFlowQueryIsMadeSnowManPlayer"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionSetItemToPocket",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionDecideOpenCraftRecipe",
+          "EventFlowActionOpenSelectedSequenceCraftRecipe",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionSystemMailSend",
+          "EventFlowActionDecideEventRewardDIYRecipe"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryPlayerHasCraftRecipe",
+          "EventFlowQueryIsMadeCraftUnlockRecipe",
+          "EventFlowQueryRandomChoice5",
+          "EventFlowQueryPlayerHouseLevel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 31,
+        "name": "Root_Talk"
+      },
+      {
+        "main_event": 163,
+        "name": "Root"
+      },
+      {
+        "main_event": 211,
+        "name": "Snowman_Chat"
+      },
+      {
+        "main_event": 44,
+        "name": "Snowman_Chk"
+      },
+      {
+        "main_event": 20,
+        "name": "Snowman_Chat_Always"
+      },
+      {
+        "main_event": 22,
+        "name": "Snowman_Chat_Grade"
+      },
+      {
+        "main_event": 0,
+        "name": "Snowman_Built"
+      },
+      {
+        "main_event": 130,
+        "name": "Snowman_FirstBuild"
+      },
+      {
+        "main_event": 8,
+        "name": "Snowman_Chat_HostP"
+      },
+      {
+        "main_event": 214,
+        "name": "Snowman_Chat_GuestP"
+      },
+      {
+        "main_event": 177,
+        "name": "Snowman_SendRecipe_MovingSubP"
+      },
+      {
+        "main_event": 229,
+        "name": "Snowman_GiveSnowCrystal_MovingSubP"
+      }
+    ],
+    "event_count": 236,
+    "event_flow_name": "Obj_Snowman",
+    "events": [
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          },
+          {
+            "target": 4,
+            "value": 3
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 1,
+        "name": "Event6",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 2,
+        "name": "Event9",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 3,
+        "name": "Event10",
+        "next": 115,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 4,
+        "name": "Event13",
+        "next": 125,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 5,
+        "name": "Event14",
+        "next": 125,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 6,
+        "name": "Event15",
+        "next": 125,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event23",
+        "next": 29,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsSnowMeltSeason",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event25",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 109,
+            "value": 0
+          },
+          {
+            "target": 110,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event26",
+        "params": {
+          "Percent": 70
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event27",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event28",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 13,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 14,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 15,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 16,
+        "name": "Event32",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 17,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 18,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          },
+          {
+            "target": 9,
+            "value": 2
+          },
+          {
+            "target": 11,
+            "value": 3
+          }
+        ],
+        "index": 19,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          },
+          {
+            "target": 67,
+            "value": 2
+          },
+          {
+            "target": 71,
+            "value": 3
+          }
+        ],
+        "index": 20,
+        "name": "Event36",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          },
+          {
+            "target": 62,
+            "value": 2
+          }
+        ],
+        "index": 21,
+        "name": "Event49",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          },
+          {
+            "target": 83,
+            "value": 2
+          },
+          {
+            "target": 88,
+            "value": 3
+          }
+        ],
+        "index": 22,
+        "name": "Event53",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 76,
+            "value": 1
+          },
+          {
+            "target": 77,
+            "value": 2
+          },
+          {
+            "target": 54,
+            "value": 3
+          }
+        ],
+        "index": 23,
+        "name": "Event70",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 154,
+            "value": 0
+          },
+          {
+            "target": 185,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event75",
+        "params": {
+          "ItemUniqueId": 65534,
+          "UnlockType": "Snowman"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event2",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          },
+          {
+            "target": 35,
+            "value": 2
+          },
+          {
+            "target": 36,
+            "value": 3
+          }
+        ],
+        "index": 26,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event21",
+        "next": 55,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event83",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event17",
+        "next": 52,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chk",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event22",
+        "next": 32,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat",
+        "flowchart": "",
+        "index": 32,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 133,
+            "value": 1
+          },
+          {
+            "target": 133,
+            "value": 2
+          },
+          {
+            "target": 133,
+            "value": 3
+          }
+        ],
+        "index": 33,
+        "name": "Event85",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 193,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event86",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay2Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 194,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event87",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay3Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 195,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event88",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay4Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event89",
+        "next": 57,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event91",
+        "next": 58,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event93",
+        "next": 59,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event95",
+        "next": 43,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay2Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event96",
+        "next": 43,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay3Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event97",
+        "next": 43,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay4Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event98",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          }
+        ],
+        "index": 44,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 45,
+        "name": "Event4",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 46,
+        "name": "Event3",
+        "next": 124,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 141,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          }
+        ],
+        "index": 47,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryIsMadeSnowManPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 48,
+        "name": "Event74",
+        "next": 170,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 49,
+        "name": "Event106",
+        "next": 139,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 50,
+        "name": "Event107",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 51,
+        "name": "Event111",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 52,
+        "name": "Event103",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 53,
+        "name": "Event113",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 54,
+        "name": "Event115",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:071"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 55,
+        "name": "Event116",
+        "next": 210,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 56,
+        "name": "Event117",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 57,
+        "name": "Event118",
+        "next": 40,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 58,
+        "name": "Event119",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 59,
+        "name": "Event120",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 60,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:056"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 61,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 62,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          },
+          {
+            "target": 66,
+            "value": 2
+          }
+        ],
+        "index": 63,
+        "name": "Event37",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 64,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:059"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 65,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 66,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          },
+          {
+            "target": 70,
+            "value": 2
+          }
+        ],
+        "index": 67,
+        "name": "Event44",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 68,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 69,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 70,
+        "name": "Event47",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          },
+          {
+            "target": 74,
+            "value": 2
+          }
+        ],
+        "index": 71,
+        "name": "Event48",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 72,
+        "name": "Event50",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 73,
+        "name": "Event51",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:066"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 74,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:067"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 75,
+        "name": "Event54",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:068"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 76,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:069"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 77,
+        "name": "Event56",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:070"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 81,
+            "value": 1
+          },
+          {
+            "target": 82,
+            "value": 2
+          },
+          {
+            "target": 79,
+            "value": 3
+          }
+        ],
+        "index": 78,
+        "name": "Event57",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 79,
+        "name": "Event58",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:075"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 80,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:072"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 81,
+        "name": "Event60",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:073"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 82,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:074"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          },
+          {
+            "target": 87,
+            "value": 2
+          },
+          {
+            "target": 84,
+            "value": 3
+          }
+        ],
+        "index": 83,
+        "name": "Event62",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 84,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:079"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 85,
+        "name": "Event64",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:076"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 86,
+        "name": "Event65",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:077"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 87,
+        "name": "Event66",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:078"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 98,
+            "value": 1
+          },
+          {
+            "target": 90,
+            "value": 2
+          },
+          {
+            "target": 89,
+            "value": 3
+          }
+        ],
+        "index": 88,
+        "name": "Event67",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 89,
+        "name": "Event68",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:087"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 90,
+        "name": "Event72",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:086"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 158,
+            "value": 1
+          },
+          {
+            "target": 157,
+            "value": 2
+          }
+        ],
+        "index": 91,
+        "name": "Event121",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 158,
+            "value": 0
+          },
+          {
+            "target": 157,
+            "value": 1
+          },
+          {
+            "target": 86,
+            "value": 2
+          }
+        ],
+        "index": 92,
+        "name": "Event123",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 93,
+        "name": "Event124",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:080"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 94,
+        "name": "Event125",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 95,
+        "name": "Event126",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:082"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 96,
+        "name": "Event127",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:083"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 103,
+            "value": 0
+          },
+          {
+            "target": 156,
+            "value": 1
+          },
+          {
+            "target": 155,
+            "value": 2
+          }
+        ],
+        "index": 97,
+        "name": "Event131",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 156,
+            "value": 0
+          },
+          {
+            "target": 155,
+            "value": 1
+          },
+          {
+            "target": 104,
+            "value": 2
+          }
+        ],
+        "index": 98,
+        "name": "Event133",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 99,
+        "name": "Event134",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:090"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 100,
+        "name": "Event135",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:088"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 101,
+        "name": "Event136",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:091"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 102,
+        "name": "Event137",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:089"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 103,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:084"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 104,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:085"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 111,
+            "value": 2
+          },
+          {
+            "target": 111,
+            "value": 3
+          }
+        ],
+        "index": 105,
+        "name": "Event128",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          }
+        ],
+        "index": 106,
+        "name": "Event129",
+        "params": {
+          "Percent": 55
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_Always",
+        "flowchart": "",
+        "index": 107,
+        "name": "Event138",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_Grade",
+        "flowchart": "",
+        "index": 108,
+        "name": "Event139",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_Always",
+        "flowchart": "",
+        "index": 109,
+        "name": "Event140",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_Grade",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event141",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 153,
+            "value": 0
+          },
+          {
+            "target": 106,
+            "value": 1
+          },
+          {
+            "target": 10,
+            "value": 2
+          },
+          {
+            "target": 10,
+            "value": 3
+          }
+        ],
+        "index": 111,
+        "name": "Event142",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDecideEventReward",
+        "actor": "SnowMan",
+        "index": 112,
+        "name": "Event5",
+        "next": 169,
+        "params": {
+          "RewardType": "cSnowmanReward"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 190,
+            "value": 0
+          },
+          {
+            "target": 183,
+            "value": 1
+          }
+        ],
+        "index": 113,
+        "name": "Event81",
+        "params": {
+          "ItemUniqueId": 65534,
+          "UnlockType": "Snowman"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 149,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event82",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanBuildFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 115,
+        "name": "Event84",
+        "next": 24,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:MakePerfectSnowball",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Snowman_Built",
+        "flowchart": "",
+        "index": 116,
+        "name": "Event102",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_FirstBuild",
+        "flowchart": "",
+        "index": 117,
+        "name": "Event143",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 118,
+        "name": "Event154",
+        "next": 126,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 119,
+        "name": "Event155",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 120,
+        "name": "Event160",
+        "next": 118,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 121,
+        "name": "Event163",
+        "next": 126,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 122,
+        "name": "Event168",
+        "next": 131,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event147",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 124,
+        "name": "Event148",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 125,
+        "name": "Event151",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 122,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          },
+          {
+            "target": 128,
+            "value": 2
+          },
+          {
+            "target": 127,
+            "value": 3
+          }
+        ],
+        "index": 126,
+        "name": "Event152",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 127,
+        "name": "Event156",
+        "next": 119,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 128,
+        "name": "Event157",
+        "next": 119,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 129,
+        "name": "Event158",
+        "next": 119,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 130,
+        "name": "Event153",
+        "next": 178,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event145",
+        "next": 119,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:MakePerfectSnowball",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 148,
+            "value": 0
+          },
+          {
+            "target": 146,
+            "value": 1
+          },
+          {
+            "target": 146,
+            "value": 2
+          },
+          {
+            "target": 146,
+            "value": 3
+          }
+        ],
+        "index": 132,
+        "name": "Event146",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 137,
+            "value": 0
+          }
+        ],
+        "index": 133,
+        "name": "Event178",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanFirstBuildTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 134,
+        "name": "Event179",
+        "next": 136,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 135,
+        "name": "Event181",
+        "next": 134,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 136,
+        "name": "Event182",
+        "next": 151,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 1
+          }
+        ],
+        "index": 137,
+        "name": "Event183",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 138,
+        "name": "Event184",
+        "next": 172,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 139,
+        "name": "Event159",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 208,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 140,
+        "name": "Event105",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 0
+          }
+        ],
+        "index": 141,
+        "name": "Event80",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          }
+        ],
+        "index": 142,
+        "name": "Event90",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          }
+        ],
+        "index": 143,
+        "name": "Event92",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          }
+        ],
+        "index": 144,
+        "name": "Event94",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 135,
+            "value": 0
+          }
+        ],
+        "index": 145,
+        "name": "Event161",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 146,
+        "name": "Event162",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 147,
+        "name": "Event174",
+        "next": 140,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 148,
+        "name": "Event166",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 149,
+        "name": "Event167",
+        "next": 150,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanBuildFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event169",
+        "next": 117,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanFirstBuildTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 151,
+        "name": "Event170",
+        "next": 138,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 152,
+        "name": "Event109",
+        "next": 56,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 106,
+            "value": 1
+          }
+        ],
+        "index": 153,
+        "name": "Event172",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanFirstBuildTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 112,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 154,
+        "name": "Event173",
+        "params": {
+          "CheckUnlockMode": "cAND",
+          "UnlockType": "Snowman"
+        },
+        "query": "EventFlowQueryIsMadeCraftUnlockRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 155,
+        "name": "Event175",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsHeadSmallerThanBody",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 156,
+        "name": "Event130",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsHeadSmallerThanBody",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 96,
+            "value": 1
+          }
+        ],
+        "index": 157,
+        "name": "Event73",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsHeadSmallerThanBody",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          },
+          {
+            "target": 94,
+            "value": 1
+          }
+        ],
+        "index": 158,
+        "name": "Event122",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsHeadSmallerThanBody",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDecideOpenCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 159,
+        "name": "Event76",
+        "next": 160,
+        "params": {
+          "CraftRecipeOpenType": "cRewardSnowman"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenSelectedSequenceCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 160,
+        "name": "Event150",
+        "next": 174,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideOpenCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 161,
+        "name": "Event99",
+        "next": 162,
+        "params": {
+          "CraftRecipeOpenType": "cRewardSnowman"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenSelectedSequenceCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event176",
+        "next": 175,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event177",
+        "next": 114,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event187",
+        "next": 173,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 5,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 165,
+        "name": "Event188",
+        "next": 173,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 4,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 166,
+        "name": "Event189",
+        "next": 173,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 3,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 167,
+        "name": "Event190",
+        "next": 173,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 2,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 168,
+        "name": "Event191",
+        "next": 173,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 1,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 168,
+            "value": 0
+          },
+          {
+            "target": 167,
+            "value": 1
+          },
+          {
+            "target": 166,
+            "value": 2
+          },
+          {
+            "target": 165,
+            "value": 3
+          },
+          {
+            "target": 164,
+            "value": 4
+          }
+        ],
+        "index": 169,
+        "name": "Event7",
+        "params": {
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryRandomChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 170,
+        "name": "Event8",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 171,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 172,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 173,
+        "name": "Event77",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 174,
+        "name": "Event101",
+        "next": 2,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cRewardSnowMan",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 175,
+        "name": "Event104",
+        "next": 48,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cRewardSnowMan",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 176,
+        "name": "Event108",
+        "next": 228,
+        "params": {
+          "FileIndex": "MAIL_SP_Snowman",
+          "FromType": "cSnowman",
+          "LabelIndex": 6,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideEventRewardDIYRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 177,
+        "name": "Event112",
+        "next": 176,
+        "params": {
+          "UnlockType": "Snowman"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 187,
+            "value": 0
+          },
+          {
+            "target": 198,
+            "value": 1
+          }
+        ],
+        "index": 178,
+        "name": "Event114",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 179,
+        "name": "Event144",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:107"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideOpenCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 180,
+        "name": "Event78",
+        "next": 181,
+        "params": {
+          "CraftRecipeOpenType": "cRewardSnowman"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenSelectedSequenceCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 181,
+        "name": "Event100",
+        "next": 182,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 182,
+        "name": "Event132",
+        "next": 132,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cRewardSnowMan",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 161,
+            "value": 0
+          }
+        ],
+        "index": 183,
+        "name": "Event110",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 184,
+        "name": "Event164",
+        "next": 186,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 159,
+            "value": 0
+          },
+          {
+            "target": 201,
+            "value": 1
+          }
+        ],
+        "index": 185,
+        "name": "Event149",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 186,
+        "name": "Event180",
+        "next": 139,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:109"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 188,
+            "value": 0
+          },
+          {
+            "target": 180,
+            "value": 1
+          }
+        ],
+        "index": 187,
+        "name": "Event185",
+        "params": {
+          "ItemUniqueId": 65534,
+          "UnlockType": "Snowman"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 188,
+        "name": "Event192",
+        "next": 140,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 189,
+        "name": "Event193",
+        "next": 171,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanGotDay1Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 191,
+            "value": 0
+          }
+        ],
+        "index": 190,
+        "name": "Event194",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 191,
+        "name": "Event195",
+        "next": 197,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 192,
+        "name": "Event196",
+        "next": 196,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 142,
+            "value": 0
+          }
+        ],
+        "index": 193,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryIsMadeSnowManPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          }
+        ],
+        "index": 194,
+        "name": "Event171",
+        "params": {},
+        "query": "EventFlowQueryIsMadeSnowManPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 144,
+            "value": 0
+          }
+        ],
+        "index": 195,
+        "name": "Event198",
+        "params": {},
+        "query": "EventFlowQueryIsMadeSnowManPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 196,
+        "name": "Event199",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 197,
+        "name": "Event197",
+        "next": 192,
+        "params": {
+          "ItemUniqueId": 3540,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 230,
+            "value": 0
+          },
+          {
+            "target": 177,
+            "value": 1
+          },
+          {
+            "target": 177,
+            "value": 2
+          },
+          {
+            "target": 177,
+            "value": 3
+          },
+          {
+            "target": 177,
+            "value": 4
+          },
+          {
+            "target": 177,
+            "value": 5
+          },
+          {
+            "target": 177,
+            "value": 6
+          },
+          {
+            "target": 177,
+            "value": 7
+          },
+          {
+            "target": 177,
+            "value": 8
+          }
+        ],
+        "index": 198,
+        "name": "Event186",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 199,
+        "name": "Event200",
+        "next": 202,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 200,
+        "name": "Event201",
+        "next": 203,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 233,
+            "value": 0
+          },
+          {
+            "target": 229,
+            "value": 1
+          },
+          {
+            "target": 229,
+            "value": 2
+          },
+          {
+            "target": 229,
+            "value": 3
+          },
+          {
+            "target": 229,
+            "value": 4
+          },
+          {
+            "target": 229,
+            "value": 5
+          },
+          {
+            "target": 229,
+            "value": 6
+          },
+          {
+            "target": 229,
+            "value": 7
+          },
+          {
+            "target": 229,
+            "value": 8
+          }
+        ],
+        "index": 201,
+        "name": "Event202",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 202,
+        "name": "Event203",
+        "next": 206,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 203,
+        "name": "Event204",
+        "next": 204,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 205,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 204,
+        "name": "Event206",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 205,
+        "name": "Event207",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 207,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 206,
+        "name": "Event205",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 3540
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 207,
+        "name": "Event208",
+        "next": 120,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 208,
+        "name": "Event165",
+        "next": 120,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 209,
+        "name": "Event209",
+        "next": 56,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 152,
+            "value": 0
+          },
+          {
+            "target": 209,
+            "value": 1
+          }
+        ],
+        "index": 210,
+        "name": "Event210",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 212,
+            "value": 0
+          },
+          {
+            "target": 213,
+            "value": 1
+          }
+        ],
+        "index": 211,
+        "name": "Event211",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_HostP",
+        "flowchart": "",
+        "index": 212,
+        "name": "Event212",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Snowman_Chat_GuestP",
+        "flowchart": "",
+        "index": 213,
+        "name": "Event213",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 217,
+            "value": 0
+          },
+          {
+            "target": 218,
+            "value": 1
+          }
+        ],
+        "index": 214,
+        "name": "Event214",
+        "params": {},
+        "query": "EventFlowQuerySnowManIsSnowMeltSeason",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 221,
+            "value": 0
+          },
+          {
+            "target": 222,
+            "value": 1
+          },
+          {
+            "target": 223,
+            "value": 2
+          },
+          {
+            "target": 223,
+            "value": 3
+          }
+        ],
+        "index": 215,
+        "name": "Event215",
+        "params": {},
+        "query": "EventFlowQuerySnowManGrade",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "SnowMan",
+        "cases": [
+          {
+            "target": 224,
+            "value": 0
+          },
+          {
+            "target": 225,
+            "value": 1
+          },
+          {
+            "target": 226,
+            "value": 2
+          },
+          {
+            "target": 227,
+            "value": 3
+          }
+        ],
+        "index": 216,
+        "name": "Event216",
+        "params": {},
+        "query": "EventFlowQuerySnowManAge",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 217,
+        "name": "Event217",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 219,
+            "value": 0
+          },
+          {
+            "target": 220,
+            "value": 1
+          }
+        ],
+        "index": 218,
+        "name": "Event218",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 219,
+        "name": "Event219",
+        "next": 220,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:211"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 215,
+            "value": 0
+          },
+          {
+            "target": 216,
+            "value": 1
+          }
+        ],
+        "index": 220,
+        "name": "Event220",
+        "params": {
+          "Percent": 70
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 221,
+        "name": "Event221",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 222,
+        "name": "Event222",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 223,
+        "name": "Event223",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 224,
+        "name": "Event224",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:205"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 225,
+        "name": "Event225",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:206"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 226,
+        "name": "Event226",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:207"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SnowMan",
+        "index": 227,
+        "name": "Event227",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_Snowman:208"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 228,
+        "name": "Event228",
+        "next": 179,
+        "params": {
+          "AccessKey": "cPlayer:SnowmanDIYMailFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 184,
+            "value": 0
+          },
+          {
+            "target": 200,
+            "value": 1
+          }
+        ],
+        "index": 229,
+        "name": "Event229",
+        "params": {
+          "AccessKey": "cPlayer:SnowmanDIYMailFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 231,
+            "value": 0
+          },
+          {
+            "target": 199,
+            "value": 1
+          }
+        ],
+        "index": 230,
+        "name": "Event231",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 232,
+            "value": 0
+          },
+          {
+            "target": 199,
+            "value": 1
+          }
+        ],
+        "index": 231,
+        "name": "Event232",
+        "params": {
+          "AccessKey": "cPlayer:NotBuilt2PMyHomeAfterMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Snowman_SendRecipe_MovingSubP",
+        "flowchart": "",
+        "index": 232,
+        "name": "Event234",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 234,
+            "value": 0
+          },
+          {
+            "target": 200,
+            "value": 1
+          }
+        ],
+        "index": 233,
+        "name": "Event236",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 235,
+            "value": 0
+          },
+          {
+            "target": 200,
+            "value": 1
+          }
+        ],
+        "index": 234,
+        "name": "Event237",
+        "params": {
+          "AccessKey": "cPlayer:NotBuilt2PMyHomeAfterMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Snowman_GiveSnowCrystal_MovingSubP",
+        "flowchart": "",
+        "index": 235,
+        "name": "Event239",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "Obj_Snowman",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d80bb27f4dc6f7d887783099b41b6ae0b3c5e9bd97514b4d79f1ca74a6ddcbc3",
+  "size": 48560,
+  "status": "converted"
+}

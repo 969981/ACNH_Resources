@@ -1,0 +1,382 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMsgCardAdrHandling",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionSetUISelectedNpcVillagerIndex"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryGeneralTalkChoice4"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 3,
+        "name": "Root"
+      },
+      {
+        "main_event": 13,
+        "name": "AboutVillager_CmnCancel1"
+      },
+      {
+        "main_event": 15,
+        "name": "AboutVillager_CmnCancel2"
+      }
+    ],
+    "event_count": 25,
+    "event_flow_name": "SNPC_sza_70_AboutVillager",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 0,
+        "params": {
+          "AccessKey": "cPlayer:ShizueCmnExplanationComplaint"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayer:ShizueCmnExplanationComplaint"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardAdrHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event20",
+        "next": 6,
+        "params": {
+          "MsgCardAdrType": "cTroubleList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event23",
+        "next": 24,
+        "params": {
+          "TagID": 0,
+          "TagType": "cSelectNpcName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event31",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/v2_0_0/SP_sza_0_common_v2:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          },
+          {
+            "target": 21,
+            "value": 2
+          },
+          {
+            "target": 22,
+            "value": 3
+          }
+        ],
+        "index": 12,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event34",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Sza_CmnSel_Again",
+        "flowchart": "SNPC_sza_00_Common",
+        "index": 14,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event36",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "AboutVillager_CmnCancel1",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_70_AboutVillager_01_ResetHabit",
+        "index": 17,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_70_AboutVillager_01_ResetHabit",
+        "index": 18,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_70_AboutVillager_02_ResetCloth",
+        "index": 19,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_70_AboutVillager_02_ResetCloth",
+        "index": 20,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_70_AboutVillager_03_ResetHouse",
+        "index": 21,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AboutVillager_CmnCancel1",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cLand:UnlockSzaResetHouse"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetUISelectedNpcVillagerIndex",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event15",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_sza_70_AboutVillager",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "62ae3e3e2a2060dd42f2155e58b181f69cec39e29ee96349e963a11491730974",
+  "size": 4864,
+  "status": "converted"
+}

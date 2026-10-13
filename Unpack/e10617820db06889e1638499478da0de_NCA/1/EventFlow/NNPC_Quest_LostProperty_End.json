@@ -1,0 +1,1603 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcAddFriendship",
+          "EventFlowActionNpcQuestControl",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionNpcQuestFlagOn",
+          "EventFlowActionSetNpcName",
+          "EventFlowActionQuestStartOpenMessageWindow",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionEventFlagNpcOff",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryHasNpcRequestedItem",
+          "EventFlowQueryNpcLostQuestType",
+          "EventFlowQueryIsSelectNpcRequestedItem",
+          "EventFlowQueryNpcQuestReward",
+          "EventFlowQueryNpcIsQuestClient"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryRandomChoiceExcludePrevious3"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 76,
+        "name": "End"
+      },
+      {
+        "main_event": 2,
+        "name": "Confirm"
+      },
+      {
+        "main_event": 26,
+        "name": "Give1"
+      },
+      {
+        "main_event": 48,
+        "name": "Give2"
+      }
+    ],
+    "event_count": 101,
+    "event_flow_name": "NNPC_Quest_LostProperty_End",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:048"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event13",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          },
+          {
+            "target": 44,
+            "value": 2
+          },
+          {
+            "target": 45,
+            "value": 3
+          }
+        ],
+        "index": 2,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryNpcLostQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcQuestControl",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event15",
+        "next": 86,
+        "params": {
+          "Next": "cFinish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          },
+          {
+            "target": 22,
+            "value": 2
+          },
+          {
+            "target": 23,
+            "value": 3
+          }
+        ],
+        "index": 4,
+        "name": "Event18",
+        "params": {},
+        "query": "EventFlowQueryNpcLostQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event19",
+        "next": 53,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event21",
+        "next": 33,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event22",
+        "next": 8,
+        "params": {
+          "FilterType": "cQuest",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cItemSelect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryIsSelectNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event32",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event34",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event35",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event36",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event37",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event38",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event39",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event40",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event41",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event42",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event43",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event44",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event45",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event46",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:038"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event47",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:039"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event48",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          },
+          {
+            "target": 31,
+            "value": 2
+          },
+          {
+            "target": 32,
+            "value": 3
+          }
+        ],
+        "index": 27,
+        "name": "Event51",
+        "params": {},
+        "query": "EventFlowQueryNpcLostQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event52",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event53",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event54",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event55",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event56",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          }
+        ],
+        "index": 33,
+        "name": "Event57",
+        "params": {},
+        "query": "EventFlowQueryNpcQuestReward",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event58",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event59",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event60",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event61",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event62",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event63",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event64",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:035"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionQuestStartOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event65",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "IsEnd": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event66",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event67",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:049"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event95",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event96",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event97",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:043"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event98",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:044"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 48,
+        "name": "Event99",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event100",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event101",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:045"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event102",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event103",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:046"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 53,
+        "name": "Event104",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          },
+          {
+            "target": 65,
+            "value": 2
+          },
+          {
+            "target": 66,
+            "value": 3
+          }
+        ],
+        "index": 54,
+        "name": "Event105",
+        "params": {},
+        "query": "EventFlowQueryNpcLostQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event106",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event107",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event108",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event109",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event110",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event111",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event112",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event113",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event114",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event115",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event116",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 62,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event117",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event118",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event119",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          },
+          {
+            "target": 73,
+            "value": 2
+          },
+          {
+            "target": 74,
+            "value": 3
+          }
+        ],
+        "index": 69,
+        "name": "Event120",
+        "params": {},
+        "query": "EventFlowQueryNpcLostQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event121",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event122",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event123",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 73,
+        "name": "Event124",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 74,
+        "name": "Event125",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event126",
+        "params": {
+          "CheckPlayer": false,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event127",
+        "params": {
+          "CheckPlayer": true,
+          "IncludeFinish": false,
+          "QuestType": "cLost"
+        },
+        "query": "EventFlowQueryNpcIsQuestClient",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          },
+          {
+            "target": 80,
+            "value": 2
+          }
+        ],
+        "index": 77,
+        "name": "Event128",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event129",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event130",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event131",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_LostProperty_End:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event132",
+        "next": 82,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcQuestFlagOn",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event133",
+        "next": null,
+        "params": {
+          "QuestFlag": "cLostUseHint"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event135",
+        "params": {},
+        "query": "EventFlowQueryHasNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcName",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event136",
+        "next": 77,
+        "params": {
+          "ID": 0,
+          "NpcNameType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Quest_AllReward",
+        "index": 85,
+        "name": "Event1",
+        "next": 67,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event0",
+        "next": 89,
+        "params": {
+          "AccessKey": "cLifeSupportDaily:AchieveQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event2",
+        "next": 5,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event3",
+        "next": 85,
+        "params": {
+          "Command": 3,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event25",
+        "next": 91,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:AchieveVillagersQuest",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Confirm",
+        "flowchart": "",
+        "index": 90,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event6",
+        "next": 94,
+        "params": {
+          "AccessKey": "cNpcMemory:StoodUpFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Give1",
+        "flowchart": "",
+        "index": 92,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Give2",
+        "flowchart": "",
+        "index": 93,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event11",
+        "next": 98,
+        "params": {
+          "AccessKey": "cNpcMemory:OrderQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event12",
+        "next": 69,
+        "params": {
+          "AddValue": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event16",
+        "next": 84,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event20",
+        "next": 96,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event17",
+        "next": 99,
+        "params": {
+          "AccessKey": "cLand:LostPropertyFound"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event28",
+        "next": 100,
+        "params": {
+          "Key": "NNPC_SolveRequest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Quest_LostProperty_End",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "c43f98cc6bb5cff1f7c3a863d4e503430ee2f49d841931a416438e00409ba59c",
+  "size": 23856,
+  "status": "converted"
+}

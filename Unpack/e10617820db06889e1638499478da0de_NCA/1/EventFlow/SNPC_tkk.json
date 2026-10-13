@@ -1,0 +1,2874 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUISoftwareKeyboardHandling",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionUIMsgCardEditTextHandling",
+          "EventFlowActionSetBirthDayTag",
+          "EventFlowActionEntryBirthDayMessage"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryGeneralTalkChoice4",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryMultiFromItemSelectInclude",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryRandomChoice3",
+          "EventFlowQueryRandomChoice5",
+          "EventFlowQueryGeneralTalkChoice5",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryExistPlayerAcceptingBirthDayMessage",
+          "EventFlowQueryNetHasVisitor"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTkkRequestSongSet",
+          "EventFlowActionTkkFreeAction"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryTkkFreeQuery2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 189,
+        "name": "Root"
+      },
+      {
+        "main_event": 15,
+        "name": "Tkk_Request"
+      },
+      {
+        "main_event": 39,
+        "name": "Tkk_FirstLiveToday"
+      },
+      {
+        "main_event": 13,
+        "name": "Tkk_LiveAgainToday"
+      },
+      {
+        "main_event": 16,
+        "name": "Tkk_SelectMusic"
+      },
+      {
+        "main_event": 90,
+        "name": "Tkk_FirstLive"
+      },
+      {
+        "main_event": 102,
+        "name": "Tkk_BirthdayLive"
+      },
+      {
+        "main_event": 116,
+        "name": "Tkk_BdayMsg"
+      },
+      {
+        "main_event": 137,
+        "name": "Tkk_Refuse"
+      },
+      {
+        "main_event": 164,
+        "name": "Tkk_Request_Share"
+      },
+      {
+        "main_event": 185,
+        "name": "Tkk_JudgeNew"
+      }
+    ],
+    "event_count": 190,
+    "event_flow_name": "SNPC_tkk",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 121,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 1,
+            "value": 2
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event4",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_PlayReady"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 162,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_RequestPlayer"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 140,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event22",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event23",
+        "next": 171,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event24",
+        "next": 89,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_First",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event25",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 138,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event27",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 139,
+            "value": 3
+          }
+        ],
+        "index": 16,
+        "name": "Event29",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event31",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event32",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event34",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:037"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event35",
+        "next": 166,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event36",
+        "next": 86,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_None",
+          "SelectSongMethod": "cTkkSelectSongMethod_Random"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event38",
+        "next": 87,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event39",
+        "next": 167,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISoftwareKeyboardHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event43",
+        "next": 27,
+        "params": {
+          "FormType": "cTotakekeRequest",
+          "IsClearString": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 105,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event44",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event45",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_SelectMusic",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event48",
+        "params": {
+          "ItemFromType1": "TkkBirthday",
+          "ItemFromType2": "",
+          "ItemFromType3": "",
+          "ItemFromType4": "",
+          "ItemFromType5": "",
+          "ItemFromType6": "",
+          "ItemFromType7": "",
+          "ItemFromType8": "",
+          "JudgeTarget": "cPresetItem"
+        },
+        "query": "EventFlowQueryMultiFromItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event49",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_SelectMusic",
+        "flowchart": "",
+        "index": 32,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event52",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event53",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event54",
+        "next": 168,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event56",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event57",
+        "next": 169,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event58",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event60",
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event61",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event62",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event63",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event64",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request",
+        "flowchart": "",
+        "index": 45,
+        "name": "Event65",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event66",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event67",
+        "next": 48,
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          },
+          {
+            "target": 50,
+            "value": 2
+          }
+        ],
+        "index": 48,
+        "name": "Event68",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 50
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event70",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event71",
+        "next": 76,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 4,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 2,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 53,
+        "name": "Event74",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 10,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event75",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event76",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event77",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          },
+          {
+            "target": 60,
+            "value": 2
+          }
+        ],
+        "index": 57,
+        "name": "Event78",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event79",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event80",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event81",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          },
+          {
+            "target": 64,
+            "value": 2
+          },
+          {
+            "target": 65,
+            "value": 3
+          },
+          {
+            "target": 66,
+            "value": 4
+          }
+        ],
+        "index": 61,
+        "name": "Event82",
+        "params": {
+          "ChoiceNumber": 5
+        },
+        "query": "EventFlowQueryRandomChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event83",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event84",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event85",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event86",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event87",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          },
+          {
+            "target": 83,
+            "value": 2
+          },
+          {
+            "target": 84,
+            "value": 3
+          },
+          {
+            "target": 85,
+            "value": 4
+          }
+        ],
+        "index": 67,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 172,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:TkkLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 74,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Tkk_FirstLiveToday",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event69",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_LiveAgainToday",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_FirstLiveToday",
+        "flowchart": "",
+        "index": 73,
+        "name": "Event90",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_LiveAgainToday",
+        "flowchart": "",
+        "index": 74,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event92",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event93",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 79,
+            "value": 0
+          },
+          {
+            "target": 141,
+            "value": 1
+          }
+        ],
+        "index": 77,
+        "name": "Event94",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request",
+        "flowchart": "",
+        "index": 78,
+        "name": "Event95",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request",
+        "flowchart": "",
+        "index": 79,
+        "name": "Event96",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 80,
+        "name": "Event15",
+        "params": {
+          "ItemFromType1": "TkkHidden",
+          "ItemFromType2": "",
+          "ItemFromType3": "",
+          "ItemFromType4": "",
+          "ItemFromType5": "",
+          "ItemFromType6": "",
+          "ItemFromType7": "",
+          "ItemFromType8": "",
+          "JudgeTarget": "cPresetItem"
+        },
+        "query": "EventFlowQueryMultiFromItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event51",
+        "next": 23,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_SoGood",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event42",
+        "next": 23,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_SoBad",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event59",
+        "next": 23,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_Clement",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event103",
+        "next": 23,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_Blue",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event104",
+        "next": 23,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_Unsure",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkFreeAction",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event105",
+        "next": null,
+        "params": {
+          "TkkActionType": "cTkkActionType_ToReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkFreeAction",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "TkkActionType": "cTkkActionType_ToReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkFreeAction",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "TkkActionType": "cTkkActionType_ToReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkFreeAction",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event107",
+        "next": null,
+        "params": {
+          "TkkActionType": "cTkkActionType_ToReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 90,
+        "name": "Event112",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event106",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event116",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 0
+          },
+          {
+            "target": 173,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event117",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Tkk_FirstLive",
+        "flowchart": "",
+        "index": 94,
+        "name": "Event114",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          }
+        ],
+        "index": 95,
+        "name": "Event102",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 98,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event99",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event100",
+        "next": 99,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 98,
+        "name": "Event115",
+        "next": 170,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event119",
+        "next": 100,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_Birthday",
+          "SelectSongMethod": "cTkkSelectSongMethod_Feeling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkFreeAction",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event120",
+        "next": null,
+        "params": {
+          "TkkActionType": "cTkkActionType_ToReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event1",
+        "next": 103,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 102,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cPlayer:TkkLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 104,
+            "value": 1
+          }
+        ],
+        "index": 103,
+        "name": "Event98",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event121",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTkkRequestSongSet",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event122",
+        "next": 30,
+        "params": {
+          "SelectFeelType": "cTkkSelectFeelType_None",
+          "SelectSongMethod": "cTkkSelectSongMethod_SongName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 106,
+        "name": "Event47",
+        "next": 33,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cTkkLiveRequest",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryBirthDayMessage",
+        "actor": "EventFlowSystemActor",
+        "index": 107,
+        "name": "Event124",
+        "next": 112,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event118",
+        "next": 109,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event126",
+        "next": 115,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 110,
+        "name": "Event129",
+        "next": 120,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 111,
+        "name": "Event130",
+        "next": 176,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event132",
+        "next": 176,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_BdayMsg",
+        "flowchart": "",
+        "index": 113,
+        "name": "Event127",
+        "next": 126,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event131",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 115,
+        "name": "Event133",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 119,
+            "value": 0
+          },
+          {
+            "target": 184,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event135",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          }
+        ],
+        "index": 117,
+        "name": "Event136",
+        "params": {
+          "AccessKey": "cPlayer:TkkLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 117,
+            "value": 0
+          },
+          {
+            "target": 130,
+            "value": 1
+          }
+        ],
+        "index": 118,
+        "name": "Event138",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 118,
+            "value": 0
+          },
+          {
+            "target": 130,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event141",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_BirthdayLive"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardEditTextHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 120,
+        "name": "Event137",
+        "next": 114,
+        "params": {
+          "TempFormType": "cBirthday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 153,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          },
+          {
+            "target": 68,
+            "value": 2
+          }
+        ],
+        "index": 121,
+        "name": "Event143",
+        "params": {
+          "Hour": 18,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event144",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:080"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 122,
+            "value": 0
+          },
+          {
+            "target": 124,
+            "value": 1
+          },
+          {
+            "target": 125,
+            "value": 2
+          }
+        ],
+        "index": 123,
+        "name": "Event145",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event146",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 125,
+        "name": "Event147",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:082"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 174,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event148",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_BirthdayLive"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Tkk_BirthdayLive",
+        "flowchart": "",
+        "index": 127,
+        "name": "Event149",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 188,
+            "value": 1
+          }
+        ],
+        "index": 128,
+        "name": "Event150",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 129,
+        "name": "Event151",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 131,
+            "value": 0
+          }
+        ],
+        "index": 130,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryExistPlayerAcceptingBirthDayMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetBirthDayTag",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event14",
+        "next": 146,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request",
+        "flowchart": "",
+        "index": 132,
+        "name": "Event142",
+        "next": 135,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event152",
+        "next": 134,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:066"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 132,
+            "value": 0
+          },
+          {
+            "target": 142,
+            "value": 1
+          }
+        ],
+        "index": 134,
+        "name": "Event153",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event128",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event140",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event155",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_Refuse",
+        "flowchart": "",
+        "index": 138,
+        "name": "Event156",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Refuse",
+        "flowchart": "",
+        "index": 139,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Refuse",
+        "flowchart": "",
+        "index": 140,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Refuse",
+        "flowchart": "",
+        "index": 141,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Refuse",
+        "flowchart": "",
+        "index": 142,
+        "name": "Event154",
+        "next": 136,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 0
+          },
+          {
+            "target": 133,
+            "value": 1
+          }
+        ],
+        "index": 143,
+        "name": "Event157",
+        "params": {
+          "AccessKey": "cPlayer:TkkLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 0
+          },
+          {
+            "target": 133,
+            "value": 1
+          }
+        ],
+        "index": 144,
+        "name": "Event158",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 145,
+        "name": "Event160",
+        "next": 134,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:067"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 147,
+            "value": 0
+          },
+          {
+            "target": 148,
+            "value": 1
+          }
+        ],
+        "index": 146,
+        "name": "Event161",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 108,
+            "value": 0
+          },
+          {
+            "target": 149,
+            "value": 1
+          }
+        ],
+        "index": 147,
+        "name": "Event162",
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 108,
+            "value": 0
+          },
+          {
+            "target": 150,
+            "value": 1
+          }
+        ],
+        "index": 148,
+        "name": "Event163",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 149,
+        "name": "Event164",
+        "next": 108,
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event165",
+        "next": 108,
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event166",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:083"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 152,
+        "name": "Event167",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:084"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 154,
+            "value": 0
+          },
+          {
+            "target": 155,
+            "value": 1
+          }
+        ],
+        "index": 153,
+        "name": "Event168",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 156,
+            "value": 1
+          }
+        ],
+        "index": 154,
+        "name": "Event169",
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 157,
+            "value": 1
+          }
+        ],
+        "index": 155,
+        "name": "Event170",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 156,
+        "name": "Event171",
+        "next": 158,
+        "params": {
+          "AccessKey": "cPlayer:TkkTalkToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 157,
+        "name": "Event172",
+        "next": 158,
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 152,
+            "value": 0
+          },
+          {
+            "target": 159,
+            "value": 1
+          }
+        ],
+        "index": 158,
+        "name": "Event173",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 159,
+        "name": "Event174",
+        "next": 151,
+        "params": {
+          "AccessKey": "cPlayer:TotakekeTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 160,
+        "name": "Event110",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 161,
+        "name": "Event111",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 163,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 162,
+        "name": "Event108",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 160,
+            "value": 0
+          },
+          {
+            "target": 161,
+            "value": 1
+          }
+        ],
+        "index": 163,
+        "name": "Event175",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_RequestPlayer"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 165,
+            "value": 0
+          }
+        ],
+        "index": 164,
+        "name": "Event176",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 165,
+        "name": "Event177",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/tkk/SP_tkk:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 166,
+        "name": "Event178",
+        "next": 22,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 167,
+        "name": "Event179",
+        "next": 87,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 168,
+        "name": "Event180",
+        "next": 88,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 169,
+        "name": "Event181",
+        "next": 88,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 170,
+        "name": "Event182",
+        "next": 99,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Tkk_Request_Share",
+        "flowchart": "",
+        "index": 171,
+        "name": "Event183",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 172,
+        "name": "Event17",
+        "next": 93,
+        "params": {
+          "AccessKey": "cPlayer:TotakekeTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 173,
+        "name": "Event8",
+        "next": 94,
+        "params": {
+          "AccessKey": "cPlayer:TkkFirstLiveToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          }
+        ],
+        "index": 174,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cPlayer:TkkFirstLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 175,
+        "name": "Event109",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 181,
+            "value": 0
+          },
+          {
+            "target": 178,
+            "value": 1
+          }
+        ],
+        "index": 176,
+        "name": "Event113",
+        "params": {
+          "TkkQueryType": "cTkkQueryType_BirthdayLive"
+        },
+        "query": "EventFlowQueryTkkFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 177,
+        "name": "Event101",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 179,
+            "value": 0
+          },
+          {
+            "target": 177,
+            "value": 1
+          },
+          {
+            "target": 177,
+            "value": 2
+          }
+        ],
+        "index": 178,
+        "name": "Event123",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 180,
+            "value": 0
+          },
+          {
+            "target": 182,
+            "value": 1
+          },
+          {
+            "target": 182,
+            "value": 2
+          }
+        ],
+        "index": 179,
+        "name": "Event125",
+        "params": {
+          "Hour": 18,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 180,
+        "name": "Event134",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 183,
+            "value": 0
+          },
+          {
+            "target": 175,
+            "value": 1
+          }
+        ],
+        "index": 181,
+        "name": "Event159",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 143,
+            "value": 0
+          },
+          {
+            "target": 144,
+            "value": 1
+          }
+        ],
+        "index": 182,
+        "name": "Event18",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 178,
+            "value": 0
+          }
+        ],
+        "index": 183,
+        "name": "Event139",
+        "params": {
+          "AccessKey": "cPlayer:TkkFirstLiveToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 1
+          }
+        ],
+        "index": 184,
+        "name": "Event184",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 186,
+            "value": 0
+          },
+          {
+            "target": 187,
+            "value": 1
+          }
+        ],
+        "index": 185,
+        "name": "Event186",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeTalkBeforeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 187,
+            "value": 1
+          }
+        ],
+        "index": 186,
+        "name": "Event187",
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLiveCount",
+          "Border": 2,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 187,
+        "name": "Event188",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:TotakekeLive2_0Flag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 188,
+        "name": "Event192",
+        "params": {
+          "AccessKey": "cPlayerVisit:TkkVisitorLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Tkk_JudgeNew",
+        "flowchart": "",
+        "index": 189,
+        "name": "Event190",
+        "next": 2,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_tkk",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "edcbc9fae4b71aac858024a6b8c4734c47613a51c2648c5203de9232f6994ce9",
+  "size": 35896,
+  "status": "converted"
+}

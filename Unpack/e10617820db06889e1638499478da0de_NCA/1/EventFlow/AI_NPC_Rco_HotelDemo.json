@@ -1,0 +1,273 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckHotelTutorialReserved"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 7,
+        "name": "Init"
+      }
+    ],
+    "event_count": 15,
+    "event_flow_name": "AI_NPC_Rco_HotelDemo",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event5",
+        "params": {
+          "TutorialTypeString": "cHotelIntroduction"
+        },
+        "query": "EventFlowQueryCheckHotelTutorialReserved",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 3,
+        "name": "Event6",
+        "next": 4,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_rco_14_TradeBoxTutorial"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "kpp",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_rco_13_HotelTutorial"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event9",
+        "next": 5,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 7,
+        "name": "Event11",
+        "params": {
+          "TutorialTypeString": "cHotelIntroduction"
+        },
+        "query": "EventFlowQueryCheckHotelTutorialReserved",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "Key": "DemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "Border": 1,
+          "Key": "DemoSpeak"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 10,
+        "name": "Event13",
+        "next": 11,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_rco_13_HotelTutorial"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event0",
+        "next": 12,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event4",
+        "next": 13,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event14",
+        "next": 14,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "Key": "DemoSpeak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Rco_HotelDemo",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "588e1a95bd2aa4f083698d0cbc0d4726c3925505b91c552082624ff4102cf55a",
+  "size": 5016,
+  "status": "converted"
+}

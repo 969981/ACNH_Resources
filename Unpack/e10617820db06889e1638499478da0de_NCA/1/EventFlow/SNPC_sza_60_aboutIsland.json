@@ -1,0 +1,116 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice4"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "SNPC_sza_60_aboutIsland",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/v2_0_0/SP_sza_0_common_v2:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_01_Towntune",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_01_Flag",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          },
+          {
+            "target": 4,
+            "value": 3
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Sza_Cmn_Cancel",
+        "flowchart": "SNPC_sza_00_Common",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_sza_60_aboutIsland_03_Regulation",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_sza_60_aboutIsland",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "61234b016f1c489b5f80d631fa2433f1133439719ead7d559881d2e95b89018c",
+  "size": 1360,
+  "status": "converted"
+}

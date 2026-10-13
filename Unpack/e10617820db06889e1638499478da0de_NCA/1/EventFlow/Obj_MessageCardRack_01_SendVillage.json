@@ -1,0 +1,546 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIMsgCardAdrHandling",
+          "EventFlowActionUIMsgCardSelectHandling",
+          "EventFlowActionUIMsgCardEditTextHandling",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionSaveSetFromUIResult",
+          "EventFlowActionDropIntoPostOffice",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionChangeAddressUnfinishMail"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryUIIsAdrSelect",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQueryHasFreeInPostOffice",
+          "EventFlowQueryExistUnfinishMail"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "DynamicCast_dod",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 29,
+        "name": "EntryPoint_SendVillage"
+      },
+      {
+        "main_event": 28,
+        "name": "EntryPoint_EditPlayer"
+      },
+      {
+        "main_event": 28,
+        "name": "EntryPoint_EditNPC"
+      }
+    ],
+    "event_count": 39,
+    "event_flow_name": "Obj_MessageCardRack_01_SendVillage",
+    "events": [
+      {
+        "action": "EventFlowActionUIMsgCardAdrHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "MsgCardAdrType": "cResident"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryUIIsAdrSelect",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardSelectHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardEditTextHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event6",
+        "next": 6,
+        "params": {
+          "TempFormType": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 7,
+        "name": "Event7",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:500"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "Money": 200
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 9,
+        "name": "Event9",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:510"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event10",
+        "next": 16,
+        "params": {
+          "Money": -200,
+          "Reverse": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 11,
+        "name": "Event11",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event12",
+        "next": 15,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event13",
+        "next": 23,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSetFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event17",
+        "next": 8,
+        "params": {
+          "SaveType": "cMsgCard"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDropIntoPostOffice",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event18",
+        "next": 11,
+        "params": {
+          "TmpMailInstance": "cSaveMailUserInfo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event15",
+        "params": {
+          "Type": "cToVillagePlayer"
+        },
+        "query": "EventFlowQueryHasFreeInPostOffice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 18,
+        "name": "Event33",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event36",
+        "next": 33,
+        "params": {
+          "TagID": 0,
+          "TagType": "cSelectPlayerName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event37",
+        "params": {
+          "Type": "cToVillagePlayer"
+        },
+        "query": "EventFlowQueryHasFreeInPostOffice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event41",
+        "next": 34,
+        "params": {
+          "TagID": 0,
+          "TagType": "cSelectNpcName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event42",
+        "params": {
+          "Type": "cToNpc"
+        },
+        "query": "EventFlowQueryHasFreeInPostOffice",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_EditKeepByNoMoney",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 23,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_EditCancel",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 24,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event48",
+        "params": {},
+        "query": "EventFlowQueryExistUnfinishMail",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeAddressUnfinishMail",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event50",
+        "next": 36,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event52",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event54",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event57",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_StockFull",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 30,
+        "name": "Event60",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_StockFull",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 31,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_StockFull",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 32,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 33,
+        "name": "Event16",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:210_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 34,
+        "name": "Event19",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:210_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 35,
+        "name": "Event20",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:220_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "DynamicCast_dod",
+        "index": 36,
+        "name": "Event21",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_50_PostOffice:220_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_CancelNega",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 37,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_CancelNega",
+        "flowchart": "Obj_MessageCardRack",
+        "index": 38,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "Obj_MessageCardRack_01_SendVillage",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "342640511eaca389db7b1dc2ebbe6230c7f89b10b3e543e3552f2b35ad25c915",
+  "size": 6768,
+  "status": "converted"
+}

@@ -1,0 +1,804 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionUIMoneyDisappear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryUICheckSelectedItemPrice"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcDecideGeneralQuestReward",
+          "EventFlowActionNpcAddFriendship",
+          "EventFlowActionSetItemName",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionNpcDecideSelectSellBuyPrice",
+          "EventFlowActionRegistToReleaseItemList",
+          "EventFlowActionNpcMailSendRandom",
+          "EventFlowActionSetMoneyApplySave",
+          "EventFlowActionNpcDecideRewardFloorWall",
+          "EventFlowActionSendPlayReportNNPCSelectTalkItem",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcFavorLevel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 1,
+        "name": "Root_Disappear"
+      },
+      {
+        "main_event": 27,
+        "name": "Trade"
+      },
+      {
+        "main_event": 14,
+        "name": "Buy"
+      },
+      {
+        "main_event": 50,
+        "name": "Root_OverFlow"
+      },
+      {
+        "main_event": 25,
+        "name": "Low_Trade"
+      },
+      {
+        "main_event": 47,
+        "name": "PlayReport"
+      }
+    ],
+    "event_count": 52,
+    "event_flow_name": "NNPC_Select_Sell_Gift",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event26",
+        "params": {
+          "Border": 3000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event31",
+        "params": {
+          "Border": 3000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          },
+          {
+            "target": 6,
+            "value": 2
+          },
+          {
+            "target": 6,
+            "value": 3
+          },
+          {
+            "target": 7,
+            "value": 4
+          },
+          {
+            "target": 7,
+            "value": 5
+          }
+        ],
+        "index": 2,
+        "name": "Event46",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event47",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event48",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cSpecialHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event49",
+        "params": {
+          "Percent": 70
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event50",
+        "params": {
+          "Percent": 80
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event51",
+        "params": {
+          "Percent": 90
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event52",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event53",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cSpecialHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event54",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSelectSellBuyPrice",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event55",
+        "next": 39,
+        "params": {
+          "BuyPriceType": "cSpecialHigh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event56",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Select/BO_Select_General:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event57",
+        "next": 15,
+        "params": {
+          "Command": 13,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event58",
+        "next": 2,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRegistToReleaseItemList",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event2",
+        "next": 48,
+        "params": {
+          "Route": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event14",
+        "next": 16,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event15",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Select/BO_Select_General:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event16",
+        "next": 20,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event17",
+        "next": 18,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event19",
+        "next": 19,
+        "params": {
+          "AddValue": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event20",
+        "next": 19,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event21",
+        "next": 19,
+        "params": {
+          "AddValue": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event22",
+        "next": 23,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event25",
+        "next": 21,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event28",
+        "next": 22,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          },
+          {
+            "target": 42,
+            "value": 3
+          },
+          {
+            "target": 25,
+            "value": 4
+          },
+          {
+            "target": 25,
+            "value": 5
+          }
+        ],
+        "index": 27,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Trade",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Trade",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSendRandom",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event3",
+        "next": 49,
+        "params": {
+          "FileIndex": "MAIL_XX_OverFlow",
+          "LabelIndexBegin": 1,
+          "LabelIndexEnd": 3,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event1",
+        "next": 38,
+        "params": {
+          "AddValue": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event4",
+        "next": 38,
+        "params": {
+          "AddValue": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event5",
+        "next": 38,
+        "params": {
+          "AddValue": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event6",
+        "next": 33,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event7",
+        "next": 31,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event8",
+        "next": 32,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          },
+          {
+            "target": 34,
+            "value": 2
+          },
+          {
+            "target": 34,
+            "value": 3
+          },
+          {
+            "target": 35,
+            "value": 4
+          },
+          {
+            "target": 35,
+            "value": 5
+          }
+        ],
+        "index": 37,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event10",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Select/BO_Select_General:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetMoneyApplySave",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event11",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Low_Trade",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Low_Trade",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event27",
+        "params": {
+          "Percent": 90
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardFloorWall",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event34",
+        "next": 23,
+        "params": {
+          "RewardType": 4,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardFloorWall",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event35",
+        "next": 22,
+        "params": {
+          "RewardType": 4,
+          "RewardTypeSub": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event36",
+        "params": {
+          "Percent": 85
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSendPlayReportNNPCSelectTalkItem",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "SendTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSendPlayReportNNPCSelectTalkItem",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event38",
+        "next": 46,
+        "params": {
+          "SendTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PlayReport",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event39",
+        "next": 51,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PlayReport",
+        "flowchart": "",
+        "index": 49,
+        "name": "Event40",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event41",
+        "params": {
+          "Border": 3000,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryUICheckSelectedItemPrice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Select_Sell_Gift",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "2eb540174d0a48d8c9bd36ab7a7c46d87144a5e7009a54983a9dd044ce837ef2",
+  "size": 10456,
+  "status": "converted"
+}

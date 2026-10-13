@@ -1,0 +1,735 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionShopCheckItemSet",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRcmBuySelectType"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryMultiFromItemSelectInclude",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryPlayerHasCraftRecipe",
+          "EventFlowQuerySelectItemIsCeiling",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryShopLevel"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 17,
+        "name": "ChkHarvestFtrFirst"
+      },
+      {
+        "main_event": 28,
+        "name": "ChkCeilingFtr"
+      },
+      {
+        "main_event": 37,
+        "name": "BlackFriday"
+      }
+    ],
+    "event_count": 47,
+    "event_flow_name": "SNPC_rcm_00_Common_ItemCheck",
+    "events": [
+      {
+        "entrypoint": "Rcm_Common_BuyCheck",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 0,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionShopCheckItemSet",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event0",
+        "next": 7,
+        "params": {
+          "BlackBoardKey": "CheckItemIndex",
+          "ShopType": "cMamekichi"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event1",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event2",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event3",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event4",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event5",
+        "next": 9,
+        "params": {
+          "TagID": 0,
+          "TagType": "cRcShopItemPrice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event6",
+        "next": 6,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryRcmBuySelectType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": 10,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 10,
+        "name": "Event10",
+        "next": 13,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event11",
+        "params": {
+          "ItemFromType1": "Christmas_ShopLv2",
+          "ItemFromType2": "",
+          "ItemFromType3": "",
+          "ItemFromType4": "",
+          "ItemFromType5": "",
+          "ItemFromType6": "",
+          "ItemFromType7": "",
+          "ItemFromType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiFromItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event12",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:145"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cPlayer:RcmExplainToy"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event15",
+        "next": 22,
+        "params": {
+          "AccessKey": "cPlayer:RcmExplainToy"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event16",
+        "params": {
+          "ItemFromType1": "Harvest",
+          "ItemFromType2": "",
+          "ItemFromType3": "",
+          "ItemFromType4": "",
+          "ItemFromType5": "",
+          "ItemFromType6": "",
+          "ItemFromType7": "",
+          "ItemFromType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiFromItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkHarvestFtrFirst",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cPlayer:CheckHarvestFtrInStore"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event21",
+        "params": {
+          "ItemUniqueId": 65534,
+          "UnlockType": "HarvestFtr"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event22",
+        "next": 18,
+        "params": {
+          "AccessKey": "cPlayer:CheckHarvestFtrInStore"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event23",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:2001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event24",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:2002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkCeilingFtr",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event29",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event31",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:4101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event32",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:4102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event33",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:4103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event34",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:4104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event35",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:4105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event36",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQuerySelectItemIsCeiling",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cPlayer:UnlockInterior_CeilingFurniture"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cPlayerTemp:ShopCheckCeilingFtrNonLicense"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event40",
+        "params": {
+          "AccessKey": "cPlayer:HasLookMyHouseExplain"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event39",
+        "next": 34,
+        "params": {
+          "AccessKey": "cPlayerTemp:ShopCheckCeilingFtrNonLicense"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event52",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:3008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          }
+        ],
+        "index": 36,
+        "name": "Event54",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "BlackFriday"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 2
+          }
+        ],
+        "index": 37,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event56",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BlackFriday",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event57",
+        "next": 21,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BlackFriday",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event46",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event43",
+        "next": 35,
+        "params": {
+          "AccessKey": "cPlayer:NoticeBlackFridayToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cPlayer:NoticeBlackFridayToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cPlayerVisit:NoticeBlackFriday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event47",
+        "next": 35,
+        "params": {
+          "AccessKey": "cPlayerVisit:NoticeBlackFriday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event49",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rcm_00_Common_ItemCheck",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "ffde2354b591a37540fbb15ee0fb4f5b9d1223809aad44163870441c58ec9b9a",
+  "size": 11056,
+  "status": "converted"
+}

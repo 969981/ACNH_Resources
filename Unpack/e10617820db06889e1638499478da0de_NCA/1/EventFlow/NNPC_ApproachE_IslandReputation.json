@@ -1,0 +1,741 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQueryRandomChoiceExcludePrevious4"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDecideRewardByCondition",
+          "EventFlowActionSetItemName",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionSetIslandReputationApproachVillagerIndex"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryCheckNpcLook"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 46,
+        "name": "Root"
+      }
+    ],
+    "event_count": 48,
+    "event_flow_name": "NNPC_ApproachE_IslandReputation",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cNpcSave:MarketBuildingSupport"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          },
+          {
+            "target": 0,
+            "value": 3
+          },
+          {
+            "target": 2,
+            "value": 4
+          },
+          {
+            "target": 0,
+            "value": 5
+          },
+          {
+            "target": 2,
+            "value": 6
+          },
+          {
+            "target": 2,
+            "value": 7
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:101_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cNpcSave:AppE_Happen1st"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:101_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event9",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:104_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event11",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:104_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event12",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event7",
+        "next": 12,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 6,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event13",
+        "next": 13,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event14",
+        "next": 14,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event8",
+        "next": 10,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event16",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event18",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:113_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event19",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:114_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event21",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:114_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event22",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event24",
+        "next": 33,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 6,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event25",
+        "next": 23,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event26",
+        "next": 24,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event27",
+        "next": 19,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event28",
+        "next": 40,
+        "params": {
+          "Command": 2,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event29",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event30",
+        "next": 22,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 10,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          },
+          {
+            "target": 30,
+            "value": 2
+          },
+          {
+            "target": 31,
+            "value": 3
+          }
+        ],
+        "index": 28,
+        "name": "Event23",
+        "params": {
+          "ChoiceNumber": 4,
+          "IsSetSpeakerChoiceResult": false
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event31",
+        "next": 33,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 8,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event32",
+        "next": 33,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 9,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideRewardByCondition",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event33",
+        "next": 36,
+        "params": {
+          "GreatorEqual": false,
+          "ItemGroup": 7,
+          "NotCollect": true,
+          "Price": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event20",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:114_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event34",
+        "next": 34,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event35",
+        "next": 35,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event36",
+        "next": 18,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event37",
+        "next": 37,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event38",
+        "next": 38,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event39",
+        "next": 32,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event40",
+        "next": 1,
+        "params": {
+          "AccessKey": "cNpcSave:AppE_Happen1st"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event41",
+        "next": 43,
+        "params": {
+          "AccessKey": "cLand:CountAppE_RepTalk",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cNpcSave:AppE_GetItem1st"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event42",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachE_MainSeq:113_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event43",
+        "next": 44,
+        "params": {
+          "AccessKey": "cNpcSave:AppE_GetItem1st"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event44",
+        "next": 47,
+        "params": {
+          "AccessKey": "cPlayer:NnpcAppE_Rep_OccuredToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event45",
+        "next": 3,
+        "params": {
+          "AccessKey": "cNpcSave:AppE_Rep_HappenToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetIslandReputationApproachVillagerIndex",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event46",
+        "next": 45,
+        "params": {
+          "ApproachType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event47",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:NnpcApproachNoIslandRepCount",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_ApproachE_IslandReputation",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "3a82dd3c51fd5de0340101672c60b6d631802ba298430e6201613dfb987f26ef",
+  "size": 12320,
+  "status": "converted"
+}

@@ -1,0 +1,618 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcSetReactionType",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionEventFlagNpcSet",
+          "EventFlowActionSetNpcFeel",
+          "EventFlowActionSetItemName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcInt"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryIsInsectChasingPlayer"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 12,
+        "name": "Root"
+      },
+      {
+        "main_event": 16,
+        "name": "Run_01"
+      },
+      {
+        "main_event": 23,
+        "name": "Run_02"
+      },
+      {
+        "main_event": 29,
+        "name": "Run_03"
+      }
+    ],
+    "event_count": 37,
+    "event_flow_name": "NNPC_Reaction_Run",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          }
+        ],
+        "index": 0,
+        "name": "Event3",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetReactionType",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event4",
+        "next": 4,
+        "params": {
+          "ReactionType": "cRun"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event5",
+        "next": 10,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cNpcTemp:ContinuousReactionTalkCount",
+          "Border": 1,
+          "FlagCheckType": 5
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event8",
+        "next": 13,
+        "params": {
+          "AccessKey": "cNpcTemp:ReactionTalkLabel",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event9",
+        "next": 13,
+        "params": {
+          "AccessKey": "cNpcTemp:ReactionTalkLabel",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcSet",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event10",
+        "next": 13,
+        "params": {
+          "AccessKey": "cNpcTemp:ReactionTalkLabel",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cNpcTemp:ReactionTalkLabel",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cNpcTemp:ReactionTalkLabel",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": 3,
+        "params": {
+          "AccessKey": "cNpcTemp:ReserveWarningBee"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event14",
+        "next": 2,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event15",
+        "params": {
+          "CheckInsect": 0
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event16",
+        "next": 8,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 15,
+          "TagType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event17",
+        "params": {
+          "CheckInsect": 1
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          }
+        ],
+        "index": 15,
+        "name": "Event18",
+        "params": {
+          "CheckInsect": 2
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event19",
+        "params": {
+          "CheckInsect": 0
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event20",
+        "params": {
+          "CheckInsect": 1
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event21",
+        "params": {
+          "CheckInsect": 2
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Run_01",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event25",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event0",
+        "params": {
+          "CheckInsect": 0
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event26",
+        "params": {
+          "CheckInsect": 1
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          }
+        ],
+        "index": 25,
+        "name": "Event27",
+        "params": {
+          "CheckInsect": 2
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event28",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event31",
+        "params": {
+          "CheckInsect": 0
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event32",
+        "params": {
+          "CheckInsect": 1
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          }
+        ],
+        "index": 31,
+        "name": "Event33",
+        "params": {
+          "CheckInsect": 2
+        },
+        "query": "EventFlowQueryIsInsectChasingPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Run:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Run_02",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event37",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Run_03",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event38",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_Run",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e1dd451642e08f1c077dcdddfab03de48f417e5ff460f6354767352d96e947ef",
+  "size": 8400,
+  "status": "converted"
+}

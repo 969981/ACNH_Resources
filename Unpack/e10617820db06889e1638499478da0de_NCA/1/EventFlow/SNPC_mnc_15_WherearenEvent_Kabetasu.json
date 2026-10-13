@@ -1,0 +1,871 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionCameraSetDemoParam"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckEntryVariableInt"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionWherearenCustomerEntrySubCast",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionNpcRailMove",
+          "EventFlowActionTurnBody",
+          "EventFlowActionNpcSetVisibleAction"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionNpcMoveDirection",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionTurnBody"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 49,
+        "name": "Root"
+      },
+      {
+        "main_event": 8,
+        "name": "Root_Init"
+      },
+      {
+        "main_event": 27,
+        "name": "Exit"
+      },
+      {
+        "main_event": 6,
+        "name": "Enter"
+      }
+    ],
+    "event_count": 62,
+    "event_flow_name": "SNPC_mnc_15_WherearenEvent_Kabetasu",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "AccessKey": "cWherearenPlayer:Unlock_Kabetasu"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqKabetasuEventReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenCustomerEntrySubCast",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "CastID": 1,
+          "IsFirstCustomer": false,
+          "IsHousemate": false,
+          "IsResumeCustomer": false,
+          "IsResumeHousemate": false,
+          "IsSecondCustomer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event12",
+        "next": 9,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 5,
+        "name": "Event38",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "forks": [
+          4,
+          3,
+          13
+        ],
+        "index": 6,
+        "join": 5,
+        "name": "Event39",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "SubNpc",
+        "index": 7,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event5",
+        "next": 18,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 10,
+        "name": "Event66",
+        "next": 11,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Shocked"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event67",
+        "next": null,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMoveDirection",
+        "actor": "SubNpc",
+        "index": 12,
+        "name": "Event68",
+        "next": 10,
+        "params": {
+          "Angle": 201.0,
+          "Distance": 10.0,
+          "IsEndWaitAction": false,
+          "IsUseFollower": false,
+          "MoveType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 13,
+        "name": "Event69",
+        "next": 12,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event29",
+        "next": 7,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          42,
+          14
+        ],
+        "index": 15,
+        "join": 17,
+        "name": "Event6",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 16,
+        "name": "Event13",
+        "next": 56,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 17,
+        "name": "Event14",
+        "next": 40,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event15",
+        "next": 19,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event16",
+        "next": 20,
+        "params": {
+          "Flag": false,
+          "SettingType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event17",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event18",
+        "next": 22,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event19",
+        "next": 34,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 1,
+          "PointA": 0,
+          "PointB": 0,
+          "RailID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 24,
+        "name": "Event21",
+        "next": 26,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 25,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "FaintSmile"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          28,
+          32
+        ],
+        "index": 26,
+        "join": 30,
+        "name": "Event23",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event24",
+        "next": 29,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Greeting"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event26",
+        "next": 24,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 30,
+        "name": "Event27",
+        "next": 31,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event28",
+        "next": 21,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event30",
+        "next": 25,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event31",
+        "params": {
+          "CheckType": 5,
+          "CheckValue": 6,
+          "Value": "RoomSize_Depth"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event32",
+        "params": {
+          "CheckType": 5,
+          "CheckValue": 4,
+          "Value": "RoomSize_Depth"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event33",
+        "params": {
+          "CheckType": 5,
+          "CheckValue": 8,
+          "Value": "RoomSize_Depth"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 1,
+          "PointA": 0,
+          "PointB": 0,
+          "RailID": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 1,
+          "PointA": 0,
+          "PointB": 0,
+          "RailID": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 1,
+          "PointA": 0,
+          "PointB": 0,
+          "RailID": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 39,
+        "name": "Event43",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_WherearenEvent_Once:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 40,
+        "name": "Event44",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_WherearenEvent_Once:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Enter",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event45",
+        "next": 59,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_04_WherearenEvent:141"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event47",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_04_WherearenEvent:142"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_04_WherearenEvent:143"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event49",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/mnc/SP_mnc_04_WherearenEvent:144"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event50",
+        "next": 47,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event51",
+        "next": 16,
+        "params": {
+          "WaitFrame": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 48,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event8",
+        "next": 41,
+        "params": {
+          "Flag": true,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event42",
+        "next": 60,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetVisibleAction",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event52",
+        "next": 58,
+        "params": {
+          "Visible": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 52,
+        "name": "Event53",
+        "next": 53,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "FaintSmile"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event56",
+        "next": 54,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 54,
+        "name": "Event57",
+        "next": 46,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event58",
+        "next": 48,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          44,
+          55
+        ],
+        "index": 56,
+        "join": 57,
+        "name": "Event59",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 57,
+        "name": "Event60",
+        "next": 45,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 58,
+        "name": "Event2",
+        "next": 50,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event54",
+        "next": 39,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "EntranceTalk_EventFtrWall",
+          "CameraParamKey": "EntranceTalk_EventFtrWall",
+          "CameraTargetKey": "Place:SafeArea",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FadeIn_Cmn",
+        "flowchart": "00_Demo_Fade",
+        "index": 60,
+        "name": "Event55",
+        "next": 0,
+        "params": {
+          "IsWait": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FadeOut_Cmn",
+        "flowchart": "00_Demo_Fade",
+        "index": 61,
+        "name": "Event9",
+        "next": 51,
+        "params": {
+          "FadeColor": "cBlack",
+          "FadeSpeed": "cNormal",
+          "FadeType": "cCircle",
+          "SoundDucking": "cWorldDucking"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_mnc_15_WherearenEvent_Kabetasu",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "8dce09370e6a121e8c625bece24e340fae04db86b05e502e4fd0c01f8a3648e5",
+  "size": 16192,
+  "status": "converted"
+}

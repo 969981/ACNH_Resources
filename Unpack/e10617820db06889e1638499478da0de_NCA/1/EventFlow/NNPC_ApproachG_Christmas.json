@@ -1,0 +1,181 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetChristmasWreathGetYear",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemHasBaggageSpace"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionSetDeliveryItemAtRandom"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 11,
+    "event_flow_name": "NNPC_ApproachG_Christmas",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachG_Christmas:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event4",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachG_Christmas:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event5",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachG_Christmas:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event10",
+        "next": 1,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event11",
+        "next": 10,
+        "params": {
+          "AccessKey": "cNpcMemory:ChristmasCannotGetNnpcItemFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event2",
+        "next": 4,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 13357,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetChristmasWreathGetYear",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event3",
+        "next": 8,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event12",
+        "next": 9,
+        "params": {
+          "AccessKey": "cPlayer:ChristmasWreathNoGetFlag"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_ApproachG_Christmas",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "26bc7e47b1c2a23864829df9e62ffcbc7cf1949e369b0dd0dd96ae8421621f97",
+  "size": 3120,
+  "status": "converted"
+}

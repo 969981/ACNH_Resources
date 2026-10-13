@@ -1,0 +1,426 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIAtmHandling",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryPlayerHasLoan",
+          "EventFlowQueryPlayerHouseLevel"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerWorkbenchThinking"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 16,
+        "name": "Root"
+      },
+      {
+        "main_event": 18,
+        "name": "EnterUI_Visitor"
+      },
+      {
+        "main_event": 17,
+        "name": "EnterUI_Commune"
+      }
+    ],
+    "event_count": 24,
+    "event_flow_name": "Ftr_ATM",
+    "events": [
+      {
+        "action": "EventFlowActionUIAtmHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "BootMode": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_ATM:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event5",
+        "params": {
+          "CheckStage": "cCheckStageSymbol00"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIAtmHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event6",
+        "next": 9,
+        "params": {
+          "BootMode": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cPlayer:PlayerLoanRepaying"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 7,
+        "name": "Event8",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_ATM:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryPlayerHasLoan",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cPlayer:PlayerLoanRepaying"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "EntryPointName": "Get_FinishLoan",
+          "EventFileName": "Player_GetDemo_Once",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EnterUI_Visitor",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 17,
+            "value": 2
+          },
+          {
+            "target": 17,
+            "value": 3
+          },
+          {
+            "target": 17,
+            "value": 4
+          },
+          {
+            "target": 17,
+            "value": 5
+          },
+          {
+            "target": 17,
+            "value": 6
+          },
+          {
+            "target": 17,
+            "value": 7
+          },
+          {
+            "target": 17,
+            "value": 8
+          }
+        ],
+        "index": 12,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 13,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_ATM:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayerVisit:NoticeATMOtherIsland"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event9",
+        "next": 18,
+        "params": {
+          "AccessKey": "cPlayerVisit:NoticeATMOtherIsland"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event14",
+        "next": 1,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWorkbenchThinking",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event15",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWorkbenchThinking",
+        "actor": "Player",
+        "index": 18,
+        "name": "Event16",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event18",
+        "params": {
+          "CheckStage": "cPhotoStudioIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 20,
+        "name": "Event19",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_ATM:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EnterUI_Commune",
+        "flowchart": "",
+        "index": 21,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cPlayer:CommuneATMChkToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event24",
+        "next": 21,
+        "params": {
+          "AccessKey": "cPlayer:CommuneATMChkToday"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_ATM",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b95704ba3fe02185673cbbd19872c477b3e58603fb5038205045a55d4ddee86f",
+  "size": 5072,
+  "status": "converted"
+}

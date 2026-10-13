@@ -1,0 +1,559 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcAISetRequestSpeakFunc",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionSetNpcSpeakFlow",
+          "EventFlowActionSetSightRange",
+          "EventFlowActionNpcAISetPosByRail"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryHghFreeQuery2",
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryNetIsConnected"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 3,
+        "name": "Root"
+      },
+      {
+        "main_event": 22,
+        "name": "Init"
+      },
+      {
+        "main_event": 34,
+        "name": "Check_rct"
+      },
+      {
+        "main_event": 15,
+        "name": "Check_Goods"
+      },
+      {
+        "main_event": 9,
+        "name": "Rct_Wait"
+      }
+    ],
+    "event_count": 36,
+    "event_flow_name": "AI_NPC_Rct_Shop",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 5,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 0,
+        "params": {
+          "Key": "CheckItemIndex",
+          "Value": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event7",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "hgh",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 6,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event18",
+        "next": 18,
+        "params": {
+          "Key": "GoodsRail",
+          "Value": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event20",
+        "next": 17,
+        "params": {
+          "Flag": false,
+          "SettingType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event21",
+        "next": 7,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event23",
+        "next": 25,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cRct",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rct_Wait",
+        "flowchart": "",
+        "index": 10,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event30",
+        "next": 12,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event29",
+        "next": 4,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "HeadCtrlMode": "cPlayer",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event34",
+        "next": 16,
+        "params": {
+          "Flag": false,
+          "SettingType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event35",
+        "next": 14,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_rcm_00_Groceries"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "EntryName": "Check",
+          "FlowName": "SNPC_rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event6",
+        "next": 19,
+        "params": {
+          "IsPlayingWithOther": true,
+          "SpeakType": "cEnterRct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event37",
+        "next": 32,
+        "params": {
+          "IsPlayingWithOther": true,
+          "SpeakType": "cLeaveRct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event14",
+        "next": 23,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event19",
+        "next": 28,
+        "params": {
+          "Flag": false,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSightRange",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event5",
+        "next": 2,
+        "params": {
+          "Angle": 0,
+          "Distance": 64
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event15",
+        "next": 30,
+        "params": {
+          "HeadCtrlMode": "cPlayer",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPosByRail",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsSetAngle": false,
+          "PointIdx": 1,
+          "RailID": 5,
+          "SetAngle": 0.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event22",
+        "next": 26,
+        "params": {
+          "Flag": true,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event32",
+        "next": 35,
+        "params": {
+          "Flag": true,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event33",
+        "params": {
+          "HghQueryType": "cHghQueryType_HghStayMarket"
+        },
+        "query": "EventFlowQueryHghFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event24",
+        "params": {
+          "HghQueryType": "cHghQueryType_HghStayMarket"
+        },
+        "query": "EventFlowQueryHghFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 1
+          },
+          {
+            "target": 31,
+            "value": 2
+          }
+        ],
+        "index": 30,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPosByRail",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event11",
+        "next": 28,
+        "params": {
+          "IsSetAngle": true,
+          "PointIdx": 1,
+          "RailID": 3,
+          "SetAngle": -100.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event25",
+        "next": 29,
+        "params": {
+          "IsPlayingWithOther": true,
+          "SpeakType": "cItemCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPosByRail",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event26",
+        "next": 28,
+        "params": {
+          "IsSetAngle": false,
+          "PointIdx": 1,
+          "RailID": 6,
+          "SetAngle": 0.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 34,
+        "name": "Event3",
+        "params": {
+          "Border": 0,
+          "Key": "CheckItemIndex"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event12",
+        "next": 13,
+        "params": {
+          "Flag": true,
+          "SettingType": 19
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Rct_Shop",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "7c5ba8d1ebacec1aa1f0f91b86be0b824b82da2385025c00ff15578e9cb60cf2",
+  "size": 9360,
+  "status": "converted"
+}

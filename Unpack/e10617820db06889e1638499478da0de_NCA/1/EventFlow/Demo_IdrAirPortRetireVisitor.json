@@ -1,0 +1,386 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionNetDemoNextStep",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSoundTriggerEmit"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsDemoPlayer"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcRailMove",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 21,
+        "name": "Root"
+      }
+    ],
+    "event_count": 25,
+    "event_flow_name": "Demo_IdrAirPortRetireVisitor",
+    "events": [
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 4,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "Cut0",
+          "CameraTargetKey": "CameraTag:Root",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "SubNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": 19,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 0,
+          "PointA": -1,
+          "PointB": -1,
+          "RailID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDemoNextStep",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "Step": "cLeaveVisitor"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDemoNextStep",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "Step": "cSeeOffVisitor"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": 15,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Network:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event10",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:810"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryNetIsDemoPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event12",
+        "next": 9,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cNetDemoPlayerName",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event13",
+        "next": 5,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cNetDemoPlayerLandName",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 10,
+        "name": "Event14",
+        "next": 6,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          24,
+          8
+        ],
+        "index": 11,
+        "join": 12,
+        "name": "Event15",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 12,
+        "name": "Event16",
+        "next": 3,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "SubNpc",
+        "index": 13,
+        "name": "Event17",
+        "next": 14,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 0,
+          "PointA": -1,
+          "PointB": -1,
+          "RailID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event18",
+        "next": 18,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event4",
+        "next": 7,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event7",
+        "next": 17,
+        "params": {
+          "BGMProperty": 76
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event9",
+        "next": 2,
+        "params": {
+          "AssetKeyName": "Airplane_Takeoff",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "SubNpc",
+        "index": 18,
+        "name": "Event19",
+        "next": 16,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 0,
+          "PointA": -1,
+          "PointB": -1,
+          "RailID": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRailMove",
+        "actor": "SubNpc",
+        "index": 19,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "IsReverse": false,
+          "IsWarp": false,
+          "MoveType": 0,
+          "PointA": -1,
+          "PointB": -1,
+          "RailID": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event6",
+        "next": 0,
+        "params": {
+          "BGMProperty": 84
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event22",
+        "params": {},
+        "query": "EventFlowQueryNetIsDemoPlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event23",
+        "next": 0,
+        "params": {
+          "BGMProperty": 85
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 23,
+        "name": "Event24",
+        "next": 13,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event25",
+        "next": 1,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Demo_IdrAirPortRetireVisitor",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f5f9ae8435af4fb4641c17562a34de994278677a8824a596a5e47f29102af685",
+  "size": 7032,
+  "status": "converted"
+}

@@ -1,0 +1,113 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEmoticonTalkMessage"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "NNPC_ApproachA_Emoticons",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "AccessKey": "cPlayer:EnableEmoticonUI"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEmoticonTalkMessage",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event4",
+        "next": 4,
+        "params": {
+          "AccessKey": "cPlayer:GetEmoticonTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event5",
+        "next": 5,
+        "params": {
+          "EntryPointName": "Get_Emoticon",
+          "EventFileName": "Player_GetDemo_Emoticons",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "AccessKey": "cPlayer:NnpcApproachNoEmoticonCount",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:EnabledEmoticonIrregular"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_ApproachA_Emoticons",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "fe31e9341ca993719291de0505ab4b0c0567279a5c51b27b45fa2d383788c4f3",
+  "size": 2072,
+  "status": "converted"
+}

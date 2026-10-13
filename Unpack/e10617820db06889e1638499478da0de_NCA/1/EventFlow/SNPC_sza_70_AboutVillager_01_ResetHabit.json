@@ -1,0 +1,126 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSzaUgcReset"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 7,
+    "event_flow_name": "SNPC_sza_70_AboutVillager_01_ResetHabit",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/SP_sza_0_common:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSzaUgcReset",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": 5,
+        "params": {
+          "ResetNpcUgcType": "cPhrase"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Sza_CmnSel_Again",
+        "flowchart": "SNPC_sza_00_Common",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AboutVillager_CmnCancel2",
+        "flowchart": "SNPC_sza_70_AboutVillager",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_sza_70_AboutVillager_01_ResetHabit",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f215045671cc0bebeab27b4869f23055b2bd2394f793357796773b2a336602f0",
+  "size": 1896,
+  "status": "converted"
+}

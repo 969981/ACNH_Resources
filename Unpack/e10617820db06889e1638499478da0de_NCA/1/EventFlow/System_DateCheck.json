@@ -1,0 +1,106 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionTimeLock",
+          "EventFlowActionOverWriteFadeSetting"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsGamePlayTime"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "System_DateCheck",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryIsGamePlayTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NoSave",
+        "flowchart": "System_DateTimeNg",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cDeparture"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": 4,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOverWriteFadeSetting",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": 2,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.05000000074505806,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 1.0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_DateCheck",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "cf520325eff06df18482f7b841c8a6e82f363f1ba3e2695f5342fbf6de4686bf",
+  "size": 1944,
+  "status": "converted"
+}

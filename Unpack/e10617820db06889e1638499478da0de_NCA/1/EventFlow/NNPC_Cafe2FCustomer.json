@@ -1,0 +1,528 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionWherearenSetTagRunningOrderTheme"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySubflowResultChoice3",
+          "EventFlowQueryWherearenExistFacilityName",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryExistWherearenFacilityRoomName",
+          "EventFlowQueryIsWherearenWorkMode"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnBody",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionWherearenGalleryWatchItem"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 4,
+        "name": "Root"
+      },
+      {
+        "main_event": 8,
+        "name": "LookFtr"
+      },
+      {
+        "main_event": 4,
+        "name": "Walk"
+      },
+      {
+        "main_event": 17,
+        "name": "FacilityName_Chk"
+      },
+      {
+        "main_event": 31,
+        "name": "NewBuildOrder"
+      },
+      {
+        "main_event": 36,
+        "name": "StandSleep"
+      }
+    ],
+    "event_count": 37,
+    "event_flow_name": "NNPC_Cafe2FCustomer",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "LookforHouseMate",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 2,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NewBuildInFacility",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 3,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "TalkChk",
+        "flowchart": "NNPC_RestaurantCustomer",
+        "index": 4,
+        "name": "Event6",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          },
+          {
+            "target": 12,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event7",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "LookforHouseMate",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 7,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "TalkChk",
+        "flowchart": "NNPC_RestaurantCustomer",
+        "index": 8,
+        "name": "Event11",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 35,
+            "value": 2
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event19",
+        "next": 14,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event20",
+        "next": 15,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event21",
+        "next": 7,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event23",
+        "next": 3,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event24",
+        "next": 2,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event2",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          }
+        ],
+        "index": 17,
+        "name": "Event14",
+        "params": {
+          "FacilityType": "cCafe"
+        },
+        "query": "EventFlowQueryWherearenExistFacilityName",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event16",
+        "params": {
+          "Percent": 80
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event17",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Cafe:204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event18",
+        "params": {
+          "FacilityType": "cCafe"
+        },
+        "query": "EventFlowQueryExistWherearenFacilityRoomName",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FacilityName_Chk",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event22",
+        "next": 1,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FacilityName_Chk",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event27",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FacilityName_Chk",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event28",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FacilityName_Chk",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event29",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetTagRunningOrderTheme",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event30",
+        "next": 16,
+        "params": {
+          "FacilityType": "cCafe",
+          "GetFrom": "cSelectFacility",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenGalleryWatchItem",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event31",
+        "next": 24,
+        "params": {
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenGalleryWatchItem",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event32",
+        "next": 25,
+        "params": {
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NewBuildOrder",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NewBuildOrder",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event25",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          }
+        ],
+        "index": 31,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenWorkMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetTagRunningOrderTheme",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event33",
+        "next": 20,
+        "params": {
+          "FacilityType": "cCafe",
+          "GetFrom": "cSelectFacilityRoom",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "TalkChk",
+        "flowchart": "NNPC_RestaurantCustomer",
+        "index": 33,
+        "name": "Event37",
+        "next": 34,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          }
+        ],
+        "index": 34,
+        "name": "Event38",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event35",
+        "next": 13,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "StandSleep_2.1",
+        "flowchart": "NNPC_RestaurantCustomer",
+        "index": 36,
+        "name": "Event40",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Cafe2FCustomer",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0134a17fffd2d4fc5442cdf9cf81b55a70500845f8f5fec108eb4824e8eafd01",
+  "size": 7016,
+  "status": "converted"
+}

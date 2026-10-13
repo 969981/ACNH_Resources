@@ -1,0 +1,88 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 3,
+    "event_flow_name": "Ftr_PresentCardboardBox",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Telepathy:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:701"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_PresentCardboardBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "08b531d49fe2faa199daca9b605eff1d2b271f18c337dc0f37ee795d4d3aaed3",
+  "size": 1352,
+  "status": "converted"
+}

@@ -1,0 +1,135 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetRequestSpeakFunc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 1,
+        "name": "Leave"
+      },
+      {
+        "main_event": 2,
+        "name": "Init"
+      }
+    ],
+    "event_count": 6,
+    "event_flow_name": "AI_NPC_Kpm_Edit",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 4,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "EntryName": "StopLeave",
+          "FlowName": "SNPC_kpm_HotelEdit"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cLeaveHotelRoom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cHotelEditWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_kpm_HotelEdit"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cPlayerTemp:HotelReserveKpmSpeak"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 5,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "EntryName": "StartEdit",
+          "FlowName": "SNPC_kpm_HotelEdit"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Kpm_Edit",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "99ad79d55c956223511c879779a4ce62628f0eab1bc8354f05250c8a70df91cb",
+  "size": 2624,
+  "status": "converted"
+}

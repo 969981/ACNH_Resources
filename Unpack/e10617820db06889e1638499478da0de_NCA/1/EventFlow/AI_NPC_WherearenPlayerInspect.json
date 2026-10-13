@@ -1,0 +1,97 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetWherearenIsMyOpusData"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionNpcChangeInvisibleState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 3,
+    "event_flow_name": "AI_NPC_WherearenPlayerInspect",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryNetWherearenIsMyOpusData",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_WherearenPlayerInspect",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "15823908fc37dd626ba6643e6a56c2f9fe138772301320ec0634d193fb5d8915",
+  "size": 1992,
+  "status": "converted"
+}

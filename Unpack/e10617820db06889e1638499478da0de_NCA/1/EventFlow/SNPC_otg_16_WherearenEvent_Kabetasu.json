@@ -1,0 +1,444 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionPlayerSetCraftRecipe",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcAITalkCastSetting",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "Npc_2",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck",
+          "EventFlowActionTurnBody"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 16,
+        "name": "Root"
+      },
+      {
+        "main_event": 3,
+        "name": "Preparation"
+      },
+      {
+        "main_event": 5,
+        "name": "Root_Init"
+      }
+    ],
+    "event_count": 33,
+    "event_flow_name": "SNPC_otg_16_WherearenEvent_Kabetasu",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event6",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:122"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 1,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:123"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "OrderClose_Complete",
+        "flowchart": "SNPC_otg_01_WherearenOffice",
+        "index": 2,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event13",
+        "next": 4,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqKabetasuEventReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_MncTalkReserve_House"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkCastSetting",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "SetupKey": "WherearenPrologue"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event19",
+        "next": 10,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqGetRecipeKabetasu"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:124"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event25",
+        "next": 29,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event26",
+        "next": 8,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event33",
+        "next": 11,
+        "params": {
+          "AccessKey": "cWherearenPlayer:MncGenerateInOfficeTemp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo_SetNormalPositionInOffice",
+        "flowchart": "Demo_Common_Wherearen",
+        "index": 11,
+        "name": "Event36",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event37",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:125"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "SubNpc",
+        "index": 13,
+        "name": "Event38",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:126"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GetSalaryForEvent",
+        "flowchart": "SNPC_otg_01_WherearenOffice",
+        "index": 14,
+        "name": "Event39",
+        "next": 26,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetSalaryForEvent",
+        "flowchart": "SNPC_otg_01_WherearenOffice",
+        "index": 15,
+        "name": "Event40",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HouseCompleteActing",
+        "flowchart": "SNPC_otg_01_WherearenOffice",
+        "index": 16,
+        "name": "Event29",
+        "next": 23,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "forks": [
+          1,
+          9
+        ],
+        "index": 17,
+        "join": 18,
+        "name": "Event14",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 18,
+        "name": "Event15",
+        "next": 19,
+        "type": "JoinEvent"
+      },
+      {
+        "entrypoint": "SendingDataWithP_Npc1",
+        "flowchart": "Demo_Common_PhoneCall",
+        "index": 19,
+        "name": "Event27",
+        "next": 20,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerSetCraftRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event28",
+        "next": 7,
+        "params": {
+          "ItemUniqueId": 12681,
+          "UnlockType": "None"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PuttingMobileAwayWithP_Npc1",
+        "flowchart": "Demo_Common_PhoneCall",
+        "index": 21,
+        "name": "Event30",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event32",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:127"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event21",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:121"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event10",
+        "next": 17,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 25,
+        "name": "Event22",
+        "next": 22,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Npc_2",
+        "index": 26,
+        "name": "Event41",
+        "next": 24,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Player",
+        "index": 28,
+        "name": "Event2",
+        "next": 27,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event4",
+        "next": 31,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event5",
+        "next": 25,
+        "params": {
+          "WaitFrame": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 32,
+        "name": "Event12",
+        "next": 13,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_otg_16_WherearenEvent_Kabetasu",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "ab14e67dab00e959789aa97145bd4d0091ae69b9a7f10c514c35dcebbfc22152",
+  "size": 7024,
+  "status": "converted"
+}

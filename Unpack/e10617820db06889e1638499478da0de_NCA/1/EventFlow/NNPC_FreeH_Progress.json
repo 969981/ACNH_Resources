@@ -1,0 +1,1634 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSetTagFromSystem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryFacilityOpenPastDays",
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryMuseumLevel",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryBridgeNum",
+          "EventFlowQuerySlopeNum",
+          "EventFlowQueryPlayerVillagerCount",
+          "EventFlowQueryComparePlayerCreateTime",
+          "EventFlowQueryIsSharePlay"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagNpcOn"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcBirthType",
+          "EventFlowQueryCheckNpcLook"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 11,
+        "name": "Progress_MyHouseBuilt"
+      },
+      {
+        "main_event": 106,
+        "name": "Progress_MigrantsQuest"
+      },
+      {
+        "main_event": 12,
+        "name": "Progress_OfficeBuilt"
+      },
+      {
+        "main_event": 17,
+        "name": "Progress_ShopBuilt"
+      },
+      {
+        "main_event": 23,
+        "name": "Progress_ShopBuilt2"
+      },
+      {
+        "main_event": 29,
+        "name": "Progress_MuseumTent"
+      },
+      {
+        "main_event": 34,
+        "name": "Progress_MuseumBuilt"
+      },
+      {
+        "main_event": 42,
+        "name": "Progress_BridgeBuilt"
+      },
+      {
+        "main_event": 47,
+        "name": "Progress_SlopeBuilt"
+      },
+      {
+        "main_event": 52,
+        "name": "Progress_OtherPlayerMoveIn"
+      },
+      {
+        "main_event": 58,
+        "name": "Progress_MyHouseBuilt2"
+      },
+      {
+        "main_event": 63,
+        "name": "Progress_TailorBuilt"
+      },
+      {
+        "main_event": 77,
+        "name": "Conceal_MyHouseBuilt"
+      },
+      {
+        "main_event": 74,
+        "name": "Conceal_ShopBuilt2"
+      },
+      {
+        "main_event": 94,
+        "name": "Conceal_MuseumBuilt"
+      },
+      {
+        "main_event": 76,
+        "name": "Conceal_TailorBuilt"
+      },
+      {
+        "main_event": 80,
+        "name": "Conceal_NpcHouseBuilt"
+      },
+      {
+        "main_event": 91,
+        "name": "Progress_MuseumBuilt2"
+      },
+      {
+        "main_event": 102,
+        "name": "Progress_MuseumBuiltCafe"
+      }
+    ],
+    "event_count": 107,
+    "event_flow_name": "NNPC_FreeH_Progress",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 2
+          },
+          {
+            "target": 97,
+            "value": 3
+          },
+          {
+            "target": 97,
+            "value": 4
+          },
+          {
+            "target": 97,
+            "value": 5
+          },
+          {
+            "target": 97,
+            "value": 6
+          },
+          {
+            "target": 97,
+            "value": 7
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLand:RcmImmQuestRunning"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event13",
+        "next": 8,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressOfficeBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event14",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event17",
+        "next": 4,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMigrantsQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMigrantsQuest"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressOfficeBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          }
+        ],
+        "index": 13,
+        "name": "Event21",
+        "params": {
+          "CountFacilityType": "cPlayerHouse",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          }
+        ],
+        "index": 14,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterOfficeBuiltFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event23",
+        "next": 68,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterShopBuiltFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event27",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event28",
+        "next": 26,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event29",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event31",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt2"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          }
+        ],
+        "index": 24,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterShopBuilt2Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 2
+          }
+        ],
+        "index": 25,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event34",
+        "next": 22,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event35",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumTent"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          }
+        ],
+        "index": 30,
+        "name": "Event38",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterMuseumTentFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event39",
+        "next": 37,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event40",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event42",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          }
+        ],
+        "index": 35,
+        "name": "Event43",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterMuseumBuiltFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event44",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event45",
+        "next": 33,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumTent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          }
+        ],
+        "index": 38,
+        "name": "Event46",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event47",
+        "next": 41,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressBridgeBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event48",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event49",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressBridgeBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          }
+        ],
+        "index": 43,
+        "name": "Event51",
+        "params": {
+          "AccessKey": "cLand:CountFirstBridgeAfterBuild",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event52",
+        "next": 46,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressSlopeBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event53",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event54",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 47,
+        "name": "Event55",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressSlopeBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          }
+        ],
+        "index": 48,
+        "name": "Event56",
+        "params": {
+          "AccessKey": "cLand:CountFirstSlopeAfterBuild",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event57",
+        "next": 51,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressOtherPlayerMoveIn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event58",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event60",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressOtherPlayerMoveIn"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          }
+        ],
+        "index": 53,
+        "name": "Event61",
+        "params": {
+          "Border": 7
+        },
+        "query": "EventFlowQueryComparePlayerCreateTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 8
+          }
+        ],
+        "index": 54,
+        "name": "Event62",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event63",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event64",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event65",
+        "next": 70,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event66",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt2"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          }
+        ],
+        "index": 59,
+        "name": "Event67",
+        "params": {
+          "CountFacilityType": "cUnderGround",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event68",
+        "next": 62,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressTailorBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event69",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event70",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event71",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressTailorBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          }
+        ],
+        "index": 64,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterTailorBuiltFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 65,
+        "name": "Event73",
+        "params": {
+          "BridgeJudgeType": "cNoReserve",
+          "Num": 1
+        },
+        "query": "EventFlowQueryBridgeNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          }
+        ],
+        "index": 66,
+        "name": "Event74",
+        "params": {
+          "Num": 1,
+          "SlopeJudgeType": "cNoReserve"
+        },
+        "query": "EventFlowQuerySlopeNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event75",
+        "next": 2,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event76",
+        "next": 16,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event77",
+        "next": 28,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumTent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event78",
+        "next": 56,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          }
+        ],
+        "index": 71,
+        "name": "Event80",
+        "params": {
+          "Count": 2
+        },
+        "query": "EventFlowQueryPlayerVillagerCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event81",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event84",
+        "next": 72,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMyHouseBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event82",
+        "next": 78,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event83",
+        "next": 79,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event85",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressTailorBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 2
+          },
+          {
+            "target": 72,
+            "value": 3
+          },
+          {
+            "target": 72,
+            "value": 4
+          },
+          {
+            "target": 72,
+            "value": 5
+          },
+          {
+            "target": 72,
+            "value": 6
+          },
+          {
+            "target": 72,
+            "value": 7
+          },
+          {
+            "target": 73,
+            "value": 8
+          }
+        ],
+        "index": 77,
+        "name": "Event86",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event87",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressShopBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event88",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumTent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event89",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressNpcHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event6",
+        "next": 50,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cNewVillagerPlayer",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event11",
+        "params": {
+          "TargetMode": 1
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          }
+        ],
+        "index": 83,
+        "name": "Event79",
+        "params": {
+          "AccessKey": "cPlayer:ImmQRunningForPlayer"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 84,
+        "name": "Event9",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 86,
+        "name": "Event8",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          }
+        ],
+        "index": 87,
+        "name": "Event10",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          }
+        ],
+        "index": 88,
+        "name": "Event12",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event16",
+        "next": 31,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 90,
+        "name": "Event90",
+        "next": 89,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 91,
+        "name": "Event92",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt2"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 104,
+            "value": 0
+          }
+        ],
+        "index": 92,
+        "name": "Event93",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterMuseumBuilt2Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 2
+          }
+        ],
+        "index": 93,
+        "name": "Event94",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 1
+          },
+          {
+            "target": 95,
+            "value": 2
+          },
+          {
+            "target": 103,
+            "value": 4
+          }
+        ],
+        "index": 94,
+        "name": "Event91",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event95",
+        "next": 75,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuilt2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event96",
+        "params": {
+          "AccessKey": "cPlayer:PlayerMovingDefaultHouseHasBasement"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event98",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          }
+        ],
+        "index": 98,
+        "name": "Event101",
+        "params": {
+          "AccessKey": "cPlayer:FirstPlayAfterMuseumBuilt3Flag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 98,
+            "value": 4
+          }
+        ],
+        "index": 99,
+        "name": "Event102",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event103",
+        "next": 101,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event104",
+        "next": 89,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuiltCafe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 102,
+        "name": "Event105",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuiltCafe"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event106",
+        "next": 95,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressMuseumBuiltCafe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 105,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 104,
+        "name": "Event107",
+        "params": {
+          "AccessKey": "cLand:Museum2BuiltSkippedMuseum1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event109",
+        "next": 89,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 10,
+            "value": 2
+          },
+          {
+            "target": 10,
+            "value": 4
+          },
+          {
+            "target": 10,
+            "value": 5
+          },
+          {
+            "target": 10,
+            "value": 6
+          },
+          {
+            "target": 10,
+            "value": 7
+          }
+        ],
+        "index": 106,
+        "name": "Event110",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeH_Progress",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "821aa3a0ed79f35ac51cdbd6cf235449cc3fbd6f92acf3af23263d63487d6a9f",
+  "size": 21640,
+  "status": "converted"
+}

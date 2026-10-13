@@ -1,0 +1,844 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionSystemJudgeHighAndLowResult",
+          "EventFlowActionSystemDecideHighAndLowCard",
+          "EventFlowActionNpcMailSendRandom",
+          "EventFlowActionSetItemName",
+          "EventFlowActionNpcDecideGeneralQuestReward",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionRegistToReleaseItemList",
+          "EventFlowActionNpcChangeHandTool",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemIsHighAndLowPlayerWin",
+          "EventFlowQuerySystemCheckHighAndLow1stCard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUIMiniGameHighAndLowHandling",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSoundTriggerEmit",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryShoppingCapacity"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 30,
+        "name": "Root"
+      },
+      {
+        "main_event": 37,
+        "name": "NoExplanation"
+      },
+      {
+        "main_event": 57,
+        "name": "Explanation"
+      }
+    ],
+    "event_count": 61,
+    "event_flow_name": "NNPC_Game_2ChoiceQuiz",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event49",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event50",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event52",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event53",
+        "params": {
+          "AccessKey": "cPlayer:HighAndLowPlayed"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event54",
+        "next": 1,
+        "params": {
+          "Command": "cGameStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event56",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event57",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event59",
+        "next": 45,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event60",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event62",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event63",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:107"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQuerySystemIsHighAndLowPlayerWin",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 11,
+            "value": 2
+          }
+        ],
+        "index": 13,
+        "name": "Event65",
+        "params": {},
+        "query": "EventFlowQuerySystemCheckHighAndLow1stCard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event69",
+        "next": 38,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event70",
+        "next": 20,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "NpcHoldout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event71",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event72",
+        "next": 26,
+        "params": {
+          "Command": "cGameStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event73",
+        "next": 6,
+        "params": {
+          "Command": "cNextCardIn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event74",
+        "next": 12,
+        "params": {
+          "Command": "cNextCardOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event75",
+        "next": 18,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event77",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemJudgeHighAndLowResult",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event79",
+        "next": 7,
+        "params": {
+          "Select": "cSmaller"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemJudgeHighAndLowResult",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event80",
+        "next": 7,
+        "params": {
+          "Select": "cLarger"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDecideHighAndLowCard",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event81",
+        "next": 4,
+        "params": {
+          "Initialize": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDecideHighAndLowCard",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event82",
+        "next": 17,
+        "params": {
+          "Initialize": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event86",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event87",
+        "params": {
+          "CapacityCheckType": "cNpcTrade",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event94",
+        "next": 39,
+        "params": {
+          "AssetKeyName": "Success_Level1",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event95",
+        "next": 9,
+        "params": {
+          "AssetKeyName": "Fail",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideGeneralQuestReward",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event101",
+        "next": 31,
+        "params": {
+          "RewardType": 0,
+          "RewardTypeSub": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event102",
+        "next": 0,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event100",
+        "next": 34,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event103",
+        "next": 32,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRegistToReleaseItemList",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event104",
+        "next": 27,
+        "params": {
+          "Route": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event105",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event92",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event107",
+        "next": 52,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event108",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:120"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event0",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event1",
+        "next": 14,
+        "params": {
+          "Command": "cGameEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event2",
+        "next": 13,
+        "params": {
+          "Command": "cGameEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "HandToolItemID": 65534,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cSetTmpTool"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "HandToolItemID": 65534,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cStoreTmpTool"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event10",
+        "next": 56,
+        "params": {
+          "HandToolItemID": 65534,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cSetTmpTool"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "HandToolItemID": 65534,
+          "IsImmediately": false,
+          "SpecificToolKindString": "cSetTmpTool"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event4",
+        "next": 47,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "NpcShuffle"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event12",
+        "next": 15,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMiniGameHighAndLowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event13",
+        "next": 49,
+        "params": {
+          "Command": "cGameEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSendRandom",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event14",
+        "next": 8,
+        "params": {
+          "FileIndex": "MAIL_XX_Game",
+          "LabelIndexBegin": 1,
+          "LabelIndexEnd": 3,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event15",
+        "next": 51,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event16",
+        "next": 54,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "NpcHoldout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event17",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Game/BO_Game_HighLow:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event18",
+        "next": 55,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "NpcHoldout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event19",
+        "next": 24,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event20",
+        "next": 25,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event8",
+        "next": 21,
+        "params": {
+          "AccessKey": "cPlayer:HighAndLowPlayed"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Explanation",
+        "flowchart": "",
+        "index": 58,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NoExplanation",
+        "flowchart": "",
+        "index": 59,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NoExplanation",
+        "flowchart": "",
+        "index": 60,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Game_2ChoiceQuiz",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "34055a90d88a8f861775653681e9d4ba359ad844796397fdfd1f475cfcf41748",
+  "size": 14616,
+  "status": "converted"
+}

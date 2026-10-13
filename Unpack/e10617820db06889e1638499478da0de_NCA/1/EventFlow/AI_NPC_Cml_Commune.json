@@ -1,0 +1,234 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetStandupBeforeTalk"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcCommuneShopOpen"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCommuneShopEvent"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 12,
+    "event_flow_name": "AI_NPC_Cml_Commune",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_cml_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event1",
+        "params": {
+          "ShopEvent": "cCmlShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": 5,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "spn",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Cml_Shop_cml",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryNpcCommuneShopOpen",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSitOnGround",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_cml_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetStandupBeforeTalk",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event12",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cCmlWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_cml_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetStandupBeforeTalk",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CmlOpen_CmlPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 11,
+        "name": "Event6",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Cml_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "cac72334f21a129a07c4362da52e5f0677525e7602de38fab911cadfbf3c579b",
+  "size": 4280,
+  "status": "converted"
+}

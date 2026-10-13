@@ -1,0 +1,157 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 6,
+        "name": "NoticeAboutPhotoRegistration"
+      },
+      {
+        "main_event": 4,
+        "name": "NoticeAboutOrderCatalog_CrossWall"
+      },
+      {
+        "main_event": 8,
+        "name": "NoticeAboutNpcEdit"
+      }
+    ],
+    "event_count": 9,
+    "event_flow_name": "System_WherearenUIDialog",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NoticeAboutPhotoRegistration"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:0106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:0107"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:NoticeAboutPhotoRegistration"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NoticeAboutOrderCatalog_CrossWall"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:NoticeAboutOrderCatalog_CrossWall"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event4",
+        "next": 0,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:0120"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event9",
+        "next": 7,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_WherearenUIDialog",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "498f50639b8c8effcab373f2f314e43ba9e29be6239c78bd62215b41a3f9789c",
+  "size": 2744,
+  "status": "converted"
+}

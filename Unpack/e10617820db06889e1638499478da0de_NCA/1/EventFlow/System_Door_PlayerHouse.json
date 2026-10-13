@@ -1,0 +1,145 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "GeneralObject",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckPlayerHouseLockReason"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionSetCheckResultStructureDoor",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 7,
+    "event_flow_name": "System_Door_PlayerHouse",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Door:902"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "GeneralObject",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 2
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryCheckPlayerHouseLockReason",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Door:VisitP"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "CheckResult": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLandTemp:PrologueStartedCampfire"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event6",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Door:903"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_Door_PlayerHouse",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "73062e8e0c839d011ad5696f0c3880e62bf003b79b6e187b1d23340e69af71b1",
+  "size": 2048,
+  "status": "converted"
+}

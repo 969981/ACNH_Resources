@@ -1,0 +1,1416 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcRumorDecidePlayer",
+          "EventFlowActionNpcRumorDecideTopic",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcRumorOpenMessage",
+          "EventFlowActionNpcRumorSaveAnswer",
+          "EventFlowActionNpcRumorTagSet",
+          "EventFlowActionNpcRumorResetLastDenyTime"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcRumorIsAnsweredTargetTopic",
+          "EventFlowQueryNpcCheckMoveInBeforePlayer",
+          "EventFlowQueryNpcRumorIsEqualPreviousChoice",
+          "EventFlowQueryNpcRumorIsEqualNpcChoice",
+          "EventFlowQueryNpcRumorIsSelectedAllDeny",
+          "EventFlowQueryNpcRumorCheckAllDenyProgressDays",
+          "EventFlowQueryNpcRumorIsAskedOwn",
+          "EventFlowQueryNpcRumorIsExistAnswerTopic"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionUISoftwareKeyboardHandling",
+          "EventFlowActionSetTagFromUIResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryGeneralTalkChoice5"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "RumorP_Favorite_CurrentPlayer"
+      },
+      {
+        "main_event": 33,
+        "name": "Input"
+      },
+      {
+        "main_event": 48,
+        "name": "RumorOP_Favorite_Villager"
+      },
+      {
+        "main_event": 64,
+        "name": "RumorOP_Favorite_Host"
+      }
+    ],
+    "event_count": 99,
+    "event_flow_name": "NNPC_FreeD_RumorFavorite",
+    "events": [
+      {
+        "action": "EventFlowActionNpcRumorDecidePlayer",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "RumorPlayerSelectType": "cCurrentPlayer"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecideTopic",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "TopicSelectType": "cAllRandom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsAnsweredTargetTopic",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryNpcCheckMoveInBeforePlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 16,
+        "params": {
+          "MessageBaseLabel": "100",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorTagSet",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          }
+        ],
+        "index": 10,
+        "name": "Event10",
+        "params": {
+          "ProgressDays": 30
+        },
+        "query": "EventFlowQueryNpcRumorCheckAllDenyProgressDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsAskedOwn",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event13",
+        "next": 14,
+        "params": {
+          "MessageBaseLabel": "010",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event15",
+        "next": 85,
+        "params": {
+          "MessageBaseLabel": "011",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Input",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Input",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event18",
+        "next": 17,
+        "params": {
+          "MessageBaseLabel": "101",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event19",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event21",
+        "next": 24,
+        "params": {
+          "MessageBaseLabel": "040",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event22",
+        "next": 23,
+        "params": {
+          "MessageBaseLabel": "030",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event26",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:049"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event27",
+        "next": 27,
+        "params": {
+          "MessageBaseLabel": "102",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Input",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event29",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorResetLastDenyTime",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event30",
+        "next": 86,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          },
+          {
+            "target": 31,
+            "value": 2
+          },
+          {
+            "target": 32,
+            "value": 3
+          }
+        ],
+        "index": 30,
+        "name": "Event33",
+        "params": {
+          "RumorFavoriteChoiceTarget": "cPrev"
+        },
+        "query": "EventFlowQueryNpcRumorIsEqualNpcChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event34",
+        "next": 87,
+        "params": {
+          "MessageBaseLabel": "031",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event35",
+        "next": 87,
+        "params": {
+          "MessageBaseLabel": "032",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          },
+          {
+            "target": 34,
+            "value": 2
+          },
+          {
+            "target": 44,
+            "value": 3
+          },
+          {
+            "target": 97,
+            "value": 4
+          }
+        ],
+        "index": 33,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsEqualPreviousChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event39",
+        "next": 95,
+        "params": {
+          "MessageBaseLabel": "060",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event40",
+        "next": 41,
+        "params": {
+          "MessageBaseLabel": "103",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          },
+          {
+            "target": 40,
+            "value": 3
+          }
+        ],
+        "index": 37,
+        "name": "Event42",
+        "params": {
+          "RumorFavoriteChoiceTarget": "cCurrent"
+        },
+        "query": "EventFlowQueryNpcRumorIsEqualNpcChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event43",
+        "next": 41,
+        "params": {
+          "MessageBaseLabel": "104",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event44",
+        "next": 41,
+        "params": {
+          "MessageBaseLabel": "105",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event45",
+        "next": 41,
+        "params": {
+          "MessageBaseLabel": "106",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorSaveAnswer",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event46",
+        "next": 88,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event48",
+        "next": 43,
+        "params": {
+          "MessageBaseLabel": "107",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorSaveAnswer",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event50",
+        "next": 89,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISoftwareKeyboardHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event53",
+        "next": 90,
+        "params": {
+          "FormType": "cTaste",
+          "IsClearString": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event54",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event56",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecidePlayer",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event59",
+        "next": 49,
+        "params": {
+          "RumorPlayerSelectType": "cRandom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecideTopic",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event60",
+        "next": 50,
+        "params": {
+          "TopicSelectType": "cAllRandom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event61",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsAnsweredTargetTopic",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorTagSet",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event62",
+        "next": 52,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event63",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event64",
+        "next": 55,
+        "params": {
+          "MessageBaseLabel": "001",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event65",
+        "next": 55,
+        "params": {
+          "MessageBaseLabel": "010",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event66",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event67",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event69",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsAskedOwn",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event70",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event72",
+        "next": 61,
+        "params": {
+          "MessageBaseLabel": "050",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event73",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event74",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event75",
+        "next": null,
+        "params": {
+          "MessageBaseLabel": "060",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecidePlayer",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event77",
+        "next": 65,
+        "params": {
+          "RumorPlayerSelectType": "cHostPlayer"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event78",
+        "next": 66,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event79",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event80",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsExistAnswerTopic",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event81",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsExistAnswerTopic",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event82",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecideTopic",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event83",
+        "next": 71,
+        "params": {
+          "TopicSelectType": "cAnswerRandom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorTagSet",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event84",
+        "next": 72,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 74,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 72,
+        "name": "Event85",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event86",
+        "next": 75,
+        "params": {
+          "MessageBaseLabel": "110",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event87",
+        "next": 75,
+        "params": {
+          "MessageBaseLabel": "120",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event89",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:130"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event90",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:131"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorDecideTopic",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event91",
+        "next": 79,
+        "params": {
+          "TopicSelectType": "cAnswerRandom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorTagSet",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event93",
+        "next": 80,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event94",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:160"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event95",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event96",
+        "next": null,
+        "params": {
+          "MessageBaseLabel": "170",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event97",
+        "next": null,
+        "params": {
+          "MessageBaseLabel": "180",
+          "RumorMessageType": "cTopic"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event99",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorOP_Favorite:150"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 85,
+        "name": "Event57",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 86,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 87,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 88,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 89,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event51",
+        "next": 45,
+        "params": {
+          "TagID": 0,
+          "TagType": "cRumorFavorite"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 92,
+            "value": 1
+          },
+          {
+            "target": 92,
+            "value": 2
+          },
+          {
+            "target": 93,
+            "value": 3
+          }
+        ],
+        "index": 91,
+        "name": "Event49",
+        "params": {
+          "RumorFavoriteChoiceTarget": "cCurrent"
+        },
+        "query": "EventFlowQueryNpcRumorIsEqualNpcChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event58",
+        "next": 96,
+        "params": {
+          "MessageBaseLabel": "031",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event68",
+        "next": 96,
+        "params": {
+          "MessageBaseLabel": "032",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRumorOpenMessage",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event76",
+        "next": 96,
+        "params": {
+          "MessageBaseLabel": "011",
+          "RumorMessageType": "cCategory"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 95,
+        "name": "Event92",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsAskedOwn",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RumorP_Favorite_End",
+        "flowchart": "NNPC_FreeD",
+        "index": 96,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryNpcRumorIsSelectedAllDeny",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 98,
+        "name": "Event52",
+        "next": 89,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeD_RumorP_Favorite:061"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeD_RumorFavorite",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "8fdb2c88095eb4843178ed63c3d74247bcd1ccbc32b005ec1da45badc9c5d709",
+  "size": 17192,
+  "status": "converted"
+}

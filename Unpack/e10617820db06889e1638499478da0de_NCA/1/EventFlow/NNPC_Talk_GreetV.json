@@ -1,0 +1,599 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcAdd",
+          "EventFlowActionNpcSelectMessage"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryContinuousNpcTalkCount",
+          "EventFlowQueryEnvWeatherNNpcTalkCustom"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 23,
+        "name": "GreetV_Again2"
+      },
+      {
+        "main_event": 22,
+        "name": "GreetV_Again1"
+      },
+      {
+        "main_event": 7,
+        "name": "GreetV_Field1"
+      },
+      {
+        "main_event": 15,
+        "name": "GreetV_XX2"
+      }
+    ],
+    "event_count": 30,
+    "event_flow_name": "NNPC_Talk_GreetV",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cNpcMemory:ContinuousTalkCount",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cNpcMemory:ContinuousTalkCount",
+          "Border": 4,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcAdd",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 27,
+        "params": {
+          "AccessKey": "cNpcMemory:Again2Count",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event5",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkCountInNpcHouseToday",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event7",
+        "params": {
+          "TalkCount": 1
+        },
+        "query": "EventFlowQueryContinuousNpcTalkCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cFineWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 8,
+            "value": 2
+          },
+          {
+            "target": 11,
+            "value": 3
+          },
+          {
+            "target": 9,
+            "value": 4
+          },
+          {
+            "target": 12,
+            "value": 5
+          },
+          {
+            "target": 13,
+            "value": 6
+          }
+        ],
+        "index": 7,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherNNpcTalkCustom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cRainWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cSnowWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cCloudWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cRainWeather",
+          "StartType2": "cHardRainWeather",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cSnowWeather",
+          "StartType2": "cHardSnowWeather",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Field1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cFineWeather",
+          "StartType2": "cBlossomShower",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Fine2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cFineWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          },
+          {
+            "target": 19,
+            "value": 3
+          },
+          {
+            "target": 17,
+            "value": 4
+          },
+          {
+            "target": 20,
+            "value": 5
+          },
+          {
+            "target": 21,
+            "value": 6
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherNNpcTalkCustom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Rain2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cRainWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Snow2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cSnowWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Fine2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cCloudWeather",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Rain2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cRainWeather",
+          "StartType2": "cHardRainWeather",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Snow2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cSnowWeather",
+          "StartType2": "cHardSnowWeather",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Fine2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "cFineWeather",
+          "StartType2": "cBlossomShower",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Again1",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/Greet/BO_GreetV_Again2",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GreetV_Field1",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GreetV_XX2",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GreetV_Again1",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GreetV_Again2",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Greet_House1",
+        "flowchart": "NNPC_Talk_Greet",
+        "index": 28,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Greet_House2",
+        "flowchart": "NNPC_Talk_Greet",
+        "index": 29,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Talk_GreetV",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0ab07f2382f4be0eb43f4d3242f1196564fa52b788381d2e5ba378717580e4ba",
+  "size": 13160,
+  "status": "converted"
+}

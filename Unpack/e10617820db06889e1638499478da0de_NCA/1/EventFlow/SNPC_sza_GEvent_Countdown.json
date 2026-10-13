@@ -1,0 +1,2157 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionMessageSuspend"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryRandomChoice3",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQueryRandomChoiceExcludePrevious4",
+          "EventFlowQueryEnvTimeZone",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryRandomChoiceExcludePrevious5",
+          "EventFlowQueryEnvSameDate",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryPlayerIsEquipItem"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerIsUseCoordinate",
+          "EventFlowQueryHotelMannequinIsRentalAny"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 6,
+        "name": "Root"
+      },
+      {
+        "main_event": 11,
+        "name": "Sza_Talk_Before_Newyear"
+      },
+      {
+        "main_event": 12,
+        "name": "Sza_Chat_Before_Newyear"
+      },
+      {
+        "main_event": 108,
+        "name": "Sza_Get_StickLight"
+      },
+      {
+        "main_event": 75,
+        "name": "Sza_Chat_After_Newyear"
+      }
+    ],
+    "event_count": 126,
+    "event_flow_name": "SNPC_sza_GEvent_Countdown",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {
+          "CheckDateType": "cNewYear",
+          "TimeType": "cNowTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayerVisit:SzaVisitorTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          }
+        ],
+        "index": 9,
+        "name": "Event14",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event26",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event28",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          },
+          {
+            "target": 124,
+            "value": 3
+          }
+        ],
+        "index": 16,
+        "name": "Event30",
+        "params": {
+          "ChoiceNumber": 4,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 25,
+            "value": 2
+          },
+          {
+            "target": 21,
+            "value": 3
+          },
+          {
+            "target": 79,
+            "value": 4
+          },
+          {
+            "target": 79,
+            "value": 5
+          }
+        ],
+        "index": 17,
+        "name": "Event31",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event32",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:029_00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event35",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          },
+          {
+            "target": 24,
+            "value": 2
+          }
+        ],
+        "index": 25,
+        "name": "Event39",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event43",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event49",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event50",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          },
+          {
+            "target": 31,
+            "value": 2
+          }
+        ],
+        "index": 32,
+        "name": "Event51",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event17",
+        "next": 94,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event47",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event52",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event54",
+        "next": 120,
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkBeforeCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event56",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event57",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event59",
+        "next": 108,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event61",
+        "next": 103,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event65",
+        "next": 87,
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event71",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event72",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:037"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event73",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:035"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event74",
+        "next": 80,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:034"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event75",
+        "next": 45,
+        "params": {
+          "AccessKey": "cPlayerVisit:SzaVisitorTalkBeforeCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event77",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:039"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event78",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:038"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event91",
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkAfterCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event99",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event101",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event102",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event103",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:054"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          },
+          {
+            "target": 53,
+            "value": 2
+          },
+          {
+            "target": 55,
+            "value": 3
+          },
+          {
+            "target": 56,
+            "value": 4
+          }
+        ],
+        "index": 54,
+        "name": "Event104",
+        "params": {
+          "ChoiceNumber": 5,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event106",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event119",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:056"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event123",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:043"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event129",
+        "next": 61,
+        "params": {
+          "AccessKey": "cPlayerVisit:SzaVisitorTalkAfterCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event131",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event134",
+        "next": 106,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event152",
+        "next": 76,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event83",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event84",
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event85",
+        "next": 106,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event115",
+        "params": {
+          "AccessKey": "cPlayerVisit:SzaVisitorTalkBeforeCountdown"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event105",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:059"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          },
+          {
+            "target": 68,
+            "value": 2
+          },
+          {
+            "target": 70,
+            "value": 3
+          },
+          {
+            "target": 71,
+            "value": 4
+          }
+        ],
+        "index": 69,
+        "name": "Event107",
+        "params": {
+          "ChoiceNumber": 5,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event108",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event109",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event66",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event110",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 74,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          },
+          {
+            "target": 69,
+            "value": 2
+          }
+        ],
+        "index": 75,
+        "name": "Event86",
+        "params": {
+          "Hour": 2,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event87",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          },
+          {
+            "target": 9,
+            "value": 2
+          }
+        ],
+        "index": 77,
+        "name": "Event100",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          }
+        ],
+        "index": 78,
+        "name": "Event11",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 55
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          },
+          {
+            "target": 78,
+            "value": 2
+          }
+        ],
+        "index": 79,
+        "name": "Event111",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 107,
+            "value": 1
+          },
+          {
+            "target": 107,
+            "value": 2
+          }
+        ],
+        "index": 80,
+        "name": "Event40",
+        "params": {
+          "Hour": 18,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          },
+          {
+            "target": 82,
+            "value": 2
+          }
+        ],
+        "index": 81,
+        "name": "Event76",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          },
+          {
+            "target": 47,
+            "value": 2
+          }
+        ],
+        "index": 82,
+        "name": "Event113",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 55
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          },
+          {
+            "target": 84,
+            "value": 2
+          }
+        ],
+        "index": 83,
+        "name": "Event114",
+        "params": {
+          "Hour": 18,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          },
+          {
+            "target": 85,
+            "value": 2
+          }
+        ],
+        "index": 84,
+        "name": "Event116",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 72,
+            "value": 1
+          },
+          {
+            "target": 72,
+            "value": 2
+          }
+        ],
+        "index": 85,
+        "name": "Event117",
+        "params": {
+          "Hour": 23,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 55
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          },
+          {
+            "target": 83,
+            "value": 2
+          }
+        ],
+        "index": 86,
+        "name": "Event118",
+        "params": {
+          "Hour": 12,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "Command": 2,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event5",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5741
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event18",
+        "next": 40,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5741,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          }
+        ],
+        "index": 90,
+        "name": "Event20",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5741
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          }
+        ],
+        "index": 91,
+        "name": "Event21",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5741
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event45",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:045"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Sza_Get_StickLight",
+        "flowchart": "",
+        "index": 93,
+        "name": "Event58",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Sza_Get_StickLight",
+        "flowchart": "",
+        "index": 94,
+        "name": "Event53",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Sza_Get_StickLight",
+        "flowchart": "",
+        "index": 95,
+        "name": "Event64",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Sza_Chat_After_Newyear",
+        "flowchart": "",
+        "index": 96,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Sza_Chat_Before_Newyear",
+        "flowchart": "",
+        "index": 97,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Sza_Talk_Before_Newyear",
+        "flowchart": "",
+        "index": 98,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 96,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event68",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5741
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 100,
+        "name": "Event23",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5741
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          },
+          {
+            "target": 102,
+            "value": 2
+          }
+        ],
+        "index": 101,
+        "name": "Event69",
+        "params": {
+          "Hour": 2,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 102,
+        "name": "Event55",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:046"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 103,
+        "name": "Event60",
+        "params": {
+          "CheckDateType": "cNewYear",
+          "TimeType": "cNowTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 104,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayer:SzaGotNewYearHat"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:029_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event6",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:044"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event22",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:036"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event70",
+        "next": 89,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 110,
+            "value": 1
+          }
+        ],
+        "index": 109,
+        "name": "Event62",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 4799,
+          "ItemUniqueID2": 5186,
+          "ItemUniqueID3": 5187,
+          "ItemUniqueID4": 5192,
+          "ItemUniqueID5": 5188,
+          "ItemUniqueID6": 5190,
+          "ItemUniqueID7": 5189,
+          "ItemUniqueID8": 5191,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 110,
+        "name": "Event63",
+        "params": {
+          "EquipRequireType": "cAny",
+          "ItemUniqueID1": 5946,
+          "ItemUniqueID2": 5947,
+          "ItemUniqueID3": 5948,
+          "ItemUniqueID4": 5953,
+          "ItemUniqueID5": 5949,
+          "ItemUniqueID6": 5951,
+          "ItemUniqueID7": 5950,
+          "ItemUniqueID8": 5952,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 111,
+        "name": "Event82",
+        "next": 112,
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkFirstNotOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event89",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 113,
+        "name": "Event92",
+        "next": 114,
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkFirstNotOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event93",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/sza/GEvent/SP_sza_GEvent_Countdown:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 115,
+        "name": "Event97",
+        "next": 121,
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkAfterCountdown"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event112",
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkFirstNotOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 116,
+            "value": 1
+          }
+        ],
+        "index": 117,
+        "name": "Event120",
+        "params": {
+          "AccessKey": "cPlayer:OfficeSzaIntroduction"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          }
+        ],
+        "index": 118,
+        "name": "Event79",
+        "params": {
+          "AccessKey": "cPlayer:SzaTalkFirstNotOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 118,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event98",
+        "params": {
+          "AccessKey": "cPlayer:OfficeSzaIntroduction"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 117,
+            "value": 1
+          }
+        ],
+        "index": 120,
+        "name": "Event94",
+        "params": {
+          "AccessKey": "cPlayer:SzaTaled1stTime"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          }
+        ],
+        "index": 121,
+        "name": "Event95",
+        "params": {
+          "AccessKey": "cPlayer:SzaTaled1stTime"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 109,
+            "value": 1
+          }
+        ],
+        "index": 122,
+        "name": "Event122",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          }
+        ],
+        "index": 123,
+        "name": "Event124",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 125,
+            "value": 1
+          }
+        ],
+        "index": 124,
+        "name": "Event125",
+        "params": {},
+        "query": "EventFlowQueryPlayerIsUseCoordinate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 122,
+            "value": 1
+          }
+        ],
+        "index": 125,
+        "name": "Event126",
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_sza_GEvent_Countdown",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "552d6f30c6e870d0f596037d37b9d9cf490d6b06d4a1c1008b0261a7b3905b3c",
+  "size": 31128,
+  "status": "converted"
+}

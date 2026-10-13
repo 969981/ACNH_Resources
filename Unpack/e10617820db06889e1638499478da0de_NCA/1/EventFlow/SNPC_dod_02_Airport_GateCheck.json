@@ -1,0 +1,370 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionNetCloseSession",
+          "EventFlowActionCloseVillageGate",
+          "EventFlowActionNetOpenSession",
+          "EventFlowActionOpenVillageGate",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionUIVersionGuideDisappear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryIsVillageGateOpened"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 4,
+        "name": "EntryPoint_GateCheck"
+      },
+      {
+        "main_event": 17,
+        "name": "Dod_CloseGate"
+      },
+      {
+        "main_event": 18,
+        "name": "Dod_OpenGate"
+      },
+      {
+        "main_event": 21,
+        "name": "Dod_ChangeGate"
+      }
+    ],
+    "event_count": 26,
+    "event_flow_name": "SNPC_dod_02_Airport_GateCheck",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event5",
+        "next": 24,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:252"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event8",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:262"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryIsVillageGateOpened",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloseSession",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event11",
+        "next": 9,
+        "params": {
+          "Command": "cCloseSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloseVillageGate",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event12",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetOpenSession",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event13",
+        "next": 12,
+        "params": {
+          "Command": "cOpenSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenVillageGate",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event14",
+        "next": 13,
+        "params": {
+          "IsColDisable": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PostProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 9,
+        "name": "Event15",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 10,
+        "name": "Event16",
+        "next": 5,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PreProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 11,
+        "name": "Event17",
+        "next": 7,
+        "params": {
+          "ContinueAS": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_PostProcedure",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 12,
+        "name": "Event18",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event19",
+        "next": 3,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event20",
+        "next": 2,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event22",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:305"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event23",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:306"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event0",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:802"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event4",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/dod/SP_dod_AirPort:802"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 19,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntryPoint_Cancel",
+        "flowchart": "SNPC_dod_AirPort",
+        "index": 20,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsVillageGateOpened",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Dod_OpenGate",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Dod_CloseGate",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "OutType": "cNormal"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_dod_02_Airport_GateCheck",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "40ffc20d83c6053027944724d48d0d6e42e5d5e6e433c0aec9e8a93559a32a8a",
+  "size": 4968,
+  "status": "converted"
+}

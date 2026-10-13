@@ -1,0 +1,325 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionSetDefaultWaitAs",
+          "EventFlowActionNpcChangeTurnDefaultState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryIsUnlockedAllItemRemakeCommonPattern"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 7,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "main_event": 3,
+        "name": "AI_hgs_status_update"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "AI_NPC_Hgs",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": 13,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:HgsCloseness",
+          "Border": 5,
+          "FlagCheckType": 4
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event10",
+        "next": 10,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event11",
+        "next": 11,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "AI_hgs_status_update",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event12",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "NpcWaitAsType": "cHgsSew"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event14",
+        "next": 8,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event15",
+        "next": 9,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event16",
+        "next": 9,
+        "params": {
+          "Flag": true,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 1,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_hgs"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 14
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event5",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:HgsCloseness",
+          "Border": 11,
+          "FlagCheckType": 4
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayer:HgsTalkTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryIsUnlockedAllItemRemakeCommonPattern",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Hgs",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "654f31338f1142235a9cf5ac3b7f062c2068d45c65b5103dda4dcb5bcd6b077c",
+  "size": 5088,
+  "status": "converted"
+}

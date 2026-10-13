@@ -1,0 +1,2041 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSaveGrowUp",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionSaveSimpleSave",
+          "EventFlowActionSaveAfterGrowUp",
+          "EventFlowActionUISaveIconAppear",
+          "EventFlowActionUISaveIconDisappear",
+          "EventFlowActionNetReceiveMail",
+          "EventFlowActionSetupSharePlay",
+          "EventFlowActionReserveSystemFlowDemo",
+          "EventFlowActionTimeLock",
+          "EventFlowActionDemoSetShareStartFlag",
+          "EventFlowActionSaveSimpleLoad",
+          "EventFlowActionNetReceiveBcat",
+          "EventFlowActionNetUpdateFriendList",
+          "EventFlowActionOverWriteFadeSetting",
+          "EventFlowActionSpecialDemoStart",
+          "EventFlowActionNetUpdateFriendLandWithInterval",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionNetConnectInit",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionNetCheckNSA",
+          "EventFlowActionSetBcatProcess",
+          "EventFlowActionNetUploadEmoticon",
+          "EventFlowActionNetGetPOPID",
+          "EventFlowActionNetUploadCatalog",
+          "EventFlowActionNetUploadRewardUnlock",
+          "EventFlowActionCheckAoCWithEnsureNSO",
+          "EventFlowActionUnmountAoC",
+          "EventFlowActionMountAoC",
+          "EventFlowActionNetUploadResortUnlock",
+          "EventFlowActionNetUploadLifeTips",
+          "EventFlowActionNetUploadPlayerMemories",
+          "EventFlowActionEventFlagOnAllLiver"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsGamePlayTime",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryPassDaysSincePreviousGrowUp",
+          "EventFlowQueryPlayAccountIsPlayerVillager",
+          "EventFlowQueryBackDaysSincePreviousGrowUp",
+          "EventFlowQueryNetHasPOPID",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryIsDoneBcatProcess",
+          "EventFlowQueryGrowUpInterval"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 12,
+        "name": "Title"
+      },
+      {
+        "main_event": 19,
+        "name": "NewGame"
+      },
+      {
+        "main_event": 20,
+        "name": "Continue"
+      },
+      {
+        "main_event": 116,
+        "name": "ContinueCommon"
+      },
+      {
+        "main_event": 21,
+        "name": "InGame"
+      },
+      {
+        "main_event": 22,
+        "name": "AfterNet"
+      },
+      {
+        "main_event": 10,
+        "name": "DateCheck"
+      },
+      {
+        "main_event": 13,
+        "name": "Save"
+      },
+      {
+        "main_event": 23,
+        "name": "DateCheckWithSave"
+      },
+      {
+        "main_event": 42,
+        "name": "PlayerSwitch"
+      },
+      {
+        "main_event": 34,
+        "name": "SharePlayForceBreakup"
+      },
+      {
+        "main_event": 38,
+        "name": "TitleAfterSharePlay"
+      },
+      {
+        "main_event": 157,
+        "name": "PostPlayerSwitch"
+      },
+      {
+        "main_event": 83,
+        "name": "CallGrowUpGameWeatherProcess"
+      },
+      {
+        "main_event": 98,
+        "name": "NSOProcess"
+      },
+      {
+        "main_event": 101,
+        "name": "CallGrowUpPatchProcess"
+      },
+      {
+        "main_event": 122,
+        "name": "BCATProcess"
+      },
+      {
+        "main_event": 127,
+        "name": "NSOOptimizeBegin"
+      },
+      {
+        "main_event": 123,
+        "name": "NSOOptimizeEnd"
+      },
+      {
+        "main_event": null,
+        "name": "NSO_HomeLandCheck"
+      },
+      {
+        "main_event": 142,
+        "name": "IsJoinNSO"
+      }
+    ],
+    "event_count": 160,
+    "event_flow_name": "System_GrowUp",
+    "events": [
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 106,
+        "params": {
+          "GrowUpSituation": "cTitle"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cTitle"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": 108,
+        "params": {
+          "GrowUpSituation": "cStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cMainFieldDemoLanding"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": 143,
+        "params": {
+          "GrowUpSituation": "cStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueCommon",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event10",
+        "next": 144,
+        "params": {
+          "GrowUpSituation": "cInGame"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveAfterGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event13",
+        "next": 111,
+        "params": {
+          "GrowUpSituation": "cAfterNet"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cFrontOfAirPort"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryIsGamePlayTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NoSave",
+        "flowchart": "System_DateTimeNg",
+        "index": 11,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheck",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event19",
+        "next": 50,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUISaveIconAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event29",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSimpleSave",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event30",
+        "next": 15,
+        "params": {
+          "Process": "cAll"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISaveIconDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Save",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event32",
+        "next": 43,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Save",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event5",
+        "next": 66,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Save",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event11",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheck",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event14",
+        "next": 63,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheck",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event18",
+        "next": 51,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheckWithSave",
+        "flowchart": "",
+        "index": 21,
+        "name": "Event21",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheckWithSave",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event22",
+        "next": 53,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryIsGamePlayTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_DateTimeNg",
+        "index": 24,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetReceiveMail",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event34",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event36",
+        "next": 145,
+        "params": {
+          "GrowUpSituation": "cInGame"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cEventPlaza"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event39",
+        "next": 75,
+        "params": {
+          "EntryName": "Root",
+          "FlowFile": "System_SharePlay_Controller",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Save",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event37",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DateCheckWithSave",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event40",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event41",
+        "next": 3,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetReceiveMail",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event42",
+        "next": 29,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDemoSetShareStartFlag",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event43",
+        "next": 28,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSimpleLoad",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event44",
+        "next": 79,
+        "params": {
+          "Process": "cAll"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetupSharePlay",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "IsAfterRollback": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveGrowUp",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event53",
+        "next": 107,
+        "params": {
+          "GrowUpSituation": "cTitle"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event54",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cTitle"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "DateCheck",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event55",
+        "next": 49,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event63",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetUpdateFriendList",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event64",
+        "next": 32,
+        "params": {
+          "Type": "cBestFriend"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSimpleLoad",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event60",
+        "next": 26,
+        "params": {
+          "Process": "cAll"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event65",
+        "next": 30,
+        "params": {
+          "EntryName": "PostPlayerSwitch",
+          "FlowFile": "System_GrowUp",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event66",
+        "params": {
+          "AccessKey": "cPlayer:TownNewsReserve"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event67",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cGrowUpTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event68",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cGrowUpTalkEventPlaza"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event70",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cMainFieldPlayerHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 48,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOfficeToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event73",
+        "next": 153,
+        "params": {
+          "TimeLockType": "cUpdateAndLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event74",
+        "next": 121,
+        "params": {
+          "TimeLockType": "cUpdateAndLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event75",
+        "next": 87,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event76",
+        "next": 88,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event77",
+        "next": 89,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event81",
+        "next": 90,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event84",
+        "next": 37,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event85",
+        "next": 70,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event86",
+        "next": 97,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event87",
+        "next": 99,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event88",
+        "next": 25,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event90",
+        "next": 39,
+        "params": {
+          "TimeLockType": "cUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FirstDay",
+        "flowchart": "System_GrowUp_WeatherControl",
+        "index": 61,
+        "name": "Event20",
+        "next": 2,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_GrowUp_GameProcess",
+        "index": 62,
+        "name": "Event48",
+        "next": 64,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event93",
+        "params": {},
+        "query": "EventFlowQueryPassDaysSincePreviousGrowUp",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FirstDay",
+        "flowchart": "System_GrowUp_GameProcess",
+        "index": 64,
+        "name": "Event100",
+        "next": 61,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOverWriteFadeSetting",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event101",
+        "next": 7,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 1.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event103",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event106",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOfficeToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event99",
+        "next": 9,
+        "params": {
+          "EntryName": "VisitEndMileGet",
+          "FlowFile": "System_Network",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSpecialDemoStart",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event102",
+        "next": 68,
+        "params": {
+          "Kind": "cReturnMulti"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event104",
+        "params": {},
+        "query": "EventFlowQueryPlayAccountIsPlayerVillager",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DateCheckWithSave",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event107",
+        "next": 74,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetupSharePlay",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event108",
+        "next": null,
+        "params": {
+          "IsAfterRollback": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event109",
+        "next": 71,
+        "params": {
+          "EntryName": "PostPlayerSwitch",
+          "FlowFile": "System_GrowUp",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTimeLock",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event110",
+        "next": 91,
+        "params": {
+          "TimeLockType": "cLock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 76,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event117",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event118",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cMainFieldPlayerHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Save",
+        "flowchart": "",
+        "index": 77,
+        "name": "Event119",
+        "next": 41,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 78,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cDateCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event25",
+        "next": 73,
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 80,
+        "name": "Event89",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FirstLive",
+        "flowchart": "System_GrowUp_WeatherControl",
+        "index": 81,
+        "name": "Event97",
+        "next": 130,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_GrowUp_GameProcess",
+        "index": 82,
+        "name": "Event121",
+        "next": 81,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event122",
+        "params": {},
+        "query": "EventFlowQueryPassDaysSincePreviousGrowUp",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root_RewindDay",
+        "flowchart": "System_GrowUp_GameProcess",
+        "index": 84,
+        "name": "Event123",
+        "next": 130,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 130,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event124",
+        "params": {},
+        "query": "EventFlowQueryBackDaysSincePreviousGrowUp",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event26",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 87,
+        "name": "Event50",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 88,
+        "name": "Event7",
+        "next": 117,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 89,
+        "name": "Event8",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 90,
+        "name": "Event46",
+        "next": 150,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpGameWeatherProcess",
+        "flowchart": "",
+        "index": 91,
+        "name": "Event49",
+        "next": 72,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetReceiveMail",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event72",
+        "next": 95,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUpdateFriendList",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event79",
+        "next": 92,
+        "params": {
+          "Type": "cBestFriend"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          }
+        ],
+        "index": 94,
+        "name": "Event80",
+        "params": {
+          "IsRawDataCheck": false
+        },
+        "query": "EventFlowQueryNetHasPOPID",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetUpdateFriendLandWithInterval",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event82",
+        "next": 96,
+        "params": {
+          "Interval": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "UploadProfileCore",
+        "flowchart": "System_ServerRegistration",
+        "index": 96,
+        "name": "Event83",
+        "next": 133,
+        "params": {
+          "IgnoreError": true,
+          "Terminate": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NSOProcess",
+        "flowchart": "",
+        "index": 97,
+        "name": "Event91",
+        "next": 125,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetConnectInit",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event28",
+        "next": 100,
+        "params": {
+          "Command": "cConnectInet",
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NSOProcess",
+        "flowchart": "",
+        "index": 99,
+        "name": "Event52",
+        "next": 124,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 118,
+            "value": 1
+          }
+        ],
+        "index": 100,
+        "name": "Event33",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 101,
+        "name": "Event56",
+        "next": 102,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 102,
+        "name": "Event62",
+        "next": 103,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 103,
+        "name": "Event92",
+        "next": 104,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 104,
+        "name": "Event95",
+        "next": 131,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_4"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 105,
+        "name": "Event98",
+        "next": 140,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_6"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 106,
+        "name": "Event111",
+        "next": 56,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 107,
+        "name": "Event112",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 108,
+        "name": "Event113",
+        "next": 31,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 109,
+        "name": "Event114",
+        "next": 57,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event115",
+        "next": 58,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 111,
+        "name": "Event125",
+        "next": 59,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CallGrowUpPatchProcess",
+        "flowchart": "",
+        "index": 112,
+        "name": "Event126",
+        "next": 60,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetConnectInit",
+        "actor": "EventFlowSystemActor",
+        "index": 113,
+        "name": "Event127",
+        "next": 115,
+        "params": {
+          "Command": "cConnectInet",
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetReceiveBcat",
+        "actor": "EventFlowSystemActor",
+        "index": 114,
+        "name": "Event128",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 1
+          }
+        ],
+        "index": 115,
+        "name": "Event129",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BCATProcess",
+        "flowchart": "",
+        "index": 116,
+        "name": "Event47",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BCATProcess",
+        "flowchart": "",
+        "index": 117,
+        "name": "Event130",
+        "next": 129,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetCheckNSA",
+        "actor": "EventFlowSystemActor",
+        "index": 118,
+        "name": "Event133",
+        "next": 146,
+        "params": {
+          "Command": "cCheckNSA",
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 1
+          }
+        ],
+        "index": 119,
+        "name": "Event134",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BCATProcess",
+        "flowchart": "",
+        "index": 120,
+        "name": "Event135",
+        "next": 86,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 120,
+            "value": 1
+          }
+        ],
+        "index": 121,
+        "name": "Event137",
+        "params": {},
+        "query": "EventFlowQueryIsDoneBcatProcess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetBcatProcess",
+        "actor": "EventFlowSystemActor",
+        "index": 122,
+        "name": "Event138",
+        "next": 113,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event142",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:GrowupNsoServerOptimization"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NSOOptimizeEnd",
+        "flowchart": "",
+        "index": 124,
+        "name": "Event143",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NSOOptimizeEnd",
+        "flowchart": "",
+        "index": 125,
+        "name": "Event144",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 126,
+        "name": "Event145",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:GrowupNsoServerOptimization"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 128,
+            "value": 0
+          }
+        ],
+        "index": 127,
+        "name": "Event147",
+        "params": {
+          "Interval": 1
+        },
+        "query": "EventFlowQueryGrowUpInterval",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 126,
+            "value": 1
+          }
+        ],
+        "index": 128,
+        "name": "Event148",
+        "params": {
+          "Interval": 2
+        },
+        "query": "EventFlowQueryGrowUpInterval",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NSOOptimizeBegin",
+        "flowchart": "",
+        "index": 129,
+        "name": "Event139",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Always",
+        "flowchart": "System_GrowUp_WeatherControl",
+        "index": 130,
+        "name": "Event149",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event150",
+        "next": 105,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_5"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 132,
+        "name": "Event152",
+        "next": 147,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_10"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadEmoticon",
+        "actor": "EventFlowSystemActor",
+        "index": 133,
+        "name": "Event153",
+        "next": 137,
+        "params": {
+          "CheckHash": true,
+          "SkipError": true,
+          "Timeout": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 135,
+            "value": 0
+          }
+        ],
+        "index": 134,
+        "name": "Event160",
+        "params": {
+          "IsRawDataCheck": true
+        },
+        "query": "EventFlowQueryNetHasPOPID",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetGetPOPID",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event162",
+        "next": 136,
+        "params": {
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 1
+          }
+        ],
+        "index": 136,
+        "name": "Event163",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadCatalog",
+        "actor": "EventFlowSystemActor",
+        "index": 137,
+        "name": "Event155",
+        "next": 141,
+        "params": {
+          "ForceUpload": false,
+          "SkipError": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 138,
+        "name": "Event159",
+        "next": 132,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_9"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 139,
+        "name": "Event164",
+        "next": 138,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_8"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 140,
+        "name": "Event166",
+        "next": 139,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_7"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadRewardUnlock",
+        "actor": "EventFlowSystemActor",
+        "index": 141,
+        "name": "Event176",
+        "next": 154,
+        "params": {
+          "CheckHash": true,
+          "SkipError": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCheckAoCWithEnsureNSO",
+        "actor": "EventFlowSystemActor",
+        "index": 142,
+        "name": "Event170",
+        "next": null,
+        "params": {
+          "Label": "AOC_EventFlag_002",
+          "PremiseLabel": "AOC_EventFlag_001",
+          "UseCache": true,
+          "WithApplet": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "WherearenProcess",
+        "flowchart": "System_WherearenGrowUp",
+        "index": 143,
+        "name": "Event173",
+        "next": 109,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "WherearenProcess",
+        "flowchart": "System_WherearenGrowUp",
+        "index": 144,
+        "name": "Event177",
+        "next": 110,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "WherearenProcess",
+        "flowchart": "System_WherearenGrowUp",
+        "index": 145,
+        "name": "Event179",
+        "next": 112,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "IsJoinNSO",
+        "flowchart": "",
+        "index": 146,
+        "name": "Event171",
+        "next": 119,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 147,
+        "name": "Event180",
+        "next": 148,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_11"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 148,
+        "name": "Event182",
+        "next": 158,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch2_0"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "UploadResortProfile",
+        "flowchart": "System_ServerRegistration",
+        "index": 149,
+        "name": "Event184",
+        "next": null,
+        "params": {
+          "IgnoreError": true,
+          "Terminate": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 151,
+            "value": 1
+          }
+        ],
+        "index": 150,
+        "name": "Event185",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUnmountAoC",
+        "actor": "EventFlowSystemActor",
+        "index": 151,
+        "name": "Event187",
+        "next": 35,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMountAoC",
+        "actor": "EventFlowSystemActor",
+        "index": 152,
+        "name": "Event188",
+        "next": 77,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMountAoC",
+        "actor": "EventFlowSystemActor",
+        "index": 153,
+        "name": "Event189",
+        "next": 80,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadResortUnlock",
+        "actor": "EventFlowSystemActor",
+        "index": 154,
+        "name": "Event186",
+        "next": 155,
+        "params": {
+          "IsForce": false,
+          "SkipError": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadLifeTips",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event193",
+        "next": 156,
+        "params": {
+          "IsForce": false,
+          "SkipError": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetUploadPlayerMemories",
+        "actor": "EventFlowSystemActor",
+        "index": 156,
+        "name": "Event194",
+        "next": 149,
+        "params": {
+          "IsForce": false,
+          "SkipError": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 152,
+            "value": 1
+          }
+        ],
+        "index": 157,
+        "name": "Event195",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 158,
+        "name": "Event196",
+        "next": 159,
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch3_0"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagOnAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 159,
+        "name": "Event197",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:GrowUpAfterPatch3_0"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_GrowUp",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b1aa4296b4d1e376b9d9d74f45113a7fca644c872477a1e1a1e4677cc20ec884",
+  "size": 28408,
+  "status": "converted"
+}

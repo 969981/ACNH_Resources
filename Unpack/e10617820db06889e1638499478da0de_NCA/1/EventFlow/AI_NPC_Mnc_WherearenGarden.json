@@ -1,0 +1,492 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetRequestSpeakFunc",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionNpcAISetting"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsCheckLeaveGarden",
+          "EventFlowQueryEventFlagSystemInt"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 23,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Leave"
+      },
+      {
+        "main_event": 13,
+        "name": "Init"
+      },
+      {
+        "main_event": 11,
+        "name": "Appear"
+      },
+      {
+        "main_event": 19,
+        "name": "RequestCheck"
+      }
+    ],
+    "event_count": 28,
+    "event_flow_name": "AI_NPC_Mnc_WherearenGarden",
+    "events": [
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 0,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "EntryName": "Gate",
+          "FlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cLeaveWherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_MncTalkReserve_Garden"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "EntryName": "VisitTalk",
+          "FlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "UnderShooting",
+          "TalkEventFlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cWherearenPlayer:IsMncChangeStageForPhotoMode"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CameraDemoSkip"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 7,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "EntryName": "OrderDone",
+          "FlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event11",
+        "next": 7,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CameraDemoSkip"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CameraDemoReserve"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          }
+        ],
+        "index": 12,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryIsCheckLeaveGarden",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event6",
+        "next": 27,
+        "params": {
+          "Key": "UnlockDust",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RequestCheck",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event20",
+        "next": 15,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_CameraDemoReserve"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NewBuildCount",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event24",
+        "next": 12,
+        "params": {
+          "Key": "ReqVisible",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          }
+        ],
+        "index": 19,
+        "name": "Event25",
+        "params": {
+          "Border": 1,
+          "Key": "ReqVisible"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event26",
+        "next": 21,
+        "params": {
+          "Key": "ReqVisible",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event28",
+        "next": 20,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "UnderShooting",
+          "TalkEventFlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event29",
+        "next": 14,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event30",
+        "params": {
+          "Border": 2,
+          "Key": "ReqVisible"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event31",
+        "next": 20,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "UnderShooting",
+          "TalkEventFlowName": "SNPC_mnc_02_WherearenGarden"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event33",
+        "next": 3,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event32",
+        "next": 18,
+        "params": {
+          "Key": "AddDust",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Mnc_WherearenGarden",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "93815673a3fffc3c6ae6cf442ace39273add2c8e22fb425597de7fbeac6d3429",
+  "size": 8832,
+  "status": "converted"
+}

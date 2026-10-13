@@ -1,0 +1,115 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcRegistAIBlackBoard"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 2,
+        "name": "Init"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "AI_NPC_Rco_PublicAnnouncement",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "Border": 1,
+          "Key": "Speak"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event6",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "Key": "Speak",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 4,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "Demo_PublicAnnouncement"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Rco_PublicAnnouncement",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "b5be5cdfa0fd1b9447e758fb90971cec790368ad27342e34b804aa893701f4ec",
+  "size": 2304,
+  "status": "converted"
+}

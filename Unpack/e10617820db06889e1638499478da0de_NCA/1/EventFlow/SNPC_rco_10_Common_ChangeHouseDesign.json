@@ -1,0 +1,514 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionUICustomHomeHandling",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionUIMoneyAppear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQueryPlayerHouseLevel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 34,
+        "name": "Root"
+      },
+      {
+        "main_event": 33,
+        "name": "v200_AddChangeHouseFormNotice"
+      }
+    ],
+    "event_count": 36,
+    "event_flow_name": "SNPC_rco_10_Common_ChangeHouseDesign",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "Money": 5000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUICustomHomeHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "SelectType": "cParts"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event7",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event9",
+        "next": 21,
+        "params": {
+          "Money": -5000,
+          "Reverse": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event12",
+        "next": 12,
+        "params": {
+          "AccessKey": "cPlayer:RcoChangeHouseDesignReserved"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event13",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:PcHousingLoanFinish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event14",
+        "next": 26,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event16",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:004_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event18",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:004_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event19",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:004_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event2",
+        "next": 13,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cPlayer:PcHousingLoanFinish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cPlayer:PcHousingLoanFinish"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event21",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:008_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event22",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:008_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event23",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:009_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event24",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:009_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event8",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event10",
+        "next": 20,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Office_CmnSelAgain",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 25,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 2
+          }
+        ],
+        "index": 26,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event28",
+        "next": 30,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Office_CmnSelAgain",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 29,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 2
+          }
+        ],
+        "index": 30,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:CompleteNoticeChangeHouseForm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cPlayer:CompleteNoticeChangeHouseForm"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 7
+          },
+          {
+            "target": 32,
+            "value": 8
+          }
+        ],
+        "index": 33,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "v200_AddChangeHouseFormNotice",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event36",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event37",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1401"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_10_Common_ChangeHouseDesign",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "fd4c9e608ee9e86a5ec97545be81fb0f649f10802a6719cb8e594605262b3114",
+  "size": 6600,
+  "status": "converted"
+}

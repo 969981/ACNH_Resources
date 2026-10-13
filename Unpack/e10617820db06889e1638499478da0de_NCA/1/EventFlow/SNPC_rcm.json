@@ -1,0 +1,1077 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionSetExpensiveReguretion"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQuerySubflowResultChoice6",
+          "EventFlowQueryNetIsDreaming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcAITalkSubCastEntry",
+          "EventFlowActionSetTwinsTag"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcLabel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 68,
+        "name": "Root"
+      },
+      {
+        "main_event": 69,
+        "name": "Check"
+      },
+      {
+        "main_event": 9,
+        "name": "Rcm_SeqClose"
+      },
+      {
+        "main_event": 22,
+        "name": "ForceRenualOpen_Init"
+      },
+      {
+        "main_event": 17,
+        "name": "ForceRenualOpen"
+      },
+      {
+        "main_event": 8,
+        "name": "Not1stPlayer_ShopRequest"
+      },
+      {
+        "main_event": 40,
+        "name": "Root_Init"
+      },
+      {
+        "main_event": 41,
+        "name": "Check_Init"
+      },
+      {
+        "main_event": 43,
+        "name": "EntrySubCast"
+      },
+      {
+        "main_event": 66,
+        "name": "Check_ShopEnable"
+      },
+      {
+        "main_event": 10,
+        "name": "ShopRequest_PlayerMoving"
+      },
+      {
+        "main_event": 74,
+        "name": "Regulation"
+      }
+    ],
+    "event_count": 77,
+    "event_flow_name": "SNPC_rcm",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": 3,
+        "params": {
+          "AccessKey": "cPlayer:RcmTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event21",
+        "next": 24,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmViaItemCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event23",
+        "next": 26,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmViaItemCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayer:RcmTalked1stAfterPrologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          },
+          {
+            "target": 19,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_01_Tent_0_1stShopping",
+        "index": 6,
+        "name": "Event2",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_01_Tent_1_Entries",
+        "index": 7,
+        "name": "Event49",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 8,
+        "name": "Event3",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event7",
+        "next": 20,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:RcmTookQuestReq"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Request",
+        "flowchart": "SNPC_rcm_01_Tent_1_Entries",
+        "index": 11,
+        "name": "Event9",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cPlayer:Prologue4RcmBuiltShop"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ReportTent",
+        "flowchart": "SNPC_rcm_01_Tent_1_Entries",
+        "index": 13,
+        "name": "Event22",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 14,
+        "name": "Event25",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen1",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 15,
+        "name": "Event33",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 16,
+        "name": "Event37",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen1_ConvHgh",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 17,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 19,
+        "name": "Event41",
+        "next": 29,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event44",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          },
+          {
+            "target": 34,
+            "value": 2
+          },
+          {
+            "target": 34,
+            "value": 3
+          },
+          {
+            "target": 34,
+            "value": 4
+          },
+          {
+            "target": 34,
+            "value": 5
+          },
+          {
+            "target": 34,
+            "value": 6
+          },
+          {
+            "target": 34,
+            "value": 7
+          },
+          {
+            "target": 34,
+            "value": 8
+          }
+        ],
+        "index": 21,
+        "name": "Event47",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkSubCastEntry",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event51",
+        "next": 23,
+        "params": {
+          "CastID": 1,
+          "FindLabel": "hgh"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkSubCastEntry",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "CastID": 2,
+          "FindLabel": "rct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common_ItemCheck",
+        "index": 25,
+        "name": "Event58",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event8",
+        "next": 27,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmShopshelfCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event17",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmBoughtGrocery"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rcm_SeqClose",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_SeqClose",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event61",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterialComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cPlayer:Prologue4RcmGetTent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 32,
+        "name": "Event11",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:TwinTurnipExplanation"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Not1stPlayer_ShopRequest",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkSubCastEntry",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "CastID": 1,
+          "FindLabel": "rct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkSubCastEntry",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "CastID": 1,
+          "FindLabel": "rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event24",
+        "params": {
+          "NpcLabel": "rcm"
+        },
+        "query": "EventFlowQueryNpcLabel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event29",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EntrySubCast",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EntrySubCast",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          }
+        ],
+        "index": 42,
+        "name": "Event27",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          }
+        ],
+        "index": 43,
+        "name": "Event26",
+        "params": {
+          "CheckStage": "cMametubu"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Chk_RenualOpen_Talk",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 44,
+        "name": "Event28",
+        "next": 47,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 45,
+        "name": "Event30",
+        "next": 46,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_SeqClose",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          },
+          {
+            "target": 48,
+            "value": 2
+          },
+          {
+            "target": 51,
+            "value": 3
+          },
+          {
+            "target": 49,
+            "value": 4
+          },
+          {
+            "target": 64,
+            "value": 5
+          }
+        ],
+        "index": 47,
+        "name": "Event36",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rcm_Market1_First",
+        "flowchart": "SNPC_rcm_00_In",
+        "index": 48,
+        "name": "Event42",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_Market2_First",
+        "flowchart": "SNPC_rcm_00_In",
+        "index": 49,
+        "name": "Event43",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen1",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 50,
+        "name": "Event45",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen2",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 51,
+        "name": "Event48",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_SeqClose",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event50",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetTwinsTag",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event53",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTwinsTag",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event59",
+        "next": 2,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rcm_SeqClose",
+        "flowchart": "",
+        "index": 55,
+        "name": "Event60",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen2",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 56,
+        "name": "Event63",
+        "next": 62,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_RenualOpen1",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 57,
+        "name": "Event64",
+        "next": 62,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_Market2_First",
+        "flowchart": "SNPC_rcm_00_In",
+        "index": 58,
+        "name": "Event65",
+        "next": 62,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_Market1_First",
+        "flowchart": "SNPC_rcm_00_In",
+        "index": 59,
+        "name": "Event66",
+        "next": 62,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 59,
+            "value": 2
+          },
+          {
+            "target": 56,
+            "value": 3
+          },
+          {
+            "target": 58,
+            "value": 4
+          },
+          {
+            "target": 65,
+            "value": 5
+          }
+        ],
+        "index": 60,
+        "name": "Event67",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Chk_RenualOpen_Talk",
+        "flowchart": "SNPC_rcm_03_RenualOpen",
+        "index": 61,
+        "name": "Event68",
+        "next": 60,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common_ItemCheck",
+        "index": 62,
+        "name": "Event69",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_00_Common_ItemCheck",
+        "index": 63,
+        "name": "Event5",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_BeforeRenualFor2",
+        "flowchart": "SNPC_rcm_02_BeforeRenual",
+        "index": 64,
+        "name": "Event39",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_BeforeRenualFor2",
+        "flowchart": "SNPC_rcm_02_BeforeRenual",
+        "index": 65,
+        "name": "Event54",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          }
+        ],
+        "index": 66,
+        "name": "Event57",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Check_ShopEnable",
+        "flowchart": "",
+        "index": 68,
+        "name": "Event70",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Check_ShopEnable",
+        "flowchart": "",
+        "index": 69,
+        "name": "Event71",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cLand:IslandProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 72,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cLand:PlayerMovingEnableShopMaterialCollect"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Not1stPlayer_ShopRequest",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event75",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ShopRequest_PlayerMoving",
+        "flowchart": "",
+        "index": 73,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetExpensiveReguretion",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Regulation",
+        "flowchart": "",
+        "index": 75,
+        "name": "Event80",
+        "next": 53,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Regulation",
+        "flowchart": "",
+        "index": 76,
+        "name": "Event81",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rcm",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "557149233b4a16bd5d200b2f512ae5ad44d06ba3daec031e81ff2fbe78b1e3c5",
+  "size": 10040,
+  "status": "converted"
+}

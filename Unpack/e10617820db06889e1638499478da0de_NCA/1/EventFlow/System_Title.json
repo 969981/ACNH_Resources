@@ -1,0 +1,457 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUITitleHandling",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionSetNpcAIBlackBoardByLabel",
+          "EventFlowActionNoticeGameStartForPlayReport",
+          "EventFlowActionWaitFaderSleep",
+          "EventFlowActionFadeOut",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSoundDuckingOn",
+          "EventFlowActionUIVersionGuideAppear",
+          "EventFlowActionUIVersionGuideDisappear",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionRequestRecreateFtr",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryPlayAccountIsPlayerVillager",
+          "EventFlowQueryUITitleResult",
+          "EventFlowQueryPassDaysSincePreviousGrowUp"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 18,
+        "name": "Root"
+      }
+    ],
+    "event_count": 29,
+    "event_flow_name": "System_Title",
+    "events": [
+      {
+        "entrypoint": "SetupSoloController",
+        "flowchart": "System_Controller",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUITitleHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 19,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayer:TownNewsReserve"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 0.800000011920929,
+          "TargetStage": "cGrowUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryPlayAccountIsPlayerVillager",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.800000011920929,
+          "TargetStage": "cDateCheck"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryPlayAccountIsPlayerVillager",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcAIBlackBoardByLabel",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "Key": "Speak",
+          "NpcLabel": "rco",
+          "Option": 1,
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.800000011920929,
+          "TargetStage": "cGrowUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNoticeGameStartForPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFaderSleep",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event12",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryPlayAccountIsPlayerVillager",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cLand:BuiltTownOfficeToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionFadeOut",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event14",
+        "next": 7,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.800000011920929,
+          "IsUseDucking": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 0.800000011920929,
+          "TargetStage": "cGrowUp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event17",
+        "next": 9,
+        "params": {
+          "Id": 32
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event18",
+        "next": 14,
+        "params": {
+          "Id": 32
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event21",
+        "next": 24,
+        "params": {
+          "InType": "cBackOfFader",
+          "Mount": "cOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIVersionGuideDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event22",
+        "next": 20,
+        "params": {
+          "OutType": "cBackOfFader"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          }
+        ],
+        "index": 20,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryUITitleResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cNormalFader",
+          "FadeInSpeed": 0.800000011920929,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.800000011920929,
+          "TargetStage": "cCharacterOrder"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event24",
+        "next": 12,
+        "params": {
+          "AccessKey": "cLandTemp:EntryGame"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event25",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestRecreateFtr",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event26",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event27",
+        "next": 21,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event28",
+        "next": 22,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event30",
+        "next": 23,
+        "params": {
+          "WaitFrame": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryPassDaysSincePreviousGrowUp",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "System_Title",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9057a281a1a8f487a6b9b45991b53954e4a442406b46bc5530f1f567eefee108",
+  "size": 7024,
+  "status": "converted"
+}

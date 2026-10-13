@@ -1,0 +1,709 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryNpcGeneralTalkChoice",
+          "EventFlowQueryFacilityOpenPastDays",
+          "EventFlowQueryMuseumRoomDonateRate"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcOpenFacilityMessage",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcSetTalkManualChoice"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 25,
+        "name": "Root"
+      },
+      {
+        "main_event": 19,
+        "name": "Spot_Museum"
+      },
+      {
+        "main_event": 4,
+        "name": "Museum_Fish"
+      },
+      {
+        "main_event": 9,
+        "name": "Museum_Insect"
+      },
+      {
+        "main_event": 14,
+        "name": "Museum_Fossil"
+      },
+      {
+        "main_event": 37,
+        "name": "Museum_Art"
+      }
+    ],
+    "event_count": 46,
+    "event_flow_name": "NNPC_Spot_Museum",
+    "events": [
+      {
+        "entrypoint": "Spot_Museum",
+        "flowchart": "",
+        "index": 0,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Talk_Greet_Spot",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End_Root",
+        "flowchart": "NNPC_Talk_General",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 34,
+            "value": 2
+          },
+          {
+            "target": 32,
+            "value": 3
+          },
+          {
+            "target": 33,
+            "value": 4
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNpcGeneralTalkChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event10",
+        "params": {
+          "CountFacilityType": "cMuseum",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFacilityMessage",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Fish:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Fish:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event21",
+        "params": {
+          "CountFacilityType": "cMuseum",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFacilityMessage",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Insect:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Insect:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event28",
+        "params": {
+          "CountFacilityType": "cMuseum",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFacilityMessage",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Fossil:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Fossil:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event32",
+        "params": {
+          "CheckStage": "cMuseumFish"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event33",
+        "params": {
+          "CheckStage": "cMuseumInsect"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event34",
+        "params": {
+          "CheckStage": "cMuseumFossil"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Museum_Fish",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Museum_Insect",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Museum_Fossil",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event0",
+        "next": 31,
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Greet_Again1",
+        "flowchart": "NNPC_Talk_Greet",
+        "index": 27,
+        "name": "Event14",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GreetV_Again1",
+        "flowchart": "NNPC_Talk_GreetV",
+        "index": 28,
+        "name": "Event15",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Situation_Spot",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 30,
+        "name": "Event27",
+        "next": 26,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Conceal_MuseumBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 31,
+        "name": "Event5",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Select_Present",
+        "index": 32,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Give_Capcake",
+        "flowchart": "NNPC_GEvent_BirthdayP",
+        "index": 33,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Quest_ConfirmGive",
+        "flowchart": "NNPC_Talk_General",
+        "index": 34,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetTalkManualChoice",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event1",
+        "next": 29,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          }
+        ],
+        "index": 36,
+        "name": "Event19",
+        "params": {
+          "CheckStage": "cMuseumArt"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event39",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event40",
+        "params": {
+          "CountFacilityType": "cMuseum2",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFacilityMessage",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Art:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Museum_Art:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Museum_Art",
+        "flowchart": "",
+        "index": 42,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event45",
+        "params": {
+          "Rate": 30
+        },
+        "query": "EventFlowQueryMuseumRoomDonateRate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event46",
+        "params": {
+          "Rate": 30
+        },
+        "query": "EventFlowQueryMuseumRoomDonateRate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event47",
+        "params": {
+          "Rate": 30
+        },
+        "query": "EventFlowQueryMuseumRoomDonateRate",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Spot_Museum",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "2c024669f7fe586822a6eccb97e37b694bb3ffa762c2307d8b6f0a71e7d65470",
+  "size": 7648,
+  "status": "converted"
+}

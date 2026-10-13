@@ -1,0 +1,142 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionSetIsStartHoteActivity",
+          "EventFlowActionServiceMotionControl",
+          "EventFlowActionNpcChangeHeadCtrlMode"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsSleepHotelNpcInHotelRoom"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 4,
+        "name": "ExitStrc"
+      },
+      {
+        "main_event": 5,
+        "name": "Init"
+      }
+    ],
+    "event_count": 7,
+    "event_flow_name": "AI_NPC_HotelIndoor",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 3,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cHotelStandSleep",
+          "SubEntryName": "",
+          "TalkEntryPointName": "StandSleep_HotelGuestRoom",
+          "TalkEventFlowName": "NNPC_HotelGuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetIsStartHoteActivity",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "UpdateRequest": "cOn"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsSleepHotelNpcInHotelRoom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cExitReaction",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 2,
+        "params": {
+          "HeadCtrlMode": "cNormal",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_HotelIndoor",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "8809541c281adf7716e9300ba8cc4e5fa759ebec1a12b9e1bf6578a3dca9d25f",
+  "size": 2752,
+  "status": "converted"
+}

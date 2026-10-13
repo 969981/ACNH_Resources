@@ -1,0 +1,2735 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionDeleteTargetItem",
+          "EventFlowActionSetItemToPocket",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSetMemoryEventPlayer"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryHasTargetItem",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQueryCheckChristmasSantaPresentsProgress",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQueryIsExistSantaPresentNpcSleeping",
+          "EventFlowQueryEnvTimeZone",
+          "EventFlowQueryEnvHourCompare"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcSetRewardRecipe",
+          "EventFlowActionNpcDecideSantaMission",
+          "EventFlowActionWrapDeliveryItem"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerEquipPresentBag",
+          "EventFlowActionPlayerUnequipPresentBag"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 2,
+        "name": "Root"
+      },
+      {
+        "main_event": 122,
+        "name": "AnnaijoTent"
+      },
+      {
+        "main_event": 16,
+        "name": "AnnaijoBuilt"
+      },
+      {
+        "main_event": 140,
+        "name": "ReturnBigbag"
+      }
+    ],
+    "event_count": 172,
+    "event_flow_name": "SNPC_rei",
+    "events": [
+      {
+        "entrypoint": "AnnaijoTent",
+        "flowchart": "",
+        "index": 0,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AnnaijoBuilt",
+        "flowchart": "",
+        "index": 1,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event39",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 169,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event38",
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event2",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 167,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:080"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event42",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event9",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event47",
+        "next": 14,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event46",
+        "next": 101,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cRemakePattern0",
+          "ItemUniqueID": 13248,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event5",
+        "next": 86,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 168,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event49",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:080"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 126,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:ReiStartQuest2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 162,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 170,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cPlayer:ReiStartQuest1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event51",
+        "next": 28,
+        "params": {
+          "AccessKey": "cPlayer:ReiStartQuest1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event52",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event53",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:021_1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event54",
+        "next": 26,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event55",
+        "next": 22,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event56",
+        "next": 25,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 13792
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event57",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event58",
+        "params": {
+          "AccessKey": "cPlayer:ReiFinishQuest1"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event59",
+        "params": {
+          "ItemUniqueId": 13792,
+          "NeedNum": 3
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event60",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event18",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event61",
+        "next": 38,
+        "params": {
+          "Command": 0,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event62",
+        "next": 36,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 13792,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDeleteTargetItem",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event64",
+        "next": 41,
+        "params": {
+          "DeleteNum": 3,
+          "IsPriorityFewItems": true,
+          "ItemUniqueId": 13792
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event65",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event66",
+        "next": 42,
+        "params": {
+          "AccessKey": "cPlayer:ReiFinishQuest1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event25",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event37",
+        "next": 88,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event35",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event28",
+        "next": 96,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rei/SP_rei:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event36",
+        "next": 43,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event67",
+        "next": 48,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cRemakePattern0",
+          "ItemUniqueID": 13248,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event68",
+        "next": 91,
+        "params": {
+          "AccessKey": "cPlayer:ReiStartQuest2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event27",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 53,
+        "name": "Event29",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event72",
+        "next": 55,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event73",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event74",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event75",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event19",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event17",
+        "next": 165,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event76",
+        "next": 61,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event77",
+        "next": 59,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event78",
+        "next": 60,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 13244
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 166,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event79",
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward2"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event80",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:067"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event81",
+        "next": 143,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:073"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event82",
+        "next": 133,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event83",
+        "next": 68,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event84",
+        "next": 66,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event85",
+        "next": 67,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 13244
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event20",
+        "next": 142,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event22",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:071"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event43",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:074"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event89",
+        "next": 76,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event90",
+        "next": 171,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event91",
+        "next": 74,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 13241,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event92",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 77,
+        "name": "Event31",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 81,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event93",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 65,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event94",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event95",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:021_2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event96",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event97",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:077"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event98",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event99",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:066"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          },
+          {
+            "target": 87,
+            "value": 2
+          },
+          {
+            "target": 87,
+            "value": 3
+          },
+          {
+            "target": 87,
+            "value": 4
+          },
+          {
+            "target": 87,
+            "value": 5
+          },
+          {
+            "target": 87,
+            "value": 6
+          },
+          {
+            "target": 87,
+            "value": 7
+          },
+          {
+            "target": 87,
+            "value": 8
+          }
+        ],
+        "index": 86,
+        "name": "Event100",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event101",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 161,
+            "value": 0
+          },
+          {
+            "target": 161,
+            "value": 1
+          },
+          {
+            "target": 89,
+            "value": 2
+          },
+          {
+            "target": 89,
+            "value": 3
+          },
+          {
+            "target": 89,
+            "value": 4
+          },
+          {
+            "target": 89,
+            "value": 5
+          },
+          {
+            "target": 89,
+            "value": 6
+          },
+          {
+            "target": 89,
+            "value": 7
+          },
+          {
+            "target": 89,
+            "value": 8
+          }
+        ],
+        "index": 88,
+        "name": "Event102",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event103",
+        "next": 161,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event14",
+        "params": {
+          "CheckEnableTrade": false,
+          "ChristmasPresentProgress": 1
+        },
+        "query": "EventFlowQueryCheckChristmasSantaPresentsProgress",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDecideSantaMission",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event16",
+        "next": 51,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 1,
+            "value": 2
+          }
+        ],
+        "index": 92,
+        "name": "Event105",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerEquipPresentBag",
+        "actor": "Player",
+        "index": 93,
+        "name": "Event3",
+        "next": 95,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event106",
+        "next": 93,
+        "params": {
+          "ItemUniqueId": 13836,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event107",
+        "next": 50,
+        "params": {
+          "WaitFrame": 40
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 96,
+        "name": "Event111",
+        "next": 94,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          },
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event69",
+        "next": 23,
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event70",
+        "next": 98,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event86",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWrapDeliveryItem",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event1",
+        "next": 12,
+        "params": {
+          "WrappingType": "cPresentBox"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 102,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event44",
+        "next": 105,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event109",
+        "next": 102,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 105,
+        "name": "Event110",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event112",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event113",
+        "next": 108,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 108,
+        "name": "Event114",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event115",
+        "next": 144,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 110,
+        "name": "Event116",
+        "next": 111,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 111,
+        "name": "Event117",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event118",
+        "next": 145,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 125,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 113,
+        "name": "Event119",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 114,
+        "name": "Event120",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 159,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 115,
+        "name": "Event121",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 160,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event122",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 157,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 117,
+        "name": "Event123",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 118,
+        "name": "Event124",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 119,
+        "name": "Event125",
+        "next": 118,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 120,
+        "name": "Event126",
+        "next": 10,
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 121,
+        "name": "Event127",
+        "next": 120,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 122,
+        "name": "Event128",
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 164,
+            "value": 0
+          },
+          {
+            "target": 163,
+            "value": 1
+          }
+        ],
+        "index": 123,
+        "name": "Event138",
+        "params": {
+          "CheckEnableTrade": false,
+          "ChristmasPresentProgress": 0
+        },
+        "query": "EventFlowQueryCheckChristmasSantaPresentsProgress",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          },
+          {
+            "target": 45,
+            "value": 2
+          },
+          {
+            "target": 45,
+            "value": 3
+          },
+          {
+            "target": 45,
+            "value": 4
+          },
+          {
+            "target": 104,
+            "value": 5
+          }
+        ],
+        "index": 124,
+        "name": "Event139",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          },
+          {
+            "target": 53,
+            "value": 2
+          },
+          {
+            "target": 53,
+            "value": 3
+          },
+          {
+            "target": 53,
+            "value": 4
+          },
+          {
+            "target": 119,
+            "value": 5
+          }
+        ],
+        "index": 125,
+        "name": "Event140",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event141",
+        "params": {
+          "CheckEnableTrade": false,
+          "ChristmasPresentProgress": 2
+        },
+        "query": "EventFlowQueryCheckChristmasSantaPresentsProgress",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 127,
+        "name": "Event142",
+        "next": 129,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:057_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 128,
+        "name": "Event143",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:057_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 132,
+            "value": 1
+          }
+        ],
+        "index": 129,
+        "name": "Event144",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 131,
+            "value": 1
+          }
+        ],
+        "index": 130,
+        "name": "Event145",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event146",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 132,
+        "name": "Event147",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event154",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:076"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event187",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:067_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 135,
+        "name": "Event188",
+        "next": 136,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event189",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiGetReward3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event190",
+        "next": 146,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 158,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          }
+        ],
+        "index": 138,
+        "name": "Event191",
+        "params": {},
+        "query": "EventFlowQueryIsExistSantaPresentNpcSleeping",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDeleteTargetItem",
+        "actor": "EventFlowSystemActor",
+        "index": 139,
+        "name": "Event203",
+        "next": null,
+        "params": {
+          "DeleteNum": 1,
+          "IsPriorityFewItems": false,
+          "ItemUniqueId": 13836
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 140,
+        "name": "Event204",
+        "next": 141,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rei/SP_rei:070"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerUnequipPresentBag",
+        "actor": "Player",
+        "index": 141,
+        "name": "Event205",
+        "next": 139,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 142,
+        "name": "Event206",
+        "next": 71,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 143,
+        "name": "Event207",
+        "next": 72,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 144,
+        "name": "Event88",
+        "next": 107,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 145,
+        "name": "Event108",
+        "next": 110,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 146,
+        "name": "Event129",
+        "next": 135,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReturnBigbag",
+        "flowchart": "",
+        "index": 147,
+        "name": "Event130",
+        "next": 103,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 148,
+        "name": "Event137",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 149,
+        "name": "Event152",
+        "next": 144,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 150,
+        "name": "Event155",
+        "next": 145,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event157",
+        "next": 146,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 152,
+        "name": "Event177",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:068_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 153,
+        "name": "Event179",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 154,
+        "name": "Event192",
+        "next": 155,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event193",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ReiTalkFirst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 156,
+        "name": "Event201",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rei/SP_rei:081"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 57,
+            "value": 2
+          },
+          {
+            "target": 57,
+            "value": 3
+          },
+          {
+            "target": 57,
+            "value": 4
+          },
+          {
+            "target": 106,
+            "value": 5
+          }
+        ],
+        "index": 157,
+        "name": "Event202",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          },
+          {
+            "target": 134,
+            "value": 2
+          },
+          {
+            "target": 134,
+            "value": 3
+          },
+          {
+            "target": 134,
+            "value": 4
+          },
+          {
+            "target": 137,
+            "value": 5
+          }
+        ],
+        "index": 158,
+        "name": "Event209",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          },
+          {
+            "target": 85,
+            "value": 2
+          },
+          {
+            "target": 85,
+            "value": 3
+          },
+          {
+            "target": 85,
+            "value": 4
+          },
+          {
+            "target": 112,
+            "value": 5
+          }
+        ],
+        "index": 159,
+        "name": "Event210",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          },
+          {
+            "target": 64,
+            "value": 2
+          },
+          {
+            "target": 64,
+            "value": 3
+          },
+          {
+            "target": 64,
+            "value": 4
+          },
+          {
+            "target": 109,
+            "value": 5
+          }
+        ],
+        "index": 160,
+        "name": "Event211",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 0
+          },
+          {
+            "target": 114,
+            "value": 1
+          },
+          {
+            "target": 104,
+            "value": 2
+          }
+        ],
+        "index": 161,
+        "name": "Event212",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          },
+          {
+            "target": 119,
+            "value": 2
+          }
+        ],
+        "index": 162,
+        "name": "Event134",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 117,
+            "value": 0
+          },
+          {
+            "target": 117,
+            "value": 1
+          },
+          {
+            "target": 152,
+            "value": 2
+          }
+        ],
+        "index": 163,
+        "name": "Event135",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 138,
+            "value": 0
+          },
+          {
+            "target": 138,
+            "value": 1
+          },
+          {
+            "target": 151,
+            "value": 2
+          }
+        ],
+        "index": 164,
+        "name": "Event156",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 115,
+            "value": 1
+          },
+          {
+            "target": 150,
+            "value": 2
+          }
+        ],
+        "index": 165,
+        "name": "Event153",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 116,
+            "value": 1
+          },
+          {
+            "target": 149,
+            "value": 2
+          }
+        ],
+        "index": 166,
+        "name": "Event151",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 156,
+            "value": 1
+          },
+          {
+            "target": 156,
+            "value": 2
+          }
+        ],
+        "index": 167,
+        "name": "Event176",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 0
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 148,
+            "value": 2
+          }
+        ],
+        "index": 168,
+        "name": "Event136",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 0
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 153,
+            "value": 1
+          },
+          {
+            "target": 153,
+            "value": 2
+          }
+        ],
+        "index": 169,
+        "name": "Event178",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 0
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          },
+          {
+            "target": 154,
+            "value": 2
+          }
+        ],
+        "index": 170,
+        "name": "Event194",
+        "params": {
+          "Hour": 4,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 59
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetMemoryEventPlayer",
+        "actor": "EventFlowSystemActor",
+        "index": 171,
+        "name": "Event10",
+        "next": 73,
+        "params": {
+          "AccessKey": "cBlancoEventPlayer:PE_ChristmasEvent_GetSled"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rei",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "1a492756a5e19be4c1ac62b928f27052c71dae7e97501a49fc3be98788db570c",
+  "size": 35560,
+  "status": "converted"
+}

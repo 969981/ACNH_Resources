@@ -1,0 +1,96 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetCheckResultStructureDoor"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsDreaming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 4,
+    "event_flow_name": "System_Door_CampSite",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Door:115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "CheckResult": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_Door_CampSite",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e0a1e167a6ceee8071d08efba26259ea912baf15a0848ce627c4c97945043bd6",
+  "size": 1328,
+  "status": "converted"
+}

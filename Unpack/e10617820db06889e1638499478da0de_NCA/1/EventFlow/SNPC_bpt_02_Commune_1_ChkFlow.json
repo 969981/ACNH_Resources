@@ -1,0 +1,198 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryHasBellCount"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Bpt_Chk_FinishFortunes"
+      },
+      {
+        "main_event": 4,
+        "name": "Bpt_Chk_Have1000Bell"
+      }
+    ],
+    "event_count": 11,
+    "event_flow_name": "SNPC_bpt_02_Commune_1_ChkFlow",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cPlayer:Bpt_FinishFortune_Today"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayer:Bpt_FinishCompatibilityToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/bpt/SP_bpt_02_Commune:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "Money": 1000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/bpt/SP_bpt_02_Commune:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cPlayer:Bpt_FinishCompatibilityToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_bpt_02_Commune_1_ChkFlow",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a06d3d579d62d6aa6deabc33fe8483416c9eb03911989fdb7f7fee2f8dda8c73",
+  "size": 2768,
+  "status": "converted"
+}

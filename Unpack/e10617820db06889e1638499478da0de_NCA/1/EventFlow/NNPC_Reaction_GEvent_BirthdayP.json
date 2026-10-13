@@ -1,0 +1,246 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetPlayerName"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetBirthdayPToldlPartySharePlayFlag"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryMainPlayerIsBirthday",
+          "EventFlowQueryIsHoldPlayerBirthdayThisYear",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsExistBirthdayPlayerInSub",
+          "EventFlowQueryCanScheduleNowPlayerBirthdayParty"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 15,
+    "event_flow_name": "NNPC_Reaction_GEvent_BirthdayP",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {
+          "BirthdayCheckTimeType": "cGrowUpTime",
+          "IsCheckNpcReservePlayerBirthday": false
+        },
+        "query": "EventFlowQueryMainPlayerIsBirthday",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryIsHoldPlayerBirthdayThisYear",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event10",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_BirthdayP:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event11",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_BirthdayP:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event5",
+        "next": 12,
+        "params": {
+          "AccessKey": "cPlayer:BirthdayPToldlPartySharePlay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cPlayer:BirthdayPToldlPartySharePlay"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryIsExistBirthdayPlayerInSub",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetPlayerName",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event2",
+        "next": 6,
+        "params": {
+          "PlayerNameType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetBirthdayPToldlPartySharePlayFlag",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event1",
+        "next": 13,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Facility_Chk",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 12,
+        "name": "Event7",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Facility_Chk",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 13,
+        "name": "Event13",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 14,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryCanScheduleNowPlayerBirthdayParty",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_GEvent_BirthdayP",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0a70fada840f8af648708e1fd45ee410150f893b275a8d575e75c101b01844f5",
+  "size": 3128,
+  "status": "converted"
+}

@@ -1,0 +1,4552 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryHasTargetItem",
+          "EventFlowQuerySubflowResultChoice4",
+          "EventFlowQuerySubflowResultChoice3",
+          "EventFlowQuerySubflowResultChoice6",
+          "EventFlowQuerySubflowResultChoice5"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 38,
+        "name": "Root"
+      },
+      {
+        "main_event": 2,
+        "name": "TalkCollectingProgress"
+      },
+      {
+        "main_event": 44,
+        "name": "DonateMaterials_Remain4"
+      },
+      {
+        "main_event": 62,
+        "name": "DonateMaterials_Remain3"
+      },
+      {
+        "main_event": 168,
+        "name": "DonateMaterials_Remain2"
+      },
+      {
+        "main_event": 22,
+        "name": "DonateMaterials_Remain1"
+      },
+      {
+        "main_event": 261,
+        "name": "GotReward"
+      },
+      {
+        "main_event": 45,
+        "name": "Choice_Give1Material"
+      },
+      {
+        "main_event": 82,
+        "name": "Choice_Give2Materials"
+      },
+      {
+        "main_event": 117,
+        "name": "CantGive"
+      },
+      {
+        "main_event": 145,
+        "name": "Remain3Give3"
+      },
+      {
+        "main_event": 202,
+        "name": "Remain2Give2"
+      },
+      {
+        "main_event": 286,
+        "name": "Remain3Give3HaveAll"
+      }
+    ],
+    "event_count": 305,
+    "event_flow_name": "SNPC_rcm_21_MaterialCollecting",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          },
+          {
+            "target": 8,
+            "value": 2
+          }
+        ],
+        "index": 1,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event36",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event38",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          },
+          {
+            "target": 6,
+            "value": 3
+          }
+        ],
+        "index": 5,
+        "name": "Event47",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event48",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event49",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "TalkCollectingProgress",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 9,
+        "name": "Event40",
+        "next": 73,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          },
+          {
+            "target": 13,
+            "value": 2
+          },
+          {
+            "target": 14,
+            "value": 3
+          }
+        ],
+        "index": 10,
+        "name": "Event41",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_04_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_04_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_04_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_04_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 19,
+            "value": 3
+          },
+          {
+            "target": 20,
+            "value": 4
+          },
+          {
+            "target": 21,
+            "value": 5
+          }
+        ],
+        "index": 15,
+        "name": "Event51",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event54",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event56",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event57",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_03_06"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          },
+          {
+            "target": 26,
+            "value": 2
+          },
+          {
+            "target": 25,
+            "value": 3
+          }
+        ],
+        "index": 22,
+        "name": "Event64",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 277,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event65",
+        "params": {
+          "ItemUniqueId": 2768,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 278,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event66",
+        "params": {
+          "ItemUniqueId": 2769,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 280,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event67",
+        "params": {
+          "ItemUniqueId": 2511,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 279,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event68",
+        "params": {
+          "ItemUniqueId": 2767,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event69",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event70",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:052_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event73",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:052_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event74",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event75",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event76",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event77",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event78",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event79",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event80",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event81",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:053_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event95",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          },
+          {
+            "target": 43,
+            "value": 3
+          }
+        ],
+        "index": 39,
+        "name": "Event63",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "DonateMaterials_Remain4",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event96",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateMaterials_Remain3",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateMaterials_Remain2",
+        "flowchart": "",
+        "index": 42,
+        "name": "Event98",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DonateMaterials_Remain1",
+        "flowchart": "",
+        "index": 43,
+        "name": "Event99",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 118,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          },
+          {
+            "target": 82,
+            "value": 2
+          },
+          {
+            "target": 85,
+            "value": 3
+          },
+          {
+            "target": 56,
+            "value": 4
+          }
+        ],
+        "index": 44,
+        "name": "Event113",
+        "params": {
+          "SetIndex": 10
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          },
+          {
+            "target": 48,
+            "value": 2
+          },
+          {
+            "target": 49,
+            "value": 3
+          }
+        ],
+        "index": 45,
+        "name": "Event122",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event123",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:081_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event124",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:081_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event125",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:081_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event126",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:081_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 50,
+        "name": "Event127",
+        "next": 260,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event71",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:052_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event72",
+        "next": 50,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:052_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 53,
+        "name": "Event141",
+        "next": 97,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event153",
+        "next": 55,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 55,
+        "name": "Event155",
+        "next": 104,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event152",
+        "next": 54,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          },
+          {
+            "target": 60,
+            "value": 2
+          },
+          {
+            "target": 61,
+            "value": 3
+          }
+        ],
+        "index": 57,
+        "name": "Event58",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_02_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event60",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_02_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_02_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event62",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:103_02_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          },
+          {
+            "target": 65,
+            "value": 2
+          },
+          {
+            "target": 66,
+            "value": 3
+          }
+        ],
+        "index": 62,
+        "name": "Event175",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event176",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:071_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event177",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:071_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event178",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:071_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event179",
+        "next": 67,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:071_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 115,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          },
+          {
+            "target": 112,
+            "value": 2
+          },
+          {
+            "target": 140,
+            "value": 3
+          },
+          {
+            "target": 282,
+            "value": 4
+          }
+        ],
+        "index": 67,
+        "name": "Event180",
+        "params": {
+          "SetIndex": 10
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          },
+          {
+            "target": 72,
+            "value": 2
+          },
+          {
+            "target": 71,
+            "value": 3
+          }
+        ],
+        "index": 68,
+        "name": "Event187",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event185",
+        "params": {
+          "ItemUniqueId": 2768,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event188",
+        "params": {
+          "ItemUniqueId": 2769,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event189",
+        "params": {
+          "ItemUniqueId": 2511,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 116,
+            "value": 0
+          },
+          {
+            "target": 111,
+            "value": 1
+          }
+        ],
+        "index": 72,
+        "name": "Event190",
+        "params": {
+          "ItemUniqueId": 2767,
+          "NeedNum": 30
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_23_MaterialBelongingChk",
+        "index": 73,
+        "name": "Event46",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          },
+          {
+            "target": 75,
+            "value": 2
+          },
+          {
+            "target": 78,
+            "value": 3
+          },
+          {
+            "target": 79,
+            "value": 4
+          },
+          {
+            "target": 80,
+            "value": 5
+          }
+        ],
+        "index": 74,
+        "name": "Event50",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 75,
+        "name": "Event100",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event101",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event102",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event103",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event105",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event106",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:082_06"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 81,
+        "name": "Event90",
+        "next": 102,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 82,
+        "name": "Event91",
+        "next": 74,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          },
+          {
+            "target": 88,
+            "value": 2
+          },
+          {
+            "target": 89,
+            "value": 3
+          }
+        ],
+        "index": 83,
+        "name": "Event82",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 84,
+        "name": "Event83",
+        "next": 103,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event84",
+        "next": 83,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event85",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:083_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event86",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:083_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event87",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:083_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event88",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:083_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 90,
+        "name": "Event108",
+        "next": 91,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 91,
+        "name": "Event110",
+        "next": 92,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 1
+          },
+          {
+            "target": 100,
+            "value": 2
+          },
+          {
+            "target": 101,
+            "value": 3
+          }
+        ],
+        "index": 92,
+        "name": "Event111",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          },
+          {
+            "target": 96,
+            "value": 2
+          }
+        ],
+        "index": 93,
+        "name": "Event112",
+        "params": {
+          "SetIndex": 6
+        },
+        "query": "EventFlowQuerySubflowResultChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event93",
+        "next": 90,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:093_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event107",
+        "next": 90,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:093_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event114",
+        "next": 90,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:093_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 97,
+        "name": "Event115",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 98,
+        "name": "Event116",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 99,
+        "name": "Event117",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event118",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:094_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 101,
+        "name": "Event119",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:094_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 102,
+        "name": "Event129",
+        "next": 98,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 103,
+        "name": "Event130",
+        "next": 99,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 104,
+        "name": "Event131",
+        "next": 110,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 1
+          },
+          {
+            "target": 107,
+            "value": 2
+          },
+          {
+            "target": 108,
+            "value": 3
+          },
+          {
+            "target": 109,
+            "value": 4
+          }
+        ],
+        "index": 105,
+        "name": "Event132",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event133",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:092_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event89",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:092_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event92",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:092_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event134",
+        "next": 262,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event121",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 111,
+        "name": "Event136",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          },
+          {
+            "target": 120,
+            "value": 2
+          },
+          {
+            "target": 121,
+            "value": 3
+          }
+        ],
+        "index": 112,
+        "name": "Event137",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 123,
+            "value": 0
+          },
+          {
+            "target": 126,
+            "value": 1
+          },
+          {
+            "target": 127,
+            "value": 2
+          },
+          {
+            "target": 114,
+            "value": 3
+          },
+          {
+            "target": 114,
+            "value": 4
+          },
+          {
+            "target": 114,
+            "value": 5
+          }
+        ],
+        "index": 113,
+        "name": "Event138",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 114,
+        "name": "Event140",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 115,
+        "name": "Event142",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 116,
+        "name": "Event143",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 117,
+        "name": "Event139",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:091"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 118,
+        "name": "Event144",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 137,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          },
+          {
+            "target": 134,
+            "value": 2
+          },
+          {
+            "target": 125,
+            "value": 3
+          },
+          {
+            "target": 139,
+            "value": 4
+          },
+          {
+            "target": 134,
+            "value": 5
+          }
+        ],
+        "index": 119,
+        "name": "Event104",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 134,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          },
+          {
+            "target": 134,
+            "value": 2
+          },
+          {
+            "target": 135,
+            "value": 3
+          },
+          {
+            "target": 134,
+            "value": 4
+          },
+          {
+            "target": 136,
+            "value": 5
+          }
+        ],
+        "index": 120,
+        "name": "Event145",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 122,
+            "value": 0
+          },
+          {
+            "target": 122,
+            "value": 1
+          },
+          {
+            "target": 130,
+            "value": 2
+          },
+          {
+            "target": 122,
+            "value": 3
+          },
+          {
+            "target": 132,
+            "value": 4
+          },
+          {
+            "target": 133,
+            "value": 5
+          }
+        ],
+        "index": 121,
+        "name": "Event146",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 122,
+        "name": "Event154",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event161",
+        "next": 124,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 124,
+        "name": "Event162",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 125,
+        "name": "Event135",
+        "next": 138,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 126,
+        "name": "Event163",
+        "next": 124,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 127,
+        "name": "Event164",
+        "next": 124,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 128,
+        "name": "Event151",
+        "next": 129,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 129,
+        "name": "Event166",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 130,
+        "name": "Event167",
+        "next": 131,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 131,
+        "name": "Event168",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 132,
+        "name": "Event169",
+        "next": 131,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 133,
+        "name": "Event170",
+        "next": 131,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 134,
+        "name": "Event171",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event172",
+        "next": 129,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event173",
+        "next": 129,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 137,
+        "name": "Event174",
+        "next": 138,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 138,
+        "name": "Event181",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 139,
+        "name": "Event147",
+        "next": 138,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 141,
+            "value": 0
+          },
+          {
+            "target": 150,
+            "value": 1
+          },
+          {
+            "target": 156,
+            "value": 2
+          },
+          {
+            "target": 157,
+            "value": 3
+          }
+        ],
+        "index": 140,
+        "name": "Event148",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 145,
+            "value": 0
+          },
+          {
+            "target": 146,
+            "value": 1
+          },
+          {
+            "target": 148,
+            "value": 2
+          },
+          {
+            "target": 149,
+            "value": 3
+          }
+        ],
+        "index": 141,
+        "name": "Event149",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event150",
+        "next": 143,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 143,
+        "name": "Event165",
+        "next": 144,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 144,
+        "name": "Event183",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 145,
+        "name": "Event184",
+        "next": 142,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 146,
+        "name": "Event197",
+        "next": 147,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 147,
+        "name": "Event198",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 148,
+        "name": "Event199",
+        "next": 147,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 149,
+        "name": "Event200",
+        "next": 147,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 151,
+            "value": 0
+          },
+          {
+            "target": 152,
+            "value": 1
+          },
+          {
+            "target": 154,
+            "value": 2
+          },
+          {
+            "target": 155,
+            "value": 3
+          }
+        ],
+        "index": 150,
+        "name": "Event201",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 151,
+        "name": "Event202",
+        "next": 153,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain3Give3",
+        "flowchart": "",
+        "index": 152,
+        "name": "Event203",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 153,
+        "name": "Event204",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 154,
+        "name": "Event205",
+        "next": 153,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event206",
+        "next": 153,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 158,
+            "value": 0
+          },
+          {
+            "target": 160,
+            "value": 1
+          },
+          {
+            "target": 161,
+            "value": 2
+          },
+          {
+            "target": 163,
+            "value": 3
+          }
+        ],
+        "index": 156,
+        "name": "Event207",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 164,
+            "value": 0
+          },
+          {
+            "target": 166,
+            "value": 1
+          },
+          {
+            "target": 167,
+            "value": 2
+          },
+          {
+            "target": 162,
+            "value": 3
+          }
+        ],
+        "index": 157,
+        "name": "Event208",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 158,
+        "name": "Event209",
+        "next": 159,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 159,
+        "name": "Event210",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 160,
+        "name": "Event211",
+        "next": 159,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain3Give3",
+        "flowchart": "",
+        "index": 161,
+        "name": "Event212",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Remain3Give3",
+        "flowchart": "",
+        "index": 162,
+        "name": "Event213",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event214",
+        "next": 159,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event215",
+        "next": 165,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give2Materials",
+        "flowchart": "",
+        "index": 165,
+        "name": "Event216",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 166,
+        "name": "Event186",
+        "next": 165,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 167,
+        "name": "Event191",
+        "next": 165,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 169,
+            "value": 0
+          },
+          {
+            "target": 170,
+            "value": 1
+          },
+          {
+            "target": 171,
+            "value": 2
+          },
+          {
+            "target": 172,
+            "value": 3
+          },
+          {
+            "target": 173,
+            "value": 4
+          },
+          {
+            "target": 174,
+            "value": 5
+          }
+        ],
+        "index": 168,
+        "name": "Event109",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 169,
+        "name": "Event156",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 170,
+        "name": "Event157",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 171,
+        "name": "Event158",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 172,
+        "name": "Event159",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 173,
+        "name": "Event160",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 174,
+        "name": "Event192",
+        "next": 175,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:072_06"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 176,
+            "value": 0
+          },
+          {
+            "target": 177,
+            "value": 1
+          },
+          {
+            "target": 196,
+            "value": 2
+          },
+          {
+            "target": 233,
+            "value": 3
+          },
+          {
+            "target": 298,
+            "value": 4
+          }
+        ],
+        "index": 175,
+        "name": "Event193",
+        "params": {
+          "SetIndex": 10
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 176,
+        "name": "Event194",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 178,
+            "value": 0
+          },
+          {
+            "target": 181,
+            "value": 1
+          },
+          {
+            "target": 184,
+            "value": 2
+          },
+          {
+            "target": 187,
+            "value": 3
+          },
+          {
+            "target": 188,
+            "value": 4
+          },
+          {
+            "target": 189,
+            "value": 5
+          }
+        ],
+        "index": 177,
+        "name": "Event195",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 180,
+            "value": 0
+          },
+          {
+            "target": 180,
+            "value": 1
+          },
+          {
+            "target": 179,
+            "value": 2
+          },
+          {
+            "target": 179,
+            "value": 3
+          }
+        ],
+        "index": 178,
+        "name": "Event196",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 179,
+        "name": "Event217",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 180,
+        "name": "Event218",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 183,
+            "value": 0
+          },
+          {
+            "target": 182,
+            "value": 1
+          },
+          {
+            "target": 183,
+            "value": 2
+          },
+          {
+            "target": 182,
+            "value": 3
+          }
+        ],
+        "index": 181,
+        "name": "Event219",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 182,
+        "name": "Event220",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 183,
+        "name": "Event221",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 185,
+            "value": 0
+          },
+          {
+            "target": 186,
+            "value": 1
+          },
+          {
+            "target": 186,
+            "value": 2
+          },
+          {
+            "target": 185,
+            "value": 3
+          }
+        ],
+        "index": 184,
+        "name": "Event222",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 185,
+        "name": "Event223",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 186,
+        "name": "Event224",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 190,
+            "value": 0
+          },
+          {
+            "target": 191,
+            "value": 1
+          },
+          {
+            "target": 191,
+            "value": 2
+          },
+          {
+            "target": 190,
+            "value": 3
+          }
+        ],
+        "index": 187,
+        "name": "Event225",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 193,
+            "value": 0
+          },
+          {
+            "target": 192,
+            "value": 1
+          },
+          {
+            "target": 193,
+            "value": 2
+          },
+          {
+            "target": 192,
+            "value": 3
+          }
+        ],
+        "index": 188,
+        "name": "Event226",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 195,
+            "value": 0
+          },
+          {
+            "target": 195,
+            "value": 1
+          },
+          {
+            "target": 194,
+            "value": 2
+          },
+          {
+            "target": 194,
+            "value": 3
+          }
+        ],
+        "index": 189,
+        "name": "Event227",
+        "params": {
+          "SetIndex": 11
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 190,
+        "name": "Event228",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 191,
+        "name": "Event229",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 192,
+        "name": "Event230",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 193,
+        "name": "Event231",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 194,
+        "name": "Event232",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 195,
+        "name": "Event233",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 197,
+            "value": 0
+          },
+          {
+            "target": 207,
+            "value": 1
+          },
+          {
+            "target": 211,
+            "value": 2
+          },
+          {
+            "target": 217,
+            "value": 3
+          },
+          {
+            "target": 222,
+            "value": 4
+          },
+          {
+            "target": 227,
+            "value": 5
+          }
+        ],
+        "index": 196,
+        "name": "Event234",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 202,
+            "value": 0
+          },
+          {
+            "target": 203,
+            "value": 1
+          },
+          {
+            "target": 203,
+            "value": 2
+          },
+          {
+            "target": 205,
+            "value": 3
+          },
+          {
+            "target": 205,
+            "value": 4
+          },
+          {
+            "target": 206,
+            "value": 5
+          }
+        ],
+        "index": 197,
+        "name": "Event235",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 198,
+        "name": "Event236",
+        "next": 199,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 199,
+        "name": "Event237",
+        "next": 200,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 200,
+        "name": "Event238",
+        "next": 201,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 201,
+        "name": "Event239",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 202,
+        "name": "Event240",
+        "next": 198,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 203,
+        "name": "Event241",
+        "next": 204,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 204,
+        "name": "Event242",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 205,
+        "name": "Event243",
+        "next": 204,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 206,
+        "name": "Event244",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 208,
+            "value": 0
+          },
+          {
+            "target": 214,
+            "value": 1
+          },
+          {
+            "target": 208,
+            "value": 2
+          },
+          {
+            "target": 210,
+            "value": 3
+          },
+          {
+            "target": 206,
+            "value": 4
+          },
+          {
+            "target": 210,
+            "value": 5
+          }
+        ],
+        "index": 207,
+        "name": "Event245",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 208,
+        "name": "Event246",
+        "next": 209,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 209,
+        "name": "Event247",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 210,
+        "name": "Event249",
+        "next": 209,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 212,
+            "value": 0
+          },
+          {
+            "target": 212,
+            "value": 1
+          },
+          {
+            "target": 214,
+            "value": 2
+          },
+          {
+            "target": 215,
+            "value": 3
+          },
+          {
+            "target": 216,
+            "value": 4
+          },
+          {
+            "target": 216,
+            "value": 5
+          }
+        ],
+        "index": 211,
+        "name": "Event251",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 212,
+        "name": "Event252",
+        "next": 213,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 213,
+        "name": "Event253",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 214,
+        "name": "Event254",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 215,
+        "name": "Event255",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 216,
+        "name": "Event256",
+        "next": 213,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 218,
+            "value": 0
+          },
+          {
+            "target": 220,
+            "value": 1
+          },
+          {
+            "target": 215,
+            "value": 2
+          },
+          {
+            "target": 221,
+            "value": 3
+          },
+          {
+            "target": 218,
+            "value": 4
+          },
+          {
+            "target": 220,
+            "value": 5
+          }
+        ],
+        "index": 217,
+        "name": "Event257",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 218,
+        "name": "Event258",
+        "next": 219,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 219,
+        "name": "Event259",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 220,
+        "name": "Event260",
+        "next": 219,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 221,
+        "name": "Event262",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 223,
+            "value": 0
+          },
+          {
+            "target": 225,
+            "value": 1
+          },
+          {
+            "target": 226,
+            "value": 2
+          },
+          {
+            "target": 223,
+            "value": 3
+          },
+          {
+            "target": 221,
+            "value": 4
+          },
+          {
+            "target": 226,
+            "value": 5
+          }
+        ],
+        "index": 222,
+        "name": "Event248",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 223,
+        "name": "Event250",
+        "next": 224,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 224,
+        "name": "Event263",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CantGive",
+        "flowchart": "",
+        "index": 225,
+        "name": "Event264",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 226,
+        "name": "Event265",
+        "next": 224,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 225,
+            "value": 0
+          },
+          {
+            "target": 229,
+            "value": 1
+          },
+          {
+            "target": 231,
+            "value": 2
+          },
+          {
+            "target": 229,
+            "value": 3
+          },
+          {
+            "target": 231,
+            "value": 4
+          },
+          {
+            "target": 228,
+            "value": 5
+          }
+        ],
+        "index": 227,
+        "name": "Event266",
+        "params": {
+          "SetIndex": 12
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 228,
+        "name": "Event267",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 229,
+        "name": "Event268",
+        "next": 230,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 230,
+        "name": "Event269",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 231,
+        "name": "Event261",
+        "next": 230,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 235,
+            "value": 0
+          },
+          {
+            "target": 236,
+            "value": 1
+          },
+          {
+            "target": 292,
+            "value": 2
+          },
+          {
+            "target": 292,
+            "value": 3
+          }
+        ],
+        "index": 232,
+        "name": "Event270",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 232,
+            "value": 0
+          },
+          {
+            "target": 238,
+            "value": 1
+          },
+          {
+            "target": 243,
+            "value": 2
+          },
+          {
+            "target": 247,
+            "value": 3
+          },
+          {
+            "target": 251,
+            "value": 4
+          },
+          {
+            "target": 252,
+            "value": 5
+          }
+        ],
+        "index": 233,
+        "name": "Event271",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 234,
+        "name": "Event272",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 235,
+        "name": "Event273",
+        "next": 234,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 236,
+        "name": "Event274",
+        "next": 234,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 237,
+        "name": "Event275",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 239,
+            "value": 0
+          },
+          {
+            "target": 293,
+            "value": 1
+          },
+          {
+            "target": 242,
+            "value": 2
+          },
+          {
+            "target": 293,
+            "value": 3
+          }
+        ],
+        "index": 238,
+        "name": "Event276",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 239,
+        "name": "Event277",
+        "next": 240,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 240,
+        "name": "Event278",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 241,
+        "name": "Event279",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 242,
+        "name": "Event280",
+        "next": 240,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 244,
+            "value": 0
+          },
+          {
+            "target": 294,
+            "value": 1
+          },
+          {
+            "target": 294,
+            "value": 2
+          },
+          {
+            "target": 246,
+            "value": 3
+          }
+        ],
+        "index": 243,
+        "name": "Event281",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 244,
+        "name": "Event282",
+        "next": 245,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 245,
+        "name": "Event283",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 246,
+        "name": "Event284",
+        "next": 245,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 295,
+            "value": 0
+          },
+          {
+            "target": 248,
+            "value": 1
+          },
+          {
+            "target": 250,
+            "value": 2
+          },
+          {
+            "target": 295,
+            "value": 3
+          }
+        ],
+        "index": 247,
+        "name": "Event285",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 248,
+        "name": "Event286",
+        "next": 249,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 249,
+        "name": "Event287",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 250,
+        "name": "Event288",
+        "next": 249,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 296,
+            "value": 0
+          },
+          {
+            "target": 254,
+            "value": 1
+          },
+          {
+            "target": 296,
+            "value": 2
+          },
+          {
+            "target": 256,
+            "value": 3
+          }
+        ],
+        "index": 251,
+        "name": "Event289",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 297,
+            "value": 0
+          },
+          {
+            "target": 297,
+            "value": 1
+          },
+          {
+            "target": 257,
+            "value": 2
+          },
+          {
+            "target": 258,
+            "value": 3
+          }
+        ],
+        "index": 252,
+        "name": "Event290",
+        "params": {
+          "SetIndex": 13
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 253,
+        "name": "Event291",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 254,
+        "name": "Event292",
+        "next": 255,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 255,
+        "name": "Event293",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 256,
+        "name": "Event294",
+        "next": 255,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 257,
+        "name": "Event295",
+        "next": 259,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 258,
+        "name": "Event296",
+        "next": 259,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice_Give1Material",
+        "flowchart": "",
+        "index": 259,
+        "name": "Event297",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 260,
+        "name": "Event298",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_22_MaterialProgressChk",
+        "index": 261,
+        "name": "Event94",
+        "next": 105,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 267,
+            "value": 0
+          },
+          {
+            "target": 266,
+            "value": 1
+          },
+          {
+            "target": 265,
+            "value": 2
+          },
+          {
+            "target": 264,
+            "value": 3
+          }
+        ],
+        "index": 262,
+        "name": "Event128",
+        "params": {
+          "SetIndex": 6
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 263,
+        "name": "Event301",
+        "next": 268,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 264,
+        "name": "Event120",
+        "next": 263,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:056_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 265,
+        "name": "Event302",
+        "next": 263,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:056_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 266,
+        "name": "Event303",
+        "next": 263,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:056_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 267,
+        "name": "Event182",
+        "next": 269,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:056_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 268,
+        "name": "Event299",
+        "next": 269,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:057"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 269,
+        "name": "Event300",
+        "next": 271,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:058_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 270,
+        "name": "Event304",
+        "next": 273,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:058_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 271,
+        "name": "Event305",
+        "next": 272,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2756,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 272,
+        "name": "Event306",
+        "next": 270,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 273,
+        "name": "Event307",
+        "next": 274,
+        "params": {
+          "Command": 2,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 274,
+        "name": "Event308",
+        "next": 275,
+        "params": {
+          "AccessKey": "cPlayer:Prologue4RcmGetTent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 275,
+        "name": "Event3",
+        "next": 281,
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterialComplete"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain2Give2",
+        "flowchart": "",
+        "index": 276,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetWood",
+        "flowchart": "SNPC_rcm_23_MaterialBelongingChk",
+        "index": 277,
+        "name": "Event4",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetHardWood",
+        "flowchart": "SNPC_rcm_23_MaterialBelongingChk",
+        "index": 278,
+        "name": "Event5",
+        "next": 51,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetSoftWood",
+        "flowchart": "SNPC_rcm_23_MaterialBelongingChk",
+        "index": 279,
+        "name": "Event6",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetIron",
+        "flowchart": "SNPC_rcm_23_MaterialBelongingChk",
+        "index": 280,
+        "name": "Event7",
+        "next": 29,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 281,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:OpeningSeqBGMChangeCounter",
+          "SetNum": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Remain3Give3HaveAll",
+        "flowchart": "",
+        "index": 282,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 283,
+        "name": "Event0",
+        "next": 287,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_02_TentRequest:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rcm_24_MaterialGiveProcess",
+        "index": 284,
+        "name": "Event10",
+        "next": 285,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GotReward",
+        "flowchart": "",
+        "index": 285,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 286,
+        "name": "Event12",
+        "next": 283,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 288,
+            "value": 0
+          },
+          {
+            "target": 289,
+            "value": 1
+          },
+          {
+            "target": 290,
+            "value": 2
+          },
+          {
+            "target": 291,
+            "value": 3
+          }
+        ],
+        "index": 287,
+        "name": "Event14",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 288,
+        "name": "Event15",
+        "next": 284,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 289,
+        "name": "Event16",
+        "next": 284,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 290,
+        "name": "Event17",
+        "next": 284,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 291,
+        "name": "Event18",
+        "next": 284,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 292,
+        "name": "Event19",
+        "next": 237,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 293,
+        "name": "Event20",
+        "next": 237,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 294,
+        "name": "Event21",
+        "next": 241,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 295,
+        "name": "Event13",
+        "next": 241,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 296,
+        "name": "Event22",
+        "next": 253,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 297,
+        "name": "Event23",
+        "next": 253,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 299,
+            "value": 0
+          },
+          {
+            "target": 300,
+            "value": 1
+          },
+          {
+            "target": 301,
+            "value": 2
+          },
+          {
+            "target": 302,
+            "value": 3
+          },
+          {
+            "target": 303,
+            "value": 4
+          },
+          {
+            "target": 304,
+            "value": 5
+          }
+        ],
+        "index": 298,
+        "name": "Event24",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 299,
+        "name": "Event25",
+        "next": 276,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 300,
+        "name": "Event26",
+        "next": 276,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 301,
+        "name": "Event27",
+        "next": 276,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 302,
+        "name": "Event29",
+        "next": 276,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 303,
+        "name": "Event30",
+        "next": 276,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 304,
+        "name": "Event31",
+        "next": 276,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 12
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rcm_21_MaterialCollecting",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "137f469dd7186f37cd52e42063a53c41926b64f21ebbfcc407d652419993df1f",
+  "size": 52776,
+  "status": "converted"
+}

@@ -1,0 +1,194 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAISetStandupBeforeTalk",
+          "EventFlowActionNpcChangeAIStateCstm"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcIsSitting"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": null,
+        "name": "Init"
+      }
+    ],
+    "event_count": 8,
+    "event_flow_name": "AI_NPC_Xct_MayDayTour",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event5",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSitOnGround",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_xct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetStandupBeforeTalk",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIStateCstm",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "CstmType": 5,
+          "ExtendParam": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_xct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayerTemp:XctTalkMayDayTourNow"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIStateCstm",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "CstmType": 5,
+          "ExtendParam": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_xct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSitOnGround",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_xct"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 3,
+            "value": 2
+          },
+          {
+            "target": 3,
+            "value": 3
+          },
+          {
+            "target": 3,
+            "value": 4
+          },
+          {
+            "target": 3,
+            "value": 5
+          }
+        ],
+        "index": 7,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Xct_MayDayTour",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e6c1614d0d1254fb95639dc193f36867c836118992ff0720c5ff5d2dc81e6f24",
+  "size": 3144,
+  "status": "converted"
+}

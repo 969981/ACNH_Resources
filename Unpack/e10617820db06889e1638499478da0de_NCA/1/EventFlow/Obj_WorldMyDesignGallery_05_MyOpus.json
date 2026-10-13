@@ -1,0 +1,973 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNetSearchMyDesign",
+          "EventFlowActionUINetConnectWaitAppear",
+          "EventFlowActionUINetConnectWaitDisappear",
+          "EventFlowActionUIMyDesignExchangeInfoHandling",
+          "EventFlowActionUIMyDesignSelectHandling",
+          "EventFlowActionUIMyDesignExchangeListHandling",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNetDeleteMyDesign",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionMessageUnlockNext"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsFoundMyDesign",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryUIMyDesignDownloadWindowChoiceResult",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryIsMyDesignProInMyDesignExchange",
+          "EventFlowQueryMyDesignExchangeNetworkError"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 61,
+        "name": "Root"
+      },
+      {
+        "main_event": 8,
+        "name": "BackToList"
+      },
+      {
+        "main_event": 6,
+        "name": "BackToOpus"
+      },
+      {
+        "main_event": 67,
+        "name": "FullMode"
+      },
+      {
+        "main_event": 29,
+        "name": "BackToList_Full"
+      },
+      {
+        "main_event": 33,
+        "name": "BackToOpus_Full"
+      }
+    ],
+    "event_count": 72,
+    "event_flow_name": "Obj_WorldMyDesignGallery_05_MyOpus",
+    "events": [
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetSearchMyDesign",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 64,
+        "params": {
+          "Type": "cMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "Type": "cMyself"
+        },
+        "query": "EventFlowQueryNetIsFoundMyDesign",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignExchangeInfoHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event8",
+        "next": 55,
+        "params": {
+          "Type": "cSaveFromNet"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          },
+          {
+            "target": 12,
+            "value": 2
+          }
+        ],
+        "index": 7,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryUIMyDesignDownloadWindowChoiceResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignExchangeListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event12",
+        "next": 53,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "WaitForPreview",
+        "flowchart": "Obj_WorldMyDesignGallery_02_SubFlow",
+        "index": 10,
+        "name": "Event25",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event20",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:2435"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event21",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event22",
+        "next": 15,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDeleteMyDesign",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event23",
+        "next": 13,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event24",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 16,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event42",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_Msg:2438"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignSelectHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event26",
+        "next": 20,
+        "params": {
+          "Author": 0,
+          "Category": 2,
+          "Holder": 0,
+          "Mode": 1,
+          "UsageType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event31",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event43",
+        "params": {},
+        "query": "EventFlowQueryIsMyDesignProInMyDesignExchange",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignSelectHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event44",
+        "next": 23,
+        "params": {
+          "Author": 0,
+          "Category": 1,
+          "Holder": 0,
+          "Mode": 1,
+          "UsageType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event45",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BackToList",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BackToOpus",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 26,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetSearchMyDesign",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event14",
+        "next": 68,
+        "params": {
+          "Type": "cMyself"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event16",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignExchangeListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event28",
+        "next": 57,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 30,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event29",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "WaitForPreview",
+        "flowchart": "Obj_WorldMyDesignGallery_02_SubFlow",
+        "index": 32,
+        "name": "Event30",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignExchangeInfoHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event32",
+        "next": 59,
+        "params": {
+          "Type": "cDelete"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          },
+          {
+            "target": 36,
+            "value": 2
+          }
+        ],
+        "index": 34,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryUIMyDesignDownloadWindowChoiceResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event34",
+        "next": 48,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:2435"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event35",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event36",
+        "next": 39,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetDeleteMyDesign",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event37",
+        "next": 37,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event38",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 40,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignSelectHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event48",
+        "next": 42,
+        "params": {
+          "Author": 0,
+          "Category": 2,
+          "Holder": 0,
+          "Mode": 1,
+          "UsageType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event49",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event50",
+        "params": {},
+        "query": "EventFlowQueryIsMyDesignProInMyDesignExchange",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMyDesignSelectHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event51",
+        "next": 45,
+        "params": {
+          "Author": 0,
+          "Category": 1,
+          "Holder": 0,
+          "Mode": 1,
+          "UsageType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event52",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BackToList_Full",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event53",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BackToOpus_Full",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event55",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 48,
+        "name": "Event56",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event11",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_Msg:2439"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event40",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_Msg:2439"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event54",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event57",
+        "next": 35,
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 53,
+        "name": "Event58",
+        "params": {},
+        "query": "EventFlowQueryMyDesignExchangeNetworkError",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 54,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event60",
+        "params": {},
+        "query": "EventFlowQueryMyDesignExchangeNetworkError",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 56,
+        "name": "Event61",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event62",
+        "params": {},
+        "query": "EventFlowQueryMyDesignExchangeNetworkError",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 58,
+        "name": "Event63",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 59,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQueryMyDesignExchangeNetworkError",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 60,
+        "name": "Event65",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PreCheckConnection",
+        "flowchart": "Obj_WorldMyDesignGallery_02_SubFlow",
+        "index": 61,
+        "name": "Event66",
+        "next": 63,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event67",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:2431"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event68",
+        "next": 62,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event69",
+        "next": 65,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event70",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event5",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:2431"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event6",
+        "next": 66,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event17",
+        "next": 69,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event18",
+        "next": 28,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event71",
+        "next": 40,
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event72",
+        "next": 16,
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_WorldMyDesignGallery_05_MyOpus",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "26b497a1f626947a3044801e2fdfe2b959d4a946348de4c006303a2cd713bf24",
+  "size": 10232,
+  "status": "converted"
+}

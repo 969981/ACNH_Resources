@@ -1,0 +1,3917 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionNpcSetRewardRecipe",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionSystemDeletePlayerItem",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionDeleteTargetItem",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionSetMemoryEventPlayer"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryHasKindItem",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryHasTargetItem",
+          "EventFlowQueryRandomChoice3",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQueryPlayerHasCraftRecipe",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQueryMultiItemSelectInclude",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryPlayerIsEquipItem",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryFlagSystemIntValue8"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionSetItemName",
+          "EventFlowActionGetAddEmoticon",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionNpcStartAS"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerHalloweenTricked"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerHaveNewReaction",
+          "EventFlowQueryPlayerHaveGetColorSquash"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 107,
+        "name": "Root"
+      },
+      {
+        "main_event": 14,
+        "name": "Pkn_1stCandy"
+      },
+      {
+        "main_event": 44,
+        "name": "Pkn_GetItem"
+      },
+      {
+        "main_event": 191,
+        "name": "Pkn_SetItem"
+      },
+      {
+        "main_event": 155,
+        "name": "Pkn_GiveEatCandy"
+      },
+      {
+        "main_event": 24,
+        "name": "Pkn_Trick"
+      },
+      {
+        "main_event": 139,
+        "name": "Pkn_TerrifyReaction"
+      },
+      {
+        "main_event": 126,
+        "name": "Pkn_CandyNotComp"
+      },
+      {
+        "main_event": 215,
+        "name": "Pkn_RollipopNotComp"
+      },
+      {
+        "main_event": 129,
+        "name": "Pkn_RollipopComp"
+      },
+      {
+        "main_event": 200,
+        "name": "Pkn_ChkRollipopComp"
+      },
+      {
+        "main_event": 197,
+        "name": "Pkn_ChkCandyComp"
+      },
+      {
+        "main_event": 32,
+        "name": "Pkn_CandyComp"
+      },
+      {
+        "main_event": 234,
+        "name": "PknMeorizeItem"
+      }
+    ],
+    "event_count": 255,
+    "event_flow_name": "SNPC_pkn",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkBeforeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 116,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event5",
+        "next": 0,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event13",
+        "next": 103,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 180,
+            "value": 0
+          },
+          {
+            "target": 177,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event14",
+        "params": {
+          "CapacityCheckType": "cReward",
+          "ItemUniqueId": 65534
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event18",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event20",
+        "next": 138,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event21",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event8",
+        "next": 228,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4087,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event25",
+        "next": 167,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event29",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 171,
+            "value": 0
+          },
+          {
+            "target": 170,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event37",
+        "params": {
+          "ItemUniqueId": 13197,
+          "NeedNum": 1
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNoCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event38",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_1stCandy",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 165,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event40",
+        "params": {
+          "AccessKey": "cPlayer:PknGiveCandyCount",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_GetItem",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event58",
+        "next": 138,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event22",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event60",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event64",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 173,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event65",
+        "params": {
+          "AccessKey": "cPlayer:NpcHalloweenTrickFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event66",
+        "next": 173,
+        "params": {
+          "AccessKey": "cPlayer:NpcHalloweenTrickFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event68",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event72",
+        "next": 230,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 13237
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 217,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event73",
+        "params": {
+          "ItemUniqueId": 13237,
+          "UnlockType": "Halloween"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event15",
+        "next": 229,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 4087
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 216,
+            "value": 0
+          },
+          {
+            "target": 218,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event74",
+        "params": {
+          "ItemUniqueId": 4087,
+          "UnlockType": ""
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 209,
+            "value": 0
+          },
+          {
+            "target": 120,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event83",
+        "params": {
+          "Percent": 70
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event6",
+        "next": 58,
+        "params": {
+          "AccessKey": "cPlayer:PknGiveCandyCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event10",
+        "next": 38,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event17",
+        "next": 92,
+        "params": {
+          "Command": 12,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event34",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event36",
+        "next": 34,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDeletePlayerItem",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event49",
+        "next": 176,
+        "params": {
+          "DeleteNum": 1,
+          "DeleteType": "cItemWindowSub"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_GiveEatCandy",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event71",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event97",
+        "next": 59,
+        "params": {
+          "AccessKey": "cPlayer:PknGiveLollipopCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event98",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_Trick",
+        "flowchart": "",
+        "index": 42,
+        "name": "Event101",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 135,
+            "value": 0
+          },
+          {
+            "target": 132,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event56",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_SetItem",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event9",
+        "next": 5,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 253,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event106",
+        "params": {
+          "AccessKey": "cPlayer:PknGiveCandyCount",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event107",
+        "next": 37,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 47,
+        "name": "Event108",
+        "params": {
+          "ItemUniqueID1": 13197,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event109",
+        "next": 37,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event50",
+        "next": 158,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event59",
+        "next": 158,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event110",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event111",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event112",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:065"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event61",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event62",
+        "next": 56,
+        "params": {
+          "FilterType": "cItemKind",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "Candy",
+          "ItemUniqueID": 65534,
+          "Mode": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event63",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_Trick",
+        "flowchart": "",
+        "index": 57,
+        "name": "Event99",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event23",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:050"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event100",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:055"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event26",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:052"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event33",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:053"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event113",
+        "next": 252,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:057_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event114",
+        "next": 76,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:058"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event121",
+        "next": 61,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event122",
+        "next": 61,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 236,
+            "value": 0
+          },
+          {
+            "target": 194,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event102",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event126",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event53",
+        "next": 43,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event54",
+        "next": 43,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event127",
+        "params": {
+          "AccessKey": "cPlayer:PknLastGiveCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 74,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event129",
+        "params": {
+          "AccessKey": "cPlayer:PknGiveCandyCount",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event130",
+        "next": 73,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 13197,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event131",
+        "next": 193,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event132",
+        "next": 72,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event133",
+        "next": 67,
+        "params": {
+          "AccessKey": "cPlayer:PknLastGiveCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 184,
+            "value": 0
+          },
+          {
+            "target": 187,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event134",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event135",
+        "next": 4,
+        "params": {
+          "AccessKey": "cPlayer:PknLastGiveCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 78,
+        "name": "Event136",
+        "next": 77,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 81,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event145",
+        "params": {
+          "AccessKey": "cPlayer:PknGiveCandyCount",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event41",
+        "next": 41,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 203,
+            "value": 0
+          },
+          {
+            "target": 250,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event137",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event141",
+        "next": 83,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event142",
+        "next": 196,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event143",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event144",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 86,
+        "name": "Event148",
+        "params": {
+          "CheckItemKindType": "",
+          "ItemFilterType": "",
+          "ItemKindType": "Candy"
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event151",
+        "next": 252,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:057_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event153",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemLollipopFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event154",
+        "next": 252,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:057_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_Trick",
+        "flowchart": "",
+        "index": 90,
+        "name": "Event155",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pkn_GiveEatCandy",
+        "flowchart": "",
+        "index": 91,
+        "name": "Event156",
+        "next": 106,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event24",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:056"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event116",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event159",
+        "next": 189,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:059"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 96,
+        "name": "Event161",
+        "next": 76,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:060"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 183,
+            "value": 1
+          }
+        ],
+        "index": 97,
+        "name": "Event163",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_GetItem",
+        "flowchart": "",
+        "index": 98,
+        "name": "Event160",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event31",
+        "next": 251,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event124",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 101,
+        "name": "Event125",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 102,
+        "name": "Event128",
+        "next": 101,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event140",
+        "next": 66,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event12",
+        "next": 79,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event139",
+        "next": 235,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_GetItem",
+        "flowchart": "",
+        "index": 106,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 147,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          },
+          {
+            "target": 108,
+            "value": 2
+          }
+        ],
+        "index": 107,
+        "name": "Event149",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 0
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 109,
+            "value": 0
+          },
+          {
+            "target": 110,
+            "value": 1
+          },
+          {
+            "target": 111,
+            "value": 2
+          }
+        ],
+        "index": 108,
+        "name": "Event150",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event158",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 110,
+        "name": "Event164",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 111,
+        "name": "Event165",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:032"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event166",
+        "next": 114,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 113,
+        "name": "Event167",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 12987,
+          "ItemUniqueID2": 13002,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": true
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 114,
+        "name": "Event169",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 115,
+        "name": "Event168",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:033"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 160,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 116,
+        "name": "Event170",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 12987,
+          "ItemUniqueID2": 13002,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": true
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 163,
+            "value": 1
+          }
+        ],
+        "index": 117,
+        "name": "Event171",
+        "params": {
+          "AccessKey": "cPlayer:PknPumpkingLookChatFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 119,
+            "value": 1
+          }
+        ],
+        "index": 118,
+        "name": "Event173",
+        "params": {
+          "AccessKey": "cPlayer:PknPumpkingLookChatFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 119,
+        "name": "Event174",
+        "next": 115,
+        "params": {
+          "AccessKey": "cPlayer:PknPumpkingLookChatFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 122,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          }
+        ],
+        "index": 120,
+        "name": "Event175",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 121,
+        "name": "Event176",
+        "next": 226,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13002,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 122,
+        "name": "Event177",
+        "next": 227,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 12987,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 123,
+        "name": "Event178",
+        "next": 224,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13002,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 124,
+        "name": "Event180",
+        "next": 225,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 12987,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 123,
+            "value": 1
+          }
+        ],
+        "index": 125,
+        "name": "Event181",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 128,
+            "value": 1
+          }
+        ],
+        "index": 126,
+        "name": "Event182",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenRobe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 123,
+            "value": 1
+          }
+        ],
+        "index": 127,
+        "name": "Event183",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenMask"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          },
+          {
+            "target": 125,
+            "value": 1
+          }
+        ],
+        "index": 128,
+        "name": "Event184",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenMask"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 131,
+            "value": 0
+          },
+          {
+            "target": 130,
+            "value": 1
+          }
+        ],
+        "index": 129,
+        "name": "Event187",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 130,
+        "name": "Event188",
+        "next": 231,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13002,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event189",
+        "next": 232,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 12987,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 133,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          }
+        ],
+        "index": 132,
+        "name": "Event57",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemLollipopFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_RollipopComp",
+        "flowchart": "",
+        "index": 133,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pkn_RollipopNotComp",
+        "flowchart": "",
+        "index": 134,
+        "name": "Event45",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 137,
+            "value": 0
+          },
+          {
+            "target": 136,
+            "value": 1
+          }
+        ],
+        "index": 135,
+        "name": "Event92",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_CandyNotComp",
+        "flowchart": "",
+        "index": 136,
+        "name": "Event95",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pkn_CandyComp",
+        "flowchart": "",
+        "index": 137,
+        "name": "Event96",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 138,
+        "name": "Event105",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:003_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 140,
+            "value": 1
+          }
+        ],
+        "index": 139,
+        "name": "Event138",
+        "params": {
+          "Reaction": "cScaring"
+        },
+        "query": "EventFlowQueryPlayerHaveNewReaction",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 140,
+        "name": "Event157",
+        "next": 141,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:040"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 141,
+        "name": "Event193",
+        "next": 143,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_TerrifyReaction",
+        "flowchart": "",
+        "index": 142,
+        "name": "Event195",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 151,
+            "value": 0
+          },
+          {
+            "target": 145,
+            "value": 1
+          }
+        ],
+        "index": 143,
+        "name": "Event196",
+        "params": {
+          "AccessKey": "cPlayer:EnableEmoticonUI"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 144,
+        "name": "Event197",
+        "next": 152,
+        "params": {
+          "AccessKey": "cPlayer:EnabledEmoticonIrregular"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 145,
+        "name": "Event198",
+        "next": 144,
+        "params": {
+          "AccessKey": "cPlayer:EnableEmoticonUI"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 148,
+            "value": 1
+          }
+        ],
+        "index": 146,
+        "name": "Event199",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 146,
+            "value": 1
+          }
+        ],
+        "index": 147,
+        "name": "Event200",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 148,
+        "name": "Event204",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 164,
+            "value": 1
+          }
+        ],
+        "index": 149,
+        "name": "Event203",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknPumpkingLookChatFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 117,
+            "value": 0
+          },
+          {
+            "target": 149,
+            "value": 1
+          }
+        ],
+        "index": 150,
+        "name": "Event205",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event208",
+        "next": 153,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:043"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 152,
+        "name": "Event194",
+        "next": 151,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:042"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionGetAddEmoticon",
+        "actor": "MainNpc",
+        "index": 153,
+        "name": "Event210",
+        "next": 154,
+        "params": {
+          "Reaction": "AddScaring"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 154,
+        "name": "Event211",
+        "next": null,
+        "params": {
+          "EntryPointName": "Get_Emoticon",
+          "EventFileName": "Player_GetDemo_Emoticons",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 155,
+        "name": "Event209",
+        "next": 71,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerHalloweenTricked",
+        "actor": "Player",
+        "index": 156,
+        "name": "Event213",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc",
+        "index": 157,
+        "name": "Event214",
+        "next": null,
+        "params": {
+          "ASType": "PknPrank",
+          "IsContinueEmot": true,
+          "IsWaitEnd": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          156,
+          157
+        ],
+        "index": 158,
+        "join": 159,
+        "name": "Event215",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 159,
+        "name": "Event216",
+        "next": 45,
+        "type": "JoinEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 118,
+            "value": 0
+          },
+          {
+            "target": 161,
+            "value": 1
+          }
+        ],
+        "index": 160,
+        "name": "Event146",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 162,
+            "value": 1
+          }
+        ],
+        "index": 161,
+        "name": "Event212",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknPumpkingLookChatFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event217",
+        "next": 115,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknPumpkingLookChatFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 163,
+        "name": "Event172",
+        "next": 112,
+        "params": {
+          "AccessKey": "cPlayer:PknPumpkingLookChatFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event206",
+        "next": 112,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknPumpkingLookChatFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 54,
+            "value": 0
+          },
+          {
+            "target": 166,
+            "value": 1
+          }
+        ],
+        "index": 165,
+        "name": "Event207",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 98,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 166,
+        "name": "Event218",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 167,
+        "name": "Event27",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 168,
+        "name": "Event104",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNoCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 169,
+        "name": "Event219",
+        "next": 167,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 169,
+            "value": 1
+          }
+        ],
+        "index": 170,
+        "name": "Event220",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 168,
+            "value": 1
+          }
+        ],
+        "index": 171,
+        "name": "Event221",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 172,
+        "name": "Event223",
+        "next": 41,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 172,
+            "value": 1
+          }
+        ],
+        "index": 173,
+        "name": "Event224",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 174,
+        "name": "Event222",
+        "next": 36,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 175,
+        "name": "Event225",
+        "next": 36,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNoCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 174,
+            "value": 0
+          },
+          {
+            "target": 175,
+            "value": 1
+          }
+        ],
+        "index": 176,
+        "name": "Event226",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 178,
+            "value": 1
+          }
+        ],
+        "index": 177,
+        "name": "Event123",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 182,
+            "value": 1
+          }
+        ],
+        "index": 178,
+        "name": "Event229",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 189,
+            "value": 1
+          }
+        ],
+        "index": 179,
+        "name": "Event230",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 179,
+            "value": 0
+          },
+          {
+            "target": 181,
+            "value": 1
+          }
+        ],
+        "index": 180,
+        "name": "Event231",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 189,
+            "value": 1
+          }
+        ],
+        "index": 181,
+        "name": "Event232",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 182,
+        "name": "Event11",
+        "next": 63,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 183,
+        "name": "Event162",
+        "next": 63,
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          },
+          {
+            "target": 185,
+            "value": 1
+          }
+        ],
+        "index": 184,
+        "name": "Event227",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 185,
+        "name": "Event228",
+        "next": 67,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknLastGiveCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 186,
+        "name": "Event233",
+        "next": 188,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 187,
+        "name": "Event234",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 188,
+        "name": "Event235",
+        "next": 4,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknLastGiveCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 186,
+            "value": 1
+          }
+        ],
+        "index": 189,
+        "name": "Event236",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 190,
+        "name": "Event238",
+        "params": {
+          "AccessKey": "cPlayer:PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 190,
+            "value": 0
+          },
+          {
+            "target": 192,
+            "value": 1
+          }
+        ],
+        "index": 191,
+        "name": "Event239",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 221,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 192,
+        "name": "Event240",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknTalkLastNotGetFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDeleteTargetItem",
+        "actor": "EventFlowSystemActor",
+        "index": 193,
+        "name": "Event52",
+        "next": 176,
+        "params": {
+          "DeleteNum": 1,
+          "IsPriorityFewItems": true,
+          "ItemUniqueId": 13197
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 194,
+        "name": "Event246",
+        "next": 105,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 195,
+        "name": "Event247",
+        "next": 142,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 142,
+            "value": 0
+          },
+          {
+            "target": 195,
+            "value": 1
+          }
+        ],
+        "index": 196,
+        "name": "Event248",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 198,
+            "value": 0
+          }
+        ],
+        "index": 197,
+        "name": "Event250",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenRobe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 199,
+            "value": 0
+          }
+        ],
+        "index": 198,
+        "name": "Event251",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenMask"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 199,
+        "name": "Event252",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 220,
+            "value": 0
+          }
+        ],
+        "index": 200,
+        "name": "Event255",
+        "params": {
+          "AccessKey": "cPlayer:PknGiveLollipopCount",
+          "Border": 2,
+          "FlagCheckType": 2
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 201,
+        "name": "Event147",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemLollipopFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_ChkCandyComp",
+        "flowchart": "",
+        "index": 202,
+        "name": "Event237",
+        "next": 239,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 250,
+            "value": 0
+          },
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 203,
+        "name": "Event261",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemLollipopFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 204,
+        "name": "Event51",
+        "next": 238,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4526,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 205,
+        "name": "Event70",
+        "next": 238,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4527,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 206,
+        "name": "Event75",
+        "next": 238,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4528,
+          "RemakePatternIndex": 0,
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 212,
+            "value": 0
+          },
+          {
+            "target": 210,
+            "value": 1
+          },
+          {
+            "target": 211,
+            "value": 2
+          }
+        ],
+        "index": 207,
+        "name": "Event76",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 208,
+        "name": "Event77",
+        "next": 237,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4525,
+          "RemakePatternIndex": 0,
+          "SetNum": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 207,
+            "value": 0
+          },
+          {
+            "target": 208,
+            "value": 1
+          }
+        ],
+        "index": 209,
+        "name": "Event78",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 204,
+            "value": 0
+          },
+          {
+            "target": 208,
+            "value": 1
+          }
+        ],
+        "index": 210,
+        "name": "Event79",
+        "params": {
+          "ScuashColor": "cYellow"
+        },
+        "query": "EventFlowQueryPlayerHaveGetColorSquash",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 206,
+            "value": 0
+          },
+          {
+            "target": 208,
+            "value": 1
+          }
+        ],
+        "index": 211,
+        "name": "Event80",
+        "params": {
+          "ScuashColor": "cWhite"
+        },
+        "query": "EventFlowQueryPlayerHaveGetColorSquash",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 205,
+            "value": 0
+          },
+          {
+            "target": 208,
+            "value": 1
+          }
+        ],
+        "index": 212,
+        "name": "Event81",
+        "params": {
+          "ScuashColor": "cGreen"
+        },
+        "query": "EventFlowQueryPlayerHaveGetColorSquash",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 213,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetCarriageRecipeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 214,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetCarriageFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 215,
+        "name": "Event46",
+        "params": {
+          "AccessKey": "cPlayer:PknGetCarriageFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 248,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 216,
+        "name": "Event48",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenStickRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 217,
+        "name": "Event2",
+        "next": 245,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13237,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 216,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 218,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cPlayer:PknGetCarriageRecipeFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 246,
+            "value": 0
+          }
+        ],
+        "index": 219,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenStickRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 219,
+            "value": 0
+          }
+        ],
+        "index": 220,
+        "name": "Event47",
+        "params": {
+          "AccessKey": "cPlayer:PknGetCarriageFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 221,
+        "name": "Event117",
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_PknLastGiveCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 222,
+        "name": "Event118",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenMask"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 223,
+        "name": "Event119",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenRobe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 224,
+        "name": "Event185",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 225,
+        "name": "Event179",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 226,
+        "name": "Event186",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 227,
+        "name": "Event253",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 228,
+        "name": "Event256",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 229,
+        "name": "Event254",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 230,
+        "name": "Event257",
+        "next": 254,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 231,
+        "name": "Event190",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 232,
+        "name": "Event191",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 233,
+        "name": "Event258",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenStickRecipe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 222,
+            "value": 0
+          },
+          {
+            "target": 223,
+            "value": 1
+          },
+          {
+            "target": 214,
+            "value": 2
+          },
+          {
+            "target": 213,
+            "value": 3
+          },
+          {
+            "target": 233,
+            "value": 4
+          },
+          {
+            "target": 233,
+            "value": 7
+          }
+        ],
+        "index": 234,
+        "name": "Event259",
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "ChoiceNumber": 8
+        },
+        "query": "EventFlowQueryFlagSystemIntValue8",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "PknMeorizeItem",
+        "flowchart": "",
+        "index": 235,
+        "name": "Event69",
+        "next": 241,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PknMeorizeItem",
+        "flowchart": "",
+        "index": 236,
+        "name": "Event82",
+        "next": 202,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 237,
+        "name": "Event84",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 238,
+        "name": "Event85",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          },
+          {
+            "target": 60,
+            "value": 2
+          },
+          {
+            "target": 60,
+            "value": 3
+          },
+          {
+            "target": 60,
+            "value": 4
+          },
+          {
+            "target": 64,
+            "value": 5
+          },
+          {
+            "target": 65,
+            "value": 6
+          },
+          {
+            "target": 60,
+            "value": 7
+          }
+        ],
+        "index": 239,
+        "name": "Event86",
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "ChoiceNumber": 8
+        },
+        "query": "EventFlowQueryFlagSystemIntValue8",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          },
+          {
+            "target": 62,
+            "value": 2
+          },
+          {
+            "target": 243,
+            "value": 3
+          },
+          {
+            "target": 243,
+            "value": 4
+          },
+          {
+            "target": 88,
+            "value": 7
+          }
+        ],
+        "index": 240,
+        "name": "Event88",
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "ChoiceNumber": 8
+        },
+        "query": "EventFlowQueryFlagSystemIntValue8",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_ChkRollipopComp",
+        "flowchart": "",
+        "index": 241,
+        "name": "Event16",
+        "next": 240,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 242,
+        "name": "Event89",
+        "next": 252,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:057_02_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 244,
+            "value": 0
+          },
+          {
+            "target": 242,
+            "value": 1
+          }
+        ],
+        "index": 243,
+        "name": "Event90",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemLollipopFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 244,
+        "name": "Event93",
+        "next": 252,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:057_03_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 245,
+        "name": "Event87",
+        "next": 254,
+        "params": {
+          "AccessKey": "cPlayer:PknGetItem",
+          "SetNum": 7
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 247,
+            "value": 0
+          }
+        ],
+        "index": 246,
+        "name": "Event103",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenRobe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 201,
+            "value": 0
+          }
+        ],
+        "index": 247,
+        "name": "Event120",
+        "params": {
+          "AccessKey": "cPlayer:GetHalloweenMask"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 129,
+            "value": 0
+          },
+          {
+            "target": 249,
+            "value": 1
+          }
+        ],
+        "index": 248,
+        "name": "Event94",
+        "params": {
+          "AccessKey": "cPlayer:PknCompItemCandyFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pkn_CandyNotComp",
+        "flowchart": "",
+        "index": 249,
+        "name": "Event152",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 250,
+        "name": "Event115",
+        "next": 251,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:054_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pkn_TerrifyReaction",
+        "flowchart": "",
+        "index": 251,
+        "name": "Event192",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pkn_TerrifyReaction",
+        "flowchart": "",
+        "index": 252,
+        "name": "Event201",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 253,
+        "name": "Event202",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pkn/SP_pkn:063_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetMemoryEventPlayer",
+        "actor": "EventFlowSystemActor",
+        "index": 254,
+        "name": "Event241",
+        "next": null,
+        "params": {
+          "AccessKey": "cBlancoEventPlayer:PE_Halloween_GetRecipe"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_pkn",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a5279d548e2ab9edf0c872663bb404b7c6118d098be28df4b66bb1889eeb46cd",
+  "size": 53384,
+  "status": "converted"
+}

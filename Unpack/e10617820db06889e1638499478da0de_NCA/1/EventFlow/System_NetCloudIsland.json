@@ -1,0 +1,313 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNetCloudIslandSetupSaveData",
+          "EventFlowActionNetCloudIslandDoAutoSave",
+          "EventFlowActionNetEnterCloudIsland",
+          "EventFlowActionNetEndSessionVillage",
+          "EventFlowActionNetCloudIslandRevertSaveData",
+          "EventFlowActionNetReturnFromDream",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNetCloudIslandHostReturnFromCloudIsland",
+          "EventFlowActionCloudIslandHostStartPlayReport",
+          "EventFlowActionNetCloudIslandSetLeaveType"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetDemoType",
+          "EventFlowQueryNetCloudIslandPlaying",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySubflowResultChoice2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "main_event": 3,
+        "name": "CloudIsland_Failure_Simple"
+      },
+      {
+        "main_event": 5,
+        "name": "CloudIsland_ReturnVillage"
+      },
+      {
+        "main_event": 8,
+        "name": "CloudIsland_NetErrorPlayable"
+      },
+      {
+        "main_event": 8,
+        "name": "CloudIsland_NetErrorPlayable_Retry"
+      }
+    ],
+    "event_count": 20,
+    "event_flow_name": "System_NetCloudIsland",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          },
+          {
+            "target": 7,
+            "value": 3
+          },
+          {
+            "target": 7,
+            "value": 4
+          },
+          {
+            "target": 7,
+            "value": 5
+          },
+          {
+            "target": 7,
+            "value": 6
+          },
+          {
+            "target": 1,
+            "value": 7
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryNetDemoType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandSetupSaveData",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 2,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandDoAutoSave",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryNetCloudIslandPlaying",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event10",
+        "next": 5,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandRevertSaveData",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event11",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetReturnFromDream",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MultiplaySave",
+        "flowchart": "System_Network",
+        "index": 7,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event14",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:051"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "WakeupProcess_CloseMenu",
+        "flowchart": "SNPC_tap_03_InCloudIsland",
+        "index": 10,
+        "name": "Event16",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandHostReturnFromCloudIsland",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ConnectionMsg_End",
+        "flowchart": "SNPC_tap",
+        "index": 12,
+        "name": "Event20",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "UserRegist_CloudIsland_InDreamScene",
+        "flowchart": "System_ServerRegistration",
+        "index": 13,
+        "name": "Event19",
+        "next": 15,
+        "params": {
+          "Terminate": false,
+          "WithLogin": true,
+          "WithSave": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event21",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ConnectionMsg_End",
+        "flowchart": "SNPC_tap",
+        "index": 15,
+        "name": "Event22",
+        "next": 14,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CloudIsland_NetErrorPlayable_Retry",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetEnterCloudIsland",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandHostStartPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event4",
+        "next": 17,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCloudIslandSetLeaveType",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event5",
+        "next": 11,
+        "params": {
+          "LeaveType": "cError"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_NetCloudIsland",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a12c699e0f9193febb7359f756c54baf5486e62c260223e4b2656f6a2a2dc4c6",
+  "size": 3824,
+  "status": "converted"
+}

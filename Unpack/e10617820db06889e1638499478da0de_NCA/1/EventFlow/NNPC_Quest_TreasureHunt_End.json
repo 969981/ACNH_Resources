@@ -1,0 +1,1334 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetSharePlayChangeCondition",
+          "EventFlowActionSetSharePlaySubToolCondition",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcQuestIsLimitOver",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryHasTargetItem",
+          "EventFlowQueryEventFlagSystemInt"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcQuestControl",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionNpcTreasureToDust",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcAddFriendship",
+          "EventFlowActionSetDeliveryItemApplySave",
+          "EventFlowActionNpcSetQuestRewardToPlayerBaggage",
+          "EventFlowActionEventFlagNpcOff",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsSelectNpcRequestedItem",
+          "EventFlowQueryNpcQuestReward",
+          "EventFlowQueryNpcIsTreasureHuntLimitOver2",
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 30,
+        "name": "Talk"
+      },
+      {
+        "main_event": 69,
+        "name": "Root"
+      },
+      {
+        "main_event": 75,
+        "name": "End_Win"
+      },
+      {
+        "main_event": 67,
+        "name": "End_Lose"
+      },
+      {
+        "main_event": 57,
+        "name": "Treasure_Finish"
+      },
+      {
+        "main_event": 66,
+        "name": "End_Lose_HasTreasure"
+      },
+      {
+        "main_event": 3,
+        "name": "ForVisitor"
+      },
+      {
+        "main_event": 81,
+        "name": "End"
+      }
+    ],
+    "event_count": 90,
+    "event_flow_name": "NNPC_Quest_TreasureHunt_End",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event24",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event32",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_Talk:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event36",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event37",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event38",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          },
+          {
+            "target": 10,
+            "value": 2
+          }
+        ],
+        "index": 11,
+        "name": "Event39",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event40",
+        "next": 16,
+        "params": {
+          "Command": 0,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event41",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event42",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event43",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          }
+        ],
+        "index": 16,
+        "name": "Event44",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event45",
+        "next": 36,
+        "params": {
+          "Command": 6,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event46",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event47",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event48",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event49",
+        "next": 25,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event52",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event53",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event54",
+        "next": 60,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          },
+          {
+            "target": 23,
+            "value": 2
+          }
+        ],
+        "index": 25,
+        "name": "Event55",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 27,
+            "value": 2
+          }
+        ],
+        "index": 26,
+        "name": "Event57",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event58",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event59",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event60",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event61",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event93",
+        "next": 32,
+        "params": {
+          "FilterType": "cQuest",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cItemSelect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event94",
+        "params": {},
+        "query": "EventFlowQueryIsSelectNpcRequestedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event95",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event96",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event97",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          },
+          {
+            "target": 20,
+            "value": 2
+          }
+        ],
+        "index": 36,
+        "name": "Event101",
+        "params": {},
+        "query": "EventFlowQueryNpcQuestReward",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Quest_AllReward",
+        "index": 37,
+        "name": "Event102",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event1",
+        "next": 12,
+        "params": {
+          "ApplyToSave": false,
+          "SetItemTarget": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event8",
+        "params": {
+          "QuestType": "cTreasure"
+        },
+        "query": "EventFlowQueryNpcQuestIsLimitOver",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Talk",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryNpcIsTreasureHuntLimitOver2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event2",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:300"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event11",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event13",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          },
+          {
+            "target": 44,
+            "value": 2
+          }
+        ],
+        "index": 45,
+        "name": "Event14",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "End_Win",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End_Lose",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event6",
+        "next": 26,
+        "params": {
+          "AddValue": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event66",
+        "next": 52,
+        "params": {
+          "AccessKey": "cLifeSupportDaily:AchieveQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSharePlayChangeCondition",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event68",
+        "next": 51,
+        "params": {
+          "Lock": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSharePlaySubToolCondition",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event69",
+        "next": 55,
+        "params": {
+          "IsEnable": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event70",
+        "next": 53,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:AchieveVillagersQuest",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event71",
+        "next": 50,
+        "params": {
+          "AccessKey": "cPlayer:HasPlayedTreasureHunt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Treasure_Finish",
+        "flowchart": "",
+        "index": 54,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event73",
+        "next": 77,
+        "params": {
+          "AccessKey": "cNpcMemory:OrderQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Treasure_Finish",
+        "flowchart": "",
+        "index": 56,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcQuestControl",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event75",
+        "next": 58,
+        "params": {
+          "Next": "cFinish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcTreasureToDust",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event76",
+        "next": 49,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemApplySave",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event3",
+        "next": 21,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetQuestRewardToPlayerBaggage",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event4",
+        "next": 89,
+        "params": {
+          "SetType": "cSwap"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:TreasurePlayerWin"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Treasure_Finish",
+        "flowchart": "",
+        "index": 62,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event62",
+        "next": 65,
+        "params": {
+          "Command": 0,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event63",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:401"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event64",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:402"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event65",
+        "next": 85,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 79,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event7",
+        "params": {
+          "ItemUniqueId": 2545,
+          "NeedNum": 1
+        },
+        "query": "EventFlowQueryHasTargetItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "End_Lose_HasTreasure",
+        "flowchart": "",
+        "index": 68,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 69,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ForVisitor",
+        "flowchart": "",
+        "index": 70,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cPlayer:TreasurePlayerWin"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "End_Win",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event56",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End_Lose",
+        "flowchart": "",
+        "index": 73,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event77",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcTemp:TreasureHuntGiveCancel"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event78",
+        "params": {
+          "AccessKey": "cNpcTemp:TreasureHuntGiveCancel"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event79",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event80",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcTemp:TreasureHuntGiveCancel"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event74",
+        "next": 56,
+        "params": {
+          "AccessKey": "cNpcMemory:UncollectedFishishTreasureHunt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event82",
+        "params": {},
+        "query": "EventFlowQueryNpcIsTreasureHuntLimitOver2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddFriendship",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event84",
+        "next": 68,
+        "params": {
+          "AddValue": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event81",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ForVisitor",
+        "flowchart": "",
+        "index": 82,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event86",
+        "next": 63,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:502"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event87",
+        "next": 83,
+        "params": {
+          "AccessKey": "cPlayer:TreasureHuntJustMissed",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event88",
+        "params": {
+          "AccessKey": "cPlayer:TreasureHuntJustMissed",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event90",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Quest/BO_Quest_TreasureHunt_End:501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event91",
+        "next": 86,
+        "params": {
+          "AccessKey": "cPlayer:TreasureHuntJustMissed",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event92",
+        "params": {
+          "AccessKey": "cPlayer:TreasureHuntJustMissed",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event99",
+        "next": 54,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Quest_TreasureHunt_End",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "03b1318b4c7775161dabb432b92c09efbf9695ffff85604baf83c67837df0dfb",
+  "size": 19576,
+  "status": "converted"
+}

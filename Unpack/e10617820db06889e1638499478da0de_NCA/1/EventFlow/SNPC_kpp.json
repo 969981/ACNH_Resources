@@ -1,0 +1,2893 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUISonkatsuPointAppear",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionLifeSupportPointCountDown",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionNetEndSessionVillage",
+          "EventFlowActionSelectMysteryTour",
+          "EventFlowActionMiniGameSilentCancel",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionKppReflectTradeBonus",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionUIHotelTicketDisappear",
+          "EventFlowActionUIHotelTicketAppear",
+          "EventFlowActionSetDIYTradeMessageTag",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionAddHotelTicket"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryHasLifeSupportPoint",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsVillageGateOpened",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryCheckKppTradeBonusFlag",
+          "EventFlowQueryIsKppTradeBonusTalk",
+          "EventFlowQueryHasHotelTicketCount"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcStartAS",
+          "EventFlowActionSetKappeiIslandReturnPos",
+          "EventFlowActionPostProcKppBonusTalk",
+          "EventFlowActionSmartPhone",
+          "EventFlowActionDisableMeasureChattering",
+          "EventFlowActionSmartPhoneSE",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerMoveToKppBoat",
+          "EventFlowActionTurnBody",
+          "EventFlowActionPlayerOutfitFieldMakeToolKit",
+          "EventFlowActionSmartPhone",
+          "EventFlowActionSmartPhoneSE",
+          "EventFlowActionHotelMannequinRental"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryHotelMannequinIsRentalAny"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionSoundTriggerEmit"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[BgmActor]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 62,
+        "name": "Root"
+      },
+      {
+        "main_event": 38,
+        "name": "kpp_PayMile"
+      },
+      {
+        "main_event": 35,
+        "name": "kpp_PreProcess"
+      },
+      {
+        "main_event": 90,
+        "name": "Check_TradeBox"
+      },
+      {
+        "main_event": 166,
+        "name": "BonusTalk_TradeBox"
+      },
+      {
+        "main_event": 76,
+        "name": "BonusTalk"
+      },
+      {
+        "main_event": 84,
+        "name": "HighPriceBonusTalk"
+      },
+      {
+        "main_event": 140,
+        "name": "FirstTimeBonus"
+      },
+      {
+        "main_event": 134,
+        "name": "SendCoupon_Before"
+      },
+      {
+        "main_event": 92,
+        "name": "SendCoupon_After"
+      },
+      {
+        "main_event": 170,
+        "name": "SendCoupon_End"
+      },
+      {
+        "main_event": 1,
+        "name": "Kpp_Select"
+      }
+    ],
+    "event_count": 212,
+    "event_flow_name": "SNPC_kpp",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISonkatsuPointAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event7",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event8",
+        "next": 0,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 1000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event9",
+        "params": {
+          "LifeSupportPointCheckType": "Now",
+          "Point": 1000
+        },
+        "query": "EventFlowQueryHasLifeSupportPoint",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event5",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 185,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event14",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 183,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTourTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cPlayer:KppFirstTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event23",
+        "next": 58,
+        "params": {
+          "AccessKey": "cPlayer:KppFirstTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event24",
+        "next": 55,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryIsVillageGateOpened",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event26",
+        "next": 185,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectMysteryTour",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event27",
+        "next": 28,
+        "params": {
+          "TourSelectType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          211,
+          24,
+          26,
+          29
+        ],
+        "index": 23,
+        "join": 25,
+        "name": "Event29",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "ASType": "KppStandby",
+          "IsContinueEmot": true,
+          "IsWaitEnd": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 25,
+        "name": "Event31",
+        "next": null,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerMoveToKppBoat",
+        "actor": "Player",
+        "index": 26,
+        "name": "Event32",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Player",
+        "index": 27,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "TurnAngle": 180.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event21",
+        "next": 23,
+        "params": {
+          "ASType": "NpcStandUpGround",
+          "IsContinueEmot": true,
+          "IsWaitEnd": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundTriggerEmit",
+        "actor": "EventFlowSystemActor[BgmActor]",
+        "index": 29,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "AssetKeyName": "Boat_Start",
+          "FadeHandleId": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetKappeiIslandReturnPos",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event35",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          }
+        ],
+        "index": 31,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event36",
+        "next": 33,
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerOutfitFieldMakeToolKit",
+        "actor": "Player",
+        "index": 33,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "FieldMakeToolKit": "cOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "kpp_PayMile",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event38",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMiniGameSilentCancel",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event28",
+        "next": 197,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "kpp_PreProcess",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event41",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 37,
+        "name": "Event42",
+        "next": 40,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event43",
+        "next": 37,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event48",
+        "next": 48,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 40,
+        "name": "Event50",
+        "next": 50,
+        "params": {
+          "ActionType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 41,
+        "name": "Event56",
+        "next": 46,
+        "params": {
+          "ActionType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event58",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event59",
+        "next": 210,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event51",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 46,
+        "name": "Event40",
+        "next": 59,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionLifeSupportPointCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event10",
+        "next": 41,
+        "params": {
+          "Point": -1000,
+          "Reverse": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "Player",
+        "index": 48,
+        "name": "Event44",
+        "next": 51,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Sending"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "Player",
+        "index": 49,
+        "name": "Event46",
+        "next": 39,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Control"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event52",
+        "next": 49,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event53",
+        "next": 187,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event47",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:010_01_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event49",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:010_01_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event54",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:010_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event55",
+        "params": {
+          "AccessKey": "cPlayer:MakePlayerAfterStartingKppTour"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event57",
+        "next": 60,
+        "params": {
+          "AccessKey": "cLand:KppTourStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event62",
+        "next": 56,
+        "params": {
+          "AccessKey": "cLand:KppTourStartToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event63",
+        "params": {
+          "AccessKey": "cLand:KppTourStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 210,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event64",
+        "params": {
+          "AccessKey": "cPlayer:DocMysterytourExplain1st"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cPlayer:DocMysterytourExplain1st"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event60",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event65",
+        "params": {
+          "AccessKey": "cPlayerVisit:KppTalkFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event66",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event67",
+        "next": 68,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event68",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event70",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerVisit:KppTalkFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionKppReflectTradeBonus",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event78",
+        "next": 169,
+        "params": {
+          "BonusTypeString": "AchiveRemake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "BonusTalk_TradeBox",
+        "flowchart": "",
+        "index": 70,
+        "name": "Event80",
+        "next": 98,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          },
+          {
+            "target": 125,
+            "value": 2
+          },
+          {
+            "target": 74,
+            "value": 3
+          }
+        ],
+        "index": 71,
+        "name": "Event95",
+        "params": {
+          "BonusCheckTypeString": "cMultiPlay"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          },
+          {
+            "target": 132,
+            "value": 1
+          },
+          {
+            "target": 128,
+            "value": 2
+          },
+          {
+            "target": 127,
+            "value": 3
+          }
+        ],
+        "index": 72,
+        "name": "Event79",
+        "params": {
+          "BonusCheckTypeString": "cCheckTradeBox"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          },
+          {
+            "target": 121,
+            "value": 1
+          },
+          {
+            "target": 120,
+            "value": 2
+          },
+          {
+            "target": 121,
+            "value": 3
+          }
+        ],
+        "index": 73,
+        "name": "Event96",
+        "params": {
+          "BonusCheckTypeString": "cCheckTradeBox"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 114,
+            "value": 1
+          },
+          {
+            "target": 116,
+            "value": 2
+          },
+          {
+            "target": 179,
+            "value": 3
+          }
+        ],
+        "index": 74,
+        "name": "Event98",
+        "params": {
+          "BonusCheckTypeString": "cCheckTradeBox"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          },
+          {
+            "target": 110,
+            "value": 2
+          }
+        ],
+        "index": 75,
+        "name": "Event81",
+        "params": {
+          "BonusCheckTypeString": "cMultiPlay"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          }
+        ],
+        "index": 76,
+        "name": "Event82",
+        "params": {
+          "BonusTalkTypeString": "All",
+          "OnlyCheckMultiPlay": true
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionKppReflectTradeBonus",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event100",
+        "next": 96,
+        "params": {
+          "BonusTypeString": "AchiveRemake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 180,
+            "value": 0
+          },
+          {
+            "target": 167,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event107",
+        "params": {
+          "BonusTalkTypeString": "OnlyHighPrice",
+          "OnlyCheckMultiPlay": false
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 175,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event111",
+        "params": {
+          "BonusTalkTypeString": "OnlyHighPrice",
+          "OnlyCheckMultiPlay": false
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelTicketAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event115",
+        "next": 161,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionKppReflectTradeBonus",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event118",
+        "next": 97,
+        "params": {
+          "BonusTypeString": "HighPrice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "HighPriceBonusTalk",
+        "flowchart": "",
+        "index": 82,
+        "name": "Event108",
+        "next": 175,
+        "params": {
+          "KppAlreadyTakingOutPhone": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HighPriceBonusTalk",
+        "flowchart": "",
+        "index": 83,
+        "name": "Event112",
+        "next": 174,
+        "params": {
+          "KppAlreadyTakingOutPhone": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetDIYTradeMessageTag",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event122",
+        "next": 164,
+        "params": {
+          "DIYTradeTagTypeString": "cHighPriceBonusItemName",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "HighPriceBonusTalk",
+        "flowchart": "",
+        "index": 85,
+        "name": "Event109",
+        "next": 177,
+        "params": {
+          "KppAlreadyTakingOutPhone": false
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event129",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FirstTimeBonus",
+        "flowchart": "",
+        "index": 87,
+        "name": "Event124",
+        "next": 98,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BonusTalk",
+        "flowchart": "",
+        "index": 88,
+        "name": "Event131",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event139",
+        "next": 82,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:141"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event135",
+        "params": {
+          "AccessKey": "cPlayer:ReserveFirstTradeBonus"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event141",
+        "next": 145,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event142",
+        "next": 91,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event143",
+        "next": null,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event144",
+        "next": 80,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_Before",
+        "flowchart": "",
+        "index": 95,
+        "name": "Event159",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_After",
+        "flowchart": "",
+        "index": 96,
+        "name": "Event160",
+        "next": 176,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_After",
+        "flowchart": "",
+        "index": 97,
+        "name": "Event119",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_Before",
+        "flowchart": "",
+        "index": 98,
+        "name": "Event137",
+        "next": 69,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event104",
+        "params": {
+          "AccessKey": "cPlayer:KppFirstTalkHotel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event145",
+        "next": 102,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          }
+        ],
+        "index": 101,
+        "name": "Event146",
+        "params": {
+          "AccessKey": "cPlayer:KppFirstTalkHotel_BoatTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 102,
+        "name": "Event147",
+        "next": 52,
+        "params": {
+          "AccessKey": "cPlayer:KppFirstTalkHotel_BoatTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 103,
+        "name": "Event76",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event83",
+        "next": 133,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event85",
+        "next": 178,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:140"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 106,
+        "name": "Event88",
+        "next": 107,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event89",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event91",
+        "next": 109,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 109,
+        "name": "Event92",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 110,
+        "name": "Event84",
+        "next": 111,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 111,
+        "name": "Event93",
+        "next": 112,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 112,
+        "name": "Event90",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 113,
+        "name": "Event99",
+        "next": 118,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 114,
+        "name": "Event123",
+        "next": 115,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 115,
+        "name": "Event138",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 116,
+        "name": "Event149",
+        "next": 117,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 117,
+        "name": "Event150",
+        "next": 118,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 118,
+        "name": "Event151",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 119,
+        "name": "Event152",
+        "next": 122,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 120,
+        "name": "Event154",
+        "next": 119,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 121,
+        "name": "Event153",
+        "next": 123,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event155",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 123,
+        "name": "Event158",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 124,
+        "name": "Event162",
+        "next": 126,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 125,
+        "name": "Event163",
+        "next": 124,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 126,
+        "name": "Event164",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 127,
+        "name": "Event97",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 128,
+        "name": "Event168",
+        "next": 129,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 129,
+        "name": "Event169",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 130,
+        "name": "Event170",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 131,
+        "name": "Event171",
+        "next": 130,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 132,
+        "name": "Event166",
+        "next": 131,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 165,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 133,
+        "name": "Event165",
+        "params": {
+          "BonusTalkTypeString": "All",
+          "OnlyCheckMultiPlay": false
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDisableMeasureChattering",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event167",
+        "next": 94,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 142,
+            "value": 0
+          },
+          {
+            "target": 144,
+            "value": 1
+          },
+          {
+            "target": 143,
+            "value": 2
+          },
+          {
+            "target": 136,
+            "value": 3
+          }
+        ],
+        "index": 135,
+        "name": "Event172",
+        "params": {
+          "BonusCheckTypeString": "cCheckTradeBox"
+        },
+        "query": "EventFlowQueryCheckKppTradeBonusFlag",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event175",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event178",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 138,
+        "name": "Event180",
+        "next": 139,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 139,
+        "name": "Event181",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 140,
+        "name": "Event103",
+        "next": 141,
+        "params": {
+          "AccessKey": "cPlayer:IsAchivedTradeOrderBonusOnce"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 141,
+        "name": "Event126",
+        "next": 103,
+        "params": {
+          "AccessKey": "cPlayer:ReserveFirstTradeBonus"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event120",
+        "next": 203,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:117"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 143,
+        "name": "Event128",
+        "next": 138,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:117"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 144,
+        "name": "Event176",
+        "next": 137,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:116"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 145,
+        "name": "Event177",
+        "next": 146,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 146,
+        "name": "Event179",
+        "next": 93,
+        "params": {
+          "ActionType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 147,
+        "name": "Event183",
+        "next": 153,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "MainNpc",
+        "index": 148,
+        "name": "Event184",
+        "next": 150,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Sending"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "Player",
+        "index": 149,
+        "name": "Event185",
+        "next": 168,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Recieving"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event186",
+        "next": 149,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 151,
+        "name": "Event190",
+        "next": 155,
+        "params": {
+          "ActionType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 152,
+        "name": "Event191",
+        "next": 148,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 153,
+        "name": "Event192",
+        "next": 151,
+        "params": {
+          "Continue": false,
+          "Frame": 30,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "MainNpc",
+        "index": 154,
+        "name": "Event193",
+        "next": 152,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Control"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 155,
+        "name": "Event194",
+        "next": 154,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 156,
+        "name": "Event195",
+        "next": 158,
+        "params": {
+          "ActionType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 157,
+        "name": "Event196",
+        "next": 147,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Smiling"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 158,
+        "name": "Event197",
+        "next": 157,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 159,
+        "name": "Event199",
+        "next": null,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 160,
+        "name": "Event200",
+        "next": null,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          159,
+          162
+        ],
+        "index": 161,
+        "join": 163,
+        "name": "Event201",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 162,
+        "name": "Event202",
+        "next": 160,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 163,
+        "name": "Event203",
+        "next": 156,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionSetDIYTradeMessageTag",
+        "actor": "EventFlowSystemActor",
+        "index": 164,
+        "name": "Event198",
+        "next": 105,
+        "params": {
+          "DIYTradeTagTypeString": "cHighPriceBonusTicketNum",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDIYTradeMessageTag",
+        "actor": "EventFlowSystemActor",
+        "index": 165,
+        "name": "Event189",
+        "next": 135,
+        "params": {
+          "DIYTradeTagTypeString": "cAchiveRemakeBonusTicketNum",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDIYTradeMessageTag",
+        "actor": "EventFlowSystemActor",
+        "index": 166,
+        "name": "Event204",
+        "next": 71,
+        "params": {
+          "DIYTradeTagTypeString": "cAchiveRemakeBonusTicketNum",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDIYTradeMessageTag",
+        "actor": "EventFlowSystemActor",
+        "index": 167,
+        "name": "Event205",
+        "next": 75,
+        "params": {
+          "DIYTradeTagTypeString": "cAchiveRemakeBonusTicketNum",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 168,
+        "name": "Event206",
+        "next": null,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_After",
+        "flowchart": "",
+        "index": 169,
+        "name": "Event161",
+        "next": 79,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPostProcKppBonusTalk",
+        "actor": "MainNpc",
+        "index": 170,
+        "name": "Event117",
+        "next": 173,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 171,
+        "name": "Event187",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 172,
+        "name": "Event188",
+        "next": 171,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:120"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelTicketDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 173,
+        "name": "Event209",
+        "next": 172,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_End",
+        "flowchart": "",
+        "index": 174,
+        "name": "Event113",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_End",
+        "flowchart": "",
+        "index": 175,
+        "name": "Event114",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_End",
+        "flowchart": "",
+        "index": 176,
+        "name": "Event86",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_End",
+        "flowchart": "",
+        "index": 177,
+        "name": "Event87",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_Before",
+        "flowchart": "",
+        "index": 178,
+        "name": "Event94",
+        "next": 81,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 179,
+        "name": "Event105",
+        "next": 83,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:142"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 180,
+        "name": "Event106",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:142"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelTicketAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 181,
+        "name": "Event116",
+        "next": 193,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 191,
+            "value": 0
+          },
+          {
+            "target": 184,
+            "value": 1
+          }
+        ],
+        "index": 182,
+        "name": "Event134",
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTour2TodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 182,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 183,
+        "name": "Event133",
+        "params": {
+          "AccessKey": "cPlayer:HotelVipRoomIntroductionDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 184,
+        "name": "Event174",
+        "next": 194,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 100
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 186,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 185,
+        "name": "Event207",
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTourTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 189,
+            "value": 0
+          },
+          {
+            "target": 190,
+            "value": 1
+          }
+        ],
+        "index": 186,
+        "name": "Event210",
+        "params": {
+          "TicketNum": 100
+        },
+        "query": "EventFlowQueryHasHotelTicketCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 188,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 187,
+        "name": "Event211",
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTourTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAddHotelTicket",
+        "actor": "EventFlowSystemActor",
+        "index": 188,
+        "name": "Event213",
+        "next": 41,
+        "params": {
+          "Source": "cFlow",
+          "TicketNum": -100
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 189,
+        "name": "Event214",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:002_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 190,
+        "name": "Event215",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:004_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 191,
+        "name": "Event216",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:009_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 192,
+        "name": "Event156",
+        "next": 205,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:001_00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 193,
+        "name": "Event157",
+        "next": 195,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 204,
+            "value": 0
+          },
+          {
+            "target": 206,
+            "value": 1
+          }
+        ],
+        "index": 194,
+        "name": "Event217",
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTour2ExplainFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Kpp_Select",
+        "flowchart": "",
+        "index": 195,
+        "name": "Event218",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 196,
+        "name": "Event219",
+        "next": 195,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 198,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 197,
+        "name": "Event221",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 199,
+            "value": 0
+          },
+          {
+            "target": 200,
+            "value": 1
+          }
+        ],
+        "index": 198,
+        "name": "Event222",
+        "params": {
+          "AccessKey": "cPlayer:EquipLicenseHelmet"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 199,
+        "name": "Event223",
+        "next": 201,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:011_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 200,
+        "name": "Event224",
+        "next": 202,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:011_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionHotelMannequinRental",
+        "actor": "Player",
+        "index": 201,
+        "name": "Event225",
+        "next": null,
+        "params": {
+          "IsImmediateOff": false,
+          "IsOffWithLicense": true,
+          "IsOn": false,
+          "IsTurnToCamera": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionHotelMannequinRental",
+        "actor": "Player",
+        "index": 202,
+        "name": "Event226",
+        "next": null,
+        "params": {
+          "IsImmediateOff": false,
+          "IsOffWithLicense": false,
+          "IsOn": false,
+          "IsTurnToCamera": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 203,
+        "name": "Event72",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelTicketAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 204,
+        "name": "Event74",
+        "next": 196,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 205,
+        "name": "Event75",
+        "next": 181,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:001_00_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 206,
+        "name": "Event77",
+        "next": 192,
+        "params": {
+          "AccessKey": "cPlayer:KppTakeTour2ExplainFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "HighPriceBonusTalk",
+        "flowchart": "",
+        "index": 207,
+        "name": "Event125",
+        "next": 209,
+        "params": {
+          "KppAlreadyTakingOutPhone": true
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 208,
+        "name": "Event130",
+        "next": 207,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/kpp/SP_kpp:141"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SendCoupon_End",
+        "flowchart": "",
+        "index": 209,
+        "name": "Event140",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 208,
+            "value": 0
+          }
+        ],
+        "index": 210,
+        "name": "Event228",
+        "params": {
+          "BonusTalkTypeString": "OnlyHighPrice",
+          "OnlyCheckMultiPlay": false
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChangeStage",
+        "flowchart": "00_System_StageChange",
+        "index": 211,
+        "name": "Event229",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": "cNormal",
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 0.0,
+          "TargetStage": "cKppSeaDeparture"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_kpp",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "162439de1d5700b00ab4b383f39cc0b79f53e23a1271f77495f9255606d788d9",
+  "size": 42024,
+  "status": "converted"
+}

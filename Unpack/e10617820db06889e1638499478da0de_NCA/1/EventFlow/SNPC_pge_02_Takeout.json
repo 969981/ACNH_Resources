@@ -1,0 +1,1431 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionSetItemToPocket",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionSetMemoryValuePlayer",
+          "EventFlowActionEventFlagSystemAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryFlagSystemIntValue3",
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryFlagSystemIntValue9",
+          "EventFlowQueryIsCafeWaitSitAll"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionPgeCafeReaction",
+          "EventFlowActionTurnBody",
+          "EventFlowActionNpcWaitTurn",
+          "EventFlowActionSetDefaultWaitAs",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerMuseumCafe"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 88,
+        "name": "Root"
+      },
+      {
+        "main_event": 36,
+        "name": "Pge_Anime_TakeOut"
+      },
+      {
+        "main_event": 4,
+        "name": "Pge_Buy_TakeOut"
+      },
+      {
+        "main_event": 77,
+        "name": "Root_Init"
+      }
+    ],
+    "event_count": 95,
+    "event_flow_name": "SNPC_pge_02_Takeout",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cPlayer:PgeTalkTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event29",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 3,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          },
+          {
+            "target": 48,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event39",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event41",
+        "next": 26,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          },
+          {
+            "target": 52,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event42",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event46",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event47",
+        "params": {
+          "Money": 300
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event51",
+        "next": 24,
+        "params": {
+          "Money": 300,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event79",
+        "next": 14,
+        "params": {
+          "AccessKey": "cPlayer:PgeTalkTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event94",
+        "next": 76,
+        "params": {
+          "AccessKey": "cPlayer:PgeCoffeeTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemToPocket",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event81",
+        "next": 60,
+        "params": {
+          "ItemUniqueId": 14541,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event3",
+        "next": 79,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 300
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          },
+          {
+            "target": 38,
+            "value": 2
+          },
+          {
+            "target": 39,
+            "value": 3
+          },
+          {
+            "target": 39,
+            "value": 4
+          },
+          {
+            "target": 40,
+            "value": 5
+          },
+          {
+            "target": 40,
+            "value": 6
+          },
+          {
+            "target": 41,
+            "value": 7
+          },
+          {
+            "target": 41,
+            "value": 8
+          }
+        ],
+        "index": 13,
+        "name": "Event65",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "ChoiceNumber": 9
+        },
+        "query": "EventFlowQueryFlagSystemIntValue9",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event64",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 9,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event66",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 11,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event82",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 13,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event83",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 15,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event73",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 7,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event74",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 11,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event75",
+        "params": {
+          "AccessKey": "cPlayer:PgeRegularCount",
+          "Border": 15,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Pge_Anime_TakeOut",
+        "flowchart": "",
+        "index": 21,
+        "name": "Event7",
+        "next": 81,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerVisit:PgeVisitorCoffeeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event10",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:026"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayerVisit:PgeVisitorTalkFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event4",
+        "next": 59,
+        "params": {
+          "AccessKey": "cPlayerVisit:PgeVisitorTalkFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pge_Buy_TakeOut",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pge_Dream",
+        "flowchart": "SNPC_pge",
+        "index": 32,
+        "name": "Event17",
+        "next": 63,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pge_FirstCafe",
+        "flowchart": "SNPC_pge",
+        "index": 33,
+        "name": "Event18",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event48",
+        "next": 64,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event20",
+        "next": 8,
+        "params": {
+          "ApplyToSave": false,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 14541,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event21",
+        "next": 70,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event50",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event68",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event28",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event58",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event59",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 51,
+        "name": "Event60",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event61",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event32",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event33",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event34",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event43",
+        "next": 85,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event44",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event40",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event9",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event56",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pge_First",
+        "flowchart": "SNPC_pge",
+        "index": 62,
+        "name": "Event57",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event62",
+        "next": 12,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerMuseumCafe",
+        "actor": "Player",
+        "index": 64,
+        "name": "Event63",
+        "next": 65,
+        "params": {
+          "ActionType": 0,
+          "IsSharePlay": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event69",
+        "next": 74,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPgeCafeReaction",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event70",
+        "next": 67,
+        "params": {
+          "IsTakeOut": true,
+          "PgeReactionType": "cTakeOut"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPgeCafeReaction",
+        "actor": "MainNpc",
+        "index": 67,
+        "name": "Event76",
+        "next": 68,
+        "params": {
+          "IsTakeOut": true,
+          "PgeReactionType": "cPourCoffee"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPgeCafeReaction",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event77",
+        "next": 72,
+        "params": {
+          "IsTakeOut": true,
+          "PgeReactionType": "cPutOnLid"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPgeCafeReaction",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event78",
+        "next": 34,
+        "params": {
+          "IsTakeOut": true,
+          "PgeReactionType": "cPutOnTable"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event80",
+        "next": 71,
+        "params": {
+          "TurnAngle": 270.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event84",
+        "next": 66,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event85",
+        "next": 73,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event86",
+        "next": 69,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 74,
+        "name": "Event87",
+        "next": null,
+        "params": {
+          "NpcWaitAsType": "cDefault"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event88",
+        "next": 89,
+        "params": {
+          "AccessKey": "cLand:CoffeTakeout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event89",
+        "params": {
+          "AccessKey": "cLand:CoffeTakeout"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event8",
+        "next": 78,
+        "params": {
+          "NpcWaitAsType": "cPgeBaseWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetupSharePlayCamera",
+        "flowchart": "SNPC_pge",
+        "index": 78,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryIsCafeWaitSitAll",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetMemoryValuePlayer",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event36",
+        "next": 11,
+        "params": {
+          "AccessKey": "cBlancoValuePlayer:PV_Cafe_TakeoutCoffee",
+          "AddValue": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event45",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 14541
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event49",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pge_DeleteUI",
+        "flowchart": "SNPC_pge",
+        "index": 84,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pge_DeleteUI",
+        "flowchart": "SNPC_pge",
+        "index": 85,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Pge_DeleteUI",
+        "flowchart": "SNPC_pge",
+        "index": 86,
+        "name": "Event37",
+        "next": 21,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event71",
+        "next": 32,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event54",
+        "next": 87,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 89,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cPlayer:DrinkCoffeeToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 90,
+        "name": "Event90",
+        "next": 91,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:DrinkCoffee",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event91",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:DrinkCoffeeToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event92",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 14541
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event93",
+        "next": 94,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/pge/SP_pge_02_Takeout:022"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Pge_DeleteUI",
+        "flowchart": "SNPC_pge",
+        "index": 94,
+        "name": "Event95",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_pge_02_Takeout",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "98e0810cc2abc81c0977a9caaf003a2ef55d3ddf4b7b339b5506533b3951e98d",
+  "size": 20512,
+  "status": "converted"
+}

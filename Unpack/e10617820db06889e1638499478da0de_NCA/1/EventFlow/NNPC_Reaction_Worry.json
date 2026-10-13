@@ -1,0 +1,269 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcSetReactionType",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionCharacterEmoticonAction",
+          "EventFlowActionSetNpcFeel"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcFeelSource",
+          "EventFlowQueryIsFeelSourcePlayer"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious3"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 7,
+        "name": "Root"
+      },
+      {
+        "main_event": 9,
+        "name": "SharingCheck"
+      },
+      {
+        "main_event": 4,
+        "name": "Worry_Message"
+      }
+    ],
+    "event_count": 16,
+    "event_flow_name": "NNPC_Reaction_Worry",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Worry:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Worry:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_Worry:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetReactionType",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": 3,
+        "params": {
+          "ReactionType": "cWorry"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 6,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          },
+          {
+            "target": 13,
+            "value": 2
+          }
+        ],
+        "index": 7,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNpcFeelSource",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SharingCheck",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsFeelSourcePlayer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": 11,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Shocked"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event11",
+        "next": 12,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event12",
+        "next": 15,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Talk_Sequence",
+        "index": 13,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Worry_Message",
+        "flowchart": "",
+        "index": 14,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_Worry",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "98bf077f8d5bb5ed6a62060455d213e54b0766ef9e563fc14272bcea4457d2c9",
+  "size": 3984,
+  "status": "converted"
+}

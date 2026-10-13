@@ -1,0 +1,176 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcSetTalkDistance",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeTurnDefaultState",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcDisableServiceMotion"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 3,
+        "name": "Root"
+      },
+      {
+        "main_event": 1,
+        "name": "Init"
+      }
+    ],
+    "event_count": 8,
+    "event_flow_name": "AI_NPC_AirPort",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 1,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_dod_AirPort"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetTalkDistance",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": 2,
+        "params": {
+          "Distance": 25.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLandTemp:DocReturnFromIsland"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 5,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cDodReturn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_dod_AirPort"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_dod_AirPort"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_AirPort",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6805d8e15ca6bf5ecb25f7cf1217c4c61a02db7c54a0d2e9b6b88751ed4f116a",
+  "size": 3464,
+  "status": "converted"
+}

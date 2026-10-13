@@ -1,0 +1,561 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSmartPhone"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionSetHideObjectVisible",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionSystemMailSend",
+          "EventFlowActionFadeIn",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionUIMenuDeviceAppear",
+          "EventFlowActionFadeOut",
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 31,
+        "name": "InvitePlayerHouse"
+      }
+    ],
+    "event_count": 38,
+    "event_flow_name": "SNPC_rco_55_TkkFirstLive",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event16",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event18",
+        "next": 0,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "",
+          "CameraParamKey": "cNormal",
+          "CameraTargetKey": "Player",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetHideObjectVisible",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event19",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "EntryPointName": "Finish_1stKkLive",
+          "EventFileName": "Player_GetDemo_Once",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event1",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event2",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event3",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event4",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event5",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event6",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event7",
+        "next": 11,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 4318,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event8",
+        "next": 7,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event9",
+        "next": 13,
+        "params": {
+          "FileIndex": "MAIL_SNpc_rco",
+          "FromType": "cRco",
+          "LabelIndex": 4,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event13",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event20",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event24",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event26",
+        "next": 17,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuConstructLicense"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMenuDeviceAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event27",
+        "next": 21,
+        "params": {
+          "Application": "cConstructLicense",
+          "EventType": "cInstall"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event28",
+        "next": 19,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SendingDataWithP",
+        "flowchart": "Demo_Common_PhoneCall",
+        "index": 19,
+        "name": "Event29",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PuttingMobileAwayWithP",
+        "flowchart": "Demo_Common_PhoneCall",
+        "index": 20,
+        "name": "Event30",
+        "next": 22,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event31",
+        "next": 20,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event32",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event33",
+        "next": 24,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event34",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeOut",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event14",
+        "next": 26,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "IsUseDucking": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event36",
+        "next": 1,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event35",
+        "next": 3,
+        "params": {
+          "IsWait": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event17",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event37",
+        "next": 4,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event38",
+        "next": 12,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 4318,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event15",
+        "next": 29,
+        "params": {
+          "AccessKey": "cPlayer:StandByRcoVisitMyHomeAfterTkkFirstLive"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cLand:TkkFirstLiveReserved"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cLand:TkkFirstLiveReserved"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event41",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003_00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event42",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/SP_rco_11_TkkFirstLive:003_00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuConstructLicense"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_55_TkkFirstLive",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "15cf7eeb30549d953a6b5e823ad18201b3ea2f7f39bbe8828121ae040c573ae1",
+  "size": 10848,
+  "status": "converted"
+}

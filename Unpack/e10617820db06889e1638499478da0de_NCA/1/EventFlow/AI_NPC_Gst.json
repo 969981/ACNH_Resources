@@ -1,0 +1,272 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeBlockWanderState",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeAIState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 6,
+        "name": "Root"
+      },
+      {
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "main_event": 9,
+        "name": "Hit"
+      },
+      {
+        "main_event": 11,
+        "name": "Prank"
+      },
+      {
+        "main_event": 12,
+        "name": "CallMegaphone"
+      }
+    ],
+    "event_count": 13,
+    "event_flow_name": "AI_NPC_Gst",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 1,
+          "ArgInt2": 0,
+          "ArgInt3": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_gst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cLandTemp:GstQuestStartLandFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 4,
+          "ArgInt2": 19,
+          "ArgInt3": 19,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_gst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLandTemp:GstQuestClearFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_gst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cHit",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_gst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cLandTemp:GstQuestStartLandFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cHit",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Gst_Hit",
+          "TalkEventFlowName": "SNPC_gst"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 11,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_gst"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 12,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "EntryName": "Megaphone",
+          "FlowName": "SNPC_gst"
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Gst",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "87cafde8b30254dc4851239a6b42f655af9d669ccf11eef30efc94f1911d7e95",
+  "size": 5712,
+  "status": "converted"
+}

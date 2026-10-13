@@ -1,0 +1,2297 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionEventFlagNpcAdd",
+          "EventFlowActionEventFlagNpcOff"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcInt",
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcBirthType",
+          "EventFlowQueryNpcLivingDays",
+          "EventFlowQueryCheckNpcLook",
+          "EventFlowQueryNpcMoveOutState",
+          "EventFlowQueryNpcIsSitting",
+          "EventFlowQueryEnvWeatherNNpcTalkCustom"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQueryPlayerIsEquipItem",
+          "EventFlowQueryEnvTimeZone",
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryGeneralTalkChoice2"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerIsUseCoordinate",
+          "EventFlowQueryHotelMannequinIsRentalAny"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "LifeStartHint"
+      },
+      {
+        "main_event": 16,
+        "name": "Transition"
+      },
+      {
+        "main_event": 46,
+        "name": "Progress_Chk"
+      },
+      {
+        "main_event": 47,
+        "name": "Progress_InHouse_Chk"
+      },
+      {
+        "main_event": 98,
+        "name": "Progress_NpcHouseBuilt"
+      },
+      {
+        "main_event": 96,
+        "name": "HintTalkChk"
+      },
+      {
+        "main_event": 61,
+        "name": "Progress_FreeBSpot"
+      },
+      {
+        "main_event": 65,
+        "name": "ChkReact1stPresent"
+      },
+      {
+        "main_event": 111,
+        "name": "ForMarketBuilding_Chk"
+      },
+      {
+        "main_event": 123,
+        "name": "ForMileTicketSupport_Chk"
+      }
+    ],
+    "event_count": 147,
+    "event_flow_name": "NNPC_FreeH",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event3",
+        "next": 1,
+        "params": {
+          "AccessKey": "cLand:SpotPrologueTimes",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cLand:SpotPrologueTimes",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event7",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_LifeStart_Hint:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event10",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_LifeStart_Hint:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLand:SpotPrologueTimes",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cLand:SpotPrologueTimes",
+          "Border": 3,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_LifeStart_Hint:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event9",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_LifeStart_Hint:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event14",
+        "next": 9,
+        "params": {
+          "AccessKey": "cPlayer:NnpcFinishHintTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event4",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Transition:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event15",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Transition:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event20",
+        "next": 14,
+        "params": {
+          "AccessKey": "cNpcSave:FinishTalkTransition"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event21",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Transition:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cNpcSave:TalkTransitionTimes",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcAdd",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event19",
+        "next": 15,
+        "params": {
+          "AccessKey": "cNpcSave:TalkTransitionTimes",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cNpcSave:TalkTransitionTimes",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagNpcInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Progress_MyHouseBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 18,
+        "name": "Event11",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_MigrantsQuest",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 19,
+        "name": "Event94",
+        "next": 20,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_OfficeBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 20,
+        "name": "Event96",
+        "next": 21,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_ShopBuilt2",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 21,
+        "name": "Event97",
+        "next": 22,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_ShopBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 22,
+        "name": "Event98",
+        "next": 121,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_MuseumBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 23,
+        "name": "Event99",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_MuseumTent",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 24,
+        "name": "Event100",
+        "next": 29,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_OtherPlayerMoveIn",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 25,
+        "name": "Event101",
+        "next": 26,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_MyHouseBuilt2",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 26,
+        "name": "Event102",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_BridgeBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 27,
+        "name": "Event103",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_SlopeBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 28,
+        "name": "Event104",
+        "next": 25,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_TailorBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 29,
+        "name": "Event110",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Progress_MyHouseBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 30,
+        "name": "Event111",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event112",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event114",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressNpcHouseBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event115",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeH_Progress:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event116",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event117",
+        "next": 97,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkProgressNpcHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event118",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Transition",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event119",
+        "next": 36,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event120",
+        "params": {
+          "AccessKey": "cNpcSave:FinishTalkTransition"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event121",
+        "params": {
+          "AccessKey": "cPlayer:NnpcFinishHintTalk"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event122",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "LifeStartHint",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event123",
+        "next": 40,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          }
+        ],
+        "index": 42,
+        "name": "Event124",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          }
+        ],
+        "index": 43,
+        "name": "Event125",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event128",
+        "params": {
+          "CheckDays": 7
+        },
+        "query": "EventFlowQueryNpcLivingDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event59",
+        "params": {
+          "CheckDays": 7
+        },
+        "query": "EventFlowQueryNpcLivingDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          }
+        ],
+        "index": 46,
+        "name": "Event113",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          }
+        ],
+        "index": 47,
+        "name": "Event131",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 120,
+            "value": 0
+          }
+        ],
+        "index": 48,
+        "name": "Event132",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event133",
+        "params": {
+          "AccessKey": "cNpcSave:NnpcHouseBuilt"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          }
+        ],
+        "index": 50,
+        "name": "Event134",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 45,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event135",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 52,
+        "name": "Event136",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          }
+        ],
+        "index": 53,
+        "name": "Event137",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstNpcEarlyAcquaintanceFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event138",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstNpcEarlyAcquaintanceFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 91,
+            "value": 0
+          }
+        ],
+        "index": 55,
+        "name": "Event139",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event0",
+        "next": 4,
+        "params": {
+          "AccessKey": "cLand:SpotPrologueTimes",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 58,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Progress_MyHouseBuilt",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 59,
+        "name": "Event24",
+        "next": 64,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event25",
+        "params": {
+          "CheckDays": 7
+        },
+        "query": "EventFlowQueryNpcLivingDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          }
+        ],
+        "index": 61,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 60,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event27",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          }
+        ],
+        "index": 63,
+        "name": "Event28",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Progress_MyHouseBuilt2",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 64,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          }
+        ],
+        "index": 65,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cNpcSave:TalkLifeStart1P1st"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event31",
+        "params": {
+          "AccessKey": "cNpcSave:React1stNpcPresent"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          }
+        ],
+        "index": 67,
+        "name": "Event32",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 6840,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 67,
+            "value": 3
+          },
+          {
+            "target": 118,
+            "value": 5
+          }
+        ],
+        "index": 68,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkReact1stPresent",
+        "flowchart": "",
+        "index": 69,
+        "name": "Event34",
+        "next": 39,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event35",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 71,
+        "name": "Event37",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:012_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event38",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:012_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event39",
+        "next": 70,
+        "params": {
+          "AccessKey": "cNpcSave:React1stNpcPresent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 93,
+            "value": 0
+          },
+          {
+            "target": 75,
+            "value": 1
+          },
+          {
+            "target": 71,
+            "value": 2
+          },
+          {
+            "target": 71,
+            "value": 3
+          },
+          {
+            "target": 72,
+            "value": 4
+          },
+          {
+            "target": 72,
+            "value": 5
+          },
+          {
+            "target": 93,
+            "value": 6
+          }
+        ],
+        "index": 74,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherNNpcTalkCustom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 76,
+        "name": "Event42",
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 77,
+        "name": "Event43",
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "Border": 1,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          }
+        ],
+        "index": 78,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "Border": 3,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 80,
+        "name": "Event46",
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "Border": 4,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 81,
+        "name": "Event47",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 5136,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 82,
+        "name": "Event61",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 5128,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 83,
+        "name": "Event62",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 5148,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 84,
+        "name": "Event63",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 11521,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 85,
+        "name": "Event64",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 5258,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          }
+        ],
+        "index": 86,
+        "name": "Event65",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 5293,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": true,
+          "ReferenceLook": false
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 87,
+        "name": "Event66",
+        "next": 89,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event67",
+        "next": 87,
+        "params": {
+          "AccessKey": "cNpcSave:React1stNpcPresent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event48",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 18,
+            "value": 4
+          }
+        ],
+        "index": 90,
+        "name": "Event49",
+        "params": {},
+        "query": "EventFlowQueryNpcMoveOutState",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          },
+          {
+            "target": 30,
+            "value": 2
+          },
+          {
+            "target": 30,
+            "value": 4
+          }
+        ],
+        "index": 91,
+        "name": "Event50",
+        "params": {},
+        "query": "EventFlowQueryNpcMoveOutState",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 59,
+            "value": 1
+          },
+          {
+            "target": 59,
+            "value": 2
+          },
+          {
+            "target": 59,
+            "value": 4
+          }
+        ],
+        "index": 92,
+        "name": "Event51",
+        "params": {},
+        "query": "EventFlowQueryNpcMoveOutState",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 94,
+            "value": 1
+          },
+          {
+            "target": 94,
+            "value": 2
+          },
+          {
+            "target": 95,
+            "value": 3
+          },
+          {
+            "target": 95,
+            "value": 4
+          },
+          {
+            "target": 95,
+            "value": 5
+          }
+        ],
+        "index": 93,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryEnvTimeZone",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event6",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:012_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event36",
+        "next": 75,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:012_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          }
+        ],
+        "index": 96,
+        "name": "Event52",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event53",
+        "next": 34,
+        "params": {
+          "AccessKey": "cNpcSave:NnpcHouseBuiltToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          }
+        ],
+        "index": 98,
+        "name": "Event54",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 106,
+            "value": 3
+          },
+          {
+            "target": 103,
+            "value": 5
+          }
+        ],
+        "index": 99,
+        "name": "Event55",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 100,
+        "name": "Event58",
+        "next": 134,
+        "params": {
+          "AccessKey": "cNpcSave:MarketBuildingSupport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 105,
+            "value": 0
+          },
+          {
+            "target": 104,
+            "value": 1
+          }
+        ],
+        "index": 101,
+        "name": "Event60",
+        "params": {
+          "AccessKey": "cPlayer:DecideShopArea"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 102,
+        "name": "Event68",
+        "next": 112,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/Free/HA_FreeH_ForMarketBuilding:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 103,
+        "name": "Event69",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterialComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 104,
+        "name": "Event81",
+        "next": 112,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/Free/HA_FreeH_ForMarketBuilding:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 105,
+        "name": "Event82",
+        "next": 113,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/Free/HA_FreeH_ForMarketBuilding:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 108,
+            "value": 0
+          },
+          {
+            "target": 107,
+            "value": 1
+          }
+        ],
+        "index": 106,
+        "name": "Event95",
+        "params": {
+          "AccessKey": "cLand:RcmShopMaterialComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 107,
+        "name": "Event105",
+        "next": 114,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/Free/AN_FreeH_ForMarketBuilding:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 108,
+        "name": "Event148",
+        "next": 115,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/Free/AN_FreeH_ForMarketBuilding:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          }
+        ],
+        "index": 109,
+        "name": "Event160",
+        "params": {
+          "AccessKey": "cNpcTemp:MarketBuildingTalk"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 109,
+            "value": 4
+          }
+        ],
+        "index": 110,
+        "name": "Event161",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          }
+        ],
+        "index": 111,
+        "name": "Event165",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_HA1",
+        "flowchart": "NNPC_ApproachE",
+        "index": 112,
+        "name": "Event163",
+        "next": 116,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_HA2",
+        "flowchart": "NNPC_ApproachE",
+        "index": 113,
+        "name": "Event164",
+        "next": 116,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_AN1",
+        "flowchart": "NNPC_ApproachE",
+        "index": 114,
+        "name": "Event70",
+        "next": 117,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_AN2",
+        "flowchart": "NNPC_ApproachE",
+        "index": 115,
+        "name": "Event71",
+        "next": 117,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 116,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 117,
+        "name": "Event73",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 146,
+            "value": 1
+          }
+        ],
+        "index": 118,
+        "name": "Event56",
+        "params": {},
+        "query": "EventFlowQueryPlayerIsUseCoordinate",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Progress_MuseumBuilt2",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 119,
+        "name": "Event74",
+        "next": 23,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          },
+          {
+            "target": 49,
+            "value": 2
+          },
+          {
+            "target": 49,
+            "value": 4
+          }
+        ],
+        "index": 120,
+        "name": "Event57",
+        "params": {},
+        "query": "EventFlowQueryNpcMoveOutState",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Progress_MuseumBuiltCafe",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 121,
+        "name": "Event76",
+        "next": 119,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 122,
+        "name": "Event77",
+        "next": 133,
+        "params": {
+          "AccessKey": "cNpcSave:MileTourTicketSupport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 124,
+            "value": 0
+          }
+        ],
+        "index": 123,
+        "name": "Event78",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 126,
+            "value": 4
+          }
+        ],
+        "index": 124,
+        "name": "Event80",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 127,
+            "value": 0
+          }
+        ],
+        "index": 125,
+        "name": "Event83",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 130,
+            "value": 0
+          }
+        ],
+        "index": 126,
+        "name": "Event84",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 128,
+            "value": 0
+          }
+        ],
+        "index": 127,
+        "name": "Event85",
+        "params": {
+          "AccessKey": "cNpcSave:MarketBuildingSupport"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 129,
+            "value": 1
+          }
+        ],
+        "index": 128,
+        "name": "Event86",
+        "params": {
+          "AccessKey": "cNpcSave:MarketBuildingSupportToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 122,
+            "value": 1
+          }
+        ],
+        "index": 129,
+        "name": "Event87",
+        "params": {
+          "AccessKey": "cNpcSave:MileTourTicketSupport"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 141,
+            "value": 3
+          },
+          {
+            "target": 125,
+            "value": 5
+          }
+        ],
+        "index": 130,
+        "name": "Event88",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_HA_MileTicket",
+        "flowchart": "NNPC_ApproachE",
+        "index": 132,
+        "name": "Event90",
+        "next": 131,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 133,
+        "name": "Event91",
+        "next": 132,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/Free/HA_FreeH_ForMarketBuilding:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 134,
+        "name": "Event93",
+        "next": 99,
+        "params": {
+          "AccessKey": "cNpcSave:MarketBuildingSupportToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event106",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FromFreeH_AN_MileTicket",
+        "flowchart": "NNPC_ApproachE",
+        "index": 136,
+        "name": "Event107",
+        "next": 135,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 137,
+        "name": "Event108",
+        "next": 142,
+        "params": {
+          "AccessKey": "cNpcSave:MileTourTicketSupport"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 137,
+            "value": 1
+          }
+        ],
+        "index": 138,
+        "name": "Event109",
+        "params": {
+          "AccessKey": "cNpcSave:MileTourTicketSupport"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 140,
+            "value": 1
+          }
+        ],
+        "index": 139,
+        "name": "Event126",
+        "params": {
+          "AccessKey": "cLand:RcmImmQuestComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 138,
+            "value": 1
+          }
+        ],
+        "index": 140,
+        "name": "Event127",
+        "params": {
+          "AccessKey": "cPlayer:ImmQCompleteDemo"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 139,
+            "value": 0
+          },
+          {
+            "target": 144,
+            "value": 1
+          }
+        ],
+        "index": 141,
+        "name": "Event129",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_SetHousing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 142,
+        "name": "Event130",
+        "next": 143,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/Free/AN_FreeH_ForMarketBuilding:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 136,
+            "value": 0
+          },
+          {
+            "target": 136,
+            "value": 1
+          }
+        ],
+        "index": 143,
+        "name": "Event140",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 139,
+            "value": 0
+          },
+          {
+            "target": 145,
+            "value": 1
+          }
+        ],
+        "index": 144,
+        "name": "Event141",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_SetHousing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 139,
+            "value": 0
+          }
+        ],
+        "index": 145,
+        "name": "Event142",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_SetHousing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 76,
+            "value": 1
+          }
+        ],
+        "index": 146,
+        "name": "Event143",
+        "params": {},
+        "query": "EventFlowQueryHotelMannequinIsRentalAny",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeH",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "edfa94dd7338d3823fdf39d17b13ca214e28114818dbab5b7c112fc3f9ac94aa",
+  "size": 28720,
+  "status": "converted"
+}

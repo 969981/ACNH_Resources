@@ -1,0 +1,775 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPercentChoice3",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionNpcDelivery"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcIsSitting"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 33,
+        "name": "Walk"
+      },
+      {
+        "main_event": 33,
+        "name": "Sit"
+      },
+      {
+        "main_event": 33,
+        "name": "Root"
+      },
+      {
+        "main_event": 10,
+        "name": "BoaFreeTalk"
+      },
+      {
+        "main_event": 6,
+        "name": "BoaTurnipTalk"
+      },
+      {
+        "main_event": 5,
+        "name": "BoaTurnipTalk_30"
+      },
+      {
+        "main_event": 7,
+        "name": "BoaTurnipTalk_50"
+      },
+      {
+        "main_event": 8,
+        "name": "BoaTurnipTalk_100"
+      }
+    ],
+    "event_count": 48,
+    "event_flow_name": "SNPC_boa_Wherearen",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event7",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event8",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGetTurnipToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event6",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:105_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": 15,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2634,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          },
+          {
+            "target": 14,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event10",
+        "params": {
+          "PercentA": 50,
+          "PercentB": 30,
+          "PercentC": 20
+        },
+        "query": "EventFlowQueryPercentChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event5",
+        "next": 19,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2636,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event11",
+        "next": 20,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 2641,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event16",
+        "params": {
+          "Percent": 50
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event19",
+        "next": 13,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event20",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:107"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event13",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:105_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event14",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:106_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event15",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:105_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event21",
+        "next": 13,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event22",
+        "next": 13,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event23",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:106_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event24",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:106_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGetTurnipToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event27",
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaTalkedWherearen"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaTalkToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BoaFreeTalk",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event4",
+        "next": 0,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaTalkedWherearen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event30",
+        "next": 37,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaTalkToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          },
+          {
+            "target": 28,
+            "value": 3
+          },
+          {
+            "target": 29,
+            "value": 4
+          },
+          {
+            "target": 28,
+            "value": 5
+          }
+        ],
+        "index": 27,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BoaFreeTalk",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BoaTurnipTalk",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event17",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event2",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event33",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:109"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGiveTurnipFailed"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGiveTurnipFailed"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event36",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "BoaTurnipTalk",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event39",
+        "next": 21,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event40",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 36,
+            "value": 4
+          }
+        ],
+        "index": 38,
+        "name": "Event41",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          }
+        ],
+        "index": 39,
+        "name": "Event31",
+        "params": {
+          "PercentA": 50,
+          "PercentB": 30,
+          "PercentC": 20
+        },
+        "query": "EventFlowQueryPercentChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BoaTurnipTalk_30",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BoaTurnipTalk_50",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BoaTurnipTalk_100",
+        "flowchart": "",
+        "index": 42,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event44",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/boa/SP_boa_WherearenEvent:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event45",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGiveTurnipFailed"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          },
+          {
+            "target": 24,
+            "value": 2
+          },
+          {
+            "target": 24,
+            "value": 3
+          },
+          {
+            "target": 31,
+            "value": 4
+          },
+          {
+            "target": 24,
+            "value": 5
+          }
+        ],
+        "index": 45,
+        "name": "Event46",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event47",
+        "next": 47,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGetTurnipToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event48",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:BoaGiveTurnipFailed"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_boa_Wherearen",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "61e475baa02c358099fbceccd178ef64f1121bc605c6873aeed0810e369fb3b6",
+  "size": 11104,
+  "status": "converted"
+}

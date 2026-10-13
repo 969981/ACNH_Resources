@@ -1,0 +1,111 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetCheckResultStructureDoor"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQueryGlobalEventNow"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "System_Door_TownOffice",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Door:114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "CheckResult": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetCheckResultStructureDoor",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "CheckResult": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event8",
+        "params": {
+          "CheckNowTime": false,
+          "DayType": "cMainOnly",
+          "EventLabelString": "Countdown"
+        },
+        "query": "EventFlowQueryGlobalEventNow",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "System_Door_TownOffice",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f33741e739f52d0e59f6af39a041601709944f2eb54166fc2303b6910133c2f6",
+  "size": 1640,
+  "status": "converted"
+}

@@ -1,0 +1,406 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSelectRewardItemDirect",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerIsEquipItem",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryEventCheck"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetDeliveryItemAtRandom"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcIsMovingRoom",
+          "EventFlowQueryNpcIsSitting"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 21,
+        "name": "Pumpking_Look"
+      }
+    ],
+    "event_count": 26,
+    "event_flow_name": "NNPC_Reaction_GEvent_Halloween",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "EquipRequireType": "cAll",
+          "ItemUniqueID1": 12987,
+          "ItemUniqueID2": 13002,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "PutawayType": false,
+          "ReferenceLook": true
+        },
+        "query": "EventFlowQueryPlayerIsEquipItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenTerrifyFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_Halloween:200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_Halloween:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 13,
+        "params": {
+          "AccessKey": "cNpcMemory:HalloweenTerrifyFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_Halloween:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 17,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 6,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 13197,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "CapacityCheckType": "cReward",
+          "ItemUniqueId": 13197
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSelectRewardItemDirect",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event9",
+        "next": 8,
+        "params": {
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueId": 13197,
+          "RemakePatternIndex": 0,
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event12",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event13",
+        "next": 15,
+        "params": {
+          "AccessKey": "cNpcMemory:HaloweenGetCandyThisSceneFalg"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event14",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayer:NpcHalloweenCandyHelpFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event15",
+        "next": 14,
+        "params": {
+          "AccessKey": "cNpcMemory:HaloweenTalkThisSceneFalg"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event16",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/GEvent/BO_GEvent_Halloween:201_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event18",
+        "next": 19,
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event19",
+        "next": 20,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event20",
+        "next": 4,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event21",
+        "params": {
+          "EventLabelString": "Halloween"
+        },
+        "query": "EventFlowQueryEventCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event23",
+        "next": 10,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 2
+          }
+        ],
+        "index": 24,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryNpcIsMovingRoom",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 4
+          }
+        ],
+        "index": 25,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_GEvent_Halloween",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "0e9e79a45643ef7e5c9dccb7eeaecb31b0d3989fd06f4d2f65911f2cdec80a43",
+  "size": 6768,
+  "status": "converted"
+}

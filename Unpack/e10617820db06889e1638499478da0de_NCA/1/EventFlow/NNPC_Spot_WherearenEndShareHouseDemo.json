@@ -1,0 +1,993 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionWherearenResetVisitInfo",
+          "EventFlowActionWherearenOrderCallback",
+          "EventFlowActionSnpcSetAllVisible",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionSystemFaderRelease",
+          "EventFlowActionCollisionWherearenAirWall",
+          "EventFlowActionSetupWherearenEndShareHouseDemoFromHouse",
+          "EventFlowActionSetLookAtTargetObject",
+          "EventFlowActionChangeWherearenWorkMode",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionSoundDuckingOn",
+          "EventFlowActionNextLPFadeOff"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGardenSafeRangeType",
+          "EventFlowQueryIsWherearenWorkMode"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionWherearenTakeOnNpcOrder",
+          "EventFlowActionNpcSetPosWherearenEndShareHouseDemo",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionTurnBody",
+          "EventFlowActionNpcWaitTurn",
+          "EventFlowActionNpcMoveDirection",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionNpcChangeHandTool",
+          "EventFlowActionNpcAITalkCastSetting",
+          "EventFlowActionNpcStartAS",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerSetAllVisible"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck",
+          "EventFlowActionTurnBody",
+          "EventFlowActionNpcWaitTurn",
+          "EventFlowActionNpcStartAS",
+          "EventFlowActionNpcChangeHandTool",
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "SubNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 68,
+        "name": "Demo_Enter"
+      },
+      {
+        "main_event": 70,
+        "name": "Demo"
+      },
+      {
+        "main_event": 31,
+        "name": "Demo_Exit"
+      },
+      {
+        "main_event": 30,
+        "name": "Root_Init"
+      },
+      {
+        "main_event": 34,
+        "name": "FromHouse"
+      },
+      {
+        "main_event": 30,
+        "name": "FromHouse_Init"
+      },
+      {
+        "main_event": 32,
+        "name": "Demo_Enter_FromHouse"
+      },
+      {
+        "main_event": 64,
+        "name": "KeepFaderOff_FromHouse"
+      },
+      {
+        "main_event": 60,
+        "name": "SetCamera"
+      }
+    ],
+    "event_count": 74,
+    "event_flow_name": "NNPC_Spot_WherearenEndShareHouseDemo",
+    "events": [
+      {
+        "action": "EventFlowActionPlayerSetAllVisible",
+        "actor": "Player",
+        "index": 0,
+        "name": "Event14",
+        "next": 8,
+        "params": {
+          "Visible": "cOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo_Enter",
+        "flowchart": "",
+        "index": 1,
+        "name": "Event6",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 0.10000000149011612,
+          "TargetStage": "cWherearenOrderDemo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenResetVisitInfo",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event8",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenTakeOnNpcOrder",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event15",
+        "next": 5,
+        "params": {
+          "MovingType": "",
+          "NewType": "cShareHouseEnd",
+          "OrderType": "cNewHouse",
+          "ReformType": "",
+          "ThemeIndex": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event16",
+        "next": 48,
+        "params": {
+          "CallBackTiming": "cStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event1",
+        "next": 7,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Demo_Exit",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetPosWherearenEndShareHouseDemo",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event2",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event18",
+        "next": 10,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 10,
+        "name": "Event19",
+        "next": 11,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSnpcSetAllVisible",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event4",
+        "next": 63,
+        "params": {
+          "NpcLabel": "mnc",
+          "Visible": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "SubNpc",
+        "index": 12,
+        "name": "Event5",
+        "next": 13,
+        "params": {
+          "TurnAngle": 180.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "SubNpc",
+        "index": 13,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event17",
+        "next": 15,
+        "params": {
+          "TurnAngle": 180.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          45,
+          47
+        ],
+        "index": 16,
+        "join": 17,
+        "name": "Event22",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 17,
+        "name": "Event23",
+        "next": 18,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event25",
+        "next": 40,
+        "params": {
+          "WaitFrame": 125
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "SubNpc",
+        "index": 19,
+        "name": "Event26",
+        "next": 20,
+        "params": {
+          "TurnAngle": 315.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "SubNpc",
+        "index": 20,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event28",
+        "next": 22,
+        "params": {
+          "TurnAngle": 135.0,
+          "TurnTarget": 12
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcWaitTurn",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsWaitSkip": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          21,
+          19
+        ],
+        "index": 23,
+        "join": 24,
+        "name": "Event30",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 24,
+        "name": "Event31",
+        "next": 27,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMoveDirection",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "Angle": 0.0,
+          "Distance": 50.0,
+          "IsEndWaitAction": false,
+          "IsUseFollower": false,
+          "MoveType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event10",
+        "next": 29,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event24",
+        "next": 42,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event32",
+        "next": 41,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event38",
+        "next": 44,
+        "params": {
+          "HandToolItemID": 7125,
+          "IsImmediately": true,
+          "SpecificToolKindString": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkCastSetting",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "SetupKey": "WherearenEndShareHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event40",
+        "next": 3,
+        "params": {
+          "AccessKey": "cWherearenPlayer:RequestEndShareHouseDemo",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event42",
+        "next": 33,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 33,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Demo_Enter_FromHouse",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event44",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemFaderRelease",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event45",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCollisionWherearenAirWall",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event46",
+        "next": 50,
+        "params": {
+          "IsEnable": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event52",
+        "next": 72,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetupWherearenEndShareHouseDemoFromHouse",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event53",
+        "next": 69,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event47",
+        "next": 49,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event50",
+        "next": 56,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event51",
+        "next": 25,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 11
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event55",
+        "next": 57,
+        "params": {
+          "ASType": "NpcGreeting",
+          "IsContinueEmot": true,
+          "IsWaitEnd": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcStartAS",
+        "actor": "SubNpc",
+        "index": 43,
+        "name": "Event56",
+        "next": 28,
+        "params": {
+          "ASType": "NpcGreeting",
+          "IsContinueEmot": true,
+          "IsWaitEnd": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHandTool",
+        "actor": "SubNpc",
+        "index": 44,
+        "name": "Event57",
+        "next": 39,
+        "params": {
+          "HandToolItemID": 7125,
+          "IsImmediately": true,
+          "SpecificToolKindString": "cPutAway"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event11",
+        "next": 14,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetLookAtTargetObject",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event48",
+        "next": 16,
+        "params": {
+          "LookAtTargetObject": "cWherearenNpcHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 47,
+        "name": "Event49",
+        "next": 12,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetOrderCamera",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 48,
+        "name": "Event54",
+        "next": 65,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event58",
+        "next": 73,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event60",
+        "next": 53,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Explain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 51,
+        "name": "Event67",
+        "next": 54,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "FaintSmile"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "SubNpc",
+        "index": 52,
+        "name": "Event68",
+        "next": 55,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "Explain"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event69",
+        "next": 51,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event70",
+        "next": 52,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event71",
+        "next": 46,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "SubNpc",
+        "index": 56,
+        "name": "Event13",
+        "next": 58,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event33",
+        "next": 43,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event34",
+        "next": 23,
+        "params": {
+          "WaitFrame": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "EndShareHouseDemoRight",
+          "CameraTargetKey": "Place:SafeArea",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          },
+          {
+            "target": 59,
+            "value": 2
+          }
+        ],
+        "index": 60,
+        "name": "Event36",
+        "params": {},
+        "query": "EventFlowQueryGardenSafeRangeType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "EndShareHouseDemoCenter",
+          "CameraTargetKey": "Place:SafeArea",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "EndShareHouseDemoLeft",
+          "CameraTargetKey": "Place:SafeArea",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SetCamera",
+        "flowchart": "",
+        "index": 63,
+        "name": "Event62",
+        "next": 26,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SetCamera",
+        "flowchart": "",
+        "index": 64,
+        "name": "Event63",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenWorkMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeWherearenWorkMode",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event64",
+        "next": 2,
+        "params": {
+          "IsEnd": false,
+          "IsUsePerfomance": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event65",
+        "next": 0,
+        "params": {
+          "BGMProperty": 195
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event66",
+        "next": 67,
+        "params": {
+          "Id": 64
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerSetAllVisible",
+        "actor": "Player",
+        "index": 69,
+        "name": "Event74",
+        "next": 37,
+        "params": {
+          "Visible": "cOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNextLPFadeOff",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event75",
+        "next": 36,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event41",
+        "next": 35,
+        "params": {
+          "BGMProperty": 196
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSoundDuckingOn",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event72",
+        "next": 71,
+        "params": {
+          "Id": 64
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FadeIn_Cmn",
+        "flowchart": "00_Demo_Fade",
+        "index": 73,
+        "name": "Event73",
+        "next": null,
+        "params": {
+          "IsWait": true
+        },
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Spot_WherearenEndShareHouseDemo",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "a0e12b44645bd436693668327c11bc690952e166f67c103e5c6a3d1938280a68",
+  "size": 16760,
+  "status": "converted"
+}

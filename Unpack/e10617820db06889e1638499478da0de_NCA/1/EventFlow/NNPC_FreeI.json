@@ -1,0 +1,369 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryEventFlagSystemInt"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionDecideFreeIType",
+          "EventFlowActionSetItemName",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionDecideFreeIReward",
+          "EventFlowActionNpcOpenFreeMessage",
+          "EventFlowActionRegistToReleaseItemList",
+          "EventFlowActionAddMemoryEventPlayerForNpc"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcHasFreeMessage",
+          "EventFlowQueryNpcIsRewardDecided"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerOutfitMarinesuit"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 21,
+        "name": "Present_Chk"
+      },
+      {
+        "main_event": 2,
+        "name": "ReSelect"
+      }
+    ],
+    "event_count": 24,
+    "event_flow_name": "NNPC_FreeI",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeI_Present:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event9",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Free/BO_FreeI_Present:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideFreeIType",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event14",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event15",
+        "next": 0,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 27,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event16",
+        "next": 5,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 27
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "Command": 1,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideFreeIReward",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event11",
+        "next": 17,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcOpenFreeMessage",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event59",
+        "next": 12,
+        "params": {
+          "OpenMessageType": "cFreeIPresent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event60",
+        "params": {
+          "QueryMessageType": "cFreeIPresent"
+        },
+        "query": "EventFlowQueryNpcHasFreeMessage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionRegistToReleaseItemList",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event13",
+        "next": 23,
+        "params": {
+          "Route": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 27,
+          "TagType": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event61",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event12",
+        "next": 15,
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeIPresentTodayAnyone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:TalkFreeIPresentTodayAnyone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event19",
+        "next": 10,
+        "params": {
+          "AccessKey": "cPlayerTemp:TalkPresentNow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayerTemp:TalkClothesPNow"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryNpcIsRewardDecided",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event21",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayerTemp:FreeISelectCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReSelect",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cPlayerTemp:FreeISelectCount",
+          "Border": 5,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event24",
+        "next": 14,
+        "params": {
+          "AccessKey": "cPlayerTemp:FreeISelectCount",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryPlayerOutfitMarinesuit",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionAddMemoryEventPlayerForNpc",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event26",
+        "next": 6,
+        "params": {
+          "Key": "Present_FromNNPC"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_FreeI",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "33cfa7f73492a4f61ce1024e069fad77baa67d2a123c6a2f6c6d4699b1fbc1fb",
+  "size": 5640,
+  "status": "converted"
+}

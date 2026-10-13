@@ -1,0 +1,194 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionNpcAISetPos"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryWherearenIsCustomerNpcResumeOrder"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "main_event": 7,
+        "name": "Init"
+      }
+    ],
+    "event_count": 9,
+    "event_flow_name": "AI_NPC_WherearenOffice",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "RootVisitor",
+          "TalkEventFlowName": "NNPC_Spot_WherearenOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 8,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 3,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetPos",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsUseCreateOffset": false,
+          "SetAngle": 0.0,
+          "SetPosX": 0.0,
+          "SetPosZ": 0.0,
+          "isUseEventPlazaOffset": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NewBuildCount",
+          "Border": 0,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "RootSuspend",
+          "TalkEventFlowName": "NNPC_Spot_WherearenOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryWherearenIsCustomerNpcResumeOrder",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ControlBalloon",
+        "flowchart": "AI_NPC_Wherearen_Common",
+        "index": 7,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NnpcSetHiddenInOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_WherearenOffice",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "253e460cfe78c7ea59ba63efb4041244913f639b32f40a20d00d747c10793881",
+  "size": 3664,
+  "status": "converted"
+}

@@ -1,0 +1,328 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetWeatherPattern"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventBranch",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryEnvWeatherArea",
+          "EventFlowQueryEnvSameDate"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "FirstLive"
+      },
+      {
+        "main_event": 16,
+        "name": "FirstDay"
+      },
+      {
+        "main_event": 5,
+        "name": "Always"
+      },
+      {
+        "main_event": 11,
+        "name": "ChristmasDay"
+      },
+      {
+        "main_event": 13,
+        "name": "ChristmasEve"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "System_GrowUp_WeatherControl",
+    "events": [
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event6",
+        "params": {
+          "AddDay": 0,
+          "CheckNowTime": true
+        },
+        "query": "EventFlowQueryEventBranch",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cLand:TkkFirstLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLand:IslandEvaluationClearTkkLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 5
+          },
+          {
+            "target": 9,
+            "value": 7
+          }
+        ],
+        "index": 5,
+        "name": "Event3",
+        "params": {
+          "AddDay": 0,
+          "CheckNowTime": true
+        },
+        "query": "EventFlowQueryEventBranch",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_4"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cLand:GrowUpAfterPatch1_6"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherArea",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event37",
+        "params": {},
+        "query": "EventFlowQueryEnvWeatherArea",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event38",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetWeatherPattern",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "PatternName": "EventDay00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event14",
+        "params": {
+          "CheckDateType": "cWeatherEventDay",
+          "TimeType": "cLastGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "System_GrowUp_WeatherControl",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9822c5d20cccf466dbe483359baa5f2d3ee4bf1d5c4f2fa26924bfd0abb0cda1",
+  "size": 4280,
+  "status": "converted"
+}

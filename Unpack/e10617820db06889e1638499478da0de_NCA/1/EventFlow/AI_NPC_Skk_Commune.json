@@ -1,0 +1,219 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcChangeConversationPretenseState",
+          "EventFlowActionNpcChangeInvisibleState",
+          "EventFlowActionNpcChangeSpVisitorTurnState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcCommuneShopOpen"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCommuneShopEvent"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "AI_NPC_Skk_Commune",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 17
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event1",
+        "params": {
+          "ShopEvent": "cSkkShop"
+        },
+        "query": "EventFlowQueryCommuneShopEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event7",
+        "next": 5,
+        "params": {
+          "HeadCtrlMode": "cNoLook",
+          "IsUseTiredLookAt": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "spn",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Skk_Shop_skk",
+          "TalkEventFlowName": "SNPC_spn_12_Commune_ShopOpen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryNpcCommuneShopOpen",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeSpVisitorTurnState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFlag1": true,
+          "ArgInt0": 30,
+          "ArgInt1": 1,
+          "ArgInt2": 15,
+          "ArgInt3": 0,
+          "ArgStr0": "",
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cSpVisitorTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_skk_02_Commune"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SkkOpen_SkkPos",
+        "flowchart": "Demo_Common_Commune",
+        "index": 9,
+        "name": "Event6",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Skk_Commune",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9a65619d50880213ef02b2ed29a61f65b7caf91b05d824c66fbaa7e4b63085d3",
+  "size": 4360,
+  "status": "converted"
+}

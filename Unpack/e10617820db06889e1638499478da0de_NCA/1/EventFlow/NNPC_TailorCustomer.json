@@ -1,0 +1,312 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionWherearenSetTagRunningOrderTheme"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPercentChoice",
+          "EventFlowQueryWherearenExistFacilityName",
+          "EventFlowQueryWherearenOrderStatus",
+          "EventFlowQueryIsInspectingWherearen"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnNeck"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryClassifyWatchTorsoType"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 17,
+        "name": "Root"
+      },
+      {
+        "main_event": 17,
+        "name": "Walk"
+      },
+      {
+        "main_event": 8,
+        "name": "WatchTorso"
+      },
+      {
+        "main_event": 5,
+        "name": "FacilityName_Chk"
+      },
+      {
+        "main_event": 13,
+        "name": "ShareHouseMate_Chk"
+      },
+      {
+        "main_event": 18,
+        "name": "StandSleep"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "NNPC_TailorCustomer",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event3",
+        "params": {
+          "Percent": 80
+        },
+        "query": "EventFlowQueryPercentChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 5,
+        "name": "Event6",
+        "params": {
+          "FacilityType": "cTailor"
+        },
+        "query": "EventFlowQueryWherearenExistFacilityName",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FacilityName_Chk",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event7",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenSetTagRunningOrderTheme",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event8",
+        "next": 3,
+        "params": {
+          "FacilityType": "cTailor",
+          "GetFrom": "cSelectFacility",
+          "TagID": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          },
+          {
+            "target": 10,
+            "value": 2
+          },
+          {
+            "target": 11,
+            "value": 3
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryClassifyWatchTorsoType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "LookforHouseMate",
+        "flowchart": "NNPC_Spot_WherearenMainFieldVisitor",
+        "index": 12,
+        "name": "Event13",
+        "next": 14,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event16",
+        "next": 12,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ShareHouseMate_Chk",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event17",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event18",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "StandSleep_2.1",
+        "flowchart": "NNPC_RestaurantCustomer",
+        "index": 18,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_TailorCustomer",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "7dc35aa8abbf356f40136e0924d58b19715edee4e486bf6bf264ef3020477631",
+  "size": 4408,
+  "status": "converted"
+}

@@ -1,0 +1,2537 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIShopBuyHandling",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionUISonkatsuPointAppear",
+          "EventFlowActionMilagePackageSend",
+          "EventFlowActionSonkatsuBuyDone",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionReservePlayerTicketGetDemo",
+          "EventFlowActionUISonkatsuPointDisappear",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryMultiItemSelectInclude",
+          "EventFlowQueryMultiKindItemSelectInclude",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryShoppingCapacity",
+          "EventFlowQueryHasCraftRecipeSelectFlow",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQuerySubflowResultChoice4",
+          "EventFlowQuerySubflowResultChoice10"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSmartPhone",
+          "EventFlowActionSmartPhoneSE",
+          "EventFlowActionPlayerChangeDemoState"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionStartAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "GeneralObject",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "main_event": 62,
+        "name": "Root"
+      },
+      {
+        "main_event": 4,
+        "name": "ReChangeItem"
+      },
+      {
+        "main_event": 26,
+        "name": "RecipeReceiveing1_Receive"
+      },
+      {
+        "main_event": 11,
+        "name": "RcoMachineMileExchangeAgain"
+      },
+      {
+        "main_event": 54,
+        "name": "ExchangeMilePlaneTicket"
+      },
+      {
+        "main_event": 5,
+        "name": "ExchangeCancel"
+      },
+      {
+        "main_event": 69,
+        "name": "ExchangeHowToBook"
+      },
+      {
+        "main_event": 37,
+        "name": "BuySelect"
+      },
+      {
+        "main_event": 105,
+        "name": "ExchangeDIYRecipeCard"
+      },
+      {
+        "main_event": 33,
+        "name": "RecipeReceiveing2_End"
+      },
+      {
+        "main_event": 170,
+        "name": "ReceiveConstructionLisence"
+      },
+      {
+        "main_event": 61,
+        "name": "ChkPocket40"
+      },
+      {
+        "main_event": 64,
+        "name": "MileExchange_Cmn_Sel"
+      },
+      {
+        "main_event": 80,
+        "name": "Cmn_PrintOutDemo"
+      },
+      {
+        "main_event": 167,
+        "name": "MileExchange_GetApp_MyDesignPRO"
+      },
+      {
+        "main_event": 93,
+        "name": "Cmn_AppUpdateDemo"
+      },
+      {
+        "main_event": 106,
+        "name": "RcoMachine_Cmn_NoDIY"
+      },
+      {
+        "main_event": 128,
+        "name": "MileExchange_Get_ToolRecipesData"
+      },
+      {
+        "main_event": 168,
+        "name": "MileExchange_MyDesignPRO2"
+      },
+      {
+        "main_event": 151,
+        "name": "MileExchange_MyDesignShowcase"
+      },
+      {
+        "main_event": 137,
+        "name": "Jump_ExistingItem"
+      },
+      {
+        "main_event": 112,
+        "name": "Not_MyDesignShowCase_v200"
+      },
+      {
+        "main_event": 133,
+        "name": "Jump_RecipeGet"
+      }
+    ],
+    "event_count": 173,
+    "event_flow_name": "Obj_RcoMachine_MileExchange",
+    "events": [
+      {
+        "action": "EventFlowActionUIShopBuyHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 6,
+        "params": {
+          "ItemBitType": "cSonkatsuPoint"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 16,
+        "params": {
+          "TagID": 0,
+          "TagType": "cLifeSupportPoint"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event2",
+        "next": 1,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 85,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event9",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 5,
+        "name": "Event11",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 134,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 67,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 8,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUISonkatsuPointAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event16",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 10,
+        "name": "Event25",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 11,
+        "name": "Event26",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 13,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMilagePackageSend",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event30",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event31",
+        "next": 14,
+        "params": {
+          "SetBaggage": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event32",
+        "params": {
+          "ItemKindType1": "MilePlaneTicket",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ExchangeMilePlaneTicket",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event34",
+        "params": {
+          "AccessKey": "cPlayer:DodExplainAboutMysteryTour"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cPlayer:RcoMachineExplainAboutPlaneTicket"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 20,
+        "name": "Event36",
+        "next": 24,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 114,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event39",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5851
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoMachineMileExchangeAgain",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event45",
+        "next": 55,
+        "params": {
+          "AccessKey": "cPlayer:RcoMachineExplainAboutPlaneTicket"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 25,
+        "name": "Event46",
+        "next": 29,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event47",
+        "next": 25,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 27,
+        "name": "Event48",
+        "next": 28,
+        "params": {
+          "ActionType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event49",
+        "next": 30,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event50",
+        "next": 27,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhoneSE",
+        "actor": "Player",
+        "index": 30,
+        "name": "Event51",
+        "next": 160,
+        "params": {
+          "ActionType": 2,
+          "XLinkKey": "Phone_Recieving"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event52",
+        "next": 34,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 32,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event54",
+        "next": 32,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 34,
+        "name": "Event55",
+        "next": null,
+        "params": {
+          "ActionType": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event56",
+        "params": {
+          "ItemKindType1": "DummyHowtoBook",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ExchangeHowToBook",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event57",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event70",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event88",
+        "next": 70,
+        "params": {
+          "SetBaggage": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event91",
+        "next": 75,
+        "params": {
+          "SetBaggage": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 120,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event100",
+        "params": {
+          "ItemKindType1": "DIYRecipe",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ExchangeDIYRecipeCard",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event102",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 44,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event104",
+        "params": {
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryHasCraftRecipeSelectFlow",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 43,
+        "name": "Event106",
+        "next": 45,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:027"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 44,
+        "name": "Event107",
+        "next": 45,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:028"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event108",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event114",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 5794
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 47,
+        "name": "Event115",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event116",
+        "next": 89,
+        "params": {
+          "SetBaggage": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 49,
+        "name": "Event117",
+        "next": 104,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:029"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoMachineMileExchangeAgain",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event118",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event129",
+        "params": {
+          "ItemKindType1": "LicenseItem",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ReceiveConstructionLisence",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event130",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event153",
+        "next": 117,
+        "params": {
+          "SetBaggage": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event159",
+        "params": {
+          "ItemUniqueID1": 9964,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 55,
+        "name": "Event160",
+        "next": 56,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event161",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 113,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event163",
+        "params": {
+          "CapacityCheckType": "cItemName",
+          "ItemUniqueId": 9964
+        },
+        "query": "EventFlowQueryShoppingCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 58,
+        "name": "Event166",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 2
+          }
+        ],
+        "index": 59,
+        "name": "Event170",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event171",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:SellPocket40"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          }
+        ],
+        "index": 61,
+        "name": "Event172",
+        "params": {
+          "AccessKey": "cPlayer:UpgradePocket30"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkPocket40",
+        "flowchart": "",
+        "index": 62,
+        "name": "Event179",
+        "next": 9,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 63,
+        "name": "Event180",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 64,
+        "name": "Event181",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "BuySelect",
+        "flowchart": "",
+        "index": 65,
+        "name": "Event182",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event189",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SelExit",
+        "flowchart": "Obj_RcoMachine",
+        "index": 67,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SelExit",
+        "flowchart": "Obj_RcoMachine",
+        "index": 68,
+        "name": "Event176",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MileExchange_SetHowtoItem",
+        "flowchart": "Obj_RcoMachine_MileExchange_Process",
+        "index": 69,
+        "name": "Event27",
+        "next": 123,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event183",
+        "next": null,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event184",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 72,
+        "name": "Event200",
+        "next": null,
+        "params": {
+          "ActionName": "PrintOut",
+          "ActionType": "cHold"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event202",
+        "next": null,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_PrintOutDemo",
+        "flowchart": "",
+        "index": 74,
+        "name": "Event203",
+        "next": 91,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cmn_PrintOutDemo",
+        "flowchart": "",
+        "index": 75,
+        "name": "Event168",
+        "next": 90,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event195",
+        "next": 74,
+        "params": {
+          "SetBaggage": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 77,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 78,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 79,
+        "name": "Event167",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event196",
+        "next": 81,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          79,
+          72
+        ],
+        "index": 81,
+        "join": 82,
+        "name": "Event197",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 82,
+        "name": "Event198",
+        "next": 73,
+        "type": "JoinEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 83,
+        "name": "Event37",
+        "params": {
+          "ItemUniqueID1": 9964,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 84,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 85,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MileExchange_GetApp_MyDesignPRO",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 87,
+        "name": "Event24",
+        "next": 88,
+        "params": {
+          "EntryPointName": "Get_App_MydesignPRO",
+          "EventFileName": "Player_GetDemo_MileExchange",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_PrintOutDemo",
+        "flowchart": "",
+        "index": 89,
+        "name": "Event5",
+        "next": 49,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 90,
+        "name": "Event6",
+        "next": 102,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:026_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 91,
+        "name": "Event8",
+        "next": 102,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:026_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_AppUpdateDemo",
+        "flowchart": "",
+        "index": 92,
+        "name": "Event60",
+        "next": 125,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 93,
+        "name": "Event20",
+        "next": 95,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:061"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 94,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:062"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing1_Receive",
+        "flowchart": "",
+        "index": 95,
+        "name": "Event22",
+        "next": 166,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 96,
+        "name": "Event18",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Hair_Pop",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event19",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Hair_Cool",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 98,
+        "name": "Event61",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Hair_Color",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 99,
+        "name": "Event64",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Pocket30",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 100,
+        "name": "Event65",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Pocket40",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 101,
+        "name": "Event66",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_ItemRing",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeDemoState",
+        "actor": "Player",
+        "index": 102,
+        "name": "Event71",
+        "next": 23,
+        "params": {
+          "ChangeDemoState": "cTicketTake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_PrintOutDemo",
+        "flowchart": "",
+        "index": 103,
+        "name": "Event72",
+        "next": 116,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeDemoState",
+        "actor": "Player",
+        "index": 104,
+        "name": "Event74",
+        "next": 50,
+        "params": {
+          "ChangeDemoState": "cTicketTake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 106,
+            "value": 1
+          }
+        ],
+        "index": 105,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 106,
+        "name": "Event68",
+        "next": 107,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:030"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoMachineMileExchangeAgain",
+        "flowchart": "",
+        "index": 107,
+        "name": "Event69",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 111,
+            "value": 0
+          },
+          {
+            "target": 110,
+            "value": 1
+          }
+        ],
+        "index": 108,
+        "name": "Event73",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 109,
+        "name": "Event75",
+        "next": 163,
+        "params": {
+          "SetBaggage": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 110,
+        "name": "Event76",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 111,
+        "name": "Event78",
+        "next": 109,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 112,
+        "name": "Event79",
+        "next": 108,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 113,
+        "name": "Event58",
+        "next": 76,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 114,
+        "name": "Event77",
+        "next": 39,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeDemoState",
+        "actor": "Player",
+        "index": 115,
+        "name": "Event80",
+        "next": 143,
+        "params": {
+          "ChangeDemoState": "cTicketTake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 116,
+        "name": "Event81",
+        "next": 115,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_RcoMachine:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_AppUpdateDemo",
+        "flowchart": "",
+        "index": 117,
+        "name": "Event43",
+        "next": 127,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ReceiveLisenceEnable",
+        "flowchart": "Obj_RcoMachine_MileExchange_Process",
+        "index": 118,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 119,
+        "name": "Event63",
+        "next": 53,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 121,
+            "value": 0
+          },
+          {
+            "target": 63,
+            "value": 1
+          }
+        ],
+        "index": 120,
+        "name": "Event83",
+        "params": {
+          "ItemKindType1": "LicenseItem",
+          "ItemKindType2": "",
+          "ItemKindType3": "",
+          "ItemKindType4": "",
+          "ItemKindType5": "",
+          "ItemKindType6": "",
+          "ItemKindType7": "",
+          "ItemKindType8": "",
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiKindItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 121,
+        "name": "Event84",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 112,
+            "value": 0
+          },
+          {
+            "target": 124,
+            "value": 1
+          }
+        ],
+        "index": 122,
+        "name": "Event82",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 122,
+            "value": 0
+          },
+          {
+            "target": 157,
+            "value": 1
+          }
+        ],
+        "index": 123,
+        "name": "Event87",
+        "params": {
+          "ItemUniqueID1": 9221,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoMachine_Cmn_NoDIY",
+        "flowchart": "",
+        "index": 124,
+        "name": "Event89",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing2_End",
+        "flowchart": "",
+        "index": 125,
+        "name": "Event85",
+        "next": 87,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoSelSeq",
+        "flowchart": "Obj_RcoMachine",
+        "index": 126,
+        "name": "Event86",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing2_End",
+        "flowchart": "",
+        "index": 127,
+        "name": "Event90",
+        "next": 118,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cmn_AppUpdateDemo",
+        "flowchart": "",
+        "index": 128,
+        "name": "Event92",
+        "next": 129,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing2_End",
+        "flowchart": "",
+        "index": 129,
+        "name": "Event93",
+        "next": 131,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 130,
+        "name": "Event94",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 131,
+        "name": "Event95",
+        "next": 130,
+        "params": {
+          "EntryPointName": "Get_Reipe_Tools",
+          "EventFileName": "Player_GetDemo_MileExchange",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MileExchange_Get_ToolRecipesData",
+        "flowchart": "",
+        "index": 132,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 133,
+        "name": "Event97",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:063"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUISonkatsuPointDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 134,
+        "name": "Event98",
+        "next": 126,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 135,
+        "name": "Event112",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Body_Color",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 136,
+        "name": "Event113",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Eye_Color",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 103,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          },
+          {
+            "target": 132,
+            "value": 2
+          },
+          {
+            "target": 142,
+            "value": 3
+          }
+        ],
+        "index": 137,
+        "name": "Event127",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 138,
+        "name": "Event128",
+        "next": 139,
+        "params": {
+          "EntryPointName": "Get_MydesignPRO2",
+          "EventFileName": "Player_GetDemo_MileExchange",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 139,
+        "name": "Event131",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_AppUpdateDemo",
+        "flowchart": "",
+        "index": 140,
+        "name": "Event132",
+        "next": 141,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing2_End",
+        "flowchart": "",
+        "index": 141,
+        "name": "Event133",
+        "next": 138,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MileExchange_MyDesignPRO2",
+        "flowchart": "",
+        "index": 142,
+        "name": "Event136",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          },
+          {
+            "target": 98,
+            "value": 2
+          },
+          {
+            "target": 99,
+            "value": 3
+          },
+          {
+            "target": 100,
+            "value": 4
+          },
+          {
+            "target": 101,
+            "value": 5
+          },
+          {
+            "target": 135,
+            "value": 6
+          },
+          {
+            "target": 136,
+            "value": 7
+          },
+          {
+            "target": 144,
+            "value": 8
+          },
+          {
+            "target": 145,
+            "value": 9
+          }
+        ],
+        "index": 143,
+        "name": "Event122",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 144,
+        "name": "Event123",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_Hair_Rock",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerTicketGetDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 145,
+        "name": "Event120",
+        "next": 84,
+        "params": {
+          "EntryPointName": "Get_ReactionSet1",
+          "EventFileName": "Player_GetDemo_MileExchange"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "MileExchange_MyDesignShowcase",
+        "flowchart": "",
+        "index": 146,
+        "name": "Event103",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 150,
+            "value": 0
+          },
+          {
+            "target": 149,
+            "value": 1
+          }
+        ],
+        "index": 147,
+        "name": "Event105",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSonkatsuBuyDone",
+        "actor": "EventFlowSystemActor",
+        "index": 148,
+        "name": "Event109",
+        "next": 169,
+        "params": {
+          "SetBaggage": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ReChangeItem",
+        "flowchart": "",
+        "index": 149,
+        "name": "Event124",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 150,
+        "name": "Event125",
+        "next": 148,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 151,
+        "name": "Event137",
+        "next": 147,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:590"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 152,
+        "name": "Event138",
+        "next": null,
+        "params": {
+          "EntryPointName": "Get_MydesignShowcase",
+          "EventFileName": "Player_GetDemo_MileExchange",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cmn_AppUpdateDemo",
+        "flowchart": "",
+        "index": 153,
+        "name": "Event139",
+        "next": 154,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RecipeReceiveing2_End",
+        "flowchart": "",
+        "index": 154,
+        "name": "Event140",
+        "next": 152,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 156,
+            "value": 0
+          },
+          {
+            "target": 156,
+            "value": 1
+          },
+          {
+            "target": 156,
+            "value": 2
+          },
+          {
+            "target": 156,
+            "value": 3
+          },
+          {
+            "target": 156,
+            "value": 4
+          },
+          {
+            "target": 159,
+            "value": 5
+          },
+          {
+            "target": 159,
+            "value": 6
+          },
+          {
+            "target": 159,
+            "value": 7
+          },
+          {
+            "target": 159,
+            "value": 8
+          },
+          {
+            "target": 159,
+            "value": 9
+          }
+        ],
+        "index": 155,
+        "name": "Event143",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Jump_ExistingItem",
+        "flowchart": "",
+        "index": 156,
+        "name": "Event147",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 158,
+            "value": 0
+          },
+          {
+            "target": 158,
+            "value": 1
+          },
+          {
+            "target": 158,
+            "value": 2
+          },
+          {
+            "target": 158,
+            "value": 3
+          },
+          {
+            "target": 146,
+            "value": 4
+          },
+          {
+            "target": 158,
+            "value": 5
+          },
+          {
+            "target": 158,
+            "value": 6
+          },
+          {
+            "target": 158,
+            "value": 7
+          },
+          {
+            "target": 158,
+            "value": 8
+          },
+          {
+            "target": 158,
+            "value": 9
+          }
+        ],
+        "index": 157,
+        "name": "Event150",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Not_MyDesignShowCase_v200",
+        "flowchart": "",
+        "index": 158,
+        "name": "Event151",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ME_GetProcess_v2_0_0",
+        "flowchart": "Obj_RcoMachine_MileExchange_v2_0_0",
+        "index": 159,
+        "name": "Event156",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cmn_PhoneApp_InstallDemo",
+        "flowchart": "Obj_RcoMachine_MileExchange_v2_0_0",
+        "index": 160,
+        "name": "Event145",
+        "next": 31,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 94,
+            "value": 1
+          },
+          {
+            "target": 162,
+            "value": 2
+          },
+          {
+            "target": 94,
+            "value": 3
+          },
+          {
+            "target": 94,
+            "value": 4
+          },
+          {
+            "target": 94,
+            "value": 5
+          },
+          {
+            "target": 94,
+            "value": 6
+          },
+          {
+            "target": 94,
+            "value": 7
+          },
+          {
+            "target": 94,
+            "value": 8
+          },
+          {
+            "target": 94,
+            "value": 9
+          }
+        ],
+        "index": 161,
+        "name": "Event148",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Jump_RecipeGet",
+        "flowchart": "",
+        "index": 162,
+        "name": "Event164",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 155,
+            "value": 0
+          },
+          {
+            "target": 164,
+            "value": 1
+          },
+          {
+            "target": 164,
+            "value": 2
+          },
+          {
+            "target": 164,
+            "value": 3
+          },
+          {
+            "target": 164,
+            "value": 4
+          },
+          {
+            "target": 164,
+            "value": 5
+          },
+          {
+            "target": 164,
+            "value": 6
+          },
+          {
+            "target": 164,
+            "value": 7
+          },
+          {
+            "target": 164,
+            "value": 8
+          },
+          {
+            "target": 164,
+            "value": 9
+          }
+        ],
+        "index": 163,
+        "name": "Event152",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ME_GetProcess_v2_0_0",
+        "flowchart": "Obj_RcoMachine_MileExchange_v2_0_0",
+        "index": 164,
+        "name": "Event155",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 165,
+        "name": "Event157",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_RcoMachine:064"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 161,
+            "value": 0
+          },
+          {
+            "target": 161,
+            "value": 1
+          },
+          {
+            "target": 161,
+            "value": 2
+          },
+          {
+            "target": 165,
+            "value": 3
+          },
+          {
+            "target": 161,
+            "value": 4
+          },
+          {
+            "target": 161,
+            "value": 5
+          },
+          {
+            "target": 161,
+            "value": 6
+          },
+          {
+            "target": 161,
+            "value": 7
+          },
+          {
+            "target": 161,
+            "value": 8
+          },
+          {
+            "target": 161,
+            "value": 9
+          }
+        ],
+        "index": 166,
+        "name": "Event158",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice10",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 167,
+        "name": "Event165",
+        "next": 92,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuUnlockMydesingPro"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 168,
+        "name": "Event173",
+        "next": 140,
+        "params": {
+          "AccessKey": "cPlayer:UnlockMydesignPro2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 169,
+        "name": "Event175",
+        "next": 153,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuMydesignShowcase"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 170,
+        "name": "Event177",
+        "next": 171,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 171,
+        "name": "Event178",
+        "next": 172,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 172,
+        "name": "Event186",
+        "next": 119,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 3
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_RcoMachine_MileExchange",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "bfe6bdc13decc73188eec84547f7230e62c1f0c0084cb9c431e48431a5f98714",
+  "size": 32696,
+  "status": "converted"
+}
