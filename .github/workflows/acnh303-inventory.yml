@@ -27,6 +27,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Enumerate full tracked RomFS and ExeFS Git tree
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python -m py_compile scripts/inventory_acnh303.py
           python scripts/inventory_acnh303.py
