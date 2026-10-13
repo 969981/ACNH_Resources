@@ -20,6 +20,7 @@ jobs:
             /scripts/
             /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
             /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/FooterBtn.Nin_NX_NVN.zs
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -59,6 +60,13 @@ jobs:
             --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
             --tool-wimgt "$(cat /tmp/wimgt.path)" \
             --out Unpack_L3
+      - name: Convert true ACNH Layout BNTX texture to PNG with pixel file validation
+        run: |
+          python scripts/acnh303_media_l3.py --root . \
+            --source Layout/FooterBtn.Nin_NX_NVN.zs \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --out Unpack_L3 --require bntx --fail-on-no-conversion
       - uses: actions/upload-artifact@v4
         if: always()
         with:
