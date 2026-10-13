@@ -29,7 +29,7 @@ def parse_bdli(data: bytes) -> dict:
         if magic != b"LBLI":
             raise BdliError(f"unsupported BDLI section {i}: {magic!r}")
         abs_offset = header_start + relative
-        if abs_offset < content_offset or abs_offset > len(data):
+        if abs_offset > len(data) or (count > 0 and abs_offset < content_offset):
             raise BdliError(f"BDLI section {i} payload offset out of bounds")
         offsets.append(abs_offset)
         descriptors.append({
@@ -38,11 +38,13 @@ def parse_bdli(data: bytes) -> dict:
             "offset_relative_to_directory": relative,
             "offset_absolute": abs_offset,
         })
-    all_starts = sorted(set(offsets))
+    all_starts = sorted(set(e["offset_absolute"] for e in descriptors if e["count_raw"] > 0))
     for entry in descriptors:
         start = entry["offset_absolute"]
+        # ACNH reuses directory-relative pointers for zero-count sections.
+        # Do not mistake those placeholders for actual data within the header.
         next_start = next((o for o in all_starts if o > start), len(data))
-        chunk = data[start:next_start]
+        chunk = data[start:next_start] if entry["count_raw"] else b""
         entry["byte_length"] = len(chunk)
         entry["sha256"] = hashlib.sha256(chunk).hexdigest()
         # The complete, exact raw BDLI is exported separately by the dispatcher.
@@ -53,5 +55,5 @@ def parse_bdli(data: bytes) -> dict:
         "payload_offset": content_offset, "file_size": len(data),
         "sections": descriptors,
         "status": "structure_only",
-        "note": "Section types/counts/CRC-like identifiers not semantically resolved; exact decompressed BDLI retained.",
+        "note": "Zero-count section offsets may point within the descriptor directory; section identifiers are not semantically resolved; exact BDLI bytes retained.",
     }
