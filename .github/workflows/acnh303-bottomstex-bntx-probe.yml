@@ -1,0 +1,94 @@
+name: ACNH 3.0.3 BottomsTex Embedded BNTX Extraction Probe
+on:
+  push:
+    branches: [feat/acnh303-bottomstex-forensics]
+    paths: [".github/workflows/acnh303-bottomstex-bntx-probe.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexApronFox00.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsHalfBoa0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BottomsTexPantsNormalChino2.Nin_NX_NVN.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Download and SHA-verify native BNTX pixel decoder
+        run: |
+          set -e
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n 1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Verify three real texture-only FRES have embedded standalone BNTX header
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,struct,sys,json,hashlib,subprocess
+          sys.path.insert(0,"scripts")
+          from acnh303_media_l3 import find_leaf,validate_png
+          root=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1/Model")
+          names=["BottomsTexApronFox00.Nin_NX_NVN.zs","BottomsTexPantsHalfBoa0.Nin_NX_NVN.zs","BottomsTexPantsNormalChino2.Nin_NX_NVN.zs"]
+          wimgt=pathlib.Path("/tmp/wimgt.path").read_text().strip()
+          overall=[]
+          for name in names:
+              source=root/name
+              leaves=list(find_leaf(source.read_bytes(),name))
+              for leaf in leaves:
+                  if leaf["format"]!="bfres":continue
+                  d=leaf["data"]
+                  offs=[i for i in range(len(d)-4) if d[i:i+4]==b"BNTX"]
+                  for i in offs:
+                      bom=struct.unpack_from("<H",d,i+12)[0] if i+32<len(d) else -1
+                      declared=struct.unpack_from("<I",d,i+28)[0] if i+32<len(d) else 0
+                      meta={"name":name,"fres_bytes":len(d),"bntx_off":i,
+                            "bntx_bom":bom,"declared_size":declared,
+                            "remaining":len(d)-i,
+                            "head":d[i:i+64].hex(),
+                            "platform":d[i+32:i+36].decode("ascii","replace")}
+                      print("BNTX_HEADER",json.dumps(meta),flush=True)
+                      result={"meta":meta}
+                      if bom==0xFEFF and 0x40<=declared<=len(d)-i:
+                          out=pathlib.Path("probe_outputs")/name
+                          out.mkdir(parents=True,exist_ok=True)
+                          src=out/"internal.bntx";src.write_bytes(d[i:i+declared])
+                          desired=out/"internal.png"
+                          process=subprocess.run([wimgt,"DECODE",str(src),"--dest",str(desired)],
+                                  capture_output=True,text=True,timeout=120)
+                          pngs=sorted(out.glob("internal*.png"))
+                          status={"rc":process.returncode,"stderr_tail":process.stderr[-1000:],
+                                  "stdout_tail":process.stdout[-1000:],"pngs":[]}
+                          for p in pngs:
+                              try: status["pngs"].append({"name":p.name,"validated":validate_png(p)})
+                              except Exception as e:status["pngs"].append({"name":p.name,"error":str(e)})
+                          result["conversion"]=status
+                          print("BNTX_DECODE",json.dumps({"name":name,**status},ensure_ascii=False),flush=True)
+                      overall.append(result)
+          pathlib.Path("probe_outputs").mkdir(exist_ok=True)
+          pathlib.Path("probe_outputs/diagnostic.json").write_text(json.dumps(overall,indent=2),encoding="utf-8")
+          print("PROBE_COMPLETE",len(overall))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-bottomstex-bntx-first3-proof
+          path: probe_outputs/
+          retention-days: 14
+          if-no-files-found: warn
