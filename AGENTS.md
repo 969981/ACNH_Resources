@@ -76,3 +76,9 @@ multiple `.imgNNN.png` outputs per input, each requiring independent checks.
 Conversion of a BNTX leaf does not imply its parent Layout's other BFLYT/BFLAN
 leaves are decoded. Prefer persistent Release archives with SHA-256 mapping for
 large output sets; never substitute expiring Actions artifacts as final delivery.
+
+## ACNH 3.0.3 media scaleout / cumulative coverage
+
+See [docs/UNPACK_MEDIA_L3_SCALEOUT.md](docs/UNPACK_MEDIA_L3_SCALEOUT.md) and [scripts/acnh303_media_audit.py](scripts/acnh303_media_audit.py). The audited 2026-10-13 scaleout covers 216 additional source files; together with the previous 36 files it reports **252 unique sources, 775 validated GLB/PNG/WAV files**. Every result must join the original source Git tree inventory with path/size; never extrapolate the sampled success percentages to the untested files.
+
+IMPORTANT: the 26 BottomsTex BFRES native decoder ERROR #36 files are still failures, not converted or proven texture-only. The 28 Layout no_target_leaf files lack an independent BNTX and must not be counted as successful PNG conversions. Follow [Issue #21](https://github.com/969981/ACNH_Resources/issues/21). Use the bounded on-demand workflow with --skip-count for nonoverlapping future source slices; preserve SHA-256 reports and split large WAV output into GitHub Releases, not Git history.
