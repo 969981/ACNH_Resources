@@ -129,3 +129,9 @@ For parser internals, known limitations and development guidance see scripts/REA
 - [长期 Release 分卷、SHA256SUMS 校验文件](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-media-l3-calibration-20261013)
 
 **范围限制**：这是三条真实成功的格式转换路线和小规模批量测试，不是全部 Model、Layout、Sound 源文件转码完成。特别是 103,400 个原始 RomFS 文件的 L0–L2 总覆盖数字，与真正的 L3 模型/纹理/音频解码覆盖率必须分开统计。
+
+## L3 媒体扩容实测（2026-10-13）
+
+[完整扩容报告](docs/UNPACK_MEDIA_L3_SCALEOUT.md) · [持续覆盖率 JSON](derived/3.0.3/media_scaleout_audit/coverage.json) · [Source SHA-256 及失败清单](derived/3.0.3/media_scaleout_audit/source_manifest.jsonl.gz) · [12 分片长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-media-l3-scaleout-20261013)
+
+新增 216 个真实 Model/Layout/BWAV 源文件的 12 分片转换，连同之前 36 源累计实测 252 个源，得到 82 GLB、641 PNG、52 WAV，合计 **775 个已验证媒体文件**（770.4 MB）。Model 26 个 BottomsTex 原生 decoder 失败，Layout 28 个原包没有 BNTX，均在问题清单记录；不能当成全库 L3 完成。后续可用 [按哈希分片和 skip_count 续跑的 Actions](.github/workflows/acnh303-media-l3-on-demand.yml)，并通过单独审计脚本持续统计每格式已测成功率、未测试数和错误类型。
