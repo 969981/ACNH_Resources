@@ -1,0 +1,47 @@
+name: ACNH 3.0.3 Unpack Smoke Tests
+
+on:
+  push:
+    branches: [feat/acnh-303-unpack]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/acnh303-unpack-tests.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/acnh303-unpack-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Huge binary asset repo: checkout only scripts and small real datasets.
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Stage
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Zstandard
+        run: python -m pip install -r scripts/requirements.txt
+      - name: Syntax and real binary fixture tests
+        run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p "test_acnh_unpack.py" -v
+      - name: Mirror dry run
+        run: python scripts/unpack_acnh.py --root . --out Unpack --kind tables --dry-run
+      - name: Real single file conversion + verify
+        run: |
+          python scripts/unpack_acnh.py --root . --out Unpack --file Bcsv/CalendarEventJuneBrideReward.bcsv --strict
+          python scripts/unpack_acnh.py --root . --out Unpack --verify --strict
