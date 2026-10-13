@@ -18,6 +18,7 @@ def main():
     a.add_argument("--shard", type=int, required=True)
     a.add_argument("--shards", type=int, required=True)
     a.add_argument("--max-count", type=int, default=0)
+    a.add_argument("--suffix", default="", help="Case-insensitive filename suffix e.g. .bwav or .zs")
     args = a.parse_args()
     if args.shards < 1 or args.shard < 0 or args.shard >= args.shards:
         a.error("invalid shard")
@@ -30,6 +31,8 @@ def main():
         head, p = line.split(b"\t", 1)
         path = p.decode("utf-8")
         if args.category == "Misc" and path.split("/")[2] in ("Model", "BDLI", "Sound"):
+            continue
+        if args.suffix and not path.lower().endswith(args.suffix.lower()):
             continue
         n = int.from_bytes(hashlib.sha256(p).digest()[:8], "big") % args.shards
         if n != args.shard:
@@ -46,7 +49,7 @@ def main():
     payload = {"category":args.category,"shard":args.shard,"shards":args.shards,
                "selected_files":len(items),"selected_bytes_in_git_tree":None,
                "size_note":"use Git Tree API inventory: no blob fetch",
-               "paths": items[:5]}
+               "suffix":args.suffix, "paths":items}
     print(json.dumps(payload, ensure_ascii=False), flush=True)
     Path("selection.json").write_text(json.dumps(payload, indent=2) + "\n",encoding="utf-8")
 if __name__ == "__main__":
