@@ -2,6 +2,8 @@
 
 > 范围：`e10617820db06889e1638499478da0de_NCA/1` 内 **全部 Git 跟踪的 RomFS 文件**。对应 ExeFS `.../0` 单独清点与 ELF 研究。基准版本固定 3.0.3；不得把其他版本结构假定为兼容。
 >
+> **全量基线已实测：RomFS 103,400 个文件、10,415,907,860 字节（约 10.42 GB）、24 个顶层目录；ExeFS 7 个文件、130,614,020 字节；大小写折叠路径碰撞 0。** 参见 [实际清点报告](UNPACK_BASELINE.md)，所有数量均来自 Git Trees API。
+>
 > 基线、数量、字节规模以 Actions 生成的 `derived/3.0.3/inventory/source_inventory_summary.json` 和 `source_manifest.csv.gz` 为准，**不得由 GitHub contents API 返回的前 1,000 项推断总量**。项目源文件可能超过数 GB，不允许整个仓库多次重复拷贝/提交。
 
 ## 一、"全部解包" 的四个不同验收层
@@ -51,6 +53,7 @@ flowchart LR
   A[U00 全部 Git 树清点] --> B[U01 统一调度、分片/恢复、manifest]
   B --> C[U02 压缩与多层归档]
   C --> D[U03 表格/脚本/参数]
+  C --> O[U14 BDLI 36708 份对话逻辑]
   C --> E[U04 多语言文本]
   B --> F[U05 BFEVFL 事件流程]
   C --> G[U06 BFRES 模型]
@@ -67,6 +70,7 @@ flowchart LR
   J --> M
   K --> M
   L --> M
+  O --> M
   M --> N[U13 持久化发布/版本冻结]
 ```
 
@@ -81,6 +85,7 @@ flowchart LR
 
 ## 五、Actions 与发布约束
 
+- 上一版 19 分片**漏掉 BDLI 的 36,708 个文件（约 91.8 MB）**；必须新增独立 BDLI 分片并处理所有 24 个一级目录。不能以这 19 个任务代表 103,400 源文件全覆盖。
 - 不同时运行 19 个全量下载任务，先按 Git 目录分片与源大小分箱，`max-parallel: 3-4`；使用 `blob:none` 与 sparse-checkout 控制 Git 下载体积。
 - 首先用 1-3 个真实样本打开新解析器 CI，再全类别执行；首失败保留 logs，不无限重试。
 - CI 工件**并非永久仓库内容**，14/30 天到期即可能消失。小型结构化内容进入 `Unpack/`；大批量 GLB/PNG/WAV/SARC 进入 GitHub Release 分卷并附 SHA-256、包索引和源路径映射。
@@ -91,8 +96,8 @@ flowchart LR
 ## 六、分阶段交付优先级
 
 - **P0：可信基础** — U00/U01/U02。保证全量清点、分片、校验/恢复、多层档案可取。
-- **P1：高价值可读数据** — U03/U04/U05。全部 BCSV/BYML/Message/EventFlow JSON/CSV/脚本文本。
+- **P1：高价值可读数据** — U03/U04/U05/**U14**。全部 BCSV/BYML/Message/BDLI/EventFlow JSON/CSV/脚本文本。
 - **P2：资产转换** — U06/U07/U08/U10。全部模型、纹理、UI、声音的可用常规格式。
 - **P3：专有/长尾** — U09/U11，以及 U12/U13 的最终核验、发布。
 
-请在每次 PR 中引用对应 Issue，记录真实输入/成功/失败计数，最终清单永远以生成的 inventory 和全量 manifest 为准。
+请在每次 PR 中引用对应 Issue，任务总看板 [#17](https://github.com/969981/ACNH_Resources/issues/17) 与 BDLI [#18](https://github.com/969981/ACNH_Resources/issues/18)，记录真实输入/成功/失败计数，最终清单永远以生成的 inventory 和全量 manifest 为准。
