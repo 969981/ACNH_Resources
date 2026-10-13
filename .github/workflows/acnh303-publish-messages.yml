@@ -1,0 +1,43 @@
+name: ACNH 3.0.3 Publish Chinese Message Samples
+
+on:
+  push:
+    branches: [feat/acnh-303-unpack]
+    paths: [".github/workflows/acnh303-publish-messages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            Unpack
+            e10617820db06889e1638499478da0de_NCA/1/Message
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install decoder
+        run: python -m pip install -r scripts/requirements.txt
+      - name: Decode genuine compressed Mandarin dialogue and UI text archives
+        run: |
+          python scripts/unpack_acnh.py --root . --out Unpack --file Message/Dialog_CNzh.sarc.zs --extract-members --strict --resume
+          python scripts/unpack_acnh.py --root . --out Unpack --file Message/LayoutMsg_CNzh.sarc.zs --extract-members --strict --resume
+          python scripts/unpack_acnh.py --root . --out Unpack --verify --strict
+      - name: Commit source-path-mirrored decoded files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A Unpack
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(unpack): publish verified Chinese message SARC members"
+          git push origin HEAD:feat/acnh-303-unpack
