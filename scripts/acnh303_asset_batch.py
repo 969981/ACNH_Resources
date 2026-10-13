@@ -83,6 +83,7 @@ def parse_evfl(data: bytes) -> dict:
     # Upstream evfl 1.2 assumes three EntryPoint fields are always zero.
     # ACNH 3.0.3 actually populates those slots in 55 verified resources.
     # Decode subflow indexes and main_event; keep extra pointer values raw.
+    extended_by_entrypoint_id = {}
     def acnh_entrypoint_read(self, stream):
         offset = stream.read_u64()
         acnh_ptr_08 = stream.read_u64()
@@ -101,7 +102,8 @@ def parse_evfl(data: bytes) -> dict:
                 raise FormatError("invalid ACNH subflow index array")
             with SeekContext(stream, offset):
                 self._sub_flow_event_indices = [stream.read_u16() for _ in range(subflow_count)]
-        self.acnh_extended_raw = {
+        # Upstream EntryPoint uses __slots__, so store extras in a local sidecar.
+        extended_by_entrypoint_id[id(self)] = {
             "offset_08": acnh_ptr_08, "offset_10": acnh_ptr_10,
             "flags_1a": acnh_flags_1a, "subflow_index_count": subflow_count,
         }
@@ -159,7 +161,7 @@ def parse_evfl(data: bytes) -> dict:
             for actor in fc.actors
         ],
         "entrypoints": [{"name": entry.name, "main_event": ref(entry.main_event),
-                          "acnh_extended_raw": getattr(entry, "acnh_extended_raw", {})}
+                          "acnh_extended_raw": extended_by_entrypoint_id.get(id(entry), {})}
                         for entry in fc.entry_points],
         "events": nodes,
         "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis.",
