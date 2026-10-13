@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 Assets Format Probe
+on:
+  push:
+    branches: [feat/acnh303-assets-eventflow]
+    paths:
+      - "scripts/probe_acnh303.py"
+      - ".github/workflows/acnh303-format-probe.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/*
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Effect/Park_Idr.Nin_NX_NVN.szs
+            /e10617820db06889e1638499478da0de_NCA/1/Shader/Park_Proc.Nin_NX_NVN.release.szs
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/AirportDemoAirplaneShadow.bars
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/1PArbeitExplain5.bfevfl
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Dependencies
+        run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Inspect formats and parse real BFEVFL
+        run: python scripts/probe_acnh303.py
