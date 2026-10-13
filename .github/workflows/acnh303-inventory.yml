@@ -1,0 +1,45 @@
+name: ACNH 3.0.3 Source Inventory (Complete Git Tree)
+on:
+  push:
+    branches: [plan/acnh303-complete-unpack]
+    paths:
+      - scripts/inventory_acnh303.py
+      - .github/workflows/acnh303-inventory.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts
+            docs
+            derived/3.0.3/inventory
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Enumerate full tracked RomFS and ExeFS Git tree
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/inventory_acnh303.py
+          python scripts/inventory_acnh303.py
+      - name: Commit deterministic source inventory report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/inventory
+          if git diff --cached --quiet; then
+            echo "Inventory unchanged"
+          else
+            git commit -m "data: catalog complete ACNH 3.0.3 RomFS / ExeFS source tree"
+            git push origin HEAD:plan/acnh303-complete-unpack
+          fi
