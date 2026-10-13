@@ -97,9 +97,11 @@ For parser internals, known limitations and development guidance see scripts/REA
 ## 全资源解包工程路线图（2026-10-13）
 
 - [总目标、分层验收与阶段依赖](docs/UNPACK_MASTER_PLAN.md)
-- [14 项任务清单 U00–U13](docs/UNPACK_TASKS.md)
+- [103,400 文件、10.42 GB 全量基线](docs/UNPACK_BASELINE.md)
+- [15 项任务清单 U00–U14](docs/UNPACK_TASKS.md)
 - [真实格式支持矩阵与工具候选](docs/UNPACK_FORMAT_MATRIX.md)
 - [最新可核验完成进度](docs/UNPACK_PROGRESS.md)
+- [BDLI 多语言对话逻辑 U14 #18](https://github.com/969981/ACNH_Resources/issues/18)
 - [GitHub Issues 总看板 #17](https://github.com/969981/ACNH_Resources/issues/17)
 
 完整解包分为四层：L0 源文件全集、L1 压缩解压、L2 递归归档成员提取、L3 可验证的 JSON/CSV/PNG/GLB/WAV 等内容转换。只有真正解码和验收通过才能标记为 `converted`。未支持的专有 Shader/Effect 等仍需保留原始字节和详细缺口，不能混同于已完成。Actions 中的新 [source inventory](.github/workflows/acnh303-inventory.yml) 在无需拉取大资源 blob 的前提下建立全量分母。
