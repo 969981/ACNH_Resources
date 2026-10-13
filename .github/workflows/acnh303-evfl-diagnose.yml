@@ -43,3 +43,17 @@ jobs:
               try: e=evfl.EventFlow();e.read(p.read_bytes());print("PARSED",e.name,flush=True)
               except Exception: traceback.print_exc(limit=5)
           PY
+
+      - name: Confirm patched ACNH EntryPoint parser on the formerly failing samples
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,sys
+          sys.path.insert(0,"scripts")
+          from acnh303_asset_batch import parse_evfl
+          root=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1/EventFlow")
+          for name in ("Ftr_MoneyBox","NNPC_ApproachC_Want","1PArbeitExplain5"):
+              record=parse_evfl((root/(name+".bfevfl")).read_bytes())
+              print("VALIDATED",name,"events",record["event_count"],
+                    "entrypoints",record["entrypoints"][:2],flush=True)
+          PY
