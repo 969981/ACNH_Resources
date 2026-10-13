@@ -1,0 +1,118 @@
+name: ACNH 3.0.3 L3 Iteration 4 Verified Asset Release
+on:
+  push:
+    branches: [feat/acnh303-l3-iteration4]
+    paths: [".github/workflows/acnh303-media-l3-iteration4-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE_RUN: 38427348253
+      TAG: acnh303-l3-iteration4-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Verify full conversion/audit run and cumulative media statistics
+        run: |
+          set -euo pipefail
+          gh run view "$SOURCE_RUN" -R 969981/ACNH_Resources \
+            --json conclusion --jq '.conclusion' | grep -Fx success
+          python - <<'PY'
+          import pathlib,json
+          j=json.loads(pathlib.Path("derived/3.0.3/media_iteration4_cumulative/coverage.json").read_text())
+          assert j["new_source_count"]==300 and j["cumulative_source_count"]==552
+          assert j["new_shard_count"]==12
+          assert j["verified_media_output_files_by_type"]=={"glb":214,"png":1354,"wav":92}
+          assert j["verified_media_output_files"]==1660
+          assert j["verified_media_output_bytes"]==1244272410
+          for group,expected in [("Model",200),("Layout",60),("Sound",40)]:
+              assert j["new_by_format"][group]["new_source_count"]==expected
+          print("CONFIRMED 300 NEW SOURCES / 1660 CUMULATIVE OUTPUT FILES")
+          PY
+      - name: Download all 12 converted-data and original-source-hash report artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p packages bundles
+          for s in 6 7 8 9 10 11 12 13; do
+            dir="bundles/Model-$s"
+            mkdir -p "$dir/data" "$dir/report"
+            gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+              -n "media-iteration4-data-Model-$s" -D "$dir/data"
+            gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+              -n "media-iteration4-report-Model-$s" -D "$dir/report"
+          done
+          for g in Layout Sound; do
+            for s in 6 7; do
+              dir="bundles/$g-$s"
+              mkdir -p "$dir/data" "$dir/report"
+              gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+                -n "media-iteration4-data-$g-$s" -D "$dir/data"
+              gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+                -n "media-iteration4-report-$g-$s" -D "$dir/report"
+            done
+          done
+          for dir in bundles/*; do
+            test "$(find "$dir/data" -type f -name _conversion_manifest.json | wc -l)" -gt 0
+            test "$(find "$dir/report" -type f -name manifest.json | wc -l)" -eq 1
+            name="$(basename "$dir")"
+            tar -czf "packages/ACNH-3.0.3-L3-v4-$name.tar.gz" -C "$dir" .
+          done
+          test "$(find packages -name '*.tar.gz' | wc -l)" -eq 12
+      - name: Generate immutable archive SHA256SUMS plus cumulative media file index
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp derived/3.0.3/media_iteration4_cumulative/coverage.json packages/coverage.json
+          cp derived/3.0.3/media_iteration4_cumulative/remaining.csv packages/remaining.csv
+          cp derived/3.0.3/media_iteration4_cumulative/media_index.csv packages/media_index.csv
+          cp derived/3.0.3/media_iteration4_cumulative/source_manifest.jsonl.gz packages/source_manifest.jsonl.gz
+          (cd packages && sha256sum *.tar.gz coverage.json remaining.csv media_index.csv source_manifest.jsonl.gz > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+          du -h packages/* | tail -22
+      - name: Release 12 long-lived shard archives instead of expiring Actions artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/notes.md <<'EOF'
+          # ACNH 3.0.3 L3 iteration 4: 300 new original RomFS sources
+
+          Source-hash-partitioned 200 Model, 60 Layout, 40 Sound sources.
+          New verified output files: 132 geometry GLBs, 609 raster-validated PNGs,
+          and 40 decoded PCM WAVs. 13 Layout archives have no independent
+          BNTX and remain no_target_leaf. 200/200 Model source files produced
+          genuine GLB models or genuine PNG textures, never fabricated GLBs.
+
+          552 cumulative nonoverlapping source files have generated 1660 verified
+          media files (214 GLB, 1354 PNG, 92 WAV), 1,244,272,410 raw bytes.
+          L3 coverage is NOT complete for the original 103400-file RomFS.
+
+          Twelve archives preserve original source-relative paths, source hashes,
+          converter status and output hashes. SHA256SUMS.txt verifies every
+          downloadable package and metadata file. coverage.json describes
+          per-format tested success rates and the untested inventory. The
+          compressed source_manifest.jsonl.gz and media_index.csv list all
+          cumulative source SHA256 / actual GLB PNG WAV output SHA256 pairs.
+          Remaining failures/no_target_leaf are in remaining.csv.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target feat/acnh303-l3-iteration4 \
+              --title "ACNH 3.0.3 L3 iteration 4: 781 verified new media assets" \
+              --notes-file /tmp/notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources \
+            packages/*.tar.gz packages/coverage.json packages/remaining.csv \
+            packages/media_index.csv packages/source_manifest.jsonl.gz \
+            packages/SHA256SUMS.txt --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,assets:[.assets[] | {name:.name,size:.size}]}'
