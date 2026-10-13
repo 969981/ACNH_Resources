@@ -20,6 +20,10 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /scripts/*
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_Article.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_BestFriendNotice.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/TalkNNpc/CNzh/AN_ApproachA_Always.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Stage/commonPlayerHouse.byml
             /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
             /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
             /e10617820db06889e1638499478da0de_NCA/1/Effect/Park_Idr.Nin_NX_NVN.szs
@@ -32,11 +36,13 @@ jobs:
           python-version: "3.11"
       - name: Dependencies
         run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Native BDLI three real fixture tests
+        run: python -m unittest discover -s scripts -p "test_acnh303_bdli.py" -v
       - name: Inspect formats and parse real BFEVFL
         run: python scripts/probe_acnh303.py
       - name: Execute real source parsing for six categories
         run: |
-          for group in Model Layout Effect Shader Sound EventFlow; do
+          for group in Model Layout Effect Shader Sound EventFlow BDLI Misc; do
             python scripts/acnh303_asset_batch.py --root . --group "$group" --out Unpack_Batch --report-dir reports
           done
       - uses: actions/upload-artifact@v4
