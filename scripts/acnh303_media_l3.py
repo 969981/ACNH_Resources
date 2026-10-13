@@ -94,8 +94,20 @@ def validate_png(path: Path) -> dict:
         at = end
     if not have_iend:
         raise ValueError("PNG missing final IEND")
+    # A PNG with valid chunk CRCs can still have empty/corrupt IDAT pixels.
+    # Force a full raster decode, not merely signature/header validation.
+    try:
+        from PIL import Image, UnidentifiedImageError
+        with Image.open(path) as image:
+            image.load()
+            if image.size != (ihdr[0], ihdr[1]):
+                raise ValueError("PNG decoded image dimensions differ from IHDR")
+            pixel_mode = image.mode
+    except (UnidentifiedImageError, OSError) as exc:
+        raise ValueError(f"PNG pixel decode failed: {exc}") from exc
     return {"type": "png", "width": ihdr[0], "height": ihdr[1],
-            "bit_depth": ihdr[2], "color_type": ihdr[3]}
+            "bit_depth": ihdr[2], "color_type": ihdr[3],
+            "pixel_decode": "Pillow.Image.load", "pixel_mode": pixel_mode}
 
 
 def validate_wav(path: Path) -> dict:
@@ -190,7 +202,9 @@ def main():
                 # Workstation path is only a temp staging file, not a Git artifact.
                 staging = workspace / ("leaf_%05d" % index + "." + kind)
                 staging.write_bytes(data)
-                outpath = dest / ("leaf_%05d" % index + EXT[kind])
+                leaf_name = Path(leaf["source_member"]).stem
+                leaf_name = "".join(ch if ch.isalnum() or ch in "_-" else "_" for ch in leaf_name)[:48]
+                outpath = dest / ("leaf_%05d-%s" % (index, leaf_name) + EXT[kind])
                 bin_name = binaries[kind]
                 try:
                     proc = subprocess.run(command(kind, bin_name, staging, outpath),
