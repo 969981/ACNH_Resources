@@ -1,0 +1,57 @@
+name: ACNH 3.0.3 Index ALL Internal BNTX Leaves
+on:
+  push:
+    branches: [feat/acnh303-media-l3]
+    paths: [".github/workflows/acnh303-find-bntx-all.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {group: Model, first: 4, last: 7, total: 16}
+          - {group: Model, first: 8, last: 11, total: 16}
+          - {group: Model, first: 12, last: 15, total: 16}
+          - {group: Misc, first: 0, last: 3, total: 4}
+    steps:
+      - name: Download four selected indexed source batches from original full run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in $(seq ${{ matrix.first }} ${{ matrix.last }}); do
+            printf -v n '%02d' "$i"
+            printf -v total '%02d' ${{ matrix.total }}
+            name="acnh303-v3-data-${{ matrix.group }}-${n}-of-${total}"
+            gh run download 38388960509 -R 969981/ACNH_Resources -n "$name" -D "batch/$n"
+          done
+      - name: Count independently inspected leaf magics and show BNTX original source locations
+        run: |
+          python - <<'PY'
+          import collections,json,pathlib
+          counter=collections.Counter()
+          bntx=[]
+          files=sorted(pathlib.Path("batch").rglob("*.json"))
+          def visit(x, p):
+              if isinstance(x,dict):
+                  k=x.get("format","") or x.get("detected_format","")
+                  if k:counter[k]+=1
+                  if k=="bntx" or str(x.get("name","")).lower().endswith(".bntx"):
+                      bntx.append(p)
+                  for name,value in x.items():
+                      if name not in ("tree","graph","rows","messages","data","sha256"):
+                          visit(value,p)
+              elif isinstance(x,list):
+                  for child in x:visit(child,p)
+          for file in files:
+              try:visit(json.loads(file.read_text(encoding="utf-8")),str(file))
+              except (ValueError,OSError):pass
+          print("MEDIA_MAGIC_COUNTS",counter.most_common(30))
+          print("ALL_INDEXED_FILES",len(files),"BNTX_COUNT",len(bntx))
+          for p in bntx[:40]:print("BNTX_ORIGINAL_RESOURCE",p)
+          PY
