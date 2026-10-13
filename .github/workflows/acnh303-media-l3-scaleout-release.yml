@@ -1,0 +1,112 @@
+name: ACNH 3.0.3 Publish L3 Scaleout 216-File Media Release
+on:
+  push:
+    branches: [feat/acnh303-media-scaleout]
+    paths: [".github/workflows/acnh303-media-l3-scaleout-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RUN_ID: 38415265992
+      TAG: acnh303-media-l3-scaleout-20261013
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Require 12-shard media run AND audited cumulative 252-file statuses
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run view "$RUN_ID" -R 969981/ACNH_Resources --json conclusion --jq '.conclusion' | grep -Fx success
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_scaleout_audit/coverage.json").read_text("utf-8"))
+          assert j["source_files_audited"]==252 and j["shard_reports"]==18
+          assert j["verified_media_output_files"]==775 and j["verified_media_output_bytes"]==770411492
+          assert j["by_format"]["Model"]["status_counts"]["failed"]==26
+          print("Confirmed 216 new nonoverlapping sources and 252 cumulative measured originals")
+          PY
+      - name: Download each native output and its per-source hash/error report
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p bundles packages
+          for grp in Model Layout Sound; do
+            for shard in 2 3 4 5; do
+              dest="bundles/$grp-shard$shard"
+              mkdir -p "$dest/data" "$dest/report"
+              gh run download "$RUN_ID" -R 969981/ACNH_Resources \
+                -n "acnh303-l3-v2-data-$grp-$shard" -D "$dest/data"
+              gh run download "$RUN_ID" -R 969981/ACNH_Resources \
+                -n "acnh303-l3-v2-report-$grp-$shard" -D "$dest/report"
+              test "$(find "$dest/report" -type f -name manifest.json | wc -l)" -eq 1
+              test "$(find "$dest/data" -type f -name _conversion_manifest.json | wc -l)" -gt 0
+            done
+          done
+      - name: Pack original-directory-mirrored validated media and errors
+        shell: bash
+        run: |
+          set -euo pipefail
+          for grp in Model Layout Sound; do
+            for shard in 2 3 4 5; do
+              tar -czf "packages/ACNH-3.0.3-L3-$grp-shard$shard.tar.gz" \
+                -C "bundles/$grp-shard$shard" .
+            done
+          done
+          cp derived/3.0.3/media_scaleout_audit/coverage.json packages/coverage.json
+          cp derived/3.0.3/media_scaleout_audit/problems.csv packages/problems.csv
+          cp derived/3.0.3/media_scaleout_audit/source_status.csv packages/source_status.csv
+          cp derived/3.0.3/media_scaleout_audit/source_manifest.jsonl.gz packages/source_manifest.jsonl.gz
+          (cd packages && sha256sum ACNH-*.tar.gz coverage.json problems.csv source_status.csv source_manifest.jsonl.gz > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+          du -h packages/*
+      - name: Create durable 12-shard Release clearly labeled as partial corpus coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/release-notes.txt <<'EOF'
+          # ACNH 3.0.3 L3 Media Scaleout, 216 new original files
+
+          12 source-hash shards: 96 Model, 80 Layout, 40 BWAV originals,
+          with no overlap with the earlier 36-file calibration. All source
+          and output SHA-256 hashes and original-directory-mirrored outputs
+          are included inside each shard package.
+
+          653 NEW verified media outputs:
+           * 70 BFRES geometry-validated GLBs,
+           * 543 BNTX raster-decoded / CRC-verified PNGs,
+           * 40 BWAV PCM WAVs.
+
+          52 additional original sources remain without target output:
+           * 26 BFRES native converter failures (not claimed successful).
+           * 26 Layout containers lacked a separate BNTX target.
+          Every exception appears in source_status.csv / problems.csv.
+
+          Cumulative with earlier calibration: 252 originals audited;
+          775 validated GLB/PNG/WAV outputs, 770,411,492 output bytes.
+          NOT full L3 coverage of 103,400 ACNH originals.
+
+          Attachments: twelve archive tar.gz files, consolidated
+          coverage.json, per-source status, error CSV, compressed
+          original SHA-256 manifest and SHA256SUMS.txt.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target feat/acnh303-media-scaleout \
+              --title "ACNH 3.0.3 L3 media scaleout: 653 verified new assets" \
+              --notes-file /tmp/release-notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources \
+            packages/*.tar.gz packages/coverage.json packages/problems.csv \
+            packages/source_status.csv packages/source_manifest.jsonl.gz packages/SHA256SUMS.txt \
+            --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,files:[.assets[]|{name:.name,size:.size}]}'

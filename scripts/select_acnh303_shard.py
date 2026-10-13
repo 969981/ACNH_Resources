@@ -18,9 +18,10 @@ def main():
     a.add_argument("--shard", type=int, required=True)
     a.add_argument("--shards", type=int, required=True)
     a.add_argument("--max-count", type=int, default=0)
+    a.add_argument("--skip-count", type=int, default=0, help="Resume pagination within stable shard without repeating prior source files")
     a.add_argument("--suffix", default="", help="Case-insensitive filename suffix e.g. .bwav or .zs")
     args = a.parse_args()
-    if args.shards < 1 or args.shard < 0 or args.shard >= args.shards:
+    if args.shards < 1 or args.shard < 0 or args.shard >= args.shards or args.skip_count < 0 or args.max_count < 0:
         a.error("invalid shard")
     prefix = f"{NCA}/1/" if args.category == "Misc" else f"{NCA}/1/{args.category}/"
     tree = subprocess.check_output(["git", "ls-tree", "-rz", "HEAD", "--", prefix])
@@ -40,6 +41,7 @@ def main():
         # `ls-tree -l` forces blob fetch on blob:none clones. No size needed to shard.
         items.append(path)
     items.sort()
+    items = items[args.skip_count:]
     if args.max_count:
         items = items[:args.max_count]
     patterns = ["/scripts/"] + ["/" + p for p in items]
@@ -49,7 +51,8 @@ def main():
     payload = {"category":args.category,"shard":args.shard,"shards":args.shards,
                "selected_files":len(items),"selected_bytes_in_git_tree":None,
                "size_note":"use Git Tree API inventory: no blob fetch",
-               "suffix":args.suffix, "paths":items}
+               "suffix":args.suffix, "skip_count":args.skip_count, "max_count":args.max_count,
+               "paths":items}
     print(json.dumps(payload, ensure_ascii=False), flush=True)
     Path("selection.json").write_text(json.dumps(payload, indent=2) + "\n",encoding="utf-8")
 if __name__ == "__main__":

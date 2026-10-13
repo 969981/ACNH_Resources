@@ -1,0 +1,136 @@
+name: ACNH 3.0.3 Media L3 Bounded On-Demand Slice
+on:
+  workflow_dispatch:
+    inputs:
+      category:
+        description: Source folder
+        type: choice
+        options: [Model, Layout, Sound]
+        required: true
+      shard:
+        description: Hash partition number, zero based
+        type: number
+        default: 0
+        required: true
+      shards:
+        description: Total stable hash partitions
+        type: number
+        default: 32
+        required: true
+      skip_count:
+        description: How many ordered files to skip inside this partition
+        type: number
+        default: 0
+        required: true
+      max_count:
+        description: Size cap (Sound max 12, others max 50)
+        type: number
+        default: 12
+        required: true
+permissions:
+  contents: write
+  actions: read
+jobs:
+  slice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CAT: ${{ inputs.category }}
+      SHARD: ${{ inputs.shard }}
+      SHARDS: ${{ inputs.shards }}
+      SKIP: ${{ inputs.skip_count }}
+      CAP: ${{ inputs.max_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Enforce shard bounds and byte risk cap
+        run: |
+          python - <<'PY'
+          import os
+          x=os.environ
+          assert x["CAT"] in ("Model","Layout","Sound")
+          assert 1<=int(x["SHARDS"])<=4096
+          assert 0<=int(x["SHARD"])<int(x["SHARDS"])
+          assert int(x["SKIP"])>=0
+          assert 1<=int(x["CAP"])<=(12 if x["CAT"]=="Sound" else 50)
+          print("Validated slice", x["CAT"], x["SHARD"], x["SHARDS"], x["SKIP"], x["CAP"])
+          PY
+      - name: Select resumable source slice from Git tree without full binary checkout
+        shell: bash
+        run: |
+          suffix=.zs
+          if [[ "$CAT" == Sound ]]; then suffix=.bwav; fi
+          python scripts/select_acnh303_shard.py \
+            --category "$CAT" --shard "$SHARD" --shards "$SHARDS" \
+            --suffix "$suffix" --skip-count "$SKIP" --max-count "$CAP"
+      - name: Download same tested native decoder releases
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo wmdlt >/tmp/wmdlt.path
+          echo wimgt >/tmp/wimgt.path
+          echo vgmstream-cli >/tmp/vgmstream.path
+          if [[ "$CAT" == Sound ]]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n 1 >/tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+          else
+            url=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$url/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+            curl -fLsS --retry 3 "$url/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wmdlt | head -n 1 >/tmp/wmdlt.path
+            find /tmp/nintoolbox -type f -name wimgt | head -n 1 >/tmp/wimgt.path
+            chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+          fi
+      - name: Real decoder outputs and SHA-256 status for every selected source
+        run: |
+          python scripts/acnh303_media_batch.py \
+            --root . --selection selection.json \
+            --out Unpack_L3_Batch --report-dir derived/3.0.3/media_on_demand \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-on-demand-report-${{ github.run_id }}
+          path: |
+            derived/3.0.3/media_on_demand/
+            selection.json
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-on-demand-assets-${{ github.run_id }}
+          path: Unpack_L3_Batch/
+          retention-days: 14
+          compression-level: 3
+          if-no-files-found: warn
+      - name: Preserve per-run source SHA-256 report in Git for cumulative auditing
+        run: |
+          mkdir -p "derived/3.0.3/media_run_history/$GITHUB_RUN_ID"
+          cp -r derived/3.0.3/media_on_demand/. "derived/3.0.3/media_run_history/$GITHUB_RUN_ID/"
+          cp selection.json "derived/3.0.3/media_run_history/$GITHUB_RUN_ID/"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/media_run_history
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): append bounded media L3 source/error/SHA run"
+          git fetch origin "${{ github.ref_name }}"
+          git rebase FETCH_HEAD
+          git push origin "HEAD:${{ github.ref_name }}"

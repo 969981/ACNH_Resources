@@ -1,0 +1,76 @@
+name: ACNH 3.0.3 Diagnose 26 BFRES Native Converter Errors
+on:
+  push:
+    branches: [feat/acnh303-media-scaleout]
+    paths: [".github/workflows/acnh303-media-bfres-diagnose.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Retrieve original full BFRES converter output logs from 4 real Model batches
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          for shard in 2 3 4 5; do
+            mkdir -p "audit/$shard"
+            gh run download 38415265992 -R 969981/ACNH_Resources \
+              -n "acnh303-l3-v2-data-Model-$shard" -D "audit/$shard"
+          done
+      - name: Distinguish unsupported geometry and genuine converter errors
+        run: |
+          python - <<'PY'
+          import collections,json,pathlib
+          docs=sorted(pathlib.Path("audit").rglob("_conversion_manifest.json"))
+          errors=[]
+          native=collections.Counter()
+          for p in docs:
+            data=json.loads(p.read_text("utf-8"))
+            for leaf in data["members"]:
+              if leaf.get("format")=="bfres" and leaf.get("status")!="converted":
+                info={
+                  "source":data["source"],"source_sha256":data["source_sha256"],
+                  "member":leaf.get("source_member"),"leaf_bytes":leaf.get("input_bytes"),
+                  "exit_code":leaf.get("tool_exit_code"),
+                  "error":leaf.get("error"),"stdout":leaf.get("tool_stdout_tail",""),
+                  "stderr":leaf.get("tool_stderr_tail","")
+                }
+                native[(str(info["exit_code"]),info["stderr"][-200:],info["stdout"][-200:])]+=1
+                errors.append(info)
+          output=pathlib.Path("derived/3.0.3/media_scaleout_diagnostics")
+          output.mkdir(parents=True,exist_ok=True)
+          record={
+            "source_run":38415265992, "sample_model_sources":len(docs),
+            "non_converted_bfres_leaves":len(errors),
+            "native_return_groups":[{"count":v,"exit_code":k[0],"stderr_tail":k[1],"stdout_tail":k[2]}
+                                    for k,v in native.most_common()],
+            "errors":errors,
+            "note":"Observational facts only; do NOT mark native decoder failures converted without actual mesh geometry"
+          }
+          (output/"bfres_errors.json").write_text(json.dumps(record,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+          print(json.dumps(record,indent=2,ensure_ascii=False)[:15000])
+          assert len(docs)==96,("missing model source manifests",len(docs))
+          assert len(errors)==26,("unexpected changed Model failure count",len(errors))
+          PY
+      - name: Commit detailed raw native tool errors and return code evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/media_scaleout_diagnostics
+          git diff --cached --quiet && exit 0
+          git commit -m "research(acnh303): classify 26 genuine BFRES native conversion errors"
+          git fetch origin feat/acnh303-media-scaleout
+          git rebase origin/feat/acnh303-media-scaleout
+          git push origin HEAD:feat/acnh303-media-scaleout
