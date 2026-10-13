@@ -201,21 +201,42 @@ def main():
                     record["tool_stderr_tail"] = proc.stderr[-1500:]
                     if proc.returncode != 0:
                         record["error"] = "external converter error"
-                    elif not outpath.is_file():
-                        record["error"] = "external converter returned success but no output file"
-                    elif outpath.stat().st_size > args.max_output_mb * 1024 * 1024:
-                        record["error"] = "converted file exceeds output size cap"
                     else:
-                        result = VALID[EXT[kind][1:]](outpath)
-                        record["status"] = "converted"
-                        record["validation"] = result
-                        record["output"] = outpath.relative_to(root).as_posix()
-                        record["output_bytes"] = outpath.stat().st_size
-                        record["output_sha256"] = hexdigest(outpath.read_bytes())
+                        # Multi-image BNTX exports leaf_N.img000.png,
+                        # leaf_N.img001.png ... rather than the requested
+                        # single leaf_N.png. Every image must pass CRC check.
+                        outputs = [outpath] if outpath.is_file() else []
+                        if kind == "bntx":
+                            outputs += sorted(dest.glob(outpath.stem + ".*.png"))
+                        outputs = list(dict.fromkeys(outputs))
+                        if not outputs:
+                            record["error"] = "external converter returned success but no output file"
+                        else:
+                            validated = []
+                            for produced in outputs:
+                                if produced.stat().st_size > args.max_output_mb * 1024 * 1024:
+                                    raise ValueError("converted file exceeds size cap")
+                                info = VALID[EXT[kind][1:]](produced)
+                                validated.append({
+                                    "path": produced.relative_to(root).as_posix(),
+                                    "size_bytes": produced.stat().st_size,
+                                    "sha256": hexdigest(produced.read_bytes()),
+                                    "validation": info,
+                                })
+                            record["status"] = "converted"
+                            record["output_count"] = len(validated)
+                            record["outputs"] = validated
+                            record["validation"] = [x["validation"] for x in validated]
+                            if len(validated) == 1:
+                                record["output"] = validated[0]["path"]
+                                record["output_bytes"] = validated[0]["size_bytes"]
+                                record["output_sha256"] = validated[0]["sha256"]
                 except (ValueError, OSError, subprocess.TimeoutExpired, wave.Error) as exc:
                     record["error"] = f"{type(exc).__name__}: {exc}"
-                if record["status"] != "converted" and outpath.exists():
-                    outpath.unlink()
+                if record["status"] != "converted":
+                    for generated in [outpath, *dest.glob(outpath.stem + ".*.png")]:
+                        if generated.exists():
+                            generated.unlink()
             source_meta["members"].append(record)
     total = sum(r["status"] == "converted" for r in source_meta["members"])
     source_meta["converted_count"] = total
