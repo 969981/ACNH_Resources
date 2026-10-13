@@ -1,0 +1,209 @@
+name: ACNH 3.0.3 L3 Media Scaleout 216 New Sources
+on:
+  push:
+    branches: [feat/acnh303-media-scaleout]
+    paths: [".github/workflows/acnh303-media-l3-scaleout.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-media-scaleout
+  cancel-in-progress: false
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Validate media checks and batch source scanner
+        run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+  extract:
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - {group: Model, shard: 2, shards: 32, suffix: ".zs", max_count: 24}
+          - {group: Model, shard: 3, shards: 32, suffix: ".zs", max_count: 24}
+          - {group: Model, shard: 4, shards: 32, suffix: ".zs", max_count: 24}
+          - {group: Model, shard: 5, shards: 32, suffix: ".zs", max_count: 24}
+          - {group: Layout, shard: 2, shards: 8, suffix: ".zs", max_count: 20}
+          - {group: Layout, shard: 3, shards: 8, suffix: ".zs", max_count: 20}
+          - {group: Layout, shard: 4, shards: 8, suffix: ".zs", max_count: 20}
+          - {group: Layout, shard: 5, shards: 8, suffix: ".zs", max_count: 20}
+          - {group: Sound, shard: 2, shards: 8, suffix: ".bwav", max_count: 10}
+          - {group: Sound, shard: 3, shards: 8, suffix: ".bwav", max_count: 10}
+          - {group: Sound, shard: 4, shards: 8, suffix: ".bwav", max_count: 10}
+          - {group: Sound, shard: 5, shards: 8, suffix: ".bwav", max_count: 10}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Exact Git Tree source hash shard selection
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category ${{ matrix.group }}
+          --shard ${{ matrix.shard }}
+          --shards ${{ matrix.shards }}
+          --suffix ${{ matrix.suffix }}
+          --max-count ${{ matrix.max_count }}
+      - name: Fetch pinned Nintendo native decoders
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo wmdlt > /tmp/wmdlt.path
+          echo wimgt > /tmp/wimgt.path
+          echo vgmstream-cli > /tmp/vgmstream.path
+          if [[ "${{ matrix.group }}" == "Sound" ]]; then
+            curl -fLsS --retry 3 \
+              "https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip" \
+              -o /tmp/vgmstream-linux.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream-linux.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n 1 >/tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            sha256sum /tmp/vgmstream-linux.zip
+          else
+            n=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$n/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+            curl -fLsS --retry 3 "$n/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wmdlt | head -n 1 >/tmp/wmdlt.path
+            find /tmp/nintoolbox -type f -name wimgt | head -n 1 >/tmp/wimgt.path
+            test -s /tmp/wmdlt.path && test -s /tmp/wimgt.path
+            chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+          fi
+      - name: Decode and verify GLB meshes, PNG pixels or PCM WAV on all selected sources
+        run: |
+          python scripts/acnh303_media_batch.py \
+            --root . --selection selection.json \
+            --out Unpack_L3_Batch --report-dir derived/3.0.3/media_scaleout \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Verify every selected original has a unique source SHA-256 result
+        run: |
+          python - <<'PY'
+          import json,pathlib,hashlib
+          sel=json.loads(pathlib.Path("selection.json").read_text(encoding="utf-8"))
+          group=sel["category"];shard=sel["shard"];shards=sel["shards"]
+          p=pathlib.Path("derived/3.0.3/media_scaleout")/group/(f"{shard:03d}-of-{shards:03d}")/"manifest.json"
+          results=json.loads(p.read_text(encoding="utf-8"))
+          selected=[path[len("e10617820db06889e1638499478da0de_NCA/1/"):] for path in sel["paths"]]
+          actual=[r["source_path"] for r in results]
+          assert actual==selected,(len(actual),len(selected),set(actual)^set(selected))
+          assert len(actual)==len(set(actual))
+          for r in results:
+              assert hashlib.sha256((pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/r["source_path"]).read_bytes()).hexdigest()==r["sha256"]
+              for o in r["validated_outputs"]:
+                  p=pathlib.Path(o["path"])
+                  assert p.is_file(),str(p)
+                  assert hashlib.sha256(p.read_bytes()).hexdigest()==o["sha256"]
+          print(f"VERIFIED_SHARD {group}-{shard} sources={len(actual)} media={sum(len(r['validated_outputs']) for r in results)}")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-l3-v2-report-${{ matrix.group }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_scaleout/
+            selection.json
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-l3-v2-data-${{ matrix.group }}-${{ matrix.shard }}
+          path: Unpack_L3_Batch/
+          compression-level: 3
+          retention-days: 14
+          if-no-files-found: warn
+  audit:
+    needs: [tests, extract]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-l3-v2-report-*
+          path: collected_v2
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 38412870668
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: media-l3-report-*
+          path: collected_calibration
+          merge-multiple: true
+      - name: Cumulative coverage by real original source format and unsupported reason
+        run: |
+          python scripts/acnh303_media_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --reports collected_calibration --reports collected_v2 \
+            --expected-shards 18 \
+            --out derived/3.0.3/media_scaleout_audit
+      - name: Require twelve new group reports and preserve cumulative audit
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_scaleout_audit/coverage.json").read_text())
+          a=j["by_format"]
+          assert j["shard_reports"]==18
+          assert a["Model"]["measured_source_count"]==108
+          assert a["Layout"]["measured_source_count"]==92
+          assert a["Sound"]["measured_source_count"]==52
+          assert j["source_files_audited"]==252
+          assert sum(x["unconverted_measured_sources"]+x["valid_media_source_count"] for x in a.values())==252
+          assert j["verified_media_output_files"]>=122
+          print("PASS 36 previous + 216 new = 252 unique sources, no path repeats")
+          PY
+      - name: Commit durable 252-source media coverage, unsupported CSV and failure-class counts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/media_scaleout_audit
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): cumulative GLB PNG WAV measured coverage and unsupported reports"
+          for attempt in 1 2 3 4; do
+            git fetch origin feat/acnh303-media-scaleout
+            git rebase origin/feat/acnh303-media-scaleout
+            if git push origin HEAD:feat/acnh303-media-scaleout; then exit 0; fi
+            sleep 3
+          done
+          exit 1
