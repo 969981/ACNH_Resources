@@ -135,3 +135,15 @@ For parser internals, known limitations and development guidance see scripts/REA
 [完整扩容报告](docs/UNPACK_MEDIA_L3_SCALEOUT.md) · [持续覆盖率 JSON](derived/3.0.3/media_scaleout_audit/coverage.json) · [Source SHA-256 及失败清单](derived/3.0.3/media_scaleout_audit/source_manifest.jsonl.gz) · [12 分片长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-media-l3-scaleout-20261013)
 
 新增 216 个真实 Model/Layout/BWAV 源文件的 12 分片转换，连同之前 36 源累计实测 252 个源，得到 82 GLB、641 PNG、52 WAV，合计 **775 个已验证媒体文件**（770.4 MB）。Model 26 个 BottomsTex 原生 decoder 失败，Layout 28 个原包没有 BNTX，均在问题清单记录；不能当成全库 L3 完成。后续可用 [按哈希分片和 skip_count 续跑的 Actions](.github/workflows/acnh303-media-l3-on-demand.yml)，并通过单独审计脚本持续统计每格式已测成功率、未测试数和错误类型。
+
+
+## BFRES / BottomsTex 实证修复（2026-10-13）
+
+已定位 26 个 `BottomsTex...` FRES 无法通过 `wmdlt` 输出 GLB 的真正原因：**全部 FRES+0x28 模型指针为零，FMDL/FSHP/FVTX 缺失，而 FRES+0x1000 均含有效独立 BNTX**。因此改用严格结构判断，提取内嵌 BNTX 并实际导出 104 张已完成 PNG CRC、像素加载、SHA-256 的纹理，26/26 原始失败项都有真实媒体产物，**不是伪造 GLB**。
+
+- [完整二进制对照与解决方法](docs/BOTTOMSTEX_FRES_TEXTURE_ONLY_20261013.md)
+- [经 SHA-256 对齐的当前媒体累计报告](derived/3.0.3/media_bottomstex_corrected/coverage.json)
+- [26 个 FRES 原始 header / 结构证据](derived/3.0.3/bottomstex_forensics/fres_preflight.json)
+- [26 源 104 PNG 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bottomstex-texture-only-26-20261013)
+
+本次纠正后，在已经实测的 252 个媒体源里累计 **82 GLB + 745 PNG + 52 WAV = 879 个有效媒体文件**；Model 108 源有媒体输出，其中只有 82 个属于真实 GLB。其余大部分源仍未做 L3 内容解码。
