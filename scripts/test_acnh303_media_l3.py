@@ -62,6 +62,38 @@ class OutputValidation(unittest.TestCase):
                 f.writeframes(b"\x01\x00\x01\x00" * 100)
             self.assertEqual(validate_wav(path)["frames"], 100)
 
+
+    def test_texture_only_switch_fres_embedded_bntx(self):
+        from acnh303_media_l3 import (is_texture_only_switch_fres,
+                                      extract_embedded_bntx, find_leaf)
+        fake=bytearray(0x2000)
+        fake[:4]=b"FRES"
+        struct.pack_into("<I",fake,8,0x00090000)
+        struct.pack_into("<H",fake,0x0C,0xFEFF)
+        # No model/mesh/vertex headers or first model pointer.
+        off=0x1000
+        fake[off:off+4]=b"BNTX"
+        struct.pack_into("<H",fake,off+12,0xFEFF)
+        struct.pack_into("<I",fake,off+28,0x180)
+        fake[off+32:off+36]=b"NX  "
+        struct.pack_into("<I",fake,off+36,4)
+        self.assertTrue(is_texture_only_switch_fres(bytes(fake)))
+        item=list(extract_embedded_bntx(bytes(fake)))
+        self.assertEqual(len(item),1)
+        self.assertEqual(item[0][0],off)
+        self.assertEqual(len(item[0][1]),0x180)
+        leaves=list(find_leaf(bytes(fake),"BottomsTex.fake"))
+        self.assertEqual(len(leaves),1)
+        self.assertEqual(leaves[0]["format"],"bntx")
+        self.assertEqual(leaves[0]["origin_type"],"texture_only_fres_bntx")
+        fake[off+32:off+36]=b"NOPE"
+        self.assertFalse(list(extract_embedded_bntx(bytes(fake))))
+        with self.assertRaises(ValueError):
+            list(find_leaf(bytes(fake),"corrupt.fres"))
+        fake[off+32:off+36]=b"NX  "
+        fake[0x200:0x204]=b"FMDL"
+        self.assertFalse(is_texture_only_switch_fres(bytes(fake)))
+
     def test_leaf_unsafe_path(self):
         for bad in ("../x.bntx", "/absolute.bntx", "a/../x.bntx"):
             with self.assertRaises(ValueError):
