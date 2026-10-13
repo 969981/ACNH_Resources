@@ -1,0 +1,87 @@
+name: ACNH 3.0.3 Release Verified Media L3 Calibration
+on:
+  push:
+    branches: [feat/acnh303-media-l3]
+    paths: [".github/workflows/acnh303-media-l3-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: acnh303-media-l3-calibration-20261013
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Verify source calibration run passed before publishing
+        run: |
+          gh run view 38412870668 -R 969981/ACNH_Resources --json conclusion --jq '.conclusion' | grep -Fx 'success'
+          python - <<'PY'
+          import json,pathlib
+          a=json.loads(pathlib.Path("derived/3.0.3/media_calibration_summary/latest.json").read_text("utf-8"))
+          assert a["run_id"]=="38412870668",a
+          assert a["completed_shards"]==6
+          assert a["sampled_original_sources"]==36
+          assert sum(a["validated_output_count_by_format"].values())==122
+          print(a)
+          PY
+      - name: Download all six media source-mirrored outputs AND their verification manifests
+        run: |
+          mkdir -p bundles packages
+          for grp in Model Layout Sound; do
+            for shard in 0 1; do
+              dest="bundles/$grp-$shard"
+              mkdir -p "$dest/data" "$dest/report"
+              gh run download 38412870668 -R 969981/ACNH_Resources \
+                -n "media-l3-output-$grp-$shard" -D "$dest/data"
+              gh run download 38412870668 -R 969981/ACNH_Resources \
+                -n "media-l3-report-$grp-$shard" -D "$dest/report"
+              test "$(find "$dest/data" -type f | wc -l)" -gt 0
+              test "$(find "$dest/report" -type f -name manifest.json | wc -l)" -gt 0
+            done
+          done
+      - name: Build long-lived source-relative archive packages and SHA256SUMS
+        run: |
+          set -e
+          for grp in Model Layout Sound; do
+            for shard in 0 1; do
+              name="ACNH-3.0.3-L3-$grp-shard$shard"
+              tar -czf "packages/$name.tar.gz" -C "bundles/$grp-$shard" .
+            done
+          done
+          cp derived/3.0.3/media_calibration_summary/latest.json packages/calibration-summary.json
+          (cd packages && sha256sum *.tar.gz calibration-summary.json > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+          du -h packages/*
+      - name: Create explicitly partial-coverage release and upload all six packages
+        run: |
+          cat > /tmp/RELEASE.md <<'EOF'
+          # ACNH 3.0.3 media L3 calibration (not full resource set)
+
+          36 original ACNH RomFS sources sampled across 6 deterministic Git hash shards.
+          Produced 12 geometry-validated GLBs, 98 pixel-decoded/CRC-checked PNGs,
+          and 12 decoded PCM WAVs; two source Layout archives had no BNTX leaf.
+          Total 122 validated outputs; see calibration-summary.json.
+
+          Each archive contains source-mirrored Unpack_L3_Batch files, per-source
+          conversion manifests, SHA-256 source/output checksums and shard reports.
+          SHA256SUMS.txt authenticates all archives.
+          Converters: nintoolbox nightly-20261013 (upstream checksummed)
+          and vgmstream r2117. NOT exhaustive GLB/PNG/WAV conversion.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target "$GITHUB_SHA" --title "ACNH 3.0.3 media L3 verified calibration" \
+              --notes-file /tmp/RELEASE.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources \
+            packages/*.tar.gz packages/SHA256SUMS.txt packages/calibration-summary.json --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,assets:[.assets[] | {name:.name,size:.size}]}'
