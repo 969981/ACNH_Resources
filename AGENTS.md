@@ -99,3 +99,10 @@ The 26 former wmdlt errors became 104 genuinely verified PNGs; the
 corrected 252-source census has 879 files (82 GLB, 745 PNG, 52 WAV),
 not 108 GLBs. Old failure report is immutable history; cumulative
 corrected report lives under derived/3.0.3/media_bottomstex_corrected/.
+
+
+## ACNH 3.0.3 L3 iteration-4 media reality checks
+
+[docs/UNPACK_MEDIA_L3_ITERATION4.md](docs/UNPACK_MEDIA_L3_ITERATION4.md) describes 300 more original source files processed in 12 distinct hash shards, 781 verified GLB/PNG/WAV outputs and 552 cumulative nonoverlapping original sources. Metadata in derived/3.0.3/media_iteration4_cumulative/ holds every source/output SHA-256, validated format, 41 true Layout no_target_leaf cases and the as-yet untested candidate denominators.
+
+Use scripts/acnh303_media_incremental_audit.py to merge another run with the **corrected** original 252-source ledger, rejecting repeated source paths, source sizes that disagree with immutable RomFS tree inventory, and outputs without proper format proof. Model PNG means embedded texture-only FRES BNTX and MUST NOT be counted as GLB geometry. Every new output shard should be archived as a named, hashed GitHub Release. These sample L3 conversions DO NOT mean 103400 source assets are fully unpacked.

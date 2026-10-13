@@ -47,3 +47,12 @@
 正确有效 L3 统计为 **252 已测原始源、879 媒体文件（82 GLB + 745 PNG + 52 WAV），773,026,137 字节**。原 26 个错误只有 GLB 几何导出不适用，不是坏资源；保留历史审计但将 Model 的有效媒体类进一步拆为 geometry GLB 和 texture-only PNG。
 
 [底层对照+修复说明](BOTTOMSTEX_FRES_TEXTURE_ONLY_20261013.md) · [按源哈希修正后的有效报告](../derived/3.0.3/media_bottomstex_corrected/coverage.json) · [Issue #21](https://github.com/969981/ACNH_Resources/issues/21)。
+
+
+## 2026-10-14 第四轮 L3 资源转换实际执行及发布
+
+- [12 个新源分片与累计审计](https://github.com/969981/ACNH_Resources/actions/runs/38427348253) 均成功，新增 300 个此前未测的 Model/Layout/BWAV 原文件，源路径/文件大小/输入与输出 SHA 均核对。
+- 新产物 **132 GLB + 609 PNG + 40 WAV = 781**；200/200 Model 源有 GLB 或 PNG 实际输出，47/60 Layout 源有 BNTX 贴图，40/40 BWAV 输出有效 PCM WAV。
+- **累计 552 个互不重复原始媒体源，214 GLB + 1354 PNG + 92 WAV = 1660 个真实输出**，1,244,272,410 字节。已测仍无 BNTX 目标的 Layout 达 41 个。
+- [当前覆盖率报告](../derived/3.0.3/media_iteration4_cumulative/coverage.json) · [媒体输出索引](../derived/3.0.3/media_iteration4_cumulative/media_index.csv) · [详细技术报告](UNPACK_MEDIA_L3_ITERATION4.md)。
+- 已使用 [17 附件的永久 GitHub Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-iteration4-20261014) 分卷发布 781 个新媒体文件及全部源／输出 SHA-256。注意此为 L3 **样本扩容**，并非全部 103400 原文件已完全转换。
