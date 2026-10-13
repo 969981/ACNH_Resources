@@ -29,13 +29,13 @@ jobs:
         run: |
           set -euo pipefail
           base=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
-          curl -fLsS --retry 3 "$base/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+          curl -fLsS --retry 3 "$base/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
           curl -fLsS --retry 3 "$base/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
           cd /tmp
           grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -
           mkdir -p /tmp/nintoolbox-extracted
-          tar -tzf /tmp/nintoolbox.tar.gz | head -60 || true
-          tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox-extracted
+          tar -tzf /tmp/nintoolbox-linux-x86_64.tar.gz | head -60 || true
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox-extracted
           find /tmp/nintoolbox-extracted -type f \( -name wmdlt -o -name wimgt \) -print
           wmdlt=$(find /tmp/nintoolbox-extracted -type f -name wmdlt | head -n 1)
           wimgt=$(find /tmp/nintoolbox-extracted -type f -name wimgt | head -n 1)
