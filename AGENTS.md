@@ -49,3 +49,11 @@ Do not edit the raw NCA directories. Full conversion should run locally against 
 - Unknown blobs: unsupported. No fictional PNG, JSON fields, executable models or labels.
 
 Contributors may add full formats only with specifications, unit tests, and real 3.0.3 samples. Provenance and reverse mapping between source and output are required.
+
+## 2026-10-13 master unpack milestones
+
+The authoritative complete-unpack roadmap is [docs/UNPACK_MASTER_PLAN.md](docs/UNPACK_MASTER_PLAN.md) and its 14 tracked U00–U13 tasks are [docs/UNPACK_TASKS.md](docs/UNPACK_TASKS.md). The current phase tracker is [docs/UNPACK_PROGRESS.md](docs/UNPACK_PROGRESS.md).
+
+**Never use `git ls-tree -l` or `git cat-file -s` to enumerate blob sizes on a `blob:none` partial clone:** these may download multi-GB original binary files. Instead query the Git tree SHA with GitHub's Git Trees REST API (which returns blob `size`) and recursively resolve any `truncated` reply. Hash original bytes with SHA-256 only when the relevant shard is actually processed.
+
+Completion must be measured separately for L0 complete source inventory, L1 decompression, L2 recursive archive extraction and L3 genuine semantic/media conversion. A raw binary copy or 16-byte header JSON is never equivalent to a validated PNG, GLB or WAV. Treat every large Actions artifact as transient unless a durable release location is published.
