@@ -266,13 +266,13 @@ class Batch:
             result["notes"] = f"{type(exc).__name__}: {exc}"
         self.rows.append(result)
 
-    def finish(self, output_report: Path):
+    def finish(self, output_report: Path, batch_id: str = "single"):
         totals = {}
         for r in self.rows:
             totals[r["status"]] = totals.get(r["status"], 0) + 1
         output_count = sum(len(r["outputs"]) for r in self.rows)
         report = {"category": self.category, "game_version": "3.0.3", "decoder": VERSION,
-                  "processed": len(self.rows), "statuses": totals,
+                  "batch_id": batch_id, "processed": len(self.rows), "statuses": totals,
                   "output_count": output_count,
                   "generated_utc": datetime.now(timezone.utc).isoformat(),
                   "limitations": [
@@ -280,7 +280,7 @@ class Batch:
                       "BNTX to PNG, PTCL rendering and BARS to WAV need validated media decoders.",
                       "Only bounded raw member bytes are written; excluded large payloads remain in source assets.",
                   ]}
-        report_dir = output_report / self.category
+        report_dir = output_report / self.category / batch_id
         report_dir.mkdir(parents=True, exist_ok=True)
         atomic(report_dir / "manifest.json", jbytes(self.rows))
         atomic(report_dir / "summary.json", jbytes(report))
@@ -303,6 +303,7 @@ def main():
     parser.add_argument("--out", type=Path, default=Path("Unpack_Batch"))
     parser.add_argument("--report-dir", type=Path, default=Path("reports"))
     parser.add_argument("--raw-limit-mb", type=int, default=1)
+    parser.add_argument("--batch-id", default="single")
     args = parser.parse_args()
     root = args.root.resolve()
     inp = root / NCA / "1"
@@ -318,7 +319,7 @@ def main():
         engine.process(p)
         if i % 250 == 0:
             print(f"{args.group}: {i}/{len(files)}", flush=True)
-    return engine.finish((root / args.report_dir).resolve())
+    return engine.finish((root / args.report_dir).resolve(), args.batch_id)
 
 
 if __name__ == "__main__":
