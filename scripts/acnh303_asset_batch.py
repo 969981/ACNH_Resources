@@ -19,8 +19,9 @@ import tempfile
 from datetime import datetime, timezone
 
 from acnh_formats import FormatError, bounded, detect, decompress, parse_bcsv, parse_byml, parse_msbt, parse_sarc, safe_member_name
+from acnh303_bdli import parse_bdli, BdliError
 
-VERSION = "acnh303-assets-0.2"
+VERSION = "acnh303-assets-0.3"
 NCA = "e10617820db06889e1638499478da0de_NCA"
 MAX_SOURCE = 256 * 1024 * 1024
 MAX_UNPACK = 384 * 1024 * 1024
@@ -30,6 +31,7 @@ FORMATS = {
     b"FRES": "bfres", b"BNTX": "bntx", b"FLYT": "bflyt",
     b"FLAN": "bflan", b"BARS": "bars", b"BWAV": "bwav",
     b"FWAV": "bfwav", b"FSTM": "bfstm", b"PTCL": "ptcl",
+    b"BDLI": "bdli",
     b"FSHA": "bfsha", b"BNSH": "bnsh", b"ASB ": "asb",
     b"BY\x00\x00": "byml",
 }
@@ -188,6 +190,10 @@ class Batch:
         obj = {"format": kind, "size": len(raw), "sha256": sha(raw)}
         if kind in ("zstd", "yaz0"):
             expanded, codec = decompress(raw, MAX_UNPACK)
+            if format_of(expanded) == "bdli" and len(expanded) <= self.raw_limit:
+                bdli_rel = Path(record["source_path"]).with_suffix("")
+                self.save(record, bdli_rel, expanded)
+                obj["lossless_bdli_path"] = bdli_rel.as_posix()
             obj.update({"codec": codec, "uncompressed_size": len(expanded), "inner": self.visit(name, expanded, depth + 1, record)})
             return obj
         if kind == "sarc":
@@ -207,9 +213,13 @@ class Batch:
                 else:
                     node["raw_extracted"] = False
                     node["raw_skip_reason"] = "exceeds raw-leaf commit/artifact limit"
-                if depth < 4 and format_of(content) in ("sarc", "zstd", "yaz0", "byml", "msbt", "bfevfl", "bars"):
+                if depth < 4 and format_of(content) in ("sarc", "zstd", "yaz0", "byml", "msbt", "bfevfl", "bars", "bdli"):
                     node["parsed"] = self.visit(name + "/" + member_name, content, depth + 1, record)
                 obj["members"].append(node)
+            return obj
+        if kind == "bdli":
+            obj["directory"] = parse_bdli(raw)
+            obj["status"] = "partial"
             return obj
         if kind == "bfevfl":
             obj["graph"] = parse_evfl(raw)
@@ -299,7 +309,7 @@ class Batch:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--group", required=True, choices=["Model", "Layout", "Effect", "Shader", "Sound", "EventFlow"])
+    parser.add_argument("--group", required=True, choices=["Model", "BDLI", "Sound", "Misc", "Layout", "Effect", "Shader", "EventFlow"])
     parser.add_argument("--out", type=Path, default=Path("Unpack_Batch"))
     parser.add_argument("--report-dir", type=Path, default=Path("reports"))
     parser.add_argument("--raw-limit-mb", type=int, default=1)
@@ -310,11 +320,12 @@ def main():
     output = (root / args.out).resolve()
     if not inp.is_dir() or output.is_relative_to(inp) or inp.is_relative_to(output):
         parser.error("invalid input/output roots")
-    group = inp / args.group
+    group = inp if args.group == "Misc" else inp / args.group
     if not group.is_dir():
         parser.error(f"group missing {group}")
     engine = Batch(inp, output, args.group, args.raw_limit_mb * (1 << 20))
-    files = sorted(x for x in group.rglob("*") if x.is_file() and not x.is_symlink())
+    files = sorted(x for x in group.rglob("*") if x.is_file() and not x.is_symlink()
+                   and (args.group != "Misc" or x.relative_to(inp).parts[0] not in ("Model", "BDLI", "Sound")))
     for i, p in enumerate(files, 1):
         engine.process(p)
         if i % 250 == 0:
