@@ -1,0 +1,319 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCheckNfpController",
+          "EventFlowActionReadAmiibo",
+          "EventFlowActionEntryVariableSet",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionChangeAmiiboNPC"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryIsAcceptableAmiibo",
+          "EventFlowQueryCheckAmiiboNPC",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryGeneralTalkChoice2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 2,
+          "offset_08": 3184,
+          "offset_10": 3240,
+          "subflow_index_count": 2
+        },
+        "main_event": 10,
+        "name": "Root"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "System_CastUI_Amiibo",
+    "events": [
+      {
+        "action": "EventFlowActionReadAmiibo",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "EntryVariableKeyInt_ReadPadId": "ReadPadId"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableSet",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event11",
+        "next": 0,
+        "params": {
+          "Key": "ReadPadId",
+          "SetValue": "NpadId"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryIsAcceptableAmiibo",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Common_AmiiboError:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event13",
+        "params": {
+          "Kind": "cNNPC"
+        },
+        "query": "EventFlowQueryCheckAmiiboNPC",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event3",
+        "params": {
+          "ErrorType": 1
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NFC_ReadError",
+        "flowchart": "Obj_Common_AmiiboProcess",
+        "index": 7,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_WherearenAmiiboDevice:307"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NFC_SettingChk",
+        "flowchart": "Obj_Common_AmiiboProcess",
+        "index": 9,
+        "name": "Event14",
+        "next": 13,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event15",
+        "next": 9,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 19
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          }
+        ],
+        "index": 11,
+        "name": "Event16",
+        "params": {
+          "Kind": "cWherearenCustomer"
+        },
+        "query": "EventFlowQueryCheckAmiiboNPC",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_WherearenAmiiboDevice:307"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCheckNfpController",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event19",
+        "next": 2,
+        "params": {
+          "EntryVariableKeyInt_NpadId": "NpadId"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event20",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_WherearenAmiiboDevice:308"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event22",
+        "params": {
+          "Kind": "cSpltMantaro"
+        },
+        "query": "EventFlowQueryCheckAmiiboNPC",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event23",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionChangeAmiiboNPC",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event24",
+        "next": 11,
+        "params": {
+          "Kind": "cSqu19"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionChangeAmiiboNPC",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event25",
+        "next": 11,
+        "params": {
+          "Kind": "cSqu20"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_CastUI_Amiibo",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "235eb4a62a45fdbcd74deb9f23c4bfc88f876e5072909a52b869fe86705e5266",
+  "size": 4312,
+  "status": "converted"
+}
