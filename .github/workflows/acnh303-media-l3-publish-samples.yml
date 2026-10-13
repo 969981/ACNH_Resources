@@ -1,0 +1,123 @@
+name: ACNH 3.0.3 Publish Verified GLB PNG WAV to Unpack
+on:
+  push:
+    branches: [feat/acnh303-media-l3]
+    paths: [".github/workflows/acnh303-media-l3-publish-samples.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /scripts/
+            /Unpack/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/FooterBtn.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Stream/AmbPlace_Cave.bwav
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Test strict media validators
+        run: python -m unittest discover -s scripts -p "test_acnh303_media_l3.py" -v
+      - name: Pin and verify binary converters
+        shell: bash
+        run: |
+          set -euo pipefail
+          n=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+          v=https://github.com/vgmstream/vgmstream/releases/download/r2117
+          curl -fLsS --retry 3 "$n/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$n/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wmdlt | head -n 1 >/tmp/wmdlt.path
+          find /tmp/nintoolbox -type f -name wimgt | head -n 1 >/tmp/wimgt.path
+          test -s /tmp/wmdlt.path && test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+          curl -fLsS --retry 3 "$v/vgmstream-linux.zip" -o /tmp/vgmstream-linux.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream-linux.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n 1 >/tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+          mkdir -p derived/3.0.3/media_l3
+          (
+            cd /tmp
+            sha256sum nintoolbox-linux-x86_64.tar.gz vgmstream-linux.zip
+          ) >derived/3.0.3/media_l3/tool-checksums.sha256
+      - name: Model BFRES to validated GLB
+        run: |
+          python scripts/acnh303_media_l3.py --root . \
+            --source Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --out Unpack \
+            --require bfres --fail-on-no-conversion
+      - name: Layout BNTX to fully decoded PNG
+        run: |
+          python scripts/acnh303_media_l3.py --root . \
+            --source Layout/FooterBtn.Nin_NX_NVN.zs \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" --out Unpack \
+            --require bntx --fail-on-no-conversion
+      - name: Sound Nintendo ADPCM BWAV to validated PCM WAV
+        run: |
+          python scripts/acnh303_media_l3.py --root . \
+            --source Sound/Resource/Stream/AmbPlace_Cave.bwav \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)" --out Unpack \
+            --require bwav --fail-on-no-conversion
+      - name: Enforce true file output, stable source path, and format-specific verification
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,hashlib
+          nca="e10617820db06889e1638499478da0de_NCA"
+          base=pathlib.Path("Unpack")/nca/"1"
+          cases=(
+            ("Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs","bfres",1),
+            ("Layout/FooterBtn.Nin_NX_NVN.zs","bntx",2),
+            ("Sound/Resource/Stream/AmbPlace_Cave.bwav","bwav",1),
+          )
+          records=[]
+          for source,typ,count in cases:
+            report=base/(source+".converted")/"_conversion_manifest.json"
+            obj=json.loads(report.read_text(encoding="utf-8"))
+            selected=[r for r in obj["members"] if r["format"]==typ and r["status"]=="converted"]
+            assert len(selected)>=1,(source,typ,obj)
+            outputs=[o for r in selected for o in r.get("outputs",[])]
+            assert len(outputs)>=count,(source,typ,len(outputs))
+            for item in outputs:
+                p=pathlib.Path(item["path"])
+                assert p.is_file()
+                assert hashlib.sha256(p.read_bytes()).hexdigest()==item["sha256"]
+            records.append({"source":source,"source_sha256":obj["source_sha256"],
+                            "format":typ,"validated_outputs":outputs})
+          dest=pathlib.Path("derived/3.0.3/media_l3")
+          dest.mkdir(parents=True,exist_ok=True)
+          (dest/"published_samples.json").write_text(
+            json.dumps({"source_version":"3.0.3","converters":records,
+              "limits":"Three verified examples only, not complete BFRES/BNTX/BWAV coverage."},
+              indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+          print(json.dumps(records,ensure_ascii=False,indent=2))
+          PY
+      - name: Publish model, textures and audio in original-directory Unpack mirror
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A Unpack/e10617820db06889e1638499478da0de_NCA/1/Model
+          git add -A Unpack/e10617820db06889e1638499478da0de_NCA/1/Layout
+          git add -A Unpack/e10617820db06889e1638499478da0de_NCA/1/Sound
+          git add -A derived/3.0.3/media_l3
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(acnh303): publish validated GLB meshes, decoded BNTX PNGs and BWAV PCM WAV"
+          git fetch origin feat/acnh303-media-l3
+          git rebase origin/feat/acnh303-media-l3
+          git push origin HEAD:feat/acnh303-media-l3

@@ -1,0 +1,53 @@
+name: ACNH 3.0.3 Find Actual BNTX Texture Leaves
+on:
+  push:
+    branches: [feat/acnh303-media-l3]
+    paths: [".github/workflows/acnh303-media-find-textures.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 38388960509
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: acnh303-v3-data-Model-0${{ matrix.shard }}-of-16
+          path: downloaded
+      - name: Find real BNTX section names from archived primary-source manifests
+        run: |
+          python - <<'PY'
+          import collections,json,pathlib
+          counter=collections.Counter()
+          bntx=[]
+          items=sorted(pathlib.Path("downloaded").rglob("*.json"))
+          def inspect(obj,record):
+              if isinstance(obj,dict):
+                  fmt=obj.get("format","") or obj.get("detected_format","")
+                  if fmt:
+                      counter[fmt]+=1
+                  if fmt=="bntx" or str(obj.get("name","")).lower().endswith(".bntx"):
+                      bntx.append({"source":record,"member":obj.get("name"),"format":fmt})
+                  for k,v in obj.items():
+                      if k not in ("tree","graph","rows","messages","data","sha256"):inspect(v,record)
+              elif isinstance(obj,list):
+                  for x in obj:inspect(x,record)
+          for p in items:
+              try:
+                  obj=json.loads(p.read_text("utf-8"))
+              except (OSError,ValueError):
+                  continue
+              inspect(obj,str(p))
+          print("INSPECTED",len(items),"COUNTS",counter.most_common(15))
+          print("BNTX_PRESENT",len(bntx))
+          for b in bntx[:15]:
+              print("BNTX_SOURCE",json.dumps(b,ensure_ascii=False))
+          PY

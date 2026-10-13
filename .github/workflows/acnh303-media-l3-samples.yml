@@ -1,0 +1,100 @@
+name: ACNH 3.0.3 L3 Real GLB PNG WAV Samples
+on:
+  push:
+    branches: [feat/acnh303-media-l3]
+    paths:
+      - scripts/acnh303_media_l3.py
+      - ".github/workflows/acnh303-media-l3-samples.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audio-bwav:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Stream/AmbPlace_Cave.bwav
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Install pinned official Linux BWAV decoder
+        run: |
+          curl --fail --location --retry 3 --silent --show-error \
+            -o /tmp/vgmstream-linux.zip \
+            https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream-linux.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' -print -exec chmod +x {} \;
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -1 | tee /tmp/vgmstream-path
+      - name: Convert actual Nintendo BWAV and validate PCM WAV
+        run: |
+          set -e
+          binary="$(cat /tmp/vgmstream-path)"
+          python scripts/acnh303_media_l3.py --root . \
+            --source Sound/Resource/Stream/AmbPlace_Cave.bwav \
+            --tool-vgmstream "$binary" \
+            --out Unpack_L3 --require bwav --fail-on-no-conversion
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-l3-bwav-wav-sample
+          path: Unpack_L3/
+          if-no-files-found: warn
+          retention-days: 14
+  model-bfres-bntx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Build native Nintendo format model and texture decoders from audited source
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential zlib1g-dev libpng-dev libbz2-dev liblzma-dev libjpeg-dev libcurl4-openssl-dev
+          git clone --depth 1 https://github.com/quatric/nintoolbox.git /tmp/nintoolbox
+          make -C /tmp/nintoolbox/project -j4 wmdlt wimgt NO_VGMTRANS=1 NO_CTRTOOL=1 \
+            > /tmp/nintoolbox-build.log 2>&1 || {
+              tail -180 /tmp/nintoolbox-build.log
+              exit 1
+            }
+          find /tmp/nintoolbox/project -maxdepth 2 -type f -name 'wmdlt' -o -name 'wimgt'
+      - name: Convert real BFRES model and attached BNTX
+        run: |
+          python scripts/acnh303_media_l3.py --root . \
+            --source Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs \
+            --tool-wmdlt /tmp/nintoolbox/project/wmdlt \
+            --tool-wimgt /tmp/nintoolbox/project/wimgt \
+            --out Unpack_L3 --require bfres --fail-on-no-conversion
+          python scripts/acnh303_media_l3.py --root . \
+            --source Layout/Bell.Nin_NX_NVN.zs \
+            --tool-wmdlt /tmp/nintoolbox/project/wmdlt \
+            --tool-wimgt /tmp/nintoolbox/project/wimgt \
+            --out Unpack_L3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-l3-bfres-bntx-samples
+          path: |
+            Unpack_L3/
+            /tmp/nintoolbox-build.log
+          if-no-files-found: warn
+          retention-days: 14

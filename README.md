@@ -117,3 +117,15 @@ For parser internals, known limitations and development guidance see scripts/REA
 - 大型 Model/Layout/Sound 的压缩容器和原始资源关联已索引，仍需 **BFRES→GLB、BNTX→PNG、BWAV→WAV 以及完整特效/着色器内容解码**。
 
 此处的 100% 指 **L0 全源覆盖与当前 L1/L2 解析器没有报告失败**，绝不是全媒体 L3 转换完成。大型工件目前在 Actions 中且会过期；正式持久发布属于 U13。
+
+
+## ACNH 3.0.3 — 真实媒体资源转换（2026-10-13）
+
+新增 **BFRES → GLB、BNTX → PNG、BWAV → WAV** 的 Python 编排器、格式校验、GitHub Actions 及可复现分卷发布。不同于压缩层与容器索引，本阶段实际输出可供建模软件、图片软件和音频播放器使用的常规格式。
+
+- [完整转换说明、验证指标及运行命令](docs/UNPACK_MEDIA_L3.md)
+- [源目录镜像中的已验证 GLB/PNG/WAV 示例](Unpack/e10617820db06889e1638499478da0de_NCA/1/)
+- [六个数据分片验证记录（36 个源、122 个实际媒体产物）](derived/3.0.3/media_calibration_summary/latest.json)
+- [长期 Release 分卷、SHA256SUMS 校验文件](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-media-l3-calibration-20261013)
+
+**范围限制**：这是三条真实成功的格式转换路线和小规模批量测试，不是全部 Model、Layout、Sound 源文件转码完成。特别是 103,400 个原始 RomFS 文件的 L0–L2 总覆盖数字，与真正的 L3 模型/纹理/音频解码覆盖率必须分开统计。

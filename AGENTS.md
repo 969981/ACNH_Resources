@@ -57,3 +57,22 @@ The authoritative complete-unpack roadmap is [docs/UNPACK_MASTER_PLAN.md](docs/U
 **Never use `git ls-tree -l` or `git cat-file -s` to enumerate blob sizes on a `blob:none` partial clone:** these may download multi-GB original binary files. Instead query the Git tree SHA with GitHub's Git Trees REST API (which returns blob `size`) and recursively resolve any `truncated` reply. Hash original bytes with SHA-256 only when the relevant shard is actually processed.
 
 Completion must be measured separately for L0 complete source inventory, L1 decompression, L2 recursive archive extraction and L3 genuine semantic/media conversion. A raw binary copy or 16-byte header JSON is never equivalent to a validated PNG, GLB or WAV. Treat every large Actions artifact as transient unless a durable release location is published.
+
+
+## Media L3 converters (2026-10-13)
+
+See [docs/UNPACK_MEDIA_L3.md](docs/UNPACK_MEDIA_L3.md). The dedicated scripts are
+`scripts/acnh303_media_l3.py`, `scripts/acnh303_media_batch.py` and
+`scripts/test_acnh303_media_l3.py`, with `scripts/requirements-media.txt`.
+Use nintoolbox for Nintendo BFRES/BNTX conversion and vgmstream for BWAV;
+pin their tested release versions and verify downloaded archives/checksums.
+
+Strict acceptance: GLB needs real mesh primitive POSITION accessors; PNG needs
+CRC, IEND and **actual Pillow raster decoding**; WAV must have readable PCM
+samples, valid channels/rate/frame count. Record source, archive member, decoded
+output SHA-256 and error messages. A native converter returning exit code 0 but
+no tangible output **MUST NOT** mark a file converted. Native BNTX often emits
+multiple `.imgNNN.png` outputs per input, each requiring independent checks.
+Conversion of a BNTX leaf does not imply its parent Layout's other BFLYT/BFLAN
+leaves are decoded. Prefer persistent Release archives with SHA-256 mapping for
+large output sets; never substitute expiring Actions artifacts as final delivery.
