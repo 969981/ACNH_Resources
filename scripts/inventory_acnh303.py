@@ -23,23 +23,74 @@ SCRIPT_VERSION = "acnh303-tree-inventory-v1"
 
 
 def all_tree_blobs(prefix: str):
-    raw = subprocess.check_output(["git", "ls-tree", "-r", "-l", "-z", "HEAD", "--", prefix])
+    """Use GitHub Trees API for blob sizes without downloading the binary assets.
+
+    git ls-tree -l on a blob:none clone can cause multi-GB lazy blob fetches.
+    """
+    import os
+    import time
+    import urllib.error
+    import urllib.request
+
+    tree_sha = subprocess.check_output(
+        ["git", "rev-parse", f"HEAD:{prefix.rstrip('/')}"], text=True
+    ).strip()
+    api = os.environ.get("GITHUB_API_URL", "https://api.github.com").rstrip("/")
+    repo = os.environ.get("GITHUB_REPOSITORY", "969981/ACNH_Resources")
+    token = os.environ.get("GITHUB_TOKEN", "")
     files = []
-    for item in raw.split(b"\0"):
-        if not item:
-            continue
-        header, path = item.split(b"\t", 1)
-        mode, kind, sha, size = header.decode("ascii").split()
-        if kind != "blob":
-            continue
-        if size == "-":
-            continue
-        files.append({
-            "path": path.decode("utf-8", "surrogateescape"),
-            "mode": mode,
-            "git_blob_sha1": sha,
-            "size": int(size),
-        })
+
+    def request_tree(sha: str, recursive: bool) -> dict:
+        url = f"{api}/repos/{repo}/git/trees/{sha}"
+        if recursive:
+            url += "?recursive=1"
+        headers = {"Accept": "application/vnd.github+json",
+                   "User-Agent": "acnh303-source-inventory",
+                   "X-GitHub-Api-Version": "2022-11-28"}
+        if token:
+            headers["Authorization"] = "Bearer " + token
+        last_error = None
+        for attempt in range(4):
+            try:
+                request = urllib.request.Request(url, headers=headers)
+                with urllib.request.urlopen(request, timeout=90) as response:
+                    return json.load(response)
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
+                last_error = exc
+                if isinstance(exc, urllib.error.HTTPError) and exc.code not in (429, 500, 502, 503, 504):
+                    raise
+                time.sleep(2 ** attempt)
+        raise RuntimeError(f"GitHub Trees API retry exhausted: {last_error}")
+
+    def walk(sha: str, parent: str):
+        data = request_tree(sha, recursive=True)
+        if not data.get("truncated", False):
+            for entry in data["tree"]:
+                if entry["type"] == "blob":
+                    if entry.get("size") is None:
+                        raise RuntimeError(f"GitHub Tree API omitted size: {parent}{entry['path']}")
+                    files.append({
+                        "path": parent + entry["path"],
+                        "mode": entry["mode"], "git_blob_sha1": entry["sha"],
+                        "size": entry["size"],
+                    })
+            return
+        # A truncated recursive tree MUST be traversed by explicit child trees.
+        direct = request_tree(sha, recursive=False)
+        if direct.get("truncated"):
+            raise RuntimeError(f"Even a direct Git tree was truncated: {parent}")
+        for entry in direct["tree"]:
+            rel = parent + entry["path"]
+            if entry["type"] == "tree":
+                walk(entry["sha"], rel + "/")
+            elif entry["type"] == "blob":
+                if entry.get("size") is None:
+                    raise RuntimeError(f"Missing blob size: {rel}")
+                files.append({
+                    "path": rel, "mode": entry["mode"],
+                    "git_blob_sha1": entry["sha"], "size": entry["size"],
+                })
+    walk(tree_sha, prefix)
     return sorted(files, key=lambda r: r["path"])
 
 
@@ -114,8 +165,9 @@ def main():
         "romfs": romfs_s,
         "exefs": exefs_s,
         "notes": [
-            "Enumerates ALL Git-tracked blobs for this revision via git ls-tree, even with sparse checkout.",
+            "Enumerates ALL Git-tracked blobs using GitHub Trees API and Git tree SHA; no large blobs downloaded.",
             "Git blob SHA-1 is provenance metadata, NOT original-content SHA-256.",
+            "File sizes from GitHub Tree API; recursive truncation must be handled.",
             "Output success/failure is NOT inferred from inventory: compare separately to conversion manifest.",
             "File extension is a coarse grouping, not verified content magic.",
             "Symlinks and submodules should be audited separately (non-regular Git modes).",
