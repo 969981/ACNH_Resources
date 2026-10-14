@@ -10,9 +10,9 @@ from pathlib import Path, PurePosixPath
 
 BASE = Path("derived/3.0.3")
 MEDIA_OLD = BASE / "media_round18_cumulative/source_manifest.jsonl.gz"
-MEDIA_NEW = BASE / "media_round18_cumulative/source_manifest.jsonl.gz"
-BARS_NEW = BASE / "bars_round18_cumulative/source_manifest.jsonl.gz"
-UI_NEW = BASE / "layout_semantic_round18_cumulative/coverage.json"
+MEDIA_NEW = BASE / "media_round19_cumulative/source_manifest.jsonl.gz"
+BARS_NEW = BASE / "bars_round19_cumulative/source_manifest.jsonl.gz"
+UI_NEW = BASE / "layout_semantic_round19_cumulative/coverage.json"
 
 def rows(p):
     with gzip.open(p, "rt", encoding="utf-8") as f:
