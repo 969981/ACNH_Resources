@@ -1,0 +1,177 @@
+name: ACNH 3.0.3 R20 Deep Animation and BLR Investigation
+on:
+  push:
+    branches: [feat/acnh303-round20-fska-blr]
+    paths:
+      - '.github/workflows/acnh303-round20-research.yml'
+      - 'scripts/acnh303_round20_*.py'
+      - 'scripts/test_acnh303_round20_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: r20-research
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - run: python -m unittest discover -s scripts -p 'test_acnh303_round20_deep_research.py' -v
+  animation:
+    needs: regress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Parse actual Switch FRES arrays dictionaries and pointer bounds
+        run: python scripts/acnh303_round20_fres_arrays.py
+      - name: Verify original source SHA and no fabricated animation data
+        run: |
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r20_animation_structure/fres_animation_arrays.json'
+          a=json.load(open(p))
+          assert a['source_sha256']=='97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a'
+          assert a['fres_sha256']=='8dd16ba20264a5f8cd3a60901e0cc6ce8173fcf2503b17fda0a1688277605972'
+          assert {t['kind'] for t in a['tables']}=={'FSKA','FMAA'}
+          assert all(t['all_magic_validated'] for t in a['tables'])
+          assert a['status']=='validated_arrays_not_full_animation_track_decoding'
+          print('R20 ANIMATION',[(t['kind'],t['count'],t['dictionary']['status']) for t in a['tables']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r20-fres-evidence
+          path: derived/3.0.3/r20_animation_structure/fres_animation_arrays.json
+          if-no-files-found: error
+  native:
+    needs: regress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Reconstruct bounded BLR def-use and candidate virtual slots
+        run: python scripts/acnh303_round20_blr_provenance.py
+      - name: Verify ELF SHA and static-only unresolved targets
+        run: |
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r20_native_blr/blr_provenance.json'
+          n=json.load(open(p))
+          assert n['elf_original_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert n['verification_state']=='BOUNDED_STATIC_DEF_USE_TARGETS_UNRESOLVED'
+          assert len(n['window_results'])==4
+          assert all(x['resolved_static_target'] is None for w in n['window_results']
+                     for x in w['branch_register_calls'])
+          print('R20 BLR',[(w['label'],len(w['branch_register_calls'])) for w in n['window_results']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r20-blr-evidence
+          path: derived/3.0.3/r20_native_blr/blr_provenance.json
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,animation,native]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/download-artifact@v4
+        with:
+          name: r20-fres-evidence
+          path: downloads/fres
+      - uses: actions/download-artifact@v4
+        with:
+          name: r20-blr-evidence
+          path: downloads/blr
+      - name: Copy same-run evidence, validate semantic limits, push reports
+        run: |
+          set -euo pipefail
+          mkdir -p derived/3.0.3/r20_animation_structure derived/3.0.3/r20_native_blr
+          cp downloads/fres/fres_animation_arrays.json derived/3.0.3/r20_animation_structure/
+          cp downloads/blr/blr_provenance.json derived/3.0.3/r20_native_blr/
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r20_animation_structure/fres_animation_arrays.json'))
+          b=json.load(open('derived/3.0.3/r20_native_blr/blr_provenance.json'))
+          assert len(a['tables'])==2 and all(t['all_magic_validated'] for t in a['tables'])
+          assert b['verification_state']=='BOUNDED_STATIC_DEF_USE_TARGETS_UNRESOLVED'
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r20_animation_structure derived/3.0.3/r20_native_blr
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r20): real Switch FRES animation arrays and BLR def-use'
+          git fetch origin feat/acnh303-round20-fska-blr
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round20-fska-blr
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r20-fska-blr-static-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round20-fska-blr
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Download and compare exactly the same run's two original evidence artifacts
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r20-fres-evidence -D evidence/fres
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r20-blr-evidence -D evidence/blr
+          cmp evidence/fres/fres_animation_arrays.json derived/3.0.3/r20_animation_structure/fres_animation_arrays.json
+          cmp evidence/blr/blr_provenance.json derived/3.0.3/r20_native_blr/blr_provenance.json
+      - name: Create SHA-256 research package and durable GitHub Release
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          cp evidence/fres/fres_animation_arrays.json packages/
+          cp evidence/blr/blr_provenance.json packages/
+          (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'R20 verified Switch BFRES skeletal/material animation arrays, candidate dictionaries, and bounded AArch64 BLR static def-use. No actual runtime virtual target, curve interpolation, or animated glTF claimed. Original RomFS/ELF untouched.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round20-fska-blr --title 'ACNH 3.0.3 R20 - FSKA/FMAA and BLR static evidence' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
