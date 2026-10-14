@@ -116,6 +116,7 @@ jobs:
       - name: Convert BFRES BNTX or standalone BWAV
         if: matrix.mode == 'media'
         run: |
+          set -euo pipefail
           extra=''
           if [ '${{ matrix.suffix }}' = '.bwav' ]; then extra=--fail-on-parser-errors; fi
           python scripts/acnh303_media_batch.py --root . --selection selection.json \
@@ -254,10 +255,15 @@ jobs:
           assert m['new_by_format']['Sound']['new_media_output_count']==222
           assert m['by_format']['Sound']['measured_source_count']==1146
           assert m['by_format']['Sound']['not_yet_measured_sources']==0
+          assert m['by_format']['Model']['measured_source_count']==412
+          assert m['by_format']['Model']['not_yet_measured_sources']==59754
+          assert m['by_format']['Layout']['measured_source_count']==360
+          assert m['by_format']['Layout']['not_yet_measured_sources']==600
           assert m['new_by_format']['Model']['new_source_count']==72
           assert m['new_by_format']['Layout']['new_source_count']==48
           assert u['new_original_sources']==48
           assert b['new_bars_tested']==36 and b['bars_tested_total']==156
+          assert b['remaining_unmeasured_bars']==1540
           print('R16 AUDITED',m['verified_media_output_files_by_type'],'BARS WAV',b['new_valid_bars_pcm_wav'])
           PY
       - name: Publish only compact verified manifests on R16 branch
