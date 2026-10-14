@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
-from acnh303_round18_select import choose,NCA
+from acnh303_round19_select import choose,NCA
 
 def tree(category,suffix,number):
     return b"".join(
@@ -15,9 +15,9 @@ class R19Selection(unittest.TestCase):
     def check_category(self,category,suffix,prior,count,shards,cap):
         prefix=f"{category}/"
         old={f"{prefix}sample{i:04d}{suffix}" for i in range(prior)}
-        with patch("acnh303_round18_select.excluded",return_value=old),\
-             patch("acnh303_round18_select.CHOICES",{(category,suffix):count}),\
-             patch("acnh303_round18_select.subprocess.run",return_value=SimpleNamespace(stdout=tree(category,suffix,prior+count))):
+        with patch("acnh303_round19_select.excluded",return_value=old),\
+             patch("acnh303_round19_select.CHOICES",{(category,suffix):count}),\
+             patch("acnh303_round19_select.subprocess.run",return_value=SimpleNamespace(stdout=tree(category,suffix,prior+count))):
             allrows=[choose(category,suffix,k,shards,cap,False) for k in range(shards)]
             again=[choose(category,suffix,k,shards,cap,False) for k in range(shards)]
         names=[p for row in allrows for p in row["paths"]]
@@ -32,9 +32,9 @@ class R19Selection(unittest.TestCase):
     def test_bars_distributed(self):self.check_category("Sound",".bars",10,68,4,12)
 
     def test_incomplete_inventory_fails(self):
-        with patch("acnh303_round18_select.excluded",return_value=set()),\
-             patch("acnh303_round18_select.CHOICES",{("Layout",".zs"):12}),\
-             patch("acnh303_round18_select.subprocess.run",return_value=SimpleNamespace(stdout=tree("Layout",".zs",11))):
+        with patch("acnh303_round19_select.excluded",return_value=set()),\
+             patch("acnh303_round19_select.CHOICES",{("Layout",".zs"):12}),\
+             patch("acnh303_round19_select.subprocess.run",return_value=SimpleNamespace(stdout=tree("Layout",".zs",11))):
             with self.assertRaisesRegex(ValueError,"uncounted"):
                 choose("Layout",".zs",0,2,3,False)
 
