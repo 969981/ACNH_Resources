@@ -65,8 +65,11 @@ jobs:
           assert a['declared_fska_animations']==406
           assert a['animations_scanned']==406
           assert a['verification_state']=='FULL_FSKA_RAW_CURVES_AND_STATIC_HERMITE_ALGEBRA_NOT_RUNTIME_PLAYBACK'
-          assert a['total_parsed_curve_headers']>549
-          print('R22 FSKA',a['total_parsed_curve_headers'],a['total_declared_curve_headers'],a['audit_counts'])
+          assert a['total_parsed_curve_headers']==a['total_declared_curve_headers']
+          assert a['audit_counts'].get('hermite_algebraic_mismatches',0)==0
+          assert a['quantization_endpoint_audit']['curves_raw_residue_over_2_units']==0
+          print('R22 FSKA',a['total_parsed_curve_headers'],a['total_declared_curve_headers'],
+                a['audit_counts'],'QUANTIZATION',a['quantization_endpoint_audit'])
           PY
       - uses: actions/upload-artifact@v4
         with:
