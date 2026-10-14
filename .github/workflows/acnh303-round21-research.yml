@@ -100,7 +100,7 @@ jobs:
           d=json.load(open('derived/3.0.3/r21_native_global/global_4ab2238.json'))
           assert d['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
           assert d['global_target_address']=='0x4ab2238'
-          assert d['verification_state']=='STATIC_ELF_ONLY_RUNTIME_GLOBAL_AND_VTABLE_UNRESOLVED'
+          assert d['verification_state']=='STATIC_ELF_POINTER_VALUES_ONLY_RUNTIME_UNVERIFIED'
           print('R21 ADRP',d['adrp_page_ref_total'],d['exact_global_mem_access_counts'])
           PY
       - uses: actions/upload-artifact@v4
@@ -140,7 +140,7 @@ jobs:
           a=json.load(open('derived/3.0.3/r21_curve_samples/bone_curves.json'))
           n=json.load(open('derived/3.0.3/r21_native_global/global_4ab2238.json'))
           assert a['verification_state']=='RAW_CURVE_DATA_NO_RUNTIME_EVALUATION'
-          assert n['verification_state']=='STATIC_ELF_ONLY_RUNTIME_GLOBAL_AND_VTABLE_UNRESOLVED'
+          assert n['verification_state']=='STATIC_ELF_POINTER_VALUES_ONLY_RUNTIME_UNVERIFIED'
           assert a['sampled_animation_count']==12
           PY
           git config user.name 'github-actions[bot]'
