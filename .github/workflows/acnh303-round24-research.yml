@@ -75,6 +75,16 @@ jobs:
           for x in d['records']:
               assert len(x['source_sha256'])==64
               assert x['source_path'].startswith('Model/')
+              assert x['status']=='source_geometry_model_inspected',x.get('reason')
+              assert len(x['models'])>0
+              assert all(m['skeleton'] is not None
+                         and m['skeleton']['status']=='validated_source_skeleton_not_runtime_binding'
+                         and m['skeleton']['issues']==[]
+                         for leaf in x['models'] for m in leaf['models'])
+          assert d['audit_counts']['skeletons_parsed']==10
+          assert d['audit_counts']['skeleton_bones']==236
+          assert d['audit_counts']['skeleton_animation_name_matches']==194
+          assert d['audit_counts'].get('sources_unresolved',0)==0
           print('R24_REAL_MODEL',d['audit_counts'])
           PY
       - uses: actions/upload-artifact@v4
