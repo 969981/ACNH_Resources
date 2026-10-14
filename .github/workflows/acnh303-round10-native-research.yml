@@ -117,7 +117,7 @@ jobs:
         run: |
           python - <<'PY'
           import collections,hashlib,json,pathlib
-          root=pathlib.Path('collected/derived/3.0.3/evfl_round10_shards')
+          root=pathlib.Path('collected') # Artifact upload stripped common derived/ root; search all nested reports
           reports=sorted(root.rglob('report.json'))
           assert len(reports)==2,reports
           paths=set()
