@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/acnh303-round23-research.yml'
       - 'scripts/acnh303_round23_*.py'
+      - 'scripts/acnh303_round21_anim_curves.py'
       - 'scripts/test_acnh303_round23_*.py'
   workflow_dispatch:
 permissions:
@@ -62,6 +63,8 @@ jobs:
           assert d['fres_sha256']=='8dd16ba20264a5f8cd3a60901e0cc6ce8173fcf2503b17fda0a1688277605972'
           assert d['fska_count']==406 and d['fmaa_count']==118
           assert d['total_bone_records']==23142 and len(d['fmaa_records'])==118
+          assert d['fmaa_aggregate_counts']['parsed_curves']==315
+          assert d['fmaa_aggregate_counts']['actual_curves_decoded']+d['fmaa_aggregate_counts']['actual_curves_failed']==315
           assert d['verification_state']=='SOURCE_LOCAL_BIND_BASEPOSE_MATERIAL_STRUCTURES_NOT_EXTERNAL_SKELETON_OR_NATIVE_ANIMATOR'
           print('R23 ANIMATION',d['base_pose_statuses'],d['fmaa_aggregate_counts'])
           PY
