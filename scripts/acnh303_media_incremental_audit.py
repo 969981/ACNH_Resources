@@ -56,6 +56,7 @@ def main():
     p.add_argument("--baseline",type=Path,required=True)
     p.add_argument("--new-reports",type=Path,required=True)
     p.add_argument("--expected-new-shards",type=int,required=True)
+    p.add_argument("--expected-baseline",type=int,default=252)
     p.add_argument("--out",type=Path,required=True)
     a=p.parse_args()
     with gzip.open(a.inventory,"rt",encoding="utf-8",newline="") as f:
@@ -71,7 +72,7 @@ def main():
         if group not in candidate or name in rows:raise ValueError("invalid or duplicated baseline: "+name)
         validate_row(row,group,candidate)
         rows[name]=row
-    if len(rows)!=252:raise ValueError("baseline must contain precisely 252 unique original source records")
+    if len(rows)!=a.expected_baseline:raise ValueError(f"wrong baseline source count: {len(rows)} != {a.expected_baseline}")
     prior_count=len(rows)
     reports=sorted(a.new_reports.rglob("manifest.json"))
     if len(reports)!=a.expected_new_shards:
