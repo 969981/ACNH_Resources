@@ -1,0 +1,39 @@
+name: ACNH 3.0.3 UI2D Font/Material/Animation Static Crossref Audit
+on:
+  push:
+    branches: [feat/acnh303-fcpx-ui2d-bwav6]
+    paths: [".github/workflows/acnh303-ui2d-crossrefs-v6.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  crossref:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            Unpack_UI2D_Font
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate the 41-source actual UI2D export and join references
+        run: |
+          python scripts/acnh303_ui2d_crossrefs.py
+          test -s derived/3.0.3/ui2d_crossref_v6/animation_bindings.csv
+      - name: Publish source SHA-authenticated font/material/FLAN reference matrix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/ui2d_crossref_v6
+          git diff --cached --quiet && exit 0
+          git commit -m "data(ui2d): record real font and animation target name match diagnostics"
+          git fetch origin feat/acnh303-fcpx-ui2d-bwav6
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-fcpx-ui2d-bwav6
