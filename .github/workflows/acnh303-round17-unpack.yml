@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R17 Final BWAV and L3 Expansion
 on:
   push:
-    branches: [feat/acnh303-round17-final-bwav-expand]
+    branches: [feat/acnh303-round17-model-layout-bars]
     paths:
       - '.github/workflows/acnh303-round17-unpack.yml'
       - '.github/workflows/acnh303-round17-release.yml'
@@ -283,10 +283,10 @@ jobs:
             derived/3.0.3/layout_semantic_round17_cumulative \
             derived/3.0.3/bars_round17_cumulative
           git diff --cached --quiet && exit 0
-          git commit -m 'data(unpack): R17 real BWAV Model Layout and BARS cumulative audit'
-          git fetch origin feat/acnh303-round17-final-bwav-expand
+          git commit -m 'data(unpack): R17 audited Model Layout and BARS growth'
+          git fetch origin feat/acnh303-round17-model-layout-bars
           git rebase FETCH_HEAD
-          git push origin HEAD:feat/acnh303-round17-final-bwav-expand
+          git push origin HEAD:feat/acnh303-round17-model-layout-bars
   publish:
     needs: reconcile
     permissions:
