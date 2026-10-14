@@ -1,0 +1,84 @@
+name: ACNH 3.0.3 L3 Round 8 Artifact Layout Repair and Cumulative Audit
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-l3-round8-reconcile.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SOURCE_RUN_ID: 38492539388
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+      - name: Retrieve prior 16 actually successful decode-job reports (no reprocessing)
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 38492539388
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: acnh303-r8-report-*
+          path: collected
+          merge-multiple: true
+      - name: Examine layout of downloaded artifacts before auditing
+        run: |
+          find collected -type f \( -name manifest.json -o -name semantic_manifest.json \) | sort
+          test "$(find collected -type f -name manifest.json | wc -l)" -eq 16
+          test "$(find collected -type f -name semantic_manifest.json | wc -l)" -eq 8
+      - name: Source-SHA audit with 103400 original candidates and 912 prior distinct sources
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_bwav360_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected \
+            --expected-new-shards 16 --expected-baseline 912 \
+            --out derived/3.0.3/media_round8_cumulative
+      - name: Merge eight UI2D semantic shards independently of PNG/WAV media
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected \
+            --media-audit derived/3.0.3/media_round8_cumulative \
+            --out derived/3.0.3/layout_semantic_round8_cumulative
+      - name: Assert real 200 new paths and strict output counts
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_round8_cumulative/coverage.json").read_text())
+          s=json.loads(pathlib.Path("derived/3.0.3/layout_semantic_round8_cumulative/coverage.json").read_text())
+          assert j["baseline_source_count"]==912
+          assert j["new_source_count"]==200 and j["cumulative_source_count"]==1112
+          assert j["new_by_format"]["Layout"]["new_source_count"]==80
+          assert j["new_by_format"]["Sound"]["new_source_count"]==120
+          assert j["by_format"]["Layout"]["measured_source_count"]==232
+          assert j["by_format"]["Sound"]["measured_source_count"]==572
+          assert j["by_format"]["Sound"]["not_yet_measured_sources"]==574
+          assert j["verified_media_output_files_by_type"]["glb"]==214
+          assert j["verified_media_output_files_by_type"]["wav"]==572
+          assert j["new_by_format"]["Sound"]["status_counts"]=={"converted_media":120}
+          assert s["new_original_sources"]==80 and s["shard_count"]==8
+          assert len(s["source_records"])==80
+          print("SAVED VERIFIED TOTALS",j["verified_media_output_files_by_type"],s["leaf_status_counts"])
+          PY
+      - name: Publish result JSON and hash manifests as durable commit
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A derived/3.0.3/media_round8_cumulative derived/3.0.3/layout_semantic_round8_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): verify 200 new original sources and 80 new Layout semantic scans"
+          for i in 1 2 3 4; do
+            git fetch origin feat/acnh303-l3-round8-guide-layout-audio
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-l3-round8-guide-layout-audio; then exit 0; fi
+            sleep 3
+          done
+          exit 1

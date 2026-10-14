@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 Remaining Source Format Queue v8
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-l3-unmeasured-queue.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+      - name: Build prioritized non-media source inventory without claiming all are unsupported
+        run: |
+          python scripts/acnh303_l3_unmeasured_queue.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --media-source-manifest derived/3.0.3/media_round8_cumulative/source_manifest.jsonl.gz \
+            --out derived/3.0.3/unmeasured_queue_round8
+      - name: Commit original source extension and format-type queue
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A derived/3.0.3/unmeasured_queue_round8
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): rank original 103400 source paths by unmeasured format class"
+          git fetch origin feat/acnh303-l3-round8-guide-layout-audio
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-l3-round8-guide-layout-audio

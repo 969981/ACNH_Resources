@@ -184,3 +184,14 @@ BFLYT 6 个 mat1 区块的 22 个材料均有 **44 字节记录**，末尾字段
 新追加解码 120 个 BWAV，累计媒体源 **912**，媒体文件 **2020（214 GLB、1354 PNG、452 WAV）**；剩余 **694** 个 BWAV 未测。第七轮 120 WAV 与哈希独立发布。
 
 [第七轮原生技术报告](docs/UNPACK_NATIVE_UI2D_BWAV_ROUND7.md) · [20 字体记录矩阵](derived/3.0.3/ui2d_native_v7/font_reference_record_matrix.csv) · [22 材料字段矩阵](derived/3.0.3/ui2d_native_v7/material_native_words.csv) · [BFLAN 原生验证状态](derived/3.0.3/ui2d_runtime_validation_v7/report.json) · [新 120 WAV Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-360-total-20261014)
+
+
+## 第八轮：新 Layout / Sound 实解码、完整技术指南与 BARS 突破（2026-10-14）
+
+已新增并提交两份长期文档：[**ACNH 3.0.3 原生资源技术规范**](docs/ACNH303_NATIVE_UNPACK_TECHNICAL_REFERENCE.md) 和 [**Windows 11／WSL2 详细解包实操指南**](docs/ACNH303_UNPACK_FIELD_GUIDE.md)，含源文件、原生头/偏移、逐格式转换、版本固定、SHA256SUMS、失败处理、Git sparse 分片和复核手册。
+
+本轮真实处理 200 个以前未测的原始文件：80 个 Layout 产出 **520 PNG、80 BFLYT JSON、333 BFLAN JSON、73 FCPX JSON**（额外恢复 1,642 Pane、896 材料记录），120 个独立 BWAV 产出 120 PCM WAV。核心媒体累计 **1,112 个唯一源、2,660 个真实输出（214 GLB / 1,874 PNG / 572 WAV）**，未测 Layout 728、独立 BWAV 574。[累计媒体审计](derived/3.0.3/media_round8_cumulative/coverage.json)、[80 源 UI2D 清单](derived/3.0.3/layout_semantic_round8_cumulative/coverage.json)、[640 个新媒体和 486 份 JSON 的 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-layout-ui2d-bwav-round8-20261014)。
+
+另新增**独立 BARS 音频容器解码器**，对 8 个真实 BARS 源按原生 AMTA+BWAV 偏移验证，**7 个源的 42 个内嵌 BWAV 实际生成了有效 PCM WAV**，1 个解码失败及 1 个原文件尾部多 1 字节异常均保留证据。[BARS 格式/转换报告](derived/3.0.3/bars_audio_round8/report.json)、[42 WAV 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。这 42 个新输出单独统计，未并入现有以独立 BWAV 文件为分母的核心审计。
+
+未测资源优先目录：`BDLI` 36,708、`Sound/*.bars` 1,696、`EventFlow/*.bfevfl` 875、其它大量 Model 和 Layout。[原始文件优先级队列](derived/3.0.3/unmeasured_queue_round8/queue.json) 按原始 103,400 文件名和已测媒体源区分；不声称以上资源在 L0–L2 均未解包。[本轮完整实证报告](docs/ACNH303_UNPACK_ROUND8_VERIFIED_REPORT.md)。
