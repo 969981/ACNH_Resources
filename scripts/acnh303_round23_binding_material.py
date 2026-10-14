@@ -63,10 +63,12 @@ def material_header(b,at,index):
             raise ValueError("FMAA child AnimCurve array outside source")
         parsed_curves+=child_curve_count
         first_curves=[]
+        child_decoded=0
         for ci in range(child_curve_count):
             try:
                 curve=parse_curve(b,ptrs[2]+ci*0x30)
                 actual_curves+=1
+                child_decoded+=1
                 curve_modes[curve["mode"]]+=1
                 if ci<2:
                     first_curves.append({"curve_offset":curve["header_file_offset"],
@@ -81,7 +83,7 @@ def material_header(b,at,index):
         children.append({"index":i,"name":material_name,"record_at":off,
                          "record_sha256":sha(b[off:off+0x40]),
                          "curve_ptr":ptrs[2],"curve_count":child_curve_count,
-                         "curves_decoded":actual_curves,
+                         "curves_decoded":child_decoded,
                          "curve_samples":first_curves})
     return {"index":index,"name":name,"record_at":at,
             "record_sha256":sha(b[at:at+0x70]),
