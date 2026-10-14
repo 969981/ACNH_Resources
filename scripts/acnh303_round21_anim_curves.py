@@ -164,10 +164,30 @@ def main():
     p.add_argument("--root",type=Path,default=Path("."))
     p.add_argument("--sample",type=int,default=12)
     p.add_argument("--out",type=Path,default=Path("derived/3.0.3/r21_curve_samples/bone_curves.json"))
+    p.add_argument("--summary-out",type=Path,default=Path("derived/3.0.3/r21_curve_samples/curve_summary.json"))
     a=p.parse_args()
     result=analyze(a.root,sample=a.sample)
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+"\n","utf-8")
+    summary={"schema":"acnh303-r21-curve-sample-concise-v1",
+             "source_sha256":result["source_sha256"],"fres_sha256":result["fres_sha256"],
+             "known_fska_count":result["known_fska_count"],
+             "sampled_animation_count":result["sampled_animation_count"],
+             "animations_parsed":result["animations_parsed"],
+             "raw_curve_headers_decoded":result["raw_curve_headers_decoded"],
+             "decoded_by_mode":result["decoded_by_mode"],
+             "raw_frame_arrays_monotonic":result["raw_frame_arrays_monotonic"],
+             "issues_count":result["issues_count"],
+             "issues_preview":result["issues_preview"],
+             "animation_rows":[{"index":a["index"],"name":a.get("name"),
+                  "status":a.get("status"),"bone_count":a.get("bone_count"),
+                  "frame_count":a.get("frame_count"),
+                  "declared_curve_count":a.get("declared_curve_count"),
+                  "sampled_curve_count":a.get("observed_curve_headers"),
+                  "issues":a.get("issues",[])[:5]} for a in result["animations"]],
+             "limits":result["limits"],"verification_state":result["verification_state"]}
+    a.summary_out.parent.mkdir(parents=True,exist_ok=True)
+    a.summary_out.write_text(json.dumps(summary,ensure_ascii=False,indent=2,sort_keys=True)+"\n","utf-8")
     print("R21_CURVES",result["animations_parsed"],result["raw_curve_headers_decoded"],result["decoded_by_mode"],"issues",result["issues_count"])
 
 if __name__=="__main__":main()
