@@ -82,8 +82,6 @@ def find_refs(blob,segments,target=TARGET,debug=None):
                     "target_load_store_accesses":accesses,"boundary":barrier}
             if len(sample)<24:
                 sample.append(record)
-            for hit in accesses:
-                access_totals[hit["kind"]]+=1
             # Independent opcode-field verification of the *immediately*
             # following LDR/STR unsigned-immediate instruction. This is not
             # affected by Capstone decoder state across 100k+ disassemblies.
@@ -104,6 +102,8 @@ def find_refs(blob,segments,target=TARGET,debug=None):
                                   "kind":"load" if mn=="ldr" else "store_candidate",
                                   "register_operand":f"x{follow&31}",
                                   "verification":"raw_AArch64_unsigned_imm_opcode_fields"})
+            for hit in accesses:
+                access_totals[hit["kind"]]+=1
             if addr==0x3ACA490 and debug is not None:
                 debug['full_scan_anchor_accesses']=accesses
                 debug['full_scan_anchor_aliases']=dict(aliases)
