@@ -1,0 +1,186 @@
+name: ACNH303 R24 Verified FMDL Skeleton and Resource Loader Anchors
+on:
+  push:
+    branches: [feat/acnh303-round24-fmdl-fskl-loader-xrefs]
+    paths:
+      - '.github/workflows/acnh303-round24-research.yml'
+      - 'scripts/acnh303_round24_*.py'
+      - 'scripts/test_acnh303_round24_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r24-fmdl-fskl-resource-loader
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parsing dependencies
+        run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Test real Switch skeleton record parsing and ELF opcode provenance
+        run: python -m unittest discover -s scripts -p 'test_acnh303_round24_research.py' -v
+  skeleton:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/BagBackpackBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Ftr8fairArchReBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Ftr8fairBenchReBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Ftr8fairClockReBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Ftr8fairFerriswheelReBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Ftr8fairStallReBody0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrJapanSwordReBody0.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Scan ORIGINAL selected FMDL-FSKL source models and compare R23 bone labels
+        run: python scripts/acnh303_round24_real_skeleton.py
+      - name: Verify original model source, not synthetic or inferred skeleton
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r24_model_skeleton/real_fmdl_fskl.json'))
+          assert d['candidate_sources']==8
+          assert d['verification_state']=='SOURCE_LOCAL_FMDL_FSKL_NOT_PROVEN_ANIMATION_BINDING'
+          assert d['validated_sources']>=1, 'no actual valid model skeleton selected'
+          assert d['chosen_model']['bone_count']>=1
+          print('R24 FMDL FSKL',d['validated_sources'],d['chosen_model'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-original-model-skeleton
+          path: derived/3.0.3/r24_model_skeleton/real_fmdl_fskl.json
+          if-no-files-found: error
+  resource_loader:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Probe real executable resource type literal XREF and reader source windows
+        run: python scripts/acnh303_round24_resource_loader_xrefs.py
+      - name: Audit original ELF SHA and preserve unverified loader semantics
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r24_native_loader/resource_magic_xrefs.json'))
+          assert d['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert d['verification_state']=='ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN'
+          assert len(d['previous_read_windows_independently_redecoded'])==4
+          print('R24 REAL ELF',d['original_magic_positions'],d['exact_executable_adrp_data_references'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-resource-loader-xrefs
+          path: derived/3.0.3/r24_native_loader/resource_magic_xrefs.json
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,skeleton,resource_loader]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            scripts
+      - uses: actions/download-artifact@v4
+        with:
+          name: r24-original-model-skeleton
+          path: evidence/model
+      - uses: actions/download-artifact@v4
+        with:
+          name: r24-resource-loader-xrefs
+          path: evidence/elf
+      - name: Commit only matched source-evidence reports on latest branch
+        run: |
+          set -euo pipefail
+          git fetch origin feat/acnh303-round24-fmdl-fskl-loader-xrefs
+          git reset --hard FETCH_HEAD
+          mkdir -p derived/3.0.3/r24_model_skeleton derived/3.0.3/r24_native_loader
+          cp evidence/model/real_fmdl_fskl.json derived/3.0.3/r24_model_skeleton/
+          cp evidence/elf/resource_magic_xrefs.json derived/3.0.3/r24_native_loader/
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r24_model_skeleton/real_fmdl_fskl.json'))
+          n=json.load(open('derived/3.0.3/r24_native_loader/resource_magic_xrefs.json'))
+          assert a['validated_sources']>=1 and a['chosen_model'] is not None
+          assert n['verification_state']=='ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN'
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r24_model_skeleton derived/3.0.3/r24_native_loader
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r24): real model FMDL FSKL hierarchy and ELF source literal XREF evidence'
+          git push origin HEAD:feat/acnh303-round24-fmdl-fskl-loader-xrefs
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r24-fmdl-fskl-resource-xrefs-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round24-fmdl-fskl-loader-xrefs
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Compare actual artifact bytes with committed branch reports
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r24-original-model-skeleton -D incoming/model
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r24-resource-loader-xrefs -D incoming/elf
+          cmp incoming/model/real_fmdl_fskl.json derived/3.0.3/r24_model_skeleton/real_fmdl_fskl.json
+          cmp incoming/elf/resource_magic_xrefs.json derived/3.0.3/r24_native_loader/resource_magic_xrefs.json
+      - name: Release SHA-backed static study without claiming runtime consumers
+        run: |
+          set -euo pipefail
+          mkdir -p releasefiles
+          cp incoming/model/real_fmdl_fskl.json releasefiles/
+          cp incoming/elf/resource_magic_xrefs.json releasefiles/
+          (cd releasefiles && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'ACNH 3.0.3 R24 original FMDL->FSKL hierarchy and static resource type literal xrefs, with source SHA and member provenance. Common bone names alone do not establish binding with R23 standalone animations. ELF literal xrefs do not prove runtime loader ownership or live BLR targets. No original source files modified.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round24-fmdl-fskl-loader-xrefs --title 'ACNH 3.0.3 R24 - Real Model Skeleton and Resource Loader Xrefs' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" releasefiles/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
