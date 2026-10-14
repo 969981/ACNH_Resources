@@ -1,10 +1,12 @@
-name: ACNH 3.0.3 R12 Native BARS BDLI EventFlow Consumer Analysis
+name: ACNH 3.0.3 R12 and R13 Native Object and EventFlow Research
 on:
   push:
     branches: [feat/acnh303-round12-native-downstream]
     paths:
       - '.github/workflows/acnh303-round12-native-downstream.yml'
       - 'scripts/acnh303_round12_native_downstream.py'
+      - 'scripts/acnh303_round13_object_provenance.py'
+      - 'scripts/test_acnh303_round13_object_provenance.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -29,6 +31,7 @@ jobs:
         run: |
           python -m compileall -q scripts/acnh303_round12_native_downstream.py
           python -m unittest discover -s scripts -p 'test_acnh303_round12_native_downstream.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_round13_object_provenance.py' -v
       - name: Verify exact original 3.0.3 ELF SHA and size
         run: |
           python - <<'PY'
@@ -54,18 +57,36 @@ jobs:
           assert len(o['unverified'])==3
           print('Static checks only; all semantic hypotheses remain unverified')
           PY
+      - name: R13 actual ELF BARS owner / EventFlow receiver proof
+        run: |
+          python scripts/acnh303_round13_object_provenance.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --out derived/3.0.3/round13_native_provenance/report.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/round13_native_provenance/report.json'
+          o=json.load(open(p))
+          assert o['schema']=='acnh303-r13-native-object-provenance-v1'
+          assert o['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert len(o['register_windows']['bars_success_x20_x22'])>20
+          assert 'bars_global_x22_source' in o['global_slots']
+          assert 'eventflow_action_0' in o['global_slots']
+          print('Verified ELF static address provenance, no runtime semantics')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: acnh303-r12-native-downstream-static-evidence
-          path: derived/3.0.3/round12_native_downstream/report.json
+          path: |
+            derived/3.0.3/round12_native_downstream/report.json
+            derived/3.0.3/round13_native_provenance/report.json
           retention-days: 30
       - name: Commit SHA-backed static report, never game binary
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add --sparse derived/3.0.3/round12_native_downstream/report.json
+          git add --sparse derived/3.0.3/round12_native_downstream/report.json derived/3.0.3/round13_native_provenance/report.json
           git diff --cached --quiet && exit 0
-          git commit -m 'research(r12): real ELF CFG and EventFlow global address evidence'
+          git commit -m 'research(r13): real ELF object owner and EventFlow receiver evidence'
           git fetch origin feat/acnh303-round12-native-downstream
           git rebase FETCH_HEAD
           git push origin HEAD:feat/acnh303-round12-native-downstream
