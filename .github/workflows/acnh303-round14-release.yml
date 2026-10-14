@@ -1,0 +1,115 @@
+name: ACNH 3.0.3 R14 Publish 128 New Native Unpack Sources
+on:
+  push:
+    branches: [feat/acnh303-round14-unpack-backlog]
+    paths: ['.github/workflows/acnh303-round14-release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      SOURCE_RUN_ID: '38513573917'
+      AUDIT_RUN_ID: '38513944239'
+      TAG: acnh303-r14-unpack128-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/media_round10_cumulative
+            derived/3.0.3/media_round14_cumulative
+            derived/3.0.3/layout_semantic_round14_cumulative
+            derived/3.0.3/bars_round14_cumulative
+            derived/3.0.3/round14_unfinished_index
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm actual 16 decoded shards and independently successful audit
+        run: |
+          set -euo pipefail
+          gh run view "$AUDIT_RUN_ID" -R "$REPO" --json conclusion --jq .conclusion | grep -Fx success
+          gh api "repos/$REPO/actions/runs/$SOURCE_RUN_ID/jobs?per_page=100" \
+            --jq '[.jobs[] | select(.name | startswith("unpack (")) | .conclusion] | (length == 16 and all(. == "success"))' | grep -Fx true
+          test -s derived/3.0.3/media_round14_cumulative/source_manifest.jsonl.gz
+          test -s derived/3.0.3/bars_round14_cumulative/source_manifest.jsonl.gz
+          test -s derived/3.0.3/round14_unfinished_index/summary.json
+      - name: Download all 16 original SHA-verified data shards, not just metadata
+        run: |
+          set -euo pipefail
+          mkdir -p collected
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'acnh303-r14-data-*' -D collected
+          test "$(find collected -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 16
+      - name: Rehash every new decoded file using committed immutable source/output SHA
+        run: |
+          python scripts/acnh303_round14_release_verify.py \
+            --downloads collected \
+            --media-manifest derived/3.0.3/media_round14_cumulative/source_manifest.jsonl.gz \
+            --layout-coverage derived/3.0.3/layout_semantic_round14_cumulative/coverage.json \
+            --bars-manifest derived/3.0.3/bars_round14_cumulative/source_manifest.jsonl.gz \
+            --media-old derived/3.0.3/media_round10_cumulative/source_manifest.jsonl.gz \
+            --out release_validation.json
+      - name: Package actual decoded outputs into 16 permanent release shard archives
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          for directory in collected/acnh303-r14-data-*; do
+            test -d "$directory"
+            id="$(basename "$directory")"
+            tar -czf "packages/${id}.tar.gz" -C collected "$id"
+          done
+          test "$(find packages -name '*.tar.gz' -type f | wc -l)" -eq 16
+          cp release_validation.json packages/release_validation.json
+          cp derived/3.0.3/media_round14_cumulative/coverage.json packages/core_media_coverage.json
+          cp derived/3.0.3/media_round14_cumulative/source_manifest.jsonl.gz packages/core_media_source_manifest.jsonl.gz
+          cp derived/3.0.3/bars_round14_cumulative/coverage.json packages/bars_coverage.json
+          cp derived/3.0.3/bars_round14_cumulative/source_manifest.jsonl.gz packages/bars_source_manifest.jsonl.gz
+          cp derived/3.0.3/layout_semantic_round14_cumulative/coverage.json packages/layout_ui2d_coverage.json
+          cp derived/3.0.3/round14_unfinished_index/summary.json packages/unresolved_summary.json
+          cp derived/3.0.3/round14_unfinished_index/all_sources_status.csv.gz packages/all_sources_status.csv.gz
+          cp derived/3.0.3/round14_unfinished_index/remaining_noncomplete.csv.gz packages/remaining_noncomplete.csv.gz
+          (cd packages && sha256sum *.tar.gz *.json *.gz > SHA256SUMS.txt)
+      - name: Publish verified outputs and full source-status inventory to GitHub Release
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib
+          v=json.load(open('release_validation.json'))
+          m=json.load(open('derived/3.0.3/media_round14_cumulative/coverage.json'))
+          b=json.load(open('derived/3.0.3/bars_round14_cumulative/coverage.json'))
+          message=f"""ACNH 3.0.3 R14 actual incremental Unpack: 128 never-before-tested
+          original RomFS source files, 16 successful decoder shard jobs and
+          independent SHA-backed reconciliation (run 38513944239).
+          
+          New actual media: {v.get('glb',0)} GLB + {v.get('png',0)} PNG +
+          {v.get('wav',0)} standalone PCM WAV + {v.get('bars_wav',0)} BARS PCM WAV.
+          Other extracted assets: {v.get('amta_raw',0)} exact AMTA v5
+          members and {v.get('ui2d_json',0)} FLYT/FLAN/FCPX structure JSON.
+          
+          Core L3 cumulative: {m['verified_media_output_files']} GLB/PNG/standalone WAV
+          across {m['cumulative_source_count']} unique original sources.
+          Separate BARS PCM cumulative: {b['cumulative_bars_pcm_wav']} WAV
+          across {b['bars_tested_total']} original BARS containers.
+          
+          Includes SHA256SUMS and immutable manifests, and a source-by-source
+          103400 original RomFS status index (CSV.gz). No complete audio
+          playback semantics, BFLAN runtime parity or full-ROMFS L3 claimed.
+          """
+          pathlib.Path('release_notes.md').write_text(message,encoding='utf-8')
+          PY
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" \
+              --target feat/acnh303-round14-unpack-backlog \
+              --title 'ACNH 3.0.3 R14: 128 fresh source unpack shards and full missing-files index' \
+              --notes-file release_notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets \
+            --jq '{url:.url,asset_count:(.assets|length),assets:[.assets[]|{name:.name,size:.size}]}'
