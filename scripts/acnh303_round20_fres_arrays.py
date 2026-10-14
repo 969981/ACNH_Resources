@@ -52,6 +52,8 @@ def decode_dictionary(b,ptr,expected):
         name=string_at(b,nameptr)
         nodes.append({"index":i,"node_offset":at,
                       "name_pointer":nameptr,"name":name,
+                      "name_pointer_first_24_hex":b[nameptr:nameptr+24].hex() if bounded(b,nameptr,24) else None,
+                      "name_pointer_preceding_2_hex":b[nameptr-2:nameptr].hex() if bounded(b,nameptr-2,2) else None,
                       "ref_bit":u32(b,at),"left":u16(b,at+4),"right":u16(b,at+6)})
     out.update(status=("count_and_name_keys_confirmed" if n==expected and all(
                    x["name"] is not None for x in nodes) and
