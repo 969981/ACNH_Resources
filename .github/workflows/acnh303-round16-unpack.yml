@@ -1,0 +1,274 @@
+name: ACNH 3.0.3 R16 Final BWAV and L3 Expansion
+on:
+  push:
+    branches: [feat/acnh303-round16-final-bwav-expand]
+    paths: ['.github/workflows/acnh303-round16-unpack.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r16-unpack
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m compileall -q scripts/acnh303_round16_select.py scripts/acnh303_round16_bars_reconcile.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round16_select.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+  unpack:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {category: Sound, suffix: ".bwav", shard: 0, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 1, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 2, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 3, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 4, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 5, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 6, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 7, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 8, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 9, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 10, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Sound, suffix: ".bwav", shard: 11, shards: 12, cap: 20, mode: media, all: true}
+          - {category: Model, suffix: ".zs", shard: 0, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Model, suffix: ".zs", shard: 1, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Model, suffix: ".zs", shard: 2, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Model, suffix: ".zs", shard: 3, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Model, suffix: ".zs", shard: 4, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Model, suffix: ".zs", shard: 5, shards: 6, cap: 12, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 0, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 1, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 2, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 3, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 4, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Layout, suffix: ".zs", shard: 5, shards: 6, cap: 8, mode: media, all: false}
+          - {category: Sound, suffix: ".bars", shard: 0, shards: 6, cap: 6, mode: bars, all: false}
+          - {category: Sound, suffix: ".bars", shard: 1, shards: 6, cap: 6, mode: bars, all: false}
+          - {category: Sound, suffix: ".bars", shard: 2, shards: 6, cap: 6, mode: bars, all: false}
+          - {category: Sound, suffix: ".bars", shard: 3, shards: 6, cap: 6, mode: bars, all: false}
+          - {category: Sound, suffix: ".bars", shard: 4, shards: 6, cap: 6, mode: bars, all: false}
+          - {category: Sound, suffix: ".bars", shard: 5, shards: 6, cap: 6, mode: bars, all: false}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Select unmeasured originals with R15 and R14 exclusion
+        run: |
+          if [ '${{ matrix.all }}' = 'true' ]; then flag=--all-remaining; else flag=''; fi
+          python scripts/acnh303_round16_select.py --category '${{ matrix.category }}' \
+            --suffix '${{ matrix.suffix }}' --shard '${{ matrix.shard }}' --shards '${{ matrix.shards }}' \
+            --max-count '${{ matrix.cap }}' $flag
+      - name: Obtain tested native conversion executables
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ '${{ matrix.category }}' = 'Sound' ]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -name 'vgmstream-cli*' -type f | head -n1 > /tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            sha256sum /tmp/vgmstream.zip
+            echo /nonexistent/wmdlt >/tmp/wmdlt.path
+            echo /nonexistent/wimgt >/tmp/wimgt.path
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 > /tmp/wmdlt.path
+            chmod +x "$(cat /tmp/wimgt.path)" "$(cat /tmp/wmdlt.path)"
+            echo /nonexistent/vgmstream >/tmp/vgmstream.path
+          fi
+      - name: Convert BFRES BNTX or standalone BWAV
+        if: matrix.mode == 'media'
+        run: |
+          extra=''
+          if [ '${{ matrix.suffix }}' = '.bwav' ]; then extra=--fail-on-parser-errors; fi
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round16 --report-dir derived/3.0.3/media_round16 \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)" $extra
+      - name: Decode original BFLYT BFLAN FCPX
+        if: matrix.category == 'Layout'
+        run: |
+          python scripts/acnh303_layout_semantic_shard.py --root . --selection selection.json \
+            --output Unpack_UI2D_Round16 --report-dir derived/3.0.3/layout_semantic_round16
+      - name: Decode bounded BARS BWAV members
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out Unpack_BARS_Round16 --report derived/3.0.3/bars_round16/bars_${{ matrix.shard }} \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Extract lossless AMTA v5 bytes
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_amta_export.py --selection selection.json \
+            --out Unpack_AMTA_Round16 --report derived/3.0.3/amta_round16/amta_${{ matrix.shard }}
+      - name: Check real original and derived output hashes
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          sel=json.load(open('selection.json'))
+          nca=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')
+          sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+          expected={p.split('/1/',1)[1] for p in sel['paths']}
+          assert len(expected)==sel['selected_files']
+          if sel['suffix']=='.bars':
+              files=[f"derived/3.0.3/bars_round16/bars_{sel['shard']}/report.json",f"derived/3.0.3/amta_round16/amta_{sel['shard']}/report.json"]
+              reports=[json.load(open(f)) for f in files]
+              for d in reports:
+                  assert len(d['records'])==sel['selected_files']
+                  assert {r['source_path'] for r in d['records']}==expected
+                  for r in d['records']:
+                      assert sha(nca/r['source_path'])==r['source_sha256']
+                      for m in r['members']:
+                          if m['status']=='converted_pcm_wav':
+                              assert sha(m['output_path'])==m['output_sha256'] and m['validation']['frames']>0
+                          if m['status']=='lossless_amta_extracted':
+                              assert sha(m['output_path'])==m['amta_sha256'] and m['native']['version_hex']=='0x0500'
+          else:
+              p=pathlib.Path('derived/3.0.3/media_round16')/sel['category']/f"{sel['shard']:03d}-of-{sel['shards']:03d}"/'manifest.json'
+              rows=json.load(open(p))
+              assert len(rows)==sel['selected_files']
+              assert {r['source_path'] for r in rows}==expected
+              for r in rows:
+                  assert sha(nca/r['source_path'])==r['sha256']
+                  for m in r['validated_outputs']:
+                      assert sha(m['path'])==m['sha256'] and m['validation']['type'] in ('glb','png','wav')
+                  if sel['suffix']=='.bwav':
+                      assert r['status']=='converted_media' and len(r['validated_outputs'])==1
+              if sel['category']=='Layout':
+                  p=pathlib.Path('derived/3.0.3/layout_semantic_round16/Layout')/f"{sel['shard']:03d}-of-{sel['shards']:03d}"/'semantic_manifest.json'
+                  doc=json.load(open(p))
+                  sha_by_path={r['source_path']:r['sha256'] for r in rows}
+                  assert {r['source_path'] for r in doc['source_records']}==expected
+                  for r in doc['source_records']:
+                      assert r['source_sha256']==sha_by_path[r['source_path']]
+                      for m in r['leaves']:
+                          if 'output_path' in m: assert sha(m['output_path'])==m['output_sha256']
+          print('R16 VERIFIED',sel['category'],sel['shard'],len(expected))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r16-report-${{ matrix.category }}-${{ matrix.mode }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_round16/
+            derived/3.0.3/layout_semantic_round16/
+            derived/3.0.3/bars_round16/
+            derived/3.0.3/amta_round16/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: r16-data-${{ matrix.category }}-${{ matrix.mode }}-${{ matrix.shard }}
+          path: |
+            Unpack_L3_Round16/
+            Unpack_UI2D_Round16/
+            Unpack_BARS_Round16/
+            Unpack_AMTA_Round16/
+          retention-days: 14
+          compression-level: 2
+          if-no-files-found: warn
+  reconcile:
+    needs: [regress,unpack]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r16-report-*
+          path: collected
+      - name: Reconcile all 24 new core media reports against R15 cumulative
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round15_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 24 \
+            --expected-baseline 1576 --out derived/3.0.3/media_round16_cumulative
+      - name: Reconcile Layout UI2D independently
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected --media-audit derived/3.0.3/media_round16_cumulative \
+            --out derived/3.0.3/layout_semantic_round16_cumulative \
+            --shards 6 --expected-sources 48
+      - name: Reconcile new BARS/AMTA with R14 historical source set
+        run: |
+          python scripts/acnh303_round16_bars_reconcile.py --collected collected \
+            --out derived/3.0.3/bars_round16_cumulative --shards 6 --per-shard 6
+      - name: Assert exact fully tested standalone BWAV and no repeated sources
+        run: |
+          python - <<'PY'
+          import json
+          m=json.load(open('derived/3.0.3/media_round16_cumulative/coverage.json'))
+          b=json.load(open('derived/3.0.3/bars_round16_cumulative/coverage.json'))
+          u=json.load(open('derived/3.0.3/layout_semantic_round16_cumulative/coverage.json'))
+          assert m['baseline_source_count']==1576 and m['new_source_count']==342
+          assert m['cumulative_source_count']==1918
+          assert m['new_by_format']['Sound']['new_source_count']==222
+          assert m['new_by_format']['Sound']['new_media_output_count']==222
+          assert m['by_format']['Sound']['measured_source_count']==1146
+          assert m['by_format']['Sound']['not_yet_measured_sources']==0
+          assert m['new_by_format']['Model']['new_source_count']==72
+          assert m['new_by_format']['Layout']['new_source_count']==48
+          assert u['new_original_sources']==48
+          assert b['new_bars_tested']==36 and b['bars_tested_total']==156
+          print('R16 AUDITED',m['verified_media_output_files_by_type'],'BARS WAV',b['new_valid_bars_pcm_wav'])
+          PY
+      - name: Publish only compact verified manifests on R16 branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/media_round16_cumulative \
+            derived/3.0.3/layout_semantic_round16_cumulative \
+            derived/3.0.3/bars_round16_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m 'data(unpack): R16 real BWAV Model Layout and BARS cumulative audit'
+          git fetch origin feat/acnh303-round16-final-bwav-expand
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round16-final-bwav-expand
