@@ -1,0 +1,309 @@
+name: ACNH 3.0.3 Round 10 Untested BARS Layout and BWAV Verified Decode
+on:
+  push:
+    branches: [feat/acnh303-round10-backlog-native-semantics]
+    paths: ['.github/workflows/acnh303-round10-native-scaleout.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r10-scaleout
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p "test_acnh303_media_l3.py" -v
+          python -m unittest discover -s scripts -p "test_acnh303_ui2d_parser.py" -v
+          python -m unittest discover -s scripts -p "test_acnh303_round9_native.py" -v
+  media:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {category: Layout, suffix: .zs, shard: 0, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 1, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 2, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 3, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 4, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 5, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 6, cap: 6}
+          - {category: Layout, suffix: .zs, shard: 7, cap: 6}
+          - {category: Sound, suffix: .bwav, shard: 0, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 1, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 2, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 3, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 4, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 5, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 6, cap: 8}
+          - {category: Sound, suffix: .bwav, shard: 7, cap: 8}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Exact no-overlap selection from round8 core media SHA baseline
+        run: |
+          python scripts/acnh303_round10_select.py --category ${{ matrix.category }} \
+            --suffix ${{ matrix.suffix }} --shard ${{ matrix.shard }} --shards 8 --max-count ${{ matrix.cap }}
+      - name: Obtain decoder builds (native tool SHA and checksum required)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ '${{ matrix.category }}' = 'Sound' ]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n1 > /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            sha256sum /tmp/vgmstream.zip
+            echo /nonexistent/wmdlt > /tmp/wmdlt.path
+            echo /nonexistent/wimgt > /tmp/wimgt.path
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 > /tmp/wmdlt.path
+            chmod +x "$(cat /tmp/wimgt.path)" "$(cat /tmp/wmdlt.path)"
+            echo /nonexistent/vgmstream > /tmp/vgmstream.path
+          fi
+      - name: Native true GLB/PNG/WAV decode and per-source report
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round10 --report-dir derived/3.0.3/media_round10 \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Decode layout FLYT/FLAN/FCPX semantic leaves independently
+        if: matrix.category == 'Layout'
+        run: |
+          python scripts/acnh303_layout_semantic_shard.py --root . --selection selection.json \
+            --output Unpack_UI2D_Round10 --report-dir derived/3.0.3/layout_semantic_round10
+      - name: Rehash originals and every validated media and UI2D output
+        run: |
+          python - <<'PY'
+          import json,pathlib,hashlib
+          nca=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')
+          sel=json.loads(pathlib.Path('selection.json').read_text())
+          folder=pathlib.Path('derived/3.0.3/media_round10')/sel['category']/f"{sel['shard']:03d}-of-008"
+          rows=json.loads((folder/'manifest.json').read_text())
+          assert len(rows)==sel['selected_files']==sel['max_count']
+          for rec in rows:
+              assert hashlib.sha256((nca/rec['source_path']).read_bytes()).hexdigest()==rec['sha256']
+              for out in rec['validated_outputs']:
+                  p=pathlib.Path(out['path'])
+                  assert p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==out['sha256']
+                  assert out['validation']['type']==('wav' if sel['category']=='Sound' else 'png')
+          if sel['category']=='Sound':
+              assert all(r['status']=='converted_media' and len(r['validated_outputs'])==1 for r in rows)
+          else:
+              semantic=pathlib.Path('derived/3.0.3/layout_semantic_round10/Layout')/f"{sel['shard']:03d}-of-008"/'semantic_manifest.json'
+              v=json.loads(semantic.read_text())
+              assert v['source_count']==len(rows)
+              for rec,item in zip(rows,v['source_records']):
+                  assert rec['sha256']==item['source_sha256'] and rec['source_path']==item['source_path']
+                  for leaf in item['leaves']:
+                      if 'output_path' in leaf:
+                          p=pathlib.Path(leaf['output_path'])
+                          assert hashlib.sha256(p.read_bytes()).hexdigest()==leaf['output_sha256']
+          print('VALIDATED',sel['category'],sel['shard'],len(rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r10-report-media-${{ matrix.category }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_round10/
+            derived/3.0.3/layout_semantic_round10/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r10-data-media-${{ matrix.category }}-${{ matrix.shard }}
+          path: |
+            Unpack_L3_Round10/
+            Unpack_UI2D_Round10/
+          retention-days: 14
+          compression-level: 2
+          if-no-files-found: warn
+  bars:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Select 8 BARS never in original round8 or round9 corpus
+        run: |
+          python scripts/acnh303_round10_select.py --category Sound --suffix .bars \
+            --shard ${{ matrix.shard }} --shards 8 --max-count 8
+      - name: Pin vgmstream r2117
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -name 'vgmstream-cli*' -type f | head -n1 > /tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+          sha256sum /tmp/vgmstream.zip
+      - name: Actually decode BARS embedded BWAV to playable PCM WAV
+        run: |
+          python scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out Unpack_BARS_Round10 --report derived/3.0.3/bars_round10/bars_${{ matrix.shard }} \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Actually export version 0x0500 AMTA original bytes
+        run: |
+          python scripts/acnh303_bars_amta_export.py --selection selection.json \
+            --out Unpack_AMTA_Round10 --report derived/3.0.3/amta_round10/amta_${{ matrix.shard }}
+      - name: Require source rehash and actual playable wave / native AMTA output proof
+        run: |
+          python - <<'PY'
+          import json,pathlib,hashlib,glob
+          reports=glob.glob('derived/3.0.3/*_round10/*/report.json')
+          assert len(reports)==2,reports
+          for name in reports:
+              report=json.load(open(name))
+              assert len(report['records'])==8
+              for row in report['records']:
+                  src=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')/row['source_path']
+                  assert hashlib.sha256(src.read_bytes()).hexdigest()==row['source_sha256']
+                  for member in row['members']:
+                      if member['status']=='converted_pcm_wav':
+                          out=pathlib.Path(member['output_path'])
+                          assert hashlib.sha256(out.read_bytes()).hexdigest()==member['output_sha256']
+                          assert member['validation']['frames']>0
+                      if member['status']=='lossless_amta_extracted':
+                          out=pathlib.Path(member['output_path'])
+                          assert hashlib.sha256(out.read_bytes()).hexdigest()==member['amta_sha256']
+                          assert member['native']['version_hex']=='0x0500'
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r10-report-bars-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/bars_round10/
+            derived/3.0.3/amta_round10/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r10-data-bars-${{ matrix.shard }}
+          path: |
+            Unpack_BARS_Round10/
+            Unpack_AMTA_Round10/
+          retention-days: 14
+          compression-level: 2
+          if-no-files-found: warn
+  reconcile:
+    needs: [regress,media,bars]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-r10-report-*
+          path: collected
+          merge-multiple: true
+      - name: Reject media source overlaps, invalid hashes and fake GLB/PNG/WAV
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round8_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected/derived/3.0.3/media_round10 \
+            --expected-new-shards 16 --expected-baseline 1112 \
+            --out derived/3.0.3/media_round10_cumulative
+      - name: Verify 48 Layout and 64 standalone BWAV source coverage
+        run: |
+          python - <<'PY'
+          import json
+          obj=json.load(open('derived/3.0.3/media_round10_cumulative/coverage.json'))
+          assert obj['new_source_count']==112 and obj['cumulative_source_count']==1224
+          assert obj['new_by_format']['Layout']['new_source_count']==48
+          assert obj['new_by_format']['Sound']['new_source_count']==64
+          assert obj['by_format']['Layout']['not_yet_measured_sources']==680
+          assert obj['by_format']['Sound']['not_yet_measured_sources']==510
+          assert obj['by_format']['Sound']['media_output_count_by_type']['wav']==636
+          print(obj['verified_media_output_files_by_type'])
+          PY
+      - name: Cross-reference every Layout original SHA with semantic leaves
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected/derived/3.0.3/layout_semantic_round10 \
+            --media-audit derived/3.0.3/media_round10_cumulative \
+            --out derived/3.0.3/layout_semantic_round10_cumulative \
+            --shards 8 --expected-sources 48
+      - name: Reject previous 40 BARS reprocessing and cross-check new AMTA vs WAV
+        run: |
+          python scripts/acnh303_round10_bars_reconcile.py \
+            --collected collected --round8-bars derived/3.0.3/bars_audio_round8/report.json \
+            --round9 derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz \
+            --out derived/3.0.3/bars_round10_cumulative --shards 8 --per-shard 8
+      - name: Commit validated cumulative results only after every job passes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/media_round10_cumulative \
+            derived/3.0.3/layout_semantic_round10_cumulative \
+            derived/3.0.3/bars_round10_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): R10 verified new Layout/BWAV/BARS L3 media and native AMTA"
+          git fetch origin feat/acnh303-round10-backlog-native-semantics
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round10-backlog-native-semantics

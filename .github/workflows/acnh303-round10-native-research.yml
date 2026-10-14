@@ -1,0 +1,162 @@
+name: ACNH 3.0.3 R10 AMTA LBLI and Native EventFlow Semantic Evidence
+on:
+  push:
+    branches: [feat/acnh303-round10-backlog-native-semantics]
+    paths: ['.github/workflows/acnh303-round10-native-research.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/round9_cumulative
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile scripts/acnh303_round10_native_matrix.py
+      - name: Generate provenance-backed opaque native word and LBLI section matrices
+        run: |
+          python scripts/acnh303_round10_native_matrix.py \
+            --round9 derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz \
+            --out derived/3.0.3/r10_native_fields
+          python - <<'PY'
+          import json
+          j=json.load(open('derived/3.0.3/r10_native_fields/matrix.json'))
+          assert j['sources']=={'bars':32,'amta':32,'bdli':32}
+          assert j['amta']['joined_native_member_count']==208
+          assert j['bdli']['nonempty_raw_section_count']==4210
+          assert len(j['amta']['fields'])==10
+          print('PROVED_NAMED_SOURCES and opaque fields',j['amta']['versions'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r10-native-amta-lbli-field-matrix
+          path: derived/3.0.3/r10_native_fields/
+          retention-days: 30
+      - name: Commit stable SHA backed native structure candidate matrix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/r10_native_fields
+          git diff --cached --quiet && exit 0
+          git commit -m "data(native): AMTA v5 header statistical evidence and LBLI ID/SHA matrix"
+          git fetch origin feat/acnh303-round10-backlog-native-semantics
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round10-backlog-native-semantics
+  eventflow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements.txt evfl
+      - name: Select 6 real BFEVFL originals in native tree partition
+        run: |
+          python scripts/select_acnh303_shard.py --category EventFlow \
+            --suffix .bfevfl --shard ${{ matrix.shard }} --shards 8 --max-count 6
+      - name: Read native entrypoint/actor action-query/subflow adjacency
+        run: |
+          python scripts/acnh303_round10_evfl_consumer_index.py --selection selection.json \
+            --out derived/3.0.3/evfl_round10_shards/shard_${{ matrix.shard }}
+      - name: Readback original source and graph output hashes
+        run: |
+          python - <<'PY'
+          import glob,json,pathlib,hashlib
+          reports=glob.glob('derived/3.0.3/evfl_round10_shards/shard_*/report.json')
+          assert len(reports)==1,reports
+          data=json.load(open(reports[0]))
+          assert data['source_count']==6 and data['counts'].get('failed',0)==0
+          for rec in data['records']:
+              assert rec['status']=='static_graph_decoded'
+              src=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')/rec['source_path']
+              assert hashlib.sha256(src.read_bytes()).hexdigest()==rec['source_sha256']
+              output=pathlib.Path(rec['graph_output_path'])
+              assert hashlib.sha256(output.read_bytes()).hexdigest()==rec['graph_output_sha256']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r10-eventflow-structure-${{ matrix.shard }}
+          path: derived/3.0.3/evfl_round10_shards/
+          retention-days: 30
+          if-no-files-found: error
+  eventflow-audit:
+    needs: eventflow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r10-eventflow-structure-*
+          path: collected
+          merge-multiple: true
+      - name: Merge exactly 12 real source graphs and build native action/query reference census
+        run: |
+          python - <<'PY'
+          import collections,hashlib,json,pathlib
+          root=pathlib.Path('collected') # Artifact upload stripped common derived/ root; search all nested reports
+          reports=sorted(root.rglob('report.json'))
+          assert len(reports)==2,reports
+          paths=set()
+          records=[]
+          actions=collections.Counter();queries=collections.Counter();calls=collections.Counter();types=collections.Counter()
+          for path in reports:
+              data=json.loads(path.read_text())
+              assert data['source_count']==6 and data['counts']['static_graph_decoded']==6
+              for record in data['records']:
+                  name=record['source_path']
+                  assert name not in paths
+                  paths.add(name)
+                  records.append(record)
+                  graph=record['graph']
+                  types.update(graph['types'])
+                  for a in graph['top_actions']:actions[(a['actor'],a['action'])]+=a['nodes']
+                  for q in graph['top_queries']:queries[(q['actor'],q['query'])]+=q['nodes']
+                  for c in graph['subflow_call_references']:calls[(c['flowchart'],c['entrypoint'])]+=c['nodes']
+          assert len(paths)==12
+          dest=pathlib.Path('derived/3.0.3/evfl_round10_cumulative')
+          dest.mkdir(parents=True,exist_ok=True)
+          out={'schema':'acnh303-r10-evfl-native-static-symbol-map-v1',
+               'real_bfevfl_sources':len(paths),'events':sum(r['graph']['event_count'] for r in records),
+               'event_types':dict(types),
+               'actor_action_calls':[{'actor':a,'action':b,'count':v} for (a,b),v in actions.most_common()],
+               'actor_query_calls':[{'actor':a,'query':b,'count':v} for (a,b),v in queries.most_common()],
+               'subflow_references':[{'flowchart':a,'entrypoint':b,'count':v} for (a,b),v in calls.most_common()],
+               'records':records,
+               'scope':'Static graph only; no game runtime execution or native caller implementation verified'}
+          (dest/'coverage.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          print('EVFL SOURCES',len(paths),'EVENTS',out['events'],'ACTION_SYMBOLS',len(actions))
+          PY
+      - name: Commit real native graph census to documentation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/evfl_round10_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(evfl): audited 12 real graph actor action/query/subflow references"
+          git fetch origin feat/acnh303-round10-backlog-native-semantics
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round10-backlog-native-semantics

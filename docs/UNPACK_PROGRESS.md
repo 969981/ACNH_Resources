@@ -92,3 +92,12 @@
 - 继续突破独立 **BARS 容器**：8 个原始源实测，7 个含 **42 个有效 PCM WAV**；另 1 个内嵌音频无法解码、1 个源声明长度少 1 字节，均已登记。[BARS 原始偏移](../derived/3.0.3/bars_probe_round8/report.json) · [转换状态](../derived/3.0.3/bars_audio_round8/report.json) · [42 WAV 独立下载 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。
 - [全库剩余类别队列](../derived/3.0.3/unmeasured_queue_round8/queue.json)：BDLI 原始源 36,708；BARS 1,696（未测 1688）；EventFlow BFEVFL 875；仍有大量 Model、Layout 未语义解码。媒体队列未包含此前 BCSV、BYML 等可能已经处理的非媒体类型，不得误作全库剩余完成度。
 - [第八轮完整技术报告](ACNH303_UNPACK_ROUND8_VERIFIED_REPORT.md)。核心媒体统计与额外 42 BARS WAV 分别审计，未完成正式跨格式整合／去重；FCPX 字体 fallback、BFLYT 原生材质求值、BFLAN 运行时一致性仍缺证据。
+
+## 第十轮：原生媒体与语义静态证据（2026-10-14）
+
+- SHA 去重选择 **176 个新增源**：BARS 64、Layout 48、独立 BWAV 64，24 个转码分片通过。终端目录路径问题由专用 [replay Run 38497516006](https://github.com/969981/ACNH_Resources/actions/runs/38497516006) 修复并完成累计审计。
+- 新媒体：**834 BARS 嵌套 PCM WAV + 195 Layout PNG + 64 独立 BWAV PCM WAV**。另有 **834 AMTA v5 原始文件 + 235 UI2D JSON**。核心媒体累计 **1,224 唯一源 / 2,919 媒体文件**；BARS 单独累计 **104 源 / 1,062 WAV**。
+- 下一批媒体 L3 未测分母：**1,592 BARS / 680 Layout / 510 BWAV**；这些数字不代表全库 L0–L2 不支持。
+- Native 字段研究：[208 AMTA v5 字段矩阵](../derived/3.0.3/r10_native_fields/matrix.json)、[4210 LBLI / 3799 不同原始标识符](../derived/3.0.3/r10_native_fields/matrix.json)、[12 BFEVFL 源/115 事件节点静态调用图](../derived/3.0.3/evfl_round10_cumulative/coverage.json)。Native runtime consumer / 字符串解码 / 播放参数均未证实。
+- 已经生成包含实际数据的 [长期 R10 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r10-bars-layout-bwav-native-20261014)，24 分卷及 SHA256SUMS 等六附件，发布流程重新读回每份 SHA。
+- [第十轮完整二进制指南](ACNH303_ROUND10_NATIVE_UNPACK_TECHNICAL_GUIDE.md) 包含操作命令、回归和语义边界；不能把结构探测当完整可执行反编译。
