@@ -71,7 +71,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: r22-full-fska-evidence
-          path: derived/3.0.3/r22_full_curves/full_fska_hermite.json
+          path: |
+            derived/3.0.3/r22_full_curves/full_fska_hermite.json
+            derived/3.0.3/r22_full_curves/curve_replay_summary.json
           retention-days: 90
           if-no-files-found: error
 
@@ -138,6 +140,7 @@ jobs:
           set -euo pipefail
           mkdir -p derived/3.0.3/r22_full_curves derived/3.0.3/r22_native_callee
           cp downloads/fres/full_fska_hermite.json derived/3.0.3/r22_full_curves/
+          cp downloads/fres/curve_replay_summary.json derived/3.0.3/r22_full_curves/
           cp downloads/native/static_5bd3a4.json derived/3.0.3/r22_native_callee/
           python - <<'PY'
           import json
@@ -176,12 +179,14 @@ jobs:
           gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r22-full-fska-evidence -D evidence/fres
           gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r22-static-callee-evidence -D evidence/native
           cmp evidence/fres/full_fska_hermite.json derived/3.0.3/r22_full_curves/full_fska_hermite.json
+          cmp evidence/fres/curve_replay_summary.json derived/3.0.3/r22_full_curves/curve_replay_summary.json
           cmp evidence/native/static_5bd3a4.json derived/3.0.3/r22_native_callee/static_5bd3a4.json
       - name: Release only SHA checked real data and static evidence
         run: |
           set -euo pipefail
           mkdir -p packages
           cp evidence/fres/full_fska_hermite.json packages/
+          cp evidence/fres/curve_replay_summary.json packages/
           cp evidence/native/static_5bd3a4.json packages/
           (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
           printf 'R22: all 406 FSKA raw bone curve records checked, independently evaluated cubic polynomial/Hermite arithmetic; real ELF static 0x5BD3A4 function byte window, direct callers and vtable slots. Runtime animation playback, model binding, live BLR target and BARS/EventFlow semantic ownership remain unverified.\n' > notes.txt
