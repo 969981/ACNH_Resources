@@ -131,6 +131,11 @@ jobs:
       - name: Persist separate static and source-level research
         run: |
           set -euo pipefail
+          # This run may start before a previous R23 reconcile has pushed an
+          # older same-name report. Synchronize clean checkout BEFORE copying
+          # the newly downloaded, SHA-verified run-specific artifacts.
+          git fetch origin feat/acnh303-round23-skeleton-fmaa-native-loader
+          git reset --hard FETCH_HEAD
           mkdir -p derived/3.0.3/r23_animation_binding derived/3.0.3/r23_native_loader
           cp downloads/animation/basepose_fmaa.json derived/3.0.3/r23_animation_binding/
           cp downloads/native/nonret_slot_triage.json derived/3.0.3/r23_native_loader/
