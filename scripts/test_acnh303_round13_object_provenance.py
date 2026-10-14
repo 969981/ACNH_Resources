@@ -27,11 +27,11 @@ class R13ObjectScanner(unittest.TestCase):
     @unittest.skipIf(Cs is None,"capstone unavailable")
     def test_register_writes(self):
         blob=bytearray(toy())
-        struct.pack_into("<II",blob,0x1020,0x90000004,0xF9404085)
+        struct.pack_into("<II",blob,0x1020,0x90000014,0xF9404296)
         rows=register_window(bytes(blob),parse_elf(bytes(blob)),0x1020,0x1028)
-        self.assertIn("x4",rows[0]["writes"])
+        self.assertIn("x20",rows[0]["writes"])
         self.assertEqual(rows[1]["op"],"ldr")
-        self.assertIn("x5",rows[1]["writes"])
+        self.assertIn("x22",rows[1]["writes"])
     def test_file_backed_pointer_is_not_runtime(self):
         blob=toy()
         row=file_backing(blob,parse_elf(blob),0x1100)
