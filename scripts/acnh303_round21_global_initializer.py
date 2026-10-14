@@ -26,6 +26,8 @@ def adrp_page(pc,op):
 def find_refs(blob,segments,target=TARGET):
     page=target&~0xfff
     refs=[]
+    sample=[]
+    access_totals=Counter()
     visited=0
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
     cs.detail=True
@@ -69,11 +71,16 @@ def find_refs(blob,segments,target=TARGET):
                         else:aliases.pop(dst,None)
                     elif not x.mnemonic.startswith(("str","stp","stur","cmp","tst")):
                         aliases.pop(dst,None)
-            if len(refs)<MAX_REF:
-                refs.append({"adrp_at":hex(addr),"opcode":f"{insn:08x}",
-                             "page":hex(page),"destination":f"x{reg}",
-                             "target_load_store_accesses":accesses,"boundary":barrier})
-    return visited,refs
+            record={"adrp_at":hex(addr),"opcode":f"{insn:08x}",
+                    "page":hex(page),"destination":f"x{reg}",
+                    "target_load_store_accesses":accesses,"boundary":barrier}
+            if len(sample)<24:
+                sample.append(record)
+            for hit in accesses:
+                access_totals[hit["kind"]]+=1
+            if accesses and len(refs)<MAX_REF:
+                refs.append(record)
+    return visited,refs,sample,dict(access_totals)
 
 def analyze(path):
     blob=path.read_bytes()
@@ -105,15 +112,43 @@ def analyze(path):
                 if abs(off-TARGET)<=0x20:
                     reloc.append({"section":s.name,"target":hex(off),"kind":int(entry["r_info_type"]),
                                   "addend":int(entry["r_addend"]) if "r_addend" in entry.entry else None})
-    total,refs=find_refs(blob,loads)
-    found=[a for x in refs for a in x["target_load_store_accesses"]]
-    return {"schema":"acnh303-r21-elf-global-initializers-v1","elf_sha256":sha(blob),
+    def read_file_backed_qword(va):
+        seg=next((s for s in loads if s["vaddr"]<=va and va+8<=s["vaddr"]+s["memsz"]),None)
+        if seg is None:return {"va":hex(va),"status":"not_mapped_in_ELF"}
+        rel=va-seg["vaddr"]
+        if rel+8>seg["filesz"]:return {"va":hex(va),"status":"zero_fill_or_runtime_only"}
+        off=seg["offset"]+rel
+        v=struct.unpack_from("<Q",blob,off)[0]
+        return {"va":hex(va),"status":"file_backed","file_offset":off,
+                "stored_value":hex(v),"stored_sha256":sha(blob[off:off+8]),
+                "value_points_to_executable_ptload":any(
+                    (s["flags"]&1) and s["vaddr"]<=v<s["vaddr"]+s["memsz"] for s in loads)}
+    static_chains=[]
+    first=read_file_backed_qword(TARGET)
+    if first["status"]=="file_backed":
+        v=int(first["stored_value"],16)
+        if v:
+            object_first=read_file_backed_qword(v)
+            direct_slot=read_file_backed_qword(v+0x18)
+            path={"interpretation":"global_contains_pointer_to_vtable",
+                  "global":first,"candidate_vtable":object_first,"slot_0x18":direct_slot}
+            static_chains.append(path)
+            if object_first["status"]=="file_backed":
+                obj_vtable=int(object_first["stored_value"],16)
+                if obj_vtable:
+                    static_chains.append({"interpretation":"global_contains_pointer_to_object_with_vptr_at_0",
+                        "global":first,"object_vptr":object_first,
+                        "slot_0x18":read_file_backed_qword(obj_vtable+0x18)})
+    total,refs,sample,access_totals=find_refs(blob,loads)
+    return {"schema":"acnh303-r21-elf-global-initializers-v2","elf_sha256":sha(blob),
             "global_target_address":hex(TARGET),"pt_load_matches":matches,
             "on_disk_storage":backing,"nearby_relocations":reloc,
-            "adrp_page_ref_total":total,"adrp_page_records":refs,
-            "exact_global_mem_access_counts":dict(Counter(x["kind"] for x in found)),
-            "verification_state":"STATIC_ELF_ONLY_RUNTIME_GLOBAL_AND_VTABLE_UNRESOLVED",
-            "limitations":"Matches only direct ADRP + memory accesses in a small basic block. Relocations may populate globals at load time, code may compute addresses through other instructions or modules. File-backed/zero-fill values are not live runtime memory. A write candidate does not prove constructor identity or the indirect BLR target."}
+            "adrp_page_ref_total":total,"adrp_page_sample":sample,
+            "adrp_page_records":refs,"exact_matching_adrp_record_count_sampled":len(refs),
+            "exact_global_mem_access_counts":access_totals,
+            "static_file_backed_pointer_chains":static_chains,
+            "verification_state":"STATIC_ELF_POINTER_VALUES_ONLY_RUNTIME_UNVERIFIED",
+            "limitations":"Entire executable ADRP page set scanned; only exact-target memory accesses are retained, with first 24 page references as debug examples. File-backed pointer chains are hypothetical interpretations of immutable ELF bytes; dynamic loader and runtime writes may change all pointers. No static candidate alone establishes the live BLR target or AMTA/EventFlow owner."}
 
 def main():
     p=argparse.ArgumentParser()
