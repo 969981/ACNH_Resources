@@ -1,0 +1,92 @@
+name: ACNH 3.0.3 R10 Reconcile Verified Shards Without Re-Decode
+on:
+  push:
+    branches: [feat/acnh303-round10-backlog-native-semantics]
+    paths: ['.github/workflows/acnh303-round10-reconcile-replay.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      SOURCE_RUN_ID: '38497229960'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reuse all 24 actually successful source/report artifacts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 38497229960
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: acnh303-r10-report-*
+          path: collected
+          merge-multiple: true
+      - name: Discover real artifact directory layout, do not invent input root
+        run: |
+          find collected -type f \( -name manifest.json -o -name semantic_manifest.json -o -name report.json \) | head -60
+          test "$(find collected -name manifest.json -type f | wc -l)" -eq 16
+          test "$(find collected -name semantic_manifest.json -type f | wc -l)" -eq 8
+          test "$(find collected -name report.json -type f | wc -l)" -eq 16
+      - name: Merge 16 L3 media shards vs all 1112 previous core media sources
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round8_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 16 --expected-baseline 1112 \
+            --out derived/3.0.3/media_round10_cumulative
+      - name: Compare 48 original Layout SHA identities with all parsed UI2D leaves
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected \
+            --media-audit derived/3.0.3/media_round10_cumulative \
+            --out derived/3.0.3/layout_semantic_round10_cumulative \
+            --shards 8 --expected-sources 48
+      - name: Merge eight new BARS + AMTA shards, reject previous forty BARS paths
+        run: |
+          python scripts/acnh303_round10_bars_reconcile.py \
+            --collected collected --round8-bars derived/3.0.3/bars_audio_round8/report.json \
+            --round9 derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz \
+            --out derived/3.0.3/bars_round10_cumulative --shards 8 --per-shard 8
+      - name: Require correct cumulative source denominators and no false native semantics
+        run: |
+          python - <<'PY'
+          import json
+          m=json.load(open('derived/3.0.3/media_round10_cumulative/coverage.json'))
+          b=json.load(open('derived/3.0.3/bars_round10_cumulative/coverage.json'))
+          u=json.load(open('derived/3.0.3/layout_semantic_round10_cumulative/coverage.json'))
+          assert m['cumulative_source_count']==1224 and m['new_source_count']==112
+          assert m['new_by_format']['Layout']['new_source_count']==48
+          assert m['new_by_format']['Sound']['new_source_count']==64
+          assert m['by_format']['Layout']['not_yet_measured_sources']==680
+          assert m['by_format']['Sound']['not_yet_measured_sources']==510
+          assert m['by_format']['Sound']['media_output_count_by_type']['wav']==636
+          assert b['bars_tested_cumulative']==104 and b['remaining_bars_not_L3_tested']==1592
+          assert u['new_original_sources']==48
+          print('VERIFIED CORE',m['verified_media_output_files_by_type'])
+          print('VERIFIED BARS',b['counts'])
+          print('VERIFIED UI2D',u['leaf_status_counts'])
+          PY
+      - name: Commit only actually verified source SHA cumulative audit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/media_round10_cumulative \
+            derived/3.0.3/layout_semantic_round10_cumulative \
+            derived/3.0.3/bars_round10_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): reconcile 24 completed R10 media and BARS shards by source SHA"
+          git fetch origin feat/acnh303-round10-backlog-native-semantics
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round10-backlog-native-semantics
