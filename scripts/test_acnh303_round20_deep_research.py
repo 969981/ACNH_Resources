@@ -21,7 +21,8 @@ def sample():
         b[dic:dic+4]=b"_DIC";struct.pack_into("<I",b,dic+4,count)
         for idx,(at,name) in enumerate(names,1):
             struct.pack_into("<Q",b,dic+8+idx*0x10+8,at)
-            b[at:at+len(name)+1]=name+b"\0"
+            struct.pack_into("<H",b,at,len(name))
+            b[at+2:at+2+len(name)+1]=name+b"\0"
     return b
 
 class AnimationHeaderTests(unittest.TestCase):
