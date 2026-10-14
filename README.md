@@ -204,3 +204,18 @@ BFLYT 6 个 mat1 区块的 22 个材料均有 **44 字节记录**，末尾字段
 在前八轮基础上再次真正处理 **32 个以前未测的 BARS**，生成 **186 个可验证 PCM WAV**、**208 个按原始 AMTA 版本 v5（0x0500）无损提取的元数据二进制文件**。另对 **32 个 BDLI.zs 原始文件**按照真实 LBLI 指针和边界新导出 **4,210 个无损二进制区段**。每条有效输出均核验原始来源路径、SHA-256 和成员字节，最终分片审计通过。
 
 累计 BARS 是 **40 个实际测试容器、228 个 PCM WAV**；它与原来的核心 L3 **2660（214 GLB／1874 PNG／572 独立 BWAV→WAV）**保持不同分母。BDLI 的 36708 源以前已被结构性解析，但新导出的 LBLI 区段不是自动理解成文本、语言条目或者完整本地化数据库。**ACNH AMTA v5 不能套用公开 v1/v3/v4 的 DATA/MARK/STRG 区段布局**；现在仅能确定并无损导出原始成员及 0x0C..0x30 原始 u32，待 Native 证据。
+
+## 第十轮已发布：剩余 BARS/Layout/BWAV 继续实解包（2026-10-14）
+
+本轮通过完整来源排重、24 个成功的 Native 转换分片及独立累计 SHA 审计，共对 **176 个未测原始源**继续解包：**64 BARS（834 有效 PCM WAV + 834 无损 AMTA v5）**、**48 Layout（195 PNG + 235 结构 JSON）**、**64 独立 BWAV（64 有效 PCM WAV）**。
+
+核心 L3 媒体累计 **1,224 个已测试源，2,919 个有效文件（214 GLB + 2,069 PNG + 636 WAV）**，与 BARS 独立累计 **104 容器 / 1,062 有效 PCM WAV** 分开核算。仍待媒体 L3 测试：**1,592 BARS、680 Layout、510 独立 BWAV**。
+
+对历史 **208 条 AMTA v5 原始元数据**建立 10 字段的 native opaque byte/offset 证据表；对 **4,210 LBLI 原始区段**统计 3,799 个不同的原始 identifier；另对 **12 个 BFEVFL 真游戏源**恢复 115 事件节点、24 个 actor/action 符号、15 个 actor/query 符号和 8 个 SubFlow 引用组合。静态符号名称不能替代 ELF 运行时消费者证据，字段语义仍保持开放。
+
+- [第十轮详尽技术研究与 WSL2 操作指南](docs/ACNH303_ROUND10_NATIVE_UNPACK_TECHNICAL_GUIDE.md)
+- [长期发布 Release：24 个数据分卷 + 6 审计附件](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r10-bars-layout-bwav-native-20261014)
+- [累积媒体审计](derived/3.0.3/media_round10_cumulative/coverage.json) · [BARS/AMTA 审计](derived/3.0.3/bars_round10_cumulative/coverage.json) · [UI2D 审计](derived/3.0.3/layout_semantic_round10_cumulative/coverage.json)
+- [AMTA v5 原始字段/LBLI 标识符矩阵](derived/3.0.3/r10_native_fields/matrix.json) · [BFEVFL 原生静态调用索引](derived/3.0.3/evfl_round10_cumulative/coverage.json)
+
+以上不代表 103,400 个资源源文件全部完成游戏语义还原；媒体转换、原生结构、运行时验证分别记录。
