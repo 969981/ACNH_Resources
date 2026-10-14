@@ -38,6 +38,7 @@ def validate_cubic(b,curve):
         return {"status":"other_mode_not_replayed","segments":0}
     good_segments=[]
     mismatch=[]
+    worst=None
     for i in range(len(frames)-1):
         dt=frames[i+1]-frames[i]
         if dt<=0 or not math.isfinite(dt):
@@ -47,6 +48,10 @@ def validate_cubic(b,curve):
         # Real endpoints are not assumed matching; measure residual.
         poly_end=cubic_eval(rows[i],1)
         residue=poly_end-nexta
+        if worst is None or abs(residue)>abs(worst["residue"]):
+            worst={"segment":i,"frame0":frames[i],"frame1":frames[i+1],
+                   "coefs":rows[i],"next_a":nexta,
+                   "polynomial_end":poly_end,"residue":residue}
         out_slope=coef_b/dt
         in_slope=(coef_b+2*c+3*d)/dt
         at_mid=cubic_eval(rows[i],0.5)
@@ -66,6 +71,7 @@ def validate_cubic(b,curve):
     return {"status":"cubic_coefficient_replay",
             "keyframes":len(frames),"segments":len(good_segments),
             "max_abs_endpoint_residue":max([abs(s["endpoint_residue"]) for s in good_segments],default=0),
+            "worst_endpoint":worst,
             "max_abs_tangent":max([abs(s[x]) for s in good_segments
                                    for x in ("out_slope","next_in_slope")],default=0),
             "samples":good_segments[:2],"mismatches":mismatch[:12],
@@ -83,6 +89,7 @@ def analyze(root):
     modes=Counter()
     frame_keys=0;curves=0;bone_count=0;declared=0
     animations=[]
+    worst_curves=[]
     for index in range(t["count"]):
         at=t["array_start"]+index*t["stride"]
         try:
@@ -115,6 +122,12 @@ def analyze(root):
                     status["hermite_algebraic_mismatches"]+=proof["mismatch_count"]
                     if proof["max_abs_endpoint_residue"]>0.0005*(1+abs(curve["scale"])):
                         status["cubic_endpoint_residual_outliers"]+=1
+                        worst_curves.append({"animation_index":index,"animation_name":a["name"],
+                           "bone":bone["name"],"curve_header_file_offset":curve["header_file_offset"],
+                           "frame_ptr":curve["frame_ptr"],"key_ptr":curve["key_ptr"],
+                           "scale":curve["scale"],"offset":curve["offset"],
+                           "worst":proof["worst_endpoint"],
+                           "max_abs_endpoint_residue":proof["max_abs_endpoint_residue"]})
                     if len(sampled)<2:
                         sampled.append({"bone":bone["name"],"target_offset":curve["target_offset_bytes"],
                                        "curve_header_sha256":curve["raw_header_sha256"],
@@ -135,6 +148,7 @@ def analyze(root):
             "total_keyframe_records":frame_keys,
             "mode_counts":dict(modes),
             "audit_counts":dict(status),
+            "worst_endpoint_residual_curves":sorted(worst_curves,key=lambda x:x["max_abs_endpoint_residue"],reverse=True)[:25],
             "animations":animations,
             "verification_state":"FULL_FSKA_RAW_CURVES_AND_STATIC_HERMITE_ALGEBRA_NOT_RUNTIME_PLAYBACK",
             "limits":"Full file/bone/curve arrays read and SHA checked. Cubic coefficients algebraically converted to equivalent Hermite tangents, with measured endpoint residuals. No original in-game evaluator, skeleton binding or animated GLB verified."}
@@ -146,6 +160,21 @@ def main():
     a=p.parse_args()
     d=analyze(a.root);a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(d,ensure_ascii=False,sort_keys=True,indent=2)+"\n","utf-8")
+    summary={"schema":"acnh303-r22-concise-curve-audit-v1",
+             **{k:d[k] for k in ("source_sha256","fres_sha256","declared_fska_animations",
+                "animations_scanned","all_animation_headers_ok","total_bone_animation_headers",
+                "total_declared_curve_headers","total_parsed_curve_headers",
+                "total_keyframe_records","mode_counts","audit_counts","verification_state",
+                "limits","worst_endpoint_residual_curves")},
+             "animation_examples":[{"name":x.get("name"),"index":x["index"],
+                     "frame_count":x.get("frame_count"),
+                     "bone_count":x.get("bone_count"),
+                     "declared_curve_count":x.get("declared_curve_count"),
+                     "observed_curve_headers":x.get("observed_curve_headers"),
+                     "curve_parse_error_count":x.get("curve_parse_error_count"),
+                     "examples":x.get("examples",[])[:1]} for x in d["animations"][:12]]}
+    dest=a.out.parent/"curve_replay_summary.json"
+    dest.write_text(json.dumps(summary,ensure_ascii=False,sort_keys=True,indent=2)+"\n","utf-8")
     print("R22_FSKA_ALL",d["animations_scanned"],"bones",d["total_bone_animation_headers"],
           "parsed_curves",d["total_parsed_curve_headers"],
           "declared",d["total_declared_curve_headers"],
