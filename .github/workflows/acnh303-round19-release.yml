@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feat/acnh303-round19-bfres-native
+          ref: feat/acnh303-round19-animation-native
           filter: blob:none
           sparse-checkout: |
             scripts
@@ -89,7 +89,7 @@ jobs:
           PY
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
             gh release create "$TAG" -R "$REPO" \
-              --target feat/acnh303-round19-bfres-native \
+              --target feat/acnh303-round19-animation-native \
               --title 'ACNH 3.0.3 R19 — BFRES media plus animation and ELF evidence' \
               --notes-file release_notes.md --prerelease
           fi
