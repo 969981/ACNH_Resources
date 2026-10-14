@@ -4,6 +4,7 @@ import argparse,csv,hashlib,json,pathlib,sys
 from collections import Counter
 from acnh303_media_l3 import NCA,find_leaf
 from acnh303_ui2d_parser import parse_ui2d
+from acnh303_fcpx_font import parse_fcpx
 
 def digest(b):return hashlib.sha256(b).hexdigest()
 def main():
@@ -50,14 +51,28 @@ def main():
                     record["status"]="parser_failed"
                     record["error"]=type(exc).__name__+": "+str(exc)
                     fail.append({"source":name,**record})
+            elif member.lower().endswith(".bfcpx") and payload.startswith(b"FCPX"):
+                try:
+                    font_index=parse_fcpx(payload)
+                    font_index["origin_source"]=name
+                    font_index["origin_member"]=member
+                    target=out/(f"{index:03d}-{pathlib.Path(member).stem}.fcpx.fontrefs.json")
+                    target.write_text(json.dumps(font_index,sort_keys=True,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+                    record["status"]="font_references_only"
+                    record["output"]=target.relative_to(root).as_posix()
+                    record["output_sha256"]=digest(target.read_bytes())
+                    record["font_count"]=font_index["declared_font_reference_count"]
+                except Exception as exc:
+                    record["status"]="parser_failed"
+                    record["error"]=type(exc).__name__+": "+str(exc)
+                    fail.append({"source":name,**record})
             else:
-                # Other leaves (including proprietary BFCpx) are deliberately
-                # kept in manifest, not declared decoded by a UI2D parser.
+                # Unknown leaves stay in the manifest with their original SHA.
                 record["status"]="unsupported_leaf"
                 record["prefix32"]=payload[:32].hex()
             records.append(record)
             index+=1
-        status="structured_ui2d_partial_other_leaves" if any(r["status"]=="unsupported_leaf" for r in records) else "structured_ui2d"
+        status="structured_ui2d_partial_other_leaves" if any(r["status"]=="unsupported_leaf" for r in records) else "structured_ui2d_partial_font_references" if any(r["status"]=="font_references_only" for r in records) else "structured_ui2d"
         if any(r["status"]=="parser_failed" for r in records):status="parser_failed"
         entry={"source":name,"source_sha256":expected,"bytes":len(original),
                "ui2d_state":status,"leaves":records}
@@ -68,9 +83,10 @@ def main():
     summary={"source_count":len(rows),"leaf_counts":dict(kind_counter),
              "FLYT_structured":sum(r["status"]=="structured_json" and r["kind"]=="bflyt" for x in rows for r in x["leaves"]),
              "FLAN_structured":sum(r["status"]=="structured_json" and r["kind"]=="bflan" for x in rows for r in x["leaves"]),
+             "FCPX_font_references":sum(r["status"]=="font_references_only" for x in rows for r in x["leaves"]),
              "failed_leaf_count":len(fail),
              "incomplete_other_type_count":sum(r["status"]=="unsupported_leaf" for x in rows for r in x["leaves"]),
-             "boundaries":"UI2D v9 hierarchy and supported animation data; proprietary BFCpx not decoded; no UI preview rendering claimed.",
+             "boundaries":"UI2D layout/animation data, FCPX filename references only; proprietary font substitution rules and actual glyphs not recovered; no full UI runtime preview claimed.",
              "source_records":rows}
     (a.report/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     (a.report/"parser_errors.json").write_text(json.dumps(fail,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
