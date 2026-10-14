@@ -1,0 +1,192 @@
+name: ACNH 3.0.3 R22 Full FSKA Curves and Static Native Callee
+on:
+  push:
+    branches: [feat/acnh303-round22-hermite-native-function]
+    paths:
+      - '.github/workflows/acnh303-round22-research.yml'
+      - 'scripts/acnh303_round22_*.py'
+      - 'scripts/test_acnh303_round22_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r22-curves-static-callee
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install reproducible parsers
+        run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Verify Hermite/polynomial math and ARM64 branches
+        run: |
+          python -m compileall -q scripts/acnh303_round22_full_curves.py scripts/acnh303_round22_native_callee.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round22_research.py' -v
+
+  animation:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Read all 406 original FSKA, all bone records and decoded curve frames/keys
+        run: python scripts/acnh303_round22_full_curves.py
+      - name: Check original leaf SHA and honest algebra/runtime distinction
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r22_full_curves/full_fska_hermite.json'))
+          assert a['source_sha256']=='97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a'
+          assert a['fres_sha256']=='8dd16ba20264a5f8cd3a60901e0cc6ce8173fcf2503b17fda0a1688277605972'
+          assert a['declared_fska_animations']==406
+          assert a['animations_scanned']==406
+          assert a['verification_state']=='FULL_FSKA_RAW_CURVES_AND_STATIC_HERMITE_ALGEBRA_NOT_RUNTIME_PLAYBACK'
+          assert a['total_parsed_curve_headers']>549
+          print('R22 FSKA',a['total_parsed_curve_headers'],a['total_declared_curve_headers'],a['audit_counts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r22-full-fska-evidence
+          path: derived/3.0.3/r22_full_curves/full_fska_hermite.json
+          retention-days: 90
+          if-no-files-found: error
+
+  native:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Recreate verified source ELF global-object-vptr-static slot callee chain and B/BL callers
+        run: python scripts/acnh303_round22_native_callee.py
+      - name: Require static proof and never claim runtime identity
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r22_native_callee/static_5bd3a4.json'))
+          assert d['original_elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert d['static_file_slot_0x18']=='0x5bd3a4'
+          assert d['verification_state']=='STATIC_FILE_SLOT_DISASSEMBLED_NO_LIVE_TARGET_OR_OWNER'
+          assert any(x['slot_offset']=='0x18' and x['stored_u64']=='0x5bd3a4'
+                     and x['points_to_executable_ptload'] for x in d['static_vtable_slots'])
+          print('R22 NATIVE STATIC',d['incoming_direct_call_totals'],d['file_backed_qword_references'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r22-static-callee-evidence
+          path: derived/3.0.3/r22_native_callee/static_5bd3a4.json
+          retention-days: 90
+          if-no-files-found: error
+
+  reconcile:
+    needs: [regress,animation,native]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r22-full-fska-evidence
+          path: downloads/fres
+      - uses: actions/download-artifact@v4
+        with:
+          name: r22-static-callee-evidence
+          path: downloads/native
+      - name: Reconcile independent research reports and commit only derived evidence
+        run: |
+          set -euo pipefail
+          mkdir -p derived/3.0.3/r22_full_curves derived/3.0.3/r22_native_callee
+          cp downloads/fres/full_fska_hermite.json derived/3.0.3/r22_full_curves/
+          cp downloads/native/static_5bd3a4.json derived/3.0.3/r22_native_callee/
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r22_full_curves/full_fska_hermite.json'))
+          n=json.load(open('derived/3.0.3/r22_native_callee/static_5bd3a4.json'))
+          assert a['animations_scanned']==406 and n['static_file_slot_0x18']=='0x5bd3a4'
+          assert n['verification_state']=='STATIC_FILE_SLOT_DISASSEMBLED_NO_LIVE_TARGET_OR_OWNER'
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r22_full_curves derived/3.0.3/r22_native_callee
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r22): full FSKA Hermite replay and static ELF callee evidence'
+          git fetch origin feat/acnh303-round22-hermite-native-function
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round22-hermite-native-function
+
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r22-hermite-static-callee-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round22-hermite-native-function
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Re-download actual same-run evidence and compare committed research bytes
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r22-full-fska-evidence -D evidence/fres
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r22-static-callee-evidence -D evidence/native
+          cmp evidence/fres/full_fska_hermite.json derived/3.0.3/r22_full_curves/full_fska_hermite.json
+          cmp evidence/native/static_5bd3a4.json derived/3.0.3/r22_native_callee/static_5bd3a4.json
+      - name: Release only SHA checked real data and static evidence
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          cp evidence/fres/full_fska_hermite.json packages/
+          cp evidence/native/static_5bd3a4.json packages/
+          (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'R22: all 406 FSKA raw bone curve records checked, independently evaluated cubic polynomial/Hermite arithmetic; real ELF static 0x5BD3A4 function byte window, direct callers and vtable slots. Runtime animation playback, model binding, live BLR target and BARS/EventFlow semantic ownership remain unverified.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round22-hermite-native-function --title 'ACNH 3.0.3 R22 - Full FSKA Hermite and Static Callee Evidence' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
