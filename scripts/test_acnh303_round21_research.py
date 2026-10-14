@@ -2,7 +2,7 @@
 """R21 synthetic negative/positive byte fixtures; real data runs separately."""
 import unittest,struct
 from acnh303_round21_anim_curves import parse_curve,parse_anim
-from acnh303_round21_global_initializer import adrp_page
+from acnh303_round21_global_initializer import adrp_page,find_refs
 
 class CurveTests(unittest.TestCase):
     def sample(self):
@@ -64,4 +64,14 @@ class AArch64Tests(unittest.TestCase):
     def test_sign_extended_negative_page(self):
         op=0x90000001 | (0x7ffff<<5) | (3<<29)
         self.assertEqual(adrp_page(0x4000,op),0x3000)
+    def test_adrp_architectural_rd_and_exact_ldr(self):
+        # Bytes are the real ELF instructions at 0x3ACA490/+0x4, followed by RET.
+        # Detect the exact 0x4AB2238 memory load from ADRP X22 + LDR X22.
+        code=bytes.fromhex("567f0090d61e41f9c0035fd6")
+        seg={"vaddr":0x3aca490,"offset":0,"filesz":len(code),"memsz":len(code),"flags":5}
+        total,refs,sample,counts=find_refs(code,[seg],0x4ab2238)
+        self.assertEqual(total,1)
+        self.assertEqual(counts.get("load"),1)
+        self.assertEqual(refs[0]["adrp_at"],"0x3aca490")
+        self.assertEqual(refs[0]["target_load_store_accesses"][0]["at"],"0x3aca494")
 if __name__=="__main__":unittest.main()
