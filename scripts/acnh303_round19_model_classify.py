@@ -57,7 +57,7 @@ def classify():
 
 def main():
     cli=argparse.ArgumentParser()
-    cli.add_argument("--out",type=Path,default=BASE/"model_round18_classification/coverage.json")
+    cli.add_argument("--out",type=Path,default=BASE/"model_round19_classification/coverage.json")
     args=cli.parse_args()
     result=classify()
     args.out.parent.mkdir(parents=True,exist_ok=True)
