@@ -1,0 +1,70 @@
+name: ACNH 3.0.3 R12 Native BARS BDLI EventFlow Consumer Analysis
+on:
+  push:
+    branches: [feat/acnh303-round12-native-downstream]
+    paths:
+      - '.github/workflows/acnh303-round12-native-downstream.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'capstone>=5,<6'
+      - name: Run synthetic ARM64 regression tests
+        run: |
+          python -m compileall -q scripts/acnh303_round12_native_downstream.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round12_native_downstream.py' -v
+      - name: Verify exact original 3.0.3 ELF SHA and size
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf')
+          assert p.stat().st_size==79000340
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          print('Verified real 3.0.3 ELF')
+          PY
+      - name: Decode bounded native CFG and global address references
+        run: |
+          python scripts/acnh303_round12_native_downstream.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --out derived/3.0.3/round12_native_downstream/report.json
+          python - <<'PY'
+          import json
+          o=json.load(open('derived/3.0.3/round12_native_downstream/report.json'))
+          assert o['schema']=='acnh303-r12-native-downstream-static-v1'
+          assert o['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert o['bars_local_cfg']['visited_count']>20
+          assert o['bdli_local_cfg']['visited_count']>5
+          assert len(o['unverified'])==3
+          print('Static checks only; all semantic hypotheses remain unverified')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r12-native-downstream-static-evidence
+          path: derived/3.0.3/round12_native_downstream/report.json
+          retention-days: 30
+      - name: Commit SHA-backed static report, never game binary
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/round12_native_downstream/report.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'research(r12): real ELF CFG and EventFlow global address evidence'
+          git fetch origin feat/acnh303-round12-native-downstream
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round12-native-downstream
