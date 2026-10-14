@@ -71,6 +71,8 @@ def audit(downloads: Path, prior: Path, dest: Path):
     amta={r["source_path"]:r["source_sha256"] for r in groups["acnh303-bars-amta-lossless-v1"]}
     if bars!=amta:
         raise ValueError("AMTA and BARS decoders were not fed identical original sources/hashes")
+    if summary["new_amta_members"] == 0:
+        raise ValueError("no AMTA member was actually extracted; structural scanner alone cannot count")
     dest.mkdir(parents=True,exist_ok=True)
     with gzip.open(dest/"source_manifest.jsonl.gz","wt",encoding="utf-8") as f:
         for schema in sorted(groups):
