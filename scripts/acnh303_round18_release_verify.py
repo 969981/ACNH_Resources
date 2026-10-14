@@ -9,7 +9,7 @@ import json
 from pathlib import Path, PurePosixPath
 
 BASE = Path("derived/3.0.3")
-MEDIA_OLD = BASE / "media_round16_cumulative/source_manifest.jsonl.gz"
+MEDIA_OLD = BASE / "media_round17_cumulative/source_manifest.jsonl.gz"
 MEDIA_NEW = BASE / "media_round18_cumulative/source_manifest.jsonl.gz"
 BARS_NEW = BASE / "bars_round18_cumulative/source_manifest.jsonl.gz"
 UI_NEW = BASE / "layout_semantic_round18_cumulative/coverage.json"
