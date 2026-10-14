@@ -1,0 +1,51 @@
+name: ACNH 3.0.3 Real BARS Sound Container Index Research
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-bars-probe.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch eight actual original BARS containers, not 1696 wholesale
+        run: |
+          python scripts/select_acnh303_shard.py --category Sound \
+            --shard 0 --shards 8 --suffix .bars --skip-count 0 --max-count 8
+      - name: Parse real BARS AMTA and referenced native audio member offsets
+        run: |
+          python scripts/acnh303_bars_probe.py \
+            --selection selection.json --out derived/3.0.3/bars_probe_round8
+      - name: Validate original bytes and only structural claims
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          s=json.loads(pathlib.Path("selection.json").read_text())
+          report=json.loads(pathlib.Path("derived/3.0.3/bars_probe_round8/report.json").read_text())
+          assert len(report["records"])==len(s["paths"])==8
+          for row in report["records"]:
+              src=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/row["source_path"]
+              assert hashlib.sha256(src.read_bytes()).hexdigest()==row["source_sha256"]
+          print("BARS_ORIGINALS_HASH_VERIFIED",len(report["records"]),report["counts"])
+          PY
+      - name: Publish verified original source BARS audio container index evidence
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A derived/3.0.3/bars_probe_round8
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): inspect eight genuine BARS containers and AMTA/audio offsets"
+          git fetch origin feat/acnh303-l3-round8-guide-layout-audio
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-l3-round8-guide-layout-audio
