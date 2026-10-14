@@ -78,8 +78,24 @@ def material_header(b,at,index):
                        "keyframe_count":curve["keyframe_count"],
                        "mode":curve["mode"],"target_offset":curve["target_offset_bytes"]})
             except Exception as exc:
+                head=ptrs[2]+ci*0x30
+                raw_head=b[head:head+0x30]
+                details={}
+                if len(raw_head)==0x30:
+                    details={"raw_header_sha256":sha(raw_head),
+                       "raw_header_hex":raw_head.hex(),
+                       "frame_ptr":u64(b,head),"key_ptr":u64(b,head+8),
+                       "flags_raw":u16(b,head+0x10),
+                       "keyframe_count":u16(b,head+0x12),
+                       "target_offset":u32(b,head+0x14),
+                       "start_frame_float":struct.unpack_from("<f",b,head+0x18)[0],
+                       "end_frame_float":struct.unpack_from("<f",b,head+0x1c)[0],
+                       "scale_float":struct.unpack_from("<f",b,head+0x20)[0],
+                       "offset_float":struct.unpack_from("<f",b,head+0x24)[0]}
                 curve_failures.append({"material":material_name,"curve_index":ci,
-                     "error":f"{type(exc).__name__}:{str(exc)[:120]}"})
+                     "curve_header_file_offset":head,
+                     "error":f"{type(exc).__name__}:{str(exc)[:120]}",
+                     "raw_header_evidence":details})
         children.append({"index":i,"name":material_name,"record_at":off,
                          "record_sha256":sha(b[off:off+0x40]),
                          "curve_ptr":ptrs[2],"curve_count":child_curve_count,
