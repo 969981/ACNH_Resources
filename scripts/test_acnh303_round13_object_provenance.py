@@ -29,7 +29,7 @@ class R13ObjectScanner(unittest.TestCase):
         blob=bytearray(toy())
         struct.pack_into("<II",blob,0x1020,0x90000004,0xF9404085)
         rows=register_window(bytes(blob),parse_elf(bytes(blob)),0x1020,0x1028)
-        self.assertIn("x4",rows[0]["writes"] if "x4" in rows[0]["writes"] else ["x4"])
+        self.assertIn("x4",rows[0]["writes"])
         self.assertEqual(rows[1]["op"],"ldr")
         self.assertIn("x5",rows[1]["writes"])
     def test_file_backed_pointer_is_not_runtime(self):
