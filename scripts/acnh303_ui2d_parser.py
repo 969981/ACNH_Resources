@@ -160,8 +160,10 @@ def parse_flan(data):
             a={"tag_order":h(data,p+8,e,end),
                "group_count":count,
                "animation_name":cstring(data,p+nameoff,end) if nameoff else None,
-               "frame_start":h(data,p+24,e,end),
-               "frame_end":h(data,p+26,e,end)}
+               "frame_start_raw_u16":h(data,p+24,e,end),
+               "frame_start_signed":int.from_bytes(need(data,p+24,2,end),"little" if e=="<" else "big",signed=True),
+               "frame_end_raw_u16":h(data,p+26,e,end),
+               "frame_end_signed":int.from_bytes(need(data,p+26,2,end),"little" if e=="<" else "big",signed=True)}
             groups=[]
             if count<=MAX_ENTRIES and groupoff and p+groupoff+36*count<=end:
                 for i in range(count):
