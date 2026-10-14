@@ -68,7 +68,8 @@ def decode_dictionary(b,ptr,expected):
                    x["name"] is not None for x in nodes) and
                    len({x["name"] for x in nodes})==n else "nodes_unverified"),
                keys_unique=sum(x["name"] is not None for x in nodes)==n,
-               names=[x["name"] for x in nodes[:30]],first_nodes=nodes[:12])
+               names=[x["name"] for x in nodes[:30]],first_nodes=nodes[:12],
+               all_key_pointer_offsets=[x["name_pointer"] for x in nodes])
     return out
 
 def parse_leaf(b):
@@ -102,10 +103,23 @@ def parse_leaf(b):
                                  "ascii_name":string_at(b,p)})
                     field_ptr_hits[hex(off)]+=1
             items.append({"index":i,"offset":at,"sha256":sha(chunk),
+                          "record_name_pointer":u64(b,at+8),
+                          "record_name":string_at(b,u64(b,at+8)),
                           "raw_first_32":chunk[:32].hex(),
                           "bounded_pointer_candidates":ptrs[:12]})
             if any(p["ascii_name"] for p in ptrs):name_candidates+=1
         dic=decode_dictionary(b,dptr,count)
+        # Both the ResDic Patricia-trie names and animation object name pointers
+        # must refer to the identical in-file NWString records. Do NOT assume
+        # physical dictionary order equals array order.
+        record_name_ptrs=[x["record_name_pointer"] for x in items]
+        key_ptrs=dic.get("all_key_pointer_offsets",[])
+        bijection=(dic["status"]=="count_and_name_keys_confirmed"
+                   and len(record_name_ptrs)==len(set(record_name_ptrs))==count
+                   and set(record_name_ptrs)==set(key_ptrs)
+                   and all(x["record_name"] for x in items))
+        dic["records_reference_same_keys"]=bijection
+        dic["array_records_with_valid_names"]=sum(bool(x["record_name"]) for x in items)
         results.append({"kind":name,"count":count,"array_start":base,
                         "array_end_exclusive":base+count*stride,"stride":stride,
                         "header_array_ptr_at":t["array_ptr_at"],
