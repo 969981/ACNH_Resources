@@ -141,10 +141,31 @@ def analyze(path):
                     static_chains.append({"interpretation":"global_contains_pointer_to_object_with_vptr_at_0",
                         "global":first,"object_vptr":object_first,
                         "slot_0x18":read_file_backed_qword(obj_vtable+0x18)})
+    # The R20 independently verified instruction pair is an anchor which
+    # must appear in the full-ELF reference scan. Preserve precise diagnostics
+    # if a PT_LOAD segment is not aligned on the same instruction boundary.
+    anchor_va=0x3ACA490
+    ex=next((s for s in loads if (s["flags"]&1) and
+             s["vaddr"]<=anchor_va and anchor_va+0x20<=s["vaddr"]+s["filesz"]),None)
+    if ex is None:raise ValueError("known 0x3ACA490 executable anchor missing")
+    anchor_file=ex["offset"]+(anchor_va-ex["vaddr"])
+    anchor_code=blob[anchor_file:anchor_file+0x20]
+    anchor_segment={"flags":ex["flags"],"offset":anchor_file,
+                    "vaddr":anchor_va,"filesz":len(anchor_code),"memsz":len(anchor_code)}
+    local_total,local_refs,_,local_counts=find_refs(blob,[anchor_segment])
+    anchor_diag={"at":hex(anchor_va),"raw_hex":anchor_code.hex(),
+                 "adrp_target_page":hex(adrp_page(anchor_va,struct.unpack_from("<I",anchor_code)[0])),
+                 "local_adrp":local_total,"local_exact_access":local_counts,
+                 "file_offset":anchor_file,
+                 "executable_segment_start":hex(ex["vaddr"]),
+                 "segment_va_alignment_mod4":ex["vaddr"]%4}
     total,refs,sample,access_totals=find_refs(blob,loads)
+    if local_counts.get("load",0)!=1:
+        raise ValueError(f"actual R20 instruction pair not found by decoder: {anchor_diag}")
     return {"schema":"acnh303-r21-elf-global-initializers-v2","elf_sha256":sha(blob),
             "global_target_address":hex(TARGET),"pt_load_matches":matches,
             "on_disk_storage":backing,"nearby_relocations":reloc,
+            "known_anchor_diagnostic":anchor_diag,
             "adrp_page_ref_total":total,"adrp_page_sample":sample,
             "adrp_page_records":refs,"exact_matching_adrp_record_count_sampled":len(refs),
             "exact_global_mem_access_counts":access_totals,
