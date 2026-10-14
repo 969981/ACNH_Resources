@@ -154,3 +154,11 @@ For parser internals, known limitations and development guidance see scripts/REA
 [完整实际转换报告](docs/UNPACK_MEDIA_L3_ITERATION4.md) · [累计 552 源覆盖率](derived/3.0.3/media_iteration4_cumulative/coverage.json) · [1660 个媒体文件 SHA-256](derived/3.0.3/media_iteration4_cumulative/media_index.csv) · [12 分卷可长期下载的 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-iteration4-20261014)
 
 本轮真实执行 Model 200、Layout 60、BWAV 40 共 **300 个新源文件**，新增 **132 GLB、609 PNG、40 WAV**（781 个媒体文件）。此前的源文件不重复；累计 552 个实测源、**214 GLB + 1354 PNG + 92 WAV = 1660 个有效媒体文件（1.24 GB）**，均有源／产物哈希和各格式验证。只在已测样本内计算成功率；大量未测 Model、Layout、BWAV 与 Shader、Effect 等其他资源仍需要继续解包。
+
+## UI2D / BWAV 第五轮（2026-10-14）
+
+已完成 41 个无独立 BNTX Layout 的 BFLYT 节点树 JSON、21 个 BFLAN 动画 JSON，累计 254 个真实 pane。保留 12 个尚未解码的 FCPX 原生叶子（Issue #25），不宣称界面运行时渲染已还原。
+
+另按 8 个独立分片新增 120 个实测 BWAV→PCM WAV，累计已测 212 个 BWAV，剩余 934；媒体实测来源累计 672，输出 214 GLB + 1354 PNG + 212 WAV = 1780 个文件。
+
+[第五轮技术报告](docs/UNPACK_UI2D_BWAV_ROUND5.md) · [41 源 UI2D JSON](Unpack_UI2D/e10617820db06889e1638499478da0de_NCA/1/Layout/) · [BWAV 分卷 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-120-next-20261014) · [累计 SHA 覆盖](derived/3.0.3/media_bwav120_cumulative/coverage.json)
