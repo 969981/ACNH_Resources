@@ -36,6 +36,8 @@ jobs:
         run: python -m unittest discover -s scripts -p 'test_acnh303_round26_research.py' -v
       - name: Perform original ELF bounded three-callee plus inbound callsite audit
         run: python scripts/acnh303_round26_three_callees.py
+      - name: Resolve callback global slots and concrete consumer field stores
+        run: python scripts/acnh303_round26_allocator_slots.py
       - name: Original-ELF provenance and conservative classification gate
         run: |
           python - <<'PY'
@@ -46,6 +48,10 @@ jobs:
           for k,v in d['callee_bounded_cfg'].items():
               assert v['reachable_instruction_count']>0,k
               assert v['bounded_not_proven_function_extent']
+          s=json.load(open('derived/3.0.3/r26_native_three_callees/r26_allocator_slots_and_object.json'))
+          assert s['original_elf_sha256']==d['original_elf_sha256']
+          assert len(s['directly_called_followup_functions'])==5
+          assert 'UNPROVEN' in s['verification_state']
           assert 'UNPROVEN' in d['verification_state']
           print('R26 source function CFG',[(k,v['reachable_instruction_count'])
                 for k,v in d['callee_bounded_cfg'].items()])
@@ -60,7 +66,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add --sparse derived/3.0.3/r26_native_three_callees/r26_function_and_callsite_audit.json
+          git add --sparse derived/3.0.3/r26_native_three_callees/*.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'data(r26): genuine ELF three-callee CFG and inbound branch evidence'
           git push origin HEAD:feat/acnh303-round26-bnsh-allocator-object-consumer
