@@ -38,6 +38,21 @@ class Round9NativeTests(unittest.TestCase):
         self.assertEqual([s["actual_magic"] for s in parsed["sections"]],["DATA","MARK","STRG"])
         self.assertTrue(all(s["status"]=="structural" for s in parsed["sections"]))
 
+    def test_real_acnh_v5_header_lossless_without_false_section_names(self):
+        # Native ACNH 3.0.3 first sample: AMTA ff fe 00 05, length 92,
+        # pointer-like raw words include +0x10 = 0x34 and +0x24 = 0x24.
+        raw=bytearray(92)
+        struct.pack_into("<4sHHI",raw,0,b"AMTA",0xfeff,0x0500,92)
+        struct.pack_into("<I",raw,16,52)
+        struct.pack_into("<I",raw,36,36)
+        decoded=parse_amta(bytes(raw))
+        self.assertEqual(decoded["version_hex"],"0x0500")
+        self.assertEqual(decoded["declared_size"],92)
+        self.assertEqual(decoded["payload"],bytes(raw))
+        self.assertEqual(decoded["sections"],[])
+        self.assertEqual(len(decoded["native_header_u32"]),10)
+        self.assertIn("unknown",decoded["structure_status"])
+
     def test_amta_truncated_or_corrupt_rejected(self):
         good=amta_fixture()
         with self.assertRaises(ValueError):
