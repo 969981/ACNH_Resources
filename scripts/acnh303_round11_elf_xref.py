@@ -38,7 +38,7 @@ def add_imm(word):
 
 def ldr_uimm(word):
     # LDR Wt/Xt, [Xn,#imm12] unsigned address, not arbitrary STR/LDR variants.
-    if (word & 0xbf800000) not in (0xb9400000,0xf9400000):return None
+    if (word & 0xffc00000) not in (0xb9400000,0xf9400000):return None
     return {"rt":word&31,"rn":(word>>5)&31,
             "imm":((word>>10)&0xfff)*(4 if (word>>30)&3==2 else 8)}
 
