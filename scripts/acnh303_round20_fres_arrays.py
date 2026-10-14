@@ -27,12 +27,21 @@ def bounded(b,off,size=1):
     return isinstance(off,int) and off>=0 and size>=0 and off+size<=len(b)
 
 def string_at(b,ptr):
-    if not bounded(b,ptr,1) or ptr==0:return None
-    end=b.find(b"\0",ptr,min(len(b),ptr+256))
-    if end<0 or end==ptr:return None
-    raw=b[ptr:end]
-    if any(c<0x20 or c>0x7e for c in raw):return None
-    return raw.decode("ascii")
+    """Switch NWString at a *length-prefixed* 16-bit byte count, not raw ASCII.
+
+    R20 original bytes at 0x6215fe: 18 00 'Act_Arrange...'.
+    Never mistake the prefix bytes for a null-terminated C string.
+    """
+    if not bounded(b,ptr,3) or ptr==0:return None
+    n=u16(b,ptr)
+    if not 1 <= n <= 255 or not bounded(b,ptr+2,n+1):return None
+    if b[ptr+2+n]!=0:return None
+    try:
+        name=b[ptr+2:ptr+2+n].decode("utf-8","strict")
+    except UnicodeDecodeError:
+        return None
+    if not name or any(not ch.isprintable() for ch in name):return None
+    return name
 
 def decode_dictionary(b,ptr,expected):
     out={"file_offset":ptr,"expected_count":expected,"status":"unverified"}
