@@ -202,4 +202,5 @@ def main():
     d=inspect(a.root);a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(d,ensure_ascii=False,indent=2,sort_keys=True)+"\n","utf-8")
     print("R24_MODEL_SKELETON",d["audit_counts"],"names",d["standalone_animation_bone_name_unique_count"])
+    print("R24_UNRESOLVED_REASONS",[(r["source_path"],r.get("reason","")) for r in d["records"] if r["status"]=="real_source_structure_unresolved"])
 if __name__=="__main__":main()
