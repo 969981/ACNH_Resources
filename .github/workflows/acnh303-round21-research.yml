@@ -1,0 +1,189 @@
+name: ACNH 3.0.3 R21 Real Bone Curves and Global Initialization
+on:
+  push:
+    branches: [feat/acnh303-round21-curves-global-xrefs]
+    paths:
+      - '.github/workflows/acnh303-round21-research.yml'
+      - 'scripts/acnh303_round21_*.py'
+      - 'scripts/test_acnh303_round21_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r21-deep-research
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install real original-resource libraries
+        run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Test FSKA anim curve and native ADRP negative cases
+        run: |
+          python -m compileall -q scripts/acnh303_round21_anim_curves.py scripts/acnh303_round21_global_initializer.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round21_research.py' -v
+
+  curves:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Parse actual FSKA bone references and encoded animation frame/key arrays
+        run: python scripts/acnh303_round21_anim_curves.py
+      - name: Audit original raw FRES identity and per-curve bytes
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r21_curve_samples/bone_curves.json'))
+          assert x['source_sha256']=='97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a'
+          assert x['fres_sha256']=='8dd16ba20264a5f8cd3a60901e0cc6ce8173fcf2503b17fda0a1688277605972'
+          assert x['known_fska_count']==406 and x['sampled_animation_count']==12
+          assert x['verification_state']=='RAW_CURVE_DATA_NO_RUNTIME_EVALUATION'
+          print('R21 ORIGINAL CURVE DATA',x['raw_curve_headers_decoded'],x['issues_count'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r21-curves-evidence
+          path: derived/3.0.3/r21_curve_samples/bone_curves.json
+          if-no-files-found: error
+          retention-days: 90
+
+  global_refs:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Inspect source ELF global 0x4AB2238 relocations and matching ADRP load/store
+        run: python scripts/acnh303_round21_global_initializer.py
+      - name: Reject unsupported runtime vtable assertions
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r21_native_global/global_4ab2238.json'))
+          assert d['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert d['global_target_address']=='0x4ab2238'
+          assert d['verification_state']=='STATIC_ELF_ONLY_RUNTIME_GLOBAL_AND_VTABLE_UNRESOLVED'
+          print('R21 ADRP',d['adrp_page_ref_total'],d['exact_global_mem_access_counts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r21-global-evidence
+          path: derived/3.0.3/r21_native_global/global_4ab2238.json
+          if-no-files-found: error
+          retention-days: 90
+
+  reconcile:
+    needs: [regress,curves,global_refs]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r21-curves-evidence
+          path: downloads/curves
+      - uses: actions/download-artifact@v4
+        with:
+          name: r21-global-evidence
+          path: downloads/global
+      - name: Promote original evidence and never misreport runtime identity
+        run: |
+          set -euo pipefail
+          mkdir -p derived/3.0.3/r21_curve_samples derived/3.0.3/r21_native_global
+          cp downloads/curves/bone_curves.json derived/3.0.3/r21_curve_samples/
+          cp downloads/global/global_4ab2238.json derived/3.0.3/r21_native_global/
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r21_curve_samples/bone_curves.json'))
+          n=json.load(open('derived/3.0.3/r21_native_global/global_4ab2238.json'))
+          assert a['verification_state']=='RAW_CURVE_DATA_NO_RUNTIME_EVALUATION'
+          assert n['verification_state']=='STATIC_ELF_ONLY_RUNTIME_GLOBAL_AND_VTABLE_UNRESOLVED'
+          assert a['sampled_animation_count']==12
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r21_curve_samples derived/3.0.3/r21_native_global
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r21): raw animation frame/key sample and 4AB2238 static ELF references'
+          git fetch origin feat/acnh303-round21-curves-global-xrefs
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round21-curves-global-xrefs
+
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r21-bone-curves-global-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round21-curves-global-xrefs
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Re-download exactly same-run research reports and byte compare
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r21-curves-evidence -D evidence/curves
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r21-global-evidence -D evidence/global
+          cmp evidence/curves/bone_curves.json derived/3.0.3/r21_curve_samples/bone_curves.json
+          cmp evidence/global/global_4ab2238.json derived/3.0.3/r21_native_global/global_4ab2238.json
+      - name: Publish only SHA-audited research not runtime semantics
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          cp evidence/curves/bone_curves.json packages/
+          cp evidence/global/global_4ab2238.json packages/
+          (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'ACNH 3.0.3 R21: real sampled Switch FSKA BoneAnim curve raw frames/keys, and original-ELF global 0x4AB2238 page/relocation/reference evidence. No runtime function target or interpolated pose is claimed. Original resources unchanged.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round21-curves-global-xrefs --title 'ACNH 3.0.3 R21 - Bone AnimCurves and Native Global Xrefs' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
