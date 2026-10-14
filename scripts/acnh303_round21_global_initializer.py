@@ -44,7 +44,9 @@ def find_refs(blob,segments,target=TARGET):
             # accesses without crossing a control flow barrier.
             code=blob[off+rel:off+min(size-rel,0x50)]
             insns=list(cs.disasm(code,addr))
-            aliases={cs.reg_name(reg):page}
+            # AArch64 instruction Rd encodes architectural x0..x30; Capstone
+            # reg_name() requires its own unrelated enum ID, never the raw Rd bits.
+            aliases={f'x{reg}':page}
             accesses=[]
             barrier=None
             for x in insns[1:]:
