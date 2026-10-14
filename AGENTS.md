@@ -151,3 +151,14 @@ See docs/ACNH303_ROUND11_ELF_NATIVE_CONSUMERS_GUIDE.md. Use the original verifie
 Only these selected statements are fully grounded in real native instructions: BARS magic check at 0x3ACA350..0x3ACA368, +0x0C count read, +0x10+4×count pointer formation, +0x08 BOM, +0x0A version; BDLI format path referenced at 0x1B0A014; generic EventFlow Action/Query names and other words stored in STP pairs near 0xFF5D70/0x108444C. The game-specific AMTA v5 playback attributes, LBLI count/ID semantic consumer, EventFlow actor handler function pointer/real branch effects remain unverified.
 
 The search for AMTA, LBLI, BDLI compiled MOVZ/MOVK constant pairs returned zero for that **specific construction pattern**; absence of such matches does not imply absent native readers. Near-BL targets are not validated consumer calls; heuristic function starts are not confirmed. Strictly preserve source SHA, real ELF VA, opcodes, dataflow, and unknowns. Issue #33 remains open for runtime-backed closure.
+
+
+## 2026-10-14 R14 Unpack source/missing-file reality
+
+Read docs/ACNH303_ROUND14_UNPACK_REMAINING_GUIDE.md and the SHA-backed data under derived/3.0.3/round14_unfinished_index/ before additional L3 selection.
+
+R14 verified 128 never-before-tested originals through 16 successful native conversion jobs and independent reconciliation run 38513944239. New actual media: 32 GLB, 161 PNG, 48 standalone PCM WAV. Separate BARS audit: 16 new sources producing 84 embedded PCM WAV and 84 exact AMTA v5 members. Layout UI2D additionally produced 32 BFLYT, 110 BFLAN and 21 FCPX structured JSON. Core-media L3 cumulative: 1336 measured originals / 3160 media (246 GLB, 2230 PNG, 684 standalone WAV); BARS cumulative separately 120 originals / 1146 PCM WAV.
+
+The permanent verified Release is https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r14-unpack128-20261014 with 16 actual payload archives, source SHA reports, SHA256SUMS, and 103400-path source-status CSV.gz. 103400 original source inventory has 2105 converted and 101295 partial under effective L0-L2 manifests; 62512 candidate Model/Layout/BWAV/BARS originals have not been specifically L3 tested. R14 remaining counts: Model 59826, Layout 648, standalone BWAV 462, BARS 1576.
+
+**Future selectors must exclude R14 cumulative source manifests**, not just R10, before claiming any further originals are untested. Never merge BARS WAV into core standalone BWAV counts. Actions artifacts alone are temporary; this Release contains actual rehashed bytes. Native AMTA playback, LBLI identifiers, EventFlow game dispatch, UI animation runtime effects remain unverified.
