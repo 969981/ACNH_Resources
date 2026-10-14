@@ -155,9 +155,9 @@ def inspect(root):
             if not fres:raise ValueError("no original FRES geometry leaf")
             for leaf in fres:
                 data=leaf["data"]
-                if not bounded(data,0xe0,2):raise ValueError("short ResFile")
+                if not bounded(data,0xdc,2):raise ValueError("short ResFile")
                 declared_size=u32(data,0x1c)
-                count=u16(data,0xe0)
+                count=u16(data,0xdc)
                 array=u64(data,0x28)
                 if declared_size!=len(data) or not 1<=count<=200:
                     raise ValueError("ResFile declared size/model count implausible")
@@ -165,13 +165,18 @@ def inspect(root):
                     raise ValueError("model array pointer/count outside source")
                 leaf_record={"leaf_sha256":sha(data),"model_count":count,
                    "fmdl_array_file_offset":array,"models":[]}
+                # Major-9 model headers may include extra fields and alignment.
+                # Validate actual consecutive FMDL signatures before accepting
+                # either common v9 record span; do not infer stride by magic scans
+                # when just one model is present.
+                selected_stride=next((stride for stride in (0x78,0x80,0x70)
+                   if all(bounded(data,array+i*stride,FMDL_STRIDE_MIN) and
+                          data[array+i*stride:array+i*stride+4]==b"FMDL"
+                          for i in range(count))),None)
+                if selected_stride is None:raise ValueError("no validated contiguous FMDL model header array")
+                leaf_record["validated_model_stride"]=selected_stride
                 for i in range(count):
-                    # Determine FMDL stride from measured adjacent magic; 0x80+
-                    # should be confirmed before stepping, not assumed.
-                    at=array+i*0x80
-                    if not bounded(data,at,FMDL_STRIDE_MIN) or data[at:at+4]!=b"FMDL":
-                        if i>0:raise ValueError("FMDL array stride=0x80 not confirmed")
-                        at=array
+                    at=array+i*selected_stride
                     item=parse_model(data,at,i,names)
                     leaf_record["models"].append(item)
                     if item["skeleton"] is not None:
