@@ -1,8 +1,56 @@
 {
-  "candidate_xrefs": {},
+  "candidate_xrefs": {
+    "BNSH": [
+      {
+        "adrp_opcode": "f0024420",
+        "following_opcode": "91000000",
+        "nearby_direct_branches": [
+          {
+            "direct_target": "0x3f05240",
+            "instruction": "0x25c79c"
+          },
+          {
+            "direct_target": "0x24fd0c",
+            "instruction": "0x25c7c8"
+          }
+        ],
+        "pattern": "ADRP_ADD",
+        "site": "0x25c794",
+        "target_magic_va": "0x4ae3000"
+      },
+      {
+        "adrp_opcode": "d0024438",
+        "following_opcode": "91000318",
+        "nearby_direct_branches": [
+          {
+            "direct_target": "0x3f05240",
+            "instruction": "0x25d1a4"
+          }
+        ],
+        "pattern": "ADRP_ADD",
+        "site": "0x25d18c",
+        "target_magic_va": "0x4ae3000"
+      },
+      {
+        "adrp_opcode": "f0024438",
+        "following_opcode": "91000318",
+        "nearby_direct_branches": [
+          {
+            "direct_target": "0x3f05240",
+            "instruction": "0x2656dc"
+          }
+        ],
+        "pattern": "ADRP_ADD",
+        "site": "0x2656b4",
+        "target_magic_va": "0x4aec000"
+      }
+    ]
+  },
   "elf_sha256": "83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180",
-  "exact_executable_adrp_data_references": {},
-  "limits": "Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily a file resource loader. Nearby calls are not automatically consumer ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted.",
+  "exact_executable_adrp_data_references": {
+    "BNSH": 3
+  },
+  "limits": "Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily file loaders. Some previously labelled BARS/BFEVFL candidate windows visibly contain repeated LDRB/CMP bytewise loops and can instead be string comparison; no verified asset bytes flow through these windows. Nearby calls do not prove business ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted.",
   "original_magic_positions": {
     "AMTA": {
       "count_capped_at_96": 0,
@@ -15,6 +63,13 @@
     "BFEVFL": {
       "count_capped_at_96": 0,
       "locations": []
+    },
+    "BNSH": {
+      "count_capped_at_96": 2,
+      "locations": [
+        "0x4ae3000",
+        "0x4aec000"
+      ]
     },
     "FMAA": {
       "count_capped_at_96": 0,
@@ -39,6 +94,8 @@
   },
   "previous_read_windows_independently_redecoded": [
     {
+      "byte_loads_in_first_28": 6,
+      "comparisons_in_first_28": 4,
       "first_instructions": [
         {
           "args": "x22, #0x4ab2000",
@@ -147,14 +204,78 @@
           "mnemonic": "cmp",
           "opcode": "5f0142f1",
           "va": "0x3aca4d4"
+        },
+        {
+          "args": "#0x3aca518",
+          "mnemonic": "b.eq",
+          "opcode": "00020054",
+          "va": "0x3aca4d8"
+        },
+        {
+          "args": "x11, x9, x10",
+          "mnemonic": "add",
+          "opcode": "2b010a8b",
+          "va": "0x3aca4dc"
+        },
+        {
+          "args": "x12, x8, x10",
+          "mnemonic": "add",
+          "opcode": "0c010a8b",
+          "va": "0x3aca4e0"
+        },
+        {
+          "args": "w13, [x11, #1]",
+          "mnemonic": "ldrb",
+          "opcode": "6d054039",
+          "va": "0x3aca4e4"
+        },
+        {
+          "args": "w14, [x12, #1]",
+          "mnemonic": "ldrb",
+          "opcode": "8e054039",
+          "va": "0x3aca4e8"
+        },
+        {
+          "args": "w13, w14",
+          "mnemonic": "cmp",
+          "opcode": "bf010e6b",
+          "va": "0x3aca4ec"
+        },
+        {
+          "args": "#0x3aca518",
+          "mnemonic": "b.ne",
+          "opcode": "41010054",
+          "va": "0x3aca4f0"
+        },
+        {
+          "args": "w13, #0x3aca510",
+          "mnemonic": "cbz",
+          "opcode": "ed000034",
+          "va": "0x3aca4f4"
+        },
+        {
+          "args": "w11, [x11, #2]",
+          "mnemonic": "ldrb",
+          "opcode": "6b094039",
+          "va": "0x3aca4f8"
+        },
+        {
+          "args": "w12, [x12, #2]",
+          "mnemonic": "ldrb",
+          "opcode": "8c094039",
+          "va": "0x3aca4fc"
         }
       ],
+      "instruction_pattern": "bytewise_compare_loop_candidate",
       "label": "bars_member_reader_x20_x22",
       "pc": "0x3aca490",
       "raw_sha256": "2288b85395d615e62f5f06b91a137c09c3d6777e0da304be55bab0ba50c34b12",
-      "status": "real_code_window_without_proven_resource_input"
+      "status": "real_code_window_without_proven_resource_input",
+      "virtual_calls_in_first_28": 1
     },
     {
+      "byte_loads_in_first_28": 0,
+      "comparisons_in_first_28": 0,
       "first_instructions": [
         {
           "args": "w8, #1",
@@ -263,14 +384,78 @@
           "mnemonic": "ldp",
           "opcode": "f44f47a9",
           "va": "0x3aca5d4"
+        },
+        {
+          "args": "x22, x21, [sp, #0x60]",
+          "mnemonic": "ldp",
+          "opcode": "f65746a9",
+          "va": "0x3aca5d8"
+        },
+        {
+          "args": "x24, x23, [sp, #0x50]",
+          "mnemonic": "ldp",
+          "opcode": "f85f45a9",
+          "va": "0x3aca5dc"
+        },
+        {
+          "args": "x29, x30, [sp, #0x40]",
+          "mnemonic": "ldp",
+          "opcode": "fd7b44a9",
+          "va": "0x3aca5e0"
+        },
+        {
+          "args": "sp, sp, #0x80",
+          "mnemonic": "add",
+          "opcode": "ff030291",
+          "va": "0x3aca5e4"
+        },
+        {
+          "args": "",
+          "mnemonic": "ret",
+          "opcode": "c0035fd6",
+          "va": "0x3aca5e8"
+        },
+        {
+          "args": "x0, #0x4ab2000",
+          "mnemonic": "adrp",
+          "opcode": "407f0090",
+          "va": "0x3aca5ec"
+        },
+        {
+          "args": "x0, [x0, #0x850]",
+          "mnemonic": "ldr",
+          "opcode": "002844f9",
+          "va": "0x3aca5f0"
+        },
+        {
+          "args": "#0x3f030d0",
+          "mnemonic": "bl",
+          "opcode": "b7e21094",
+          "va": "0x3aca5f4"
+        },
+        {
+          "args": "w0, #0x3aca410",
+          "mnemonic": "cbz",
+          "opcode": "c0f0ff34",
+          "va": "0x3aca5f8"
+        },
+        {
+          "args": "x8, #0x4ab2000",
+          "mnemonic": "adrp",
+          "opcode": "487f0090",
+          "va": "0x3aca5fc"
         }
       ],
+      "instruction_pattern": "mixed_unclassified_code",
       "label": "bars_member_window_end",
       "pc": "0x3aca590",
       "raw_sha256": "780b122238fb96dfca1fb1537e582a25ae2acff37d19c523e5b0c46e25a1dca3",
-      "status": "real_code_window_without_proven_resource_input"
+      "status": "real_code_window_without_proven_resource_input",
+      "virtual_calls_in_first_28": 1
     },
     {
+      "byte_loads_in_first_28": 2,
+      "comparisons_in_first_28": 4,
       "first_instructions": [
         {
           "args": "x8, [x23]",
@@ -379,14 +564,78 @@
           "mnemonic": "cmp",
           "opcode": "3f0142f1",
           "va": "0xff64b4"
+        },
+        {
+          "args": "x9, x9, #1",
+          "mnemonic": "add",
+          "opcode": "29050091",
+          "va": "0xff64b8"
+        },
+        {
+          "args": "w11, lo",
+          "mnemonic": "cset",
+          "opcode": "eb279f1a",
+          "va": "0xff64bc"
+        },
+        {
+          "args": "x24, x9",
+          "mnemonic": "cmp",
+          "opcode": "1f0309eb",
+          "va": "0xff64c0"
+        },
+        {
+          "args": "#0xff64a0",
+          "mnemonic": "b.ne",
+          "opcode": "e1feff54",
+          "va": "0xff64c4"
+        },
+        {
+          "args": "#0xff64dc",
+          "mnemonic": "b",
+          "opcode": "05000014",
+          "va": "0xff64c8"
+        },
+        {
+          "args": "w11, #0, #0xff64dc",
+          "mnemonic": "tbz",
+          "opcode": "8b000036",
+          "va": "0xff64cc"
+        },
+        {
+          "args": "w0, #1",
+          "mnemonic": "mov",
+          "opcode": "20008052",
+          "va": "0xff64d0"
+        },
+        {
+          "args": "w0, [x20, #0x50]",
+          "mnemonic": "strb",
+          "opcode": "80420139",
+          "va": "0xff64d4"
+        },
+        {
+          "args": "#0xff6654",
+          "mnemonic": "b",
+          "opcode": "5f000014",
+          "va": "0xff64d8"
+        },
+        {
+          "args": "x8, [x20, #8]",
+          "mnemonic": "ldr",
+          "opcode": "880640f9",
+          "va": "0xff64dc"
         }
       ],
+      "instruction_pattern": "bytewise_compare_loop_candidate",
       "label": "bfevfl_record_reader_candidate_a",
       "pc": "0xff6470",
       "raw_sha256": "2c7cfe28a932d3e51e82045b3f8d6f343bc08e597397f6ca7311c26c74f470b1",
-      "status": "real_code_window_without_proven_resource_input"
+      "status": "real_code_window_without_proven_resource_input",
+      "virtual_calls_in_first_28": 1
     },
     {
+      "byte_loads_in_first_28": 4,
+      "comparisons_in_first_28": 4,
       "first_instructions": [
         {
           "args": "x8, [x21]",
@@ -495,14 +744,76 @@
           "mnemonic": "cmp",
           "opcode": "7f0142f1",
           "va": "0x1084828"
+        },
+        {
+          "args": "#0x108487c",
+          "mnemonic": "b.eq",
+          "opcode": "80020054",
+          "va": "0x108482c"
+        },
+        {
+          "args": "x11, x9, x8",
+          "mnemonic": "add",
+          "opcode": "2b01088b",
+          "va": "0x1084830"
+        },
+        {
+          "args": "x12, x10, x8",
+          "mnemonic": "add",
+          "opcode": "4c01088b",
+          "va": "0x1084834"
+        },
+        {
+          "args": "w11, [x11, #-1]",
+          "mnemonic": "ldurb",
+          "opcode": "6bf15f38",
+          "va": "0x1084838"
+        },
+        {
+          "args": "w12, [x12, #-1]",
+          "mnemonic": "ldurb",
+          "opcode": "8cf15f38",
+          "va": "0x108483c"
+        },
+        {
+          "args": "w11, w12",
+          "mnemonic": "cmp",
+          "opcode": "7f010c6b",
+          "va": "0x1084840"
+        },
+        {
+          "args": "#0x1084880",
+          "mnemonic": "b.ne",
+          "opcode": "e1010054",
+          "va": "0x1084844"
+        },
+        {
+          "args": "w11, #0x1084868",
+          "mnemonic": "cbz",
+          "opcode": "0b010034",
+          "va": "0x1084848"
+        },
+        {
+          "args": "w12, [x9, x8]",
+          "mnemonic": "ldrb",
+          "opcode": "2c696838",
+          "va": "0x108484c"
+        },
+        {
+          "args": "w11, [x10, x8]",
+          "mnemonic": "ldrb",
+          "opcode": "4b696838",
+          "va": "0x1084850"
         }
       ],
+      "instruction_pattern": "bytewise_compare_loop_candidate",
       "label": "bfevfl_indirect_dispatch_candidate_b",
       "pc": "0x10847e4",
       "raw_sha256": "6f06f6253d8c4eb744a8b8b3467735c3772c5d926dd600aceaee04f09e640142",
-      "status": "real_code_window_without_proven_resource_input"
+      "status": "real_code_window_without_proven_resource_input",
+      "virtual_calls_in_first_28": 1
     }
   ],
-  "schema": "acnh303-r24-resource-magic-xrefs-v1",
+  "schema": "acnh303-r24-resource-magic-xrefs-v2",
   "verification_state": "ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN"
 }
