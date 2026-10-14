@@ -1,0 +1,95 @@
+name: ACNH 3.0.3 BARS Actual Embedded 42 WAV Durable Release
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-bars-audio-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: acnh303-bars-first8-42wav-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Verify actual 8 BARS source outcomes and one explicit decoding failure
+        run: |
+          gh run view 38493637683 -R 969981/ACNH_Resources --json conclusion --jq .conclusion | grep -Fx success
+          python - <<'PY'
+          import json,pathlib
+          x=json.loads(pathlib.Path("derived/3.0.3/bars_audio_round8/report.json").read_text())
+          assert x["tested_bars_originals"]==8
+          assert x["counts"]["validated_pcm_wav"]==42
+          assert x["counts"]["sources_with_pcm"]==7
+          assert x["counts"]["decoder_failures"]==1
+          assert x["counts"]["sources_with_unexplained_tail"]==1
+          print("VERIFIED distinct 8 BARS sources, 42 WAV outputs, 1 non-decoding source")
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 38493637683
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: acnh303-bars8-native-audio-data-and-hashes
+          path: bundle
+      - name: Verify all 42 actual WAV SHA256 against original BARS audit
+        run: |
+          python - <<'PY'
+          import pathlib,hashlib,json
+          report=json.loads(pathlib.Path("derived/3.0.3/bars_audio_round8/report.json").read_text())
+          count=0
+          for source in report["records"]:
+              for asset in source["members"]:
+                  if asset["status"]!="converted_pcm_wav":continue
+                  path=pathlib.Path("bundle")/asset["output_path"]
+                  assert path.is_file(),path
+                  assert hashlib.sha256(path.read_bytes()).hexdigest()==asset["output_sha256"]
+                  assert asset["validation"]["type"]=="wav"
+                  count+=1
+          assert count==42,count
+          print("42 REAL WAV FILE BYTES REHASHED")
+          PY
+      - name: Package source-relative folders, source SHA metadata and SHA256SUMS
+        run: |
+          mkdir -p packages
+          tar -czf packages/ACNH-3.0.3-8-BARS-42-PCM-WAV.tar.gz -C bundle .
+          cp derived/3.0.3/bars_audio_round8/report.json packages/bars_audio_report.json
+          cp derived/3.0.3/bars_probe_round8/report.json packages/bars_header_probe.json
+          (cd packages && sha256sum *.tar.gz *.json > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+      - name: Publish real 42 PCM WAV and original member-hash evidence
+        run: |
+          cat >/tmp/notes.md <<'EOF'
+          This is a NEW native format: Nintendo AAL BARS audio archive.
+          First 8 verified original ACNH 3.0.3 .bars files, with header/AMTA
+          and name CRC32/absolute audio offset tables parsed from real bytes.
+
+          Seven BARS files contain 42 indexed native BWAV members that
+          actually decoded through vgmstream to PCM WAV and passed wave frame,
+          channel, rate and output SHA-256 checks.
+
+          The eighth BARS has a BWAV marker but the contained audio was not
+          playable under this decoder; the native decoder failure is retained.
+          One original archive has one extra trailing byte beyond the BARS
+          declared length, preserved with the unchanged original source SHA.
+
+          **This is separate from the standalone BWAV cumulative census**:
+          core L3 2660 verified outputs, plus these separately audited 42
+          real PCM WAV outputs. Further BARS not yet scanned: 1688/1696.
+
+          The tar.gz preserves source-path-based output data and manifests;
+          SHA256SUMS verifies the tar and two evidence reports. No claims
+          of complete sound format support.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources               --target feat/acnh303-l3-round8-guide-layout-audio               --title "ACNH 3.0.3 BARS: 42 native embedded audio WAV outputs"               --notes-file /tmp/notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources packages/* --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets             --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
