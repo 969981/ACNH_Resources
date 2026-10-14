@@ -118,7 +118,7 @@ def validate_wav(path: Path) -> dict:
         sample_width = wav.getsampwidth()
         if not (1 <= c <= 16 and 8000 <= rate <= 384000 and frames > 0
                 and sample_width in (1, 2, 3, 4) and wav.getcomptype() == "NONE"):
-            raise ValueError("invalid PCM WAV properties")
+            raise ValueError(f"invalid PCM WAV properties: channels={c}, rate={rate}, frames={frames}, sample_width={sample_width}, compression={wav.getcomptype()}, file_bytes={path.stat().st_size}")
         wav.readframes(1)
     return {"type": "wav", "channels": c, "sample_rate": rate,
             "frames": frames, "sample_width": sample_width,
