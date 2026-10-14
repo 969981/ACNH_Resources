@@ -77,6 +77,25 @@ def read_model_leaf(b,source_member):
         raise ValueError("missing skeleton root bone")
     m2b=[u16(b,matrix_to_bone+i*2) for i in range(matcount)] if matcount else []
     inv_raw=b[inverse_ptr:inverse_ptr+smooth*48] if smooth else b""
+    inverse_matrices=[]
+    for i in range(smooth):
+        m=f32v(b,inverse_ptr+i*48,12)
+        inverse_matrices.append({"matrix_index":i,
+            "bone_index":m2b[i],
+            "bone_name":bonelist[m2b[i]]["name"] if m2b[i]<num else None,
+            "matrix3x4_row_major_raw_f32":m,
+            "matrix_sha256":sha(b[inverse_ptr+i*48:inverse_ptr+(i+1)*48])})
+    if any(v>=num for v in m2b):
+        raise ValueError("matrix-to-bone list refers outside source bone array")
+    # Parent graphs must terminate at -1; a bounded DFS catches indirect cycles.
+    for node in bonelist:
+        seen=set();cur=node["index"]
+        while cur!=-1:
+            if cur in seen:raise ValueError("cyclic parent skeleton")
+            seen.add(cur)
+            cur=bonelist[cur]["parent"]
+    skeleton_flags=u32(b,skl+4)
+    rotation_mode="euler_xyz" if skeleton_flags&0x1000 else "quaternion"
     return {"name":name,"fres_sha256":sha(b),"fres_bytes":len(b),
       "source_member":source_member,"version":hex(vers),"fmdl_file_offset":fmdl,
       "fmdl_header_sha256":sha(b[fmdl:fmdl+0x50]),
@@ -85,7 +104,9 @@ def read_model_leaf(b,source_member):
       "bone_count":num,"smooth_count":smooth,"rigid_count":rigid,
       "matrix_to_bone_ptr":matrix_to_bone,"matrix_to_bone_indices":m2b[:100],
       "inverse_matrix_ptr":inverse_ptr,"inverse_matrix_raw_sha256":sha(inv_raw),
-      "inverse_matrix_count":smooth,
+      "inverse_matrix_count":smooth,"inverse_model_matrices":inverse_matrices,
+      "skeleton_flags":hex(skeleton_flags),"rotation_mode_by_skeleton_flags":rotation_mode,
+      "bone_hierarchy_cycle_check":"passed",
       "bones":bonelist,"verification_state":"SOURCE_LOCAL_FMDL_FSKL_BONES_VALIDATED"}
 
 def read_animation_names(root):
