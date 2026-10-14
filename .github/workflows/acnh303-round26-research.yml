@@ -1,0 +1,66 @@
+name: ACNH303 R26 Three Callees Original ELF
+on:
+  push:
+    branches: [feat/acnh303-round26-bnsh-allocator-object-consumer]
+    paths:
+      - '.github/workflows/acnh303-round26-research.yml'
+      - 'scripts/acnh303_round26_*.py'
+      - 'scripts/test_acnh303_round26_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-round26-native-callees
+  cancel-in-progress: false
+jobs:
+  three_callees:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r24_native_loader/
+            /derived/3.0.3/r25_native_bnsh/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ELF and disassembly dependencies
+        run: python -m pip install "pyelftools>=0.31,<1" "capstone>=5,<6"
+      - name: Assert synthetic AArch64 control transfers
+        run: python -m unittest discover -s scripts -p 'test_acnh303_round26_research.py' -v
+      - name: Perform original ELF bounded three-callee plus inbound callsite audit
+        run: python scripts/acnh303_round26_three_callees.py
+      - name: Original-ELF provenance and conservative classification gate
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r26_native_three_callees/r26_function_and_callsite_audit.json'))
+          assert d['original_elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert len(d['callee_bounded_cfg'])==3
+          for k,v in d['callee_bounded_cfg'].items():
+              assert v['reachable_instruction_count']>0,k
+              assert v['bounded_not_proven_function_extent']
+          assert 'UNPROVEN' in d['verification_state']
+          print('R26 source function CFG',[(k,v['reachable_instruction_count'])
+                for k,v in d['callee_bounded_cfg'].items()])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r26-original-three-callees
+          path: derived/3.0.3/r26_native_three_callees/r26_function_and_callsite_audit.json
+          if-no-files-found: error
+      - name: Commit real report to isolated research branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r26_native_three_callees/r26_function_and_callsite_audit.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r26): genuine ELF three-callee CFG and inbound branch evidence'
+          git push origin HEAD:feat/acnh303-round26-bnsh-allocator-object-consumer
