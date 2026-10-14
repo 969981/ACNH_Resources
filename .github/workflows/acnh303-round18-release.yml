@@ -1,0 +1,98 @@
+name: ACNH 3.0.3 R18 Verified Permanent Release
+on:
+  workflow_call:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r18-bfres-native-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round18-model-layout-bars
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            docs
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Require all R18 cumulative audits to be committed
+        run: |
+          test -s derived/3.0.3/media_round18_cumulative/source_manifest.jsonl.gz
+          test -s derived/3.0.3/layout_semantic_round18_cumulative/coverage.json
+          test -s derived/3.0.3/bars_round18_cumulative/source_manifest.jsonl.gz
+          test -s derived/3.0.3/model_round18_classification/coverage.json
+          test -s derived/3.0.3/r18_native_probe/npc_bwav166.json
+          test -s derived/3.0.3/r18_native_probe/elf_consumer_candidates.json
+      - name: Use original successfully reconciled caller run (not a different run)
+        run: |
+          set -euo pipefail
+          echo "SOURCE_RUN_ID=${{ github.run_id }}" >> "$GITHUB_ENV"
+      - name: Retrieve all 38 decoded source artifact shards
+        run: |
+          set -euo pipefail
+          mkdir -p downloads
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'r18-data-*' -D downloads
+          test "$(find downloads -mindepth 1 -maxdepth 1 -type d -name 'r18-data-*' | wc -l)" -eq 38
+      - name: Independently rehash every real decoded media UI2D WAV and AMTA
+        run: |
+          python scripts/acnh303_round18_release_verify.py --downloads downloads --out release_validation.json
+      - name: Create durable independently verifiable shard archives
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          for d in downloads/r18-data-*; do
+            test -d "$d"
+            n="$(basename "$d")"
+            tar -czf "packages/$n.tar.gz" -C downloads "$n"
+          done
+          test "$(find packages -maxdepth 1 -name '*.tar.gz' | wc -l)" -eq 38
+          cp release_validation.json packages/release_validation.json
+          cp derived/3.0.3/media_round18_cumulative/coverage.json packages/media_coverage.json
+          cp derived/3.0.3/media_round18_cumulative/source_manifest.jsonl.gz packages/media_source_manifest.jsonl.gz
+          cp derived/3.0.3/bars_round18_cumulative/coverage.json packages/bars_coverage.json
+          cp derived/3.0.3/bars_round18_cumulative/source_manifest.jsonl.gz packages/bars_source_manifest.jsonl.gz
+          cp derived/3.0.3/layout_semantic_round18_cumulative/coverage.json packages/layout_semantic_coverage.json
+          cp derived/3.0.3/model_round18_classification/coverage.json packages/model_source_classification.json
+          cp derived/3.0.3/r18_native_probe/npc_bwav166.json packages/npc_bwav166_probe.json
+          cp derived/3.0.3/r18_native_probe/elf_consumer_candidates.json packages/elf_consumer_candidates.json
+          (cd packages && sha256sum *.tar.gz *.json *.gz > SHA256SUMS.txt)
+      - name: Publish only after complete independent source output verification
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib
+          d=json.load(open('release_validation.json'))
+          c=d['verified_outputs_by_type']
+          note=("ACNH 3.0.3 R18: Model 600 + Layout 96 + BARS 100 incremental originals; read-only Npc anomaly and ACNH 3.0.3 ELF static reader candidates (no standalone BWAV retesting).\n\n"
+                "All newly decoded output files were independently downloaded from\n"
+                "the successful 38-shard run and verified against SHA-256 manifests.\n"
+                "Original RomFS remains read-only; native execution semantics are not claimed.\n\n"
+                f"New core media source originals: {d['fresh_core_media_sources']}\n"
+                f"New BARS originals: {d['fresh_bars_originals']}\n"
+                f"New GLB {c.get('glb',0)}, PNG {c.get('png',0)}, "
+                f"standalone PCM WAV {c.get('wav',0)}, BARS PCM WAV {c.get('bars_pcm_wav',0)}, "
+                f"AMTA v5 {c.get('lossless_amta_v5',0)}, UI2D JSON {c.get('ui2d_structured_json',0)}.\n\n"
+                "Includes SHA256SUMS and original-to-output manifests. "
+                "BARS AMTA playback, BDLI, BFLAN runtime, shader/effect, and EventFlow semantics remain open.")
+          pathlib.Path('release_notes.md').write_text(note,encoding='utf-8')
+          PY
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" \
+              --target feat/acnh303-round18-model-layout-bars \
+              --title 'ACNH 3.0.3 R18 — BFRES Layout BARS and static native probes' \
+              --notes-file release_notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets \
+            --jq '{url:.url, assets:[.assets[]|{name:.name,size:.size}]}'
