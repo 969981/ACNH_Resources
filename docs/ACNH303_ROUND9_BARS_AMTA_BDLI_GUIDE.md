@@ -24,15 +24,16 @@ BARS header:
 +0x10 CRC32(name) array [count] (不可反求成名字)
 +0x10+4*count table of (AMTA absolute offset, audio absolute offset)
   |
-  +-- AMTA: BOM, version, file size, relative DATA/MARK/[EXT_]/STRG offsets
-  |       → 无损原始 .amta + offset/magic/SHA256 JSON
+  +-- AMTA: BOM, version, declared size, versioned native header
+  |       → ACNH 3.0.3 v5(0x0500) 无损原始 .amta + opaque header words/SHA256 JSON
+  |       → v1/v3/v4 的 DATA/MARK/[EXT_]/STRG 结构仅在对应旧版时使用
   |
   +-- BWAV: original bounded bytes
           → pinned vgmstream CLI
           → PCM .wav (必须通过 wave frames/channel/rate + SHA256)
 ```
 
-BARS name CRC32 并不存储原始明文名称。BARS 文件尾可能多一个未解释字节：保留整个原始来源 SHA，按声明文件长度界内读取；不做静默修复。AMTA `DATA/MARK/STRG` 的 Magic 和偏移是静态结构，不等同于已还原声音名称、循环点和播放规则。
+真实 ACNH 3.0.3 中的 AMTA 已观测到 v5(0x0500)；它不包含 v1/v3/v4 相同的 ASCII DATA/MARK/STRG 段标记。本轮对 v5 **只导出准确原始成员和不解释含义的头部原始 u32**，未宣称解出音乐循环语义。\n\nBARS name CRC32 并不存储原始明文名称。BARS 文件尾可能多一个未解释字节：保留整个原始来源 SHA，按声明文件长度界内读取；不做静默修复。AMTA `DATA/MARK/STRG` 的 Magic 和偏移是静态结构，不等同于已还原声音名称、循环点和播放规则。
 
 参考公开格式描述：
 - https://nintendo-formats.com/libs/aal/bars.html
@@ -120,3 +121,14 @@ python scripts/acnh303_bdli_section_export.py \
 ## E. 后续研究而非夸大完成
 
 下一步分别做 AMTA `DATA` 字段、`STRG` 字符串定位和其原版使用者的对照；BDLI 的 LBLI identifier/字段布局应该用不同语言、同结构资源对比；BFEVFL 则追 event action/query 的 Native consumer。**尚未**证明任意文件可无损反编译成游戏脚本、音乐工程或完成全资源库 L3。所有 103,400 原始文件继续保留。
+
+## F. 第九轮真实验收记录与 v5 修正
+
+[Actions #38496121398](https://github.com/969981/ACNH_Resources/actions/runs/38496121398) 的 8 个 BARS job + 4 个 BDLI job + 回归 + 汇总全部 SUCCESS：
+
+- 32 个新增 BARS 原始源，实际获得 **186 个有效 PCM WAV**，加第八轮已有 42，共 40 个 BARS 容器 / 228 个独立审计的 WAV；不添加到 2660 核心 GLB/PNG/独立 BWAV 口径。
+- 32 个 BDLI 来源成功提取 **4210 个真实非空 LBLI payload .bin**，保留逐成员 bytes/offset/SHA256；这不等于已解出 4210 条人类可读文本。
+- 首次 AMTA 流水线并未产生 v1/v3/v4 解码结果，因为实际样本是 **v5(0x0500)**，此前按旧版 section 规则被明确保留为 `amta_parse_partial`。不把该次的 AMTA 计入成功。
+- 已增加 v5 无损提取与 regression。只在之后的真实 Actions 重新校验输出 hash 后，才允许称 v5 AMTA 无损提取成功。V5 头部未知字段未强行套旧版含义。
+
+核心 SHA 对账文件：`derived/3.0.3/round9_cumulative/coverage.json`。同名报告被后续 run 更新时，以文件中实际验证数为准。
