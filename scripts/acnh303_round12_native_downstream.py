@@ -58,7 +58,7 @@ def local_cfg(blob, segments, start, low, high, cap=1800):
                 if op=="b": break
             if op=="blr":
                 calls.append({"at":hex(pc),"to":None,"type":"indirect-unresolved"})
-            if op in ("ret","br","blr","eret","udf"): break
+            if op in ("ret","br","eret","udf"): break  # BLR is a call: preserve fallthrough
             pc+=4
     return {"start":hex(start),"bounds":[hex(low),hex(high)],
             "visited_count":len(seen),"truncated":bool(queue) or len(seen)>=cap,
