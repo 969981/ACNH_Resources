@@ -23,7 +23,7 @@ def adrp_page(pc,op):
     if x&(1<<20):x-=1<<21
     return (pc&~0xfff)+(x<<12)
 
-def find_refs(blob,segments,target=TARGET):
+def find_refs(blob,segments,target=TARGET,debug=None):
     page=target&~0xfff
     refs=[]
     sample=[]
@@ -37,6 +37,10 @@ def find_refs(blob,segments,target=TARGET):
         for rel in range(0,size-size%4,4):
             insn=struct.unpack_from("<I",blob,off+rel)[0]
             addr=va+rel
+            if debug is not None and addr==0x3ACA490:
+                debug['full_scan_anchor_reached']=True
+                debug['full_scan_anchor_raw']=f'{insn:08x}'
+                debug['full_scan_anchor_page']=hex(adrp_page(addr,insn)) if adrp_page(addr,insn) is not None else None
             if adrp_page(addr,insn)!=page:continue
             visited+=1
             reg=insn&31
@@ -80,6 +84,9 @@ def find_refs(blob,segments,target=TARGET):
                 sample.append(record)
             for hit in accesses:
                 access_totals[hit["kind"]]+=1
+            if addr==0x3ACA490 and debug is not None:
+                debug['full_scan_anchor_accesses']=accesses
+                debug['full_scan_anchor_aliases']=dict(aliases)
             if accesses and len(refs)<MAX_REF:
                 refs.append(record)
     return visited,refs,sample,dict(access_totals)
@@ -159,7 +166,9 @@ def analyze(path):
                  "file_offset":anchor_file,
                  "executable_segment_start":hex(ex["vaddr"]),
                  "segment_va_alignment_mod4":ex["vaddr"]%4}
-    total,refs,sample,access_totals=find_refs(blob,loads)
+    full_diag={}
+    total,refs,sample,access_totals=find_refs(blob,loads,debug=full_diag)
+    anchor_diag['full_scan_diagnostic']=full_diag
     if local_counts.get("load",0)!=1:
         raise ValueError(f"actual R20 instruction pair not found by decoder: {anchor_diag}")
     return {"schema":"acnh303-r21-elf-global-initializers-v2","elf_sha256":sha(blob),
