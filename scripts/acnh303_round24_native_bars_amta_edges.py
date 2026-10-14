@@ -54,10 +54,41 @@ def inspect(root):
             pass
         code=[{"va":hex(ins.address),"mnemonic":ins.mnemonic,
                "operands":ins.op_str,"raw_opcode":ins.bytes.hex()} for ins in instructions]
+        # Real signature validation must contain actual buffer load,
+        # comparison to reconstructed immediate and conditional failure.
+        # These exact sites are validated from original instruction opcodes.
+        comparison_specs={
+           ("BARS",0x3aca350):[(0x3aca360,"ldr","w10, [x22]"),
+                              (0x3aca364,"cmp","w10, w11"),
+                              (0x3aca368,"b.ne",None)],
+           ("AMTA",0x3acaa88):[(0x3acaa84,"ldr","x8, [x22]"),
+                               (0x3acaa98,"cmp","x8, x9"),
+                               (0x3acaa9c,"b.ne",None)],
+           ("AMTA",0x3acab04):[(0x3acab00,"ldr","x8, [x23]"),
+                               (0x3acab14,"cmp","x8, x9"),
+                               (0x3acab18,"b.ne",None)]
+        }
+        checks=[]
+        for check_va,mnem,operands in comparison_specs[(magic,va)]:
+            actual=op_at.get(check_va)
+            if actual is None or actual.mnemonic!=mnem or (operands is not None and actual.op_str!=operands):
+                raise ValueError(f"actual header validator opcode mismatch @ {check_va:x}: expected {mnem} {operands}, got {getattr(actual,'mnemonic',None)} {getattr(actual,'op_str',None)}")
+            checks.append({"va":hex(check_va),"mnemonic":mnem,
+                           "operands":actual.op_str,"raw_opcode":actual.bytes.hex()})
+        if magic=="AMTA":
+            combined=0x0500FEFF41544D41
+        else:
+            combined=0x53524142
+        validation={"status":"original_ELF_header_memory_load_magic_cmp_branch_confirmed",
+                    "raw_signature_u64":hex(combined),
+                    "verified_instruction_triple":checks,
+                    "input_buffer_pointer_register":"x22" if va!=0x3acab04 else "x23",
+                    "runtime_buffer_owner_known":False}
         window={"magic":magic,"confirmed_constant_va":hex(va),
                 "opcode_pair_hex":[mapped(va,va+4).hex(),mapped(va+4,va+8).hex()],
                 "window_start":hex(start),"window_end_exclusive":hex(end),
                 "sha256":sha(buf),"instructions":code,
+                "header_validation":validation,
                 "exact_target_direct_branches":[],
                 "nearby_direct_branches":[],
                 "resource_buffer_input_register_identity":"not_derived_from_static_magic",
@@ -85,6 +116,7 @@ def inspect(root):
                         "kind":"BL" if ((op>>26)&63)==0b100101 else "B"})
     return {"schema":"acnh303-r24-bars-amta-code-boundary-v1",
             "elf_sha256":sha(data),"actual_signature_builders":windows,
+            "original_ELF_header_validators_confirmed":3,
             "confirmed_loader_owner":False,
             "confirmed_object_factory":False,
             "runtime_blr_target_verified":False,
