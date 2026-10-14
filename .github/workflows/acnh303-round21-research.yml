@@ -69,7 +69,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: r21-curves-evidence
-          path: derived/3.0.3/r21_curve_samples/bone_curves.json
+          path: |
+            derived/3.0.3/r21_curve_samples/bone_curves.json
+            derived/3.0.3/r21_curve_samples/curve_summary.json
           if-no-files-found: error
           retention-days: 90
 
@@ -134,6 +136,7 @@ jobs:
           set -euo pipefail
           mkdir -p derived/3.0.3/r21_curve_samples derived/3.0.3/r21_native_global
           cp downloads/curves/bone_curves.json derived/3.0.3/r21_curve_samples/
+          cp downloads/curves/curve_summary.json derived/3.0.3/r21_curve_samples/
           cp downloads/global/global_4ab2238.json derived/3.0.3/r21_native_global/
           python - <<'PY'
           import json
@@ -173,12 +176,14 @@ jobs:
           gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r21-curves-evidence -D evidence/curves
           gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r21-global-evidence -D evidence/global
           cmp evidence/curves/bone_curves.json derived/3.0.3/r21_curve_samples/bone_curves.json
+          cmp evidence/curves/curve_summary.json derived/3.0.3/r21_curve_samples/curve_summary.json
           cmp evidence/global/global_4ab2238.json derived/3.0.3/r21_native_global/global_4ab2238.json
       - name: Publish only SHA-audited research not runtime semantics
         run: |
           set -euo pipefail
           mkdir -p packages
           cp evidence/curves/bone_curves.json packages/
+          cp evidence/curves/curve_summary.json packages/
           cp evidence/global/global_4ab2238.json packages/
           (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
           printf 'ACNH 3.0.3 R21: real sampled Switch FSKA BoneAnim curve raw frames/keys, and original-ELF global 0x4AB2238 page/relocation/reference evidence. No runtime function target or interpolated pose is claimed. Original resources unchanged.\n' > notes.txt
