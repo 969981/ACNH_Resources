@@ -161,3 +161,27 @@ Pane 自 `pan1`、`prt1`、`txt1` 等区块取得名称、transform（平移、�
 - **语义未证实**：FCPX 各语言回退条件、完整字形、BFLYT 真实材质/纹理绑定、复杂部件控制、BFLAN 原生求值和 UI 渲染等。即使有 JSON 也可能是部分恢复，待游戏 Native ELF 或实机证据。
 
 每项必须保留：**原始输入 SHA → 解析器版本 → 已验证的结构字段 → 输出 SHA → 未解字段与待验证方法**。
+
+
+## 6. 第八轮 BARS 实证：新型 Sound 原生容器
+
+经真实 ACNH 3.0.3 `Sound/Resource/*.bars` 验证，Nintendo AAL `BARS` 的结构由文件总长度／小端版本、CRC32 音频名称哈希表、各成员 `AMTA` 音频元数据偏移与 `BWAV` 音频偏移组成。音频成员的文件内起始位置是绝对偏移，不是可直接播放的 .bars 文件。
+
+```text
+BARS
+ ├─ Header: "BARS", declared size, BOM FF FE, version 0x0101, asset count
+ ├─ CRC32 name hashes: u32[asset_count] (不能擅自当作人类文件名)
+ ├─ File offset table: (AMTA_offset, audio_offset)[asset_count]
+ ├─ AMTA metadata blocks
+ └─ aligned BWAV blocks -> actually decode via vgmstream -> validated PCM WAV
+```
+
+采用的严格边界：每段 BWAV 的结束位置由后续更大的 AMTA/BWAV 文件内起始偏移或 BARS 声明文件长度确定；不修改原始源，提取成员 SHA、实际输出 WAV 的 RIFF / PCM properties 和 SHA256。若无法解析原生流或者零帧则标为 failed，不将其计入真实 WAV 数。
+
+初次测试 8 个 BARS：**7 个源成功，42 个 BWAV 成员实际解码成 PCM WAV；1 个成员不能解码**。其中 `BGM_DJ_026_Minyo.bars` 原始字节数比 header 声明多 **1 byte**；该异常单独标识，仍沿已证实的声明文件边界定位内部音频，保留原文件 SHA。
+
+技术脚本：`scripts/acnh303_bars_probe.py`、`scripts/acnh303_bars_audio_l3.py`；真实报告 `derived/3.0.3/bars_probe_round8/report.json` 和 `derived/3.0.3/bars_audio_round8/report.json`。[BARS 格式参考](https://nintendo-formats.com/libs/aal/bars.html)。下载 [42 个 BWAV 内嵌音频的真正 PCM WAV](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。
+
+**计数警告**：这 8 个 `.bars` 源文件没有被强行并入只接受 `*.bwav` 的现有独立源审计。上面的核心 2660 个媒体文件加上 42 个新 BARS WAV 是两个已审计成果，未实现内容哈希级跨容器去重前，应分别披露，不冒称为统一完成量。
+
+优先处理的其它类别：`BDLI/*.zs` 共 36,708 个原始文件、`Sound/*.bars` 1,696 个、`EventFlow/*.bfevfl` 875 个。当前是否完成某类 L0–L2，应看通用解包报告；在核心媒体审计中“未出现”并不等于全层级未解析。[分类清单](../derived/3.0.3/unmeasured_queue_round8/queue.json)。
