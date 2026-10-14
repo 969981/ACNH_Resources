@@ -30,7 +30,7 @@
 - `.github/workflows/acnh303-round16-unpack.yml`：选源、sparse checkout、原生转换、每件输出 SHA / 原始源 SHA 校验、30 个临时原始数据包及报告、独立累计审计。
 - `scripts/acnh303_round16_bars_reconcile.py`：交叉核对新增 BARS/AMTA 报告与 R14 历史集合、103,400 原始源库存、原始 SHA 和成员 WAV/AMTA 验证记录。
 - `scripts/acnh303_round16_release_verify.py`：长期发布前必须实际下载全部 30 个数据工件，逐个对照 Git 中提交的 SHA，不能只看汇总数。
-- `.github/workflows/acnh303-round16-release.yml`：**在 R16 转换及累计审计通过后**，手动执行永久 Release 出版，重复 SHA 审查、发布数据分卷和 `SHA256SUMS.txt`。
+- `.github/workflows/acnh303-round16-release.yml`：由 R16 主工作流 `publish` 作业以 `workflow_call` 调用，**在同一轮转换与审计通过后**自动二次核对实际分卷、发布长期 Release 和 `SHA256SUMS.txt`；不会改动主分支。
 
 ## 4. 转换和验收条件
 
@@ -50,4 +50,4 @@
 
 ## 6. 手动执行路径及故障处理
 
-在 GitHub 仓库 Actions 页打开 `ACNH 3.0.3 R16 Final BWAV and L3 Expansion`，选择 `feat/acnh303-round16-final-bwav-expand` 运行。若 GitHub 已因工作流提交自动触发，避免重复点击运行。转换及 `reconcile` 均成功且累计清单已提交后，才可运行 `ACNH 3.0.3 R16 Verified Permanent Release`。任一分片失败时，保留原始报告定位错误，不得通过删除失败项或改小分母使审计通过。
+R16 工作流仅位于功能分支，尚未加入默认分支 `3.0.3`。按 GitHub 官方限制，`workflow_dispatch` 不能直接将仅存在于非默认分支的工作流作为手动运行入口；因此应以推送 `.github/workflows/acnh303-round16-unpack.yml` 所触发的 `push` 事件执行并查看运行记录。R16 顶层流程现已改为 **regress → 30 unpack shards → reconcile → publish**。`publish` 以 `workflow_call` 复用 Release 流程，并通过 `github.run_id` 下载**同一次**转换运行产生的 30 个真实数据工件，不再尝试从仅存在于功能分支的 `workflow_dispatch` 单独启动，也不混用另一次成功运行的数据。**只有 reconcile 和实际 SHA 对账通过，publish 才会运行。** 若未看到任何 push 运行，需要先检查仓库 Actions 是否启用和工作流是否被允许，不能声称正在执行。任一分片失败时保留原始报告，定位错误后重新触发 push，不得删除失败项或修改分母。
