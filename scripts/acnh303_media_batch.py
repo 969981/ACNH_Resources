@@ -101,6 +101,8 @@ def main():
                 "error": (proc.stderr + "\n" + proc.stdout)[-1600:] or "no source conversion manifest",
             })
         results.append(result)
+        if result['status'] in ('failed', 'partial_media'):
+            print('L3_UNPACK_ISSUE', json.dumps({'source_path': relative, 'source_sha256': digest, 'status': result['status'], 'decoder_exit_code': result['decoder_exit_code'], 'errors': result['parser_errors']}, ensure_ascii=False), flush=True)
         if num % 5 == 0 or num == len(files):
             print(f"{group}: {num}/{len(files)}, {result['status']}, "
                   f"validated_media={sum(len(r['validated_outputs']) for r in results)}",
