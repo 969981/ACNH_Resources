@@ -195,3 +195,12 @@ BFLYT 6 个 mat1 区块的 22 个材料均有 **44 字节记录**，末尾字段
 另新增**独立 BARS 音频容器解码器**，对 8 个真实 BARS 源按原生 AMTA+BWAV 偏移验证，**7 个源的 42 个内嵌 BWAV 实际生成了有效 PCM WAV**，1 个解码失败及 1 个原文件尾部多 1 字节异常均保留证据。[BARS 格式/转换报告](derived/3.0.3/bars_audio_round8/report.json)、[42 WAV 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。这 42 个新输出单独统计，未并入现有以独立 BWAV 文件为分母的核心审计。
 
 未测资源优先目录：`BDLI` 36,708、`Sound/*.bars` 1,696、`EventFlow/*.bfevfl` 875、其它大量 Model 和 Layout。[原始文件优先级队列](derived/3.0.3/unmeasured_queue_round8/queue.json) 按原始 103,400 文件名和已测媒体源区分；不声称以上资源在 L0–L2 均未解包。[本轮完整实证报告](docs/ACNH303_UNPACK_ROUND8_VERIFIED_REPORT.md)。
+
+
+## 第九轮：BARS/AMTA v5 与 BDLI-LBLI 原始区段继续解包（2026-10-14）
+
+[完整原生解包技术与 Windows/WSL2 指南](docs/ACNH303_ROUND9_BARS_AMTA_BDLI_GUIDE.md) · [第九轮累计 SHA 审计](derived/3.0.3/round9_cumulative/coverage.json) · [真实 Actions 验证 #38496462710](https://github.com/969981/ACNH_Resources/actions/runs/38496462710)。
+
+在前八轮基础上再次真正处理 **32 个以前未测的 BARS**，生成 **186 个可验证 PCM WAV**、**208 个按原始 AMTA 版本 v5（0x0500）无损提取的元数据二进制文件**。另对 **32 个 BDLI.zs 原始文件**按照真实 LBLI 指针和边界新导出 **4,210 个无损二进制区段**。每条有效输出均核验原始来源路径、SHA-256 和成员字节，最终分片审计通过。
+
+累计 BARS 是 **40 个实际测试容器、228 个 PCM WAV**；它与原来的核心 L3 **2660（214 GLB／1874 PNG／572 独立 BWAV→WAV）**保持不同分母。BDLI 的 36708 源以前已被结构性解析，但新导出的 LBLI 区段不是自动理解成文本、语言条目或者完整本地化数据库。**ACNH AMTA v5 不能套用公开 v1/v3/v4 的 DATA/MARK/STRG 区段布局**；现在仅能确定并无损导出原始成员及 0x0C..0x30 原始 u32，待 Native 证据。

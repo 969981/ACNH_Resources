@@ -1,0 +1,138 @@
+name: ACNH 3.0.3 Round 9 Verified Native Data Durable Release
+on:
+  push:
+    branches:
+      - feat/acnh303-round9-bars-bdli-sections
+    paths:
+      - .github/workflows/acnh303-round9-release.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      SOURCE_RUN_ID: '38496462710'
+      TAG: acnh303-r9-bars-amta5-bdli-sections-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived/3.0.3/round9_cumulative
+          sparse-checkout-cone-mode: true
+      - name: Verify source workflow achieved SHA-backed success
+        run: |
+          set -euo pipefail
+          gh run view "$SOURCE_RUN_ID" -R "$REPO" --json conclusion --jq .conclusion | grep -Fx success
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/round9_cumulative/coverage.json'))
+          assert d['round9_new_bars_originals']==32
+          assert d['round9_bdli_section_sources']==32
+          assert d['counts']['new_verified_bars_wav']==186
+          assert d['counts']['new_amta_members']==208
+          assert d['counts']['new_raw_lbli_sections']==4210
+          print('AUDITED',d['counts'])
+          PY
+      - name: Download exactly the 12 native-data shard artifacts from verified run
+        run: |
+          set -euo pipefail
+          mkdir -p collected
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'round9-bars-native-files-*' -D collected
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'round9-bdli-native-files-*' -D collected
+          test "$(find collected -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 12
+      - name: Rehash every native PCM, AMTA, LBLI member against committed cumulative manifest
+        run: |
+          python - <<'PY'
+          import gzip,hashlib,json,pathlib
+          dirs=sorted(x for x in pathlib.Path('collected').iterdir() if x.is_dir())
+          assert len(dirs)==12
+          counters={'pcm_wav':0,'amta_v5':0,'lbli_raw':0}
+          def check_file(output,expected):
+              rel=pathlib.Path(output)
+              options=[]
+              for directory in dirs:
+                  options.extend([directory/rel,directory.joinpath(*rel.parts[1:])])
+              hits=[p for p in options if p.is_file()]
+              if len(hits)!=1:raise RuntimeError(f'Expected one file {output}, got {len(hits)}')
+              h=hashlib.sha256()
+              with hits[0].open('rb') as f:
+                  for chunk in iter(lambda:f.read(1<<20),b''):h.update(chunk)
+              if h.hexdigest()!=expected:raise RuntimeError(f'output SHA mismatch: {output}')
+              return hits[0]
+          with gzip.open('derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz','rt',encoding='utf-8') as f:
+              records=(json.loads(line) for line in f)
+              for record in records:
+                  t=record['source_type']
+                  if t=='acnh303-BARS-BWAV-real-PCM-v1':
+                      for member in record['members']:
+                          if member['status']=='converted_pcm_wav':
+                              check_file(member['output_path'],member['output_sha256'])
+                              counters['pcm_wav']+=1
+                  elif t=='acnh303-bars-amta-lossless-v1':
+                      for member in record['members']:
+                          if member['status']=='lossless_amta_extracted':
+                              if member['native']['version_hex']!='0x0500':
+                                  raise RuntimeError('unexpected AMTA version')
+                              check_file(member['output_path'],member['amta_sha256'])
+                              counters['amta_v5']+=1
+                  elif t=='acnh303-bdli-lbli-extracted-v1':
+                      for member in record['sections']:
+                          if member['status']=='raw_extracted':
+                              check_file(member['output_path'],member['sha256'])
+                              counters['lbli_raw']+=1
+          assert counters=={'pcm_wav':186,'amta_v5':208,'lbli_raw':4210},counters
+          print('COMPLETE NATIVE OUTPUT REHASH',counters)
+          PY
+      - name: Package shard-preserving archives and deterministic manifest checksums
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          for folder in collected/round9-*-native-files-*; do
+            test -d "$folder"
+            name="$(basename "$folder")"
+            tar -czf "packages/${name}.tar.gz" -C collected "$name"
+          done
+          cp derived/3.0.3/round9_cumulative/coverage.json packages/
+          cp derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz packages/
+          (cd packages && sha256sum *.tar.gz coverage.json source_manifest.jsonl.gz > SHA256SUMS.txt)
+          test "$(find packages -name '*.tar.gz' -type f | wc -l)" -eq 12
+          cat packages/SHA256SUMS.txt
+      - name: Publish 186 WAV, 208 AMTA and 4210 LBLI bounded raw files
+        run: |
+          set -euo pipefail
+          cat >release-notes.md <<'EOF'
+          ACNH 3.0.3 Round 9: 32 additional native BARS sources and
+          32 BDLI sources were ACTUALLY processed in successful Run 38496462710.
+
+          SHA-backed, source-relative payloads:
+          - 186 independently decoder-validated, playable PCM WAVs
+          - 208 byte-preserved native ACNH AMTA v5 (0x0500) metadata members
+          - 4210 byte-preserved nonempty BDLI LBLI payload sections
+
+          Every payload in this durable Release is independently rehashed
+          against the committed cumulative source/member ledger; archives
+          are partitioned by the original Actions source shard. Includes
+          SHA256SUMS.txt, coverage.json, source_manifest.jsonl.gz.
+
+          Status boundary: WAVs are playable; AMTA v5 directory semantic
+          fields and LBLI identifiers are opaque and MUST NOT be described
+          as fully decoded dialogue, localization, or sound loop metadata.
+
+          Separate old census: 2660 core media outputs (214 GLB/1874 PNG/
+          572 standalone BWAV WAV); previous 8 BARS yielded 42 WAVs,
+          new cumulative BARS 40 sources / 228 WAV outputs.
+          EOF
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round9-bars-bdli-sections \
+              --title "ACNH 3.0.3 R9: 186 WAV + 208 AMTA v5 + 4210 LBLI raw" \
+              --notes-file release-notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets \
+            --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'

@@ -30,7 +30,9 @@ def main():
     if selection["category"]!="Sound" or selection["suffix"]!=".bars":raise ValueError("BARS sources only")
     records=[];tally=Counter();seen=set()
     for original_name in selection["paths"]:
-        if original_name in seen:raise ValueError("duplicate source");seen.add(original_name)
+        if original_name in seen:
+            raise ValueError("duplicate source")
+        seen.add(original_name)
         if not original_name.startswith(NCA+"/1/Sound/"):raise ValueError("invalid original path")
         src=Path(original_name).read_bytes()
         name=original_name[len(NCA+"/1/"):]
