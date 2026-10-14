@@ -263,3 +263,54 @@ python scripts/acnh303_media_incremental_audit.py \
 继续探索仍未恢复的专有容器 `*.bfbs`、`*.prmb`、`*.bnsh`、`*.bnk`、`*.pck` 以及资源中尚未确认的字段。优先查看 [技术规范](ACNH303_NATIVE_UNPACK_TECHNICAL_REFERENCE.md) 和最新未转换清单，不要因文件名相似就把独立格式交给 BNTX、BFRES 或 BWAV 解码器。
 
 高价值验证顺序是：原始字节／Magic → header 和偏移／长度 → 数据结构和引用语义 → 真实 CSV/JSON/媒体输出 → SHA256/格式加载 → 如有必要，原版 ELF Native 调用链和实机观察。不能跳过任意一级直接宣布“全解包”。
+
+
+## 八、BARS 容器的专项解包：新支持的另一种音频来源
+
+前述 `Sound/*.bwav` 直接转 WAV 的方式**不适用于** `Sound/Resource/*.bars`。BARS 自身是音频资源索引容器，必须先提取其中真正的 BWAV 成员。
+
+在**专用的 WSL2 sparse 工作克隆**中先确认 `VGMSTREAM` 环境变量指向已核验的 `vgmstream-cli`，再运行：
+
+```bash
+# 分片号、skip-count 只针对 Sound/*.bars，不能套用 .bwav 的分片进度
+python scripts/select_acnh303_shard.py \
+  --category Sound --shard 0 --shards 8 \
+  --suffix .bars --skip-count 0 --max-count 8
+
+# 第一步：原始文件头、CRC32 名称 hash、AMTA/BWAV 偏移，只读 JSON
+python scripts/acnh303_bars_probe.py \
+  --selection selection.json --out derived/3.0.3/local_bars_probe
+
+# 第二步：对内嵌 BWAV 真正转出 PCM WAV
+python scripts/acnh303_bars_audio_l3.py \
+  --selection selection.json \
+  --out Unpack_BARS_Batch --report derived/3.0.3/local_bars_audio \
+  --tool-vgmstream "$VGMSTREAM"
+```
+
+实际输出：
+
+```text
+Unpack_BARS_Batch/<NCA>/1/Sound/Resource/<name>.bars.converted/
+  asset_0000_<original_crc32>.wav
+  ...
+  _bars_source_manifest.json
+
+derived/3.0.3/local_bars_audio/report.json
+derived/3.0.3/local_bars_probe/report.json
+```
+
+每个内嵌成员独立有 `converted_pcm_wav`／`decode_failed`／`unsupported_asset` 状态；有 AMTA/BWAV 指针不代表一定能生成合法 PCM。已执行测试 8 个原始 BARS，**42 个实际 WAV 验证通过、1 个流解码失败**。输出和失败详情已存于 [审计报告](../derived/3.0.3/bars_audio_round8/report.json)，而二进制与正式分卷存在 [BARS 42-WAV Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。
+
+完整目录盘点还表明同一 RomFS 内有 1,696 个 BARS、36,708 个 BDLI、875 个 BFEVFL 原始文件；原始文件个数与本次 1,112 个核心媒体 L3 源完全不是同一个覆盖率口径。每种新类型应先对真实 Magic/section 执行小样本验证，再批量扩展与发布。
+
+## 九、本轮数据已经完成的复核和下载
+
+- 80 个新 Layout 含 520 张实解码 PNG、80 BFLYT + 333 BFLAN + 73 FCPX JSON。
+- 120 个新独立 BWAV 生成 120 个 PCM WAV；媒体累计 1,112 个源、2,660 个媒体输出。
+- BARS **另计** 8 个新容器源，7 个具有 42 个有效 PCM WAV，1 个媒体流无有效 WAV。
+- [第八轮 16 个数据分卷 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-layout-ui2d-bwav-round8-20261014)：520 PNG、120 WAV、486 UI2D JSON、6 个哈希与统计附件。
+- [BARS 42 WAV 独立 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)：保留成员来源、CRC32、原始/输出 SHA 和未解成员状态。
+- [完整第八轮实测报告](ACNH303_UNPACK_ROUND8_VERIFIED_REPORT.md) 与 [全库候选格式队列](../derived/3.0.3/unmeasured_queue_round8/queue.json)。
+
+**再次强调**：这代表新的真实源格式、可验证媒体和结构输出，不代表全 103400 文件完成语义转换，也不代表 FCPX 语言 fallback、材质 shader 或 BFLAN 原生执行已完成。
