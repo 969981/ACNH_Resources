@@ -173,3 +173,14 @@ For parser internals, known limitations and development guidance see scripts/REA
 此外再解码 120 个新 BWAV，累计唯一媒体源 792，**214 GLB + 1354 PNG + 332 WAV = 1900 个真实媒体文件**，还有 814 个 BWAV 尚未测试。
 
 [第六轮实证报告](docs/UNPACK_FCPX_UI2D_BWAV_ROUND6.md) · [UI2D 静态引用表](derived/3.0.3/ui2d_crossref_v6/crossrefs.json) · [累计媒体哈希审计](derived/3.0.3/media_bwav240_cumulative/coverage.json) · [120 个新增 WAV Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-240-total-20261014)
+
+
+## 第七轮：FCPX 原生字体记录、BFLYT 材料字段及 BFLAN 运行时证据门槛（2026-10-14）
+
+继续研究真正的资源语义，而非只增加媒体数量。已证实两种 FCPX 字体配置共享 **0x40 起始、0x28 字节步长、record+0x04 字符串指针（实际名称偏移=指针值+0x18）**的原生记录布局，20/20 条真实字体记录验证通过；保留 10 个原始 u32 字段，尚**不能确定 fallback 优先级**。
+
+BFLYT 6 个 mat1 区块的 22 个材料均有 **44 字节记录**，末尾字段模式 `0x08040200` 在 22/22 中一致，尾部颜色候选有 4 种取值；GPU 渲染结果未经原生验证。BFLAN 新增运行时比较器，实际没有原生 trace 时必须输出 `NOT_TESTED`，不再将 956 个数学采样误判为一致。
+
+新追加解码 120 个 BWAV，累计媒体源 **912**，媒体文件 **2020（214 GLB、1354 PNG、452 WAV）**；剩余 **694** 个 BWAV 未测。第七轮 120 WAV 与哈希独立发布。
+
+[第七轮原生技术报告](docs/UNPACK_NATIVE_UI2D_BWAV_ROUND7.md) · [20 字体记录矩阵](derived/3.0.3/ui2d_native_v7/font_reference_record_matrix.csv) · [22 材料字段矩阵](derived/3.0.3/ui2d_native_v7/material_native_words.csv) · [BFLAN 原生验证状态](derived/3.0.3/ui2d_runtime_validation_v7/report.json) · [新 120 WAV Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-360-total-20261014)
