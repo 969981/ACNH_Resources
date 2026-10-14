@@ -1,0 +1,152 @@
+name: ACNH 3.0.3 L3 Round 8 Durable 640 Media and 486 UI2D JSON Release
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-l3-round8-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: acnh303-l3-layout-ui2d-bwav-round8-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Verify 200 source SHA census and 640 converted media outputs
+        run: |
+          set -euo pipefail
+          gh run view 38492923121 -R 969981/ACNH_Resources --json conclusion --jq .conclusion | grep -Fx success
+          python - <<'PY'
+          import pathlib,json
+          m=json.loads(pathlib.Path("derived/3.0.3/media_round8_cumulative/coverage.json").read_text())
+          s=json.loads(pathlib.Path("derived/3.0.3/layout_semantic_round8_cumulative/coverage.json").read_text())
+          assert m["new_source_count"]==200 and m["cumulative_source_count"]==1112
+          assert m["new_by_format"]["Layout"]["new_media_output_count"]==520
+          assert m["new_by_format"]["Sound"]["new_media_output_count"]==120
+          assert m["verified_media_output_files_by_type"]=={"glb":214,"png":1874,"wav":572}
+          assert s["leaf_status_counts"]["decoded_bflyt"]==80
+          assert s["leaf_status_counts"]["decoded_bflan"]==333
+          assert s["leaf_status_counts"]["decoded_fcpx"]==73
+          PY
+      - name: Retrieve 16 actual successful decode shard Artifacts, no source reprocessing
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p bundles packages
+          for g in Layout Sound; do
+            for i in 0 1 2 3 4 5 6 7; do
+              dir="bundles/$g-$i"
+              mkdir -p "$dir/data" "$dir/report"
+              gh run download 38492539388 -R 969981/ACNH_Resources \
+                -n "acnh303-r8-media-$g-$i" -D "$dir/data"
+              gh run download 38492539388 -R 969981/ACNH_Resources \
+                -n "acnh303-r8-report-$g-$i" -D "$dir/report"
+              test "$(find "$dir/report" -type f -name manifest.json | wc -l)" -eq 1
+              if [[ "$g" == Layout ]]; then
+                test "$(find "$dir/report" -type f -name semantic_manifest.json | wc -l)" -eq 1
+                test "$(find "$dir/data" -type f -name _ui2d_source_manifest.json | wc -l)" -eq 10
+              fi
+            done
+          done
+      - name: Hash-check each produced PNG WAV and UI2D JSON member again
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib,collections
+          root=pathlib.Path("bundles");count=collections.Counter();sources=set()
+          def find_output(root,rel):
+              rel=pathlib.Path(rel)
+              first=root/rel
+              if first.is_file():return first
+              ends=rel.parts[1:]
+              matches=[p for p in root.rglob(rel.name) if tuple(p.parts[-len(ends):])==tuple(ends)]
+              if len(matches)!=1:raise AssertionError(("ambiguous output",str(rel),list(map(str,matches[:4]))))
+              return matches[0]
+          for folder in sorted(root.iterdir()):
+              group=folder.name.split("-")[0]
+              manifest=list((folder/"report").rglob("manifest.json"))
+              assert len(manifest)==1
+              rows=json.loads(manifest[0].read_text())
+              assert len(rows)==(10 if group=="Layout" else 15)
+              for row in rows:
+                  assert row["source_path"] not in sources
+                  sources.add(row["source_path"])
+                  for output in row["validated_outputs"]:
+                      file=find_output(folder/"data",output["path"])
+                      assert hashlib.sha256(file.read_bytes()).hexdigest()==output["sha256"]
+                      assert output["validation"]["type"]==("png" if group=="Layout" else "wav")
+                      count[output["validation"]["type"]]+=1
+              sem=list((folder/"report").rglob("semantic_manifest.json"))
+              assert len(sem)==(1 if group=="Layout" else 0)
+              if sem:
+                  records=json.loads(sem[0].read_text())["source_records"]
+                  assert [(z["source_path"],z["source_sha256"]) for z in records]==[
+                       (z["source_path"],z["sha256"]) for z in rows]
+                  for entry in records:
+                      for leaf in entry["leaves"]:
+                          if "output_path" in leaf:
+                              path=find_output(folder/"data",leaf["output_path"])
+                              assert hashlib.sha256(path.read_bytes()).hexdigest()==leaf["output_sha256"]
+                              count["json"]+=1
+          assert len(sources)==200
+          assert count["png"]==520 and count["wav"]==120 and count["json"]>=486
+          print("ALL_ACTUAL_OUTPUTS_SHA256_VERIFIED",dict(count))
+          PY
+      - name: Archive 16 genuine source-path-structured media and UI2D packs
+        run: |
+          set -euo pipefail
+          for dir in bundles/*; do
+            name="$(basename "$dir")"
+            tar -czf "packages/ACNH-3.0.3-L3-R8-$name.tar.gz" -C "$dir" .
+          done
+          test "$(find packages -name '*.tar.gz' | wc -l)" -eq 16
+          cp derived/3.0.3/media_round8_cumulative/coverage.json packages/media_coverage.json
+          cp derived/3.0.3/media_round8_cumulative/media_index.csv packages/media_index.csv
+          cp derived/3.0.3/media_round8_cumulative/remaining.csv packages/media_remaining.csv
+          cp derived/3.0.3/media_round8_cumulative/source_manifest.jsonl.gz packages/media_source_manifest.jsonl.gz
+          cp derived/3.0.3/layout_semantic_round8_cumulative/coverage.json packages/ui2d_semantic_coverage.json
+          (cd packages && sha256sum *.tar.gz *.json *.csv *.gz > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+      - name: Create permanent Release with exact per-file checksum manifest
+        run: |
+          set -euo pipefail
+          cat > /tmp/notes.md <<'EOF'
+          ACNH 3.0.3 L3 round 8 — **200 new original source files**,
+          previously absent from the cumulative source SHA media census.
+          Actual media: **520 PNG** from 80 Layout sources (77 media-positive)
+          plus **120 genuine PCM WAV** from 120 BWAV originals.
+          Native structure JSON from the same Layout sources: 80 BFLYT,
+          333 BFLAN, 73 FCPX (486 unique structured JSON outputs),
+          1642 pane nodes, 896 material records, plus individual SHA-256.
+
+          Cumulative unique media sources 1112, verified media files 2660:
+          214 GLB + 1874 PNG + 572 WAV, 3,941,189,418 raw output bytes.
+          Still untested: 728 Layout and 574 BWAV originals.
+
+          Exactly 16 tar.gz packs (8 Layout / 8 Sound) contain real output
+          files, original-source SHA manifests, UI2D semantic JSON, and
+          per-shard reports. 6 more files include the full cumulative source
+          manifest, output SHA index, media/semantics coverage, unconverted
+          CSV and SHA256SUMS.txt for every downloadable item.
+
+          This does NOT imply all 103400 original RomFS files are converted,
+          nor does FLYT/FLAN JSON imply pixel-perfect native UI rendering.
+          See docs/ACNH303_NATIVE_UNPACK_TECHNICAL_REFERENCE.md and
+          docs/ACNH303_UNPACK_FIELD_GUIDE.md.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target feat/acnh303-l3-round8-guide-layout-audio \
+              --title "ACNH 3.0.3 Round 8: 520 PNG + 120 WAV + 486 UI2D JSON" \
+              --notes-file /tmp/notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources packages/* --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,files:[.assets[]|{name:.name,size:.size}]}'
