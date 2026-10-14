@@ -21,6 +21,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r scripts/requirements.txt -r scripts/requirements-media.txt
+      - name: Require Python syntax validity of every round9 decoder
+        run: python -m py_compile scripts/acnh303_bars_audio_l3.py scripts/acnh303_bars_amta_export.py scripts/acnh303_bdli_section_export.py scripts/acnh303_round9_reconcile.py
       - name: Verify native binary boundaries and byte exact output
         run: python -m unittest discover -s scripts -p "test_acnh303_round9_native.py" -v
   bars:
