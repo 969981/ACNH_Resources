@@ -1,0 +1,76 @@
+name: ACNH 3.0.3 Actual BARS Embedded BWAV PCM Decode Experiment
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-bars-audio-decode.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Download eight original BARS resource files without full 10 GB RomFS
+        run: |
+          python scripts/select_acnh303_shard.py --category Sound \
+            --shard 0 --shards 8 --suffix .bars --skip-count 0 --max-count 8
+      - name: Retrieve native vgmstream r2117 decoder
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -1 > /tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+      - name: Actually cut native BARS BWAV assets and decode real PCM WAV
+        run: |
+          python scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out Unpack_BARS_Round8 --report derived/3.0.3/bars_audio_round8 \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Require original-input and every generated WAV SHA-256
+        run: |
+          python - <<'PY'
+          import pathlib,hashlib,json
+          sel=json.loads(pathlib.Path("selection.json").read_text())
+          report=json.loads(pathlib.Path("derived/3.0.3/bars_audio_round8/report.json").read_text())
+          assert len(report["records"])==len(sel["paths"])==8
+          for rec in report["records"]:
+              src=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/rec["source_path"]
+              assert hashlib.sha256(src.read_bytes()).hexdigest()==rec["source_sha256"]
+              for member in rec["members"]:
+                  if member["status"]=="converted_pcm_wav":
+                      p=pathlib.Path(member["output_path"])
+                      assert p.exists() and hashlib.sha256(p.read_bytes()).hexdigest()==member["output_sha256"]
+                      assert member["validation"]["type"]=="wav" and member["validation"]["frames"]>0
+          print("BARS ACTUAL WAV COUNT",report["counts"].get("validated_pcm_wav",0))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-bars8-native-audio-data-and-hashes
+          path: |
+            Unpack_BARS_Round8/
+            derived/3.0.3/bars_audio_round8/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Save BARS source/decoder/error/hashes without confusing with 1146 standalone BWAV
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add --sparse -A derived/3.0.3/bars_audio_round8
+          git diff --cached --quiet && exit 0
+          git commit -m "data(audio): attempt original BARS->embedded BWAV->PCM extraction and retain all errors"
+          git fetch origin feat/acnh303-l3-round8-guide-layout-audio
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-l3-round8-guide-layout-audio
