@@ -1,6 +1,6 @@
 name: ACNH 3.0.3 R16 Verified Permanent Release
 on:
-  workflow_dispatch:
+  workflow_call:
 permissions:
   contents: write
   actions: read
@@ -31,21 +31,10 @@ jobs:
           test -s derived/3.0.3/media_round16_cumulative/source_manifest.jsonl.gz
           test -s derived/3.0.3/layout_semantic_round16_cumulative/coverage.json
           test -s derived/3.0.3/bars_round16_cumulative/source_manifest.jsonl.gz
-      - name: Identify last successful actual R16 conversion workflow
+      - name: Use original successfully reconciled caller run (not a different run)
         run: |
           set -euo pipefail
-          gh run list -R "$REPO" -w acnh303-round16-unpack.yml \
-            --branch feat/acnh303-round16-final-bwav-expand \
-            --status success --limit 20 --json databaseId,conclusion,createdAt \
-            > successful_runs.json
-          id=$(python - <<'PY'
-          import json
-          rows=json.load(open("successful_runs.json"))
-          assert rows, "no successful real R16 unpack run"
-          print(rows[0]["databaseId"])
-          PY
-          )
-          echo "SOURCE_RUN_ID=$id" >> "$GITHUB_ENV"
+          echo "SOURCE_RUN_ID=${{ github.run_id }}" >> "$GITHUB_ENV"
       - name: Retrieve all 30 decoded source artifact shards
         run: |
           set -euo pipefail
