@@ -278,3 +278,10 @@ jobs:
           git fetch origin feat/acnh303-round16-final-bwav-expand
           git rebase FETCH_HEAD
           git push origin HEAD:feat/acnh303-round16-final-bwav-expand
+  publish:
+    needs: reconcile
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/acnh303-round16-release.yml
+    secrets: inherit
