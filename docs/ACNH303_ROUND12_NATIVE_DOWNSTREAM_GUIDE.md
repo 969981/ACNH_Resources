@@ -64,3 +64,8 @@ python3 scripts/acnh303_round12_native_downstream.py \
 ### 静态证据尚未闭合的部分
 
 R12 没有得到 AMTA v5 的逐字段原生消费链、LBLI 的 identifier/语言解析闭环，也没有证明 EventFlow 的名称比较必然进入某个游戏 Action 或 Query handler。上述所有候选均需沿 `X19/X20/X22` 的赋值者、数据结构、间接调用目标继续追踪；最终需要只读实机日志。Issue #33 必须继续保持开放。
+
+
+## 研究续篇：R13 已实际执行
+
+请优先阅读 [R13 BARS 对象 / EventFlow Native 实证指南](ACNH303_ROUND13_BARS_EVENTFLOW_NATIVE_EVIDENCE_GUIDE.md)：已追出 `0x3ACA260` 的两个调用点、`0x4A7AD40` 对象方法表、`X19+0x10` 的成员目录指针写入/读取及其到 `0x3ACCCE0` 的参数传递。EventFlow 初始化方法表初始数据也已与 `0xFF647C` 的首个候选虚调用槽关联，静态候选函数 `0x5BD3A4` 是 `RET`，**不代表 Action Handler**。所有动态行为与 AMTA v5 播放字段仍未验证，Issue #33 保持打开。
