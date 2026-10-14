@@ -11,8 +11,8 @@ import argparse,hashlib,json,struct
 from collections import Counter
 from pathlib import Path
 from elftools.elf.elffile import ELFFile
-from acnh303_round18_native_elf_probe import NCA
-from acnh303_round21_global_initializer import ELF_SHA
+NCA="e10617820db06889e1638499478da0de_NCA"
+ELF_SHA="83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180"
 
 MAGICS={"FRES":b"FRES","FMDL":b"FMDL","FSKL":b"FSKL",
         "BARS":b"BARS","AMTA":b"AMTA","BNTX":b"BNTX",
