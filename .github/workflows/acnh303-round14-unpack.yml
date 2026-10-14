@@ -217,19 +217,19 @@ jobs:
         with:
           pattern: acnh303-r14-report-*
           path: collected
-          merge-multiple: true
+          merge-multiple: false
       - name: Validate entire new 12-shard media census against all 1224 old originals
         run: |
           python scripts/acnh303_media_incremental_audit.py \
             --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
             --baseline derived/3.0.3/media_round10_cumulative/source_manifest.jsonl.gz \
-            --new-reports collected/derived/3.0.3/media_round14 \
+            --new-reports collected \
             --expected-new-shards 12 --expected-baseline 1224 \
             --out derived/3.0.3/media_round14_cumulative
       - name: Independently validate Layout structure source hashes
         run: |
           python scripts/acnh303_layout_semantic_reconcile.py \
-            --artifact-root collected/derived/3.0.3/layout_semantic_round14 \
+            --artifact-root collected \
             --media-audit derived/3.0.3/media_round14_cumulative \
             --out derived/3.0.3/layout_semantic_round14_cumulative \
             --shards 4 --expected-sources 32
