@@ -10,6 +10,7 @@ from collections import Counter
 from pathlib import Path
 from acnh303_round20_fres_arrays import analyze as r20_analyze,NCA,SOURCE,sha,bounded,u16,u32,u64,string_at
 from acnh303_media_l3 import find_leaf
+from acnh303_round21_anim_curves import parse_curve
 
 def f32v(b,offset,n):
     if not bounded(b,offset,4*n):raise ValueError("base pose data outside FRES")
@@ -50,6 +51,9 @@ def material_header(b,at,index):
     binds=[u16(b,bind_ptr+2*i) for i in range(material_count)] if bind_ptr else []
     children=[]
     parsed_curves=0
+    actual_curves=0
+    curve_failures=[]
+    curve_modes=Counter()
     for i in range(material_count):
         off=mat_ptr+i*0x40
         material_name=string_at(b,u64(b,off))
@@ -58,14 +62,36 @@ def material_header(b,at,index):
         if child_curve_count and not bounded(b,ptrs[2],child_curve_count*0x30):
             raise ValueError("FMAA child AnimCurve array outside source")
         parsed_curves+=child_curve_count
+        first_curves=[]
+        for ci in range(child_curve_count):
+            try:
+                curve=parse_curve(b,ptrs[2]+ci*0x30)
+                actual_curves+=1
+                curve_modes[curve["mode"]]+=1
+                if ci<2:
+                    first_curves.append({"curve_offset":curve["header_file_offset"],
+                       "header_sha256":curve["raw_header_sha256"],
+                       "frames_sha256":curve["frames_blob_sha256"],
+                       "keys_sha256":curve["keys_blob_sha256"],
+                       "keyframe_count":curve["keyframe_count"],
+                       "mode":curve["mode"],"target_offset":curve["target_offset_bytes"]})
+            except Exception as exc:
+                curve_failures.append({"material":material_name,"curve_index":ci,
+                     "error":f"{type(exc).__name__}:{str(exc)[:120]}"})
         children.append({"index":i,"name":material_name,"record_at":off,
                          "record_sha256":sha(b[off:off+0x40]),
-                         "curve_ptr":ptrs[2],"curve_count":child_curve_count})
+                         "curve_ptr":ptrs[2],"curve_count":child_curve_count,
+                         "curves_decoded":actual_curves,
+                         "curve_samples":first_curves})
     return {"index":index,"name":name,"record_at":at,
             "record_sha256":sha(b[at:at+0x70]),
             "frame_count":frame_count,"material_count":material_count,
             "declared_curve_count":curve_count,
             "parsed_child_curve_headers":parsed_curves,
+            "actual_AnimCurve_headers_decoded":actual_curves,
+            "actual_AnimCurve_modes":dict(curve_modes),
+            "actual_AnimCurve_decode_error_count":len(curve_failures),
+            "actual_AnimCurve_errors":curve_failures[:10],
             "bind_model_ptr":u64(b,at+0x18),
             "bind_indices_ptr":bind_ptr,
             "bind_indices_sha256":sha(b[bind_ptr:bind_ptr+2*material_count]) if binds else None,
@@ -127,6 +153,9 @@ def inspect(root):
         mcounts["material_objects"]+=x["material_count"]
         mcounts["declared_curves"]+=x["declared_curve_count"]
         mcounts["parsed_curves"]+=x["parsed_child_curve_headers"]
+        mcounts["actual_curves_decoded"]+=x["actual_AnimCurve_headers_decoded"]
+        mcounts["actual_curves_failed"]+=x["actual_AnimCurve_decode_error_count"]
+        mcounts["null_bind_model"]+=int(x["bind_model_ptr"]==0)
         mcounts["unbound"]+=x["unbound_entries"]
         mats.append(x)
     embedded_fskl=[i for i in range(len(fres)-4)
