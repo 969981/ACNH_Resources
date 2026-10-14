@@ -116,10 +116,20 @@ def validate_wav(path: Path) -> dict:
         rate = wav.getframerate()
         frames = wav.getnframes()
         sample_width = wav.getsampwidth()
-        if not (1 <= c <= 16 and 8000 <= rate <= 384000 and frames > 0
+        if not (1 <= c <= 16 and 1 <= rate <= 384000 and frames > 0
                 and sample_width in (1, 2, 3, 4) and wav.getcomptype() == "NONE"):
             raise ValueError(f"invalid PCM WAV properties: channels={c}, rate={rate}, frames={frames}, sample_width={sample_width}, compression={wav.getcomptype()}, file_bytes={path.stat().st_size}")
-        wav.readframes(1)
+        # NintendoWare includes real short 4 kHz tone clips; 8 kHz is not
+        # a WAV format minimum. Validate every declared PCM frame to ensure
+        # accepting low rates never accepts truncated sample data.
+        remaining = frames
+        while remaining:
+            amount = min(remaining, 65536)
+            chunk = wav.readframes(amount)
+            got = len(chunk) // (c * sample_width)
+            if len(chunk) != got * c * sample_width or got != amount:
+                raise ValueError(f"truncated PCM WAV data: expected {amount} frames, got {got}")
+            remaining -= got
     return {"type": "wav", "channels": c, "sample_rate": rate,
             "frames": frames, "sample_width": sample_width,
             "seconds": round(frames / rate, 4)}
