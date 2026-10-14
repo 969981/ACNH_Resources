@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R18 BFRES Expansion and Native Consumer Evidence
 on:
   push:
-    branches: [feat/acnh303-round18-model-layout-bars]
+    branches: [feat/acnh303-round18-bfres-native]
     paths:
       - '.github/workflows/acnh303-round18-unpack.yml'
       - '.github/workflows/acnh303-round18-release.yml'
@@ -364,9 +364,9 @@ jobs:
             derived/3.0.3/bars_round18_cumulative
           git diff --cached --quiet && exit 0
           git commit -m 'data(unpack): R18 SHA-audited BFRES Layout BARS and bounded ELF/Npc evidence'
-          git fetch origin feat/acnh303-round18-model-layout-bars
+          git fetch origin feat/acnh303-round18-bfres-native
           git rebase FETCH_HEAD
-          git push origin HEAD:feat/acnh303-round18-model-layout-bars
+          git push origin HEAD:feat/acnh303-round18-bfres-native
   publish:
     needs: reconcile
     permissions:
