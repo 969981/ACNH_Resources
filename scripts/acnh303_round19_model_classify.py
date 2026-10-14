@@ -18,7 +18,7 @@ def rows(p):
 
 def classify():
     old={r["source_path"] for r in rows(BASE/"media_round18_cumulative/source_manifest.jsonl.gz")}
-    new=[r for r in rows(BASE/"media_round18_cumulative/source_manifest.jsonl.gz")
+    new=[r for r in rows(BASE/"media_round19_cumulative/source_manifest.jsonl.gz")
          if r["source_path"] not in old and r["source_path"].startswith("Model/")]
     if len(old)!=2974 or len(new)!=512 or len({r["source_path"] for r in new})!=512:
         raise ValueError("R19 Model source baseline or source uniqueness mismatch")
