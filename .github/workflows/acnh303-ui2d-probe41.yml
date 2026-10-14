@@ -1,0 +1,54 @@
+name: ACNH 3.0.3 Probe Real 41 Layout No-BNTX Sources
+on:
+  push:
+    branches: [feat/acnh303-ui2d-bwav-v5]
+    paths: [".github/workflows/acnh303-ui2d-probe41.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Sparse fetch EXACT 41 distinct missing-BNTX source files
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,pathlib,subprocess
+          from collections import Counter
+          f=pathlib.Path("derived/3.0.3/media_iteration4_cumulative/remaining.csv")
+          with f.open(encoding="utf-8",newline="") as fh:
+              names=sorted({r["source_path"] for r in csv.DictReader(fh)
+                            if r["source_path"].startswith("Layout/") and r["state"]=="no_target_leaf"})
+          assert len(names)==41
+          lines=["/scripts/","/derived/"]+[
+              "/e10617820db06889e1638499478da0de_NCA/1/"+name for name in names]
+          subprocess.run(["git","sparse-checkout","set","--no-cone","--stdin"],
+                         input=("\n".join(lines)+"\n").encode(),check=True)
+          print("Selected 41 input files with no standalone BNTX")
+          PY
+      - name: Analyze all 41 original layout and animation archives, section-by-section
+        run: python scripts/acnh303_ui2d_probe.py
+      - name: Commit source-hash matched real 41 Layout format inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/ui2d_probe
+          git diff --cached --quiet && exit 0
+          git commit -m "research(ui2d): real 41 Layout FLYT FLAN leaf type inventory"
+          git fetch origin feat/acnh303-ui2d-bwav-v5
+          git rebase origin/feat/acnh303-ui2d-bwav-v5
+          git push origin HEAD:feat/acnh303-ui2d-bwav-v5
