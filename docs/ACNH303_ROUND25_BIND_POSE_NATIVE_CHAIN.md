@@ -96,3 +96,73 @@ Native 报告：`derived/3.0.3/r25_native_bnsh/native_bnsh_callers.json`。R25 �
 - `P1`：确认角色模型与 Animation 的真实装配后，再做帧姿态/插值与 Native 对照。
 
 持续追踪 [Issue #39](https://github.com/969981/ACNH_Resources/issues/39) 和 [Issue #33](https://github.com/969981/ACNH_Resources/issues/33)，保持未闭合。
+
+
+## 6. R25 CI 已执行：直接分派结果（静态 ELF 源码证据）
+
+[本轮成功 Actions #38589207508](https://github.com/969981/ACNH_Resources/actions/runs/38589207508)：原始 ELF、两份 R24 SHA 记录、数值测试与导入调用者程序均通过，已提交实际生成的：
+
+- [57 矩阵全量审计 JSON](../derived/3.0.3/r25_bind_pose/bind_pose_audit.json)（本轮运行结果，不是手工预填）
+- [原始 BNSH/PLT 调用者 JSON](../derived/3.0.3/r25_native_bnsh/native_bnsh_callers.json)（7,568 个具有名称的 ELF relocation，89 个筛选的 API 符号）
+
+### 6.1 实际符号揭示的校正
+
+从 `.rela.plt` 精确映射到以下真实符号：
+
+| 直接 BL target | 已解析导入 |
+|---|---|
+| `0x3F05240` | `nn::util::BinaryFileHeader::GetAlignment()` |
+| `0x3F04470` | **`memcpy`** |
+| `0x3F054D0` | `nn::util::BinaryFileHeader::GetFirstBlock()` |
+
+特别纠正：此前只知道 `0x3F04470` 后接一处内存相关操作、不能确认是否分配；R25 **证实是 memcpy**，不得再当 allocator。
+
+### 6.2 真实的两个 BNSH 内嵌资源复制片段
+
+```asm
+; Path A: 0x25D18C, source BNSH @ 0x4AE3000
+0x25D1A4    BL 0x3F05240           ; GetAlignment(header)
+0x25D1A8    ADD X8, X19, X0        ; alignment arithmetic
+0x25D1AC    NEG X9, X0
+0x25D1B0    MOV W23, #0x8438       ; length 33,848
+0x25D1B4    SUB X8, X8, #1
+0x25D1B8    MOV X1, X24            ; source = 0x4AE3000
+0x25D1BC    MOV X2, X23            ; size = 0x8438
+0x25D1C0    AND X19, X8, X9        ; aligned destination
+0x25D1C4    MOV X0, X19            ; destination
+0x25D1C8    BL 0x3F04470           ; memcpy(dst,src,0x8438)
+0x25D1CC    MOV X0, X19
+0x25D1D0    BL 0x25001C           ; internal callee, not yet named
+0x25D1D4    STR X0, [X20,#8]
+0x25D1D8    BL 0x3F054D0           ; GetFirstBlock()
+```
+
+```asm
+; Path B: 0x2656B4, source BNSH @ 0x4AEC000
+0x2656DC    BL 0x3F05240           ; GetAlignment(header)
+0x2656E0    MOV W26, #0x51D8
+0x2656E4    MOVK W26, #2, LSL #16  ; length 0x251D8 = 152,024
+0x2656E8    MOV X1, X0             ; alignment arg
+0x2656EC    MOV X0, X26            ; requested size
+0x2656F0    BL 0x267B14           ; internal callee; allocator candidate
+0x2656F4    MOV X1, X24            ; source = 0x4AEC000
+0x2656F8    MOV X2, X26            ; size = 0x251D8
+0x2656FC    STR X0, [X19,#0x40]    ; returned pointer stored in object
+0x265700    BL 0x3F04470           ; memcpy(dst,src,0x251D8)
+0x265704    LDR X2, [X19,#0x40]    ; copied buffer pointer
+0x265708    MOV X0, X19
+0x26570C    MOV X1, X27
+0x265710    BL 0x285D10           ; internal consumer candidate
+```
+
+从复制操作本身可明确得出“内嵌 BNSH 资源已经被复制入目标缓冲区”；这比 R24 静态类型字面量引用是一个明显更强的环节。下游 `0x25001C`、`0x267B14`、`0x285D10` 目前没有完成对象布局与业务分派证明，**不能认定整个 Resource Manager 完成恢复，更不能宣称已找到 AMTA/LBLI/EVFL 业务消费者**。
+
+下一步真正值得推进的三个函数：
+
+1. `0x267B14`：从 `(size=0x251D8, alignment=GetAlignment)` 查找是否最终调用分配函数，并验证返回指针/失败路径。
+2. `0x25001C`：结合 `GetFirstBlock` 的对象返回关系及 `X20+8` 存储，确定这是视图/定位函数还是初始化函数。
+3. `0x285D10`：追 `X19` 的对象字段及 `X19+0x40` 的源缓冲拷贝是否在此转成 BNSH shader 业务对象。
+
+### 6.3 证据边界
+
+本轮工作流是原始 ELF 静态分析 + R24 原始模型的已认证结构重放。不是实机记录，没有拿到任意指向 AMTA、LBLI 或 BFEVFL 的具体加载调用者。Issue #33 和 #39 继续开放。
