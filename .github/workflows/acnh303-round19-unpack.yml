@@ -1,0 +1,376 @@
+name: ACNH 3.0.3 R19 BFRES Animation and Native Xref Evidence
+on:
+  push:
+    branches: [feat/acnh303-round19-animation-native]
+    paths:
+      - '.github/workflows/acnh303-round19-unpack.yml'
+      - '.github/workflows/acnh303-round19-release.yml'
+      - 'scripts/acnh303_round19_*.py'
+      - 'scripts/acnh303_media_batch.py'
+      - 'scripts/acnh303_media_l3.py'
+      - 'scripts/acnh303_bars_audio_l3.py'
+      - 'scripts/acnh303_bars_amta_export.py'
+      - 'scripts/acnh303_layout_semantic_shard.py'
+      - 'scripts/acnh303_round19_npc_probe.py'
+      - 'scripts/acnh303_round19_native_elf_probe.py'
+      - 'scripts/test_acnh303_round19_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r19-unpack
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m compileall -q scripts/acnh303_round19_select.py scripts/acnh303_round19_bars_reconcile.py scripts/acnh303_round19_model_classify.py scripts/acnh303_round19_release_verify.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round19_select.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_low_rate_wav.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+  unpack:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {category: Model, suffix: ".zs", shard: 0, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 1, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 2, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 3, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 4, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 5, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 6, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 7, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 8, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 9, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 10, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 11, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 12, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 13, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 14, shards: 16, cap: 32, mode: media}
+          - {category: Model, suffix: ".zs", shard: 15, shards: 16, cap: 32, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 0, shards: 6, cap: 12, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 1, shards: 6, cap: 12, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 2, shards: 6, cap: 12, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 3, shards: 6, cap: 12, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 4, shards: 6, cap: 12, mode: media}
+          - {category: Layout, suffix: ".zs", shard: 5, shards: 6, cap: 12, mode: media}
+          - {category: Sound, suffix: ".bars", shard: 0, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 1, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 2, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 3, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 4, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 5, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 6, shards: 8, cap: 10, mode: bars}
+          - {category: Sound, suffix: ".bars", shard: 7, shards: 8, cap: 10, mode: bars}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Sample unmeasured originals by SHA sorted source paths
+        run: |
+          python scripts/acnh303_round19_select.py --category '${{ matrix.category }}' \
+            --suffix '${{ matrix.suffix }}' --shard '${{ matrix.shard }}' --shards '${{ matrix.shards }}' \
+            --max-count '${{ matrix.cap }}'
+      - name: Obtain tested native conversion executables
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ '${{ matrix.category }}' = 'Sound' ]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -name 'vgmstream-cli*' -type f | head -n1 > /tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            sha256sum /tmp/vgmstream.zip
+            echo /nonexistent/wmdlt >/tmp/wmdlt.path
+            echo /nonexistent/wimgt >/tmp/wimgt.path
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 > /tmp/wmdlt.path
+            chmod +x "$(cat /tmp/wimgt.path)" "$(cat /tmp/wmdlt.path)"
+            echo /nonexistent/vgmstream >/tmp/vgmstream.path
+          fi
+      - name: Convert BFRES BNTX or standalone BWAV
+        if: matrix.mode == 'media'
+        run: |
+          set -euo pipefail
+          extra=''
+          # Only real validated media and recorded parser failure states count.
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round19 --report-dir derived/3.0.3/media_round19 \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)" $extra
+      - name: Decode original BFLYT BFLAN FCPX
+        if: matrix.category == 'Layout'
+        run: |
+          python scripts/acnh303_layout_semantic_shard.py --root . --selection selection.json \
+            --output Unpack_UI2D_Round19 --report-dir derived/3.0.3/layout_semantic_round19
+      - name: Decode bounded BARS BWAV members
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out Unpack_BARS_Round19 --report derived/3.0.3/bars_round19/bars_${{ matrix.shard }} \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Extract lossless AMTA v5 bytes
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_amta_export.py --selection selection.json \
+            --out Unpack_AMTA_Round19 --report derived/3.0.3/amta_round19/amta_${{ matrix.shard }}
+      - name: Check real original and derived output hashes
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          sel=json.load(open('selection.json'))
+          nca=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')
+          sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+          expected={p.split('/1/',1)[1] for p in sel['paths']}
+          assert len(expected)==sel['selected_files']
+          if sel['suffix']=='.bars':
+              files=[f"derived/3.0.3/bars_round19/bars_{sel['shard']}/report.json",f"derived/3.0.3/amta_round19/amta_{sel['shard']}/report.json"]
+              reports=[json.load(open(f)) for f in files]
+              for d in reports:
+                  assert len(d['records'])==sel['selected_files']
+                  assert {r['source_path'] for r in d['records']}==expected
+                  for r in d['records']:
+                      assert sha(nca/r['source_path'])==r['source_sha256']
+                      for m in r['members']:
+                          if m['status']=='converted_pcm_wav':
+                              assert sha(m['output_path'])==m['output_sha256'] and m['validation']['frames']>0
+                          if m['status']=='lossless_amta_extracted':
+                              assert sha(m['output_path'])==m['amta_sha256'] and m['native']['version_hex']=='0x0500'
+          else:
+              p=pathlib.Path('derived/3.0.3/media_round19')/sel['category']/f"{sel['shard']:03d}-of-{sel['shards']:03d}"/'manifest.json'
+              rows=json.load(open(p))
+              assert len(rows)==sel['selected_files']
+              assert {r['source_path'] for r in rows}==expected
+              for r in rows:
+                  assert sha(nca/r['source_path'])==r['sha256']
+                  for m in r['validated_outputs']:
+                      assert sha(m['path'])==m['sha256'] and m['validation']['type'] in ('glb','png','wav')
+                  if sel['suffix']=='.bwav':
+                      assert r['status']=='converted_media' and len(r['validated_outputs'])==1
+              if sel['category']=='Layout':
+                  p=pathlib.Path('derived/3.0.3/layout_semantic_round19/Layout')/f"{sel['shard']:03d}-of-{sel['shards']:03d}"/'semantic_manifest.json'
+                  doc=json.load(open(p))
+                  sha_by_path={r['source_path']:r['sha256'] for r in rows}
+                  assert {r['source_path'] for r in doc['source_records']}==expected
+                  for r in doc['source_records']:
+                      assert r['source_sha256']==sha_by_path[r['source_path']]
+                      for m in r['leaves']:
+                          if 'output_path' in m: assert sha(m['output_path'])==m['output_sha256']
+          print('R19 VERIFIED',sel['category'],sel['shard'],len(expected))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r19-report-${{ matrix.category }}-${{ matrix.mode }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_round19/
+            derived/3.0.3/layout_semantic_round19/
+            derived/3.0.3/bars_round19/
+            derived/3.0.3/amta_round19/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: r19-data-${{ matrix.category }}-${{ matrix.mode }}-${{ matrix.shard }}
+          path: |
+            Unpack_L3_Round19/
+            Unpack_UI2D_Round19/
+            Unpack_BARS_Round19/
+            Unpack_AMTA_Round19/
+          retention-days: 14
+          compression-level: 2
+          if-no-files-found: warn
+  research:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install raw resource and ELF readers
+        run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Inspect original failed animation BFRES without generating GLB
+        run: python scripts/acnh303_round19_animation_probe.py
+      - name: Inspect actual AArch64 ELF direct B and BL incoming edges
+        run: python scripts/acnh303_round19_native_xrefs.py
+      - name: Verify source SHA and distinct static research status
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          root=pathlib.Path('e10617820db06889e1638499478da0de_NCA')
+          p=pathlib.Path('derived/3.0.3')
+          a=json.loads((p/'r19_animation_probe/charactor_animation_20000.json').read_text())
+          n=json.loads((p/'r19_native_probe/elf_static_incoming_edges.json').read_text())
+          sha=lambda f:hashlib.sha256(f.read_bytes()).hexdigest()
+          assert sha(root/'1'/a['source_path'])==a['source_sha256']
+          assert sha(root/'0/ACNH3.0.3.elf')==n['original_elf_sha256']
+          assert a['r18_reported_status']=='failed' and a['leaf_count']>=1
+          assert a['status']=='structural_probe_only_not_animated_glb'
+          assert n['verification_state']=='STATIC_BRANCH_REFERENCE_ONLY'
+          assert len(n['r18_verified_candidates'])==4
+          print('R19 RAW RESEARCH VERIFIED',a['source_sha256'],n['original_elf_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r19-research-report
+          path: |
+            derived/3.0.3/r19_animation_probe/
+            derived/3.0.3/r19_native_probe/
+          retention-days: 30
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,unpack,research]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r19-report-*
+          path: collected
+      - name: Reconcile 22 Model/Layout reports against actual R18 cumulative
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round18_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 22 \
+            --expected-baseline 2974 --out derived/3.0.3/media_round19_cumulative
+      - name: Reconcile Layout UI2D independently
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected --media-audit derived/3.0.3/media_round19_cumulative \
+            --out derived/3.0.3/layout_semantic_round19_cumulative \
+            --shards 6 --expected-sources 72
+      - name: Reconcile R19 BARS/AMTA excluding 316 audited historical originals
+        run: |
+          python scripts/acnh303_round19_bars_reconcile.py --collected collected \
+            --out derived/3.0.3/bars_round19_cumulative --shards 8 --per-shard 10
+      - name: Independently classify proven Model geometry versus texture-only FRES
+        run: |
+          python scripts/acnh303_round19_model_classify.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: r19-research-report
+          path: research_download
+      - name: Preserve separate read-only animation and Native Xref evidence
+        run: |
+          mkdir -p derived/3.0.3/r19_animation_probe derived/3.0.3/r19_native_probe
+          cp research_download/r19_animation_probe/*.json derived/3.0.3/r19_animation_probe/
+          cp research_download/r19_native_probe/*.json derived/3.0.3/r19_native_probe/
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('derived/3.0.3')
+          a=json.loads((p/'r19_animation_probe/charactor_animation_20000.json').read_text())
+          n=json.loads((p/'r19_native_probe/elf_static_incoming_edges.json').read_text())
+          assert a['status']=='structural_probe_only_not_animated_glb'
+          assert n['verification_state']=='STATIC_BRANCH_REFERENCE_ONLY'
+          assert len(a['source_sha256'])==64 and len(n['original_elf_sha256'])==64
+          PY
+      - name: Assert 664 tested new sources and immutable R18 baseline
+        run: |
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/'
+          m=json.load(open(p+'media_round19_cumulative/coverage.json'))
+          b=json.load(open(p+'bars_round19_cumulative/coverage.json'))
+          u=json.load(open(p+'layout_semantic_round19_cumulative/coverage.json'))
+          cls=json.load(open(p+'model_round19_classification/coverage.json'))
+          assert m['baseline_source_count']==2974
+          assert m['new_source_count']==584 and m['cumulative_source_count']==3558
+          assert m['by_format']['Model']['measured_source_count']==1812
+          assert m['by_format']['Model']['not_yet_measured_sources']==58354
+          assert m['by_format']['Layout']['measured_source_count']==600
+          assert m['by_format']['Layout']['not_yet_measured_sources']==360
+          assert m['by_format']['Sound']['measured_source_count']==1146
+          assert m['by_format']['Sound']['not_yet_measured_sources']==0
+          assert m['new_by_format']['Model']['new_source_count']==512
+          assert m['new_by_format']['Layout']['new_source_count']==72
+          assert u['new_original_sources']==72
+          assert b['baseline_bars_tested']==316 and b['new_bars_tested']==80
+          assert b['bars_tested_total']==396 and b['remaining_unmeasured_bars']==1300
+          assert cls['new_model_sources']==512
+          print('R19 AUDITED',m['verified_media_output_files_by_type'],
+                'BARS',b['new_valid_bars_pcm_wav'],'BFRES',cls['class_counts'])
+          PY
+      - name: Publish only compact verified manifests on R19 branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r19_animation_probe \
+            derived/3.0.3/r19_native_probe \
+            derived/3.0.3/model_round19_classification \
+            derived/3.0.3/media_round19_cumulative \
+            derived/3.0.3/layout_semantic_round19_cumulative \
+            derived/3.0.3/bars_round19_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m 'data(unpack): R19 L3 media hashes and independent animation ELF static evidence'
+          git fetch origin feat/acnh303-round19-animation-native
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round19-animation-native
+  publish:
+    needs: reconcile
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/acnh303-round19-release.yml
+    secrets: inherit
