@@ -1,0 +1,75 @@
+name: ACNH 3.0.3 Re-export 41 UI2D Layouts and 12 FCPX Font Indexes
+on:
+  push:
+    branches: [feat/acnh303-fcpx-ui2d-bwav6]
+    paths:
+      - ".github/workflows/acnh303-fcpx-ui2d-export.yml"
+      - "scripts/acnh303_ui2d_parser.py"
+      - "scripts/test_acnh303_ui2d_parser.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            Unpack_UI2D_Font
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Sparse-fetch exact 41 missing-BNTX Layout originals
+        run: |
+          python - <<'PY'
+          import csv,pathlib,subprocess
+          with pathlib.Path("derived/3.0.3/media_iteration4_cumulative/remaining.csv").open(newline="",encoding="utf-8") as f:
+              names=sorted({r["source_path"] for r in csv.DictReader(f)
+                            if r["state"]=="no_target_leaf" and r["source_path"].startswith("Layout/")})
+          assert len(names)==41
+          lines=["/scripts/","/derived/","/Unpack_UI2D_Font/"]+[
+              "/e10617820db06889e1638499478da0de_NCA/1/"+name for name in names]
+          subprocess.run(["git","sparse-checkout","set","--no-cone","--stdin"],
+                         input=("\n".join(lines)+"\n").encode(),check=True)
+          PY
+      - name: Test bounded FLYT FLAN section parser
+        run: |
+          python -m compileall -q scripts/acnh303_ui2d_parser.py scripts/acnh303_ui2d_batch.py
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_fcpx_font.py' -v
+      - name: Export all 41 original archives with actual pane tree and animation JSON
+        run: |
+          python scripts/acnh303_ui2d_batch.py \
+            --root . --out Unpack_UI2D_Font \
+            --report derived/3.0.3/ui2d_font_41 --strict
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-41-layout-ui2d-plus-fcpx-fontref-json
+          path: |
+            Unpack_UI2D_Font/
+            derived/3.0.3/ui2d_font_41/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit per-source FLYT FLAN structure/animation JSON to GitHub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A Unpack_UI2D_Font derived/3.0.3/ui2d_font_41
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): export 41 no-BNTX FLYT node trees and 21 FLAN animations"
+          for i in 1 2 3 4; do
+            git fetch origin feat/acnh303-fcpx-ui2d-bwav6
+            git rebase origin/feat/acnh303-fcpx-ui2d-bwav6
+            if git push origin HEAD:feat/acnh303-fcpx-ui2d-bwav6; then exit 0; fi
+            sleep 3
+          done
+          exit 1

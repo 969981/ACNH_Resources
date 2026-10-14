@@ -75,7 +75,7 @@ def parse_resource_list(data,start,end,e):
     files=[]
     for i in range(count):
         relative=u(data,start+12+i*4,e,end)
-        files.append(cstring(data,start+relative,end))
+        files.append(cstring(data,start+12+relative,end))
     return files
 
 def parse_flyt(data):
@@ -141,11 +141,13 @@ def parse_flyt(data):
             unknown.append({"tag":tag,"section_index":section["index"],"source_offset":p,
                             "size":size,"sha256":section["sha256"]})
     if stack or group_stack:raise ValueError("unbalanced pane/group stack")
-    root.update({"layout":lyt,"panes":panes,
+    from acnh303_ui2d_semantics import examine
+    semantic=examine(data,root["sections"],e)
+    root.update({"material_parts_control_metadata":semantic,"layout":lyt,"panes":panes,
                  "root_pane_indices":[x["pane_index"] for x in panes if x["parent_pane_index"] is None],
                  "groups":groups,"named_resources":resources,
                  "unparsed_sections":unknown,
-                 "decoded_scope":"pane transforms and hierarchy, layout dimensions, names, section structure; other pane/material userdata retained as section hashes"})
+                 "decoded_scope":"pane transforms and hierarchy, layout dimensions, names, section structure; v9 part/material/control metadata recorded with warnings, unknown shader/userdata semantics retained"})
     return root
 
 def parse_flan(data):

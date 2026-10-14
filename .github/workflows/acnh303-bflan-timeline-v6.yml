@@ -1,0 +1,38 @@
+name: ACNH 3.0.3 BFLAN Offline Curve Timeline Validation
+on:
+  push:
+    branches: [feat/acnh303-fcpx-ui2d-bwav6]
+    paths: [".github/workflows/acnh303-bflan-timeline-v6.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  timeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            Unpack_UI2D_Font
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Sample decoded FLAN tracks to mathematical preview CSV
+        run: |
+          python scripts/acnh303_bflan_timeline.py
+          test -s derived/3.0.3/ui2d_timeline_v6/timeline_values.csv
+      - name: Commit preview with evidence and native-fidelity caveat
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/ui2d_timeline_v6
+          git diff --cached --quiet && exit 0
+          git commit -m "data(ui2d): compute non-native FLAN curve preview values from real keys"
+          git fetch origin feat/acnh303-fcpx-ui2d-bwav6
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-fcpx-ui2d-bwav6

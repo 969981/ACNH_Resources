@@ -162,3 +162,14 @@ For parser internals, known limitations and development guidance see scripts/REA
 另按 8 个独立分片新增 120 个实测 BWAV→PCM WAV，累计已测 212 个 BWAV，剩余 934；媒体实测来源累计 672，输出 214 GLB + 1354 PNG + 212 WAV = 1780 个文件。
 
 [第五轮技术报告](docs/UNPACK_UI2D_BWAV_ROUND5.md) · [41 源 UI2D JSON](Unpack_UI2D/e10617820db06889e1638499478da0de_NCA/1/Layout/) · [BWAV 分卷 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-120-next-20261014) · [累计 SHA 覆盖](derived/3.0.3/media_bwav120_cumulative/coverage.json)
+
+
+## 2026-10-14 第六轮：FCPX 字体索引、UI2D 深化、BWAV 扩容
+
+已对原先 12 个未支持的 `FCPX` 字体配置叶子实际验证：11 份相同的 704B、1 份 892B，共两种二进制；分别恢复 9/11 个字体资源名称，输出带 SHA-256 的 `*.fcpx.fontrefs.json`，不声称已解析字体字形或替换规则。
+
+同期修正了 BFLYT `fnl1` 字符串偏移，恢复材料／部件／控制区块元数据：41 个实际 UI2D 布局共 254 pane、22 个材料条目、57 个部件条目、22 个控制区块；6/6 字体引用与 29/29 动画目标名称关联成功。21 个 BFLAN 的 50 条动画轨道生成了 956 个**非原生数学采样**数值，不能当作原版游戏 UI 的已验证播放效果。
+
+此外再解码 120 个新 BWAV，累计唯一媒体源 792，**214 GLB + 1354 PNG + 332 WAV = 1900 个真实媒体文件**，还有 814 个 BWAV 尚未测试。
+
+[第六轮实证报告](docs/UNPACK_FCPX_UI2D_BWAV_ROUND6.md) · [UI2D 静态引用表](derived/3.0.3/ui2d_crossref_v6/crossrefs.json) · [累计媒体哈希审计](derived/3.0.3/media_bwav240_cumulative/coverage.json) · [120 个新增 WAV Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-240-total-20261014)
