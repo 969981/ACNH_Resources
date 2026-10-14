@@ -12,7 +12,7 @@ import json
 import struct
 from pathlib import Path
 from acnh303_round11_elf_xref import parse_elf, get_bytes_va, adrp_target, bl_target
-from acnh303_round12_native_downstream import Cs, CS_ARCH_ARM64, CS_MODE_ARM, SHA, SIZE
+from acnh303_round12_native_downstream import Cs, CS_ARCH_ARM64, CS_MODE_ARM, SHA, SIZE, global_refs
 
 SLOTS = {
     "bars_global_x22_source": 0x4AB2238,
@@ -25,11 +25,13 @@ SLOTS = {
 }
 REGIONS = {
     "bars_entry_prelude": (0x3ACA000, 0x3ACA350),
+    "bars_caller_291fb8c": (0x291fb4c, 0x291fbcc),
+    "bars_caller_3b4c61c": (0x3b4c5dc, 0x3b4c65c),
     "bars_success_x20_x22": (0x3ACA470, 0x3ACA598),
     "action_receiver": (0xFF6300, 0xFF6540),
     "query_receiver": (0x10846C0, 0x1084840),
 }
-REGS = {"x19","w19","x20","w20","x21","w21","x22","w22",
+REGS = {"x3","w3","x19","w19","x20","w20","x21","w21","x22","w22",
         "x23","w23","x24","w24","x8","w8","x0","w0"}
 
 def register_window(blob, segments, start, end):
@@ -118,9 +120,14 @@ def direct_calls_near(blob,segments,low,high,cap=120):
 
 def file_backing(blob,segments,va):
     d=get_bytes_va(blob,segments,va,8)
+    v=int.from_bytes(d,"little") if d is not None else None
+    child=get_bytes_va(blob,segments,v,32) if v is not None and v != 0 else None
     return {"file_backed":d is not None,
             "raw_qword_hex":d.hex() if d is not None else None,
-            "note":"Static bytes do not include runtime initialization/relocation; no pointer type implied."}
+            "candidate_va_from_qword":hex(v) if v is not None else None,
+            "candidate_target_file_backed":child is not None,
+            "candidate_target_first_32_bytes_hex":child.hex() if child is not None else None,
+            "note":"Read-only PT_LOAD file bytes only. Values need runtime relocation, owner and type verification."}
 
 def analyze(blob):
     if len(blob)!=SIZE or hashlib.sha256(blob).hexdigest()!=SHA:
@@ -128,20 +135,29 @@ def analyze(blob):
     segments=parse_elf(blob)
     windows={k:register_window(blob,segments,*v) for k,v in REGIONS.items()}
     slots=slot_references(blob,segments,SLOTS)
+    event_addresses=global_refs(blob,segments,{k:v for k,v in SLOTS.items() if k.startswith("eventflow_")})
     return {
         "schema":"acnh303-r13-native-object-provenance-v1",
         "elf_sha256":SHA,"elf_size":len(blob),
         "register_windows":windows,
+        "bars_caller_register_arguments":{k:[r for r in rows if set(r["writes"]) & {"x0","w0","x3","w3"}]
+             for k,rows in windows.items() if k.startswith("bars_caller_")},
         "candidate_register_writes":{
             k:[r for r in rows if set(r["writes"]) & {"x19","x20","x21","x22","x23","x24"}]
             for k,rows in windows.items()},
         "global_slots":{k:{"address":hex(v),"backing":file_backing(blob,segments,v),
-                           "references":slots[k]} for k,v in SLOTS.items()},
+                           "references":slots[k],
+                           "stored_reference_cap":100,
+                           "cap_may_have_been_reached":len(slots[k])>=100,
+                           "eventflow_adrp_add_references":event_addresses.get(k,[])} for k,v in SLOTS.items()},
+        "p0_bars_global_load_anchor":register_window(blob,segments,0x3ACA490,0x3ACA49C),
         "direct_bl_to_bars_prelude":direct_calls_near(blob,segments,0x3ACA000,0x3ACA350),
         "limits":[
             "Whole-ELF BL scans find direct call sites only, not BLR indirect calls.",
             "All register writers are raw linear-window evidence, NOT SSA/CFG-reachable definitions.",
             "ADRP+load/store crossrefs are syntactic candidates; intervening base-register clobbers not fully modeled.",
+            "Per-slot load/store reference lists are capped; no absent-writes claim is valid if capped.",
+            "ADRP+ADD record address formation is not a dereference and is listed separately.",
             "ELF file-backed bytes never prove runtime object identity or vtable function destination.",
             "No BARS member offset consumer, AMTA v5 playback, or EventFlow dispatch effect confirmed."]}
 def main():
