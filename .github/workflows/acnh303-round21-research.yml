@@ -103,6 +103,13 @@ jobs:
           assert d['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
           assert d['global_target_address']=='0x4ab2238'
           assert d['verification_state']=='STATIC_ELF_POINTER_VALUES_ONLY_RUNTIME_UNVERIFIED'
+          assert d['known_anchor_diagnostic']['local_exact_access']['load']==1
+          assert d['known_anchor_diagnostic']['full_scan_diagnostic']['full_scan_anchor_accesses']
+          assert d['exact_global_mem_access_counts'].get('load',0)>=1
+          assert any(x['interpretation']=='global_contains_pointer_to_object_with_vptr_at_0'
+                     and x['slot_0x18']['stored_value']=='0x5bd3a4'
+                     and x['slot_0x18']['value_points_to_executable_ptload']
+                     for x in d['static_file_backed_pointer_chains'])
           print('R21 ADRP',d['adrp_page_ref_total'],d['exact_global_mem_access_counts'])
           PY
       - uses: actions/upload-artifact@v4
