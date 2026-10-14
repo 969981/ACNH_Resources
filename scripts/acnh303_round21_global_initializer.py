@@ -84,6 +84,26 @@ def find_refs(blob,segments,target=TARGET,debug=None):
                 sample.append(record)
             for hit in accesses:
                 access_totals[hit["kind"]]+=1
+            # Independent opcode-field verification of the *immediately*
+            # following LDR/STR unsigned-immediate instruction. This is not
+            # affected by Capstone decoder state across 100k+ disassemblies.
+            if rel+8<=size:
+                follow=struct.unpack_from("<I",blob,off+rel+4)[0]
+                family=follow&0xffc00000
+                formats={0xf9400000:("ldr",8),0xf9000000:("str",8),
+                         0xb9400000:("ldr",4),0xb9000000:("str",4)}
+                if family in formats:
+                    mn,scale=formats[family]
+                    base_reg=(follow>>5)&31
+                    displ=((follow>>10)&0xfff)*scale
+                    if base_reg==reg and page+displ==target:
+                        at=hex(addr+4)
+                        if not any(x["at"]==at for x in accesses):
+                            accesses.append({"at":at,"opcode":f"{follow:08x}",
+                                  "mnemonic":mn,"mem_disp":displ,
+                                  "kind":"load" if mn=="ldr" else "store_candidate",
+                                  "register_operand":f"x{follow&31}",
+                                  "verification":"raw_AArch64_unsigned_imm_opcode_fields"})
             if addr==0x3ACA490 and debug is not None:
                 debug['full_scan_anchor_accesses']=accesses
                 debug['full_scan_anchor_aliases']=dict(aliases)
