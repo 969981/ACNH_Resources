@@ -2,6 +2,7 @@
 """R23 synthetic boundary tests (not substitutes for original BFRES/ELF)."""
 import unittest,struct,math
 from acnh303_round23_binding_material import base_pose,material_header
+from acnh303_round21_anim_curves import parse_curve
 from acnh303_round23_native_loader_triage import summarize_instructions
 from types import SimpleNamespace
 class Pose(unittest.TestCase):
@@ -48,6 +49,34 @@ class Material(unittest.TestCase):
         struct.pack_into("<Q",b,0x28,0x120)
         struct.pack_into("<H",b,0x62,100)
         with self.assertRaisesRegex(ValueError,"outside source"):material_header(bytes(b),0,0)
+class MaterialCurveSentinel(unittest.TestCase):
+    def test_step_int_allows_raw_delta_sentinel_but_validates_frames(self):
+        b=bytearray(0x200)
+        struct.pack_into("<Q",b,0,0x100)
+        struct.pack_into("<Q",b,8,0x110)
+        struct.pack_into("<H",b,0x10,0x4a) # uint8 frame/int8 key/StepInt
+        struct.pack_into("<H",b,0x12,2)
+        struct.pack_into("<ff",b,0x18,0.0,13.0)
+        struct.pack_into("<I",b,0x28,0xffffffff) # observed StepInt delta bits
+        b[0x100:0x102]=bytes((0,13))
+        b[0x110:0x112]=bytes((2,3))
+        d=parse_curve(bytes(b),0)
+        self.assertEqual(d["mode"],"step_int")
+        self.assertEqual(d["delta_bits_u32"],0xffffffff)
+        self.assertIsNone(d["delta"])
+        self.assertTrue(d["step_integer_sentinel_fields"])
+        self.assertTrue(d["frame_monotonic"])
+    def test_cubic_still_rejects_nan_coefficient(self):
+        b=bytearray(0x200)
+        struct.pack_into("<Q",b,0,0x100)
+        struct.pack_into("<Q",b,8,0x110)
+        struct.pack_into("<H",b,0x10,0) # cubic
+        struct.pack_into("<H",b,0x12,2)
+        struct.pack_into("<ff",b,0x18,0.0,13.0)
+        struct.pack_into("<I",b,0x28,0xffffffff)
+        with self.assertRaisesRegex(ValueError,"nonfinite_curve_coefficients"):
+            parse_curve(bytes(b),0)
+
 class Native(unittest.TestCase):
     def test_ret_detected_without_loader_fantasy(self):
         seq=[SimpleNamespace(mnemonic="ret")]
