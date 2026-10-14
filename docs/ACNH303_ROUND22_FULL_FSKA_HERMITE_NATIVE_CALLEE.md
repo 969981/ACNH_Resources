@@ -25,3 +25,22 @@ R22 在两条严格区分的研究线上执行：
 - **动画**：所有曲线条目 count/地址和关键帧字节已能按静态结构复原，不等于动画全部效果可播放。下步要恢复具体模型 Skeleton（骨骼的实际 index/bind、默认矩阵/坐标系、四元数与欧拉转换），验证真实游戏输出变换；材质 FMAA 仍需继续深入。
 - **Native**：静态 ELF 文件镜像中的 vtable 槽位和函数机器码即使完全合理，不代表游戏运行时 `BLR` 必定调用此函数；不同加载基址、重定位和动态重写可能改变接收对象。必须在匹配 3.0.3 的真实运行环境以只读方式记录 `X22/X8`、`[0x4AB2238]`、`[X22]`、`[[X22]+0x18]`、`BLR` 后 PC，并关联原始资源加载的实际调用栈，才能确认 AMTA/LBLI/BFEVFL 所属对象。
 - R22 研究成功 **不得**因此关闭 [动画 Issue #39](https://github.com/969981/ACNH_Resources/issues/39) 和 [Native Issue #33](https://github.com/969981/ACNH_Resources/issues/33)。原始 NCA 只读，不合并 `3.0.3` 主分支。
+
+## R22 最终真实运行证据（2026-10-14）
+
+- [最终成功 CI Run #38569157015](https://github.com/969981/ACNH_Resources/actions/runs/38569157015) **5/5 作业成功**，包括正反例回归、2 个原始文件读取研究作业、证据提交，以及 Release 对同一 run 的实际产物逐字节比较。
+- [永久 Release acnh303-r22-hermite-static-callee-20261014](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r22-hermite-static-callee-20261014)：`full_fska_hermite.json`、`curve_replay_summary.json`、`static_5bd3a4.json`、`SHA256SUMS.txt`，均有 SHA 可复核。
+- **所有 406/406 个 FSKA**：累计扫描 23,142 个 BoneAnim 原始记录、24,281 条 AnimCurve（与所有动画头部的 declaredCurveCount 总数 **24,281/24,281** 一致），393,029 个原始关键帧；24,281 条曲线格式均识别为 cubic，原始记录解析错误 0。
+- 全曲线 368,748 个实际连续关键帧区间进行了 raw coefficient 多项式与 Hermite 变换的代数检查，`hermite_algebraic_mismatches = 0`。
+- **重要：终点残差属于整数量化域，不是证明游戏里出现可见断点。** 本轮 21,580 条曲线存在非零终点差，其中 20,486 条最大残差为 **1 原始单位**，1,094 条为 **2 原始单位**；没有任何曲线最大残差超过 2 原始单位。各自乘 `Scale` 后的最大绝对残差约 **0.00568110**。这与系数量化独立舍入吻合，但尚未与原生游戏插值结果实机比对。
+- `0x4AB2238 → 0x4B4B980 → 0x47F9770 → [+0x18]=0x5BD3A4` 真实 ELF 文件初始指针链继续通过独立 SHA 校验，静态虚表 `+0x18` 对应函数入口实际 opcode 是 `C0035FD6 = RET`。**这不是有实据的 BARS/AMTA 数据读取函数**，而是直接返回的静态函数候选；其具体类身份仍未证实。
+- 对整个 ELF 可执行段做真实 AArch64 `B/BL` 反查，**49 个不同直接 `BL`** 指向 `0x5BD3A4`；只读数据段中 `0x47F9770` 静态虚表地址出现 59 次、`0x4B4B980` 1 次、`0x5BD3A4` 2 次。对应 0x47F9770 虚表其它槽也含非空可执行入口，而 0/null 槽未按有效函数统计。
+- `0x5BD3A8` 是紧接 `RET` 的另一段代码；见真实 opcode + `LDR/CBZ/BL/BR` 指令，不可和静态 `+0x18` 的实际槽入口 `0x5BD3A4` 混淆。
+
+### R22 后的下一步技术路线
+
+**动画主线**：优先恢复同一 FRES 中真实 FSKA 的 bone-name → Model/Skeleton bind，结合曲线 target offsets + base-pose，按游戏实际 rotation/scale/translation 模式评估，独立验证与真实运行时变换一致。FMAA 118 条只是目录级已证实，还需 MaterialAnimData、材质参数值/纹理动画曲线解析。
+
+**Native 主线**：放弃“把 `0x5BD3A4` 当 AMTA 消费者”的未经证实假设；沿真实数据读取/内存分配/对象工厂筛选非空虚表槽与实际消费者。实机版本匹配的 **只读寄存器/虚表槽/实际执行 PC** 是最终确定 `BLR` 的必需证据。本研究不能替代该验证。
+
+本轮不增加 GLB/PNG/WAV，也未改动原始 NCA；[动画 Issue #39](https://github.com/969981/ACNH_Resources/issues/39) 与 [Native Issue #33](https://github.com/969981/ACNH_Resources/issues/33) 继续开放。
