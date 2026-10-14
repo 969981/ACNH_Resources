@@ -20,7 +20,11 @@ def inspect(src):
     length=struct.unpack_from(endian+"I",src,4)[0]
     version=struct.unpack_from(endian+"H",src,10)[0]
     count=struct.unpack_from(endian+"I",src,12)[0]
-    if length!=len(src) or count>50000 or 16+12*count>len(src):
+    # One real 3.0.3 BARS sample declares 57344 bytes but the source blob
+    # contains 57345. Retain the original SHA and unexplained extra byte;
+    # parse only references within the declared file, never silently strip it.
+    tail_bytes=len(src)-length
+    if length<16 or tail_bytes<0 or tail_bytes>16 or count>50000 or 16+12*count>length:
         raise ValueError(f"BARS header size/count invalid {length} {len(src)} {count}")
     offsets=16+4*count
     sources=[]
@@ -30,20 +34,24 @@ def inspect(src):
         meta,asset=struct.unpack_from(endian+"II",src,offsets+8*i)
         def magic(off):
             if off==0xffffffff:return "ABSENT"
-            if off<0 or off+4>len(src):return "OUT_OF_BOUNDS"
+            if off<0 or off+4>length:return "OUT_OF_BOUNDS"
             return src[off:off+4].decode("ascii","replace")
         m={"index":i,"name_crc32_unsigned":crc,"name_crc32_hex":f"0x{crc:08x}",
            "meta_offset":meta,"meta_magic":magic(meta),
            "asset_offset":asset,"asset_magic":magic(asset)}
-        if meta not in (0xffffffff,0) and meta+12<=len(src) and src[meta:meta+4]==b"AMTA":
+        if meta not in (0xffffffff,0) and meta+12<=length and src[meta:meta+4]==b"AMTA":
             m["amta_version_bytes"]=src[meta+4:meta+8].hex()
             m["amta_size_candidate"]=struct.unpack_from(endian+"I",src,meta+8)[0]
-            if m["amta_size_candidate"]>len(src)-meta:m["warning"]="invalid AMTA declared size"
+            if m["amta_size_candidate"]>length-meta:m["warning"]="invalid AMTA declared size"
         names.append(crc);sources.append(m)
     types=Counter(x["asset_magic"] for x in sources)
     status="structural_index" if all(x["meta_magic"] in ("AMTA","ABSENT") for x in sources) else "mixed_or_unknown_meta"
+    if tail_bytes and status=="structural_index":
+        status="structural_index_trailing_unconfirmed"
     return {"magic":"BARS","bytes":len(src),"declared_file_size":length,"bom":bom.hex(),
             "version_hex":f"0x{version:04x}","asset_count":count,
+            "trailing_bytes_after_declared_size":tail_bytes,
+            "unexplained_trailing_hex":src[length:].hex(),
             "crc32_name_hashes_sorted":names==sorted(names),"audio_magic_counts":dict(types),
             "index_status":status,"items":sources,
             "limits":"CRC32 name hashes are NOT recovered names; embedded audio offsets/magic only, no PCM decoder or sound playback claimed"}
