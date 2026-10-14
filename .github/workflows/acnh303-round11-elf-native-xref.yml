@@ -1,0 +1,66 @@
+name: ACNH 3.0.3 Round11 Real ARM64 ELF Native String XREF
+on:
+  push:
+    branches: [feat/acnh303-round11-elf-native-consumers]
+    paths: ['.github/workflows/acnh303-round11-elf-native-xref.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/evfl_round10_cumulative/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regression of ELF header, ADRP+ADD, LDR and BL on synthetic AArch64
+        run: |
+          python -m compileall -q scripts/acnh303_round11_elf_xref.py scripts/test_acnh303_round11_elf_xref.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round11_elf_xref.py' -v
+      - name: Require actual ELF64 and real archive provenance
+        run: |
+          test -f e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          test "$(stat -c '%s' e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf)" -gt 70000000
+          sha256sum e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          test -f derived/3.0.3/evfl_round10_cumulative/coverage.json
+      - name: Scan real ACNH 3.0.3 ARM64 mapped ELF for verified magic and 39 event symbols
+        run: |
+          python scripts/acnh303_round11_elf_xref.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --events derived/3.0.3/evfl_round10_cumulative/coverage.json \
+            --out derived/3.0.3/round11_elf_native_xref/report.json
+          python - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path('derived/3.0.3/round11_elf_native_xref/report.json').read_text())
+          assert r['elf_machine']=='AArch64'
+          assert r['elf_bytes']>70_000_000
+          assert len(r['elf_sha256'])==64
+          assert r['searched_native_terms']>=35
+          print('ELF_XREF_VERIFIED',r['elf_sha256'],r['terms_with_exact_literals'],
+                r['terms_with_code_address_formations'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r11-real-aarch64-xref-report
+          path: derived/3.0.3/round11_elf_native_xref/report.json
+          retention-days: 30
+      - name: Commit evidence only; never publish original copyrighted game executable
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse -A derived/3.0.3/round11_elf_native_xref
+          git diff --cached --quiet && exit 0
+          git commit -m "research(acnh303): real ELF SHA and ARM64 code address-formation references"
+          git fetch origin feat/acnh303-round11-elf-native-consumers
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round11-elf-native-consumers
