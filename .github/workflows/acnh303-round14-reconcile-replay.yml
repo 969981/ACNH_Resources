@@ -1,0 +1,117 @@
+name: ACNH 3.0.3 R14 Reconcile Original Verified Decode Shards
+on:
+  push:
+    branches: [feat/acnh303-round14-unpack-backlog]
+    paths: ['.github/workflows/acnh303-round14-reconcile-replay.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      SOURCE_RUN_ID: '38513573917'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all 16 real source decoder jobs actually succeeded
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/actions/runs/$SOURCE_RUN_ID/jobs?per_page=100" \
+            --jq '[.jobs[] | select(.name | startswith("unpack (")) | .conclusion] | (length == 16 and all(. == "success"))' | grep -Fx true
+          echo "Checked all 16 original decode jobs; only their existing reports will be reused."
+      - name: Fetch 16 unique per-shard verified report artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p collected
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'acnh303-r14-report-*' -D collected
+          test "$(find collected -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 16
+          echo 'MEDIA MANIFEST LOCATIONS:'
+          find collected -name 'manifest.json' -type f | sort
+          echo 'BARS REPORT LOCATIONS:'
+          find collected -name 'report.json' -type f | sort
+          echo 'LAYOUT MANIFEST LOCATIONS:'
+          find collected -name 'semantic_manifest.json' -type f | sort
+          test "$(find collected -name manifest.json -type f | wc -l)" -eq 12
+          test "$(find collected -name semantic_manifest.json -type f | wc -l)" -eq 4
+          test "$(find collected -name report.json -type f | wc -l)" -eq 8
+      - name: Reconcile nonduplicated native Model Layout BWAV media
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round10_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected \
+            --expected-new-shards 12 --expected-baseline 1224 \
+            --out derived/3.0.3/media_round14_cumulative
+      - name: Reconcile 32 genuine Layout semantic source members
+        run: |
+          python scripts/acnh303_layout_semantic_reconcile.py \
+            --artifact-root collected \
+            --media-audit derived/3.0.3/media_round14_cumulative \
+            --out derived/3.0.3/layout_semantic_round14_cumulative \
+            --shards 4 --expected-sources 32
+      - name: Reconcile 16 BARS and matching lossless AMTA originals
+        run: |
+          python scripts/acnh303_round14_bars_reconcile.py \
+            --collected collected \
+            --prior-manifest derived/3.0.3/bars_round10_cumulative/source_manifest.jsonl.gz \
+            --prior-coverage derived/3.0.3/bars_round10_cumulative/coverage.json \
+            --out derived/3.0.3/bars_round14_cumulative --shards 4 --per-shard 4
+      - name: Generate exact source-by-source unfinished parser coverage index
+        run: |
+          python scripts/acnh303_round14_backlog_index.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --effective derived/3.0.3/effective/source_run_manifest.jsonl.gz \
+            --media derived/3.0.3/media_round14_cumulative/source_manifest.jsonl.gz \
+            --bars-r8 derived/3.0.3/bars_audio_round8/report.json \
+            --bars-r9 derived/3.0.3/round9_cumulative/source_manifest.jsonl.gz \
+            --bars-r10 derived/3.0.3/bars_round10_cumulative/source_manifest.jsonl.gz \
+            --bars-r14 derived/3.0.3/bars_round14_cumulative/source_manifest.jsonl.gz \
+            --out derived/3.0.3/round14_unfinished_index
+      - name: Assert completion boundaries and original coverage arithmetic
+        run: |
+          python - <<'PY'
+          import json
+          media=json.load(open('derived/3.0.3/media_round14_cumulative/coverage.json'))
+          bars=json.load(open('derived/3.0.3/bars_round14_cumulative/coverage.json'))
+          ui=json.load(open('derived/3.0.3/layout_semantic_round14_cumulative/coverage.json'))
+          pending=json.load(open('derived/3.0.3/round14_unfinished_index/summary.json'))
+          assert media['new_source_count']==112 and media['cumulative_source_count']==1336
+          assert [(k,media['new_by_format'][k]['new_source_count']) for k in ('Model','Layout','Sound')]==[('Model',32),('Layout',32),('Sound',48)]
+          assert ui['new_original_sources']==32
+          assert bars['bars_tested_total']==120 and bars['new_bars_tested']==16
+          assert pending['source_inventory_count']==103400 and pending['l0_l2_full_record_count']==103400
+          assert pending['l0_l2_status_counts']=={'converted':2105,'partial':101295}
+          assert pending['media_l3_tested_originals']==1336 and pending['bars_native_tested_originals']==120
+          assert media['by_format']['Sound']['not_yet_measured_sources']==462
+          assert pending['not_measured_by_target']['BFRES geometry/texture']==59826
+          assert pending['not_measured_by_target']['BNTX image + UI2D']==648
+          assert pending['not_measured_by_target']['BARS embedded WAV + AMTA v5']==1576
+          print('R14_REAL_MEDIA',media['verified_media_output_files_by_type'])
+          print('R14_REAL_BARS',bars['new_valid_bars_pcm_wav'],bars['new_lossless_amta_v5'])
+          PY
+      - name: Commit source hashes counts and compact 103400 path index
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A derived/3.0.3/media_round14_cumulative \
+            derived/3.0.3/layout_semantic_round14_cumulative \
+            derived/3.0.3/bars_round14_cumulative \
+            derived/3.0.3/round14_unfinished_index
+          git diff --cached --quiet && exit 0
+          git commit -m 'data(unpack): R14 verified 128 originals and full 103400-source unfinished index'
+          git fetch origin feat/acnh303-round14-unpack-backlog
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round14-unpack-backlog
