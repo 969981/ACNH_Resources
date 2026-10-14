@@ -30,10 +30,22 @@ def material_table(d,p,end):
         limit=p+offsets[i+1] if i+1<count else end
         if q<start or limit<q or limit>end or q+28>limit:
             raise ValueError("invalid mat1 material bounds")
-        result.append({"index":i,"name":name(d,q,28,limit),
+        item={"index":i,"name":name(d,q,28,limit),
           "raw_offset_relative_section":rel,"byte_size":limit-q,
           "record_sha256":hash_bytes(d,q,limit),
-          "fields_unparsed":"texture references, blend flags and shader data; v9 layout varies"})
+          "fields_unparsed":"texture references, blend flags and shader data; v9 layout varies"}
+        # All 22 mat1 records observed in the 41-Layout real ACNH corpus
+        # have exactly 28 bytes of name followed by 4 little-endian words.
+        # Export these as native words; only the last 4 bytes *resemble*
+        # an RGBA tint and no GPU/GLSL blend mode is inferred from them.
+        if limit-q==44:
+            words=list(struct.unpack_from("<4I",d,q+28))
+            item["native_word_offsets_from_material"]=[28,32,36,40]
+            item["native_words_u32_le"]=words
+            item["native_words_hex"]=[f"0x{word:08x}" for word in words]
+            item["last_word_rgba_byte_candidate"]=list(val(d,q+40,4,limit))
+            item["last_word_color_semantics"]="candidate only, requires original UI material/shader validation"
+        result.append(item)
     return {"count":count,"items":result}
 
 def parts_table(d,p,end):

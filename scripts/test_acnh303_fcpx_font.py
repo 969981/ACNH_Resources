@@ -3,29 +3,48 @@ import unittest
 from acnh303_fcpx_font import parse_fcpx
 
 def make(names):
-    raw=bytearray(64)
+    raw=bytearray(0x40+40*len(names))
     raw[:4]=b"FCPX"
     raw[4:6]=bytes([255,254])
     struct.pack_into("<H",raw,6,20)
     struct.pack_into("<I",raw,8,0x09030000)
-    struct.pack_into("<I",raw,36,len(names))
-    for n in names:raw+=n.encode("ascii")+bytes([0])
+    struct.pack_into("<I",raw,0x24,len(names))
+    raw+=bytes(16)
+    for i,n in enumerate(names):
+        off=len(raw)
+        struct.pack_into("<I",raw,0x40+40*i+4,off-0x18)
+        struct.pack_into("<I",raw,0x40+40*i+12,0x3f800000)
+        raw+=n.encode("ascii")+bytes([0])
     struct.pack_into("<I",raw,12,len(raw))
     return bytes(raw)
 
-class FontReferenceTests(unittest.TestCase):
-    def test_header_count_and_names(self):
-        doc=parse_fcpx(make(["SystemB_00.bfttf","Normal_00.bfotf"]))
+class FontRecordTests(unittest.TestCase):
+    def test_pointer_offset_and_opaque_words(self):
+        doc=parse_fcpx(make(["ParkExt.bfttf","Normal_00.bfotf"]))
         self.assertEqual(doc["declared_font_reference_count"],2)
-        self.assertEqual(len(doc["fonts"]),2)
-        self.assertEqual(doc["fonts"][1]["ext"],"bfotf")
-        self.assertEqual(doc["scope"],"filename references only; no font glyph or character-map extraction")
-    def test_source_length_and_count_rejection(self):
-        data=bytearray(make(["Example.bfttf"]))
-        struct.pack_into("<I",data,12,len(data)+1)
+        self.assertEqual(doc["fonts"][1]["name"],"Normal_00.bfotf")
+        self.assertEqual(doc["fonts"][0]["record_length"],40)
+        self.assertEqual(doc["fonts"][1]["record_file_offset"],0x40+40)
+        self.assertEqual(doc["fonts"][0]["record_words_u32_le"][3],0x3f800000)
+        self.assertEqual(doc["font_reference_table"]["filename_pointer_bias"],24)
+        self.assertIn("not proven",doc["font_reference_table"]["semantic_limit"])
+    def test_bad_source_length(self):
+        data=bytearray(make(["ParkExt.bfttf"]))
+        struct.pack_into("<I",data,12,len(data)+4)
         with self.assertRaises(ValueError):parse_fcpx(bytes(data))
-        data=bytearray(make(["Example.bfttf"]))
-        struct.pack_into("<I",data,36,2)
+    def test_bad_record_pointer(self):
+        data=bytearray(make(["ParkExt.bfttf"]))
+        struct.pack_into("<I",data,0x44,0xffffffee)
         with self.assertRaises(ValueError):parse_fcpx(bytes(data))
+    def test_wrong_font_count(self):
+        data=bytearray(make(["ParkExt.bfttf"]))
+        struct.pack_into("<I",data,0x24,2)
+        with self.assertRaises(ValueError):parse_fcpx(bytes(data))
+    def test_unknown_string_alias_rejected(self):
+        data=bytearray(make(["ParkExt.bfttf"]))
+        data+=b"Unreferenced.bfttf"+bytes([0])
+        struct.pack_into("<I",data,12,len(data))
+        with self.assertRaises(ValueError):parse_fcpx(bytes(data))
+
 if __name__=="__main__":
     unittest.main()

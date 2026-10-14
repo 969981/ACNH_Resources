@@ -1,0 +1,96 @@
+name: ACNH 3.0.3 BWAV Round 7 Next 120 PCM WAV Verified Release
+on:
+  push:
+    branches: [feat/acnh303-ui2d-native-v7]
+    paths: [".github/workflows/acnh303-bwav-round7-release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE_RUN: 38490843322
+      TAG: acnh303-bwav-360-total-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: derived
+          sparse-checkout-cone-mode: true
+      - name: Verify run and 672-source cumulative source-hash census
+        run: |
+          set -euo pipefail
+          gh run view "$SOURCE_RUN" -R 969981/ACNH_Resources --json conclusion --jq .conclusion | grep -Fx success
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_bwav360_cumulative/coverage.json").read_text())
+          assert j["baseline_source_count"]==792 and j["new_source_count"]==120
+          assert j["cumulative_source_count"]==912
+          assert j["verified_media_output_files_by_type"]=={"glb":214,"png":1354,"wav":452}
+          assert j["verified_media_output_files"]==2020
+          assert j["by_format"]["Sound"]["not_yet_measured_sources"]==694
+          print("VERIFIED 120 NEW BWAV; 672 SOURCE / 1780 MEDIA FILE CUMULATIVE")
+          PY
+      - name: Download eight native WAV output and SHA reports
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p bundles packages
+          for s in 0 1 2 3 4 5 6 7; do
+            dir="bundles/Sound-$s"
+            mkdir -p "$dir/data" "$dir/report"
+            gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+              -n "acnh303-bwav7-data-$s" -D "$dir/data"
+            gh run download "$SOURCE_RUN" -R 969981/ACNH_Resources \
+              -n "acnh303-bwav7-report-$s" -D "$dir/report"
+            test "$(find "$dir/data" -name _conversion_manifest.json -type f | wc -l)" -eq 15
+            test "$(find "$dir/report" -name manifest.json -type f | wc -l)" -eq 1
+            tar -czf "packages/ACNH-3.0.3-BWAV-round7-shard$s.tar.gz" -C "$dir" .
+          done
+      - name: Attach cumulative PCM WAV hash index, source manifest and checksums
+        run: |
+          cp derived/3.0.3/media_bwav360_cumulative/coverage.json packages/coverage.json
+          cp derived/3.0.3/media_bwav360_cumulative/media_index.csv packages/media_index.csv
+          cp derived/3.0.3/media_bwav360_cumulative/remaining.csv packages/remaining.csv
+          cp derived/3.0.3/media_bwav360_cumulative/source_manifest.jsonl.gz packages/source_manifest.jsonl.gz
+          (cd packages && sha256sum *.tar.gz coverage.json media_index.csv remaining.csv source_manifest.jsonl.gz > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+          du -h packages/*.tar.gz
+      - name: Publish durable source-relative WAV file archives, not transient artifacts
+        run: |
+          cat > /tmp/notes.md <<'EOF'
+          # ACNH 3.0.3: 120 new genuine decoded PCM WAV files
+
+          8 deterministic Sound BWAV shards, excluding 332 BWAV original files
+          already processed. Every new source was actually downloaded, decoded
+          through vgmstream r2117, checked for valid PCM WAV frames, channels,
+          sample rate and output SHA-256. No empty fake WAVs were counted.
+
+          Before: 792 measured original media sources, 1900 verified media files.
+          Now: 912 measured original sources, 2020 media files:
+          214 GLBs + 1354 PNGs + 452 WAVs. 694 BWAV source candidates remain
+          untested out of the original 1146, not falsely marked converted.
+
+          These 8 tarballs contain **120 newly decoded WAVs** and per-source
+          SHA-256 provenance, under preserved RomFS path-based folders.
+          SHA256SUMS.txt authenticates download archives and metadata.
+          Full source SHA manifest, output hash index, format-specific
+          coverage report and remaining/unconverted CSV included.
+          This is **partial L3 coverage**, not all of ACNH's audio resources.
+          EOF
+          if ! gh release view "$TAG" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$TAG" -R 969981/ACNH_Resources \
+              --target feat/acnh303-ui2d-native-v7 \
+              --title "ACNH 3.0.3 BWAV: next 120 real PCM WAVs" \
+              --notes-file /tmp/notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R 969981/ACNH_Resources \
+            packages/*.tar.gz packages/coverage.json packages/media_index.csv \
+            packages/remaining.csv packages/source_manifest.jsonl.gz packages/SHA256SUMS.txt \
+            --clobber
+          gh release view "$TAG" -R 969981/ACNH_Resources --json url,assets \
+            --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'

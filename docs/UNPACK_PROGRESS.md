@@ -73,3 +73,12 @@
 - 21 个 BFLAN 拆出的 50 个轨道与 134 个实际关键帧，生成 956 个**非原生数学曲线采样值**，不意味着实际游戏 UI 的渲染等效验证。
 - 第六轮新处理 120 个 BWAV，累积音频 332/1146 已测，还剩 814 未测；媒体累计 792 个唯一源，214 GLB、1354 PNG、332 WAV 共 **1900 个有效媒体文件**、2,559,147,310 字节。
 - [技术报告](UNPACK_FCPX_UI2D_BWAV_ROUND6.md) · [累计 L3 媒体结果](../derived/3.0.3/media_bwav240_cumulative/coverage.json) · [8 个新增 WAV 长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-240-total-20261014)。原始 103400 源的结构扫描不等于 100% L3 语义转换。
+
+
+## 2026-10-14 第七轮：FCPX 20 字体记录的指针链、mat1 原生材料字段、BWAV 第三批 120
+
+- 对两个不同 FCPX 真实内容确认 `0x40` 起始 `0x28` 步长的 **20/20 字体记录**，名称指针字段 `record+0x04`，实际名称地址 `pointer+0x18`。记录另有 9 个保留原始值的 u32；**未证明语言 fallback 顺序**。[字节证据](../derived/3.0.3/ui2d_native_v7/raw_evidence.json) · [逐记录 CSV](../derived/3.0.3/ui2d_native_v7/font_reference_record_matrix.csv)。
+- 41 个真实 Layout 再次成功运行并对齐全部 12 FCPX、41 BFLYT、21 BFLAN；22 个 mat1 材料的 44B 记录全部导出，原始 `+0x20=0x08040200` 的字段模式 **22/22** 一致，色调候选四种。仅原生字节被证明，材质像素渲染未证实。[材料矩阵](../derived/3.0.3/ui2d_native_v7/material_native_words.csv)。
+- BFLAN 新增实际运行时读数 comparer 和回归测试；在没有 ACNH 3.0.3 原生 trace 时严守 `NOT_TESTED`，目前 [证据状态](../derived/3.0.3/ui2d_runtime_validation_v7/report.json) 明确未达成运行时等效。离线 956 帧值只是数学预览。
+- 第七轮 8 分片全部实测成功，新增 120 BWAV 有效 PCM WAV，累计 452/1146 已测，剩余 **694**。全媒体源累计 **912**，输出 **214 GLB + 1354 PNG + 452 WAV = 2020** 个有效媒体文件，3,134,300,704 字节。
+- [第七轮文档](UNPACK_NATIVE_UI2D_BWAV_ROUND7.md) · [累计媒体 SHA](../derived/3.0.3/media_bwav360_cumulative/coverage.json) · [八分卷 WAV 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-360-total-20261014)。

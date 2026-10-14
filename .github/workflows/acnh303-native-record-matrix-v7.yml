@@ -1,0 +1,61 @@
+name: ACNH 3.0.3 FCPX Native Record Matrix and FLAN Runtime Proof Gate
+on:
+  push:
+    branches: [feat/acnh303-ui2d-native-v7]
+    paths: [".github/workflows/acnh303-native-record-matrix-v7.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            Unpack_UI2D_Font
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test real FCPX pointer bounds and strict native trace comparison guard
+        run: |
+          python -m unittest discover -s scripts -p 'test_acnh303_fcpx_font.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_bflan_runtime_compare.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+      - name: Build source-hash-backed 20 native font records and 22 materials
+        run: python scripts/acnh303_ui2d_record_matrix.py
+      - name: Check original 956 mathematical FLAN values but NEVER claim runtime match without capture
+        run: python scripts/acnh303_bflan_runtime_compare.py
+      - name: Require strict no-native-trace status and complete source counts
+        run: |
+          python - <<'PY'
+          import json,pathlib,csv
+          p=pathlib.Path("derived/3.0.3/ui2d_native_v7/record_matrix_summary.json")
+          x=json.loads(p.read_text())
+          assert x["state_counts"]["sources"]==41
+          assert x["state_counts"]["total_fcpx_members"]==12
+          assert x["state_counts"]["native_font_records"]==20
+          assert x["state_counts"]["material_sections"]==6
+          assert x["font_fallback_rank_proven"] is False
+          assert x["mat1_gpu_shader_proven"] is False
+          y=json.loads(pathlib.Path("derived/3.0.3/ui2d_runtime_validation_v7/report.json").read_text())
+          assert y["expected_math_samples"]==956
+          assert y["capture_exists"] is False
+          assert y["runtime_parity"]=="NOT_TESTED"
+          print("VERIFIED native record matrices. Native in-game animation fidelity NOT_TESTED without capture.")
+          PY
+      - name: Store evidence and explicit runtime-parity blocker in repository
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add --sparse -A derived/3.0.3/ui2d_native_v7/ derived/3.0.3/ui2d_runtime_validation_v7/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(ui2d): native FCPX/mat1 record matrix and explicit no-runtime-parity-proof report"
+          git fetch origin feat/acnh303-ui2d-native-v7
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-ui2d-native-v7

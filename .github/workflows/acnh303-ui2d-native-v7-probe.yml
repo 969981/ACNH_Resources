@@ -1,0 +1,49 @@
+name: ACNH 3.0.3 Native FCPX/Material/FLAN Raw Structure Evidence
+on:
+  push:
+    branches: [feat/acnh303-ui2d-native-v7]
+    paths: [".github/workflows/acnh303-ui2d-native-v7-probe.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /derived/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Fetch all exact 41 Layout source blobs without other 10GB RomFS files
+        run: |
+          python - <<'PY'
+          import csv,pathlib,subprocess
+          p=pathlib.Path("derived/3.0.3/media_iteration4_cumulative/remaining.csv")
+          with p.open(encoding="utf-8",newline="") as f:
+              items={r["source_path"] for r in csv.DictReader(f) if r["state"]=="no_target_leaf" and r["source_path"].startswith("Layout/")}
+          assert len(items)==41
+          specs=["/scripts/","/derived/"]+[
+              "/e10617820db06889e1638499478da0de_NCA/1/"+s for s in sorted(items)]
+          subprocess.run(["git","sparse-checkout","set","--no-cone","--stdin"],
+              input=("\n".join(specs)+"\n").encode(),check=True)
+          PY
+      - name: Gather intact two FCPX font buffers and native UI2D section bytes
+        run: python scripts/acnh303_ui2d_native_probe.py
+      - name: Commit deterministic forensic evidence for further implementation
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add --sparse -A derived/3.0.3/ui2d_native_v7/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(ui2d): source SHA-verified raw FCPX font and material/animation record samples"
+          git fetch origin feat/acnh303-ui2d-native-v7
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-ui2d-native-v7
