@@ -16,6 +16,8 @@ def sample():
     struct.pack_into("<H",b,0xe2,2)
     struct.pack_into("<H",b,0xe4,1)
     b[0xf0:0xf4]=b"FSKA";b[0x140:0x144]=b"FSKA";b[0x190:0x194]=b"FMAA"
+    for at,ptr in [(0xf0,0x600),(0x140,0x620),(0x190,0x640)]:
+        struct.pack_into("<Q",b,at+8,ptr)
     for dic,count,names in [(0x350,2,[(0x600,b"walk"),(0x620,b"run")]),
                             (0x450,1,[(0x640,b"color")])]:
         b[dic:dic+4]=b"_DIC";struct.pack_into("<I",b,dic+4,count)
@@ -31,6 +33,7 @@ class AnimationHeaderTests(unittest.TestCase):
         self.assertEqual([(t["kind"],t["count"]) for t in d["tables"]],[("FSKA",2),("FMAA",1)])
         self.assertTrue(all(t["all_magic_validated"] for t in d["tables"]))
         self.assertTrue(all(t["dictionary"]["status"]=="count_and_name_keys_confirmed" for t in d["tables"]))
+        self.assertTrue(all(t["dictionary"]["records_reference_same_keys"] for t in d["tables"]))
     def test_reject_false_magic(self):
         a=sample();a[0x140:0x144]=b"BAD!"
         with self.assertRaisesRegex(ValueError,"magic mismatch"):parse_leaf(bytes(a))
