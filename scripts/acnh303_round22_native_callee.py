@@ -76,7 +76,7 @@ def inspect(root):
         ptr=u64(STATIC_VTABLE+off)
         slots.append({"slot_offset":hex(off),"stored_u64":hex(ptr),
                       "stored_bytes_sha256":sha(static_va_read(data,loads,STATIC_VTABLE+off,8)),
-                      "points_to_executable_ptload":any((s["flags"]&1) and s["va"]<=ptr<s["va"]+s["filesz"] for s in loads)})
+                      "points_to_executable_ptload":ptr!=0 and any((s["flags"]&1) and s["va"]<=ptr<s["va"]+s["filesz"] for s in loads)})
     # Static pointer occurrence counts restricted to non-executable file-backed PT_LOAD
     search_values=[GLOBAL,STATIC_OBJECT,STATIC_VTABLE,FUNCTION]
     references={hex(x):{"hits":0,"example_file_va":[]} for x in search_values}
