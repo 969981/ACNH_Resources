@@ -1,0 +1,255 @@
+name: ACNH 3.0.3 L3 Round 8 Layout+BWAV Real Data and UI2D Semantics
+on:
+  push:
+    branches: [feat/acnh303-l3-round8-guide-layout-audio]
+    paths: [".github/workflows/acnh303-l3-round8.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-l3-round8
+  cancel-in-progress: false
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m compileall -q scripts
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_fcpx_font.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+  decode:
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {group: Layout, shard: 0, skip: 50, cap: 10}
+          - {group: Layout, shard: 1, skip: 50, cap: 10}
+          - {group: Layout, shard: 2, skip: 50, cap: 10}
+          - {group: Layout, shard: 3, skip: 50, cap: 10}
+          - {group: Layout, shard: 4, skip: 50, cap: 10}
+          - {group: Layout, shard: 5, skip: 50, cap: 10}
+          - {group: Layout, shard: 6, skip: 50, cap: 10}
+          - {group: Layout, shard: 7, skip: 50, cap: 10}
+          - {group: Sound, shard: 0, skip: 51, cap: 15}
+          - {group: Sound, shard: 1, skip: 51, cap: 15}
+          - {group: Sound, shard: 2, skip: 55, cap: 15}
+          - {group: Sound, shard: 3, skip: 55, cap: 15}
+          - {group: Sound, shard: 4, skip: 55, cap: 15}
+          - {group: Sound, shard: 5, skip: 55, cap: 15}
+          - {group: Sound, shard: 6, skip: 65, cap: 15}
+          - {group: Sound, shard: 7, skip: 65, cap: 15}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Fetch NEW source originals from deterministic sparse Git-tree hash shard
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category ${{ matrix.group }}
+          --shard ${{ matrix.shard }}
+          --shards 8 --suffix ${{ matrix.group == 'Sound' && '.bwav' || '.zs' }}
+          --skip-count ${{ matrix.skip }}
+          --max-count ${{ matrix.cap }}
+      - name: Retrieve actual native converter (not filename-renaming)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.group }}" == "Sound" ]]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n1 >/tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            echo /nonexistent/wimgt >/tmp/wimgt.path
+            echo /nonexistent/wmdlt >/tmp/wmdlt.path
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | \
+              sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 >/tmp/wimgt.path
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 >/tmp/wmdlt.path
+            test -s /tmp/wimgt.path && test -s /tmp/wmdlt.path
+            chmod +x "$(cat /tmp/wimgt.path)" "$(cat /tmp/wmdlt.path)"
+            echo /nonexistent/vgmstream-cli >/tmp/vgmstream.path
+          fi
+      - name: Decode target media as genuine PNG or PCM WAV with strict validators
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round8 --report-dir derived/3.0.3/media_round8 \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: For Layout parse all real FLYT, FLAN, FCPX leaves regardless of BNTX
+        if: matrix.group == 'Layout'
+        run: |
+          python scripts/acnh303_layout_semantic_shard.py \
+            --root . --selection selection.json \
+            --output Unpack_UI2D_Round8 \
+            --report-dir derived/3.0.3/layout_semantic_round8
+      - name: Check original source SHA, generated media SHA, and source selection completeness
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          sel=json.loads(pathlib.Path("selection.json").read_text())
+          g=sel["category"]
+          p=pathlib.Path("derived/3.0.3/media_round8")/g/f"{sel['shard']:03d}-of-008"/"manifest.json"
+          records=json.loads(p.read_text())
+          assert len(records)==sel["selected_files"]==sel["max_count"],(len(records),sel)
+          assert len({x["source_path"] for x in records})==len(records)
+          expected=[f"e10617820db06889e1638499478da0de_NCA/1/{x['source_path']}" for x in records]
+          assert expected==sel["paths"]
+          for record in records:
+              source=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/record["source_path"]
+              assert hashlib.sha256(source.read_bytes()).hexdigest()==record["sha256"]
+              for output in record["validated_outputs"]:
+                  path=pathlib.Path(output["path"])
+                  assert path.is_file(),path
+                  assert hashlib.sha256(path.read_bytes()).hexdigest()==output["sha256"]
+                  assert output["validation"]["type"]==("wav" if g=="Sound" else "png")
+          if g=="Sound":
+              assert all(r["status"]=="converted_media" and len(r["validated_outputs"])==1 for r in records)
+          else:
+              q=pathlib.Path("derived/3.0.3/layout_semantic_round8/Layout")/f"{sel['shard']:03d}-of-008"/"semantic_manifest.json"
+              ui=json.loads(q.read_text())
+              assert ui["source_count"]==len(records)
+              for rec,entry in zip(records,ui["source_records"]):
+                  assert rec["source_path"]==entry["source_path"]
+                  assert rec["sha256"]==entry["source_sha256"]
+                  for leaf in entry["leaves"]:
+                      if "output_path" in leaf:
+                          path=pathlib.Path(leaf["output_path"])
+                          assert hashlib.sha256(path.read_bytes()).hexdigest()==leaf["output_sha256"]
+          print("SHA256 VERIFIED",g,"shard",sel["shard"],"sources",len(records),
+                "media",sum(len(r["validated_outputs"]) for r in records),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r8-report-${{ matrix.group }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_round8/
+            derived/3.0.3/layout_semantic_round8/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r8-media-${{ matrix.group }}-${{ matrix.shard }}
+          path: |
+            Unpack_L3_Round8/
+            Unpack_UI2D_Round8/
+          compression-level: 3
+          retention-days: 14
+          if-no-files-found: warn
+  reconcile:
+    needs: [tests,decode]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-r8-report-*
+          path: collected
+          merge-multiple: true
+      - name: Reject overlaps with all 912 previously SHA-audited source files
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_bwav360_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected/derived/3.0.3/media_round8 \
+            --expected-new-shards 16 --expected-baseline 912 \
+            --out derived/3.0.3/media_round8_cumulative
+      - name: Require 200 never-before-measured originals and real media type split
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          p=pathlib.Path("derived/3.0.3/media_round8_cumulative/coverage.json")
+          j=json.loads(p.read_text())
+          assert j["baseline_source_count"]==912
+          assert j["new_source_count"]==200
+          assert j["cumulative_source_count"]==1112
+          assert j["new_by_format"]["Layout"]["new_source_count"]==80
+          assert j["new_by_format"]["Sound"]["new_source_count"]==120
+          assert j["by_format"]["Sound"]["measured_source_count"]==572
+          assert j["by_format"]["Sound"]["media_output_count_by_type"]["wav"]==572
+          assert j["by_format"]["Sound"]["not_yet_measured_sources"]==574
+          assert j["verified_media_output_files_by_type"]["glb"]==214
+          assert j["verified_media_output_files_by_type"]["wav"]==572
+          assert j["verified_media_output_files_by_type"]["png"]>=1354
+          print("CUMULATIVE",j["cumulative_source_count"],j["verified_media_output_files_by_type"])
+          PY
+      - name: Merge real 8 Layout UI2D JSON manifests with source SHA provenance
+        run: |
+          python - <<'PY'
+          import json,pathlib,collections
+          root=pathlib.Path("collected/derived/3.0.3/layout_semantic_round8/Layout")
+          paths=sorted(root.glob("*/semantic_manifest.json"))
+          assert len(paths)==8,paths
+          docs=[json.loads(p.read_text(encoding="utf-8")) for p in paths]
+          records=[r for d in docs for r in d["source_records"]]
+          assert len(records)==80
+          assert len({r["source_path"] for r in records})==80
+          count=collections.Counter()
+          for d in docs:count.update(d["counts"])
+          output=pathlib.Path("derived/3.0.3/layout_semantic_round8_cumulative")
+          output.mkdir(parents=True,exist_ok=True)
+          (output/"coverage.json").write_text(json.dumps({
+             "schema":"acnh303-layout-semantic-v8",
+             "new_original_sources":80,
+             "tested_originals_overall":232,
+             "shard_count":8,
+             "leaf_status_counts":dict(count),
+             "source_records":records,
+             "limits":"UI2D FLYT/FLAN/FCPX structural JSON only; renderer/material/animation runtime equivalence not proven; unknowns retained"
+             },indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+          print("UI2D verified 80 original sources",dict(count))
+          PY
+      - name: Commit cumulative media/semantic audit to feature branch
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A derived/3.0.3/media_round8_cumulative derived/3.0.3/layout_semantic_round8_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): verify 80 new UI2D Layout originals and 120 BWAVs"
+          for i in 1 2 3 4; do
+            git fetch origin feat/acnh303-l3-round8-guide-layout-audio
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-l3-round8-guide-layout-audio; then exit 0; fi
+            sleep 3
+          done
+          exit 1
