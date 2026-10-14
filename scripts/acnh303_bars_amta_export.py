@@ -28,7 +28,22 @@ def parse_amta(raw: bytes) -> dict:
     if size<24 or size>len(raw):
         raise ValueError("AMTA declared length outside bounded native source")
     payload=raw[:size]
-    # v1 uses DATA, MARK, STRG; v3/v4 also have EXT_.
+    # Real ACNH 3.0.3 AMTA is v0x0500: unlike v1/v3/v4 it does NOT have
+    # DATA/MARK/STRG ASCII section headers. Preserve the exact v5 payload,
+    # record header words, and do not apply the older format schema to it.
+    if ver == 0x0500:
+        if size < 52:
+            raise ValueError("AMTA v5 native header shorter than observed 0x34")
+        words=[{"offset_hex":f"0x{pos:02x}",
+                "raw_u32_hex":f"0x{struct.unpack_from(order+'I',payload,pos)[0]:08x}"}
+               for pos in range(12,52,4)]
+        return {"magic":"AMTA","version_hex":"0x0500","bom_hex":bom.hex(),
+                "declared_size":size,"sha256":digest(payload),
+                "native_header_u32":words,"sections":[],
+                "structure_status":"v5_exact_raw_extracted_directory_semantics_unknown",
+                "warning":"v5 has no v1/v3/v4 ASCII section header markers in verified ACNH samples; 0x0C..0x30 stored as opaque u32.",
+                "payload":payload}
+    # Earlier versions: v1 uses DATA, MARK, STRG; v3/v4 add EXT_.
     slots=[("DATA",12),("MARK",16)]
     if ver in (0x0300,0x0400):
         if size<28:
