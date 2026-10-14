@@ -64,3 +64,12 @@
 - 全 L3 媒体实测 672 个唯一原始源，214 GLB、1354 PNG、212 WAV，合计 1780 个媒体文件、1,983,963,504 字节。[有效媒体覆盖](../derived/3.0.3/media_bwav120_cumulative/coverage.json)。
 - 新 120 WAV 发布为 [长期 GitHub Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-120-next-20261014)，8 个分卷及 SHA256SUMS。
 - 完整文档：[第五轮原生 UI2D 和 BWAV 解包](UNPACK_UI2D_BWAV_ROUND5.md)。41 个 Layout 已在此前的 552 源计数内，不能重复统计为新测媒体源。
+
+
+## 2026-10-14 第六轮：FCPX font refs、UI2D 语义关系、再 120 PCM WAV
+
+- 12 个未知 FCPX 叶子经真二进制验证仅 2 种内容，文件中有效记录 9/11 个字体资源名称引用；已经有 source SHA 校验和独立 JSON。**字形与字体替换规则仍未解码**，Issue #25 保持开放。
+- 修复 fnl1 名称表偏移基准；41 个布局共 254 pane、22 个材料条目、57 个部件条目、22 个 cnt1 控制区块，6/6 字体名、29/29 动画目标完成静态交叉引用。
+- 21 个 BFLAN 拆出的 50 个轨道与 134 个实际关键帧，生成 956 个**非原生数学曲线采样值**，不意味着实际游戏 UI 的渲染等效验证。
+- 第六轮新处理 120 个 BWAV，累积音频 332/1146 已测，还剩 814 未测；媒体累计 792 个唯一源，214 GLB、1354 PNG、332 WAV 共 **1900 个有效媒体文件**、2,559,147,310 字节。
+- [技术报告](UNPACK_FCPX_UI2D_BWAV_ROUND6.md) · [累计 L3 媒体结果](../derived/3.0.3/media_bwav240_cumulative/coverage.json) · [8 个新增 WAV 长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-240-total-20261014)。原始 103400 源的结构扫描不等于 100% L3 语义转换。
