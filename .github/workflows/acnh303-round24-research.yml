@@ -1,0 +1,200 @@
+name: ACNH 3.0.3 R24 FMDL FSKL and Resource Loader Evidence
+on:
+  push:
+    branches: [feat/acnh303-round24-model-skeleton-native-loader]
+    paths:
+      - '.github/workflows/acnh303-round24-research.yml'
+      - 'scripts/acnh303_round24_*.py'
+      - 'scripts/test_acnh303_round24_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r24-original-model-native
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Test real header offsets bone graphs inverse matrices and magic opcode handling
+        run: |
+          python -m compileall -q scripts/acnh303_round24_model_skeleton.py scripts/acnh303_round24_native_resource_loader.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round24_research.py' -v
+
+  model:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/NpcNmlBrd08.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/NpcNmlDog09.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/NpcNmlPig14.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PlayerHair13.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PlayerHairCap40.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/InsectHanakamakiri.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/NpcSpTopsMncOuterL.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/NpcSpTopsRcmYshirtsH.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/ShoesKneePowered1.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrArtFifePlayer.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Parse actual BFRES model FMDL Skeleton FSKL parent chain matrices and FSKA name overlap
+        run: python scripts/acnh303_round24_model_skeleton.py
+      - name: Reject synthetic skeleton guesses and SHA drift
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json'))
+          assert d['candidate_count']==10
+          assert len(d['records'])==10
+          assert d['verification_state']=='MODEL_SKELETON_STATIC_PARSE_AND_NAME_INTERSECTION_NOT_ANIMATION_BIND'
+          for x in d['records']:
+              assert len(x['source_sha256'])==64
+              assert x['source_path'].startswith('Model/')
+          print('R24_REAL_MODEL',d['audit_counts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-real-skeleton
+          path: derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json
+          retention-days: 90
+          if-no-files-found: error
+
+  native:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1'
+      - name: Search actual ELF loader import relocations and resource signatures, not unrelated virtual slots
+        run: python scripts/acnh303_round24_native_resource_loader.py
+      - name: Require honesty on unknown owner and no fake runtime capture
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r24_native_loader/resource_loader_evidence.json'))
+          assert d['elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert d['legacy_vtable_ret_candidate_excluded']=='0x5bd3a4'
+          assert d['actual_resource_loader_found'] is False
+          assert d['actual_object_factory_found'] is False
+          assert d['verified_live_blr_target'] is None
+          assert d['next_runtime_read_only_evidence']['records']==[]
+          print('R24_ELF_SIGNATURES',d['aarch64_magic_constant_candidate_totals'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-static-loader
+          path: derived/3.0.3/r24_native_loader/resource_loader_evidence.json
+          retention-days: 90
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,model,native]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r24-real-skeleton
+          path: downloads/model
+      - uses: actions/download-artifact@v4
+        with:
+          name: r24-static-loader
+          path: downloads/native
+      - name: Compare same-run data and commit only validated derived reports
+        run: |
+          set -euo pipefail
+          git fetch origin feat/acnh303-round24-model-skeleton-native-loader
+          git reset --hard FETCH_HEAD
+          mkdir -p derived/3.0.3/r24_skeleton_binding derived/3.0.3/r24_native_loader
+          cp downloads/model/geometry_skeleton_match.json derived/3.0.3/r24_skeleton_binding/
+          cp downloads/native/resource_loader_evidence.json derived/3.0.3/r24_native_loader/
+          python - <<'PY'
+          import json
+          m=json.load(open('derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json'))
+          n=json.load(open('derived/3.0.3/r24_native_loader/resource_loader_evidence.json'))
+          assert len(m['records'])==10 and not n['actual_resource_loader_found']
+          assert n['next_runtime_read_only_evidence']['records']==[]
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r24_skeleton_binding derived/3.0.3/r24_native_loader
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r24): genuine FMDL FSKL hierarchy and grounded ELF resource signature scans'
+          git push origin HEAD:feat/acnh303-round24-model-skeleton-native-loader
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r24-fmdl-fskl-native-evidence-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round24-model-skeleton-native-loader
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Byte compare committed reports with exactly same successful run artifacts
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r24-real-skeleton -D evidence/model
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r24-static-loader -D evidence/native
+          cmp evidence/model/geometry_skeleton_match.json derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json
+          cmp evidence/native/resource_loader_evidence.json derived/3.0.3/r24_native_loader/resource_loader_evidence.json
+      - name: Create verified immutable research release
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          cp evidence/model/geometry_skeleton_match.json packages/
+          cp evidence/native/resource_loader_evidence.json packages/
+          (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'R24: genuine FMDL/FSKL Model BFRES source hashes, bone parent/matrix audit and standalone FSKA name overlaps; real AArch64 ELF resource signature and import evidence. No live Switch BLR evidence, unverified loader/factory identity remains open. Original NCA untouched.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round24-model-skeleton-native-loader --title 'ACNH 3.0.3 R24 - Genuine FMDL FSKL Models and Loader Evidence' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
