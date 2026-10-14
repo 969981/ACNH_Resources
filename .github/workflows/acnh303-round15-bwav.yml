@@ -1,0 +1,149 @@
+name: ACNH 3.0.3 R15 Standalone BWAV L3 Unpack
+on:
+  push:
+    branches: [feat/acnh303-round15-bwav-unpack]
+    paths: ['.github/workflows/acnh303-round15-bwav.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-round15-bwav
+  cancel-in-progress: false
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - run: |
+          python -m py_compile scripts/acnh303_round15_select.py
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+  convert:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Select 20 unique, previously untested original BWAV
+        run: |
+          python scripts/acnh303_round15_select.py --shard ${{ matrix.shard }} --shards 12 --max-count 20
+      - name: Install pinned native PCM decoder
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -name 'vgmstream-cli*' -type f | head -n1 > /tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+          sha256sum /tmp/vgmstream.zip
+      - name: Convert to validated PCM WAV
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round15 --report-dir derived/3.0.3/media_round15 \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)" \
+            --tool-wmdlt /nonexistent/wmdlt --tool-wimgt /nonexistent/wimgt \
+            --fail-on-parser-errors
+      - name: Verify source bytes and every actual WAV
+        run: |
+          python - <<'PY'
+          import pathlib,hashlib,json
+          data=json.load(open("selection.json"))
+          p=pathlib.Path("derived/3.0.3/media_round15/Sound")/f"{data['shard']:03d}-of-012"
+          rows=json.loads((p/"manifest.json").read_text())
+          assert len(rows)==20
+          digest=lambda f:hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()
+          assert {r["source_path"] for r in rows}=={x.split("/1/",1)[1] for x in data["paths"]}
+          for row in rows:
+              original="e10617820db06889e1638499478da0de_NCA/1/"+row["source_path"]
+              assert digest(original)==row["sha256"]
+              assert row["status"]=="converted_media" and len(row["validated_outputs"])==1,row
+              out=row["validated_outputs"][0]
+              assert out["validation"]["type"]=="wav"
+              assert out["validation"]["frames"]>0
+              assert digest(out["path"])==out["sha256"]
+          print("VERIFIED",len(rows),"new BWAV and PCM WAV")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r15-report-${{ matrix.shard }}
+          path: derived/3.0.3/media_round15/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: r15-wav-${{ matrix.shard }}
+          path: Unpack_L3_Round15/
+          retention-days: 14
+          compression-level: 2
+  audit:
+    needs: convert
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r15-report-*
+          path: collected
+      - name: Reject duplicates and reconcile against R14 original inventory
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_round14_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 12 \
+            --expected-baseline 1336 --out derived/3.0.3/media_round15_cumulative
+          python - <<'PY'
+          import json
+          d=json.load(open("derived/3.0.3/media_round15_cumulative/coverage.json"))
+          assert d["new_source_count"]==240
+          assert d["new_by_format"]["Sound"]["new_source_count"]==240
+          assert d["by_format"]["Sound"]["not_yet_measured_sources"]==222
+          assert d["new_by_format"]["Sound"]["new_media_output_count"]==240
+          print("R15 VERIFIED",d["verified_media_output_files_by_type"])
+          PY
+      - name: Commit audited compact manifests, not large WAVs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/media_round15_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m 'data(unpack): audit R15 240 real PCM BWAV conversions'
+          git fetch origin feat/acnh303-round15-bwav-unpack
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round15-bwav-unpack
