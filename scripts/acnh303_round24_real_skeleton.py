@@ -12,6 +12,10 @@ from acnh303_media_l3 import NCA,find_leaf
 from acnh303_round20_fres_arrays import bounded,u16,u32,u64,string_at,sha
 
 SOURCES=[
+"Model/PlayerBody.Nin_NX_NVN.zs",
+"Model/PlayerHair00.Nin_NX_NVN.zs",
+"Model/PlayerEye00.Nin_NX_NVN.zs",
+"Model/PlayerBottomsPantsNormal.Nin_NX_NVN.zs",
 "Model/BagBackpackBody0.Nin_NX_NVN.zs",
 "Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs",
 "Model/Ftr8fairArchReBody0.Nin_NX_NVN.zs",
