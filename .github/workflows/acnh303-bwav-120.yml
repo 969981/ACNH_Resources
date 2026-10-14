@@ -1,0 +1,151 @@
+name: ACNH 3.0.3 BWAV 120 New PCM WAVs (8 Incremental Shards)
+on:
+  push:
+    branches: [feat/acnh303-ui2d-bwav-v5]
+    paths: [".github/workflows/acnh303-bwav-120.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {shard: 0, skip: 6, cap: 15}
+          - {shard: 1, skip: 6, cap: 15}
+          - {shard: 2, skip: 10, cap: 15}
+          - {shard: 3, skip: 10, cap: 15}
+          - {shard: 4, skip: 10, cap: 15}
+          - {shard: 5, skip: 10, cap: 15}
+          - {shard: 6, skip: 20, cap: 15}
+          - {shard: 7, skip: 20, cap: 15}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Resume previously sampled Sound hash shards without overlaps
+        run: >
+          python scripts/select_acnh303_shard.py
+          --category Sound --shard ${{ matrix.shard }}
+          --shards 8 --suffix .bwav
+          --skip-count ${{ matrix.skip }}
+          --max-count ${{ matrix.cap }}
+      - name: Download tested vgmstream r2117 native PCM converter
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 \
+            https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip \
+            -o /tmp/vgmstream-linux.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream-linux.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -1 > /tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+          sha256sum /tmp/vgmstream-linux.zip
+      - name: Decode all selected original BWAV to real PCM WAV, validate every output
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_BWAV_L3 --report-dir derived/3.0.3/bwav_120 \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)" \
+            --fail-on-parser-errors
+      - name: Recheck original source SHA256 and output PCM WAV SHA256 per file
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          sel=json.loads(pathlib.Path("selection.json").read_text())
+          p=pathlib.Path("derived/3.0.3/bwav_120/Sound")/(f"{sel['shard']:03d}-of-008")/"manifest.json"
+          rows=json.loads(p.read_text())
+          assert len(rows)==15 and len(rows)==sel["selected_files"]
+          expected=["e10617820db06889e1638499478da0de_NCA/1/"+x["source_path"] for x in rows]
+          assert expected==sel["paths"] and len(set(expected))==15
+          for row in rows:
+              assert row["status"]=="converted_media",row
+              assert len(row["validated_outputs"])==1
+              source=pathlib.Path("e10617820db06889e1638499478da0de_NCA/1")/row["source_path"]
+              assert hashlib.sha256(source.read_bytes()).hexdigest()==row["sha256"]
+              for file in row["validated_outputs"]:
+                  path=pathlib.Path(file["path"])
+                  assert path.is_file() and file["validation"]["type"]=="wav"
+                  assert hashlib.sha256(path.read_bytes()).hexdigest()==file["sha256"]
+          print("VERIFIED 15 unique PCM WAVs",sel["shard"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-bwav120-report-${{ matrix.shard }}
+          path: derived/3.0.3/bwav_120/
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-bwav120-data-${{ matrix.shard }}
+          path: Unpack_BWAV_L3/
+          compression-level: 3
+          retention-days: 14
+          if-no-files-found: warn
+  audit:
+    needs: audio
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: acnh303-bwav120-report-*
+          path: collected
+          merge-multiple: true
+      - name: Merge 120 new original BWAVs with previous unique 552 source SHA256 manifest
+        run: |
+          python scripts/acnh303_media_incremental_audit.py \
+            --inventory derived/3.0.3/inventory/source_manifest.csv.gz \
+            --baseline derived/3.0.3/media_iteration4_cumulative/source_manifest.jsonl.gz \
+            --new-reports collected --expected-new-shards 8 \
+            --expected-baseline 552 \
+            --out derived/3.0.3/media_bwav120_cumulative
+      - name: Reject duplicate or missing sources and unverified WAV
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path("derived/3.0.3/media_bwav120_cumulative/coverage.json").read_text())
+          assert j["new_source_count"]==120 and j["cumulative_source_count"]==672
+          assert j["by_format"]["Sound"]["measured_source_count"]==212
+          assert j["by_format"]["Sound"]["media_output_count_by_type"]["wav"]==212
+          assert j["verified_media_output_files_by_type"]=={"glb":214,"png":1354,"wav":212}
+          assert j["verified_media_output_files"]==1780
+          assert j["new_by_format"]["Sound"]["status_counts"]=={"converted_media":120}
+          print("VERIFIED cumulatively",j["verified_media_output_files"],"outputs")
+          PY
+      - name: Save complete 672-source auditable status and unsupported output records
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A derived/3.0.3/media_bwav120_cumulative
+          git diff --cached --quiet && exit 0
+          git commit -m "data(acnh303): add 120 decoded BWAVs and cumulative 672-source SHA audit"
+          for i in 1 2 3 4; do
+            git fetch origin feat/acnh303-ui2d-bwav-v5
+            git rebase origin/feat/acnh303-ui2d-bwav-v5
+            if git push origin HEAD:feat/acnh303-ui2d-bwav-v5; then exit 0; fi
+            sleep 3
+          done
+          exit 1
