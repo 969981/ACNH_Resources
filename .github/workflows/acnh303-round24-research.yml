@@ -122,6 +122,10 @@ jobs:
           c=json.load(open('derived/3.0.3/r24_native_loader/bars_amta_code_context.json'))
           assert c['status']=='ORIGINAL_CODE_MAGIC_COMPARISON_CONTEXT_ONLY'
           assert len(c['actual_signature_builders'])==3
+          assert c['original_ELF_header_validators_confirmed']==3
+          assert all(w['header_validation']['status']=='original_ELF_header_memory_load_magic_cmp_branch_confirmed'
+                     and len(w['header_validation']['verified_instruction_triple'])==3
+                     for w in c['actual_signature_builders'])
           print('R24_ELF_SIGNATURES',d['aarch64_magic_constant_candidate_totals'])
           PY
       - uses: actions/upload-artifact@v4
