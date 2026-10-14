@@ -135,6 +135,9 @@ def bars_member_table_proof(rows):
     index={r["pc"]:r for r in rows}
     expected=[
       ("0x3aca300","mov","x8, x19"),
+      ("0x3aca320","adrp","x10, #0x4a7a000"),
+      ("0x3aca324","add","x10, x10, #0xd40"),
+      ("0x3aca35c","stp","x10, x22, [x19]"),
       ("0x3aca318","str","xzr, [x8, #0x10]!"),
       ("0x3aca36c","ldr","w9, [x22, #0xc]"),
       ("0x3aca370","add","x9, x22, x9, lsl #2"),
@@ -159,6 +162,24 @@ def bars_member_table_proof(rows):
        "semantics":"BARS header member-offset table location stored in parser object",
        "unknown":"Which function later reads the offset pairs; AMTA header consumers remain unproven"}
 
+def candidate_dispatch_table(blob,segments,va=0x4A7AD40,entries=16):
+    """Preserve ELF-backed qwords and in-file executable targets, never runtime types."""
+    raw=get_bytes_va(blob,segments,va,8*entries)
+    if raw is None:
+        return {"va":hex(va),"file_backed":False,"entries":[]}
+    result=[]
+    for n in range(entries):
+        target=struct.unpack_from("<Q",raw,n*8)[0]
+        code_seg=next((s for s in segments if s["flags"]&1 and
+                  s["vaddr"]<=target and target+24<=s["vaddr"]+s["filesz"]),None)
+        item={"index":n,"table_entry_va":hex(va+8*n),
+              "qword_hex":hex(target),"executable_target_in_elf":code_seg is not None}
+        if code_seg is not None and target%4==0:
+            item["target_first_24_bytes_disasm"]=register_window(blob,segments,target,target+24)
+        result.append(item)
+    return {"va":hex(va),"file_backed":True,"entries":result,
+            "note":"Initial ELF address-table candidate stored at parser X19+0; dispatch semantics and runtime relocation not established"}
+
 def analyze(blob):
     if len(blob)!=SIZE or hashlib.sha256(blob).hexdigest()!=SHA:
         raise ValueError("ACNH 3.0.3 79MB ELF SHA mismatch")
@@ -171,6 +192,7 @@ def analyze(blob):
         "elf_sha256":SHA,"elf_size":len(blob),
         "register_windows":windows,
         "bars_member_table_pointer_chain":bars_member_table_proof(windows["bars_header_member_table_store"]),
+        "bars_object_header_dispatch_table_candidate":candidate_dispatch_table(blob,segments),
         "bars_caller_register_arguments":{k:[r for r in rows if set(r["writes"]) & {"x0","w0","x3","w3"}]
              for k,rows in windows.items() if k.startswith("bars_caller_")},
         "candidate_register_writes":{
