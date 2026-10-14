@@ -1,0 +1,186 @@
+name: ACNH 3.0.3 R23 Skeleton BasePose FMAA and Native NonRET
+on:
+  push:
+    branches: [feat/acnh303-round23-skeleton-fmaa-native-loader]
+    paths:
+      - '.github/workflows/acnh303-round23-research.yml'
+      - 'scripts/acnh303_round23_*.py'
+      - 'scripts/test_acnh303_round23_*.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: r23-animation-native-research
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install -r scripts/requirements-media.txt
+          python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Test bounds on base poses material arrays and Native RET exclusions
+        run: |
+          python -m compileall -q scripts/acnh303_round23_binding_material.py scripts/acnh303_round23_native_loader_triage.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round23_research.py' -v
+  animation:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Read actual FSKA BindSkeleton BindIndices and BoneAnim base poses plus all FMAA child arrays
+        run: python scripts/acnh303_round23_binding_material.py
+      - name: Audit raw original source and standalone semantics
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r23_animation_binding/basepose_fmaa.json'))
+          assert d['source_sha256']=='97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a'
+          assert d['fres_sha256']=='8dd16ba20264a5f8cd3a60901e0cc6ce8173fcf2503b17fda0a1688277605972'
+          assert d['fska_count']==406 and d['fmaa_count']==118
+          assert d['total_bone_records']==23142 and len(d['fmaa_records'])==118
+          assert d['verification_state']=='SOURCE_LOCAL_BIND_BASEPOSE_MATERIAL_STRUCTURES_NOT_EXTERNAL_SKELETON_OR_NATIVE_ANIMATOR'
+          print('R23 ANIMATION',d['base_pose_statuses'],d['fmaa_aggregate_counts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r23-animation-structure
+          path: derived/3.0.3/r23_animation_binding/basepose_fmaa.json
+          retention-days: 90
+          if-no-files-found: error
+  native:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Inspect real nonRET slots without claiming dynamic BLR owner
+        run: python scripts/acnh303_round23_native_loader_triage.py
+      - name: Verify original executable ELF and blank runtime capture
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r23_native_loader/nonret_slot_triage.json'))
+          assert d['original_elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert '0x18' in d['excluded_ret_only_slots']
+          assert d['nonret_executable_slots_count']>0
+          assert d['runtime_capture']['status']=='NOT_CAPTURED_TEMPLATE_ONLY'
+          assert d['runtime_capture']['records']==[]
+          print('R23 NONRET',d['nonret_executable_slots_count'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r23-native-slot-audit
+          path: derived/3.0.3/r23_native_loader/nonret_slot_triage.json
+          retention-days: 90
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,animation,native]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r23-animation-structure
+          path: downloads/animation
+      - uses: actions/download-artifact@v4
+        with:
+          name: r23-native-slot-audit
+          path: downloads/native
+      - name: Persist separate static and source-level research
+        run: |
+          set -euo pipefail
+          mkdir -p derived/3.0.3/r23_animation_binding derived/3.0.3/r23_native_loader
+          cp downloads/animation/basepose_fmaa.json derived/3.0.3/r23_animation_binding/
+          cp downloads/native/nonret_slot_triage.json derived/3.0.3/r23_native_loader/
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r23_animation_binding/basepose_fmaa.json'))
+          n=json.load(open('derived/3.0.3/r23_native_loader/nonret_slot_triage.json'))
+          assert a['fska_count']==406 and a['fmaa_count']==118
+          assert n['runtime_capture']['status']=='NOT_CAPTURED_TEMPLATE_ONLY'
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r23_animation_binding derived/3.0.3/r23_native_loader
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r23): verified animation binding FMAA and Native nonRET static slots'
+          git fetch origin feat/acnh303-round23-skeleton-fmaa-native-loader
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round23-skeleton-fmaa-native-loader
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r23-skeleton-fmaa-nonret-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round23-skeleton-fmaa-native-loader
+          filter: blob:none
+          sparse-checkout: |
+            derived
+            docs
+      - name: Verify this run's two original artifacts against committed report bytes
+        run: |
+          set -euo pipefail
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r23-animation-structure -D evidence/animation
+          gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r23-native-slot-audit -D evidence/native
+          cmp evidence/animation/basepose_fmaa.json derived/3.0.3/r23_animation_binding/basepose_fmaa.json
+          cmp evidence/native/nonret_slot_triage.json derived/3.0.3/r23_native_loader/nonret_slot_triage.json
+      - name: Publish immutable SHA audit without claiming live Switch evidence
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          cp evidence/animation/basepose_fmaa.json packages/
+          cp evidence/native/nonret_slot_triage.json packages/
+          (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'R23 verifies original ACNH 3.0.3 standalone FSKA bind/base-pose and FMAA material child arrays, plus static non-RET ELF vtable slots. Runtime register capture is an EMPTY TEMPLATE only. External model skeleton ownership, in-game interpolation, AMTA/BFEVFL consumers and live BLR PC remain unproven. No original NCA is changed.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round23-skeleton-fmaa-native-loader --title 'ACNH 3.0.3 R23 - FSKA Bind FMAA and NonRET Native Evidence' --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
