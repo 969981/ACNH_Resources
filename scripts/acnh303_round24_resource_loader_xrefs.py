@@ -94,6 +94,32 @@ def extract(root):
                         "pattern":family,"adrp_opcode":f"{op:08x}",
                         "following_opcode":f"{follow:08x}",
                         "nearby_direct_branches":calls})
+    # Evidence-backed follow-up of the only actually observed 4CC literal,
+    # BNSH. Preserve exact data bytes and code at ADRP site and near BL target.
+    mapped=[{"va":s["va"],"off":s["off"],"filesz":s["sz"],
+             "memsz":s["mem"],"flags":s["flags"]} for s in loads]
+    bnsh_flows=[]
+    engine=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
+    for rec in examples.get("BNSH",[]):
+        site=int(rec["site"],16);target=int(rec["target_magic_va"],16)
+        site_data=static_va_read(blob,mapped,site,0x60) or b""
+        literal_data=static_va_read(blob,mapped,target,0x40) or b""
+        call_windows=[]
+        for call in rec["nearby_direct_branches"][:4]:
+            pc=int(call["direct_target"],16)
+            sub=static_va_read(blob,mapped,pc,0x50) or b""
+            call_windows.append({"pc":hex(pc),"raw_sha256":sha(sub) if sub else None,
+              "first_12":[{"pc":hex(x.address),"machine_hex":x.bytes.hex(),
+                "mnemonic":x.mnemonic,"operands":x.op_str}
+                for x in list(engine.disasm(sub,pc))[:12]]})
+        bnsh_flows.append({"reference_site":rec["site"],"fourcc_va":rec["target_magic_va"],
+            "data_context_hex":literal_data.hex(),"data_sha256":sha(literal_data),
+            "reference_code_sha256":sha(site_data),
+            "reference_first_instructions":[{"pc":hex(x.address),"machine_hex":x.bytes.hex(),
+                "mnemonic":x.mnemonic,"operands":x.op_str}
+                for x in list(engine.disasm(site_data,site))[:18]],
+            "nearby_direct_target_disassembly":call_windows,
+            "verification_state":"BNSH_MAGIC_STRING_AND_DIRECT_CALL_CONTEXT_NOT_RESOURCE_LOADER_PROVEN"})
     known=[]
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
     for label,addrstr in TARGETS.items():
@@ -115,10 +141,11 @@ def extract(root):
           "instruction_pattern":"bytewise_compare_loop_candidate" if compare_pattern else "mixed_unclassified_code",
           "first_instructions":[{"va":hex(x.address),"opcode":x.bytes.hex(),"mnemonic":x.mnemonic,"args":x.op_str} for x in instructions[:28]],
           "status":"real_code_window_without_proven_resource_input"})
-    return {"schema":"acnh303-r24-resource-magic-xrefs-v2","elf_sha256":sha(blob),
+    return {"schema":"acnh303-r24-resource-magic-xrefs-v3","elf_sha256":sha(blob),
       "original_magic_positions":mags,
       "exact_executable_adrp_data_references":dict(hits),
       "candidate_xrefs":examples,
+      "real_bnsh_literal_call_context":bnsh_flows,
       "previous_read_windows_independently_redecoded":known,
       "verification_state":"ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN",
       "limits":"Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily file loaders. Some previously labelled BARS/BFEVFL candidate windows visibly contain repeated LDRB/CMP bytewise loops and can instead be string comparison; no verified asset bytes flow through these windows. Nearby calls do not prove business ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted."}
