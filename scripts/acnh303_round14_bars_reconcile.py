@@ -46,7 +46,7 @@ def reconcile(collected, prior_manifest, prior_coverage, out, shards, per_shard)
                 if name in older or name in data or not name.startswith("Sound/") or not name.endswith(".bars") or not hexsha(rec.get("source_sha256")):
                     raise ValueError("repeated/invalid source: "+name)
                 data[name]=rec
-                status[kind+"_"+rec["status"]]+=1
+                status[kind+"_"+rec.get("status","reported")]+=1
                 for leaf in rec.get("members",[]):
                     x=leaf.get("status")
                     status[kind+"__member__"+str(x)]+=1
