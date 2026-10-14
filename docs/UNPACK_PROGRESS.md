@@ -101,3 +101,14 @@
 - Native 字段研究：[208 AMTA v5 字段矩阵](../derived/3.0.3/r10_native_fields/matrix.json)、[4210 LBLI / 3799 不同原始标识符](../derived/3.0.3/r10_native_fields/matrix.json)、[12 BFEVFL 源/115 事件节点静态调用图](../derived/3.0.3/evfl_round10_cumulative/coverage.json)。Native runtime consumer / 字符串解码 / 播放参数均未证实。
 - 已经生成包含实际数据的 [长期 R10 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r10-bars-layout-bwav-native-20261014)，24 分卷及 SHA256SUMS 等六附件，发布流程重新读回每份 SHA。
 - [第十轮完整二进制指南](ACNH303_ROUND10_NATIVE_UNPACK_TECHNICAL_GUIDE.md) 包含操作命令、回归和语义边界；不能把结构探测当完整可执行反编译。
+
+## 2026-10-14 R11：真实 ELF Native 逆向阶段
+
+已在真实 ACNH 3.0.3 ExeFS ELF（SHA 83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180）上完成第一轮 XREF 和 Capstone 真正反汇编，两条 GitHub Actions 均通过。
+
+- 首次从 Native 直接确认 BARS 魔数构造（0x3ACA350）、读取初始缓冲区 Magic、读取 +0x0C count、计算 +0x10+4*count 表地址、读取 +0x08 BOM / +0x0A version。
+- BDLI 字符串实为资源路径模板 BDLI/%s/%s/%s.bdli，0x1B0A014 与 0x1B0A028 形成字符串传参；尚不是 LBLI decoder。
+- 发现 EventFlowActionDummy/SetCheckResult、EventFlowQueryDummy/CheckErrorType 真实字符串及成对 STP 写入代码，疑似初始化/注册数据；未证明 Native handler 或脚本真正执行。
+- AMTA、LBLI 的 MOVZ/MOVK 形式未命中，但此结果不等于游戏缺少对应 Native 读取者；继续沿 BARS、BDLI 和 EventFlow 对象关系做只读动态验证。
+
+完整指南：[R11 ELF Native Consumers](ACNH303_ROUND11_ELF_NATIVE_CONSUMERS_GUIDE.md)，Issue #33 保持开放。
