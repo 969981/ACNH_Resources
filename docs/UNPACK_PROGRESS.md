@@ -112,3 +112,14 @@
 - AMTA、LBLI 的 MOVZ/MOVK 形式未命中，但此结果不等于游戏缺少对应 Native 读取者；继续沿 BARS、BDLI 和 EventFlow 对象关系做只读动态验证。
 
 完整指南：[R11 ELF Native Consumers](ACNH303_ROUND11_ELF_NATIVE_CONSUMERS_GUIDE.md)，Issue #33 保持开放。
+
+
+## 2026-10-14 R14：128 个新原始资源的真实增量 Unpack
+
+- 16 个转换分片全部成功，实际源为 Model 32、Layout 32、独立 BWAV 48、BARS 16。原工作流首次汇总有 Actions Artifact 目录误判，独立 [重放审计 #38513944239](https://github.com/969981/ACNH_Resources/actions/runs/38513944239) 读取了这 16 个原始报告并完整成功。
+- 新增可验证核心媒体：32 GLB、161 PNG、48 独立 PCM WAV。累计核心媒体 **1,336 源、3,160 输出**（246 GLB、2,230 PNG、684 WAV）。
+- BARS 单独新增 84 PCM WAV 与 84 份原生 AMTA v5；累计 BARS 120 源、1,146 WAV。另有 163 份真实 Layout 结构 JSON（32 BFLYT、110 BFLAN、21 FCPX）。
+- [完整 103,400 个源逐文件状态](../derived/3.0.3/round14_unfinished_index/all_sources_status.csv.gz)，以及 [101,295 条未完整解析源列表](../derived/3.0.3/round14_unfinished_index/remaining_noncomplete.csv.gz)；L0–L2 partial 不等于文件未解压。
+- 尚未 L3 实测：Model 59,826、Layout 648、独立 BWAV 462、BARS 1,576。进一步的 AMTA 播放语义、BDLI/LBLI、EventFlow handler、特效、Shader、UI 原生渲染与动画也未完成。
+- [R14 长期 Release（26 个附件）](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r14-unpack128-20261014)，[发布全量重新计算 SHA 的 Actions #38514060838](https://github.com/969981/ACNH_Resources/actions/runs/38514060838) 成功。[完整技术指南](ACNH303_ROUND14_UNPACK_REMAINING_GUIDE.md)。
+- 所有 R14 成果保存在 feat/acnh303-round14-unpack-backlog，尚未合并到 3.0.3；新一轮选择器须用 R14 manifest 防止重复。
