@@ -1,0 +1,106 @@
+name: ACNH 3.0.3 R10 176 Native Sources Verified Durable Release
+on:
+  push:
+    branches: [feat/acnh303-round10-backlog-native-semantics]
+    paths: ['.github/workflows/acnh303-round10-release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      SOURCE_RUN_ID: '38497229960'
+      RECONCILE_RUN_ID: '38497516006'
+      TAG: acnh303-r10-bars-layout-bwav-native-20261014
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/media_round8_cumulative
+            derived/3.0.3/media_round10_cumulative
+            derived/3.0.3/layout_semantic_round10_cumulative
+            derived/3.0.3/bars_round10_cumulative
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Require actual 24 decoding shard jobs success and independent cumulative reconciliation
+        run: |
+          set -euo pipefail
+          gh run view "$RECONCILE_RUN_ID" -R "$REPO" --json conclusion --jq .conclusion | grep -Fx success
+          gh api "repos/$REPO/actions/runs/$SOURCE_RUN_ID/jobs?per_page=100" \
+            --jq '[.jobs[] | select(.name | startswith("bars (") or startswith("media (")) | .conclusion] |
+            (length == 24 and all(. == "success"))' | grep -Fx true
+      - name: Download exact 24 native media/data shards without re-decoding
+        run: |
+          set -euo pipefail
+          mkdir -p collected
+          gh run download "$SOURCE_RUN_ID" -R "$REPO" -p 'acnh303-r10-data-*' -D collected
+          test "$(find collected -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 24
+      - name: Re-read and rehash every 195 PNG / 64 WAV / 834 BARS WAV / 834 AMTA / 235 UI2D JSON
+        run: |
+          python scripts/acnh303_round10_release_verify.py \
+            --collected collected \
+            --media-baseline derived/3.0.3/media_round8_cumulative/source_manifest.jsonl.gz \
+            --media-r10 derived/3.0.3/media_round10_cumulative/source_manifest.jsonl.gz \
+            --bars-r10 derived/3.0.3/bars_round10_cumulative/source_manifest.jsonl.gz \
+            --layout-r10 derived/3.0.3/layout_semantic_round10_cumulative/coverage.json
+      - name: Package all native shard trees with deterministic checksum list
+        run: |
+          set -euo pipefail
+          mkdir -p packages
+          for folder in collected/acnh303-r10-data-*; do
+            test -d "$folder"
+            name="$(basename "$folder")"
+            tar -czf "packages/${name}.tar.gz" -C collected "$name"
+          done
+          test "$(find packages -name '*.tar.gz' -type f | wc -l)" -eq 24
+          cp derived/3.0.3/media_round10_cumulative/coverage.json packages/media_coverage.json
+          cp derived/3.0.3/media_round10_cumulative/source_manifest.jsonl.gz packages/media_sources.jsonl.gz
+          cp derived/3.0.3/bars_round10_cumulative/coverage.json packages/bars_coverage.json
+          cp derived/3.0.3/bars_round10_cumulative/source_manifest.jsonl.gz packages/bars_sources.jsonl.gz
+          cp derived/3.0.3/layout_semantic_round10_cumulative/coverage.json packages/ui2d_coverage.json
+          (cd packages && sha256sum *.tar.gz *.json *.gz > SHA256SUMS.txt)
+          cat packages/SHA256SUMS.txt
+      - name: Publish all verified real decoded files; never advertise unknown semantic fields
+        run: |
+          cat > /tmp/release-notes.md <<'EOF'
+          ACNH 3.0.3 Round 10: actual native data decoded from 176 NEW
+          immutable ROMFS sources through 24 independently successful Actions
+          shards (source run 38497229960; reconcile 38497516006).
+
+          Core media new sources: 48 Layout, 64 standalone BWAV:
+            +195 decoded PNG (real Pillow pixel load)
+            +64 standalone PCM WAV
+            +235 UI2D JSON (48 BFLYT / 153 BFLAN / 34 FCPX)
+          BARS audio containers: 64 new source archives:
+            +834 embedded BWAV to playable PCM WAV
+            +834 exact raw native AMTA v5 metadata members.
+
+          The cumulative core L3 media count is 2919:
+            214 GLB + 2069 PNG + 636 standalone BWAV PCM.
+          Separately audited BARS PCM cumulative: 1062 WAV across 104 BARS.
+
+          These 24 tar.gz archives contain actual per-source-shard
+          decoded files and manifests, all rehashed against immutable input
+          manifests, plus cumulative audit reports and SHA256SUMS.txt.
+          AMTA playback/loop/name fields and UI2D runtime parity are NOT
+          proven. No full-ROMFS semantic completion claim.
+          EOF
+          set -euo pipefail
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" \
+              --target feat/acnh303-round10-backlog-native-semantics \
+              --title "ACNH 3.0.3 R10: 195 PNG + 898 WAV + 834 AMTA + 235 UI2D" \
+              --notes-file /tmp/release-notes.md --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" packages/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets \
+            --jq '{url:.url,asset_count:(.assets|length),assets:[.assets[]|{name:.name,size:.size}]}'
