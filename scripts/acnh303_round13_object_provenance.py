@@ -28,6 +28,7 @@ REGIONS = {
     "bars_caller_291fb8c": (0x291fb4c, 0x291fbcc),
     "bars_caller_3b4c61c": (0x3b4c5dc, 0x3b4c65c),
     "bars_success_x20_x22": (0x3ACA470, 0x3ACA598),
+    "bars_header_member_table_store": (0x3ACA300, 0x3ACA380),
     "action_receiver": (0xFF6300, 0xFF6540),
     "query_receiver": (0x10846C0, 0x1084840),
 }
@@ -129,6 +130,35 @@ def file_backing(blob,segments,va):
             "candidate_target_first_32_bytes_hex":child.hex() if child is not None else None,
             "note":"Read-only PT_LOAD file bytes only. Values need runtime relocation, owner and type verification."}
 
+def bars_member_table_proof(rows):
+    """Verify a linked instruction sequence, not dynamic pointer ownership."""
+    index={r["pc"]:r for r in rows}
+    expected=[
+      ("0x3aca300","mov","x8, x19"),
+      ("0x3aca318","str","xzr, [x8, #0x10]!"),
+      ("0x3aca36c","ldr","w9, [x22, #0xc]"),
+      ("0x3aca370","add","x9, x22, x9, lsl #2"),
+      ("0x3aca374","add","x9, x9, #0x10"),
+      ("0x3aca378","str","x9, [x8]"),
+    ]
+    evidence=[]
+    for pc,op,args in expected:
+        r=index.get(pc)
+        if r is None or r["op"]!=op or r["args"]!=args:
+            raise ValueError(f"BARS table evidence mismatch at {pc}: {r}")
+        evidence.append({"pc":pc,"opcode_hex":r["bytes"],"instruction":op+" "+args})
+    intervening=[r for r in rows if 0x3ACA318 < int(r["pc"],16)<0x3ACA378
+                   and ("x8" in r["writes"] or "w8" in r["writes"])]
+    if intervening:
+        raise ValueError(f"X8 is clobbered before the table store: {intervening}")
+    return {
+       "calculation":"X22 + 0x10 + 4 * u32(X22+0x0C)",
+       "object_field":"X19+0x10 (because post-index STR makes X8=X19+0x10)",
+       "native_instruction_evidence":evidence,
+       "intervening_x8_clobbers":0,
+       "semantics":"BARS header member-offset table location stored in parser object",
+       "unknown":"Which function later reads the offset pairs; AMTA header consumers remain unproven"}
+
 def analyze(blob):
     if len(blob)!=SIZE or hashlib.sha256(blob).hexdigest()!=SHA:
         raise ValueError("ACNH 3.0.3 79MB ELF SHA mismatch")
@@ -140,6 +170,7 @@ def analyze(blob):
         "schema":"acnh303-r13-native-object-provenance-v1",
         "elf_sha256":SHA,"elf_size":len(blob),
         "register_windows":windows,
+        "bars_member_table_pointer_chain":bars_member_table_proof(windows["bars_header_member_table_store"]),
         "bars_caller_register_arguments":{k:[r for r in rows if set(r["writes"]) & {"x0","w0","x3","w3"}]
              for k,rows in windows.items() if k.startswith("bars_caller_")},
         "candidate_register_writes":{
