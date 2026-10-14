@@ -143,3 +143,11 @@ Round10 new: **48 Layout originals → 195 validated PNG and 235 UI2D JSON; 64 s
 Native AMTA v5 header field survey is backed by 208 original member SHA records, at derived/3.0.3/r10_native_fields/matrix.json. LBLI original identifier evidence covers 4210 nonempty sections and 3799 different raw identifier hex values; no natural-language interpretation is proven. Twelve actual BFEVFL sources have 115 static graph nodes and validated Action/Query/Subflow symbol references; **neither Native handler addresses nor gameplay producers have been resolved**. Never label guessed u32 meanings, CRC32 names, font fallbacks, animation parity, or gameplay effects as established.
 
 Round10 data never belongs in Git history: only publish actual media/semantics via Release assets, with SHA256SUMS and immutable source/output manifests.
+
+## 2026-10-14 Round 11 executable evidence and strict claims
+
+See docs/ACNH303_ROUND11_ELF_NATIVE_CONSUMERS_GUIDE.md. Use the original verified ExeFS ELF at e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf (79,000,340 bytes, SHA-256 83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180). Scripts/acnh303_round11_elf_xref.py and scripts/acnh303_round11_magic_disasm.py use the real ELF64 AArch64 PT_LOAD executable/data mappings and bounded Capstone code windows, with synthetic-regression tests. Do not commit or republish original ELF binaries.
+
+Only these selected statements are fully grounded in real native instructions: BARS magic check at 0x3ACA350..0x3ACA368, +0x0C count read, +0x10+4×count pointer formation, +0x08 BOM, +0x0A version; BDLI format path referenced at 0x1B0A014; generic EventFlow Action/Query names and other words stored in STP pairs near 0xFF5D70/0x108444C. The game-specific AMTA v5 playback attributes, LBLI count/ID semantic consumer, EventFlow actor handler function pointer/real branch effects remain unverified.
+
+The search for AMTA, LBLI, BDLI compiled MOVZ/MOVK constant pairs returned zero for that **specific construction pattern**; absence of such matches does not imply absent native readers. Near-BL targets are not validated consumer calls; heuristic function starts are not confirmed. Strictly preserve source SHA, real ELF VA, opcodes, dataflow, and unknowns. Issue #33 remains open for runtime-backed closure.
