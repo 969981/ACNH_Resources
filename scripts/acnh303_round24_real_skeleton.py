@@ -110,14 +110,38 @@ def read_model_leaf(b,source_member):
       "bones":bonelist,"verification_state":"SOURCE_LOCAL_FMDL_FSKL_BONES_VALIDATED"}
 
 def read_animation_names(root):
-    p=root/"derived/3.0.3/r23_animation_binding/basepose_fmaa.json"
-    d=json.loads(p.read_text())
-    if d["source_sha256"]!="97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a":
-        raise ValueError("wrong animation SHA")
-    return set(x[0] for x in d["top_bone_names"])
+    """Recover all 23,142 true BoneAnim names, not an arbitrary top-30 list."""
+    manifest=root/"derived/3.0.3/r23_animation_binding/basepose_fmaa.json"
+    old=json.loads(manifest.read_text())
+    expected="97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a"
+    if old["source_sha256"]!=expected or old["total_bone_records"]!=23142:
+        raise ValueError("wrong R23 standalone animation baseline")
+    src=root/NCA/"1/Model/CharactorAnimation20000.Nin_NX_NVN.zs"
+    raw=src.read_bytes()
+    if sha(raw)!=expected:raise ValueError("original R23 animation bytes changed")
+    leaf=next(x["data"] for x in find_leaf(raw,src.name) if x["format"]=="bfres")
+    if sha(leaf)!=old["fres_sha256"]:raise ValueError("original R23 FRES bytes changed")
+    names={}
+    checked=0
+    for i in range(406):
+        at=0xf0+i*0x50
+        if leaf[at:at+4]!=b"FSKA":raise ValueError("known R20 animation stride changed")
+        name=string_at(leaf,u64(leaf,at+8))
+        cnt=u16(leaf,at+0x4c)
+        boneptr=u64(leaf,at+0x28)
+        if not bounded(leaf,boneptr,cnt*0x38):raise ValueError("animation bone span outside FRES")
+        for j in range(cnt):
+            bone=string_at(leaf,u64(leaf,boneptr+j*0x38))
+            if bone is None:raise ValueError("animation bone name invalid")
+            names.setdefault(bone,[]).append(name)
+            checked+=1
+    if checked!=23142:raise ValueError(f"wrong source bone count: {checked}")
+    return {"names":names,"unique_names":len(names),"bone_entries":checked,
+            "animation_source_sha256":sha(raw),"animation_fres_sha256":sha(leaf)}
 
 def scan(root):
-    known=read_animation_names(root)
+    animation=read_animation_names(root)
+    known=set(animation["names"])
     results=[]
     for src in SOURCES:
         path=root/NCA/"1"/src
@@ -136,8 +160,11 @@ def scan(root):
             row["models"]=[]
             for m in candidates:
                 names={b["name"] for b in m["bones"]}
-                m["common_bone_names_with_r23_animation_top30"]=sorted(names&known)
-                m["overlap_count_top30"]=len(names&known)
+                m["common_bone_names_with_r23_animation_all"]=sorted(names&known)
+                m["overlap_count_all"]=len(names&known)
+                m["unique_model_bones_without_exact_animation_name"]=sorted(names-known)
+                m["max_animation_examples_per_shared_bone"]={
+                    b:animation["names"][b][:5] for b in sorted(names&known)}
                 row["models"].append(m)
         except Exception as exc:
             row["status"]="source_error"
@@ -146,15 +173,16 @@ def scan(root):
     valid=[(i,m) for i,r in enumerate(results) for m in r.get("models",[])]
     selected=None
     if valid:
-        chosen=max(valid,key=lambda x:(x[1]["overlap_count_top30"],len(x[1]["bones"])))
+        chosen=max(valid,key=lambda x:(x[1]["overlap_count_all"],len(x[1]["bones"])))
         selected={"source":results[chosen[0]]["source"],"source_sha256":results[chosen[0]]["source_sha256"],
-                  "model":chosen[1]["name"],"overlap_top30":chosen[1]["overlap_count_top30"],
+                  "model":chosen[1]["name"],"overlap_all":chosen[1]["overlap_count_all"],
                   "bone_count":chosen[1]["bone_count"]}
     return {"schema":"acnh303-r24-real-model-skeleton-selection-v1",
         "candidate_sources":len(SOURCES),"validated_sources":sum(r["status"]=="skeleton_validated" for r in results),
+        "animation_reference":{k:v for k,v in animation.items() if k!="names"},
         "chosen_model":selected,"candidates":results,
         "verification_state":"SOURCE_LOCAL_FMDL_FSKL_NOT_PROVEN_ANIMATION_BINDING",
-        "limitations":"Top-30 shared bone names only; R23 animations have null BindSkeleton and all FFFF BindIndices. Structural skeleton can be validated independently; this does not infer exact animation-model pair nor animated pose."}
+        "limitations":"Cross-compare all 23,142 R23 BoneAnim names using original source SHA. Name equality is only lexical overlap: R23 standalone animation FSKA has null BindSkeleton and 0xFFFF BindIndices. No proven mapping between selected FMDL model and animated pose."}
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."))
