@@ -101,9 +101,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python -m pip install 'pyelftools>=0.31,<1'
+      - run: python -m pip install 'pyelftools>=0.31,<1' 'capstone>=5,<6'
       - name: Search actual ELF loader import relocations and resource signatures, not unrelated virtual slots
         run: python scripts/acnh303_round24_native_resource_loader.py
+      - name: Disassemble genuine BARS and AMTA header constant construction and incoming branch contexts
+        run: python scripts/acnh303_round24_native_bars_amta_edges.py
       - name: Require honesty on unknown owner and no fake runtime capture
         run: |
           python - <<'PY'
@@ -115,12 +117,19 @@ jobs:
           assert d['actual_object_factory_found'] is False
           assert d['verified_live_blr_target'] is None
           assert d['next_runtime_read_only_evidence']['records']==[]
+          assert d['aarch64_magic_constant_candidate_totals'].get('BARS',0)>=1
+          assert d['aarch64_magic_constant_candidate_totals'].get('AMTA',0)>=2
+          c=json.load(open('derived/3.0.3/r24_native_loader/bars_amta_code_context.json'))
+          assert c['status']=='ORIGINAL_CODE_MAGIC_COMPARISON_CONTEXT_ONLY'
+          assert len(c['actual_signature_builders'])==3
           print('R24_ELF_SIGNATURES',d['aarch64_magic_constant_candidate_totals'])
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: r24-static-loader
-          path: derived/3.0.3/r24_native_loader/resource_loader_evidence.json
+          path: |
+            derived/3.0.3/r24_native_loader/resource_loader_evidence.json
+            derived/3.0.3/r24_native_loader/bars_amta_code_context.json
           retention-days: 90
           if-no-files-found: error
   reconcile:
@@ -150,6 +159,7 @@ jobs:
           mkdir -p derived/3.0.3/r24_skeleton_binding derived/3.0.3/r24_native_loader
           cp downloads/model/geometry_skeleton_match.json derived/3.0.3/r24_skeleton_binding/
           cp downloads/native/resource_loader_evidence.json derived/3.0.3/r24_native_loader/
+          cp downloads/native/bars_amta_code_context.json derived/3.0.3/r24_native_loader/
           python - <<'PY'
           import json
           m=json.load(open('derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json'))
@@ -185,12 +195,14 @@ jobs:
           gh run download "$GITHUB_RUN_ID" -R "$REPO" -n r24-static-loader -D evidence/native
           cmp evidence/model/geometry_skeleton_match.json derived/3.0.3/r24_skeleton_binding/geometry_skeleton_match.json
           cmp evidence/native/resource_loader_evidence.json derived/3.0.3/r24_native_loader/resource_loader_evidence.json
+          cmp evidence/native/bars_amta_code_context.json derived/3.0.3/r24_native_loader/bars_amta_code_context.json
       - name: Create verified immutable research release
         run: |
           set -euo pipefail
           mkdir -p packages
           cp evidence/model/geometry_skeleton_match.json packages/
           cp evidence/native/resource_loader_evidence.json packages/
+          cp evidence/native/bars_amta_code_context.json packages/
           (cd packages && sha256sum *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
           printf 'R24: genuine FMDL/FSKL Model BFRES source hashes, bone parent/matrix audit and standalone FSKA name overlaps; real AArch64 ELF resource signature and import evidence. No live Switch BLR evidence, unverified loader/factory identity remains open. Original NCA untouched.\n' > notes.txt
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
