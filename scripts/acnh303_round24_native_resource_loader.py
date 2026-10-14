@@ -20,16 +20,16 @@ MAGICS={"FRES":b"FRES","FMDL":b"FMDL","FSKL":b"FSKL",
 NEEDLES=("read","open","resource","stream","archive","file","fs","g3d","sarc","bars","audio","elf")
 def sha(d):return hashlib.sha256(d).hexdigest()
 def mov_imm(op):
-    # Move wide MOVZ/MOVK W registers, shifts 0 or 16; reject 64-bit
-    # forms to keep the 32-bit file magic reconstruction exact.
+    # Move-wide MOVZ/MOVK W/X registers constructing 32-bit constants in
+    # their lower 32 bits. Keep X- and W-register widths disjoint.
     family=op&0x7f800000
     if family not in (0x52800000,0x72800000):return None
     shift=(op>>21)&3
     if shift>1:return None
-    return ("movz" if family==0x52800000 else "movk",op&31,(op>>5)&0xffff,shift*16)
+    return ("movz" if family==0x52800000 else "movk",op&31,(op>>5)&0xffff,shift*16,64 if op&0x80000000 else 32)
 
 def combined32(low,hi):
-    if low[0]=="movz" and hi[0]=="movk" and low[1]==hi[1] and low[3]!=hi[3]:
+    if low[0]=="movz" and hi[0]=="movk" and low[1]==hi[1] and low[4]==hi[4] and low[3]!=hi[3]:
         return ((low[2]<<low[3])|(hi[2]<<hi[3]))&0xffffffff
     return None
 
@@ -101,7 +101,7 @@ def inspect(root):
                     opcode_pairs[kind]+=1
                     if len(magic_code_hits)<250:
                         magic_code_hits.append({"magic":kind,"movz_va":hex(seg["va"]+i*4),
-                            "movk_va":hex(seg["va"]+(i+d)*4),"register":f"w{first[1]}",
+                            "movk_va":hex(seg["va"]+(i+d)*4),"register":f"{'x' if first[4]==64 else 'w'}{first[1]}",
                             "immediate_u32":hex(value),"opcodes":[f"{a:08x}",f"{op:08x}"],
                             "status":"static_constant_candidate_not_parser_identity"})
     return {"schema":"acnh303-r24-resource-loading-anchored-native-scan-v1",
