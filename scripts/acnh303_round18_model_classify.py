@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """R18 Model/BFRES real L3 classification and failure census.
 
-Source identity is taken from exact R16/R18 manifests, never heuristically
+Source identity is taken from exact R17/R18 manifests, never heuristically
 from filenames; "mesh" requires decoder-validated GLB POSITION accessors.
 """
 import argparse
@@ -18,7 +18,7 @@ def rows(p):
 
 def classify():
     old={r["source_path"] for r in rows(BASE/"media_round17_cumulative/source_manifest.jsonl.gz")}
-    new=[r for r in rows(BASE/"media_round17_cumulative/source_manifest.jsonl.gz")
+    new=[r for r in rows(BASE/"media_round18_cumulative/source_manifest.jsonl.gz")
          if r["source_path"] not in old and r["source_path"].startswith("Model/")]
     if len(old)!=2278 or len(new)!=600 or len({r["source_path"] for r in new})!=600:
         raise ValueError("R18 Model source baseline or source uniqueness mismatch")
@@ -30,7 +30,7 @@ def classify():
     for r in sorted(new,key=lambda x:x["source_path"]):
         cls=r.get("source_media_class","unknown_unclassified")
         media={o["validation"]["type"] for o in r["validated_outputs"]}
-        if cls=="texture_only_fres_bntx" and ("glb" in media or "png" not in media):
+        if cls=="texture_only_fres_bntx" and ("glb" in media or (r["status"] in ("converted_media","partial_media") and "png" not in media)):
             raise ValueError("texture-only FRES not proven by PNG: "+r["source_path"])
         if cls=="model_geometry_bfres" and r["status"] in ("converted_media","partial_media") and "glb" not in media:
             raise ValueError("geometry classification without actual GLB: "+r["source_path"])
