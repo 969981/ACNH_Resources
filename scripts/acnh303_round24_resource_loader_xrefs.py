@@ -14,7 +14,7 @@ from acnh303_round22_native_callee import sha,static_va_read,branch_target
 from acnh303_round21_global_initializer import adrp_page,ELF_SHA
 from acnh303_round18_native_elf_probe import NCA,TARGETS
 
-MAGICS=(b"FRES",b"FMDL",b"FSKL",b"FMAA",b"BARS",b"AMTA",b"LBLI",b"BFEVFL")
+MAGICS=(b"FRES",b"FMDL",b"FSKL",b"FMAA",b"BARS",b"AMTA",b"LBLI",b"BFEVFL",b"BNSH")
 def ref_next(op,pc,reg,base,targets):
     # Matches only immediately adjacent ADRP -> ADD/unsigned-imm LDR.
     # Decode using AArch64 architectural bits, independent of Capstone state.
@@ -102,17 +102,26 @@ def extract(root):
         if code is None:
             known.append({"label":label,"pc":hex(pc),"status":"unmapped"});continue
         instructions=list(cs.disasm(code,pc))
+        mn=[x.mnemonic for x in instructions]
+        byte_compares=sum(1 for x in instructions[:28] if x.mnemonic in ("ldrb","ldursb"))
+        comparisons=sum(1 for x in instructions[:28] if x.mnemonic in ("cmp","cmn"))
+        virtual_calls=sum(1 for x in instructions[:28] if x.mnemonic=="blr")
+        compare_pattern=byte_compares>=2 and comparisons>=1
         known.append({"label":label,"pc":hex(pc),
           "raw_sha256":sha(code),
-          "first_instructions":[{"va":hex(x.address),"opcode":x.bytes.hex(),"mnemonic":x.mnemonic,"args":x.op_str} for x in instructions[:18]],
+          "byte_loads_in_first_28":byte_compares,
+          "comparisons_in_first_28":comparisons,
+          "virtual_calls_in_first_28":virtual_calls,
+          "instruction_pattern":"bytewise_compare_loop_candidate" if compare_pattern else "mixed_unclassified_code",
+          "first_instructions":[{"va":hex(x.address),"opcode":x.bytes.hex(),"mnemonic":x.mnemonic,"args":x.op_str} for x in instructions[:28]],
           "status":"real_code_window_without_proven_resource_input"})
-    return {"schema":"acnh303-r24-resource-magic-xrefs-v1","elf_sha256":sha(blob),
+    return {"schema":"acnh303-r24-resource-magic-xrefs-v2","elf_sha256":sha(blob),
       "original_magic_positions":mags,
       "exact_executable_adrp_data_references":dict(hits),
       "candidate_xrefs":examples,
       "previous_read_windows_independently_redecoded":known,
       "verification_state":"ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN",
-      "limits":"Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily a file resource loader. Nearby calls are not automatically consumer ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted."}
+      "limits":"Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily file loaders. Some previously labelled BARS/BFEVFL candidate windows visibly contain repeated LDRB/CMP bytewise loops and can instead be string comparison; no verified asset bytes flow through these windows. Nearby calls do not prove business ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted."}
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."))
