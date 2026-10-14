@@ -60,3 +60,14 @@ R23 Actions：`.github/workflows/acnh303-round23-research.yml`，`regress → an
 后续优先级：1）在原始 Model 资源中选择至少一个真实 `FMDL → FSKL` source，用骨骼名称/ParentIndex 和逆矩阵严格联结这 406 个独立动画；2）把 FMAA 315 条曲线连到真实材料参数/纹理；3）从已验证的非 RET 槽与资源 blob loader 关联具体调用者/对象工厂；4）实机只读观测 `BLR` 的真实目标，独立验收。
 
 深层语义任务 [动画 Issue #39](https://github.com/969981/ACNH_Resources/issues/39)、[Native Issue #33](https://github.com/969981/ACNH_Resources/issues/33) 均保持开放。
+
+## R23 最终实跑结果（2026-10-14）
+
+- [R23 成功 Run 38573274802](https://github.com/969981/ACNH_Resources/actions/runs/38573274802)：**5/5 通过**（回归、真实动画/Native 原始资源分析、报告提交、同轮产物 SHA 二次复核）。
+- [永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r23-skeleton-fmaa-nonret-20261014)：`basepose_fmaa.json`、`nonret_slot_triage.json` 和 `SHA256SUMS.txt`，完整原始 SHA 与同次 run 产物字节对账。
+- 真实 FSKA：406/406 个动画对象，23,142 个 BoneAnim 绑定索引均为 `0xFFFF`，406 个 `BindSkeleton` 原始指针均为 `0`，当前独立动画 FRES 的 `FSKL` 魔数命中为 0。23,142 个基础姿态全经范围/非有限浮点检查；旋转向量 23,142、缩放向量 10,150、位移向量 4,934（依每 Bone 的 Flags 统计）。**这不代表与外部模型 Skeleton 绑定完成**。
+- FMAA：118/118 对象，227 MaterialAnimData，118 个 `BindModel` 指针均为 0，227 个 material bind index 均为 `0xFFFF`；原始头声明 315 个材质 AnimCurve、子对象声明亦为 315，最终 **315/315 的真实 StepInt 曲线已成功解出**，失败 **0**。全部具有 FRES 内可核对的 AnimCurve header、frame/key 字节 SHA，不能把 StepInt 的原始 key 当作材质浮点连续动画。
+- R23 在首次曲线复核中曾有 51 条 `StepInt` 因 `Delta=0xFFFFFFFF` 在 Python float32 视图形成 NaN 被 R21 旧解析器拒绝。对照 BfresLibrary 的 Switch AnimCurve 类型语义，现已区别处理 **离散 StepInt / StepBool 的原始 metadata 位域**和 cubic/linear 的有限浮点系数，继续严格验证 frame start/end、frame/key 真实字节边界与类型，新增“StepInt 原始 sentinel 成功 / Cubic 非有限系数拒绝”回归。
+- 真实 3.0.3 ELF 的静态候选虚表检查：在 16 个可执行槽位目标中有 **4 个以 `RET` 开头**（含 `+0x18 → 0x5BD3A4`）、12 个非 `RET`（`+0x08→0x5BD344`、`+0x10→0x37D0F98`、`+0x30→0x5BE22C` 等）。这只能用于排除默认空实现/缩小研究对象，**不是资源 reader 或对象工厂身份证据**。
+- `nonret_slot_triage.json` 内只保存 `records: []`、`NOT_CAPTURED_TEMPLATE_ONLY` 的运行时只读记录规范；当前没有任何可据此确认实际 `BLR` 跳转或 AMTA/LBLI/BFEVFL 所有权的实机快照。
+- 分支 `R22 → R23` 对比，原始 `e10617820db06889e1638499478da0de_NCA/` **0 个源文件修改**。仍未合并 `3.0.3`。保留 [#39](https://github.com/969981/ACNH_Resources/issues/39) 和 [#33](https://github.com/969981/ACNH_Resources/issues/33) 开放。
