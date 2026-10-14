@@ -219,3 +219,14 @@ BFLYT 6 个 mat1 区块的 22 个材料均有 **44 字节记录**，末尾字段
 - [AMTA v5 原始字段/LBLI 标识符矩阵](derived/3.0.3/r10_native_fields/matrix.json) · [BFEVFL 原生静态调用索引](derived/3.0.3/evfl_round10_cumulative/coverage.json)
 
 以上不代表 103,400 个资源源文件全部完成游戏语义还原；媒体转换、原生结构、运行时验证分别记录。
+
+## 第十一轮：真实 ELF Native 证据（2026-10-14）
+
+本轮直接读取 ExeFS 的 79,000,340 字节 AArch64 ELF（SHA256 83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180），并用两个独立成功的 GitHub Actions 工作流抽取代码交叉引用和真实 Capstone 指令。**首次直接从游戏代码证明 BARS 的 Magic 比较、+0x0C count、+0x10+4×count 目录计算、+0x08 BOM 和 +0x0A version。** Native 入口 `0x3ACA350`，配对版本检查到 `0x3ACA39C`。同时证实 `BDLI/%s/%s/%s.bdli` 资源路径模板从 `0x1B0A014` 传入调用点，以及 EventFlowAction/Query 的名称地址和另一机器字成对储存候选。**并没有证明 AMTA v5 播放语义、LBLI 本地化字段消费和游戏内 Action/Query 分派**。
+
+- [第十一轮完整 ELF Native 验证与复现指南](docs/ACNH303_ROUND11_ELF_NATIVE_CONSUMERS_GUIDE.md)
+- [真实字符串/code address-forming XREF](derived/3.0.3/round11_elf_native_xref/report.json)
+- [真实 ARM64 反汇编和 FourCC 对比](derived/3.0.3/round11_native_code_windows/analysis.json)
+- [Issue #33 未完成 Native 研究](https://github.com/969981/ACNH_Resources/issues/33)
+
+Code evidence is not runtime behavior, and ELF virtual offsets are not a fixed process runtime base. 
