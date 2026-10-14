@@ -56,3 +56,11 @@
 - **累计 552 个互不重复原始媒体源，214 GLB + 1354 PNG + 92 WAV = 1660 个真实输出**，1,244,272,410 字节。已测仍无 BNTX 目标的 Layout 达 41 个。
 - [当前覆盖率报告](../derived/3.0.3/media_iteration4_cumulative/coverage.json) · [媒体输出索引](../derived/3.0.3/media_iteration4_cumulative/media_index.csv) · [详细技术报告](UNPACK_MEDIA_L3_ITERATION4.md)。
 - 已使用 [17 附件的永久 GitHub Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-iteration4-20261014) 分卷发布 781 个新媒体文件及全部源／输出 SHA-256。注意此为 L3 **样本扩容**，并非全部 103400 原文件已完全转换。
+
+## 2026-10-14 UI2D/BWAV 第五轮完成
+
+- 从 41 个以前无 BNTX 的真实 Layout 资源成功转换 41 份 BFLYT 和 21 份 BFLAN v9 JSON，共 254 个 pane，全部源文件 SHA 对齐；尚有 12 个 FCPX 叶子未解（Issue #25）。[导出报告](../derived/3.0.3/ui2d_41/summary.json)。
+- 8 个新 BWAV 哈希分片均通过原始源和 PCM WAV SHA256 核验，新增 120 个 WAV，BWAV 累计 212/1146 已测，仍有 934 未测。
+- 全 L3 媒体实测 672 个唯一原始源，214 GLB、1354 PNG、212 WAV，合计 1780 个媒体文件、1,983,963,504 字节。[有效媒体覆盖](../derived/3.0.3/media_bwav120_cumulative/coverage.json)。
+- 新 120 WAV 发布为 [长期 GitHub Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-120-next-20261014)，8 个分卷及 SHA256SUMS。
+- 完整文档：[第五轮原生 UI2D 和 BWAV 解包](UNPACK_UI2D_BWAV_ROUND5.md)。41 个 Layout 已在此前的 552 源计数内，不能重复统计为新测媒体源。
