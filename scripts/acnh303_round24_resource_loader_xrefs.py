@@ -100,6 +100,28 @@ def extract(root):
              "memsz":s["mem"],"flags":s["flags"]} for s in loads]
     bnsh_flows=[]
     engine=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
+    plt_candidates={}
+    try:
+        with elfpath.open("rb") as fd:
+            ef=ELFFile(fd)
+            for sec in ef.iter_sections():
+                if sec["sh_type"] not in ("SHT_RELA","SHT_REL"):continue
+                symbol_section=ef.get_section(int(sec["sh_link"])) if int(sec["sh_link"]) else None
+                for reloc in sec.iter_relocations():
+                    where=int(reloc["r_offset"])
+                    if where not in (0x4ae10d8,0x4ae10e0):continue
+                    symi=int(reloc["r_info_sym"])
+                    name=None
+                    if symi and symbol_section is not None:
+                        try:name=symbol_section.get_symbol(symi).name
+                        except (AttributeError,IndexError):pass
+                    plt_candidates[hex(where)]={"section":sec.name,
+                       "relocation_type":int(reloc["r_info_type"]),
+                       "symbol_index":symi,"symbol_name":name,
+                       "addend":int(reloc["r_addend"]) if "r_addend" in reloc.entry else None}
+    except Exception as exc:
+        plt_candidates["scan_error"]=f"{type(exc).__name__}:{str(exc)[:160]}"
+
     for rec in examples.get("BNSH",[]):
         site=int(rec["site"],16);target=int(rec["target_magic_va"],16)
         site_data=static_va_read(blob,mapped,site,0x60) or b""
@@ -108,10 +130,38 @@ def extract(root):
         for call in rec["nearby_direct_branches"][:4]:
             pc=int(call["direct_target"],16)
             sub=static_va_read(blob,mapped,pc,0x50) or b""
+            instr=list(engine.disasm(sub,pc))
+            trampoline=None
+            if len(instr)>=4 and [x.mnemonic for x in instr[:4]]==["adrp","ldr","add","br"]:
+                first,second,third,fourth=instr[:4]
+                raw0=int.from_bytes(first.bytes,"little")
+                raw1=int.from_bytes(second.bytes,"little")
+                raw2=int.from_bytes(third.bytes,"little")
+                raw3=int.from_bytes(fourth.bytes,"little")
+                page=adrp_page(pc,raw0)
+                base_reg=raw0&31
+                reg_ldr_base=(raw1>>5)&31
+                reg_ldr_dst=raw1&31
+                reg_add_base=(raw2>>5)&31
+                reg_add_dst=raw2&31
+                reg_br=(raw3>>5)&31
+                disp=((raw1>>10)&0xfff)*8
+                if (page is not None and (raw1&0xffc00000)==0xf9400000
+                    and base_reg==reg_ldr_base==reg_add_base==reg_add_dst
+                    and reg_ldr_dst==reg_br):
+                    got_va=page+disp
+                    got_blob=static_va_read(blob,mapped,got_va,8)
+                    trampoline={"kind":"AARCH64_ADRP_LDR_ADD_BR_JUMP_STUB",
+                      "got_slot_va":hex(got_va),
+                      "got_file_value":hex(int.from_bytes(got_blob,"little")) if got_blob else None,
+                      "got_source_sha256":sha(got_blob) if got_blob else None,
+                      "relocation":plt_candidates.get(hex(got_va)),
+                      "verified_runtime_target":False}
             call_windows.append({"pc":hex(pc),"raw_sha256":sha(sub) if sub else None,
+              "jump_stub":trampoline,
               "first_12":[{"pc":hex(x.address),"machine_hex":x.bytes.hex(),
                 "mnemonic":x.mnemonic,"operands":x.op_str}
-                for x in list(engine.disasm(sub,pc))[:12]]})
+                for x in instr[:12]]})
         bnsh_flows.append({"reference_site":rec["site"],"fourcc_va":rec["target_magic_va"],
             "data_context_hex":literal_data.hex(),"data_sha256":sha(literal_data),
             "reference_code_sha256":sha(site_data),
@@ -141,11 +191,12 @@ def extract(root):
           "instruction_pattern":"bytewise_compare_loop_candidate" if compare_pattern else "mixed_unclassified_code",
           "first_instructions":[{"va":hex(x.address),"opcode":x.bytes.hex(),"mnemonic":x.mnemonic,"args":x.op_str} for x in instructions[:28]],
           "status":"real_code_window_without_proven_resource_input"})
-    return {"schema":"acnh303-r24-resource-magic-xrefs-v3","elf_sha256":sha(blob),
+    return {"schema":"acnh303-r24-resource-magic-xrefs-v4","elf_sha256":sha(blob),
       "original_magic_positions":mags,
       "exact_executable_adrp_data_references":dict(hits),
       "candidate_xrefs":examples,
       "real_bnsh_literal_call_context":bnsh_flows,
+      "matching_elf_relocations_for_jump_stub_got":plt_candidates,
       "previous_read_windows_independently_redecoded":known,
       "verification_state":"ELF_MAGIC_XREF_CANDIDATES_LOADER_INPUT_OWNER_UNPROVEN",
       "limits":"Magic string presence and ADRP reference identify literal consumers or checkers, not necessarily file loaders. Some previously labelled BARS/BFEVFL candidate windows visibly contain repeated LDRB/CMP bytewise loops and can instead be string comparison; no verified asset bytes flow through these windows. Nearby calls do not prove business ownership. No live object factory, AMTA/LBLI/BFEVFL binding, or read-only Switch BLR trace is asserted."}
