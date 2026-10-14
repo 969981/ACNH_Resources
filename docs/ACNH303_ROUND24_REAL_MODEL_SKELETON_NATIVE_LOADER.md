@@ -62,3 +62,53 @@ R22 的 `0x4AB2238 → 0x4B4B980 → 0x47F9770 → [+0x18] = 0x5BD3A4` 是 ELF �
 - CI：`.github/workflows/acnh303-round24-research.yml`，`regress → skeleton + resource_loader → reconcile → publish`。只在成功运行、同次 artifacts 与已提交报告逐字节一致并有 SHA256SUMS 后声明 Release 完成。
 - 下一优先级：利用实际的 `BagBackpackBody0` FSKL 建立含 EulerXYZ、ParentIndex 和 inverse 3×4 的**局部层级求值测试**；再寻找**真正具有 57 骨骼角色同源关系的 FMDL/FSKL**；Native 从 `BNSH` 三处实际引用及其被调用者做参数数据流和确定性边界，而不是将所有字符串比较循环误称资源解包入口。
 - [动画 Issue #39](https://github.com/969981/ACNH_Resources/issues/39) 与 [Native Issue #33](https://github.com/969981/ACNH_Resources/issues/33) 仍需保持开放。
+
+## 五、R24 最终原始实测与准确代码分派（2026-10-14）
+
+- [R24 最终成功 Actions #38584764166](https://github.com/969981/ACNH_Resources/actions/runs/38584764166)：`regress`、`skeleton`、`resource_loader`、`reconcile`、`publish` **5/5 通过**。
+- [永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r24-fmdl-fskl-resource-xrefs-20261014) 中有 `real_fmdl_fskl.json` (20,338B)、`resource_magic_xrefs.json` (42,102B) 与 `SHA256SUMS.txt`。同次工作流上传的两份真实审计 JSON 与 Git 提交报告逐字节 `cmp`。
+- 实测 8 个 FMDL 模型候选，**2 个真正验证 FSKL**，主样本 `BagBackpackBody0`（11 bones、7 smooth inverse 3×4 matrices、0 rigid）；源 SHA 和每个骨骼/矩阵 SHA 都在 JSON。另一 `AccessoryGlassBirthday0` 为单骨骼 Root。其它 6 只表示未通过本轮选定的`first FMDL + FSKL`证据路径，并不表示无效模型。
+- 同原始 `CharactorAnimation20000.Nin_NX_NVN.zs` 恢复 **406 个 FSKA/23,142 个 BoneAnim / 57 个不同 bone name**，主模型 11 个骨骼与其中 8 个名字直接重合，`Backpack`、`Backpackbelt_L_Sub`、`Backpackbelt_R_Sub` 为模型特有，不见于该角色动画原始名称集合。名字相同并不等于 FSKA 的 BindIndices 已从 `0xFFFF` 变为真实索引。
+- 原始 FSKL Flags 指示 **EulerXYZ**，不能把 Vector4F 的第四分量看成已验证的 quaternion W。本轮严格检查 ParentIndex 无环图和非有限浮点，保存 7 个原始 3×4 inverse model matrices 与引用 Bone index 的 SHA。
+
+### BNSH 资源字节定位 → 实际 Nintendo SDK 导入 API
+
+相比此前只凭 `BNSH` 字面量和静态函数地址猜测，本轮已经进一步恢复 **真实二进制数据 → 真实地址引用 → AArch64 调用跳板 → ELF 重定位 → 导入符号**：
+
+```text
+ELF 数据中 BNSH header：0x4AE3000 / 0x4AEC000
+  │
+  ├─ code 0x25C794   ADRP X0, #0x4AE3000
+  │       0x25C798   ADD  X0, X0, #0
+  │       0x25C79C   B    0x3F05240（tail branch）
+  │
+  ├─ code 0x25D18C   ADRP X24, #0x4AE3000
+  │       0x25D198   MOV X0, X24
+  │       0x25D1A4   BL   0x3F05240
+  │
+  └─ code 0x2656B4   ADRP X24, #0x4AEC000
+          0x2656C4   MOV X0, X24
+          0x2656DC   BL   0x3F05240
+
+0x3F05240  ADRP X16, #0x4AE1000
+0x3F05244  LDR  X17, [X16,#0xD8]
+0x3F05248  ADD  X16, X16,#0xD8
+0x3F0524C  BR   X17
+
+真实 GOT 槽位：0x4AE10D8
+  .rela.plt: AArch64 JUMP_SLOT (1026)
+  符号：_ZNK2nn4util16BinaryFileHeader12GetAlignmentEv
+  ⇒ nn::util::BinaryFileHeader::GetAlignment() (C++ mangled symbol)
+```
+
+附近 GOT `0x4AE10E0` 也有 `_ZNK2nn4util17BinaryBlockHeader12GetBlockSizeEv` 的 JUMP_SLOT 重定位，**但当前三处静态引用仅锁定 `GetAlignment` 跳板**；不可把相邻槽位的 GetBlockSize 也称为实际被调用。
+
+这里的 `BNSH` 不只是“普通 C 字符串字面量”：其后真实字节为 Nintendo 二进制 header 字段（例如首 4B `42 4E 53 48`，其后版本/BOM 信息），因此代码对其首地址调用 `BinaryFileHeader::GetAlignment()` 具有原始输入语义。这仍只证明**二进制文件头对齐信息读取链**，尚未恢复资源容器完整加载、对象工厂、着色器实例分派，更与 AMTA/LBLI/BFEVFL 业务读取无直接证据关系。
+
+### 重要排除：上轮误标为消费者的虚调用
+
+`0x3ACA490`、`0xFF6470`、`0x10847E4` 的多次 `LDRB/CMP` 逐字节比较循环，属于待恢复对象归属的**字节序列比较模式**。尽管 R20/R21 已证明 `BLR x8` 寄存器读取链，且 R22 从原始 ELF 文件找到 `+0x18→0x5BD3A4(RET)`，均不能替代真实 runtime receiver 或 AMTA/EVFL 源与目标函数的映射。因此必须取消旧文档中“已确定 BARS reader / EventFlow dispatcher”的过强表述，仅保留历史标签并明确 `hypothesis`。
+
+### 验收状态
+
+R24 **仅**完成上述两个静态原始研究专题，深层 Issue #39（真正角色 Skeleton/动画绑定与场景求值）、#33（AMTA/LBLI/BFEVFL resource loader/handler、真实运行时函数归属）仍开放。R24 没有新增媒体文件，也没有修改原始 NCA/ELF；对比 R23 分支，原始源的修改计数 0。本阶段尚无版本匹配实机只读 BLR 记录。
