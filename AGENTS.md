@@ -106,3 +106,12 @@ corrected report lives under derived/3.0.3/media_bottomstex_corrected/.
 [docs/UNPACK_MEDIA_L3_ITERATION4.md](docs/UNPACK_MEDIA_L3_ITERATION4.md) describes 300 more original source files processed in 12 distinct hash shards, 781 verified GLB/PNG/WAV outputs and 552 cumulative nonoverlapping original sources. Metadata in derived/3.0.3/media_iteration4_cumulative/ holds every source/output SHA-256, validated format, 41 true Layout no_target_leaf cases and the as-yet untested candidate denominators.
 
 Use scripts/acnh303_media_incremental_audit.py to merge another run with the **corrected** original 252-source ledger, rejecting repeated source paths, source sizes that disagree with immutable RomFS tree inventory, and outputs without proper format proof. Model PNG means embedded texture-only FRES BNTX and MUST NOT be counted as GLB geometry. Every new output shard should be archived as a named, hashed GitHub Release. These sample L3 conversions DO NOT mean 103400 source assets are fully unpacked.
+
+
+## L3 native UI2D / FCPX / BWAV seventh iteration
+
+Actual ACNH 3.0.3 FCPX font index is a 0x28-byte stride record array starting at file+0x40, with name pointer at record+0x04 and name absolute address = pointer+0x18. 20 real records validated across two unique FCPX blobs. Each native record now exports 10 raw u32; **do NOT claim these words prove language fallback priority**. 22 real v9 `mat1` 44B records expose four 32-bit native fields after 28-byte name, +0x20 = 0x08040200 in all samples, four distinct candidate RGBA-like last words; **GPU shading unverified**.
+
+See docs/UNPACK_NATIVE_UI2D_BWAV_ROUND7.md and `derived/3.0.3/ui2d_native_v7/`. BFLAN's 956 mathematical curve preview samples do **not** prove native runtime parity: `derived/3.0.3/ui2d_runtime_validation_v7/report.json` deliberately contains NOT_TESTED when no real trace is available. Use scripts/acnh303_bflan_runtime_compare.py with explicitly sourced in-game captures and identity-matched animation/object/frame values.
+
+New 120 SHA-audited BWAV→PCM WAV files, cumulative 912 unique L3 media origins, 2020 verified outputs (214 GLB, 1354 PNG, 452 WAV), 694 BWAV still untested. Raw 103400-source L0–L2 inventory coverage is not L3 semantic completion.
