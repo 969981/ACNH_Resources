@@ -33,7 +33,7 @@ def branch_target(i):
     op = i["mnemonic"]
     if op not in ("b","bl","cbz","cbnz","tbz","tbnz") and not op.startswith("b."):
         return None
-    m = re.search(r"#(0x[0-9a-f]+)\\s*$", i["op_str"])
+    m = re.search(r"#(0x[0-9a-f]+)\s*$", i["op_str"])
     return int(m.group(1),16) if m else None
 
 def local_cfg(blob, segments, start, low, high, cap=1800):
