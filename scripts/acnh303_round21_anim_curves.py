@@ -44,8 +44,13 @@ def parse_curve(b,at):
     if numkeys==0 or numkeys>100000:raise ValueError(f"invalid_key_count:{numkeys}")
     if frame_fmt not in FRAME_DT or key_fmt not in KEY_DT or curve_mode not in MODES:
         raise ValueError(f"unrecognized_curve_flags:{flags:#x}")
-    if not all(math.isfinite(x) for x in (start,end,scale,offset,delta)) or end<start:
+    # BFRES step-int / step-bool material curves may carry raw integer/sentinel
+    # bit patterns in optional Scale/Offset/Delta. For cubic and linear the
+    # coefficients need finite floating-point fields. Never accept a NaN frame.
+    if not all(math.isfinite(x) for x in (start,end)) or end<start:
         raise ValueError("nonfinite_or_reversed_frame_range")
+    if curve_mode not in (4,6) and not all(math.isfinite(x) for x in (scale,offset,delta)):
+        raise ValueError("nonfinite_curve_coefficients")
     ftype,fbytes=FRAME_DT[frame_fmt]
     ktype,kbytes=KEY_DT[key_fmt]
     elements=4 if curve_mode==0 else 2 if curve_mode==1 else 1
@@ -67,7 +72,15 @@ def parse_curve(b,at):
             "frame_format":ftype,"key_format":ktype,
             "keyframe_count":numkeys,"elements_per_key":elements,
             "target_offset_bytes":target,
-            "start":start,"end":end,"scale":scale,"offset":offset,"delta":delta,
+            "start":start,"end":end,
+            "scale":scale if math.isfinite(scale) else None,
+            "offset":offset if math.isfinite(offset) else None,
+            "delta":delta if math.isfinite(delta) else None,
+            "scale_bits_u32":u32(b,at+0x20),
+            "offset_bits_u32":u32(b,at+0x24),
+            "delta_bits_u32":u32(b,at+0x28),
+            "step_integer_sentinel_fields":curve_mode in (4,6) and
+                 not all(math.isfinite(x) for x in (scale,offset,delta)),
             "frame_monotonic":ordered,"frame_range_matches_header":frame_range_ok,
             "frames_preview":frames[:12],
             "key_rows_preview":[keys[i*elements:(i+1)*elements] for i in range(min(numkeys,8))],
