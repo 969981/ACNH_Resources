@@ -115,3 +115,14 @@ Actual ACNH 3.0.3 FCPX font index is a 0x28-byte stride record array starting at
 See docs/UNPACK_NATIVE_UI2D_BWAV_ROUND7.md and `derived/3.0.3/ui2d_native_v7/`. BFLAN's 956 mathematical curve preview samples do **not** prove native runtime parity: `derived/3.0.3/ui2d_runtime_validation_v7/report.json` deliberately contains NOT_TESTED when no real trace is available. Use scripts/acnh303_bflan_runtime_compare.py with explicitly sourced in-game captures and identity-matched animation/object/frame values.
 
 New 120 SHA-audited BWAV→PCM WAV files, cumulative 912 unique L3 media origins, 2020 verified outputs (214 GLB, 1354 PNG, 452 WAV), 694 BWAV still untested. Raw 103400-source L0–L2 inventory coverage is not L3 semantic completion.
+
+
+## ACNH 3.0.3 L3 round 8: mandatory evidence and unpack guides
+
+Read docs/ACNH303_NATIVE_UNPACK_TECHNICAL_REFERENCE.md and docs/ACNH303_UNPACK_FIELD_GUIDE.md before touching native unpack code. Round 8 actually decoded 80 new Layout original files (520 raster-verified BNTX PNG, 80 FLYT JSON, 333 FLAN JSON, 73 FCPX fontref JSON) and 120 new standalone BWAV into PCM WAV. Cumulative core-media census: 1112 unique source files / 2660 media outputs (214 GLB, 1874 PNG, 572 WAV). Use derived/3.0.3/media_round8_cumulative and layout_semantic_round8_cumulative; 3 Layout new sources had real UI2D structures even without a BNTX media target.
+
+New scripts/acnh303_layout_semantic_shard.py handles UI2D leaves in any Layout .zs archive whether or not it has BNTX. Always keep media and semantics separate. scripts/acnh303_layout_semantic_reconcile.py cross-checks input source SHA against core media census. Round8 first aggregator expected a wrong download-artifact root and was repaired by standalone audit workflow 38492923121 (all 16 conversion jobs had passed). Release has sixteen genuine data shards, SHA checksums, manifests.
+
+New scripts/acnh303_bars_probe.py and scripts/acnh303_bars_audio_l3.py support initial real AAL BARS audio container structure and extracted BWAV->PCM WAV. Of 8 BARS originals, 7 yielded 42 true playable PCM WAVs, one BWAV member failed; one source had one extra byte beyond declared BARS length which is reported, never silently rewritten. Evidence: derived/3.0.3/bars_audio_round8/report.json and separate durable Release tag acnh303-bars-first8-42wav-20261014. These 42 WAV are a **separate audit**, NOT part of the 2660 standalone-BWAV based media output census. 1696 BARS original candidates exist, 1688 untested.
+
+Source-format triage derived/3.0.3/unmeasured_queue_round8/queue.json finds 36708 BDLI .zs and 875 BFEVFL sources etc. Absence from a MEDIA-only census must NOT imply missing L0-L2 typed unpack; keep levels distinct. Native FCPX fallback order, material rendering, FLAN runtime parity still not verified.
