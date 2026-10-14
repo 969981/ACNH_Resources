@@ -82,3 +82,13 @@
 - BFLAN 新增实际运行时读数 comparer 和回归测试；在没有 ACNH 3.0.3 原生 trace 时严守 `NOT_TESTED`，目前 [证据状态](../derived/3.0.3/ui2d_runtime_validation_v7/report.json) 明确未达成运行时等效。离线 956 帧值只是数学预览。
 - 第七轮 8 分片全部实测成功，新增 120 BWAV 有效 PCM WAV，累计 452/1146 已测，剩余 **694**。全媒体源累计 **912**，输出 **214 GLB + 1354 PNG + 452 WAV = 2020** 个有效媒体文件，3,134,300,704 字节。
 - [第七轮文档](UNPACK_NATIVE_UI2D_BWAV_ROUND7.md) · [累计媒体 SHA](../derived/3.0.3/media_bwav360_cumulative/coverage.json) · [八分卷 WAV 永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bwav-360-total-20261014)。
+
+
+## 2026-10-14 第八轮：完整解包手册、Layout 非 BNTX 语义扩容、BARS 新格式
+
+- 正式新增 [分层原生技术规范](ACNH303_NATIVE_UNPACK_TECHNICAL_REFERENCE.md) 与 [PowerShell/WSL2 全步骤解包指南](ACNH303_UNPACK_FIELD_GUIDE.md)。包含真实文件偏移、关键原生格式的证据分级、可复现转换、哈希验证与错误处理。
+- [16 个真实转换分片](https://github.com/969981/ACNH_Resources/actions/runs/38492539388) 输出成功；[独立合并校验](https://github.com/969981/ACNH_Resources/actions/runs/38492923121) 修正 Artifact 下载目录层级并通过 SHA 审计（无重复源）。新增 **80 个 Layout + 120 BWAV** 共 200 源，得到 **520 PNG + 120 WAV**，另 **80 FLYT + 333 FLAN + 73 FCPX 共 486 个结构 JSON**，1,642 Pane、896 材料条目。
+- 核心累计 **1,112 个媒体源、2,660 个真实媒体文件（214 GLB、1874 PNG、572 WAV）**；Layout 728 和独立 BWAV 574 尚未 L3 测试；[累计报告](../derived/3.0.3/media_round8_cumulative/coverage.json)。[长效 16 分卷数据 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-layout-ui2d-bwav-round8-20261014) 已实传，22 附件约 629MB。
+- 继续突破独立 **BARS 容器**：8 个原始源实测，7 个含 **42 个有效 PCM WAV**；另 1 个内嵌音频无法解码、1 个源声明长度少 1 字节，均已登记。[BARS 原始偏移](../derived/3.0.3/bars_probe_round8/report.json) · [转换状态](../derived/3.0.3/bars_audio_round8/report.json) · [42 WAV 独立下载 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)。
+- [全库剩余类别队列](../derived/3.0.3/unmeasured_queue_round8/queue.json)：BDLI 原始源 36,708；BARS 1,696（未测 1688）；EventFlow BFEVFL 875；仍有大量 Model、Layout 未语义解码。媒体队列未包含此前 BCSV、BYML 等可能已经处理的非媒体类型，不得误作全库剩余完成度。
+- [第八轮完整技术报告](ACNH303_UNPACK_ROUND8_VERIFIED_REPORT.md)。核心媒体统计与额外 42 BARS WAV 分别审计，未完成正式跨格式整合／去重；FCPX 字体 fallback、BFLYT 原生材质求值、BFLAN 运行时一致性仍缺证据。
