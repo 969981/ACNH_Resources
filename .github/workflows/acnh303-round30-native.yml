@@ -88,6 +88,8 @@ jobs:
           assert d['verified_source_members']==38
           assert d['unique_sha']==25
           assert d['stats']['programs']==207
+          assert d['stats'].get('stage:vertex:verified_native_binary_stage_link',0)>=1
+          assert d['stats'].get('stage:fragment:verified_native_binary_stage_link',0)>=1
           print("R30 SOURCE VERIFIED GPU CHUNKS",d['stats'])
           PY
       - uses: actions/upload-artifact@v4
