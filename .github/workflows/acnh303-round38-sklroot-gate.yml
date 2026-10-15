@@ -1,0 +1,85 @@
+name: ACNH R38 Native FSKL SklRoot IBM Gate 21 Weighted Bones
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-sklroot-gate.yml'
+      - 'scripts/acnh303_round38_fskl_root_repair.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  native_root:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r35_fska_gltf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3'
+      - name: Recover authentic original R36 candidate GLB by original SHA
+        run: |
+          mkdir -p R36 R38
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R 969981/ACNH_Resources \
+            --dir R36 --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Gated original source native FSKL root correction and 21 weighted inverse-bind matrix checks
+        run: |
+          python scripts/acnh303_round38_fskl_root_repair.py \
+            --original R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --skeleton derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json \
+            --out-glb R38/PlayerBody_native_FSKL_root_21weighted_IBM_gated.glb \
+            --out-report derived/3.0.3/r38_native_root/real_weighted_Skin_joint_rest_IBM_repair_report.json
+          python - <<'PY'
+          import json,hashlib
+          r=json.load(open('derived/3.0.3/r38_native_root/real_weighted_Skin_joint_rest_IBM_repair_report.json'))
+          assert r['weighted_joint_count']==21
+          assert r['weighted_after_max_rest_times_IBM_error']<1e-3
+          assert r['weighted_before_max_rest_times_IBM_error']>1
+          assert r['unchanged_original_binary_vertex_animation_IBM_bytes']
+          assert hashlib.sha256(open('R38/PlayerBody_native_FSKL_root_21weighted_IBM_gated.glb','rb').read()).hexdigest()==r['output_GLB_SHA256']
+          print('R38_WEIGHTED_21_REAL_NATIVE_REST_REPAIRED',r['weighted_before_max_rest_times_IBM_error'],r['weighted_after_max_rest_times_IBM_error'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-FSKL-root-original-21-Skin-IBM-gated-GLB
+          path: |
+            R38/PlayerBody_native_FSKL_root_21weighted_IBM_gated.glb
+            derived/3.0.3/r38_native_root/
+      - name: Commit only source SHA and numerical native source evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_native_root/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): native FSKL root and 21 real weighted Skin IBM bind-pose numerical repair'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Publish separately named experimental GLB candidate for subsequent Blender checks
+        run: |
+          set -euo pipefail
+          tag=acnh303-r38-source-FSKL-root-IBM-gated-GLB-20261015
+          echo 'Experimental original-source FSKL Skl_Root bind-rest repair; 21 weighted Skin joints original GLB inverse-bind matrices error <0.001. Original meshes/weights/BIN intact. NOT Nintendo engine animation/visual parity and source R36 unchanged.' > release-notes.txt
+          if ! gh release view "$tag" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$tag" -R 969981/ACNH_Resources --target feat/acnh303-round38-native-animation-aal-stream-closure \
+              --title 'R38 Source FSKL Root Alignment Source 21-Weighted-IBM Candidate' \
+              --notes-file release-notes.txt --prerelease
+          fi
+          cp derived/3.0.3/r38_native_root/real_weighted_Skin_joint_rest_IBM_repair_report.json R38/
+          (cd R38 && sha256sum *.glb *.json > SHA256SUMS.txt)
+          gh release upload "$tag" -R 969981/ACNH_Resources R38/* --clobber
