@@ -63,8 +63,11 @@ for clip in clips:
  for ob in bpy.data.objects:
   ad=ob.animation_data
   if not ad:continue
+  if len(ad.nla_tracks):
+   ad.action=None
+   ad.use_nla=True
   for tr in ad.nla_tracks:
-   matched=any(clip in (s.action.name if s.action else "") or clip in s.name for s in tr.strips)
+   matched=any(clip in (strip.action.name if strip.action else "") or clip in strip.name for strip in tr.strips)
    available+=len(tr.strips)
    tr.mute=not matched
    if matched:enabled+=1
@@ -75,24 +78,31 @@ for clip in clips:
  frames=(0,15)
  pics=[]
  for frame in frames:
-  scene.frame_set(frame);bpy.context.view_layer.update()
+  scene.frame_set(-1)
+  scene.frame_set(frame+1);bpy.context.view_layer.update()
   path=a.output/(clip+"_frame%03d.png"%frame)
   scene.render.filepath=str(path.resolve())
   bpy.ops.render.render(write_still=True)
   raw=path.read_bytes()
   if len(raw)<4096 or raw[:8]!=b"\x89PNG\r\n\x1a\n":
    raise ValueError("Blender output invalid PNG")
-  pic={"frame":frame,"size_bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest(),
+  bone_snapshots={}
+  for arm in arms:
+   bone_snapshots[arm.name]={name:[float(x) for x in arm.pose.bones[name].matrix.translation] for name in
+      ("Spine_1","Arm_2_L","Arm_2_R","Head","Waist","Leg_1_L","Leg_1_R") if name in arm.pose.bones}
+  pic={"frame":frame,"blender_scene_frame":frame+1,"source_pose_world_bone_translation":bone_snapshots,
+   "size_bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest(),
    "path":str(path)}
   pics.append(pic)
  results.append({"name":clip,"enabled_nla_tracks":enabled,"render_status":"REAL_BLENDER_RENDER",
    "frames":pics,"source_game_pixel_diff_available":False})
-report={"schema":"acnh303-r37-real-Blender-headless-import-render-glTF-player69-v1",
+report={"schema":"acnh303-r37-isolated-real-Blender-NLA-source-clip-render-v2",
  "original_glb_sha":digest,"blender_version":bpy.app.version_string,
  "imported_mesh_objects":len(meshes),"armature_count":len(arms),
  "armature_bone_counts":[len(x.data.bones) for x in arms],
  "original_materials":len(bpy.data.materials),"actions":actions,
  "original_animation_track_names":nla,
+ "clip_isolation_mode":"clear_active_action_enable_nla_mute_other_tracks_force_scene_cache_reset",
  "renders":results,
  "game_original_runtime_frame_comparison":"NOT_TESTED",
  "absolute_image_visual_quality_accepted":False,
