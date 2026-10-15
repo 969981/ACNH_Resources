@@ -101,3 +101,43 @@ R38 从本体 `Bgm_Base.bars` 原始 AMTA 已恢复全部 18 个 `BGM_OneRoom_*`
 | 其他 873 | R38 全部 1,724,328,411 原始音频字节、CRC、Git Blob SHA、BWAV header + sample payload 通过 | Native 播放和全 PCM 解码是另一独立层级 |
 
 所有结果保留在独立研究分支，不合并 `3.0.3`，不夸大动态实机原生一致性。
+
+## 6. R39 真实完成的独立 GLB Release（与 R36/R38 原件隔离）
+
+两种 source-FSKA-BaseData 候选 GLB 已经由 [成功的验证 #38691664534](https://github.com/969981/ACNH_Resources/actions/runs/38691664534) 生成、完成 30fps 的 Blender 骨骼 31 帧测试，并由单独工作流 [#38692003559](https://github.com/969981/ACNH_Resources/actions/runs/38692003559) 从成功 Actions 的源 GLB bytes 下载并 **二次 sha256sum**、验证全部结构元数据后，发布为独立 Experimental Pre-release：
+
+[下载 R39 BookOpen 原始 FSKA BaseData 两种候选 GLB 和全部对照报告](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r39-FSKA-BookOpen-BaseData-constant-GLBs-20261015)
+
+- `PlayerBody_BookOpen_FSKA_BaseData_root_only.glb`：SHA256 `0887c0bef71d0937cb043a24da4077107279a6540eb401f986789df6bd22a42d`；
+- `PlayerBody_BookOpen_FSKA_BaseData_all_native_bases.glb`：SHA256 `3b72c9384bf7f8f1e7bac4ca48555bc6119b94c8eb89a1c76b2d24e8eb596366`。
+
+实验 GLB 仅属 glTF 重建和 Blender 数值正确性，绝非官方源模型/原生求值器等价证明。后续 exporter 正式化不能简单把所有 `BaseData.Scale=0` 当作有效零比例：R39 测试是刻意避免零比例破坏、只对非零真实 BaseData 填补曲线外的静态轨道的可验证受控实现。
+
+## 7. OneRoom：源头范围实测补充与 18 条原生样本指纹
+
+[真正通过的完整目录+源头验证 Actions #38692009193](https://github.com/969981/ACNH_Resources/actions/runs/38692009193)，数据路径：
+`derived/3.0.3/r39_oneroom/18_original_AMTA_stereo_native_header_and_missing_external_file_manifest.json`。
+
+- 真实遍历源游戏主 RomFS 的 **103,400** 个文件、`Sound/Resource/Stream` 的 **1,146** 个完整版 BWAV 和 Sound 目录原始 **1,696** 个 BARS；
+- 18/18 缺失的 `BGM_OneRoom_*.bwav` 均已在 `Bgm_Base.bars` 原始 192 字节 Short BWAV header 中确认 **stereo (2ch)、48,000 Hz**、codec ID 1，全部已提供每声道 `nonprefetch_samples`、short member SHA256、真实 AMTA 字符串、CRC；
+- 18 条按**各首时长相加**是 1,100.525125 秒（约 18 分 20.525 秒；不代表无重叠地一次播放），单条最短约 12.861 秒，最长约 98.326 秒；
+- 原始本体资源确有其它 OneRoom 相关文件，例如 `Sound/Resource/Stream/Radio_CM_OneRoom_00.bwav`、多个 `OneRoom_ThemeName` 多语言 BDLI 和家具模型。这说明**不能粗暴表述“本体不含任何 OneRoom 音频/内容”**；欠缺的是确切这 18 首命名的外部完整文件；
+- 能在现有主 RomFS 排除 18 个明确路径，却仍无法证明这些实际音频的 DLC NCA ID、文件路径与加载顺序；需真实外部资源包或动态 AAL I/O 才能判明最终完整来源。
+
+当且仅当用户合法拥有完整外部 DLC 音频资源数据，可运行 `scripts/acnh303_round39_verify_user_oneroom_full_bwav.py` 把实际原始 `*.bwav` 文件与上述 18 条 Original Short BWAV headers 逐声道比对，并记录真实文件 SHA256（不拷贝完整版权音频到报告）：
+
+```bash
+python scripts/acnh303_round39_verify_user_oneroom_full_bwav.py \
+  --manifest derived/3.0.3/r39_oneroom/18_original_AMTA_stereo_native_header_and_missing_external_file_manifest.json \
+  --source-root /path/to/legitimately-provided-original-dlc-romfs \
+  --out r39_real_one_room_full_source_evidence.json \
+  --strict
+```
+
+没有真实文件时必须明确 `EXTERNAL_ORIGINAL_FULL_BWAV_NOT_SUPPLIED`；若仅有音频转换后的 BWAV/BRSTM/WAV，不能作为原始 Nintendo 源地址、文件 SHA 或底层 AAL 读取的证明。这个校验程序不负责 DLC 破解/解密、下载或转换。
+
+## 8. 正确的剩余研究优先级
+
+1. **Native animation evaluator**：对正式 candidate (3b72c938...) 的 `BookOpen` 在真实 3.0.3 Nintendo 游戏进程里只读记录骨骼局部矩阵、原始 frame/time、Waist/Leg 和 Skl_Root BaseData 应用顺序，确认“没有 Curve 的 BaseData 由原生 Native 默认施加”这一**当前仍未证明的关键语义**。
+2. **AAL 源音频 I/O**：对 `0x373167C` → `0x3E45184` 调用点、`X21+0xA8` 对象实例和 `0x3E451FC/0x3E45218` 虚表目标，只读实机跟踪到被请求的真实 `Sound/Resource/Stream/...` 路径、文件读取偏移与最终 payload，最后与原始 873 个文件 SHA/hash/采样头比对。不能因为三个 BL 或虚表址接近就称其为 FileOpen。
+3. **OneRoom 原始外部文件**：当前已完成 18× CRC/AMTA/short BWAV/样本数量/时长清单，但必须有真实合法外部媒体的字节（或具名官方档案），才能断言 DLC 资源路径、source SHA、decoder/audio mixing。已有原始主游戏文件不足以关闭这一问题。
