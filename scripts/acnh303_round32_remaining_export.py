@@ -85,7 +85,7 @@ def run(outdir):
         hist_count[status]+=1
         if status in ("no_target_leaf","failed"):
             no_media.append({"original_relative_path":r["source_path"],
-                "category":r["category"],"tested_status":status,
+                "category":r.get("category") or r["source_path"].split("/",1)[0],"tested_status":status,
                 "source_sha256":r.get("source_sha256",r.get("sha256")),
                 "notes":"TESTED_BUT_NO_VERIFIED_CORE_GLTF_PNG; not the same as never unpacked"})
     no_media.sort(key=lambda x:x["original_relative_path"])
