@@ -24,7 +24,7 @@ def parse_pool(b,rawptr):
         payload=b.get(mem,n)
         result["status"]="bounded_native_memory_pool"
         result["raw_pool_sha256"]=hashlib.sha256(payload).hexdigest()
-        result["leading_bytes_hex"]=payload[:106].hex()
+        result["leading_bytes_hex"]=payload[:64].hex()
         result["possible_nv_binary_magic_offsets"]=[
             i for i in range(0,max(0,len(payload)-3),4)
             if payload[i:i+4]==b"\x78\x56\x34\x12"][:20]
