@@ -1,0 +1,74 @@
+name: ACNH R40 Strict Runtime AAL Original BWAV Evidence Gate
+on:
+  push:
+    branches: [feat/acnh303-round40-runtime-animation-aal-audio-provenance]
+    paths:
+      - '.github/workflows/acnh303-round40-runtime-gates.yml'
+      - 'scripts/acnh303_round40_runtime_evidence_gate.py'
+      - 'scripts/acnh303_round40_runtime_gate_tests.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r38_stream_all
+            derived/3.0.3/r39_oneroom_verified_source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3'
+      - name: Run trace-source negative and fail-closed tests
+        run: python scripts/acnh303_round40_runtime_gate_tests.py
+      - name: No native game session supplied — genuinely NOT_CAPTURED
+        run: |
+          python scripts/acnh303_round40_runtime_evidence_gate.py \
+            --source-873 derived/3.0.3/r38_stream_all/873_exact_original_byte_native_header_audit.json \
+            --oneroom-source-audit derived/3.0.3/r39_oneroom_verified_source/18_external_original_full_BWAV_NOT_PROVIDED_negative_control.json \
+            --out derived/3.0.3/r40_acceptance/runtime_animation_aal_audio_actual_input_status.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r40_acceptance/runtime_animation_aal_audio_actual_input_status.json'))
+          assert x['pose']['status']=='NOT_CAPTURED'
+          assert x['aal_IO']['status']=='NOT_CAPTURED'
+          assert x['OneRoom_full_source']['matching_full_files']==0
+          assert not any(x[k] for k in ('native_animation_all_93_frames_claim_allowed','native_AAL_FileOpen_Read_Close_trace_claim_allowed','OneRoom_18_external_full_file_claim_allowed','independent_game_hardware_attestation_available'))
+          print('R40_NO_NINTENDO_CONSOLE_NO_FILE_IO_NO_DLC_18_NOT_CAPTURED',True)
+          PY
+      - name: Strict --require-live must refuse success without any actual console data
+        run: |
+          set +e
+          python scripts/acnh303_round40_runtime_evidence_gate.py \
+            --source-873 derived/3.0.3/r38_stream_all/873_exact_original_byte_native_header_audit.json \
+            --oneroom-source-audit derived/3.0.3/r39_oneroom_verified_source/18_external_original_full_BWAV_NOT_PROVIDED_negative_control.json \
+            --out derived/3.0.3/r40_acceptance/strict_rejected_source_absence.json --require-live
+          result=$?
+          set -e
+          test "$result" -ne 0
+          echo 'R40_FULL_NATIVE_AAL_DLC_CLOSURE_REFUSED_CORRECTLY'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r40-authentic-no-live-input-gate-negative-proof
+          path: derived/3.0.3/r40_acceptance/
+      - name: Preserve source-specific missing evidence status; not fabricated captures
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r40_acceptance/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r40): missing real console game pose/AAL IO and DLC original bytes fail-closed acceptance'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round40-runtime-animation-aal-audio-provenance
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round40-runtime-animation-aal-audio-provenance; then exit 0; fi
+            sleep 2
+          done
+          exit 1
