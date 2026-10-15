@@ -50,7 +50,7 @@ def inspect(collected):
     semantic_files=sorted(collected.rglob("semantic_manifest.json"))
     bnsh_files=sorted(collected.rglob("bnsh_manifest.json"))
     bars_files=sorted(collected.rglob("report.json"))
-    if (len(media_files),len(semantic_files),len(bnsh_files),len(bars_files))!==(12,4,4,8):
+    if (len(media_files),len(semantic_files),len(bnsh_files),len(bars_files))!=(12,4,4,8):
         raise ValueError("missing independent shard reports "+str(
            [len(media_files),len(semantic_files),len(bnsh_files),len(bars_files)]))
     # Sanitize and reject repeated source records across shards and categories.
@@ -134,7 +134,7 @@ def inspect(collected):
           "status":p[BARS_W]["status"],
           "validated_media_count":sum(m["status"]=="converted_pcm_wav" for m in p[BARS_W]["members"])})
     if len(delta)!=224 or len({v["source_path"] for v in delta})!=224:
-        raise ValueError("expected 40 original new distinct sources")
+        raise ValueError("expected 224 original new distinct sources")
     report={"schema":"acnh303-r28-independent-L3-native-delta-v1",
       "authoritative_original_inventory":len(inv),
       "baseline_r19_plus_r27_media_sources":len(old_media),
