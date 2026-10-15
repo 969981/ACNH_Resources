@@ -1,0 +1,61 @@
+name: ACNH R37 Original External Stream BWAV vs 891 BARS Native Headers
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-stream-match.yml'
+      - 'scripts/acnh303_round37_stream_match.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify actual standalone Stream BWAV source headers, samples and SHA
+        run: |
+          python scripts/acnh303_round37_stream_match.py --repo . \
+            --matrix derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out derived/3.0.3/r37_stream/real_BgmBase_to_Stream_original_samples.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r37_stream/real_BgmBase_to_Stream_original_samples.json'
+          d=json.load(open(p))
+          assert d['original_short_members']==891
+          assert d['source_stream_name_crc_matches']>=800
+          assert d['sampled_real_source_stream_files']>=6
+          assert sum(d['stream_sample_categories'].values())==d['sampled_real_source_stream_files']
+          print('R37_TRUE_EXTERNAL_SOUND_BYTE_HITS',
+                d['actually_payload_bearing_sample_streams'],d['sampled_real_source_stream_files'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-original-Stream-BWAV-audio-sample-source-hashes
+          path: derived/3.0.3/r37_stream/
+      - name: Commit original audio payload comparison report only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_stream/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): CRC link Bgm_Base to authentic Stream BWAV sample headers and original source SHA'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
