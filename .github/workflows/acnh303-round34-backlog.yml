@@ -1,0 +1,96 @@
+name: ACNH 3.0.3 R34 Full Untested Path Inventory and Report
+on:
+  push:
+    branches: [feat/acnh303-round34-fska-bwav-bnsh106]
+    paths:
+      - '.github/workflows/acnh303-round33-backlog.yml'
+      - 'scripts/acnh303_round33_backlog.py'
+      - 'scripts/acnh303_round33_remaining_export.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r34-backlog-source
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r34-exact-remaining-source-backlog-20261015
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit authoritative inventory, tested media statuses and original unmeasured source paths
+        run: |
+          set -euo pipefail
+          python scripts/acnh303_round33_backlog.py --out derived/3.0.3/r34_backlog/status_before_new_round.json
+          python scripts/acnh303_round33_remaining_export.py --outdir derived/3.0.3/r34_backlog
+      - name: Verify full 103400-row inventory and every one of 58866 untested source names
+        run: |
+          python - <<'PY'
+          import gzip,json,pathlib,hashlib
+          root=pathlib.Path('derived/3.0.3/r34_backlog')
+          before=json.load(open(root/'status_before_new_round.json'))
+          after=json.load(open(root/'status_after_r34.json'))
+          assert before['original_total']==after['authoritative_original_inventory']==103400
+          old={x['category']:x for x in before['selected_L3_target_backlog']}
+          assert {k:(v['historical_tested_source_count'],v['not_yet_tested_source_count']) for k,v in old.items()}=={'Model':(2068,58098),'Layout':(732,228),'Sound':(528,1168)}
+          assert all(0<=v['coverage_percent']<=100 for v in old.values())
+          cat=after['remaining_by_category']
+          assert {k:(v['tested_original_sources'],v['untested_original_sources']) for k,v in cat.items()}=={'Model':(2228,57938),'Layout':(960,0),'BARS':(768,928)}
+          seen=set()
+          with gzip.open(root/'untested_after_r34.jsonl.gz','rt',encoding='utf8') as fh:
+            for line in fh:
+              x=json.loads(line);name=x['original_relative_path']
+              assert name not in seen
+              seen.add(name)
+          assert len(seen)==after['remaining_not_l3_tested_total']==58866
+          assert hashlib.sha256((root/'untested_after_r34.jsonl.gz').read_bytes()).hexdigest()==after['exact_path_manifest_sha256']
+          print('R34 VERIFIED 58866 UNIQUE ACTUAL UNTESTED PATHS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r34-original-untested-source-paths
+          path: derived/3.0.3/r34_backlog/
+          retention-days: 60
+      - name: Persist reproducible original-path manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r34_backlog/
+          if ! git diff --cached --quiet; then
+            git commit -m 'data(r34): exact post-round 58866 untested source paths and tested no-media records'
+            for i in 1 2 3 4 5 6; do
+              git fetch origin feat/acnh303-round34-fska-bwav-bnsh106
+              git rebase FETCH_HEAD
+              if git push origin HEAD:feat/acnh303-round34-fska-bwav-bnsh106; then break; fi
+              if [ "$i" = 6 ]; then exit 1; fi
+              sleep 1
+            done
+          fi
+      - name: Publish complete SHA-verified original path inventory as durable release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p backlog-release
+          cp derived/3.0.3/r34_backlog/{status_before_new_round.json,status_after_r34.json,untested_after_r34.jsonl.gz,tested_without_valid_core_media.jsonl.gz} backlog-release/
+          (cd backlog-release && sha256sum * > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'Full authoritative RomFS inventory (103400 original source paths), all 58866 untested L3 Model/Layout/BARS source names after R34, and separate tested-without-valid-core-media names. Source semantics in BDLI, EventFlow and shaders are not equated with L3 source status.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round34-fska-bwav-bnsh106 \
+              --title 'ACNH R34 — All 58866 Genuine Untested Model Layout BARS Source Paths' \
+              --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" backlog-release/* --clobber
