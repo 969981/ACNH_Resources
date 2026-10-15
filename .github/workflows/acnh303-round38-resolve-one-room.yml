@@ -1,0 +1,57 @@
+name: ACNH R38 Recover All 18 OneRoom BARS Names from Original AMTA
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-resolve-one-room.yml'
+      - 'scripts/acnh303_round38_resolve_amta_names.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  names:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: CRC32 exact match all original OneRoom AMTA names against 18 unknowns
+        run: |
+          python scripts/acnh303_round38_resolve_amta_names.py \
+            --amta derived/3.0.3/r38_amta18/original_eighteen_AMTA_byte_windows.json \
+            --original-tree derived/3.0.3/r38_crc18/original_all_RomFS_CRC_name_hypotheses.json \
+            --out derived/3.0.3/r38_resolved18/all_18_OneRoom_original_AMTA_name_CRC_matches.json
+          python - <<'PY'
+          import json
+          r=json.load(open('derived/3.0.3/r38_resolved18/all_18_OneRoom_original_AMTA_name_CRC_matches.json'))
+          assert r['original_AMTA_name_found_and_CRC_proven']==18
+          assert r['fully_named_BARS_header_only_members']==891
+          assert r['external_full_BWAV_for_18_one_room_found'] is False
+          print('R38_RECOVERED_ALL_18_UNKNOWN_NAMES',len(r['original_one_room_Audio_name_labels']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-all-18-original-embedded-OneRoom-AMTA-name-CRC32-proven
+          path: derived/3.0.3/r38_resolved18/
+      - name: Commit 18 verified recovered native resource labels
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_resolved18/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): recover 18 exact original OneRoom AMTA audio resource names and CRC'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
