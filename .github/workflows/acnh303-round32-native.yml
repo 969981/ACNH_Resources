@@ -68,7 +68,7 @@ jobs:
           python -m unittest discover -s scripts -p 'test_acnh303_round30.py' -v
       - name: Parse 53 authentic BNSH from R27-R29 and program-to-pool graph
         run: |
-          python scripts/acnh303_round31_shader_pool.py \
+          python scripts/acnh303_round32_shader_pool.py \
             --roots r27/exact r28/exact r29/exact r30/exact r31/exact \
             --out derived/3.0.3/r32_native_shader_pool/pool_crossrefs.json
           python - <<'PY'
@@ -85,7 +85,7 @@ jobs:
           PY
       - name: Audit original pool NV magic chunks and per-stage source-code array metadata
         run: |
-          python scripts/acnh303_round31_code_members.py \
+          python scripts/acnh303_round32_code_members.py \
             --roots r27/exact r28/exact r29/exact r30/exact r31/exact \
             --out derived/3.0.3/r32_native_shader_pool/code_members.json
           python - <<'PY'
@@ -100,7 +100,7 @@ jobs:
           PY
       - name: Join 207 Program Reflection graphs to 414 bounded shader bytecode references
         run: |
-          python scripts/acnh303_round31_stage_reflection_link.py \
+          python scripts/acnh303_round32_stage_reflection_link.py \
             --pools derived/3.0.3/r32_native_shader_pool/pool_crossrefs.json \
             --codes derived/3.0.3/r32_native_shader_pool/code_members.json \
             --out derived/3.0.3/r32_native_shader_pool/stage_reflection_links.json
@@ -115,7 +115,7 @@ jobs:
           PY
       - name: Independently classify every old and new Stage length discrepancy by exact original bytes
         run: |
-          python scripts/acnh303_round31_code_gap_audit.py \
+          python scripts/acnh303_round32_code_gap_audit.py \
             --codes derived/3.0.3/r32_native_shader_pool/code_members.json \
             --roots r27/exact r28/exact r29/exact r30/exact r31/exact \
             --out derived/3.0.3/r32_native_shader_pool/code_gap_audit.json
