@@ -155,3 +155,13 @@
 - 本轮后未测：**Model 58,178 / Layout 276 / BARS 1,216 / 独立 BWAV 0**。累积核心有效媒体 **8,994**（**553 GLB / 7,295 PNG / 1,146 独立 WAV**）；BARS 另外累计 **5,217 PCM WAV / 5,200 AMTA v5**。
 - [完整 R29 技术指南](ACNH303_ROUND29_BNSH_RELOCATION_VARIATION_REFLECTION.md) · [媒体增量报告](../derived/3.0.3/r29_cumulative/coverage.json) · [80 新源清单](../derived/3.0.3/r29_cumulative/source_delta.jsonl.gz) · [38 个 Native 来源与资源绑定字典摘要](../derived/3.0.3/r29_native_bnsh/expanded_38_summary.json)。
 - **下一轮 R30 去重选源必须增加排除 R29 80 源**；当前 R29 选源器不排除自己，不能再次运行而重复计新源。GPU shader 代码解码、Texture 实际绑定 slot、AMTA 播放、BFEVFL Native dispatcher 仍待验证。
+
+
+## 2026-10-15 R30：Program→Vertex/Fragment 原始代码字节 + 48 新源（已验收）
+
+- [R30 Native 全部通过 Actions #38662766756](https://github.com/969981/ACNH_Resources/actions/runs/38662766756)：沿 R27-R29 原始 38 个 BNSH／25 个唯一 SHA，**38 个文件内有效 Shader Binary Pool，287 个 NV Magic 成员候选**，按原始 Program Stage +0x10 指针、+0x18 字节长度和 NV Magic 解析了 **207/207 Vertex + 207/207 Fragment = 414 条实际二进制代码引用**；365 个长度恰好到下一 Magic 分界，49 个有差异但仍位于 Pool 内。去重为 16 种 Vertex Code 和 27 种 Fragment Code。真实 Reflection 名称均已用 Program 地址与代码 SHA 配对；GPU Binding Slot、真实 Material Variation 选择和 GPU ISA 反汇编仍未完成。
+- [R30 真正新原始源 Actions #38662545630](https://github.com/969981/ACNH_Resources/actions/runs/38662545630) 成功，**Model 24／Layout 12／BARS 12，合计 48 个**，排除 R19、R27、R28、R29 已测原始路径。新媒体 **7 GLB + 123 PNG = 130**（36 个 Model/Layout 均有有效媒体）；BARS 独立 **221 有效 WAV + 221 原生 AMTA v5**；Layout 另 **55 份 BFLYT/BFLAN 结构 JSON，9 份 FCPX 字体引用，8 个无损 BNSH（268,568 字节）**。这新增 8 个 BNSH 尚未加入 38 个历史 Native 样本。
+- [R30 48 个新原始源永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r30-48-real-media-bnsh-20261015)：6 个实际资源分卷、`coverage.json`、`source_delta.jsonl.gz`、`r30-release-verification.json` 与 `SHA256SUMS.txt`。
+- 累计核心媒体 **9,124**（560 GLB、7,418 PNG、1,146 独立 WAV），BARS 另外 **5,438 PCM WAV、5,421 原生 AMTA v5**。R30 后仍未进行 L3：**Model 58,154；Layout 264；BARS 1,204；独立 BWAV 0**。
+- [R30 详细 Native 与解包指南](ACNH303_ROUND30_SHADER_BINARY_POOL_STAGE_CODE_GUIDE.md)；机器报告位于 `derived/3.0.3/r30_native_shader_pool/`，新的 48 源审计位于 `derived/3.0.3/r30_cumulative/`。
+- **R31 必须将 R30 新 48 个源路径加入历史排除集合**，不要重跑 R30 选源器并把相同输入重复统计。下阶段优先验证 49 个 Code Length/Magic 不一致者，补入新增 8 个 BNSH 的 Program-Reflection-Code 链，再追运行时 Material→Variation 和 GPU Slot 映射。
