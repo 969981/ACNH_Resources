@@ -1,0 +1,77 @@
+name: ACNH R38 Source glTF vs Blender 46 Bone 3 Clip All Frames
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-blender-frames.yml'
+      - 'tools/r38-blender/full_pose_export.py'
+      - 'scripts/acnh303_round38_compare_blender_gltf.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  full_pose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /tools/r38-blender/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact open Blender glTF importer and independent numeric evaluator
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
+          python -m pip install 'numpy>=1.26,<3'
+          blender --version | head -n 3
+      - name: Download and source-SHA-verify authentic R36 candidate GLB
+        run: |
+          mkdir -p input
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R 969981/ACNH_Resources \
+            --dir input --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Export all 93 Blender joint pose frames and source-glTF pairwise math crosscheck
+        run: |
+          mkdir -p r38-poses
+          R38_GLB=input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            R38_POSE_OUT=r38-poses/real_blender_all_joint_frames.json \
+            blender -b -t 2 --python tools/r38-blender/full_pose_export.py
+          python scripts/acnh303_round38_compare_blender_gltf.py \
+            --glb input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --blender r38-poses/real_blender_all_joint_frames.json \
+            --out derived/3.0.3/r38_animation_parity/real_blender_to_gltf_all_frame_46joint_comparison.json
+          cp r38-poses/real_blender_all_joint_frames.json derived/3.0.3/r38_animation_parity/
+          python - <<'PY'
+          import json
+          r=json.load(open('derived/3.0.3/r38_animation_parity/real_blender_to_gltf_all_frame_46joint_comparison.json'))
+          assert r['tested_actual_Blender_source_frames']==93
+          assert r['actual_Nintendo_ACNH_game_frame_trace_present'] is False
+          print('R38_BLENDER_SOURCE_FRAME_EVIDENCE',r['tested_actual_Blender_source_frames'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-authentic-GLB-Blender-all-source-frames-46bones
+          path: derived/3.0.3/r38_animation_parity/
+      - name: Persist 93-frame original Blender and glTF pose comparison
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_animation_parity/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): 93 original Blender clip frames vs 46-bone source glTF numerical parity'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
