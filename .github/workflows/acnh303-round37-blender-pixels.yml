@@ -42,6 +42,7 @@ jobs:
           x=json.load(open('derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json'))
           assert x['image_count']==6
           assert len(x['within_clip_rendered_pixel_difference'])==3
+          assert x['all_three_clips_distinct_at_midframe'], 'Blender NLA animation playback not proven across three different clips'
           print('R37_MEASURED_REAL_FRAME_PIXEL_CHANGES',x['number_of_clips_with_nonidentical_RGB_pixels'])
           PY
       - uses: actions/upload-artifact@v4
