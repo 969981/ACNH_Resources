@@ -1,0 +1,93 @@
+name: ACNH R39 Real BookOpen Original Empty FSKA Curve BaseData GLB Comparison
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-bookopen-basedata.yml'
+      - 'scripts/acnh303_round39_bookopen_base_candidate.py'
+      - 'scripts/acnh303_round39_bookopen_candidate_quant.py'
+      - 'tools/r39-bookopen/candidate_pose_eval.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            tools/r39-bookopen
+            derived/3.0.3/r35_fska_gltf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
+          python -m pip install 'numpy>=1.26,<3'
+      - name: Fetch original SHA-verified native-FSKL-rest 46-bone PlayerBody GLB
+        run: |
+          mkdir -p input R39
+          gh release download acnh303-r38-original-46FSKL-native-rest-21IBM-20261015 \
+            -R 969981/ACNH_Resources --dir input --pattern 'PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb'
+          echo '7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083  input/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb' | sha256sum -c -
+      - name: Build two source FSKA no-curve BaseData candidate GLBs keeping all original mesh and Skin BIN
+        run: |
+          python scripts/acnh303_round39_bookopen_base_candidate.py \
+            --r38 input/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+            --fska derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --out-dir R39 \
+            --report derived/3.0.3/r39_bookopen_basedata/original_BookOpen_2_native_BaseData_source_hypotheses.json
+      - name: Independently import candidate GLBs into real Blender 30fps and verify 31 frames
+        run: |
+          set -euo pipefail
+          for mode in root_only all_native_bases; do
+            glb=R39/PlayerBody_BookOpen_FSKA_BaseData_${mode}.glb
+            sha=$(sha256sum "$glb" | awk '{print $1}')
+            blender -b -t 2 --python tools/r39-bookopen/candidate_pose_eval.py -- \
+              --glb "$glb" --sha "$sha" \
+              --out derived/3.0.3/r39_bookopen_basedata/${mode}_actual_Blender_31frame_pose.json
+            python scripts/acnh303_round39_bookopen_candidate_quant.py \
+              --glb "$glb" \
+              --pose derived/3.0.3/r39_bookopen_basedata/${mode}_actual_Blender_31frame_pose.json \
+              --report derived/3.0.3/r39_bookopen_basedata/original_BookOpen_2_native_BaseData_source_hypotheses.json \
+              --mode "$mode" \
+              --out derived/3.0.3/r39_bookopen_basedata/${mode}_source_vs_Blender_31_frame_numeric.json
+          done
+          python - <<'PY'
+          import json
+          path='derived/3.0.3/r39_bookopen_basedata/'
+          for mode in ('root_only','all_native_bases'):
+            r=json.load(open(path+mode+'_source_vs_Blender_31_frame_numeric.json'))
+            assert r['real_BookOpen_source_joint_count']==46 and r['source_frames']==31
+            assert not r['native_game_runtime_poses_used']
+            print('R39_BOOKOPEN_NATIVE_BASEDATA_REAL_BLENDER',mode,r['maxP95_pairwise_residual'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r39-bookopen-native-source-empty-curve-BaseData-root-and-full-candidate-GLB
+          path: |
+            R39/*.glb
+            derived/3.0.3/r39_bookopen_basedata/
+      - name: Commit source-backed candidate SHA and real Blender numerical reports only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r39_bookopen_basedata/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r39): BookOpen real source BaseData constant channels and 31-frame Blender numerical controls'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round39-bookopen-aal-oneroom
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round39-bookopen-aal-oneroom; then exit 0; fi
+            sleep 2
+          done
+          exit 1
