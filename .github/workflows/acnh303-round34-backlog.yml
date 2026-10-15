@@ -3,9 +3,9 @@ on:
   push:
     branches: [feat/acnh303-round34-fska-bwav-bnsh106]
     paths:
-      - '.github/workflows/acnh303-round33-backlog.yml'
-      - 'scripts/acnh303_round33_backlog.py'
-      - 'scripts/acnh303_round33_remaining_export.py'
+      - '.github/workflows/acnh303-round34-backlog.yml'
+      - 'scripts/acnh303_round34_backlog.py'
+      - 'scripts/acnh303_round34_remaining_export.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -33,8 +33,8 @@ jobs:
       - name: Audit authoritative inventory, tested media statuses and original unmeasured source paths
         run: |
           set -euo pipefail
-          python scripts/acnh303_round33_backlog.py --out derived/3.0.3/r34_backlog/status_before_new_round.json
-          python scripts/acnh303_round33_remaining_export.py --outdir derived/3.0.3/r34_backlog
+          python scripts/acnh303_round34_backlog.py --out derived/3.0.3/r34_backlog/status_before_new_round.json
+          python scripts/acnh303_round34_remaining_export.py --outdir derived/3.0.3/r34_backlog
       - name: Verify full 103400-row inventory and every one of 58866 untested source names
         run: |
           python - <<'PY'
