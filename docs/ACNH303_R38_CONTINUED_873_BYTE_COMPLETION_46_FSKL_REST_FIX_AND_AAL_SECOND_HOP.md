@@ -106,3 +106,18 @@ R38 真正继续钉到 `0x373167C` 内部：
 - **P0**：`ArrangeRemove` Frame 1..27 和 `BookOpen` 最大差异帧的 per-joint world local quaternion、scale 与 mesh-skin CPU deformation 分层检查。防止把源 GLB 值、Blender importer retarget 和 FSKA 游戏原生求值混成一层。
 - **P1**：AAL `0x3E45184` / `0x3E44830` 的场景对象和 vtable BLR 静态/实机实例解引用，寻找真实 `Sound/Resource/Stream` 实际文件打开，而不是把通用资源调用误命名 FileOpen。
 - **P1**：18 条 OneRoom 的外部实际 BWAV 数据源优先从原始 DLC/附加资源映像验证；已有原始名称及 AMTA 内嵌哈希不必重跑名称猜测。
+
+## 8. 真正查实的第二项误差：Blender 24 FPS 导入 vs 源 glTF 30 FPS
+
+原来 Blender 运行前未设置 FPS，真实 NLA Strip 帧结束分别为 23.400002、25 和 26.600002；它们由三个源 FrameCount（28、30、32）按 1 + FrameCount×24/30 严格换算得来。在此情况下脚本仍用源帧 frame+1 与 glTF math（frame/30）比较，会比较**不同实际时间点**。
+
+修复为在 `bpy.ops.import_scene.gltf` **之前**设置 `scene.render.fps=30; fps_base=1.0`。不在导入后调整时间轴。
+
+真修复源 46-FSKL Rest GLB、30FPS、93 帧的成功 [Actions #38689822082](https://github.com/969981/ACNH_Resources/actions/runs/38689822082)：ArrangeRemove 最坏 P95 **0.000002486413**、BookRead **0.000002098885**、BookOpen **0.119189862**（仍需复位未键控骨骼）。见 `derived/3.0.3/r38_fixed_blender/real_native46_93frame_gltf_vs_Blender.json`。
+
+保留错误 Rest 的 R36 原 GLB 在 **相同真实 FPS30** 下：[Actions #38689826232](https://github.com/969981/ACNH_Resources/actions/runs/38689826232)，ArrangeRemove 最坏 P95 **0.000002544360**、BookRead **0.000002071758**、BookOpen **3.299765956**。故 BookOpen 问题还需要 full native FSKL Rest 修复。两个互不替代的根因都已经通过独立原件、来源和 Blender 数据复现：
+
+- **FSKL 静态默认骨骼旋转**：原生 FSKL 是 radians，旧 GLB 保留的非奇异 TRS 将数值当作 degrees，致 21 个 Skin-weighted 骨骼 Rest×IBM 最大误差 4.838，46 Bone 原生 TRS rebuild 后降至 1.85×10^-6。
+- **Blender 导入 FPS**：默认 24 而源时间轴 30，导致所谓 FrameN 跨不同秒数；统一为 30FPS 后两条包含 27 动画骨骼的动作最坏 P95 降至浮点误差量级。
+
+剩余 BookOpen P95 ~0.119 和 NLA HOLD 的未覆盖腰腿骨继承应继续做 action 独立 rest 复位；源 GLB 与 Blender 数值一致性仍然不能替代 Nintendo 原生 game runtime capture。
