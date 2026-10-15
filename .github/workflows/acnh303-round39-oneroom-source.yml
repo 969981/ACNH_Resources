@@ -1,0 +1,60 @@
+name: ACNH R39 18 OneRoom Exact Native Short BWAV Missing DLC Source Audit
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-oneroom-source.yml'
+      - 'scripts/acnh303_round39_oneroom_missing_source_manifest.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r37_bgm_origin
+            derived/3.0.3/r38_resolved18
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Search all 103400 original RomFS source paths and join all 18 authentic OneRoom sample metadata
+        run: |
+          python scripts/acnh303_round39_oneroom_missing_source_manifest.py \
+            --repo . \
+            --r37 derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --resolved derived/3.0.3/r38_resolved18/all_18_OneRoom_original_AMTA_name_CRC_matches.json \
+            --out derived/3.0.3/r39_oneroom/18_original_AMTA_stereo_native_header_and_missing_external_file_manifest.json
+          python - <<'PY'
+          import json
+          j=json.load(open('derived/3.0.3/r39_oneroom/18_original_AMTA_stereo_native_header_and_missing_external_file_manifest.json'))
+          assert j['original_repository_RomFS_file_count']==103400
+          assert j['number_of_missing_exact_named_original_external_files']==18
+          assert j['original_repository_standalone_Stream_BWAV_count']==1146
+          assert len(j['native_OneRoom_18_original_name_and_channel_records'])==18
+          print('R39_REAL_ORIGINAL_ONE_ROOM_MISSING_AUDIO_SOURCE_MANIFEST',j['number_of_missing_exact_named_original_external_files'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r39-18-OneRoom-native-short-metadata-DLC-source-requirements
+          path: derived/3.0.3/r39_oneroom/
+      - name: Commit exact real native evidence, no copyrighted audio content
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r39_oneroom/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r39): full 18 OneRoom original native stereo sample source requirements and missing DLC payloads'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round39-bookopen-aal-oneroom
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round39-bookopen-aal-oneroom; then exit 0; fi
+            sleep 2
+          done
+          exit 1
