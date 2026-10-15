@@ -37,6 +37,7 @@ jobs:
           path="$(cat /tmp/r33-failed-path.txt)"
           git ls-tree -r HEAD -- "$path" | grep -q ' blob '
           { printf '/scripts/\n/derived/\n/'; printf '/%s\n' "$path"; } | git sparse-checkout set --no-cone --stdin
+          git checkout --ignore-skip-worktree-bits HEAD -- "$path"
           test -f "$path"
           python - <<'PY'
           import json,hashlib,pathlib
