@@ -20,7 +20,7 @@ def main():
  a=p.parse_args();raw,g,buf=readglb(a.glb)
  if hashlib.sha256(raw).hexdigest()!="7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083":raise ValueError("wrong original source GLB")
  b=json.loads(a.blender.read_text())
- if b["source_glb_sha256"]!=SHA["R36"] or not b["authentic_Nintendo_ACNH_3_0_3_runtime_pose_captured"] is False:
+ if b["source_glb_sha256"]!="7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083" or not b["authentic_Nintendo_ACNH_3_0_3_runtime_pose_captured"] is False:
   raise ValueError("Blender pose provenance invalid")
  names=[g["nodes"][n]["name"] for n in g["skins"][0]["joints"]]
  if len(names)!=46 or len(set(names))!=46:raise ValueError("original 46 skin bone names invalid")
@@ -61,7 +61,7 @@ def main():
     "max_scaled_p95_distance_error":max(x["scaled_world_joint_distance_p95_abs_error"] for x in rows),
     "max_scaled_max_distance_error":max(x["scaled_world_joint_distance_max_absolute_error"] for x in rows)})
  r={"schema":"acnh303-r38-native-FSKL-rest-GLB-93-frame-46-joint-vs-real-Blender-pose-distance-v1",
-   "source_R38_FSKL_fixed_GLB_SHA":SHA["R36"],"joint_name_count":len(names),
+   "source_R38_FSKL_fixed_GLB_SHA":"7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083","joint_name_count":len(names),
    "bone_names":names,"tested_clip_count":len(reference),
    "tested_actual_Blender_source_frames":sum(x["tested_source_frames"] for x in reference),
    "source_gltf_and_blender_pairwise_frame_results":reference,
