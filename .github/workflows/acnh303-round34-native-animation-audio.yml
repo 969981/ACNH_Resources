@@ -1,0 +1,106 @@
+name: ACNH R34 Real FSKA Animation Curves and Failed BWAV Native Decoder
+on:
+  push:
+    branches: [feat/acnh303-round34-fska-bwav-bnsh106]
+    paths:
+      - '.github/workflows/acnh303-round34-native-animation-audio.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: r34-original-fska-bwav
+  cancel-in-progress: false
+jobs:
+  genuine_native_assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            tools/r34-animation-probe
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Recover exact original BFRES and failed BARS source blobs independently
+        shell: bash
+        run: |
+          set -euo pipefail
+          for source in \
+            'e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs' \
+            'e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Env_TourCounterDemo.bars'; do
+            git ls-tree -r HEAD -- "$source" | grep -q ' blob '
+            git checkout --ignore-skip-worktree-bits HEAD -- "$source"
+            test -f "$source"
+          done
+          python - <<'PY'
+          import hashlib,pathlib
+          n='e10617820db06889e1638499478da0de_NCA/1/'
+          checks=[
+           ('Model/CharactorAnimation20000.Nin_NX_NVN.zs','97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a',2418203),
+           ('Sound/Resource/Env_TourCounterDemo.bars','50195465110f6de17ebdf6942b9ca940e49efe0482082fc06bbefc58b285ac04',296)]
+          for name,sha,size in checks:
+            b=pathlib.Path(n+name).read_bytes()
+            assert len(b)==size and hashlib.sha256(b).hexdigest()==sha
+            print('R34 GENUINE ORIGINAL SOURCE VERIFIED',name,size)
+          PY
+      - name: Extract exact native FRES/FSKA source member with bounded real file pointers
+        run: |
+          python scripts/acnh303_round34_fska_source.py --outdir derived/3.0.3/r34_fska/
+      - name: Deserialize genuine Switch BFRES skeletal animations, bone curves and key frames
+        shell: bash
+        run: |
+          dotnet restore tools/r34-animation-probe/ResAnimProbe.csproj
+          dotnet run --project tools/r34-animation-probe/ResAnimProbe.csproj --configuration Release --no-restore -- \
+            derived/3.0.3/r34_fska/original_exact_output.bfres \
+            derived/3.0.3/r34_fska/parsed_animation_curves.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r34_fska/parsed_animation_curves.json'))
+          assert d['status']=='fully_deserialized_with_external_bfres_library'
+          assert d['actual_skeletal_animation_count']>0
+          assert d['actual_bone_curve_count']>0
+          assert d['actual_frame_value_count']>0
+          print('R34 REAL FSKA STRUCTURE',d['actual_skeletal_animation_count'],
+                d['actual_bone_curve_count'],d['actual_frame_value_count'])
+          PY
+      - name: Parse exactly failed 168B original BWAV channel and sample byte bounds
+        run: |
+          python scripts/acnh303_round34_bwav_native.py --out derived/3.0.3/r34_bwav/failed_bwav_native.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r34_bwav/failed_bwav_native.json'))
+          assert d['sha256']=='7e1712e42cbbe183f5cf3c89cc4455f1dd327c52f354d8ff1f290f817076c0fa'
+          assert d['source_member_bytes']==168
+          print('R34 FAILED BWAV CHANNELS',d['header'],d['channels'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r34-original-FSKA-actual-curves-and-BWAV-failed-header
+          path: |
+            derived/3.0.3/r34_fska/*.json
+            derived/3.0.3/r34_bwav/*.json
+          if-no-files-found: error
+      - name: Commit source-backed parsed data without original copyrighted BFRES files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r34_fska/*.json derived/3.0.3/r34_bwav/*.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r34): original 3.0.3 FSKA skeletal animation curve and 168-byte BWAV evidence'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round34-fska-bwav-bnsh106
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round34-fska-bwav-bnsh106; then exit 0; fi
+            sleep 1
+          done
+          exit 1
