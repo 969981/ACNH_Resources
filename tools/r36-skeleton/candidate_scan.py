@@ -13,7 +13,8 @@ from acnh303_media_l3 import find_leaf,NCA
 
 CANDIDATES=("PlayerEye00","PlayerHair00","NpcSpFox","NpcSpKpp","NpcSpOwl",
             "NpcSpTap","NpcSpPoo","NpcSpRcm","NpcSpPyn","NpcSpSzo",
-            "NpcSpGul","NpcSpMob")
+            "NpcSpGul","NpcSpMob","NpcNmlRbt00","NpcNmlSqu00",
+            "NpcNmlCat00","NpcNmlDog00","NpcNmlBea00","NpcNmlCbr00")
 SUFFIX=".Nin_NX_NVN.zs"
 
 def execute(repo,match_path,report_path):
