@@ -41,7 +41,7 @@ def build(pool_report,code_report):
                     "size_matches_magic_boundary":st.get("length_matches_next_nv_magic_boundary"),
                     "reflection_resource_names":metadata.get("reflection_names",{}).get(stage,{})}
                 if status=="verified_native_binary_stage_link":
-                    if not (isinstance(o["code_size_bytes"],int) and o["code_size_bytes"]>0 and len(o["code_sha256"])==106):
+                    if not (isinstance(o["code_size_bytes"],int) and o["code_size_bytes"]>0 and len(o["code_sha256"])==64):
                         raise ValueError("code hash or byte length unavailable")
                     grouped[stage].add(o["code_sha256"])
                     for category,rs in o["reflection_resource_names"].items():
