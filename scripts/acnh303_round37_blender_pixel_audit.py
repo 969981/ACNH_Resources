@@ -43,7 +43,10 @@ def main():
  for c in CLIPS:
   name=f"{c}@0__{c}@15"
   in_clip[c]=dims[name]
- r={"schema":"acnh303-r37-real-Blender-PNG-RGBA-independent-motion-pixel-difference-v1",
+ cross_clip_unique={frame:len({hashlib.sha256(images[clip,frame].tobytes()).hexdigest() for clip in CLIPS}) for frame in (0,15)}
+ r={"schema":"acnh303-r37-isolated-Blender-NLA-RGBA-per-clip-differentiation-v2",
+    "different_FSKA_clip_pixel_fingerprints_by_source_frame":cross_clip_unique,
+    "all_three_clips_distinct_at_midframe":cross_clip_unique[15]==3,
     "image_count":len(images),"image_size":[640,640],
     "source_png_pixel_sha256":files,"pairwise_rendered_image_pixel_differences":dims,
     "within_clip_rendered_pixel_difference":in_clip,
@@ -52,5 +55,6 @@ def main():
     "limits":"Independent decoded Blender PNG-pixel comparisons prove only that import/render changed pixels, not correspondence with any original ACNH game frame. Equal pixels would mean the visual NLA probe did not demonstrate motion regardless of PNG file SHA."}
  x.out.parent.mkdir(parents=True,exist_ok=True)
  x.out.write_text(json.dumps(r,indent=2,sort_keys=True,ensure_ascii=False)+"\n")
+ print("R37_BLENDER_CROSS_CLIP_UNIQUE",cross_clip_unique)
  print("R37_BLENDER_PIXEL_MOVEMENT",[(n,a["pixel_change_count"],a["rgb_mean_absolute_error"]) for n,a in in_clip.items()])
 if __name__=="__main__":main()
