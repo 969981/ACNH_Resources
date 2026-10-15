@@ -6,6 +6,8 @@ on:
       - '.github/workflows/acnh303-round40-runtime-gates.yml'
       - 'scripts/acnh303_round40_runtime_evidence_gate.py'
       - 'scripts/acnh303_round40_runtime_gate_tests.py'
+      - 'scripts/acnh303_round40_raw_aal_observer_audit.py'
+      - 'tools/r40-runtime/lldb_aal_probe.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -19,12 +21,24 @@ jobs:
           filter: blob:none
           sparse-checkout: |
             scripts
+            tools/r40-runtime
             derived/3.0.3/r38_stream_all
             derived/3.0.3/r39_oneroom_verified_source
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - run: python -m pip install 'numpy>=1.26,<3'
+      - name: Compile optional LLDB read-only AAL native register observer and raw-audit CLI
+        run: |
+          python -m py_compile tools/r40-runtime/lldb_aal_probe.py scripts/acnh303_round40_raw_aal_observer_audit.py
+          python scripts/acnh303_round40_raw_aal_observer_audit.py --out derived/3.0.3/r40_acceptance/no_lldb_native_observer_log_status.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r40_acceptance/no_lldb_native_observer_log_status.json'))
+          assert x['state']=='NOT_CAPTURED' and x['observed_count']==0
+          assert x['native_AAL_FileOpen_Read_proven'] is False
+          print('R40_REAL_AAL_REGISTER_OBSERVER_NOT_CAPTURED')
+          PY
       - name: Run trace-source negative and fail-closed tests
         run: python scripts/acnh303_round40_runtime_gate_tests.py
       - name: No native game session supplied — genuinely NOT_CAPTURED
