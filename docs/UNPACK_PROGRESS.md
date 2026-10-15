@@ -175,3 +175,15 @@
 - **累计**：9,247 core media=561 GLB+7540 PNG+1146 standalone WAV；BARS 分开累计 5,532 PCM WAV+5,515 raw AMTA。未测：Model **58,138**、Layout **252**、BARS **1,192**、独立 BWAV **0**。
 - [R31 详细研究与实机验证清单](ACNH303_ROUND31_SHADER_CODE_GAPS_RUNTIME_MATERIAL_PROBE.md)；机器结果 `derived/3.0.3/r31_native_shader_pool/`、`derived/3.0.3/r31_runtime_material/`、`derived/3.0.3/r31_cumulative/`。
 - **R32 去重必须新增排除 R31 40 个已测原始路径**；下一步补入本轮另外 7 个新 BNSH，对 57 条零区追真正二进制对齐机制、实机绑定资源和 Material→Variation 的实例链。
+
+
+## 2026-10-15 R32 — 全量 103400 原始文件中哪些仍未解包（已真实审计）
+
+[独立 R32 详细指南](ACNH303_ROUND32_FULL_UNTESTED_PATHS_AND_NATIVE_PROGRESS.md) · [全部 **59,494** 个未测原始路径的 SHA 校验 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r32-exact-remaining-source-backlog-20261015)。导出的 `untested_after_r32.jsonl.gz` 含全部未做 **对应 L3** 测试的路径及原始大小，另一份 `tested_without_valid_core_media.jsonl.gz` 独立列出已测无媒体的 147 个源（146 `no_target_leaf`、1 `failed`）；**不把 BDLI/EventFlow 另有解包与 Native 内部语义未恢复误算为源文件尚未提取**。GitHub Release 自带 SHA256SUMS。
+
+- 权威 **103,400** 源文件 / **24** 一级目录。大类 Model **60,166**、BDLI **36,708**、Sound **2,848**、Layout **960**、EventFlow **877**、Param **637** 等；原始 `BDLI` 先前已有单独提取流水线，原生执行/绑定仍待验证。
+- [R32 原始 88 个此前未测源的实际转换 Actions #38667751972](https://github.com/969981/ACNH_Resources/actions/runs/38667751972) 全部成功，独立 Model 40、Layout 24、BARS 24；**3 GLB + 206 PNG**，BARS **229 PCM WAV + 229 原生 AMTA**，UI2D **113 份 JSON + 26 FCPX 引用**，**11 原生 BNSH / 460,976 字节**；Model/Layout 62 个有有效媒体，2 个 `no_target_leaf`，SHA 来源排除了 R19/R27/R28/R29/R30/R31 已测原始路径。[R32 实际文件 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r32-88-real-media-bnsh-20261015)。
+- R32 后剩余 L3 未测试 Model **58,098 / 60,166**、Layout **228 / 960**、BARS **1,168 / 1,696**、独立 BWAV **0 / 1,146**。累计有效核心媒体 **9,456**（564 GLB / 7,746 PNG / 1,146 独立 WAV），BARS 另外累计 5,761 WAV / 5,744 AMTA（不可混入独立 BWAV 源计数）。
+- [R32 真正 Native 验收 #38667687544](https://github.com/969981/ACNH_Resources/actions/runs/38667687544)：R27–R31 的 53 个真实 BNSH/31 SHA，267 Program、534 个直接 Vertex/Fragment 字节 SHA 链接、373 NV Magic 分片、469 长度吻合、65 零字节间隔累计 219,392 字节。R32 此轮新增的 11 个 BNSH 还没纳入 53 源 Native，下一轮 R33 继续。
+- 全量目录及独立错误来源均见 `derived/3.0.3/r32_backlog/status_after_r32.json`、`untested_after_r32.jsonl.gz`、`tested_without_valid_core_media.jsonl.gz`；R32 媒体证据见 `derived/3.0.3/r32_cumulative/`，BNSH Native 见 `derived/3.0.3/r32_native_shader_pool/`。
+- **R33 新选源必须追加排除 R32 `source_delta.jsonl.gz` 的 88 个源**，其余 R19 及 R27–R31 历史全保留。优先调查一个真实 `failed`，继续未测 Model、Layout、BARS，单独研究零填充机制、AMTA、LBLI/EventFlow 原生消费者和实机 Material→Variation→GPU Slot。
