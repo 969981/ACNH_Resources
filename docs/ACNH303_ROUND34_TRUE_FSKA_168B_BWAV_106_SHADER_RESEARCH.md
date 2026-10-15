@@ -78,6 +78,44 @@ R33 完成时真正未测试的来源为 Model **58,018**、Layout **148**、BAR
 
 如果全部经过 SHA 源测试，预期的 R34 后未测原始来源应为 Model **57,938**、Layout **0**、BARS **928**；实际核心媒体和 BARS PCM 个数必须以真实 `derived/3.0.3/r34_cumulative/coverage.json` 为准，不能按新源数量推算。
 
+## 4A. 388 新原始资源已全部通过实测与 SHA 再核验（最终）
+
+最初 12 分片工作流继承了 R33 的测试数量上限 20，导致选择 37 个 Layout 和 40 个 BARS 时失败；已把 R34 的 `acnh303_round34_select.py` 允许上限调整为 40、纠正全部 R34 报告路径，并独立完成真正 12 分片校验。最终证据为 [R34 成功媒体 Action #38674842841](https://github.com/969981/ACNH_Resources/actions/runs/38674842841)，[包含 12 个真实数据归档和 SHA256SUMS 的 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r34-388-real-media-bnsh-20261015)。
+
+| 本轮经现场独立验收的新源/输出 | 数量 |
+| --- | ---: |
+| 新原始源 Model / Layout / BARS | **80 / 148 / 160** |
+| **合计新增原始源（全部排除历史）** | **388** |
+| 验证成功核心 GLB / PNG | **16 / 1,250** |
+| 核心有效媒体合计 | **1,266**，21,066,449 字节 |
+| BFLYT/BFLAN 结构 JSON | **752** |
+| FCPX font-ref JSON | **155** |
+| 精确原始嵌套 BNSH | **80**，3,239,080 字节 |
+| 经 vgmstream 解码且验证为 PCM WAV | **1,391** |
+| 原生无损 AMTA v5 | **1,615** |
+| BARS 的 BWAV **解码失败成员** | **224** |
+| Model/Layout 有有效核心媒体的原始源 | **206** |
+| Model/Layout 无目标媒体（不可虚增） | **22** |
+
+**注意 BARS 224 不是 224 个源文件失败。** 从 R34 原始 Sound 四份真实报告独立读取，224 个失败 **仅分布在 3 个原始 BARS 源**：221 个 BWAV 成员大小为 **128 字节**，另 3 个为 **92 字节**。[单独的 224 失败来源审计 Actions #38675176099](https://github.com/969981/ACNH_Resources/actions/runs/38675176099) 已成功，全部成员的源路径、asset index/offset、原始 source SHA、BWAV SHA、字节数和 vgmstream stderr 均记录在 `derived/3.0.3/r34_bwav/failed_members_224.json`。其中 **TV_Normal.bars** 贡献 222 个成员失败（asset index 0..223 中具体失败项在审计 JSON）；**Dal_Wipe.bars** 1 个、**Event_Demo_Wherearen_Op.bars** 1 个。短成员疑似与独立样本负载不足有关，但**此 224 个尚未逐个验证原生 Channel Sample Pointer**，不可将所有直接宣称跟 R33 168 字节异常具备相同根因。
+
+### R34 后累计覆盖和完整未测试路径清单
+
+[成功的 103400 原始库存及精确剩余名单 Action #38675220689](https://github.com/969981/ACNH_Resources/actions/runs/38675220689)，[精确剩余 58,866 原始路径 SHA 验证 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r34-exact-remaining-source-backlog-20261015)：
+
+| 原始资源类别 | 原始总数 | R34 后做过 L3 | **仍未做 L3** | 源测试率 |
+| --- | ---: | ---: | ---: | ---: |
+| Model | 60,166 | **2,228** | **57,938** | 3.703% |
+| Layout | 960 | **960** | **0** | **100%** |
+| BARS | 1,696 | **768** | **928** | 45.283% |
+| 独立 BWAV | 1,146 | **1,146** | **0** | **100%** |
+
+剩余 **58,866** 全部源路径已按原名、类别、原始字节大小储存在 `untested_after_r34.jsonl.gz`；另外 **174 个已测但无有效 GLB/PNG 的源**（173 `no_target_leaf` 和 1 个历史 `failed`）单独放 `tested_without_valid_core_media.jsonl.gz`，不得重新算为“从未测试”。`Layout 960/960` 只表示全部 Layout **做过 L3 测试**，不代表任意 BFLYT/BFLAN 动画求值、字体替换或 Nintendo 渲染 GPU 结果全部恢复。
+
+R34 后累计核心媒体 **11,464 = 594 GLB + 9,724 PNG + 1,146 独立 BWAV WAV**。BARS **另外**累计 **8,073 真正 PCM WAV + 8,281 原生 AMTA v5**；两种输出类别不能和独立 BWAV 源计数混淆。
+
+**R35 必须追加排除本轮 `derived/3.0.3/r34_cumulative/source_delta.jsonl.gz` 中 388 个来源。** 此后 Layout 没有新的“未做 L3 测试”来源；继续重复处理全部 960 个 Layout 仅能作为专项 Native 语义重分析，不能再计新的 L3 原始源测试数量。将 R34 新出的 80 个 BNSH 纳入 R35 106 个 Native 样本时须按来源 SHA 校验重复成员。
+
 ## 5. 下一轮应做的真正研究
 
 1. 以 R34 真实 FSKA frame/key 数据导出 glTF animation，选择另一个实际带 FSKL/FMDL 的匹配游戏原始模型作验证，从同名骨骼确认骨架层级、Bind Pose、Local Matrix 及帧插值，避免 FSKA 源文件本身无网格的问题。
