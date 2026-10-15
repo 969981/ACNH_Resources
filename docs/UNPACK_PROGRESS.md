@@ -123,3 +123,14 @@
 - 尚未 L3 实测：Model 59,826、Layout 648、独立 BWAV 462、BARS 1,576。进一步的 AMTA 播放语义、BDLI/LBLI、EventFlow handler、特效、Shader、UI 原生渲染与动画也未完成。
 - [R14 长期 Release（26 个附件）](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r14-unpack128-20261014)，[发布全量重新计算 SHA 的 Actions #38514060838](https://github.com/969981/ACNH_Resources/actions/runs/38514060838) 成功。[完整技术指南](ACNH303_ROUND14_UNPACK_REMAINING_GUIDE.md)。
 - 所有 R14 成果保存在 feat/acnh303-round14-unpack-backlog，尚未合并到 3.0.3；新一轮选择器须用 R14 manifest 防止重复。
+
+
+## 2026-10-15 R27：40 个新原始资源提取、BNSH 独立无损导出（已验收）
+
+- [真实 GitHub Actions #38658755903](https://github.com/969981/ACNH_Resources/actions/runs/38658755903)：回归、6 个原始转换分片、来源/输出审计及长期 Release 全部成功。
+- 新源：Model 16、Layout 12、BARS 12，合计 **40** 个 R19 之后未测试的唯一源，R19 历史 3,558 个媒体源和 396 个 BARS 源未重复。
+- 新核心媒体：**4 GLB、95 PNG**，共 99 份；有 26 个 Model/Layout 实际媒体成功，2 个 `no_target_leaf` 仍未产生有效媒体。独立 BARS 输出 **124 PCM WAV + 124 无损 AMTA v5**。
+- UI2D 提取 60 份 BFLYT/BFLAN 结构 JSON 和 11 份 FCPX 字体引用 JSON；另无损提取 **4 个嵌套 BNSH（175,632 字节）**，未解编译 Shader GPU 程序。
+- R27 后未测：**Model 58,338；Layout 348；BARS 1,288；独立 BWAV 0**。累计有效核心媒体 **8,081（526 GLB、6,409 PNG、1,146 独立 WAV）**，BARS 独立累计 **4,112 PCM WAV、4,095 AMTA v5**。
+- [完整 R27 技术文档](ACNH303_ROUND27_REMAINING_RESOURCES_REAL_EXTRACTION.md) · [逐源新增清单](../derived/3.0.3/r27_cumulative/source_delta.jsonl.gz) · [结果覆盖统计](../derived/3.0.3/r27_cumulative/coverage.json) · [长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r27-real-unmeasured40-20261015)（6 个真实产物分卷与 SHA256SUMS）。
+- **下一轮必须将 R27 的 40 个源纳入排除集合**；目前 R27 选源器以 R19 为基线，不可未经更新再次执行并把重复文件当新源。AMTA v5 播放字段、完整 BFRES 动画、BNSH GPU shader 语义和 EventFlow 执行器仍待研究。
