@@ -1,0 +1,68 @@
+name: ACNH R37 Native Bgm Base External Sample Source Evidence
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-bgm-origin.yml'
+      - 'scripts/acnh303_round37_bgm_origin_probe.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Hash verify both original source BARS and 79M native ARM64 ELF
+        run: |
+          echo 'b2a7131f6de904a8c381b25f1c890797ea09075c93c5b0c366833f45656c9a5c  e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars' | sha256sum -c -
+          echo '83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180  e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf' | sha256sum -c -
+      - name: Reparse 891 Bgm assets and inspect real original Sound tree and native code
+        run: |
+          python scripts/acnh303_round37_bgm_origin_probe.py \
+            --repo . \
+            --bars e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --out derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json'))
+          assert d['BARS_member_count']==891
+          assert d['source_elf_bytes']==79000340
+          assert d['decoded_audio_count']==0
+          assert not d['external_stream_reader_runtime_proven']
+          print('R37_BGM_NATIVE_SOURCE_AUDITED',d['BARS_member_count'],d['sound_git_original_path_count'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-bgm-base-real-891-header-crc-sound-tree-and-ELF-XREF
+          path: derived/3.0.3/r37_bgm_origin/
+      - name: Persist source-backed ELF and real Sound naming evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_bgm_origin/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): original Bgm Base 891 BWAV name CRC and ELF static stream source hypotheses'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
