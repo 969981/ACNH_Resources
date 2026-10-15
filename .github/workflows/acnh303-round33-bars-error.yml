@@ -1,0 +1,52 @@
+name: ACNH R33 One Real BARS PCM Decode Failure
+on:
+  push:
+    branches: [feat/acnh303-round33-backlog-failed-source-native64]
+    paths:
+      - '.github/workflows/acnh303-round33-bars-error.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - name: Download only four authentic R33 Sound shard report artifacts from completed run
+        run: |
+          set -euo pipefail
+          gh run download 38672661553 -R "$REPO" --pattern 'r33-report-Sound-*' --dir real-r33-bwavs
+          test "$(find real-r33-bwavs -name 'report.json' | wc -l)" -eq 8
+      - name: Identify original failed BWAV member by source SHA and exact converter stderr
+        run: |
+          python scripts/acnh303_round33_bars_failure.py \
+            --reports real-r33-bwavs \
+            --out derived/3.0.3/r33_failed_source/one_bars_decode_failed.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r33-one-original-BARS-member-real-decode-error
+          path: derived/3.0.3/r33_failed_source/one_bars_decode_failed.json
+      - name: Persist exact original BARS decode failure with no success count manipulation
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r33_failed_source/one_bars_decode_failed.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r33): exact one failed PCM member from actual Sound shard reports'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round33-backlog-failed-source-native64
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round33-backlog-failed-source-native64; then exit 0; fi
+            sleep 1
+          done
+          exit 1
