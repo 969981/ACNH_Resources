@@ -1,0 +1,85 @@
+name: ACNH R35 Original PlayerBody Mesh FSKL and Animation Bind Verification
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-player-skeleton.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r35-real-player-skeleton
+  cancel-in-progress: false
+jobs:
+  actual_player_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            tools/r35-player-skeleton
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Get and source-check actual original player body from Git HEAD
+        shell: bash
+        run: |
+          set -euo pipefail
+          p='e10617820db06889e1638499478da0de_NCA/1/Model/PlayerBody.Nin_NX_NVN.zs'
+          git ls-tree -r HEAD -- "$p" | grep -q ' blob '
+          git checkout --ignore-skip-worktree-bits HEAD -- "$p"
+          test -f "$p"
+          python scripts/acnh303_round35_playerbody_source.py --outdir derived/3.0.3/r35_fska_gltf/actual_player_model
+      - name: Parse native FMDL mesh and FSKL skeleton object using BfresLibrary
+        shell: bash
+        run: |
+          dotnet restore tools/r35-player-skeleton/SkeletonProbe.csproj
+          dotnet run --configuration Release --project tools/r35-player-skeleton/SkeletonProbe.csproj --no-restore -- \
+            derived/3.0.3/r35_fska_gltf/actual_player_model/player_model_0.bfres \
+            derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json
+      - name: Cross-check every actual source-derived FSKA bone against original player's FSKL
+        run: |
+          python scripts/acnh303_round35_skeleton_match.py \
+            --fska derived/3.0.3/r34_fska/parsed_animation_curves.json \
+            --model derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json \
+            --out derived/3.0.3/r35_fska_gltf/player_bone_match.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r35_fska_gltf/player_bone_match.json'))
+          assert d['animation_unique_bones']==57
+          assert d['model_count']>=1
+          print('R35 REAL MODEL AND FSKA MATCH',[(m['model_name'],m['matched_bone_count'],m['model_bone_count'],m['geometry_shapes']) for m in d['actual_matches']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-exact-playerbody-actual-FMDL-FSKL-bone-name-match
+          path: |
+            derived/3.0.3/r35_fska_gltf/actual_player_model/playerbody_source.json
+            derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json
+            derived/3.0.3/r35_fska_gltf/player_bone_match.json
+      - name: Commit original source-backed skeleton and mesh match evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_fska_gltf/actual_player_model/playerbody_source.json
+          git add --sparse derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json
+          git add --sparse derived/3.0.3/r35_fska_gltf/player_bone_match.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r35): actual PlayerBody FMDL mesh FSKL bone hierarchy and 57-bone FSKA match'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
