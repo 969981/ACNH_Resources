@@ -81,3 +81,25 @@ ELF 映射区间的 `Bgm_Base` ASCII 确有 **2 条**真实 `ADRP+ADD` 等地址
 - [实际 AArch64 Bgm_Base / Stream 指令窗口](https://github.com/969981/ACNH_Resources/actions/runs/38683563766)
 
 报告中的任何数学采样、静态引用或资源名字匹配，都不代表已取得原生 Switch 游戏画面的差分一致性。
+
+## 9. 后续真实源复核：18 个独立 Stream BWAV 已有采样载荷
+
+后续 Actions [18-stream original byte replay #38683840429](https://github.com/969981/ACNH_Resources/actions/runs/38683840429) 在原始 `Sound/Resource/Stream/*.bwav` 读取 **18 份原件，共 43,683,456 bytes**，逐份重建 SHA256，调用同一 Native BWAV Header Parser，和 `Bgm_Base.bars` 中 CRC32 对应的原始短成员执行以下独立验证：
+
+- **18/18** 原始独立 BWAV 中确实存在可访问的采样负载，源 BARS 短成员没有可访问负载；
+- 音频编码 ID、声道采样率 **全部匹配**；
+- BARS `nonprefetch_samples` 与独立 BWAV 的 `file_samples`、`nonprefetch_samples` 在采样的每个声道 **精确相等**；
+- 六类 `Audio / 24hour / MusicBox / Live / Indoor / Radio` 各抽取三个未混淆、原始 SHA 校验成功的完整独立文件；双声道样本的每个声道均核对；
+- 样本源原始 SHA、样本长度、channel、非文件内采样 offset、真实采样负载 bytes、CRC 名称关系见 `derived/3.0.3/r37_stream/real_BgmBase_to_Stream_original_samples.json`。
+
+此外 [三文件严格样本 #38684042099](https://github.com/969981/ACNH_Resources/actions/runs/38684042099) 独立确认 `BGM_Radio_Jingle_Normal_03`、`BGM_MusicBox_014_Mambo`、`BGM_Indoor_Cafe` 的 codec、采样率和样本数，与完整文件可访问采样 bytes 一致。
+
+**现在能确认至少 18 组短 BWAV 声道描述与实际原始独立 Stream 音频载荷的文件级对应关系；不能写成 873 个都已实测或 Nintendo 的 AAL 原生实时打开链已证实。** 仍有 855 个只有路径 CRC 匹配、18 个 CRC 未匹配，待后续拓展。
+
+## 10. Blender 真实导入、渲染与严格的图像像素验收
+
+[初版真实 Blender Actions #38683968119](https://github.com/969981/ACNH_Resources/actions/runs/38683968119) 将 SHA 固定的 R36 GLB 导入 Blender 4.0.2，生成 12 个 Mesh objects、1 个 Armature / 46 bones、9 个 Materials、3 个 NLA Actions，并输出三条动画各两个时间点的 6 个 640×640 PNG，见 `derived/3.0.3/r37_blender/report.json` 和 [Blender 渲染 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r37-blender-playerbody-evidence-20261015)。
+
+但独立 `scripts/acnh303_round37_blender_pixel_audit.py` 解码全部 PNG 的实际 RGBA 后发现：**三条动作在相同帧的 RGBA 像素 SHA 完全相同**。虽然 0 和 15 两帧间约有 10,496 个 RGB 像素变化，但这 **不足以证明三条不同动画动作均有效驱动网格**；来源可能是 import 后仍有默认 Active Action 覆盖 NLA、NLA 没有被隔离或渲染其他因素。机器报告为 `derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json`。
+
+因此后续修正 Blender 检查为：清空 active Action、启用 NLA、仅激活对应 Action 轨道，强制场景重评估，再输出帧内原始 Pose Bone Matrix translation 与 RGB 像素。**如不同动作在同帧像素/位姿仍一致，不得宣称真实可视化动画验收通过**。Nintendo 实机动作及渲染逐帧对照始终 `NOT_TESTED`。
