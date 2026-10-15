@@ -77,11 +77,24 @@ jobs:
           assert all(len(r["pool_candidates"])==1 for r in d["source_records"])
           print("R30 ORIGINAL BNSH POOL VERIFIED", d["status_counts"])
           PY
+      - name: Audit original pool NV magic chunks and per-stage source-code array metadata
+        run: |
+          python scripts/acnh303_round30_code_members.py \
+            --roots r27/exact r28/exact r29/exact \
+            --out derived/3.0.3/r30_native_shader_pool/code_members.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r30_native_shader_pool/code_members.json'))
+          assert d['verified_source_members']==38
+          assert d['unique_sha']==25
+          assert d['stats']['programs']==207
+          print("R30 SOURCE VERIFIED GPU CHUNKS",d['stats'])
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: r30-native-shader-pool-38
           path: |
-            derived/3.0.3/r30_native_shader_pool/pool_crossrefs.json
+            derived/3.0.3/r30_native_shader_pool/
           retention-days: 30
       - name: Persist compact new native evidence without raw source files
         shell: bash
@@ -89,7 +102,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add --sparse derived/3.0.3/r30_native_shader_pool/pool_crossrefs.json
+          git add --sparse derived/3.0.3/r30_native_shader_pool/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'data(r30): original BNSH program to GPU shader pool candidate evidence'
           git fetch origin feat/acnh303-round30-bnsh-codepool-bindings
