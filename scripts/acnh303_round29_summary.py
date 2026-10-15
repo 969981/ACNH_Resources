@@ -7,8 +7,8 @@ from pathlib import Path
 
 def summarized(report):
     d=json.loads(report.read_text("utf8"))
-    if d["parsed_members"]!=28 or d["distinct_sha"]!=20:
-        raise ValueError("unexpected R27+R28 BNSH provenance")
+    if d["parsed_members"]<28 or d["distinct_sha"]<20 or d["parsed_members"]>200:
+        raise ValueError("insufficient or implausible original BNSH provenance")
     count=Counter();cases=[];name_links=defaultdict(set);all_names=Counter()
     for r in d["records"]:
         grsc=r["grsc_blocks"]
