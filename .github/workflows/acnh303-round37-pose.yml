@@ -1,0 +1,72 @@
+name: ACNH R37 Real 69-Channel Pose and Skinning Evidence
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-pose.yml'
+      - 'scripts/acnh303_round37_pose_probe.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  pose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numeric evaluator
+        run: python -m pip install 'numpy>=1.26,<3'
+      - name: Download both authentic released R35/R36 skinned meshes
+        run: |
+          set -euo pipefail
+          mkdir -p input/R35 input/R36
+          gh release download acnh303-r35-playerbody-skin-fska-animated-glb-20261015 -R 969981/ACNH_Resources --dir input/R35 --pattern 'PlayerBody_3_FSKA_frame_sampled.glb'
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R 969981/ACNH_Resources --dir input/R36 --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4742148c5f4066b68f76b50028dca4ccca440672529e662ea7b7158f626ab597  input/R35/PlayerBody_3_FSKA_frame_sampled.glb' | sha256sum -c -
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  input/R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Test real skin-joint world transforms at 0, quarter, half, mid and final source frames
+        run: |
+          python scripts/acnh303_round37_pose_probe.py \
+            --r35 input/R35/PlayerBody_3_FSKA_frame_sampled.glb \
+            --r36 input/R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --fska derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --out derived/3.0.3/r37_pose/real_glb_pose_and_joint_influence.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r37_pose/real_glb_pose_and_joint_influence.json'))
+          assert [x['actual_channels'] for x in d['actual_R36']['animation_results']]==[27,15,27]
+          assert [x['actual_channels'] for x in d['actual_R35']['animation_results']]==[5,3,5]
+          assert d['actual_R36']['nonfinite_joint_pose_matrices']==0
+          assert len(d['rest_differences_by_joint'])==46
+          print('R37_VALID_NATIVE_SOURCE_PLAYER_POSE',len(d['rest_differences_by_joint']),d['R36_skin_weighted_influences_total'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-real-69-joint-world-pose-and-weighted-skin-evidence
+          path: derived/3.0.3/r37_pose/
+      - name: Commit compact measured pose and Skin evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_pose/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): original skinned GLB weighted-joint and 69-channel pose math evidence'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
