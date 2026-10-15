@@ -37,9 +37,9 @@ jobs:
           echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
       - name: Blender authentic glTF import and NLA clip frame renders
         run: |
-          blender -b -t 2 --python tools/r37-blender/probe.py -- \
-            --glb r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
-            --output r37-blender
+          R37_GLB=r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            R37_OUTPUT=r37-blender \
+            blender -b -t 2 --python tools/r37-blender/probe.py
           python - <<'PY'
           import json,pathlib
           a=json.load(open('r37-blender/blender_import_and_render_report.json'))
