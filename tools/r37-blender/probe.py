@@ -2,14 +2,14 @@
 
 Usage: blender -b -t 2 --python tools/r37-blender/probe.py -- --glb ...
 """
-import argparse,bpy,hashlib,json,math,struct,sys
+import argparse,bpy,hashlib,json,math,struct,sys,os
 from pathlib import Path
 from mathutils import Vector
 arg=sys.argv[sys.argv.index("--")+1:] if "--" in sys.argv else []
 p=argparse.ArgumentParser()
 p.add_argument("--glb",type=Path,required=True)
 p.add_argument("--output",type=Path,required=True)
-a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
+a=p.parse_args(arg if arg else ["--glb",os.environ["R37_GLB"],"--output",os.environ["R37_OUTPUT"]]);a.output.mkdir(parents=True,exist_ok=True)
 src=a.glb.read_bytes();digest=hashlib.sha256(src).hexdigest()
 if digest!="4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3":
  raise ValueError("Original native R36 69-channel GLB SHA mismatch")
