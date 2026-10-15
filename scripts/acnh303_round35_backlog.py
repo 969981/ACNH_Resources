@@ -64,7 +64,7 @@ def compute():
         prior={n for n in previous_all if n.startswith(category+"/")}
         candidates=sorted(n for n in allfiles if n.startswith(category+"/") and n.lower().endswith(suffix))
         remaining=[n for n in candidates if n not in prior]
-        if len(candidates)!=total or len(remaining)!=EXPECTED[(category,suffix)]:
+        if len(candidates)!=total or len(remaining)!=EXPECTED.get((category,suffix),0):
             raise ValueError(f"category inventory mismatch {category}: {len(candidates)} {len(remaining)}")
         def immediate(name):
             parts=name.split("/")
