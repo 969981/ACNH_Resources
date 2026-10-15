@@ -1,0 +1,81 @@
+name: ACNH R35 Convert Original PlayerBody Real GLB and Audit Skinning
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-player-glb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Fetch original PlayerBody source and supply one exact source audit selection
+        run: |
+          set -euo pipefail
+          name='e10617820db06889e1638499478da0de_NCA/1/Model/PlayerBody.Nin_NX_NVN.zs'
+          git checkout --ignore-skip-worktree-bits HEAD -- "$name"
+          test -f "$name"
+          python - <<'PY'
+          import json
+          p='e10617820db06889e1638499478da0de_NCA/1/Model/PlayerBody.Nin_NX_NVN.zs'
+          json.dump({'category':'Model','suffix':'.zs','shard':0,'shards':1,'selected_files':1,'paths':[p]},open('r35_player_selection.json','w'))
+          PY
+      - name: Install actual tested nintoolbox BFRES native converter
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox && tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wmdlt | head -n1 >/tmp/wmdlt.path
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 >/tmp/wimgt.path
+          chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+      - name: Convert real original PlayerBody FMDL geometries to source-validated GLB
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection r35_player_selection.json \
+            --out Unpack_R35_PlayerMesh --report-dir derived/3.0.3/r35_player_media \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream /nonexistent/vgmstream
+      - name: Validate real PlayerBody GLB nodes and native skeleton-bone mapping
+        run: |
+          python scripts/acnh303_round35_glb_inspect.py \
+            --manifest derived/3.0.3/r35_player_media/Model/000-of-001/manifest.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --out derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-real-converted-playerbody-GLB-and-skin-audit
+          path: |
+            Unpack_R35_PlayerMesh/
+            derived/3.0.3/r35_player_media/
+            derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+      - name: Persist true GLB mesh/skin evidence, excluding redundant media binaries
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r35): true PlayerBody converter GLB skin joint/node mapping to verified FSKL'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
