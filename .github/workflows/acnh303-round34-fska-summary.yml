@@ -1,0 +1,55 @@
+name: ACNH R34 Genuine FSKA 406 Curve Metadata Summary
+on:
+  push:
+    branches: [feat/acnh303-round34-fska-bwav-bnsh106]
+    paths:
+      - '.github/workflows/acnh303-round34-fska-summary.yml'
+      - 'scripts/acnh303_round34_fska_summary.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original_fska_summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r34_fska/
+          sparse-checkout-cone-mode: false
+      - name: Independently validate all 406 FSKA curves and 393029 animation keyframes
+        run: |
+          python scripts/acnh303_round34_fska_summary.py \
+            --input derived/3.0.3/r34_fska/parsed_animation_curves.json \
+            --out derived/3.0.3/r34_fska/animation_summary.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r34_fska/animation_summary.json'))
+          assert d['animation_count']==406
+          assert d['curve_count']==24281
+          assert d['frame_value_count']==393029
+          print('R34 REAL FSKA ANIMATIONS',d['frame_count_min'],d['frame_count_median'],d['frame_count_max'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r34-original-FSKA-406-24281-393029-compact-summary
+          path: derived/3.0.3/r34_fska/animation_summary.json
+      - name: Persist compact source-verified animation details
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r34_fska/animation_summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r34): real 406 FSKA animation names and all curve/keyframe summaries'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round34-fska-bwav-bnsh106
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round34-fska-bwav-bnsh106; then exit 0; fi
+            sleep 1
+          done
+          exit 1
