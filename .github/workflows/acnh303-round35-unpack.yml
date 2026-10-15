@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R35 New Media, UI2D, BARS and BNSH
 on:
   push:
-    branches: [feat/acnh303-round35-fska-bwav-bnsh106]
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
     paths:
       - '.github/workflows/acnh303-round35-unpack.yml'
       - 'scripts/acnh303_round35_select.py'
@@ -243,9 +243,9 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'data(r35): 388 new original source SHA audits and 8 shard real outputs'
           for retry in 1 2 3 4 5 6 7 8; do
-            git fetch origin feat/acnh303-round35-fska-bwav-bnsh106
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
             git rebase FETCH_HEAD
-            if git push origin HEAD:feat/acnh303-round35-fska-bwav-bnsh106; then exit 0; fi
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
             sleep 1
           done
           exit 1
@@ -260,7 +260,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feat/acnh303-round35-fska-bwav-bnsh106
+          ref: feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
           filter: blob:none
           sparse-checkout: |
             scripts
@@ -299,7 +299,7 @@ jobs:
           printf 'ACNH 3.0.3 R35: 320 previously untested original resource archives excluding all R19+R27+R28+R29+R30+R31+R32+R33+R34 originals; real BFRES/PNG, Layout UI2D, BARS native WAV/AMTA, and byte-exact Layout BNSH extractions. All payloads were rehashed from this Actions run. This does not prove full semantic or all-resource completion.\n' > notes.txt
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
             gh release create "$TAG" -R "$REPO" \
-              --target feat/acnh303-round35-fska-bwav-bnsh106 \
+              --target feat/acnh303-round35-fska-gltf-short-bwav-bnsh186 \
               --title 'ACNH 3.0.3 R35 - 320 New Originals Model Layout BARS and BNSH' \
               --notes-file notes.txt --prerelease
           fi
