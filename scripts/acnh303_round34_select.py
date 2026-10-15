@@ -71,7 +71,7 @@ def exclude(category,suffix):
 
 def choose(category,suffix,shard,shards,count,checkout=True):
     if ((category,suffix) not in EXPECTED or not 0<=shard<shards or
-        shards<1 or count<1 or count>20):
+        shards<1 or count<1 or count>40):
         raise ValueError("invalid category/shard/limit")
     excluded=exclude(category,suffix)
     prefix=f"{NCA}/1/{category}/"
