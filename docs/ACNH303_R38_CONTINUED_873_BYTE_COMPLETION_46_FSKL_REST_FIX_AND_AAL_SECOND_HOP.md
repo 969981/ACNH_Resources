@@ -121,3 +121,24 @@ R38 真正继续钉到 `0x373167C` 内部：
 - **Blender 导入 FPS**：默认 24 而源时间轴 30，导致所谓 FrameN 跨不同秒数；统一为 30FPS 后两条包含 27 动画骨骼的动作最坏 P95 降至浮点误差量级。
 
 剩余 BookOpen P95 ~0.119 和 NLA HOLD 的未覆盖腰腿骨继承应继续做 action 独立 rest 复位；源 GLB 与 Blender 数值一致性仍然不能替代 Nintendo 原生 game runtime capture。
+
+## 9. 最终控制实验：强制 Pose Basis 归零失败，Fresh Import 也无法消除 BookOpen 剩余差异
+
+实验一：`tools/r38-blender/full_pose_native46_reset.py` 强行将每个骨骼的 `matrix_basis` 置 identity，实际 93 帧最坏 P95 变为 Arrange **9.639**、BookOpen **6.655**、BookRead **8.273**，显著恶化。它证明 Blender 导入后的 Rig Pose Basis 不能随意改写以达到所谓“归零”；此方案是**失败实验，不可作为正式修复**。其测试 JSON 保留在 `derived/3.0.3/r38_reset_blender/`，成功的 CI 只代表记录了真实数值，不代表误差门槛通过。
+
+实验二（更可靠）：`tools/r38-blender/fresh_native46_by_clip.py` 对三个 source action **分别重新从已发布 SHA 的 GLB 导入**、设 30fps、各自只有一条 NLA track 开启。93 帧真实对照结果 `derived/3.0.3/r38_fresh_blender/real_native46_93frame_gltf_vs_Blender.json`，成功 CI [#38690419858](https://github.com/969981/ACNH_Resources/actions/runs/38690419858)：
+
+- Arrange 29 帧：最差 P95 `0.000002486413`。
+- BookRead 33 帧：最差 P95 `0.000002098885`。
+- BookOpen 31 帧：最差 P95 **`0.119189862`**，与未重新导入时完全相同。
+
+**结论**：BookOpen 的剩余偏差不只是前一个 Action 的 NLA 状态残留，fresh import 仍复现，因而需要从骨骼默认变换、源 FSKA `BaseData`、glTF 模型 Rest 和 Blender armature import 的处理分支入手。不得继续归咎“历史 HOLD”并自行声称闭合。
+
+实际完整修复版 46 FSKL rest + fresh Blender 的 `scripts/acnh303_round38_fixed46_fresh_outlier.py`、[成功 CI #38690579047](https://github.com/969981/ACNH_Resources/actions/runs/38690579047) 和 `derived/3.0.3/r38_fixed_fresh_outliers/source_GLTF_to_Blender_per_bone_difference.json` 已经确定第 0/15/30 帧主要差异骨骼：
+
+- `Nose02`、`Nose01`、`Nose00`：平均其他 45 关节距离差在约 **0.073～0.076**；
+- `Leg_2_L`：约 **0.049～0.051**；`Leg_2_L_Sub`、`Leg_2_R`、`Hand_L` 等还有残差；
+- 最差成对差异示例：`Hand_L` ↔ `Leg_2_L` 第 0 帧约 **0.22662** 模型单位；
+- Arrange/BookRead 的 same-source per-joint outlier 则大致是 (10^{-6}) 量级。
+
+这将下一轮动作侧重点明确收窄到 **BookOpen 未建动画通道的子骨骼 Rest/BaseData、附属 Nose/Bag 的 source default** 及 Blender glTF import 静态转换，不必再次重复全 46 骨骼 Rest/IBM 修复。仍需真实 Nintendo 3.0.3 Runtime 采集才能验证原生动作 parity。
