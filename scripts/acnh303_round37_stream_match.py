@@ -14,14 +14,25 @@ from acnh303_round35_short_bwav import inspect_short
 MAX_INDIVIDUAL=64*1024*1024
 MAX_ALL=256*1024*1024
 def sh(b):return hashlib.sha256(b).hexdigest()
+SIZE_CACHE={}
 def repo_entry_size(repo,p):
- cmd=subprocess.run(["git","ls-tree","-r","-l","HEAD","--",p],cwd=repo,
-  capture_output=True,text=True,check=True)
- items=[s for s in cmd.stdout.splitlines() if s.strip()]
- if len(items)!=1:raise ValueError("missing exact original file path "+p)
- left,path=items[0].split("\t",1)
- if path!=p:raise ValueError("git source mismatch")
- return int(left.split()[-1])
+ key=str(repo)
+ if key not in SIZE_CACHE:
+  # One verified Git tree read instead of 873 costly ls-tree subprocess scans.
+  cmd=subprocess.run(["git","ls-tree","-r","-l","-z","HEAD","--",
+                      NCA+"/1/Sound/Resource/Stream/"],
+     cwd=repo,capture_output=True,check=True)
+  cache={}
+  for raw in cmd.stdout.split(b"\0"):
+   if not raw:continue
+   left,filename=raw.decode("utf8").split("\t",1)
+   size=left.split()[-1]
+   if not size.isdigit():continue
+   cache[filename]=int(size)
+  if len(cache)<1000:raise ValueError("original stream Git tree unexpectedly incomplete")
+  SIZE_CACHE[key]=cache
+ if p not in SIZE_CACHE[key]:raise ValueError("original standalone Stream path missing: "+p)
+ return SIZE_CACHE[key][p]
 def category(path):
  name=Path(path).stem
  if name.startswith("BGM_Audio_"):return "audio"
