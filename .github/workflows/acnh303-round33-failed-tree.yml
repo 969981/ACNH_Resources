@@ -1,0 +1,43 @@
+name: ACNH R33 Failed BFRES Historical Head Tree Locator
+on:
+  push:
+    branches: [feat/acnh303-round33-backlog-failed-source-native64]
+    paths:
+      - '.github/workflows/acnh303-round33-failed-tree.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original_tree:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inspect all original Model tree members and exact failed source name
+        run: python scripts/acnh303_round33_failed_tree_audit.py --out derived/3.0.3/r33_failed_source/git_tree_locator.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r33-original-failed-git-tree-availability
+          path: derived/3.0.3/r33_failed_source/git_tree_locator.json
+      - name: Persist traceability report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r33_failed_source/git_tree_locator.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r33): exact Git tree existence proof for historical failed BFRES'
+          for attempt in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round33-backlog-failed-source-native64
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round33-backlog-failed-source-native64; then exit 0; fi
+            sleep 1
+          done
+          exit 1
