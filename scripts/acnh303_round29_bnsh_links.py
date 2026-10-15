@@ -165,13 +165,13 @@ def audit(buf,tag):
                     if key not in programs:
                         # Layout matches external field sketch; the actual
                         # pointer and parent are validated below.
-                        refl=b.u64(pos+0x80)
-                        parent=b.u64(pos+0x78)
+                        refl=b.u64(pos+0x78)
+                        parent=b.u64(pos+0x70)
                         sizeword=b.u32(pos+0x60)
                         prog={"file_offset":pos,"size_field_at_0x60":sizeword,
-                           "object_pointer":b.u64(pos+0x70),"parent_pointer":parent,
+                           "object_pointer":b.u64(pos+0x68),"parent_pointer":parent,
                            "parent_matches_variation":parent==v,
-                           "reflection_pointer":refl,
+                           "reflection_pointer":refl,"shader_ir_pointer":b.u64(pos+0xa8),
                            "reflection_in_bounds":bool(refl and b.ok(refl,0x40)),
                            "code_type_byte":b.u8(pos+2),
                            "linked_variation_indexes":[i],
