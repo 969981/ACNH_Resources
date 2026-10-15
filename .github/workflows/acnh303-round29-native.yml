@@ -63,7 +63,8 @@ jobs:
           expected={item['sha256'] for item in d['members']}
           files=[*pathlib.Path('inputs/r27-original').rglob('*.bnsh'),
                  *pathlib.Path('inputs/r28-original').rglob('*.bnsh')]
-          assert len(files)==28
+          files=[f for f in files if f.is_file()]
+          assert len(files)==28, (len(files),[str(f) for f in files[:6]])
           got={hashlib.sha256(f.read_bytes()).hexdigest() for f in files}
           assert got==expected and len(got)==20, (len(got),len(expected))
           print('R29 28 genuine BNSH / 20 original SHA identities confirmed')
