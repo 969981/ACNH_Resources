@@ -204,17 +204,34 @@ def audit(buf,tag):
                         if b.get(pp,4)!=b"_DIC":continue
                         dic_count=b.u32(pp+4)
                         if dic_count>4096 or not b.ok(pp+8,0x10*(dic_count+1)):continue
-                        names=[]
+                        names=[];raw_key_samples=[]
                         for t in range(1,dic_count+1):
                             keyptr=b.u64(pp+8+t*0x10+8)
+                            # Keep bounded candidate bytes; NWString may expose
+                            # length before the UTF-8 first character.
                             name=b.string(keyptr)
+                            method="pointer_direct"
+                            if not name and b.ok(keyptr,3):
+                                candidate=b.string(keyptr+2)
+                                if candidate and b.u16(keyptr)==len(candidate):
+                                    name=candidate;method="u16_length_prefixed"
+                            if not name and keyptr>=2 and b.ok(keyptr-2,2):
+                                candidate=b.string(keyptr)
+                                if candidate and b.u16(keyptr-2)==len(candidate):
+                                    name=candidate;method="u16_size_before_string"
                             if name:names.append(name)
+                            if t<=3:
+                                raw_key_samples.append({"node":t,
+                                    "raw_key_pointer":keyptr,
+                                    "raw_key_first16":b.get(keyptr,16).hex() if b.ok(keyptr,16) else "",
+                                    "plausible_name":name,
+                                    "method":method if name else "unresolved"})
                         rd[label+"_name_candidates"]=names[:128]
                         dicid=str(pp)
                         if dicid not in dictionaries:
                             dictionaries[dicid]={"offset":pp,"category":label,"entry_count":dic_count,
                                 "validated_printable_ascii_name_count":len(names),
-                                "names":names[:128]}
+                                "names":names[:128],"raw_key_samples":raw_key_samples}
                 stages[stage]=rd
             reflections[str(ptr)]={"pointer":ptr,"stages":stages}
         prog["stage_reflection"]=list(reflections[str(ptr)]["stages"].keys())
