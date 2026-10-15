@@ -25,7 +25,7 @@ def main():
  lookup={x["name_crc32_hex"]:x for x in orig["all_original_members"]}
  resolved=names["original_one_room_Audio_name_labels"]
  assert len(resolved)==18
- tree=subprocess.run(["git","ls-tree","-r","-l","-z","HEAD","--",NCA+"/1/"],
+ tree=subprocess.run(["git","ls-tree","-r","-z","HEAD","--",NCA+"/1/"],
                      cwd=a.repo,check=True,capture_output=True).stdout
  items=[];filenames={};prefixes=collections.Counter();exts=collections.Counter()
  for entry in tree.split(b"\0"):
