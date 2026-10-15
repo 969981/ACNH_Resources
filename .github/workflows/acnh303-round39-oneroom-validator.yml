@@ -1,0 +1,60 @@
+name: ACNH R39 OneRoom Full Original BWAV Validator Missing Data Negative Control
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-oneroom-validator.yml'
+      - 'scripts/acnh303_round39_verify_user_oneroom_full_bwav.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validate_missing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r39_oneroom
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prove original 18 full OneRoom BWAV require independently supplied audio source bytes
+        run: |
+          mkdir -p empty-legitimate-external-source
+          python scripts/acnh303_round39_verify_user_oneroom_full_bwav.py \
+            --manifest derived/3.0.3/r39_oneroom/18_original_AMTA_stereo_native_header_and_missing_external_file_manifest.json \
+            --source-root empty-legitimate-external-source \
+            --out derived/3.0.3/r39_oneroom_verified_source/18_external_original_full_BWAV_NOT_PROVIDED_negative_control.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r39_oneroom_verified_source/18_external_original_full_BWAV_NOT_PROVIDED_negative_control.json'
+          x=json.load(open(p))
+          assert x['expected_full_OneRoom_BWAV_count']==18
+          assert x['actually_supplied_and_SHA_header_payload_verified']==0
+          assert not x['all_eighteen_full_audio_source_closed']
+          assert all(v['status']=='EXTERNAL_ORIGINAL_FULL_BWAV_NOT_SUPPLIED' for v in x['verified_one_room_source_files'])
+          print('R39_NEGATIVE_NO_REAL_DLC_SOURCE',0,18)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r39-no-supplied-OneRoom-BWAV-source-negative-validated
+          path: derived/3.0.3/r39_oneroom_verified_source/
+      - name: Commit missing-data status honestly
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r39_oneroom_verified_source/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'test(r39): zero of 18 source BWAV reported when external original DLC bytes are absent'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round39-bookopen-aal-oneroom
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round39-bookopen-aal-oneroom; then exit 0; fi
+            sleep 2
+          done
+          exit 1
