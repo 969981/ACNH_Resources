@@ -1,0 +1,57 @@
+name: ACNH R37 Three Exact Original BGM Stream Sample Sources
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-stream-three.yml'
+      - 'scripts/acnh303_round37_stream_three.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  three_sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read three original matched stream BWAV Git files and SHA-check Bgm headers
+        run: |
+          python scripts/acnh303_round37_stream_three.py \
+            --repo . \
+            --matrix derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out derived/3.0.3/r37_stream_three/real_sample_payload_crosscheck.json
+          python - <<'PY'
+          import json
+          j=json.load(open('derived/3.0.3/r37_stream_three/real_sample_payload_crosscheck.json'))
+          assert j['strict_actual_source_files_read']==3
+          assert j['CRC_name_mapping_total']>=873
+          print('R37_STREAM_SOURCE_PROOF',j['original_stream_member_contains_payload'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-3-original-Stream-BWAV-payload-bounds-and-SHA
+          path: derived/3.0.3/r37_stream_three/
+      - name: Commit three-source original file sample metadata
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_stream_three/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): actual three Bgm Base CRC-matched standalone BWAV source payload SHA crosscheck'
+          for n in 1 2 3 4 5; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
