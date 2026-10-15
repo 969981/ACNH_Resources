@@ -4,11 +4,11 @@ Blender NLA HOLD on unkeyed legs must never inherit previous action state.
 Do not overwrite matrix_basis (failed experiment). Import fresh source object,
 mute other strips, then extract same 93 source frames in correct 30 fps.
 """
-import argparse,bpy,hashlib,json,sys
+import argparse,bpy,hashlib,json,sys,os
 from pathlib import Path
 p=argparse.ArgumentParser()
 p.add_argument("--glb",type=Path,required=True);p.add_argument("--out",type=Path,required=True)
-a=p.parse_args(sys.argv[sys.argv.index("--")+1:])
+a=p.parse_args(sys.argv[sys.argv.index("--")+1:] if "--" in sys.argv else ["--glb",os.environ["R38_GLB"],"--out",os.environ["R38_POSE_OUT"]])
 sha=hashlib.sha256(a.glb.read_bytes()).hexdigest()
 if sha!="7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083":
  raise ValueError("not original 46 source FSKL repaired GLB")
