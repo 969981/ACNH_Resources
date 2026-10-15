@@ -165,3 +165,13 @@
 - 累计核心媒体 **9,124**（560 GLB、7,418 PNG、1,146 独立 WAV），BARS 另外 **5,438 PCM WAV、5,421 原生 AMTA v5**。R30 后仍未进行 L3：**Model 58,154；Layout 264；BARS 1,204；独立 BWAV 0**。
 - [R30 详细 Native 与解包指南](ACNH303_ROUND30_SHADER_BINARY_POOL_STAGE_CODE_GUIDE.md)；机器报告位于 `derived/3.0.3/r30_native_shader_pool/`，新的 48 源审计位于 `derived/3.0.3/r30_cumulative/`。
 - **R31 必须将 R30 新 48 个源路径加入历史排除集合**，不要重跑 R30 选源器并把相同输入重复统计。下阶段优先验证 49 个 Code Length/Magic 不一致者，补入新增 8 个 BNSH 的 Program-Reflection-Code 链，再追运行时 Material→Variation 和 GPU Slot 映射。
+
+
+## 2026-10-15 R31：真实 46 BNSH／代码长度零区与原始 ELF 只读静态审计＋40 新源
+
+- **Native**：R27–R30 的 46 个真实 BNSH / 28 unique SHA，**237 Program、474 Stage Code 引用**（237 Vertex + 237 Fragment）均在 Binary Pool 中有原始字节、边界、SHA 和 Program→Reflection 身份链；332 个 NV magic 切分候选。代码 SHA 20 Vertex / 31 Fragment。到下一个魔数长度 417 完全吻合、57 不同；57 个差异间隙读回全为 `0x00`，共 194,304 字节，未发现越过下一个 NV magic。**仅是可复核零填充证据，不是 GPU 编译器具体对齐语义证明。**
+- **ELF**：[原始 ELF Workflow #38665252046](https://github.com/969981/ACNH_Resources/actions/runs/38665252046) 成功，SHA 坚持为 `83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180`，`0x286160` 直接来电 1、`0x24E3C0` 直接调用 74，原始 `uTexture%d`、`uConstantBufferForVertexShader` 锚点复核。实际 Material→Variation→GPU Binding Slot 必须实机逐对象读取验证，目前保留 UNPROVEN。
+- **新增源**：[R31 40 原始源 Actions #38665115487](https://github.com/969981/ACNH_Resources/actions/runs/38665115487) 成功，排除 R19/R27/R28/R29/R30 全部已测来源。Model 16、Layout 12、BARS 12。实际 1 GLB + 122 PNG=123 核心媒体，独立 BARS 94 PCM WAV + 94 无损 AMTA v5，61 BFLYT/BFLAN JSON、11 FCPX 字体引用、7 BNSH 235,376 字节；1 个 Model/Layout `no_target_leaf` 严格单列。[R31 真实分卷 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r31-40-real-media-bnsh-20261015)。
+- **累计**：9,247 core media=561 GLB+7540 PNG+1146 standalone WAV；BARS 分开累计 5,532 PCM WAV+5,515 raw AMTA。未测：Model **58,138**、Layout **252**、BARS **1,192**、独立 BWAV **0**。
+- [R31 详细研究与实机验证清单](ACNH303_ROUND31_SHADER_CODE_GAPS_RUNTIME_MATERIAL_PROBE.md)；机器结果 `derived/3.0.3/r31_native_shader_pool/`、`derived/3.0.3/r31_runtime_material/`、`derived/3.0.3/r31_cumulative/`。
+- **R32 去重必须新增排除 R31 40 个已测原始路径**；下一步补入本轮另外 7 个新 BNSH，对 57 条零区追真正二进制对齐机制、实机绑定资源和 Material→Variation 的实例链。
