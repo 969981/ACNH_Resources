@@ -37,7 +37,7 @@ def write_jsonl_gzip(path,rows):
 def run(outdir):
     inventory=read_inventory()
     delta=list(iterrows(R33))
-    if len(delta)!=240 or len({r["source_path"] for r in delta})!=88:
+    if len(delta)!=240 or len({r["source_path"] for r in delta})!=240:
         raise ValueError("R33 actual SHA delta missing or duplicated")
     new_by_cat=Counter()
     for r in delta:
