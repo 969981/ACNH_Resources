@@ -1,0 +1,82 @@
+name: ACNH R39 Publish Source FSKA BookOpen BaseData Candidate GLBs
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-publish-bookopen.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r39-two-FSKA-BaseData-source-candidates
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            derived/3.0.3/r39_bookopen_basedata
+      - name: Fetch independently already validated original source candidate GLBs from successful real Blender run
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          gh run download 38691664534 -R 969981/ACNH_Resources \
+            -n acnh-r39-bookopen-native-source-empty-curve-BaseData-root-and-full-candidate-GLB -D release
+          find release -maxdepth 3 -type f -printf '%p %s bytes\n'
+          test -f release/R39/PlayerBody_BookOpen_FSKA_BaseData_root_only.glb
+          test -f release/R39/PlayerBody_BookOpen_FSKA_BaseData_all_native_bases.glb
+          echo '0887c0bef71d0937cb043a24da4077107279a6540eb401f986789df6bd22a42d  release/R39/PlayerBody_BookOpen_FSKA_BaseData_root_only.glb' | sha256sum -c -
+          echo '3b72c9384bf7f8f1e7bac4ca48555bc6119b94c8eb89a1c76b2d24e8eb596366  release/R39/PlayerBody_BookOpen_FSKA_BaseData_all_native_bases.glb' | sha256sum -c -
+      - name: Assert original 46 joint source provenance, 20 native BaseData channels and real Blender results
+        run: |
+          python3 - <<'PY'
+          import json
+          p='derived/3.0.3/r39_bookopen_basedata/'
+          source=json.load(open(p+'original_BookOpen_2_native_BaseData_source_hypotheses.json'))
+          results={x['mode']:x for x in source['candidate_hypotheses']}
+          assert results['root_only']['new_constant_BookOpen_channels']==1
+          assert results['all_native_bases']['new_constant_BookOpen_channels']==20
+          assert all(x['original_source_GLB_BINARY_prefix_intact'] for x in results.values())
+          root=json.load(open(p+'root_only_source_vs_Blender_31_frame_numeric.json'))
+          allbase=json.load(open(p+'all_native_bases_source_vs_Blender_31_frame_numeric.json'))
+          assert allbase['maxP95_pairwise_residual']<1e-4
+          assert allbase['maxP95_pairwise_residual']<root['maxP95_pairwise_residual']
+          assert not allbase['native_game_runtime_poses_used']
+          print('R39_TWO_REAL_SOURCE_BOOKOPEN_CANDIDATES_READY',root['maxP95_pairwise_residual'],allbase['maxP95_pairwise_residual'])
+          PY
+      - name: Publish separate experimental GLBs and complete numerical evidence as prerelease
+        run: |
+          set -euo pipefail
+          tag=acnh303-r39-FSKA-BookOpen-BaseData-constant-GLBs-20261015
+          cp release/R39/PlayerBody_BookOpen_FSKA_BaseData_*.glb release/
+          cp derived/3.0.3/r39_bookopen_basedata/*.json release/
+          (cd release && sha256sum PlayerBody_BookOpen_FSKA_BaseData_*.glb > SHA256SUMS.txt)
+          cat > release-notes.txt <<'NOTE'
+          Experimental source-original FSKA BookOpen BaseData constant animation channel controls.
+          Source R38 GLB SHA256: 7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083.
+          Alternative 1 root_only: +1 original BaseData Skl_Root translation channel, full real Blender 31-frame worst P95 ~0.0994.
+          Alternative 2 all_native_bases: +20 original nonzero BaseData channel values for bones with no Curves (rotation/translation), worst P95 ~2.22e-6.
+          Both GLBs retain the 11 source meshes, the 46 native FSKL joints, all inverse binds, all 69 original FSKA channels and original binary Buffer prefix byte-for-byte.
+          Real Blender 30fps math playback verified; Nintendo native runtime evaluator, animation timing, shader/render and Game in-world source evidence NOT CAPTURED. Separate experimental artifacts; R36 and R38 source releases unchanged.
+          NOTE
+          if ! gh release view "$tag" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$tag" -R 969981/ACNH_Resources \
+              --target feat/acnh303-round39-bookopen-aal-oneroom \
+              --title 'R39 Experimental Original FSKA BookOpen Constant BaseData GLB and 31-frame Blender Checks' \
+              --notes-file release-notes.txt --prerelease
+          fi
+          gh release upload "$tag" -R 969981/ACNH_Resources \
+            release/PlayerBody_BookOpen_FSKA_BaseData_root_only.glb \
+            release/PlayerBody_BookOpen_FSKA_BaseData_all_native_bases.glb \
+            release/SHA256SUMS.txt \
+            release/original_BookOpen_2_native_BaseData_source_hypotheses.json \
+            release/root_only_source_vs_Blender_31_frame_numeric.json \
+            release/all_native_bases_source_vs_Blender_31_frame_numeric.json \
+            --clobber
