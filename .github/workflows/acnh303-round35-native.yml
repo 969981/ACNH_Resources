@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R35 BNSH Shader Code Pool and Stage Linking
 on:
   push:
-    branches: [feat/acnh303-round35-fska-bwav-bnsh106]
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
     paths:
       - '.github/workflows/acnh303-round35-native.yml'
   workflow_dispatch:
@@ -151,9 +151,9 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'data(r35): 186 original BNSH stage-code and per-byte gap evidence'
           for attempt in 1 2 3 4 5 6; do
-            git fetch origin feat/acnh303-round35-fska-bwav-bnsh106
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
             git rebase FETCH_HEAD
-            if git push origin HEAD:feat/acnh303-round35-fska-bwav-bnsh106; then
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then
               echo 'R35 original BNSH reports successfully persisted'
               exit 0
             fi
