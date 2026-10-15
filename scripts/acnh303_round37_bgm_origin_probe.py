@@ -32,21 +32,28 @@ def file_path_crc_candidates(name):
        "relative_path_no_Sound_prefix":rel.removeprefix("Sound/"),
        "relative_stem_no_Sound_prefix":rel.removeprefix("Sound/").rsplit(".",1)[0]}
  return {k:{"text":v,"crc32":zlib.crc32(v.encode("utf-8"))&0xffffffff} for k,v in vals.items()}
-def run(root,bars_path,elf_path,report_path):
+def run(root,bars_path,elf_path,failures_path,report_path):
  raw=bars_path.read_bytes()
  if hashlib.sha256(raw).hexdigest()!=BARS_SHA:raise ValueError("original Bgm_Base SHA drift")
  b=inspect(raw)
- if b["asset_count"]!=891:raise ValueError("Bgm_Base original asset count not 891")
+ failures=json.loads(failures_path.read_text("utf8"))["all_failed_members_verified"]
+ if len(failures)!=891:raise ValueError("R36 authentic 891 failures expected")
+ expected={r["asset_index"]:r for r in failures}
+ if len(expected)!=891 or b["asset_count"]<891:raise ValueError("Bgm_Base native source count too small")
  limit=b["declared_file_size"]
  offsets=sorted({i["meta_offset"] for i in b["items"] if 0<i["meta_offset"]<limit}
      |{i["asset_offset"] for i in b["items"] if 0<i["asset_offset"]<limit and i["asset_offset"]!=0xffffffff}
      |{limit})
  items=[];signatures=collections.Counter()
  for x in b["items"]:
-  if x["asset_magic"]!="BWAV":raise ValueError("Bgm_Base non-BWAV asset needs separate parser")
+  if x["index"] not in expected:continue
+  if x["asset_magic"]!="BWAV":raise ValueError("R36 failed member no longer native BWAV")
   start=x["asset_offset"];stop=next((o for o in offsets if o>start),None)
   if stop is None:raise ValueError("no next asset offset")
   member=raw[start:stop];head=inspect_short(member)
+  prior=expected[x["index"]]
+  if len(member)!=prior["asset_member_size"] or hashlib.sha256(member).hexdigest()!=prior["asset_member_sha256"]:
+   raise ValueError("R37 member bytes differ from R36 exact SHA failure")
   if head.get("status")!="VALID_BOUNDED_NATIVE_HEADER" or not head["no_channel_has_payload_in_member"]:
    raise ValueError("member expected native header only")
   h=head["channels"]
@@ -84,7 +91,7 @@ def run(root,bars_path,elf_path,report_path):
    "code_ref_count":len(xrefs.get(t,[]))} for t in terms]
  report={"schema":"acnh303-r37-real-BgmBase-BARS-bwav891-sound-path-CRC-ELF-XREF-v1",
   "original_bars_sha256":BARS_SHA,"original_bars_bytes":len(raw),
-  "original_BARS_version":b["version_hex"],"BARS_member_count":len(items),
+  "original_BARS_version":b["version_hex"],"BARS_original_asset_count":b["asset_count"],"BARS_header_only_member_count":len(items),
   "source_elf_sha256":ELF_SHA,"source_elf_bytes":len(blob),
   "all_original_members":items,
   "native_member_signature_histogram":dict(signatures),
@@ -112,5 +119,6 @@ if __name__=="__main__":
  a.add_argument("--repo",type=Path,default=Path("."))
  a.add_argument("--bars",type=Path,required=True)
  a.add_argument("--elf",type=Path,required=True)
+ a.add_argument("--failed",type=Path,required=True)
  a.add_argument("--out",type=Path,required=True)
- x=a.parse_args();run(x.repo.resolve(),x.bars,x.elf,x.out)
+ x=a.parse_args();run(x.repo.resolve(),x.bars,x.elf,x.failed,x.out)
