@@ -1,0 +1,56 @@
+name: ACNH R38 Scan All Original RomFS Paths for 18 Unmatched Bgm CRCs
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-unmatched-crc.yml'
+      - 'scripts/acnh303_round38_unmatched_crc.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native_crc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Enumerate original full repository tree and check 18 unresolved audio name CRCs
+        run: |
+          python scripts/acnh303_round38_unmatched_crc.py \
+            --repo . --matrix derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out derived/3.0.3/r38_crc18/original_all_RomFS_CRC_name_hypotheses.json
+          python - <<'PY'
+          import json
+          j=json.load(open('derived/3.0.3/r38_crc18/original_all_RomFS_CRC_name_hypotheses.json'))
+          assert j['original_source_git_tree_file_count']>=100000
+          assert j['unresolved_r37_crc_count']==18
+          assert len(j['exact_crc_name_matches'])+len(j['unresolved_after_full_actual_tree'])==18
+          print('R38_18_CRC_SOURCE_PATH_SEARCH',j['original_source_git_tree_file_count'],len(j['unresolved_after_full_actual_tree']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r38-complete-original-RomFS-18-unmatched-BARS-CRC
+          path: derived/3.0.3/r38_crc18/
+      - name: Commit real unmodified source tree inventory evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_crc18/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): hash-check 18 Bgm_Base unknowns against complete original RomFS'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
