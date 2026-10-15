@@ -92,6 +92,21 @@ jobs:
           assert d['stats'].get('stage:fragment:verified_native_binary_stage_link',0)>=1
           print("R30 SOURCE VERIFIED GPU CHUNKS",d['stats'])
           PY
+      - name: Join 207 Program Reflection graphs to 414 bounded shader bytecode references
+        run: |
+          python scripts/acnh303_round30_stage_reflection_link.py \
+            --pools derived/3.0.3/r30_native_shader_pool/pool_crossrefs.json \
+            --codes derived/3.0.3/r30_native_shader_pool/code_members.json \
+            --out derived/3.0.3/r30_native_shader_pool/stage_reflection_links.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r30_native_shader_pool/stage_reflection_links.json'))
+          assert x['statistics']['program_rows']==207
+          assert x['statistics']['stage_binary_links']==414
+          assert x['statistics']['vertex:verified_native_binary_stage_link']==207
+          assert x['statistics']['fragment:verified_native_binary_stage_link']==207
+          print('R30 VERIFIED PROGRAM STAGE LINK',x['statistics'])
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: r30-native-shader-pool-38
