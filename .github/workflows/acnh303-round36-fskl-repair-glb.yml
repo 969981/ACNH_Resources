@@ -1,0 +1,102 @@
+name: ACNH R36 Source Native FSKL IBM-Gated Full-Body FSKA Candidate GLB
+on:
+  push:
+    branches: [feat/acnh303-round36-animation-audit]
+    paths:
+      - '.github/workflows/acnh303-round36-fskl-repair-glb.yml'
+      - 'tools/r36-bind/restored_export.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r36-restored-native-body-animated-glb
+  cancel-in-progress: false
+jobs:
+  native_repaired_animation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r36-fskl-ibm-restored-animated-glb-20261015
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            tools/r36-bind
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Recover actual released original skinned PlayerBody mesh, not a reimagined geometry
+        run: |
+          set -euo pipefail
+          mkdir -p r35-reference
+          gh release download acnh303-r35-playerbody-skin-fska-animated-glb-20261015 \
+            -R "$REPO" --dir r35-reference --pattern 'PlayerBody_3_FSKA_frame_sampled.glb'
+          echo '4742148c5f4066b68f76b50028dca4ccca440672529e662ea7b7158f626ab597  r35-reference/PlayerBody_3_FSKA_frame_sampled.glb' | sha256sum -c -
+      - name: Correct only 28 original source/IBM verified zero-rest joints and export 3 true FSKA clips
+        run: |
+          python tools/r36-bind/restored_export.py \
+            --glb r35-reference/PlayerBody_3_FSKA_frame_sampled.glb \
+            --skeleton derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --hermite derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --out-glb R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --out-report derived/3.0.3/r36_fska_repaired_candidate/report.json
+      - name: Validate all original mesh, skin and animated joint channel targets and SHA
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib,sys
+          sys.path.insert(0,'scripts')
+          from acnh303_round35_export_animated_glb import readglb
+          p=pathlib.Path('R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb')
+          j=json.load(open('derived/3.0.3/r36_fska_repaired_candidate/report.json'))
+          b,g,_=readglb(p)
+          assert hashlib.sha256(b).hexdigest()==j['output_GLb_sha256']
+          assert len(g['meshes'])==11 and len(g['skins'])==1 and len(g['skins'][0]['joints'])==46
+          assert len(g['animations'])==3 and sum(len(x['channels']) for x in g['animations'])>=69
+          assert j['original_glTF_joint_rest_zero_basis_repaired']==28
+          assert len(j['repaired_native_joints'])==28
+          assert j['native_render_visual_parity']=='NOT_TESTED'
+          print('R36 AUTHENTIC SKIN REST-REPAIRED SOURCE FSKA',j['total_actual_SKIN_animation_channels'],
+                j['output_GLb_sha256'],j['output_GLb_bytes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r36-original-playerbody-native-fskl-ibm-repaired-animated-candidate
+          path: |
+            R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb
+            derived/3.0.3/r36_fska_repaired_candidate/report.json
+      - name: Commit only compact original-source SHA and rest repair audit report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r36_fska_repaired_candidate/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r36): original FSKL to IBM gated 28 joint restoration and verified 3 FSKA clips'
+          for retry in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round36-animation-audit
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round36-animation-audit; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Publish restored original mesh experimental GLB, SHA and native evidence
+        run: |
+          set -euo pipefail
+          mkdir -p release-r36-repaired
+          cp R36/*.glb release-r36-repaired/
+          cp derived/3.0.3/r36_fska_repaired_candidate/report.json release-r36-repaired/
+          (cd release-r36-repaired && sha256sum *.glb report.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          echo 'Experimental source-backed glTF2 candidate. 11 authentic skinned meshes, 46 original joints and inverse-binds, 28 imported zero-basis rest joints replaced ONLY if original native FSKL rest-global times GLB inverse-bind numerically approximates identity. Three original FSKA clips, 4 sub-frame samples. NOT verified against the game original renderer, matrix conventions at all nodes, FPS, or material appearance. This does not constitute visual/game parity.' > release-r36-repair-notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round36-animation-audit \
+              --title 'ACNH R36 Experimental Native FSKL/IBM-gated Fully Animated PlayerBody GLB' \
+              --notes-file release-r36-repair-notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" release-r36-repaired/* --clobber
