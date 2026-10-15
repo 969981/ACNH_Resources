@@ -1,0 +1,63 @@
+name: ACNH R38 Real Blender BookOpen NLA Clip Isolation Order Forensics
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-nla-order.yml'
+      - 'tools/r38-blender/nla_isolation_diagnostics.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  nla:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            tools/r38-blender
+      - name: Install actual Blender binary with required system renderer deps
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
+      - name: Download original genuine R36 69-channel GLB and SHA check
+        run: |
+          mkdir -p input
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R 969981/ACNH_Resources \
+            --dir input --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Evaluate BookOpen first vs last via native Blender action tracks with real bone world transforms
+        run: |
+          blender -b -t 2 --python tools/r38-blender/nla_isolation_diagnostics.py -- \
+            --glb input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --out derived/3.0.3/r38_nla_order/real_Blender_track_order_and_bone_matrices.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r38_nla_order/real_Blender_track_order_and_bone_matrices.json'))
+          assert len(d['real_repeated_clip_frame_bone_matrix_results'])==12
+          assert len(d['actual_imported_track_properties'])==3
+          print('R38_NLA_3TRACK_12_REAL_POSE_SAMPLES_OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-original-GLB-Blender-NLA-BookOpen-order-control
+          path: derived/3.0.3/r38_nla_order/
+      - name: Commit real importer and sequence evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_nla_order/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): actual 46-bone Blender NLA state and BookOpen clip-isolation order control'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
