@@ -1,0 +1,66 @@
+name: ACNH R38 Diagnose BookOpen Source GLB Blender Joint Outliers
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-pose-outliers.yml'
+      - 'scripts/acnh303_round38_pose_outlier.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  outliers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3'
+      - name: Download actual original released 69-channel candidate
+        run: |
+          mkdir -p input
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R 969981/ACNH_Resources \
+            --dir input --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Identify original 46-bone pairwise source vs Blender deviations at start/mid/end
+        run: |
+          python scripts/acnh303_round38_pose_outlier.py \
+            --glb input/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --blender derived/3.0.3/r38_animation_parity/real_blender_all_joint_frames.json \
+            --out derived/3.0.3/r38_pose_outliers/source_GLTF_to_Blender_per_bone_difference.json
+          python - <<'PY'
+          import json
+          r=json.load(open('derived/3.0.3/r38_pose_outliers/source_GLTF_to_Blender_per_bone_difference.json'))
+          assert len(r['clip_diagnostics'])==3
+          assert len(r['clip_diagnostics'][1]['diagnostic_frames'])==3
+          print('R38_TRUE_JOINT_OUTLIERS',r['clip_diagnostics'][1]['diagnostic_frames'][0]['worst_bones_by_pairwise_distance_difference'][:4])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-real-BookOpen-glTF-Blender-46bone-outlier-trace
+          path: derived/3.0.3/r38_pose_outliers/
+      - name: Commit source-sha real 46-joint difference report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_pose_outliers/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): identify real BookOpen 46-joint Blender-vs-glTF action origin discrepancy'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
