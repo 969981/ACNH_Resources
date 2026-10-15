@@ -1,0 +1,61 @@
+name: ACNH R37 Genuine ELF Bgm Base Audio Instruction Windows
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-audio-disasm.yml'
+      - 'scripts/acnh303_round37_elf_audio_disasm.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  disassemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'capstone>=5,<6'
+      - name: Verify original 79MB AArch64 ELF and fully disassemble actual Bgm Base references
+        run: |
+          python scripts/acnh303_round37_elf_audio_disasm.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --source derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out derived/3.0.3/r37_audio_elf/real_BgmBase_AArch64_code_window.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r37_audio_elf/real_BgmBase_AArch64_code_window.json'
+          d=json.load(open(p))
+          assert d['native_BgmBase_exact_code_formations']==2
+          assert d['recorded_bounded_arm64_windows']>=2
+          print('REAL_BGM_ELF_WINDOWS',d['recorded_bounded_arm64_windows'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-original-Bgm_Base-AArch64-disassembly
+          path: derived/3.0.3/r37_audio_elf/
+      - name: Commit only genuine decoded instruction evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_audio_elf/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): original AArch64 Bgm_Base source/name references and nearby instructions'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
