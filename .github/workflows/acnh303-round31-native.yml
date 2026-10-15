@@ -65,7 +65,7 @@ jobs:
           python -m unittest discover -s scripts -p 'test_acnh303_round30.py' -v
       - name: Parse 46 authentic BNSH from R27-R29 and program-to-pool graph
         run: |
-          python scripts/acnh303_round30_shader_pool.py \
+          python scripts/acnh303_round31_shader_pool.py \
             --roots r27/exact r28/exact r29/exact r30/exact \
             --out derived/3.0.3/r31_native_shader_pool/pool_crossrefs.json
           python - <<'PY'
@@ -82,7 +82,7 @@ jobs:
           PY
       - name: Audit original pool NV magic chunks and per-stage source-code array metadata
         run: |
-          python scripts/acnh303_round30_code_members.py \
+          python scripts/acnh303_round31_code_members.py \
             --roots r27/exact r28/exact r29/exact r30/exact \
             --out derived/3.0.3/r31_native_shader_pool/code_members.json
           python - <<'PY'
@@ -97,7 +97,7 @@ jobs:
           PY
       - name: Join 207 Program Reflection graphs to 414 bounded shader bytecode references
         run: |
-          python scripts/acnh303_round30_stage_reflection_link.py \
+          python scripts/acnh303_round31_stage_reflection_link.py \
             --pools derived/3.0.3/r31_native_shader_pool/pool_crossrefs.json \
             --codes derived/3.0.3/r31_native_shader_pool/code_members.json \
             --out derived/3.0.3/r31_native_shader_pool/stage_reflection_links.json
