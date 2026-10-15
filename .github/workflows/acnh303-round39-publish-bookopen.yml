@@ -43,7 +43,7 @@ jobs:
           results={x['mode']:x for x in source['candidate_hypotheses']}
           assert results['root_only']['new_constant_BookOpen_channels']==1
           assert results['all_native_bases']['new_constant_BookOpen_channels']==20
-          assert all(x['original_source_GLB_BINARY_prefix_intact'] for x in results.values())
+          assert all(x['source_original_GLB_BINARY_prefix_intact'] for x in results.values())
           root=json.load(open(p+'root_only_source_vs_Blender_31_frame_numeric.json'))
           allbase=json.load(open(p+'all_native_bases_source_vs_Blender_31_frame_numeric.json'))
           assert allbase['maxP95_pairwise_residual']<1e-4
