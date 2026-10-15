@@ -9,7 +9,7 @@ from __future__ import annotations
 import argparse,csv,gzip,hashlib,json
 from collections import Counter,defaultdict
 from pathlib import Path
-from acnh303_round33_select import BASE, NCA, EXPECTED, exclude,iterrows,R19_MEDIA,R27,R28,R29,R30,R31,R32,R33
+from acnh303_round34_select import BASE, NCA, EXPECTED, exclude,iterrows,R19_MEDIA,R27,R28,R29,R30,R31,R32,R33
 
 def compute():
     inv=BASE/"inventory/source_manifest.csv.gz"
