@@ -1,0 +1,137 @@
+name: ACNH R36 Fractional FSKA Curve Loss and BWAV Evidence
+on:
+  push:
+    branches: [feat/acnh303-round36-animation-audit]
+    paths:
+      - '.github/workflows/acnh303-round36-fska-audit.yml'
+      - 'scripts/acnh303_round36_*.py'
+      - 'scripts/test_acnh303_round36.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r36-fska-evidence
+  cancel-in-progress: false
+jobs:
+  native_audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r36-sampled-playerbody-fska-evidence-20261015
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python regressions before original sample replay
+        run: |
+          python -m compileall -q scripts/acnh303_round36_*.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round36.py' -v
+      - name: Download only published R35 real FMDL and FSKA animated GLB
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p r35-reference
+          gh release download acnh303-r35-playerbody-skin-fska-animated-glb-20261015 \
+            -R "$REPO" --dir r35-reference --pattern 'PlayerBody_3_FSKA_frame_sampled.glb'
+          echo '4742148c5f4066b68f76b50028dca4ccca440672529e662ea7b7158f626ab597  r35-reference/PlayerBody_3_FSKA_frame_sampled.glb' | sha256sum -c -
+          python - <<'PY'
+          import json
+          p='r35_ref_manifest.json'
+          row={'validated_outputs':[{'validation':{'type':'glb'},
+            'path':'r35-reference/PlayerBody_3_FSKA_frame_sampled.glb',
+            'sha256':'4742148c5f4066b68f76b50028dca4ccca440672529e662ea7b7158f626ab597'}]}
+          with open(p,'w') as f:json.dump([row],f)
+          PY
+      - name: Independently audit all 77,31,52 native source curves and surviving glTF Animation channels
+        run: |
+          python scripts/acnh303_round36_animation_audit.py \
+            --reference-glb r35-reference/PlayerBody_3_FSKA_frame_sampled.glb \
+            --hermite derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --sha256 4742148c5f4066b68f76b50028dca4ccca440672529e662ea7b7158f626ab597 \
+            --out derived/3.0.3/r36_fska_exact/actual_R35_animation_channel_loss.json
+      - name: Independently cross-audit all 224 plus 4 short native BWAV members
+        run: |
+          python scripts/acnh303_round36_bwav_matrix.py \
+            --r35-224 derived/3.0.3/r35_bwav/short_member_payload_audit.json \
+            --r35-4 derived/3.0.3/r35_bwav/npc_short_native.json \
+            --out derived/3.0.3/r36_fska_exact/short_bwav_228_matrix.json
+      - name: Produce R36 real mesh GLB with denser fractional Hermite sampling
+        run: |
+          python scripts/acnh303_round36_export_subframes.py \
+            --manifest r35_ref_manifest.json \
+            --hermite derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --out-glb R36/PlayerBody_3_FSKA_quarter_frame.glb \
+            --out-report derived/3.0.3/r36_fska_exact/playerbody_quarter_frame_glb.json \
+            --fps 30 --subframes 4
+      - name: Verify original 11 meshes/46 skin joints, original 13 channels and 4x sampled frames
+        run: |
+          python - <<'PY'
+          import sys,json,hashlib,pathlib
+          sys.path.insert(0,'scripts')
+          from acnh303_round35_export_animated_glb import readglb
+          p=pathlib.Path('R36/PlayerBody_3_FSKA_quarter_frame.glb')
+          r=json.load(open('derived/3.0.3/r36_fska_exact/playerbody_quarter_frame_glb.json'))
+          a=json.load(open('derived/3.0.3/r36_fska_exact/actual_R35_animation_channel_loss.json'))
+          b=json.load(open('derived/3.0.3/r36_fska_exact/short_bwav_228_matrix.json'))
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==r['animated_glb_sha256']
+          _,g,buf=readglb(p)
+          assert len(g['meshes'])==11 and len(g['skins'])==1 and len(g['skins'][0]['joints'])==46
+          assert len(g['animations'])==3 and sum(len(x['channels']) for x in g['animations'])==13
+          assert [x['source_bones_with_nonempty_curves'] for x in a['animation_reports']]==[31,15,31]
+          assert [x['real_glb_channel_count'] for x in a['animation_reports']]==[5,3,5]
+          assert r['source_frame_subdivisions']==4
+          for clip,frames in zip(g['animations'],(28,30,32)):
+            for sampler in clip['samplers']:
+              assert g['accessors'][sampler['input']]['count']==frames*4+1
+          assert b['number_of_distinct_original_header_only_members']==228 and not b['external_sample_resource_verified']
+          print('R36 TRUE MODEL + SKIN + FRACTIONAL FRAMES + LOSS AUDIT VERIFIED',
+                r['animated_glb_sha256'],r['animated_glb_bytes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r36-actual-fska-glb-and-lost-channels-bwav-research
+          path: |
+            R36/PlayerBody_3_FSKA_quarter_frame.glb
+            derived/3.0.3/r36_fska_exact/
+      - name: Commit only compact source-backed audit JSON, not generated GLB
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r36_fska_exact
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r36): real R35 GLB joint loss and half-frame curve errors, native short BWAV matrix'
+          for retry in 1 2 3 4 5; do
+            git fetch origin feat/acnh303-round36-animation-audit
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round36-animation-audit; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Publish only validated R36 actual GLB with SHA checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-r36
+          cp R36/*.glb release-r36/
+          cp derived/3.0.3/r36_fska_exact/*.json release-r36/
+          (cd release-r36 && sha256sum *.glb *.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          echo 'R36 reuses SHA-verified R35 original skinned PlayerBody mesh and native Hermite curves. Fractional 4x frame samples improve the approximation for ONLY 13 already exported channels. 77/31/52 source scalar curves were audited for omitted joints; no missing channels were invented. Actual game bind pose, 30fps native rate, GPU rendering and BWAV external audio links remain unproven.' > release-r36-notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round36-animation-audit \
+              --title 'ACNH R36 - Original PlayerBody FSKA Fractional Frames and Loss Audit' \
+              --notes-file release-r36-notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" release-r36/* --clobber
