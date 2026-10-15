@@ -25,10 +25,10 @@ def readglb(path):
     return b,g,bytearray(b[off+8:off+8+blen])
 def read_model_source(node,source):
     if "matrix" in node:
-        m=node.pop("matrix")
+        m=node["matrix"]
         if len(m)!=16:raise ValueError("non-affine matrix")
         s=[math.sqrt(sum(m[j*4+k]**2 for k in range(3))) for j in range(3)]
-        if any(x<1e-8 for x in s):raise ValueError("singular bone matrix")
+        if any(x<1e-8 for x in s):return None  # preserve exact original singular rest-matrix; do not animate this source joint
         r=[[m[j*4+i]/s[j] for j in range(3)] for i in range(3)]
         # 3x3 column-vector quaternion conversion.
         trace=r[0][0]+r[1][1]+r[2][2]
@@ -46,6 +46,7 @@ def read_model_source(node,source):
             else:
                 q4=math.sqrt(1+r[2][2]-r[0][0]-r[1][1])*2
                 quat=[(r[0][2]+r[2][0])/q4,(r[1][2]+r[2][1])/q4,q4/4,(r[1][0]-r[0][1])/q4]
+        node.pop("matrix")
         node["translation"]=[m[12],m[13],m[14]]
         node["rotation"]=quat
         node["scale"]=s
@@ -122,6 +123,7 @@ def from_hermite_curve_file(g,buffer,fska,allowed_nodes,fps):
             bone_node=nmap[name]
             node=nodes[bone_node]
             rest=read_model_source(node,None)
+            if rest is None:continue  # exact GLB skin joint remains, but no invented TRS for singular original
             base=ba.get("BaseData",{})
             original={
               "translation":asvec(base.get("Translate"),rest["translation"]),
