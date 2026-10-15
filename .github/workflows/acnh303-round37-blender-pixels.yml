@@ -1,0 +1,65 @@
+name: ACNH R37 Independent Blender Screenshot Pixel Motion Audit
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-blender-pixels.yml'
+      - 'scripts/acnh303_round37_blender_pixel_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  pixel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3' 'Pillow>=10,<12'
+      - name: Fetch exactly six completed Blender render source PNGs
+        run: |
+          mkdir -p original-rendered-frames
+          gh release download acnh303-r37-blender-playerbody-evidence-20261015 -R 969981/ACNH_Resources \
+            --dir original-rendered-frames --pattern '*.png'
+          test "$(find original-rendered-frames -name '*.png' | wc -l)" -eq 6
+      - name: Compare decoded RGBA pixel bytes at frame 0 and 15 for three source FSKA clips
+        run: |
+          python scripts/acnh303_round37_blender_pixel_audit.py \
+            --images original-rendered-frames \
+            --out derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json'))
+          assert x['image_count']==6
+          assert len(x['within_clip_rendered_pixel_difference'])==3
+          print('R37_MEASURED_REAL_FRAME_PIXEL_CHANGES',x['number_of_clips_with_nonidentical_RGB_pixels'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r37-original-Blender-PNG-independent-pixel-motion-test
+          path: derived/3.0.3/r37_blender_pixels/
+      - name: Commit source image independent RGBA statistics
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_blender_pixels/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): decoded true Blender RGB pixel differences across source FSKA frames'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
