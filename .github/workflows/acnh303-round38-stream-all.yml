@@ -1,0 +1,101 @@
+name: ACNH R38 All 873 Authentic BWAV Streams Native Payload SHA Closure
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-stream-all.yml'
+      - 'scripts/acnh303_round38_stream_all.py'
+      - 'scripts/acnh303_round38_stream_aggregate.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  original_stream_shards:
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        index: [0,1,2,3,4,5,6,7,8,9,10,11]
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r37_bgm_origin/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Original Git SHA, native audio channel and real sample physical data by shard
+        run: |
+          python scripts/acnh303_round38_stream_all.py --repo . --index ${{ matrix.index }} \
+            --matrix derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out r38-shards/shard_${{ matrix.index }}.json
+          python - <<'PY'
+          import json
+          p='r38-shards/shard_${{ matrix.index }}.json'
+          x=json.load(open(p))
+          assert x['checked_actual_git_original_files']>=70
+          assert x['original_source_git_tree_BWAV_total']==1146
+          print('R38_ORIGINAL_SOURCE_BYTES_VERIFIED',x['shard'],x['checked_actual_git_original_stream_bytes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r38-original-BgmBase-stream-shard-${{ matrix.index }}
+          path: r38-shards/shard_${{ matrix.index }}.json
+          retention-days: 30
+  aggregate:
+    needs: original_stream_shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r37_bgm_origin/
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r38-original-BgmBase-stream-shard-*
+          path: r38-shards/
+          merge-multiple: true
+      - name: Verify 12 actual original SHA-backed shard reports without duplication or omissions
+        run: |
+          python scripts/acnh303_round38_stream_aggregate.py --shards r38-shards \
+            --out derived/3.0.3/r38_stream_all/873_exact_original_byte_native_header_audit.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r38_stream_all/873_exact_original_byte_native_header_audit.json'))
+          assert x['audited_original_standalone_BWAV_file_count']==873
+          assert x['remaining_name_matched_but_original_file_not_checked']==0
+          print('R38_ORIGINAL_STREAM_EXHAUSTIVE_RESULTS',x['native_channel_and_sample_payload_outcomes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-all-873-original-BWAV-payload-crosscheck
+          path: derived/3.0.3/r38_stream_all/
+      - name: Commit metadata, hashes and exhaustive evidence, not original copyrighted audio
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_stream_all/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): full source Git-SHA and BWAV channel/payload audit for 873 matched originals'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
