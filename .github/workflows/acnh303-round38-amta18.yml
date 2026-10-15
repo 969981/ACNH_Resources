@@ -1,0 +1,57 @@
+name: ACNH R38 Original Bgm Base 18 Unresolved AMTA Source Byte Audit
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-amta18.yml'
+      - 'scripts/acnh303_round38_unknown_amta.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r37_bgm_origin/
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Analyze exact original 18 AMTA windows from source Bgm Base bytes
+        run: |
+          python scripts/acnh303_round38_unknown_amta.py \
+            --original e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars \
+            --matrix derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json \
+            --out derived/3.0.3/r38_amta18/original_eighteen_AMTA_byte_windows.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r38_amta18/original_eighteen_AMTA_byte_windows.json'))
+          assert len(x['unresolved_AMTA_records'])==18
+          print('REAL_AMTA_UNRESOLVED',x['unresolved_crc_count'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-18-unmatched-original-BgmBase-AMTA-hex-and-ascii
+          path: derived/3.0.3/r38_amta18/
+      - name: Commit original source metadata evidence only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_amta18/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): inspect native AMTA metadata for 18 unmatched Bgm CRC names'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
