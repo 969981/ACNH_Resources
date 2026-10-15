@@ -1,0 +1,68 @@
+name: ACNH303 R31 Original ELF Material Shader Consumer Static Audit
+on:
+  push:
+    branches: [feat/acnh303-round31-shader-length-material-gpu]
+    paths:
+      - '.github/workflows/acnh303-round31-runtime-static.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r31-elf-static
+  cancel-in-progress: false
+jobs:
+  original_elf_static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r24_native_loader/
+            /derived/3.0.3/r25_native_bnsh/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install bounded read-only ELF parsing dependencies
+        run: python -m pip install "pyelftools>=0.31,<1" "capstone>=5,<6"
+      - name: Assert exact AArch64 direct-call arithmetic
+        run: python -m unittest discover -s scripts -p 'test_acnh303_round31_material_runtime.py' -v
+      - name: Original ELF SHA and source grounded shader-init and resource resolver callsite audit
+        run: python scripts/acnh303_round31_material_runtime_elf.py
+      - name: Reject runtime binding claims not observed by static source
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r31_runtime_material/elf_static_shader_callgraph.json'))
+          assert d['original_elf_sha256']=='83970061788f10049e2e60d687571b8dc87e5014521889ac4611a7f6b9c6e180'
+          assert d['source_verified_shader_literals']['shader_tex_pattern']['exact_text']=='uTexture%d'
+          assert d['source_verified_shader_literals']['vertex_uniform_name']['exact_text']=='uConstantBufferForVertexShader'
+          assert d['runtime_material_variation_gpu_slot_ownership']=='UNPROVEN'
+          print('R31 ACTUAL ELF CALLER COUNTS',d['exact_direct_B_BL_callsite_counts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r31-original-elf-material-shader-static
+          path: derived/3.0.3/r31_runtime_material/elf_static_shader_callgraph.json
+          if-no-files-found: error
+      - name: Persist native original ELF static evidence into isolated R31 branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r31_runtime_material/elf_static_shader_callgraph.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r31): original ACNH ELF shader material consumer callsite and unresolved runtime boundary'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feat/acnh303-round31-shader-length-material-gpu
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round31-shader-length-material-gpu; then exit 0; fi
+            echo "concurrent branch update, retrying $attempt" >&2
+          done
+          exit 1
