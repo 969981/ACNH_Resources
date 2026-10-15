@@ -85,3 +85,24 @@ R38 真正继续钉到 `0x373167C` 内部：
 4. 18 条 OneRoom 已恢复 18/18 真正名称，下一步需求是具体 DLC 的完整 BWAV 字节 + SHA，不是再猜资源名。
 5. 873 全量真实音频文件已读 SHA、物理采样数据和通道边界，需要真正 PCM 解码和游戏混音验证才是另一个独立层级。
 
+
+## 6. 补充已完成：修复版 46 FSKL 骨骼已做 Blender 93 原始帧真正复测
+
+修复版 `PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb` 原始 SHA256 `7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083`，由 Blender 实机以三个原生 FSKA 片段分别导入（29 / 31 / 33 帧，共 93 帧 × 46 joint），再同本候选 glTF source pose 的 pairwise distance 对比。成功 Actions [#38689604313](https://github.com/969981/ACNH_Resources/actions/runs/38689604313)，完整数值：`derived/3.0.3/r38_fixed_blender/real_native46_93frame_gltf_vs_Blender.json` 与 `real_native46_Blender_all_93_joint_frames.json`。
+
+| Source clip | R36 原候选全帧最坏 P95 模型距离 | R38 修复版全帧最坏 P95 距离 | 修复后第 0 帧 P95 |
+|---|---:|---:|---:|
+| `Act_ArrangeRemoveFtrHigh` | 0.561852 | **0.562351** | 0.000001916 |
+| `Act_BookOpen_Player` | 3.309805 | **0.761763** | 0.117266 |
+| `Act_BookRead_Player` | 0.044070 | **0.045218** | 0.000001393 |
+
+重点：`BookOpen_Player` 最坏帧 P95 误差下降 **约 76.98%**，第 0 帧由约 3.296441 降至 0.117266（约 **96.44%**）。因此，原生 FSKL Rest 四元数修复明显改善 BookOpen 核心问题，但 **ArrangeRemove/BookOpen 动画中间帧仍然远非数值一致**。不能因为本候选静态 Rest×IBM 误差接近零，就假设带动作/插值/未覆盖 NLA bone rest 的动态位置也一致。
+
+另：此数值只比较 **同源候选 GLB 的数学 pose evaluator 与 Blender NLA import**，既非独立的原生 ACNH 游戏姿态，也未提供真正逐像素、shader 和 DLC 衣物骨骼附着的 Nintendo parity。待实机真实捕获前把 Native-versus-Blender 标记 **OPEN**。
+
+## 7. 推荐下一步细分任务
+
+- **P0**：把三个片段分别 fresh-import 到 Blender、每个 clip 复位 pose/rest 并单独激活，不复用前一个动作的 HOLD/NLA 状态；分离 `未动画骨骼的默认 Rest` 与 `源 FSKA 自带 BaseData（特别 BookOpen Waist/Leg 缺乏曲线的骨骼）`。
+- **P0**：`ArrangeRemove` Frame 1..27 和 `BookOpen` 最大差异帧的 per-joint world local quaternion、scale 与 mesh-skin CPU deformation 分层检查。防止把源 GLB 值、Blender importer retarget 和 FSKA 游戏原生求值混成一层。
+- **P1**：AAL `0x3E45184` / `0x3E44830` 的场景对象和 vtable BLR 静态/实机实例解引用，寻找真实 `Sound/Resource/Stream` 实际文件打开，而不是把通用资源调用误命名 FileOpen。
+- **P1**：18 条 OneRoom 的外部实际 BWAV 数据源优先从原始 DLC/附加资源映像验证；已有原始名称及 AMTA 内嵌哈希不必重跑名称猜测。
