@@ -1,0 +1,83 @@
+name: ACNH R37 Real Blender 69-Channel PlayerBody Visual Import Test
+on:
+  push:
+    branches: [feat/acnh303-round37-animation-pose-ibm-bgm-base]
+    paths:
+      - '.github/workflows/acnh303-round37-blender.yml'
+      - 'tools/r37-blender/probe.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  real_blender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r37-blender-playerbody-evidence-20261015
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            tools/r37-blender
+            derived
+      - name: Install open-source Blender headless via Ubuntu repositories
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender
+          blender --version | head -n 3
+      - name: Download only exact-sha released original R36 69-channel skinned GLB
+        run: |
+          set -euo pipefail
+          mkdir -p r36-reference
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 -R "$REPO" --dir r36-reference --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Blender authentic glTF import and NLA clip frame renders
+        run: |
+          blender -b -t 2 --python tools/r37-blender/probe.py -- \
+            --glb r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --output r37-blender
+          python - <<'PY'
+          import json,pathlib
+          a=json.load(open('r37-blender/blender_import_and_render_report.json'))
+          assert a['imported_mesh_objects']>=11
+          assert a['armature_count']>=1
+          assert a['original_glb_sha']=='4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3'
+          print('R37_REAL_BLENDER_IMPORT',a['imported_mesh_objects'],a['armature_bone_counts'])
+          print('R37_CLIP_VISIBILITY',[(x['name'],x['render_status']) for x in a['renders']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r37-blender-real-playerbody-69channel-frames
+          path: r37-blender/
+      - name: Persist generated structure/visual report without binary render output in Git
+        run: |
+          set -euo pipefail
+          mkdir -p derived/3.0.3/r37_blender
+          cp r37-blender/blender_import_and_render_report.json derived/3.0.3/r37_blender/report.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r37_blender/report.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r37): real Blender 11-mesh skinned import and animated screenshot SHA evidence'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round37-animation-pose-ibm-bgm-base
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round37-animation-pose-ibm-bgm-base; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Publish original Blender render evidence and SHA, not an invented game screenshot
+        run: |
+          set -euo pipefail
+          (cd r37-blender && sha256sum * > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          echo 'Blender headless imported the published R36 exact-source 11-mesh 69-channel GLB and rendered candidate NLA animation frames. These are Blender visual previews ONLY, not authentic ACNH gameplay screenshots or verified renderer parity.' > r37_blender_notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round37-animation-pose-ibm-bgm-base \
+              --title 'ACNH R37 Blender Original PlayerBody 69-Channel Frame Validation' \
+              --notes-file r37_blender_notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" r37-blender/* --clobber
