@@ -27,7 +27,7 @@ jobs:
       - name: Install open-source Blender headless via Ubuntu repositories
         run: |
           sudo apt-get update -qq
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
           blender --version | head -n 3
           blender -b -t 2 --python-expr 'import sys, numpy; print("BLENDER_PYTHON_NUMPY",sys.version,numpy.__version__)'
       - name: Download only exact-sha released original R36 69-channel skinned GLB
@@ -38,7 +38,8 @@ jobs:
           echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
       - name: Blender authentic glTF import and NLA clip frame renders
         run: |
-          R37_GLB=r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+          xvfb-run -a env LIBGL_ALWAYS_SOFTWARE=1 \
+            R37_GLB=r36-reference/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
             R37_OUTPUT=r37-blender \
             blender -b -t 2 --python tools/r37-blender/probe.py
           python - <<'PY'
