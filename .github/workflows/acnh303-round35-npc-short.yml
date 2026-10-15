@@ -1,0 +1,44 @@
+name: ACNH R35 NpcSP kpp Four Native Short BWAV Headers
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-npc-short.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - name: Restore original exact 988 byte NPC BARS and verify four SHA
+        run: |
+          p='e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/NpcSP_kpp.bars'
+          git checkout --ignore-skip-worktree-bits HEAD -- "$p"
+          test -f "$p"
+          python scripts/acnh303_round35_npc_short_native.py \
+            --reported derived/3.0.3/r35_bwav/failed_members_4.json \
+            --out derived/3.0.3/r35_bwav/npc_short_native.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-npc-short-bwav-native-4-authentic-source-headers
+          path: derived/3.0.3/r35_bwav/npc_short_native.json
+      - name: Commit source-SHA native metadata evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_bwav/npc_short_native.json
+          git commit -m 'data(r35): original 4 NPC BWAV channel payload bounds and exact SHA'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
