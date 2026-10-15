@@ -32,8 +32,8 @@ jobs:
       - run: python -m pip install -r scripts/requirements-media.txt
       - name: Syntax, source counts, safety and existing decoder tests
         run: |
-          python -m compileall -q scripts/acnh303_round32_*.py
-          python -m unittest discover -s scripts -p 'test_acnh303_round32.py' -v
+          python -m compileall -q scripts/acnh303_round33_*.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round33.py' -v
           python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
           python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
   unpack:
@@ -72,7 +72,7 @@ jobs:
       - run: python -m pip install -r scripts/requirements-media.txt
       - name: Select 240 untouched original sources excluded by R19 R27 R28 R29
         run: |
-          python scripts/acnh303_round32_select.py --category '${{ matrix.category }}' \
+          python scripts/acnh303_round33_select.py --category '${{ matrix.category }}' \
             --suffix '${{ matrix.suffix }}' --shard '${{ matrix.shard }}' \
             --shards '${{ matrix.shards }}' --count '${{ matrix.cap }}'
       - name: Install tested native media decoders
@@ -104,31 +104,31 @@ jobs:
         if: matrix.mode == 'media'
         run: |
           python scripts/acnh303_media_batch.py --root . --selection selection.json \
-            --out Unpack_L3_Round32 --report-dir derived/3.0.3/media_round32 \
+            --out Unpack_L3_Round33 --report-dir derived/3.0.3/media_round33 \
             --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
             --tool-vgmstream "$(cat /tmp/vgmstream.path)"
       - name: Decode Layout BFLYT / BFLAN / FCPX structures
         if: matrix.category == 'Layout'
         run: |
           python scripts/acnh303_layout_semantic_shard.py --root . --selection selection.json \
-            --output Unpack_UI2D_Round32 --report-dir derived/3.0.3/layout_semantic_round32
+            --output Unpack_UI2D_Round33 --report-dir derived/3.0.3/layout_semantic_round33
       - name: Losslessly export previously unseparated nested BNSH bytes
         if: matrix.category == 'Layout'
         run: |
           python scripts/acnh303_round27_bnsh_extract.py --selection selection.json \
-            --out Unpack_BNSH_Round32 \
-            --report derived/3.0.3/bnsh_round32/bnsh_${{ matrix.shard }}/bnsh_manifest.json
+            --out Unpack_BNSH_Round33 \
+            --report derived/3.0.3/bnsh_round33/bnsh_${{ matrix.shard }}/bnsh_manifest.json
       - name: Decode BARS member BWAV to actual playable PCM
         if: matrix.mode == 'bars'
         run: |
           python scripts/acnh303_bars_audio_l3.py --selection selection.json \
-            --out Unpack_BARS_Round32 --report derived/3.0.3/bars_round32/bars_${{ matrix.shard }} \
+            --out Unpack_BARS_Round33 --report derived/3.0.3/bars_round33/bars_${{ matrix.shard }} \
             --tool-vgmstream "$(cat /tmp/vgmstream.path)"
       - name: Preserve exact AMTA v5 binary metadata
         if: matrix.mode == 'bars'
         run: |
           python scripts/acnh303_bars_amta_export.py --selection selection.json \
-            --out Unpack_AMTA_Round32 --report derived/3.0.3/amta_round32/amta_${{ matrix.shard }}
+            --out Unpack_AMTA_Round33 --report derived/3.0.3/amta_round33/amta_${{ matrix.shard }}
       - name: Verify every source and derived file SHA256 within shard
         run: |
           python - <<'PY'
@@ -140,7 +140,7 @@ jobs:
           root=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')
           kind=s['category']; i=s['shard']
           if kind=='Sound':
-              docs=[json.load(open(f'derived/3.0.3/{prefix}_round32/{prefix}_{i}/report.json'))
+              docs=[json.load(open(f'derived/3.0.3/{prefix}_round33/{prefix}_{i}/report.json'))
                     for prefix in ('bars','amta')]
               for d in docs:
                   assert {r['source_path'] for r in d['records']}==selected
@@ -154,7 +154,7 @@ jobs:
                               assert sha(m['output_path'])==m['amta_sha256']
                               assert m['native']['version_hex']=='0x0500'
           else:
-              p=f'derived/3.0.3/media_round32/{kind}/{i:03d}-of-002/manifest.json'
+              p=f'derived/3.0.3/media_round33/{kind}/{i:03d}-of-002/manifest.json'
               a=json.load(open(p))
               assert {r['source_path'] for r in a}==selected
               for r in a:
@@ -163,8 +163,8 @@ jobs:
                       assert sha(out['path'])==out['sha256']
                       assert out['validation']['type'] in ('glb','png')
               if kind=='Layout':
-                  u=json.load(open(f'derived/3.0.3/layout_semantic_round32/Layout/{i:03d}-of-002/semantic_manifest.json'))
-                  b=json.load(open(f'derived/3.0.3/bnsh_round32/bnsh_{i}/bnsh_manifest.json'))
+                  u=json.load(open(f'derived/3.0.3/layout_semantic_round33/Layout/{i:03d}-of-002/semantic_manifest.json'))
+                  b=json.load(open(f'derived/3.0.3/bnsh_round33/bnsh_{i}/bnsh_manifest.json'))
                   assert len(u['source_records'])==len(b['records'])==len(a)
                   byname={r['source_path']:r['sha256'] for r in a}
                   for r in u['source_records']:
@@ -184,22 +184,22 @@ jobs:
         with:
           name: r33-report-${{ matrix.category }}-${{ matrix.shard }}
           path: |
-            derived/3.0.3/media_round32/
-            derived/3.0.3/layout_semantic_round32/
-            derived/3.0.3/bnsh_round32/
-            derived/3.0.3/bars_round32/
-            derived/3.0.3/amta_round32/
+            derived/3.0.3/media_round33/
+            derived/3.0.3/layout_semantic_round33/
+            derived/3.0.3/bnsh_round33/
+            derived/3.0.3/bars_round33/
+            derived/3.0.3/amta_round33/
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: success()
         with:
           name: r33-data-${{ matrix.category }}-${{ matrix.shard }}
           path: |
-            Unpack_L3_Round32/
-            Unpack_UI2D_Round32/
-            Unpack_BNSH_Round32/
-            Unpack_BARS_Round32/
-            Unpack_AMTA_Round32/
+            Unpack_L3_Round33/
+            Unpack_UI2D_Round33/
+            Unpack_BNSH_Round33/
+            Unpack_BARS_Round33/
+            Unpack_AMTA_Round33/
           if-no-files-found: error
           compression-level: 2
   reconcile:
@@ -222,7 +222,7 @@ jobs:
           path: collected
       - name: Independently reconcile R33 240 originals, BNSH and output counts
         run: |
-          python scripts/acnh303_round32_reconcile.py --collected collected \
+          python scripts/acnh303_round33_reconcile.py --collected collected \
             --out derived/3.0.3/r33_cumulative
       - name: Check delta source identities and historical zero overlap
         run: |
@@ -282,7 +282,7 @@ jobs:
           path: actual_reports
       - name: Rehash every real output from this exact run (no report-only publication)
         run: |
-          python scripts/acnh303_round32_release_verify.py \
+          python scripts/acnh303_round33_release_verify.py \
             --data actual_data --reports actual_reports \
             --out r33-release-verification.json
       - name: Package verified real outputs into durable Release
