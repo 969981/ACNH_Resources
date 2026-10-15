@@ -1,0 +1,57 @@
+name: ACNH R39 Exact BgmBase Native Caller Tail Three Downstream Branches
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-bgm-caller-tail.yml'
+      - 'scripts/acnh303_round39_bgm_caller_tail.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  caller:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'capstone>=5,<6'
+      - name: Disassemble actual Bgm Base caller and three native callee branches from original SHA-verified ELF
+        run: |
+          python scripts/acnh303_round39_bgm_caller_tail.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --out derived/3.0.3/r39_bgm_caller/real_original_three_native_BgmBase_caller_dispatches.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r39_bgm_caller/real_original_three_native_BgmBase_caller_dispatches.json'))
+          assert len(x['native_observed_direct_source_BgmBase_callee_list'])==3
+          assert not x['AAL_real_instance_FileOpen_and_StreamPath_trace_observed']
+          print('R39_BGM_NATIVE_STATIC_THREE_CALLEES',list(x['actual_original_target_code_windows']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r39-original-ELF-BgmBase-dispatches-three-callees
+          path: derived/3.0.3/r39_bgm_caller/
+      - name: Commit authentic source ELF opcode evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r39_bgm_caller/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r39): source ELF BgmBase literal handler three adjacent real BL target windows'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round39-bookopen-aal-oneroom
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round39-bookopen-aal-oneroom; then exit 0; fi
+            sleep 2
+          done
+          exit 1
