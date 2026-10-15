@@ -60,7 +60,7 @@ def exclude(category,suffix):
         old|=fresh
         if len(old)!=396 or old&seen_deltas:raise ValueError("cross-round BARS overlap")
         relevant={r["source_path"] for rows_ in deltas for r in rows_ if r["category"]=="BARS"}
-        if len(relevant)!=372:raise ValueError("R27/R28 combined BARS delta unexpected")
+        if len(relevant)!=532:raise ValueError("R27/R28 combined BARS delta unexpected")
         return old|relevant
     old_rows=list(iterrows(R19_MEDIA))
     old={r["source_path"] for r in old_rows}
@@ -68,7 +68,7 @@ def exclude(category,suffix):
         raise ValueError("R19 media cumulative identity incomplete")
     if old&seen_deltas:raise ValueError("R27/R28 media collision with R19")
     relevant={r["source_path"] for rows_ in deltas for r in rows_ if r["category"] in ("Model","Layout")}
-    if len(relevant)!=696:raise ValueError("R27/R28 combined media delta unexpected")
+    if len(relevant)!=776:raise ValueError("R27/R28 combined media delta unexpected")
     return old|relevant
 
 def choose(category,suffix,shard,shards,count,checkout=True):
