@@ -1,0 +1,38 @@
+name: ACNH R35 Original Player Model FSKL Candidates
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-model-candidates.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  enumerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - name: Enumerate exact original Model paths and prioritize real FSKL candidates
+        run: python scripts/acnh303_round35_model_candidates.py --out derived/3.0.3/r35_fska_gltf/model_candidates.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-exact-model-source-name-candidates
+          path: derived/3.0.3/r35_fska_gltf/model_candidates.json
+      - name: Commit verified candidate model names only, without unjustified skeleton match claims
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_fska_gltf/model_candidates.json
+          git commit -m 'research(r35): exact candidate player model names among 60166 original Git blobs'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
