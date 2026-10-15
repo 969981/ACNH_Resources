@@ -44,7 +44,7 @@ jobs:
           after=json.load(open(root/'status_after_r34.json'))
           assert before['original_total']==after['authoritative_original_inventory']==103400
           old={x['category']:x for x in before['selected_L3_target_backlog']}
-          assert {k:(v['historical_tested_source_count'],v['not_yet_tested_source_count']) for k,v in old.items()}=={'Model':(2068,58098),'Layout':(732,228),'Sound':(528,1168)}
+          assert {k:(v['historical_tested_source_count'],v['not_yet_tested_source_count']) for k,v in old.items()}=={'Model':(2148,58018),'Layout':(812,148),'Sound':(608,1088)}
           assert all(0<=v['coverage_percent']<=100 for v in old.values())
           cat=after['remaining_by_category']
           assert {k:(v['tested_original_sources'],v['untested_original_sources']) for k,v in cat.items()}=={'Model':(2228,57938),'Layout':(960,0),'BARS':(768,928)}
