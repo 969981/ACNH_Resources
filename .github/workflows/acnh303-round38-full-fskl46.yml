@@ -1,0 +1,87 @@
+name: ACNH R38 Original 46 FSKL Rest All 21 Weighted IBM Gated
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-full-fskl46.yml'
+      - 'scripts/acnh303_round38_full_native_FSKL_rest_candidate.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived/3.0.3/r35_fska_gltf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3'
+      - name: Fetch original actual 69-channel R36 GLB immutable bytes
+        run: |
+          mkdir -p R36 R38
+          gh release download acnh303-r36-fskl-ibm-restored-animated-glb-20261015 \
+            -R 969981/ACNH_Resources --dir R36 \
+            --pattern 'PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb'
+          echo '4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3  R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb' | sha256sum -c -
+      - name: Gate all 21 weighted real FSKL joints and 46 identical source native skeleton bones
+        run: |
+          python scripts/acnh303_round38_full_native_FSKL_rest_candidate.py \
+            --r36 R36/PlayerBody_FSKL_IBM_gated_FSKA_3clips.glb \
+            --native derived/3.0.3/r35_fska_gltf/playerbody_skeleton.json \
+            --out-glb R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+            --out-report derived/3.0.3/r38_fskl46/real_native46_rest_21_weighted_IBM_gate.json
+          python - <<'PY'
+          import json,hashlib
+          j=json.load(open('derived/3.0.3/r38_fskl46/real_native46_rest_21_weighted_IBM_gate.json'))
+          assert j['modified_node_count']==46
+          assert j['weighted_joint_count']==21
+          assert j['restored_original_native_FSKL_21_weighted_rest_IBM_max_error']<1e-3
+          assert j['original_binary_mesh_IBMs_FSKA_UNCHANGED']
+          sha=hashlib.sha256(open('R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb','rb').read()).hexdigest()
+          assert sha==j['recovered_GLB_source_SHA256']
+          print('R38_ORIGINAL_46_FSKL_21_WEIGHTED_CORRECTED',sha)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-full-46-original-FSKL-gated-GLB-and-IBM-proof
+          path: |
+            R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb
+            derived/3.0.3/r38_fskl46/
+      - name: Commit source metadata and 21 native weighted joint checks
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_fskl46/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): 46 true source FSKL locals restores 21 skinned rest IBM consistency'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Publish SHA-proven experimental source FSKL GLB separate from R36
+        run: |
+          set -euo pipefail
+          tag=acnh303-r38-original-46FSKL-native-rest-21IBM-20261015
+          echo 'Experimental full native FSKL source rest rebuild. All 21 real Skin-weighted bones original inverse-binds gate below 1e-3. Native game engine pose/render parity NOT captured. R36 original remains unchanged.' > R38_NOTES.txt
+          if ! gh release view "$tag" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$tag" -R 969981/ACNH_Resources --target feat/acnh303-round38-native-animation-aal-stream-closure \
+              --title 'R38 All 46 Original FSKL Rest Pose, Source IBM Gated 21 Weighted Bones' \
+              --notes-file R38_NOTES.txt --prerelease
+          fi
+          cp derived/3.0.3/r38_fskl46/real_native46_rest_21_weighted_IBM_gate.json R38/
+          (cd R38 && sha256sum * > SHA256SUMS.txt)
+          gh release upload "$tag" -R 969981/ACNH_Resources R38/* --clobber
