@@ -1,0 +1,74 @@
+name: ACNH R39 Real BookOpen 31 Frame Unkeyed Rest Control
+on:
+  push:
+    branches: [feat/acnh303-round39-bookopen-aal-oneroom]
+    paths:
+      - '.github/workflows/acnh303-round39-bookopen-unkeyed.yml'
+      - 'tools/r39-bookopen/surgical_unkeyed.py'
+      - 'scripts/acnh303_round39_bookopen_quant.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  controlled:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            tools/r39-bookopen
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
+          python -m pip install 'numpy>=1.26,<3'
+      - name: Fetch original 46-native FSKL Rest SHA-verified source GLB
+        run: |
+          mkdir -p R38
+          gh release download acnh303-r38-original-46FSKL-native-rest-21IBM-20261015 \
+            -R 969981/ACNH_Resources --dir R38 --pattern 'PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb'
+          echo '7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083  R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb' | sha256sum -c -
+      - name: Real Blender 31-frame BookOpen two independently imported control trials
+        run: |
+          blender -b -t 2 --python tools/r39-bookopen/surgical_unkeyed.py -- \
+            --glb R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+            --out derived/3.0.3/r39_bookopen/real_BookOpen_Blender_two_mode_source_frames.json
+          python scripts/acnh303_round39_bookopen_quant.py \
+            --glb R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+            --blender derived/3.0.3/r39_bookopen/real_BookOpen_Blender_two_mode_source_frames.json \
+            --out derived/3.0.3/r39_bookopen/real_BookOpen_31frame_nativeRest_surgical_control_error.json
+          python - <<'PY'
+          import json
+          r=json.load(open('derived/3.0.3/r39_bookopen/real_BookOpen_31frame_nativeRest_surgical_control_error.json'))
+          assert r['original_joint_count']==46
+          assert len(r['mode_comparisons'])==2
+          assert all(x['frames']==31 for x in r['mode_comparisons'])
+          assert not r['can_call_Nintendo_ACNH_native_game_parity']
+          print('R39_BOOKOPEN_CONTROL_ACTUAL',[(x['mode'],x['max_p95']) for x in r['mode_comparisons']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r39-original-BookOpen-source-vs-Blender-31-frames-surgical-control
+          path: derived/3.0.3/r39_bookopen/
+      - name: Persist exact two-mode original source evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r39_bookopen/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r39): real BookOpen 31 frame unkeyed bone rest correction control'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round39-bookopen-aal-oneroom
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round39-bookopen-aal-oneroom; then exit 0; fi
+            sleep 2
+          done
+          exit 1
