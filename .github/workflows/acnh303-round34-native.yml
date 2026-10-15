@@ -1,0 +1,160 @@
+name: ACNH 3.0.3 R34 BNSH Shader Code Pool and Stage Linking
+on:
+  push:
+    branches: [feat/acnh303-round34-fska-bwav-bnsh106]
+    paths:
+      - '.github/workflows/acnh303-round33-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r34-native
+  cancel-in-progress: false
+jobs:
+  native_extended:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch authentic BNSH bytes from each original verified release
+        shell: bash
+        run: |
+          set -euo pipefail
+          for round in 27 28 29 30 31 32 33; do mkdir -p "r$round/archive" "r$round/exact"; done
+          gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern 'r27-data-Layout-*.tar.gz'
+          gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 -R "$REPO" --dir r28/archive --pattern 'r28-data-Layout-*.tar.gz'
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 -R "$REPO" --dir r28/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r29-80-real-media-bnsh-20261015 -R "$REPO" --dir r29/archive --pattern 'r29-data-Layout-*.tar.gz'
+          gh release download acnh303-r29-80-real-media-bnsh-20261015 -R "$REPO" --dir r29/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r30-48-real-media-bnsh-20261015 -R "$REPO" --dir r30/archive --pattern 'r30-data-Layout-*.tar.gz'
+          gh release download acnh303-r30-48-real-media-bnsh-20261015 -R "$REPO" --dir r30/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r31-40-real-media-bnsh-20261015 -R "$REPO" --dir r31/archive --pattern 'r31-data-Layout-*.tar.gz'
+          gh release download acnh303-r31-40-real-media-bnsh-20261015 -R "$REPO" --dir r31/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r32-88-real-media-bnsh-20261015 -R "$REPO" --dir r32/archive --pattern 'r32-data-Layout-*.tar.gz'
+          gh release download acnh303-r32-88-real-media-bnsh-20261015 -R "$REPO" --dir r32/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r33-240-real-media-bnsh-20261015 -R "$REPO" --dir r33/archive --pattern 'r33-data-Layout-*.tar.gz'
+          gh release download acnh303-r33-240-real-media-bnsh-20261015 -R "$REPO" --dir r33/archive --pattern SHA256SUMS.txt
+          for round in 27 28 29 30 31 32 33; do
+            (cd "r$round/archive" && grep "r$round-data-Layout-.*[.]tar[.]gz$" SHA256SUMS.txt | sha256sum -c -)
+            for p in "r$round/archive"/r$round-data-Layout-*.tar.gz; do tar -xzf "$p" -C "r$round/exact"; done
+          done
+          test "$(find r27/exact -type f -name '*.bnsh' | wc -l)" -eq 4
+          test "$(find r28/exact -type f -name '*.bnsh' | wc -l)" -eq 24
+          test "$(find r29/exact -type f -name '*.bnsh' | wc -l)" -eq 10
+          test "$(find r30/exact -type f -name '*.bnsh' | wc -l)" -eq 8
+          test "$(find r31/exact -type f -name '*.bnsh' | wc -l)" -eq 7
+          test "$(find r32/exact -type f -name '*.bnsh' | wc -l)" -eq 11
+          test "$(find r33/exact -type f -name '*.bnsh' | wc -l)" -eq 42
+      - name: Verify previous 28 native SHA identities against immutable R28 evidence
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          d=json.load(open('derived/3.0.3/r28_native_bnsh/structure.json'))
+          expected={m['sha256'] for m in d['members']}
+          files=[f for root in ('r27/exact','r28/exact') for f in pathlib.Path(root).rglob('*.bnsh') if f.is_file()]
+          assert len(files)==28
+          assert {hashlib.sha256(f.read_bytes()).hexdigest() for f in files}==expected
+          print('R29 prior 28 native BNSH bytes SHA checked; new R29 sources audited by release hash')
+          PY
+      - name: Synthetic pool boundary regression tests
+        run: |
+          python -m unittest discover -s scripts -p 'test_acnh303_round30.py' -v
+      - name: Parse 106 authentic BNSH from R27-R29 and program-to-pool graph
+        run: |
+          python scripts/acnh303_round33_shader_pool.py \
+            --roots r27/exact r28/exact r29/exact r30/exact r31/exact r32/exact r33/exact \
+            --out derived/3.0.3/r34_native_shader_pool/pool_crossrefs.json
+          python - <<'PY'
+          import json
+          p="derived/3.0.3/r34_native_shader_pool/pool_crossrefs.json"
+          d=json.load(open(p))
+          assert d["verified_original_members"]==106
+          assert d["unique_source_sha256"]>=36
+          assert d["program_total"]>=324
+          assert d["variation_total"]>=324
+          assert all(r["native_header_verified_first_block"]==0x60 for r in d["source_records"])
+          assert all(len(r["pool_candidates"])==1 for r in d["source_records"])
+          print("R34 ORIGINAL BNSH POOL VERIFIED", d["status_counts"])
+          PY
+      - name: Audit original pool NV magic chunks and per-stage source-code array metadata
+        run: |
+          python scripts/acnh303_round33_code_members.py \
+            --roots r27/exact r28/exact r29/exact r30/exact r31/exact r32/exact r33/exact \
+            --out derived/3.0.3/r34_native_shader_pool/code_members.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r34_native_shader_pool/code_members.json'))
+          assert d['verified_source_members']==106
+          assert d['unique_sha']>=36
+          assert d['stats']['programs']>=324
+          assert d['stats'].get('stage:vertex:verified_native_binary_stage_link',0)>=1
+          assert d['stats'].get('stage:fragment:verified_native_binary_stage_link',0)>=1
+          print("R34 SOURCE VERIFIED GPU CHUNKS",d['stats'])
+          PY
+      - name: Join 207 Program Reflection graphs to 414 bounded shader bytecode references
+        run: |
+          python scripts/acnh303_round33_stage_reflection_link.py \
+            --pools derived/3.0.3/r34_native_shader_pool/pool_crossrefs.json \
+            --codes derived/3.0.3/r34_native_shader_pool/code_members.json \
+            --out derived/3.0.3/r34_native_shader_pool/stage_reflection_links.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r34_native_shader_pool/stage_reflection_links.json'))
+          assert x['statistics']['program_rows']>=324
+          assert x['statistics']['stage_binary_links']==2*x['statistics']['program_rows']
+          assert x['statistics']['vertex:verified_native_binary_stage_link']==x['statistics']['program_rows']
+          assert x['statistics']['fragment:verified_native_binary_stage_link']==x['statistics']['program_rows']
+          print('R34 VERIFIED PROGRAM STAGE LINK',x['statistics'])
+          PY
+      - name: Independently classify every old and new Stage length discrepancy by exact original bytes
+        run: |
+          python scripts/acnh303_round33_code_gap_audit.py \
+            --codes derived/3.0.3/r34_native_shader_pool/code_members.json \
+            --roots r27/exact r28/exact r29/exact r30/exact r31/exact r32/exact r33/exact \
+            --out derived/3.0.3/r34_native_shader_pool/code_gap_audit.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r34_native_shader_pool/code_gap_audit.json'))
+          assert d['source_files']==106 and d['source_sha256_verified']
+          assert d['statistics']['stage_code_links']==2*d['statistics']['stage_programs']
+          print('R34 VERIFIED CODE GAPS',d['statistics'],d['gap_sizes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r34-native-shader-pool-106
+          path: |
+            derived/3.0.3/r34_native_shader_pool/
+          retention-days: 30
+      - name: Persist compact new native evidence without raw source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r34_native_shader_pool/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r34): 106 original BNSH stage-code and per-byte gap evidence'
+          for attempt in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round34-fska-bwav-bnsh106
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round34-fska-bwav-bnsh106; then
+              echo 'R34 original BNSH reports successfully persisted'
+              exit 0
+            fi
+            echo "Concurrent update; retrying native evidence push, attempt $attempt" >&2
+            sleep 1
+          done
+          exit 1
