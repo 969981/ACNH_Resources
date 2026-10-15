@@ -1,0 +1,58 @@
+name: ACNH R38 Real AAL Next Native Callee 3E45184 From Bgm Name
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-aal-hop2.yml'
+      - 'scripts/acnh303_round38_aal_second_callee.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /scripts/
+            /e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'capstone>=5,<6'
+      - name: Verify source x1+0x18 field load and real native 0x3E45184 consumer graph
+        run: |
+          python scripts/acnh303_round38_aal_second_callee.py \
+            --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --out derived/3.0.3/r38_aal_hop2/real_native_aal_bgm_name_second_callee_graph.json
+          python - <<'PY'
+          import json
+          x=json.load(open('derived/3.0.3/r38_aal_hop2/real_native_aal_bgm_name_second_callee_graph.json'))
+          assert x['source_field_load_instruction']['pc']=='0x37316e4'
+          assert x['original_struct_field_18h_read_exactly_proven']
+          assert not x['native_file_open_captured']
+          print('R38_ELF_SOURCE_X1_18_NEXT_CALL_PROVEN',len(x['native_next_hop_direct_branches']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-original-ELF-BgmBase-x1-plus18h-to-real-callee
+          path: derived/3.0.3/r38_aal_hop2/
+      - name: Commit proof-only instruction graph
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_aal_hop2/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): exact native AAL x1+18h read and 3E45184 direct-call window'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
