@@ -1,0 +1,75 @@
+name: ACNH R38 Repaired 46 FSKL Blender 93 Native Source Frames
+on:
+  push:
+    branches: [feat/acnh303-round38-native-animation-aal-stream-closure]
+    paths:
+      - '.github/workflows/acnh303-round38-fixed-native46-blender.yml'
+      - 'tools/r38-blender/full_pose_native46.py'
+      - 'scripts/acnh303_round38_compare_native46_blender.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  true46:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            tools/r38-blender
+            scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Blender real glTF evaluator
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq blender python3-numpy libegl1 libgl1 libgl1-mesa-dri libgbm1 xvfb
+          python -m pip install 'numpy>=1.26,<3'
+      - name: Download independently released SHA-gated 46-FSKL native rest candidate
+        run: |
+          mkdir -p R38
+          gh release download acnh303-r38-original-46FSKL-native-rest-21IBM-20261015 \
+            -R 969981/ACNH_Resources --dir R38 \
+            --pattern 'PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb'
+          echo '7f65c20b8ef115ff08225ed55498c58f2308a0d681d1e82b45ba991ff4b9a083  R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb' | sha256sum -c -
+      - name: Full native-source-rest glTF vs real Blender 93 x 46 bone pose audit
+        run: |
+          R38_GLB=R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+          R38_POSE_OUT=derived/3.0.3/r38_fixed_blender/real_native46_Blender_all_93_joint_frames.json \
+            blender -b -t 2 --python tools/r38-blender/full_pose_native46.py
+          python scripts/acnh303_round38_compare_native46_blender.py \
+            --glb R38/PlayerBody_46_native_FSKL_rest_21_skin_IBM_gated.glb \
+            --blender derived/3.0.3/r38_fixed_blender/real_native46_Blender_all_93_joint_frames.json \
+            --out derived/3.0.3/r38_fixed_blender/real_native46_93frame_gltf_vs_Blender.json
+          python - <<'PY'
+          import json
+          a=json.load(open('derived/3.0.3/r38_fixed_blender/real_native46_93frame_gltf_vs_Blender.json'))
+          assert a['tested_actual_Blender_source_frames']==93
+          assert a['joint_name_count']==46
+          assert a['actual_Nintendo_ACNH_game_frame_trace_present'] is False
+          print('R38_NATIVE_REST_46_93_BLENDER_TEST',[(x['clip'],x['max_scaled_p95_distance_error']) for x in a['source_gltf_and_blender_pairwise_frame_results']])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r38-native-46-rest-after-fix-93-frame-real-Blender
+          path: derived/3.0.3/r38_fixed_blender/
+      - name: Commit source-backed Blender numerical reality
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r38_fixed_blender/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r38): real Blender 93-frame pose parity after full native 46-FSKL rest repair'
+          for n in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round38-native-animation-aal-stream-closure
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round38-native-animation-aal-stream-closure; then exit 0; fi
+            sleep 2
+          done
+          exit 1
