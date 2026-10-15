@@ -134,3 +134,14 @@
 - R27 后未测：**Model 58,338；Layout 348；BARS 1,288；独立 BWAV 0**。累计有效核心媒体 **8,081（526 GLB、6,409 PNG、1,146 独立 WAV）**，BARS 独立累计 **4,112 PCM WAV、4,095 AMTA v5**。
 - [完整 R27 技术文档](ACNH303_ROUND27_REMAINING_RESOURCES_REAL_EXTRACTION.md) · [逐源新增清单](../derived/3.0.3/r27_cumulative/source_delta.jsonl.gz) · [结果覆盖统计](../derived/3.0.3/r27_cumulative/coverage.json) · [长期 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r27-real-unmeasured40-20261015)（6 个真实产物分卷与 SHA256SUMS）。
 - **下一轮必须将 R27 的 40 个源纳入排除集合**；目前 R27 选源器以 R19 为基线，不可未经更新再次执行并把重复文件当新源。AMTA v5 播放字段、完整 BFRES 动画、BNSH GPU shader 语义和 EventFlow 执行器仍待研究。
+
+
+## 2026-10-15 R28：Layout/BARS/Model 224 新源 + 28 份 BNSH 原始二进制对照（完成）
+
+- [最终成功 Actions #38659968059](https://github.com/969981/ACNH_Resources/actions/runs/38659968059)：16 个新原始源转换分片、R19+R27 去重、真实文件 SHA 复核、BNSH Native 对照及 Release 全部通过。原始 NCA/ExeFS 不变。
+- Model 128、Layout 48、BARS 48，**224 个新原始源**；新增 **22 GLB + 662 PNG = 684 个核心媒体**；BARS 单独 **591 PCM WAV + 591 无损 AMTA v5**。
+- UI2D 新增 **271 个 BFLYT/BFLAN 结构 JSON、51 个 FCPX 字体引用 JSON**；24 份真实 BNSH 编译资源（1,118,888 字节）按成员无损导出。本轮 5 个 Model/Layout 原始源 **no_target_leaf**，不冒充成功媒体。
+- BNSH Native：历史 R27 4 + 新 R28 24 共 **28 个真实成员 / 20 个不同 SHA**；R28 独有新 SHA 17。全部 28 个文件 `+0x16` u16=0x60、`+0x1C` u32 等于实际长度、`+0x18` u32 在文件边界内；需继续恢复真实 section 指针及 Shader Variation，而不是假设已经还原全部 GPU 程序。
+- R28 后未 L3 测试：**Model 58,210、Layout 300、BARS 1,240、独立 BWAV 0**。核心有效媒体累计 **8,765**（548 GLB、7,071 PNG、1,146 独立 WAV）。BARS 单独累计 **4,703 PCM WAV、4,686 AMTA v5**。
+- [R28 完整报告](ACNH303_ROUND28_BACKLOG_NATIVE_BNSH_GUIDE.md) · [真正增量统计](../derived/3.0.3/r28_cumulative/coverage.json) · [224 源去重清单](../derived/3.0.3/r28_cumulative/source_delta.jsonl.gz) · [Native 原始字节证据](../derived/3.0.3/r28_native_bnsh/structure.json) · [永久 21 附件 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r28-layout-bars-model-bnsh-20261015)。
+- **R29 选源必须排除 R19+R27+R28** 的三个层级，不能原样重复运行 R28 Selector。5 个无媒体目标的已测源应与纯未测源分开；BNSH/AMTA/动画/事件业务语义保持待研究。
