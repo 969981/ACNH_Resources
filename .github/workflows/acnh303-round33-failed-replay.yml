@@ -1,0 +1,109 @@
+name: ACNH R33 Source Verified BFRES Failed Replay
+on:
+  push:
+    branches: [feat/acnh303-round33-backlog-failed-source-native64]
+    paths:
+      - '.github/workflows/acnh303-round33-failed-replay.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  failed_replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Sparse load the one real failed original file and lock its historical SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib
+          p=json.load(open('derived/3.0.3/r33_failed_source/source.json'))['failed_source']
+          rel=p['original_source_relative_path']
+          assert rel=='Model/CharactorAnimation20000.Nin_NX_NVN.zs'
+          full='e10617820db06889e1638499478da0de_NCA/1/'+rel
+          pathlib.Path('/tmp/r33-failed-path.txt').write_text(full)
+          PY
+          { printf '/scripts/\n/derived/\n/'; sed 's#^#/#' /tmp/r33-failed-path.txt; } | git sparse-checkout set --no-cone --stdin
+          python - <<'PY'
+          import json,hashlib,pathlib
+          d=json.load(open('derived/3.0.3/r33_failed_source/source.json'))['failed_source']
+          p=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')/d['original_source_relative_path']
+          b=p.read_bytes()
+          assert len(b)==2418203
+          assert hashlib.sha256(b).hexdigest()==d['original_source_sha256']
+          print('R33 EXACT FAILED ORIGINAL VERIFIED',p,len(b))
+          PY
+      - name: Install the same known standalone BFRES converter used by L3
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox && tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wmdlt | head -n1 > /tmp/wmdlt.path
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wmdlt.path && test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+      - name: Replay original BFRES extraction and real GLB validation on exactly one source
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          f='e10617820db06889e1638499478da0de_NCA/1/Model/CharactorAnimation20000.Nin_NX_NVN.zs'
+          with open('r33_failed_selection.json','w') as o:
+            json.dump({'category':'Model','suffix':'.zs','selected_files':1,
+             'paths':[f],'shard':0,'shards':1},o)
+          PY
+          python scripts/acnh303_media_batch.py --root . --selection r33_failed_selection.json \
+            --out Unpack_L3_Round33_Failed --report-dir derived/3.0.3/r33_failed_source/replay_media \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" \
+            --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream /nonexistent/vgmstream
+      - name: Audit direct BFRES bytes and actual tool replay result
+        run: |
+          python scripts/acnh303_round33_failed_replay.py \
+            --replay derived/3.0.3/r33_failed_source/replay_media/Model/000-of-001/manifest.json \
+            --out derived/3.0.3/r33_failed_source/byte_replay_analysis.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r33_failed_source/byte_replay_analysis.json'))
+          assert d['sha256']=='97c70c9355a66f7b4623956357d824f307ae0855411acc584bfc9af1ca73111a'
+          assert d['replay_status']!='NOT_EXECUTED'
+          print('R33 CONVERTER REPLAY CLASSIFICATION',d['resolution'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r33-failed-original-source-byte-exact-analysis
+          path: |
+            derived/3.0.3/r33_failed_source/byte_replay_analysis.json
+            derived/3.0.3/r33_failed_source/replay_media/
+          retention-days: 60
+      - name: Commit source-backed failure diagnosis without changing prior coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r33_failed_source/byte_replay_analysis.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r33): original CharactorAnimation20000 BFRES failure byte/replay audit'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round33-backlog-failed-source-native64
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round33-backlog-failed-source-native64; then exit 0; fi
+            sleep 1
+          done
+          exit 1
