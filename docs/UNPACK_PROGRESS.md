@@ -145,3 +145,13 @@
 - R28 后未 L3 测试：**Model 58,210、Layout 300、BARS 1,240、独立 BWAV 0**。核心有效媒体累计 **8,765**（548 GLB、7,071 PNG、1,146 独立 WAV）。BARS 单独累计 **4,703 PCM WAV、4,686 AMTA v5**。
 - [R28 完整报告](ACNH303_ROUND28_BACKLOG_NATIVE_BNSH_GUIDE.md) · [真正增量统计](../derived/3.0.3/r28_cumulative/coverage.json) · [224 源去重清单](../derived/3.0.3/r28_cumulative/source_delta.jsonl.gz) · [Native 原始字节证据](../derived/3.0.3/r28_native_bnsh/structure.json) · [永久 21 附件 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r28-layout-bars-model-bnsh-20261015)。
 - **R29 选源必须排除 R19+R27+R28** 的三个层级，不能原样重复运行 R28 Selector。5 个无媒体目标的已测源应与纯未测源分开；BNSH/AMTA/动画/事件业务语义保持待研究。
+
+
+## 2026-10-15 R29：80 个真正新原始资源 + 38 BNSH Native 完整结构链（已验收）
+
+- [实际转换 Actions #38661602702](https://github.com/969981/ACNH_Resources/actions/runs/38661602702)：6 个原始分片、按 R19+R27+R28 严格排除、SHA 来源审计、Release 工件二次字节验证都成功，发布 [R29 永久资源包](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r29-80-real-media-bnsh-20261015)。
+- 新源 **Model 32 / Layout 24 / BARS 24，共 80**；媒体 **5 GLB + 224 PNG = 229**；BARS 独立 **514 有效 PCM WAV + 514 原生 AMTA v5**；Layout 另 **110 份 BFLYT/BFLAN JSON + 21 份 FCPX 结构 + 10 个原生 BNSH（360,664 字节）**。共 1 个 Model/Layout `no_target_leaf`，不虚报完整媒体解码。
+- [R27+R28+R29 BNSH 原始字节对照 Actions #38661854995](https://github.com/969981/ACNH_Resources/actions/runs/38661854995)：真实 BNSH **38 个成员 / 25 种唯一 SHA**；38 个 `grsc`、38 个 `_STR` 块，有效的 `_RLT`，**207 Variation/Program/Parent/Reflection 链**，**1,014 个有真实名字的资源字典对象**，**2,941 个重定位 Entry**。Program/Reflection 名称还不是 GPU Slot 映射。
+- 本轮后未测：**Model 58,178 / Layout 276 / BARS 1,216 / 独立 BWAV 0**。累积核心有效媒体 **8,994**（**553 GLB / 7,295 PNG / 1,146 独立 WAV**）；BARS 另外累计 **5,217 PCM WAV / 5,200 AMTA v5**。
+- [完整 R29 技术指南](ACNH303_ROUND29_BNSH_RELOCATION_VARIATION_REFLECTION.md) · [媒体增量报告](../derived/3.0.3/r29_cumulative/coverage.json) · [80 新源清单](../derived/3.0.3/r29_cumulative/source_delta.jsonl.gz) · [38 个 Native 来源与资源绑定字典摘要](../derived/3.0.3/r29_native_bnsh/expanded_38_summary.json)。
+- **下一轮 R30 去重选源必须增加排除 R29 80 源**；当前 R29 选源器不排除自己，不能再次运行而重复计新源。GPU shader 代码解码、Texture 实际绑定 slot、AMTA 播放、BFEVFL Native dispatcher 仍待验证。
