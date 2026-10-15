@@ -32,9 +32,12 @@ jobs:
           rel=p['original_source_relative_path']
           assert rel=='Model/CharactorAnimation20000.Nin_NX_NVN.zs'
           full='e10617820db06889e1638499478da0de_NCA/1/'+rel
-          pathlib.Path('/tmp/r33-failed-path.txt').write_text(full+'\\n')
+          pathlib.Path('/tmp/r33-failed-path.txt').write_text(full+'\n')
           PY
-          { printf '/scripts/\n/derived/\n/'; sed 's#^#/#' /tmp/r33-failed-path.txt; } | git sparse-checkout set --no-cone --stdin
+          path="$(cat /tmp/r33-failed-path.txt)"
+          git ls-tree HEAD -- "$path" | grep -q ' blob '
+          { printf '/scripts/\\n/derived/\\n/'; printf '/%s\\n' "$path"; } | git sparse-checkout set --no-cone --stdin
+          test -f "$path"
           python - <<'PY'
           import json,hashlib,pathlib
           d=json.load(open('derived/3.0.3/r33_failed_source/source.json'))['failed_source']
