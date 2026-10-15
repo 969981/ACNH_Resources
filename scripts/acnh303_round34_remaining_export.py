@@ -10,8 +10,8 @@ from __future__ import annotations
 import argparse,csv,gzip,hashlib,json
 from collections import Counter
 from pathlib import Path
-from acnh303_round33_select import BASE,EXPECTED,exclude,iterrows,R19_MEDIA
-from acnh303_round33_backlog import compute as before_compute
+from acnh303_round34_select import BASE,EXPECTED,exclude,iterrows,R19_MEDIA
+from acnh303_round34_backlog import compute as before_compute
 CAT={"Model":(".zs",60166,57938),
      "Layout":(".zs",960,0),
      "Sound":(".bars",1696,928)}
