@@ -103,3 +103,30 @@ ELF 映射区间的 `Bgm_Base` ASCII 确有 **2 条**真实 `ADRP+ADD` 等地址
 但独立 `scripts/acnh303_round37_blender_pixel_audit.py` 解码全部 PNG 的实际 RGBA 后发现：**三条动作在相同帧的 RGBA 像素 SHA 完全相同**。虽然 0 和 15 两帧间约有 10,496 个 RGB 像素变化，但这 **不足以证明三条不同动画动作均有效驱动网格**；来源可能是 import 后仍有默认 Active Action 覆盖 NLA、NLA 没有被隔离或渲染其他因素。机器报告为 `derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json`。
 
 因此后续修正 Blender 检查为：清空 active Action、启用 NLA、仅激活对应 Action 轨道，强制场景重评估，再输出帧内原始 Pose Bone Matrix translation 与 RGB 像素。**如不同动作在同帧像素/位姿仍一致，不得宣称真实可视化动画验收通过**。Nintendo 实机动作及渲染逐帧对照始终 `NOT_TESTED`。
+
+## 11. Blender NLA 修正和逐像素回归真正通过
+
+前述 Section 10 初次发现三条动作渲染一致的问题，并非应当忽略的临时现象。后续已对 Blender 验证器 `tools/r37-blender/probe.py` 真正修复：
+
+1. 每次切换动作均 `ad.action=None`，`ad.use_nla=True`，其余 NLA tracks 全部 mute；
+2. 强制场景 Frame 缓存重评估，采用 Blender 原始 glTF NLA 起始帧 1（`frame=0` 对应 Blender scene frame 1）；
+3. 每个动作记录真实 `Arm_2_L / Arm_2_R / Spine_1 / Head / Waist / Leg_1_L/R` 的 Blender PoseBone 矩阵平移，分别导出第 0 和第 15 源帧；
+4. `scripts/acnh303_round37_blender_pixel_audit.py` 独立解码六张 PNG 的真实 RGBA，计算跨动作同帧图片 SHA、逐像素 diff 和每个动作第 0→15 源帧的像素变化，且 CI 要求同帧 **三条动作得到三个不同真实图像像素指纹**。
+
+最新成功实测 Blender 4.0.2：**12 imported mesh objects / 1 Armature / 46 bones / 9 materials / 3 Actions**。三个独立动作 Arm_2_L 在 frame 15 的 Blender armature pose-space translation 分别为：
+
+| Action | X | Y | Z |
+| --- | ---: | ---: | ---: |
+| `Act_ArrangeRemoveFtrHigh` | 2.026234 | -1.397409 | 7.743910 |
+| `Act_BookOpen_Player` | 1.205023 | -2.005377 | 7.544711 |
+| `Act_BookRead_Player` | 1.982811 | 0.645367 | 6.310195 |
+
+独立 640×640 RGB 像素审计：三条同一 frame 0 有 **3 种不同像素指纹**，同一 frame 15 也有 **3 种不同像素指纹**；各自 0→15 帧 RGB 变化像素分别 **10,496（2.5625%）/ 7,446（1.8179%）/ 4,114（1.0044%）**。这证明 Blender 中确实渲染出了三条不同的实际动作，早期初版全部相同的视觉问题已通过真实 RGBA 回归定位并修正。
+
+完整输出：
+- [真实 Blender NLA 隔离与双帧输出 Actions #38684311920](https://github.com/969981/ACNH_Resources/actions/runs/38684311920)
+- [六张实际 Blender PNG 及 SHA256SUMS Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r37-blender-playerbody-evidence-20261015)
+- `derived/3.0.3/r37_blender/report.json`
+- `derived/3.0.3/r37_blender_pixels/real_frame_pixel_diffs.json`
+
+**验收结论分层**：R37 已有真实 69 glTF channels、Blender 各自动作隔离和图片像素差异支持“可播放的三条不同 glTF 骨骼动画”；还 **没有** 与原版 ACNH 游戏角色的实际矩阵、帧率、皮肤材质、关键帧动作及每帧画面进行逐像素/逐关节对照，不能升级为原生动画求值等价证明。Blender 预览不是 Nintendo 游戏实际截图。
