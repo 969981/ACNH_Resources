@@ -154,7 +154,7 @@ jobs:
                               assert sha(m['output_path'])==m['amta_sha256']
                               assert m['native']['version_hex']=='0x0500'
           else:
-              p=f'derived/3.0.3/media_round33/{kind}/{i:03d}-of-002/manifest.json'
+              p=f'derived/3.0.3/media_round33/{kind}/{i:03d}-of-004/manifest.json'
               a=json.load(open(p))
               assert {r['source_path'] for r in a}==selected
               for r in a:
@@ -163,7 +163,7 @@ jobs:
                       assert sha(out['path'])==out['sha256']
                       assert out['validation']['type'] in ('glb','png')
               if kind=='Layout':
-                  u=json.load(open(f'derived/3.0.3/layout_semantic_round33/Layout/{i:03d}-of-002/semantic_manifest.json'))
+                  u=json.load(open(f'derived/3.0.3/layout_semantic_round33/Layout/{i:03d}-of-004/semantic_manifest.json'))
                   b=json.load(open(f'derived/3.0.3/bnsh_round33/bnsh_{i}/bnsh_manifest.json'))
                   assert len(u['source_records'])==len(b['records'])==len(a)
                   byname={r['source_path']:r['sha256'] for r in a}
