@@ -48,6 +48,65 @@ def scan_IBM(g,buf,skin):
         "singular_matrices":sum(abs(x["determinant"])<1e-10 for x in details),
         "members":details}
 
+def mul4(a,b):
+    return [sum(a[k*4+r]*b[c*4+k] for k in range(4)) for c in range(4) for r in range(4)]
+
+def native_local4(b):
+    """Source EulerXYZ is radians; glTF is right-handed column-major, T*R*S hypothesis."""
+    from acnh303_round35_export_animated_glb import quat_xyz_deg
+    x,y,z,w=quat_xyz_deg([math.degrees(v) for v in b["rotation"][:3]])
+    s=b["scale"];t=b["translation"]
+    return [(1-2*y*y-2*z*z)*s[0],(2*x*y+2*z*w)*s[0],(2*x*z-2*y*w)*s[0],0.,
+            (2*x*y-2*z*w)*s[1],(1-2*x*x-2*z*z)*s[1],(2*y*z+2*x*w)*s[1],0.,
+            (2*x*z+2*y*w)*s[2],(2*y*z-2*x*w)*s[2],(1-2*x*x-2*y*y)*s[2],0.,
+            t[0],t[1],t[2],1.]
+
+def hypothesis_native_pose_vs_IBM(native,g,buf,skin):
+    """Test, but do not assume, equivalence of native rest-pose globals and converter IBMs."""
+    if "inverseBindMatrices" not in skin:
+        return {"status":"not_tested_missing_IBMs"}
+    acc=g["accessors"][skin["inverseBindMatrices"]]
+    if acc["componentType"]!=5126 or acc["type"]!="MAT4" or acc["count"]!=46:
+        raise ValueError("unsupported inverse-bind source")
+    v=g["bufferViews"][acc["bufferView"]]
+    off=v.get("byteOffset",0)+acc.get("byteOffset",0)
+    stride=v.get("byteStride",64)
+    indices={b["name"]:b["bone_index"] for b in native}
+    # BoneIndex identity already cross-checked against authentic source FSKL.
+    cache={}
+    def world(i):
+        if i in cache:return cache[i]
+        b=native[i];m=native_local4(b)
+        p=b["parent_index"]
+        if p>=0:
+            if p>=i:raise ValueError("unexpected cyclic/forward parent for source FSKL")
+            m=mul4(world(p),m)
+        cache[i]=m
+        return m
+    eye=[1. if c==r else 0. for c in range(4) for r in range(4)]
+    stats=[]
+    for n,joint in enumerate(skin["joints"]):
+        name=g["nodes"][joint]["name"]
+        src=indices[name]
+        a=world(src)
+        bind=list(struct.unpack_from("<16f",buf,off+n*stride))
+        out=mul4(a,bind)
+        err=max(abs(x-y) for x,y in zip(out,eye))
+        stats.append({"bone":name,"source_FSKL_bone_index":src,
+             "max_abs_identity_residual_under_direct_native_TRS_hypothesis":err,
+             "native_world_translation":a[12:15],
+             "glTF_inverse_bind_translation":bind[12:15]})
+    residual=sorted(x["max_abs_identity_residual_under_direct_native_TRS_hypothesis"] for x in stats)
+    return {"status":"tested_hypothesis_only",
+       "matrix_multiplication_convention":"column_major_native_rest_world_times_glTF_IBM",
+       "max_abs_residual":max(residual),
+       "median_abs_residual":residual[len(residual)//2],
+       "joints_identity_within_1e-3":sum(x<1e-3 for x in residual),
+       "source_native_rest_scale_and_Euler_radians":True,
+       "native_euler_order_assumption":"XYZ",
+       "per_joint_identity_residual":stats,
+       "claim_limit":"Even if this test matches, it proves only numerical matrix consistency under a source Euler convention; native render/skin parity remains untested. Mismatches may indicate coordinate basis or original exporter transformations."}
+
 def main():
     c=argparse.ArgumentParser()
     c.add_argument("--glb",type=Path,required=True)
@@ -105,6 +164,7 @@ def main():
           "parent_name_matches":native_parent==gltf_parent,
           "glTF_matrix_example":list(mat) if mat is not None else None})
     ibm=scan_IBM(g,buf,skin)
+    native_ibm_hypothesis=hypothesis_native_pose_vs_IBM(native,g,buf,skin)
     report={"schema":"acnh303-r36-source-FSKL-real-glTF-rest-matrix-and-IBM-provenance-v1",
       "real_original_glb_sha256":sh,"actual_native_bones":len(native),
       "actual_glTF_skin_joints":len(skin["joints"]),
@@ -114,7 +174,7 @@ def main():
       "joint_parent_name_mismatches":[x["bone"] for x in details if not x["parent_name_matches"]],
       "native_FSKL_unit_scale_joints":sum(all(abs(v-1)<1e-6 for v in b["scale"]) for b in native),
       "native_rotation_flags":dict(Counter(b["rotation_flag"] for b in native)),
-      "inverse_bind_matrices":ibm,"joint_records":details,
+      "inverse_bind_matrices":ibm,"native_rest_world_vs_glTF_inverse_bind":native_ibm_hypothesis,"joint_records":details,
       "blocked":"No replacement of singular rest matrices until an original game-consistent coordinate basis and inverse-bind matrix chain are proven.",
       "not_tested":"Native runtime animation evaluator, render scene pixel-diff, hardware frame rate, Skinning GPU slots and native matrix layout."}
     args.out.parent.mkdir(parents=True,exist_ok=True)
