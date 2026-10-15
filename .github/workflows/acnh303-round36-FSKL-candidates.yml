@@ -1,0 +1,72 @@
+name: ACNH R36 Native Missing FSKL Candidate Survey
+on:
+  push:
+    branches: [feat/acnh303-round36-animation-audit]
+    paths:
+      - '.github/workflows/acnh303-round36-FSKL-candidates.yml'
+      - 'tools/r36-skeleton/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r36-native-FSKL-candidates
+  cancel-in-progress: false
+jobs:
+  survey:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            tools/r35-player-skeleton
+            tools/r36-skeleton
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install source parser and fixed native library
+        run: |
+          python -m pip install -r scripts/requirements-media.txt
+          dotnet restore tools/r35-player-skeleton/SkeletonProbe.csproj
+          dotnet build tools/r35-player-skeleton/SkeletonProbe.csproj -c Release --no-restore
+      - name: Read original Nintendo source Model bytes and parse native FMDL FSKL
+        run: |
+          python tools/r36-skeleton/candidate_scan.py \
+            --repo . --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --out derived/3.0.3/r36_missing_fskl/real_native_fskl_candidates.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r36_missing_fskl/real_native_fskl_candidates.json'
+          a=json.load(open(p))
+          assert len(a['source_R35_missing_bones'])==19
+          assert a['sampled_original_count']>=8
+          assert a['sampled_exact_source_sha_count']==a['sampled_original_count']
+          print('R36 SOURCE VERIFIED FSKL',a['sampled_original_count'],
+                a['union_actually_found_missing_bones'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r36-native-real-original-face-hair-NPC-FSKL-evidence
+          path: derived/3.0.3/r36_missing_fskl/
+      - name: Commit only compact model skeleton evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r36_missing_fskl/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r36): actual original face/hair/NPC FMDL FSKL candidate and missing bone matches'
+          for retry in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round36-animation-audit
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round36-animation-audit; then exit 0; fi
+            sleep 1
+          done
+          exit 1
