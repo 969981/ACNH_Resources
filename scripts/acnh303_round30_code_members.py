@@ -57,7 +57,30 @@ def process(data,name):
                     "source_array_count_u16":count,
                     "size_array_pointer":ptr_size_array,
                     "code_pointer_array_pointer":ptr_code_array,
-                    "stage_header_raw32":b.get(pos,0x20).hex()})
+                    "stage_header_raw32":b.get(pos,0x20).hex(),
+                    "code_byte_size_u32_at_0x18":b.u32(pos+0x18),
+                    "remaining_u32_at_0x1c":b.u32(pos+0x1c)})
+                # The native binary-code form has count=0: in these real
+                # samples, +0x10 is a direct pointer into the binary pool,
+                # +0x18 is a byte length, and +0x1c remains opaque metadata.
+                # Do not treat direct-code format as an empty source array.
+                direct_size=b.u32(pos+0x18)
+                if count==0 and direct_size>0 and b.ok(ptr_code_array,direct_size):
+                    matching=[(pool,item) for pool in pools for item in pool["segments"]
+                        if item["file_offset"]==ptr_code_array
+                        and pool["pool_start"]<=ptr_code_array
+                        and ptr_code_array+direct_size<=pool["pool_end"]]
+                    if matching and b.get(ptr_code_array,4)==b"\x78\x56\x34\x12":
+                        pool,item=matching[0]
+                        o["status"]="verified_native_binary_stage_link"
+                        o["direct_code_sha256"]=digest(b.get(ptr_code_array,direct_size))
+                        o["direct_code_pointer"]=ptr_code_array
+                        o["direct_code_bytes"]=direct_size
+                        o["nv_segment_index"]=item["pool_member"]
+                        o["next_magic_gap_bytes"]=item["bounded_bytes_to_next_magic"]
+                        o["length_matches_next_nv_magic_boundary"]=(direct_size==item["bounded_bytes_to_next_magic"])
+                        o["first32_code_hex"]=b.get(ptr_code_array,min(32,direct_size)).hex()
+                    else:o["status"]="unresolved_native_binary_stage_link"
                 if 0<count<=128 and b.ok(ptr_size_array,count*4) and b.ok(ptr_code_array,count*8):
                     sizes=[b.u32(ptr_size_array+4*i) for i in range(count)]
                     ptrs=[b.u64(ptr_code_array+8*i) for i in range(count)]
