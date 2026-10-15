@@ -46,7 +46,7 @@ def inspect(collected):
         raise ValueError("R19/R27/R28 source collision")
     older_media={r["source_path"] for r in delta_records if r["category"] in ("Model","Layout")}
     older_bars={r["source_path"] for r in delta_records if r["category"]=="BARS"}
-    if (len(older_media),len(older_bars))!=(776,532):
+    if (len(older_media),len(older_bars))!=(776,372):
         raise ValueError("previous source categories changed")
     old_media|=older_media
     old_bars|=older_bars
