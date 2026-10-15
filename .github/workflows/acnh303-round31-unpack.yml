@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R31 New Media, UI2D, BARS and BNSH
 on:
   push:
-    branches: [feat/acnh303-round31-bnsh-codepool-bindings]
+    branches: [feat/acnh303-round31-shader-length-material-gpu]
     paths:
       - '.github/workflows/acnh303-round31-unpack.yml'
       - 'scripts/acnh303_round31_*.py'
@@ -238,9 +238,9 @@ jobs:
           git add --sparse derived/3.0.3/r31_cumulative
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'data(r27): 40 real unmeasured source results and L3 BNSH native hashes'
-          git fetch origin feat/acnh303-round31-bnsh-codepool-bindings
+          git fetch origin feat/acnh303-round31-shader-length-material-gpu
           git rebase FETCH_HEAD
-          git push origin HEAD:feat/acnh303-round31-bnsh-codepool-bindings
+          git push origin HEAD:feat/acnh303-round31-shader-length-material-gpu
   publish:
     needs: reconcile
     runs-on: ubuntu-latest
@@ -252,7 +252,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feat/acnh303-round31-bnsh-codepool-bindings
+          ref: feat/acnh303-round31-shader-length-material-gpu
           filter: blob:none
           sparse-checkout: |
             scripts
@@ -291,7 +291,7 @@ jobs:
           printf 'ACNH 3.0.3 R31: 40 previously untested original resource archives excluding all R19+R27+R28+R29 originals; real BFRES/PNG, Layout UI2D, BARS native WAV/AMTA, and byte-exact Layout BNSH extractions. All payloads were rehashed from this Actions run. This does not prove full semantic or all-resource completion.\n' > notes.txt
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
             gh release create "$TAG" -R "$REPO" \
-              --target feat/acnh303-round31-bnsh-codepool-bindings \
+              --target feat/acnh303-round31-shader-length-material-gpu \
               --title 'ACNH 3.0.3 R31 - 40 New Originals Model Layout BARS and BNSH' \
               --notes-file notes.txt --prerelease
           fi
