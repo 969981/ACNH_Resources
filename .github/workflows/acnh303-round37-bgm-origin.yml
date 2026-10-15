@@ -37,15 +37,16 @@ jobs:
             --repo . \
             --bars e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/Bgm_Base.bars \
             --elf e10617820db06889e1638499478da0de_NCA/0/ACNH3.0.3.elf \
+            --failed derived/3.0.3/r36_bwav891/native_failure_classification.json \
             --out derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json
           python - <<'PY'
           import json
           d=json.load(open('derived/3.0.3/r37_bgm_origin/source_member_crc_and_native_elf.json'))
-          assert d['BARS_member_count']==891
+          assert d['BARS_header_only_member_count']==891
           assert d['source_elf_bytes']==79000340
           assert d['decoded_audio_count']==0
           assert not d['external_stream_reader_runtime_proven']
-          print('R37_BGM_NATIVE_SOURCE_AUDITED',d['BARS_member_count'],d['sound_git_original_path_count'])
+          print('R37_BGM_NATIVE_SOURCE_AUDITED',d['BARS_header_only_member_count'],d['BARS_original_asset_count'],d['sound_git_original_path_count'])
           PY
       - uses: actions/upload-artifact@v4
         with:
