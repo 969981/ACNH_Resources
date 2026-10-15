@@ -1,0 +1,105 @@
+name: ACNH 3.0.3 R29 Native BNSH Relocation and Shader Reflection
+on:
+  push:
+    branches: [feat/acnh303-round29-bnsh-relocation-reflection]
+    paths:
+      - '.github/workflows/acnh303-round29-native.yml'
+      - 'scripts/acnh303_round29_*.py'
+      - 'scripts/test_acnh303_round29.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r29-native
+  cancel-in-progress: false
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+            docs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run deterministic format parser and source exclusion tests
+        run: |
+          python -m compileall -q scripts/acnh303_round29_*.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round29.py' -v
+      - name: Download R27 and R28 release's genuine SHA audited Layout BNSH data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p inputs/r27-archives inputs/r28-archives inputs/r27-original inputs/r28-original
+          gh release download acnh303-r27-real-unmeasured40-20261015 \
+            -R "$REPO" --dir inputs/r27-archives --pattern 'r27-data-Layout-*.tar.gz'
+          gh release download acnh303-r27-real-unmeasured40-20261015 \
+            -R "$REPO" --dir inputs/r27-archives --pattern 'SHA256SUMS.txt'
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 \
+            -R "$REPO" --dir inputs/r28-archives --pattern 'r28-data-Layout-*.tar.gz'
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 \
+            -R "$REPO" --dir inputs/r28-archives --pattern 'SHA256SUMS.txt'
+          (cd inputs/r27-archives && grep 'r27-data-Layout-.*[.]tar[.]gz$' SHA256SUMS.txt | sha256sum -c -)
+          (cd inputs/r28-archives && grep 'r28-data-Layout-.*[.]tar[.]gz$' SHA256SUMS.txt | sha256sum -c -)
+          for p in inputs/r27-archives/r27-data-Layout-*.tar.gz; do tar -xzf "$p" -C inputs/r27-original; done
+          for p in inputs/r28-archives/r28-data-Layout-*.tar.gz; do tar -xzf "$p" -C inputs/r28-original; done
+          test "$(find inputs/r27-original -type f -name '*.bnsh' | wc -l)" -eq 4
+          test "$(find inputs/r28-original -type f -name '*.bnsh' | wc -l)" -eq 24
+      - name: Independently verify imported Release member identities against R28 byte-evidence
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          d=json.load(open('derived/3.0.3/r28_native_bnsh/structure.json'))
+          expected={item['sha256'] for item in d['members']}
+          files=[*pathlib.Path('inputs/r27-original').rglob('*.bnsh'),
+                 *pathlib.Path('inputs/r28-original').rglob('*.bnsh')]
+          assert len(files)==28
+          got={hashlib.sha256(f.read_bytes()).hexdigest() for f in files}
+          assert got==expected and len(got)==20, (len(got),len(expected))
+          print('R29 28 genuine BNSH / 20 original SHA identities confirmed')
+          PY
+      - name: Decode linked GRSC blocks and nn::util relocation entries; bounded shader graph
+        run: |
+          python scripts/acnh303_round29_bnsh_links.py \
+            --roots inputs/r27-original inputs/r28-original \
+            --out derived/3.0.3/r29_native_bnsh/full_graph.json
+      - name: Verify reproducible output sources and file limits
+        run: |
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r29_native_bnsh/full_graph.json'
+          o=json.load(open(p))
+          assert o['source_members']==o['parsed_members']==28
+          assert o['distinct_sha']==20
+          assert all(x['file_header']['first_block']==0x60 for x in o['records'])
+          assert all(x['relocation']['magic']=='_RLT' for x in o['records'])
+          assert len(o['failed_member_names'])==0
+          print('R29 PARSER AUDITED',o['blocks'],o['variation_total'],o['relocation_entry_total'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r29-native-bnsh-graph
+          path: derived/3.0.3/r29_native_bnsh/full_graph.json
+          retention-days: 30
+      - name: Preserve original-binary-based analytical report in R29 branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r29_native_bnsh/full_graph.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r29): 28 real BNSH GRSC variation and relocation evidence'
+          git fetch origin feat/acnh303-round29-bnsh-relocation-reflection
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round29-bnsh-relocation-reflection
