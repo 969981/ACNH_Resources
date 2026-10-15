@@ -1,0 +1,120 @@
+name: ACNH R35 Playable PlayerBody Real FMDL Mesh FSKA Animation GLB
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-animated-glb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Fetch original PlayerBody source and supply one exact source audit selection
+        run: |
+          set -euo pipefail
+          name='e10617820db06889e1638499478da0de_NCA/1/Model/PlayerBody.Nin_NX_NVN.zs'
+          git checkout --ignore-skip-worktree-bits HEAD -- "$name"
+          test -f "$name"
+          python - <<'PY'
+          import json
+          p='e10617820db06889e1638499478da0de_NCA/1/Model/PlayerBody.Nin_NX_NVN.zs'
+          json.dump({'category':'Model','suffix':'.zs','shard':0,'shards':1,'selected_files':1,'paths':[p]},open('r35_player_selection.json','w'))
+          PY
+      - name: Install actual tested nintoolbox BFRES native converter
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261013
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox && tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wmdlt | head -n1 >/tmp/wmdlt.path
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 >/tmp/wimgt.path
+          chmod +x "$(cat /tmp/wmdlt.path)" "$(cat /tmp/wimgt.path)"
+      - name: Convert real original PlayerBody FMDL geometries to source-validated GLB
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection r35_player_selection.json \
+            --out Unpack_R35_PlayerMesh --report-dir derived/3.0.3/r35_player_media \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream /nonexistent/vgmstream
+      - name: Validate real PlayerBody GLB nodes and native skeleton-bone mapping
+        run: |
+          python scripts/acnh303_round35_glb_inspect.py \
+            --manifest derived/3.0.3/r35_player_media/Model/000-of-001/manifest.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --out derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+      - name: Bind actual FSKL-skin joints with original player FSKA Hermite transforms and produce genuine glTF animation
+        run: |
+          python scripts/acnh303_round35_export_animated_glb.py \
+            --manifest derived/3.0.3/r35_player_media/Model/000-of-001/manifest.json \
+            --hermite derived/3.0.3/r35_fska_gltf/player_hermite_curves.json \
+            --match derived/3.0.3/r35_fska_gltf/player_bone_match.json \
+            --out-glb Unpack_R35_Animated_PlayerBody/PlayerBody_3_FSKA_frame_sampled.glb \
+            --out-report derived/3.0.3/r35_fska_gltf/playerbody_animated_glb_validation.json
+          python - <<'PY'
+          import json,hashlib,pathlib
+          p=pathlib.Path('derived/3.0.3/r35_fska_gltf/playerbody_animated_glb_validation.json')
+          d=json.load(p.open())
+          out=pathlib.Path(d['animated_glb_path'])
+          assert out.is_file() and hashlib.sha256(out.read_bytes()).hexdigest()==d['animated_glb_sha256']
+          assert d['skinned_meshes']==11 and d['joint_count']==46 and len(d['animations'])==3
+          assert sum(x['channels'] for x in d['animations'])>=3
+          print('R35 ACTUAL SKINNED ANIMATION GLB SHA',d['animated_glb_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-source-playerbody-skin-with-three-authentic-FSKA-animations
+          path: |
+            Unpack_R35_PlayerMesh/
+            derived/3.0.3/r35_player_media/
+            derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+            derived/3.0.3/r35_fska_gltf/playerbody_animated_glb_validation.json
+            Unpack_R35_Animated_PlayerBody/*.glb
+      - name: Persist true GLB mesh/skin evidence, excluding redundant media binaries
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_fska_gltf/playerbody_converted_glb_report.json
+          git add --sparse derived/3.0.3/r35_fska_gltf/playerbody_animated_glb_validation.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r35): true PlayerBody converter GLB skin joint/node mapping to verified FSKL'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Publish real original skinned PlayerBody GLB animated by source FSKA on GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p release-r35-playerbody
+          cp Unpack_R35_Animated_PlayerBody/*.glb release-r35-playerbody/
+          cp derived/3.0.3/r35_fska_gltf/playerbody_animated_glb_validation.json release-r35-playerbody/
+          (cd release-r35-playerbody && sha256sum PlayerBody*.glb playerbody_animated_glb_validation.json > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          tag=acnh303-r35-playerbody-skin-fska-animated-glb-20261015
+          printf 'Source-verified ACNH 3.0.3 PlayerBody: genuine 11 meshes, 46 FSKL Skin joints and 3 native FSKA animation curves sampled per frame, 38/57 player animation bones matched. Original 30 FPS sampling assumption and glTF linear interpolation between frames not validated against renderer. Source original SHA and resulting GLB SHA are in accompanying JSON.\n' > release-r35-notes.txt
+          if ! gh release view "$tag" -R 969981/ACNH_Resources >/dev/null 2>&1; then
+            gh release create "$tag" -R 969981/ACNH_Resources \
+              --target feat/acnh303-round35-fska-gltf-short-bwav-bnsh186 \
+              --title 'ACNH R35 — PlayerBody Real Skinned Mesh and Three FSKA Animated GLB' \
+              --notes-file release-r35-notes.txt --prerelease
+          fi
+          gh release upload "$tag" -R 969981/ACNH_Resources release-r35-playerbody/* --clobber
