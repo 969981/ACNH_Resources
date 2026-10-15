@@ -60,7 +60,8 @@ def compute():
             if r.get("status"):historical_media_status[str(r["status"])]+=1
     for category,suffix,total in [("Model",".zs",60166),
                                   ("Layout",".zs",960),("Sound",".bars",1696)]:
-        prior=exclude(category,suffix)
+        previous_all=exclude(category,suffix)
+        prior={n for n in previous_all if n.startswith(category+"/")}
         candidates=sorted(n for n in allfiles if n.startswith(category+"/") and n.lower().endswith(suffix))
         remaining=[n for n in candidates if n not in prior]
         if len(candidates)!=total or len(remaining)!=EXPECTED[(category,suffix)]:
@@ -85,7 +86,7 @@ def compute():
         "file_suffix_counts":dict(byext.most_common()),
         "selected_L3_target_backlog":targets,
         "already_tested_no_target_or_failed_statuses":dict(historical_media_status.most_common()),
-        "historical_core_media_source_count":len(known),
+        "historical_core_media_source_count":len({n for n in known if n.startswith(("Model/","Layout/"))}),
         "historical_bars_pre_R19_source_count":len(sound_r18),
         "historical_bars_R19_source_count":len(bars_r19),
         "other_format_status_qualification":{
