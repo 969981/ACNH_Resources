@@ -22,7 +22,7 @@ def main():
  assert r=={"status":"SOURCE_MISSING","matching_full_files":0}
  rejects("wrong OneRoom validator",lambda:v.oneroom_gate(write_temp({"schema":"made-up-source"})))
  rejects("AAL no event details",lambda:v.audio_gate({"aal_runtime_events":[]},{"all_original_stream_filename_CRC_entries_preserved":[]}))
- rejects("Native joint NaN",lambda:(lambda: None)() if not v.finite_xyz([1.,2.,float("nan")]) else (_ for _ in ()).throw(AssertionError("accepted NaN")))
+ assert not v.finite_xyz([1.,2.,float("nan")])
  assert v.hex64("f"*64) and not v.hex64("X"*64)
  assert v.finite_matrix([1.]*16) and not v.finite_matrix([float("nan")]*16)
  print("R40_NEGATIVE_ONLY_REAL_RUNTIME_SOURCE_FAILS_CLOSED")
