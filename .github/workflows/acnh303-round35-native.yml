@@ -32,8 +32,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh release download acnh303-r34-388-real-media-bnsh-20261015 -R "$REPO" --dir r34/archive --pattern 'r34-data-Layout-*.tar.gz'
-          gh release download acnh303-r34-388-real-media-bnsh-20261015 -R "$REPO" --dir r34/archive --pattern SHA256SUMS.txt
           for round in 27 28 29 30 31 32 33 34; do mkdir -p "r$round/archive" "r$round/exact"; done
           gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern 'r27-data-Layout-*.tar.gz'
           gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern SHA256SUMS.txt
@@ -49,7 +47,9 @@ jobs:
           gh release download acnh303-r32-88-real-media-bnsh-20261015 -R "$REPO" --dir r32/archive --pattern SHA256SUMS.txt
           gh release download acnh303-r33-240-real-media-bnsh-20261015 -R "$REPO" --dir r33/archive --pattern 'r33-data-Layout-*.tar.gz'
           gh release download acnh303-r33-240-real-media-bnsh-20261015 -R "$REPO" --dir r33/archive --pattern SHA256SUMS.txt
-          for round in 27 28 29 30 31 32 33; do
+          gh release download acnh303-r34-388-real-media-bnsh-20261015 -R "$REPO" --dir r34/archive --pattern 'r34-data-Layout-*.tar.gz'
+          gh release download acnh303-r34-388-real-media-bnsh-20261015 -R "$REPO" --dir r34/archive --pattern SHA256SUMS.txt
+          for round in 27 28 29 30 31 32 33 34; do
             (cd "r$round/archive" && grep "r$round-data-Layout-.*[.]tar[.]gz$" SHA256SUMS.txt | sha256sum -c -)
             for p in "r$round/archive"/r$round-data-Layout-*.tar.gz; do tar -xzf "$p" -C "r$round/exact"; done
           done
