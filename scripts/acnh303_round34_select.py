@@ -66,7 +66,7 @@ def exclude(category,suffix):
         raise ValueError("R19 media cumulative identity incomplete")
     if old&seen_deltas:raise ValueError("R27/R28 media collision with R19")
     relevant={r["source_path"] for rows_ in deltas for r in rows_ if r["category"] in ("Model","Layout")}
-    if len(relevant)!=468:raise ValueError("R27/R28 combined media delta unexpected")
+    if len(relevant)!=548:raise ValueError("R27/R28 combined media delta unexpected")
     return old|relevant
 
 def choose(category,suffix,shard,shards,count,checkout=True):
