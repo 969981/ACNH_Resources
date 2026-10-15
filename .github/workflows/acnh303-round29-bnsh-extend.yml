@@ -1,0 +1,96 @@
+name: ACNH 3.0.3 R29 Extended BNSH R27 R28 R29 Native Audit
+on:
+  push:
+    branches: [feat/acnh303-round29-bnsh-relocation-reflection]
+    paths:
+      - '.github/workflows/acnh303-round29-bnsh-extend.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-r29-extended
+  cancel-in-progress: false
+jobs:
+  native_extended:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch authentic BNSH bytes from each original verified release
+        shell: bash
+        run: |
+          set -euo pipefail
+          for round in 27 28 29; do mkdir -p "r$round/archive" "r$round/exact"; done
+          gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern 'r27-data-Layout-*.tar.gz'
+          gh release download acnh303-r27-real-unmeasured40-20261015 -R "$REPO" --dir r27/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 -R "$REPO" --dir r28/archive --pattern 'r28-data-Layout-*.tar.gz'
+          gh release download acnh303-r28-layout-bars-model-bnsh-20261015 -R "$REPO" --dir r28/archive --pattern SHA256SUMS.txt
+          gh release download acnh303-r29-80-real-media-bnsh-20261015 -R "$REPO" --dir r29/archive --pattern 'r29-data-Layout-*.tar.gz'
+          gh release download acnh303-r29-80-real-media-bnsh-20261015 -R "$REPO" --dir r29/archive --pattern SHA256SUMS.txt
+          for round in 27 28 29; do
+            (cd "r$round/archive" && grep "r$round-data-Layout-.*[.]tar[.]gz$" SHA256SUMS.txt | sha256sum -c -)
+            for p in "r$round/archive"/r$round-data-Layout-*.tar.gz; do tar -xzf "$p" -C "r$round/exact"; done
+          done
+          test "$(find r27/exact -type f -name '*.bnsh' | wc -l)" -eq 4
+          test "$(find r28/exact -type f -name '*.bnsh' | wc -l)" -eq 24
+          test "$(find r29/exact -type f -name '*.bnsh' | wc -l)" -eq 10
+      - name: Verify previous 28 native SHA identities against immutable R28 evidence
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          d=json.load(open('derived/3.0.3/r28_native_bnsh/structure.json'))
+          expected={m['sha256'] for m in d['members']}
+          files=[f for root in ('r27/exact','r28/exact') for f in pathlib.Path(root).rglob('*.bnsh') if f.is_file()]
+          assert len(files)==28
+          assert {hashlib.sha256(f.read_bytes()).hexdigest() for f in files}==expected
+          print('R29 prior 28 native BNSH bytes SHA checked; new R29 sources audited by release hash')
+          PY
+      - name: Analyze 38 BNSH members with real GRSC, relocation and reflection links
+        run: |
+          python scripts/acnh303_round29_bnsh_links.py \
+            --roots r27/exact r28/exact r29/exact \
+            --out /tmp/r29-extended-graph.json
+          python scripts/acnh303_round29_summary.py \
+            --graph /tmp/r29-extended-graph.json \
+            --out derived/3.0.3/r29_native_bnsh/expanded_38_summary.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r29_native_bnsh/expanded_38_summary.json'))
+          assert d['source_files']==38
+          assert d['totals']['block:grsc']==38
+          assert d['totals']['block:_STR']==38
+          assert d['totals']['program_parent_matches_variation']==d['totals']['programs']
+          assert d['totals']['program_reflection_in_bounds']==d['totals']['programs']
+          print('R29 EXPANDED VERIFIED', d['totals'],len(d['resource_names']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r29-expanded-native-38-graph
+          path: |
+            /tmp/r29-extended-graph.json
+            derived/3.0.3/r29_native_bnsh/expanded_38_summary.json
+          retention-days: 30
+      - name: Persist compact new native evidence without raw source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r29_native_bnsh/expanded_38_summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r29): 38 source-verified BNSH header variation program reflection cross-check'
+          git fetch origin feat/acnh303-round29-bnsh-relocation-reflection
+          git rebase FETCH_HEAD
+          git push origin HEAD:feat/acnh303-round29-bnsh-relocation-reflection
