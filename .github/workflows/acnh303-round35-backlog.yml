@@ -1,7 +1,7 @@
 name: ACNH 3.0.3 R35 Full Untested Path Inventory and Report
 on:
   push:
-    branches: [feat/acnh303-round35-fska-bwav-bnsh106]
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
     paths:
       - '.github/workflows/acnh303-round35-backlog.yml'
       - 'scripts/acnh303_round35_backlog.py'
@@ -73,9 +73,9 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m 'data(r35): exact post-round 58546 untested source paths and tested no-media records'
             for i in 1 2 3 4 5 6; do
-              git fetch origin feat/acnh303-round35-fska-bwav-bnsh106
+              git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
               git rebase FETCH_HEAD
-              if git push origin HEAD:feat/acnh303-round35-fska-bwav-bnsh106; then break; fi
+              if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then break; fi
               if [ "$i" = 6 ]; then exit 1; fi
               sleep 1
             done
@@ -89,7 +89,7 @@ jobs:
           (cd backlog-release && sha256sum * > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
           printf 'Full authoritative RomFS inventory (103400 original source paths), all 58546 untested L3 Model/Layout/BARS source names after R35, and separate tested-without-valid-core-media names. Source semantics in BDLI, EventFlow and shaders are not equated with L3 source status.\n' > notes.txt
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
-            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round35-fska-bwav-bnsh106 \
+            gh release create "$TAG" -R "$REPO" --target feat/acnh303-round35-fska-gltf-short-bwav-bnsh186 \
               --title 'ACNH R35 — All 58546 Genuine Untested Model Layout BARS Source Paths' \
               --notes-file notes.txt --prerelease
           fi
