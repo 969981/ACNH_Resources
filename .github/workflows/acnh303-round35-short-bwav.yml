@@ -1,0 +1,52 @@
+name: ACNH R35 Original Short BWAV External Payload Forensics
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-short-bwav.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - name: Recover exactly the 3 original short BWAV source BARS SHA identities
+        run: |
+          set -euo pipefail
+          for name in TV_Normal Dal_Wipe Event_Demo_Wherearen_Op; do
+            p="e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/$name.bars"
+            git ls-tree -r HEAD -- "$p" | grep -q ' blob '
+            git checkout --ignore-skip-worktree-bits HEAD -- "$p"
+            test -f "$p"
+          done
+      - name: Parse each of the genuine 224 failed members with bounded BWAV native pointers
+        run: |
+          python scripts/acnh303_round35_short_bwav.py \
+            --report derived/3.0.3/r34_bwav/failed_members_224.json \
+            --out derived/3.0.3/r35_bwav/short_member_payload_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-original-BARS-224-short-BWAV-native-headers
+          path: derived/3.0.3/r35_bwav/short_member_payload_audit.json
+      - name: Persist independent 224 byte-authenticated audio classification
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_bwav/short_member_payload_audit.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r35): all 224 short BWAV native channel payload bounds from 3 original BARS'
+          for attempt in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
