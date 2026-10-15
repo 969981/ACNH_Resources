@@ -17,7 +17,13 @@ if sha!="4bbb618f8bbeefacf7384a23c60160a1f9c5b55b32ecd8eb1a626819f8138ab3":
  raise ValueError("source R36 GLB sha mismatch")
 bpy.ops.object.select_all(action="SELECT")
 bpy.ops.object.delete(use_global=False)
+# MUST configure the timeline before the glTF importer creates NLA action strips.
+# 24 fps default would map source 28/30/32 frames to 22.4/24/25.6
+# Blender frames; sampling with frame+1 at 30fps otherwise compares WRONG TIMES.
+bpy.context.scene.render.fps=30
+bpy.context.scene.render.fps_base=1.0
 bpy.ops.import_scene.gltf(filepath=str(v.glb.resolve()))
+if bpy.context.scene.render.fps!=30:raise ValueError("Blender import actual FPS is not 30")
 arms=[o for o in bpy.data.objects if o.type=="ARMATURE"]
 if len(arms)!=1 or len(arms[0].data.bones)!=46:raise ValueError("original Blender 46-joint skeleton changed")
 arm=arms[0];ad=arm.animation_data
@@ -51,7 +57,7 @@ for name,frames in clips:
     "source_frames_exported":len(records),"blender_pose_frames":records})
  result={"schema":"acnh303-r38-Blender-original-glTF-46-bone-every-source-frame-3-clips-v1",
    "source_glb_sha256":sha,"blender_version":bpy.app.version_string,
-   "source_fps_assumption":30,"actual_skeleton_bones":len(arm.data.bones),
+   "source_fps_assumption":30,"blender_scene_fps_set_to_30_BEFORE_GLTF_import":True,"actual_skeleton_bones":len(arm.data.bones),
    "original_mesh_object_count":sum(x.type=="MESH" for x in bpy.data.objects),
    "original_FSKA_actions":len(full),"complete_frame_records":full,
    "authentic_Nintendo_ACNH_3_0_3_runtime_pose_captured":False,
