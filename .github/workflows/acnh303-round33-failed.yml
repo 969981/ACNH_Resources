@@ -1,0 +1,51 @@
+name: ACNH R33 Historical Failed Source Exact Provenance
+on:
+  push:
+    branches: [feat/acnh303-round33-backlog-failed-source-native64]
+    paths:
+      - '.github/workflows/acnh303-round33-failed.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  exact_failed_source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Identify the actual failed original and inspect historical errors
+        run: |
+          python scripts/acnh303_round33_failed_source.py --out derived/3.0.3/r33_failed_source/source.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r33_failed_source/source.json'))
+          assert d['source_count']==1
+          assert d['failed_source']['original_source_relative_path'].startswith(('Model/','Layout/'))
+          print('R33 FAIL ORIGINAL SHA',d['failed_source']['original_source_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r33-one-original-failed-source
+          path: derived/3.0.3/r33_failed_source/source.json
+      - name: Commit original failed source evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r33_failed_source/source.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r33): exact historical L3 failure source, errors and SHA'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round33-backlog-failed-source-native64
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round33-backlog-failed-source-native64; then exit 0; fi
+            sleep 1
+          done
+          exit 1
