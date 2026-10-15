@@ -18,8 +18,8 @@ def fixture():
     struct.pack_into("<I",a,0x70+12,1)
     struct.pack_into("<QQ",a,0x70+16,0x100,0x350)
     struct.pack_into("<Q",a,0x100+16,0x140)
-    struct.pack_into("<Q",a,0x140+0x78,0x100)
-    struct.pack_into("<Q",a,0x140+0x80,0x1f0)
+    struct.pack_into("<Q",a,0x140+0x70,0x100)
+    struct.pack_into("<Q",a,0x140+0x78,0x1f0)
     struct.pack_into("<Q",a,0x1f0,0x220) # vertex stage pointer
     struct.pack_into("<Q",a,0x220+2*8,0x2a0) # sampler dict
     a[0x2a0:0x2a4]=b"_DIC"
