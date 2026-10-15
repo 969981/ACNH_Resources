@@ -1,0 +1,57 @@
+name: ACNH R35 Exact 4 BARS PCM Decoder Failure Inventory
+on:
+  push:
+    branches: [feat/acnh303-round35-fska-gltf-short-bwav-bnsh186]
+    paths:
+      - '.github/workflows/acnh303-round35-bars-audit.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  audit_bwav_failures:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - name: Retrieve 4 original Sound shard reports from the successful real R35 run
+        run: |
+          set -euo pipefail
+          gh run download 38677104491 -R "$REPO" --pattern 'r35-report-Sound-*' --dir real-bwav-reports
+          test "$(find real-bwav-reports -name report.json | wc -l)" -eq 8
+      - name: Audit and retain original SHA of every failed member
+        run: |
+          python scripts/acnh303_round35_bars_failures.py --reports real-bwav-reports \
+            --out derived/3.0.3/r35_bwav/failed_members_4.json
+          python - <<'PY'
+          import json
+          d=json.load(open('derived/3.0.3/r35_bwav/failed_members_4.json'))
+          assert d['valid_pcm_wav']==1711 and d['native_bwav_decoder_failed']==4
+          print('R35 ACTUAL BARS FAILURE SIZES',d['failed_member_byte_size_distribution'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r35-source-SHA-verified-4-BWAV-failed-members
+          path: derived/3.0.3/r35_bwav/failed_members_4.json
+      - name: Persist 4 true BARS converter failures without inflating successful PCM
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r35_bwav/failed_members_4.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r35): real 4 BWAV decode failures classified by original SHA and exact member size'
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round35-fska-gltf-short-bwav-bnsh186
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round35-fska-gltf-short-bwav-bnsh186; then exit 0; fi
+            sleep 1
+          done
+          exit 1
