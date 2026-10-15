@@ -74,7 +74,7 @@ def run(outdir):
     if len(pending)!=58866:raise ValueError("missing total target path identities")
     history=list(iterrows(R19_MEDIA))
     hist_count=Counter()
-    for label,n in (("r27",40),("r28",224),("r29",80),("r30",48),("r31",40),("r32",88),("r34",240)):
+    for label,n in (("r27",40),("r28",224),("r29",80),("r30",48),("r31",40),("r32",88),("r33",240),("r34",388)):
         rr=list(iterrows(BASE/f"{label}_cumulative/source_delta.jsonl.gz"))
         if len(rr)!=n:raise ValueError(label+" history incomplete")
         history.extend(rr)
