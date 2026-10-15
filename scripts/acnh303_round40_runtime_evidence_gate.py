@@ -60,6 +60,8 @@ def run_provenance(d):
  if not hex64(p["observer_raw_log_sha256"]):raise ValueError("real raw observer log digest invalid")
  base=int(p["module_base_hex"],16)
  if base<=0 or base%4096:raise ValueError("module base invalid/unmapped")
+ if p.get("source_device_kind")!="physical_nintendo_switch":
+  raise ValueError("For native physical-console parity, actual source_device_kind must be physical_nintendo_switch")
  if p.get("native_game_runtime_observed") is not True:
   raise ValueError("No affirmative actual external runtime source")
  forbidden=" ".join(str(p.get(k,"")) for k in ("capture_instrumentation","source_device_kind")).lower()
@@ -82,7 +84,7 @@ def pose_gate(d,glb):
  for item in blocks:
   name=item["clip"];frames=required(item,"frames",list)
   if len(frames)<3:raise ValueError("native capture requires >=3 actual frames per source animation")
-  fnums=set();prev_clock=-1;prev_render=-1;measures=[]
+  fnums=set();prev_clock=-1;prev_render=-1;measures=[];instance_ids=set()
   clip=next(x for x in g["animations"] if x["name"]==name)
   for row in frames:
    idx=row.get("source_frame")
@@ -96,6 +98,7 @@ def pose_gate(d,glb):
    prev_clock=t;prev_render=r
    if not isinstance(row.get("game_action_instance"),str) or not row["game_action_instance"].strip():
     raise ValueError("observed action instance identity required")
+   instance_ids.add(row["game_action_instance"])
    weight=row.get("active_action_weight")
    if type(weight) not in (float,int) or not 0<=weight<=1 or abs(weight-1)>1e-4:
     raise ValueError("blended action state: do not compare to isolated glTF as native parity")
@@ -106,6 +109,7 @@ def pose_gate(d,glb):
    src=np.asarray([q[nodes[k]][:3,3] for k in WATCH],dtype=float)
    native=np.asarray([bones[k] for k in WATCH],dtype=float)
    measures.append({"source_frame":idx,"game_render_frame":r,**pairwise(src,native)})
+  if len(instance_ids)!=1:raise ValueError("Native clip capture interleaved multiple game action instances")
   if len(frames)!=CLIPS[name]+1 or set(fnums)!={float(x) for x in range(CLIPS[name]+1)}:full=False
   out.append({"clip":name,"actual_native_sampled_count":len(frames),
     "frame_metrics":measures,
@@ -203,6 +207,7 @@ def oneroom_gate(report):
 def main():
  p=argparse.ArgumentParser()
  p.add_argument("--capture",type=Path)
+ p.add_argument("--observer-raw-log",type=Path,help="actual binary/raw log captured from device; SHA must match capture provenance")
  p.add_argument("--r39-glb",type=Path)
  p.add_argument("--source-873",type=Path,required=True)
  p.add_argument("--oneroom-source-audit",type=Path)
@@ -219,6 +224,11 @@ def main():
  else:
   data=a.capture.read_bytes();session=json.loads(data)
   p=run_provenance(session)
+  if a.observer_raw_log is None:
+   raise ValueError("Cannot accept user-declared native runtime trace without real raw observer log bytes")
+  rawlog=a.observer_raw_log.read_bytes()
+  if not rawlog or hashlib.sha256(rawlog).hexdigest()!=p["observer_raw_log_sha256"]:
+   raise ValueError("Real raw device observer log source SHA256 absent/mismatched; cannot attest self-reported capture")
   capture_sha=hashlib.sha256(data).hexdigest()
   pose=pose_gate(session,a.r39_glb)
   aal=audio_gate(session,ref)
@@ -231,6 +241,7 @@ def main():
    "native_AAL_FileOpen_Read_Close_trace_claim_allowed":bool(p and aal.get("proven_playback_sources",0)>0),
    "OneRoom_18_external_full_file_claim_allowed":room.get("matching_full_files",0)==18,
    "independent_game_hardware_attestation_available":False,
+   "externally_supplied_raw_observer_log_sha256_verified":bool(p and a.observer_raw_log is not None),
    "limitations":"No real source capture input -> explicit NOT_CAPTURED. Source GLB/Blender never substitutes Nintendo runtime. Even a future accepted external JSON is only internally consistent reported evidence, not independent authenticity; retain original observer raw logs, original device confirmation and external source provenance."}
  a.out.parent.mkdir(parents=True,exist_ok=True)
  a.out.write_text(json.dumps(status,indent=2,sort_keys=True,ensure_ascii=False)+"\n")
