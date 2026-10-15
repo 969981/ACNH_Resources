@@ -53,3 +53,37 @@ R19 的 Layout UI2D 报告已记录内嵌 `bgsh/__ArchiveShader.bnsh` 多次标�
 ## 5. 后续真正未完成的部分
 
 单次小批次无法替代 58,354 个模型的全部后续处理。还有非媒体 BFRES/FSKA/FMAA 动画、特效 PTCL、Shader BNSH 反编译或进一步结构分析、AMTA v5 播放语义、BDLI 字符串完整语义，以及 EventFlow Native dispatch 等长期工作。除非每种资源都有原始字节/转换输出/可复现结果，不能写成完成。
+
+
+## 6. R27 已完成的真实验收与永久资源下载（2026-10-15）
+
+- [GitHub Actions #38658755903](https://github.com/969981/ACNH_Resources/actions/runs/38658755903)：`regress`、六个真实转换分片、`reconcile`、`publish` **全部成功**。所有源及派生文件从本次工件重新校验原始 SHA256/字节大小。
+- [R27 真实产物永久 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-r27-real-unmeasured40-20261015)：六个独立真实内容 `r27-data-{Model,Layout,Sound}-{0,1}.tar.gz`、`coverage.json`、`source_delta.jsonl.gz`、`r27-release-verification.json` 和 `SHA256SUMS.txt`。这些是真实的可下载导出，而不只是不可长期访问的 Actions 临时工件。
+- `derived/3.0.3/r27_cumulative/coverage.json`：**40/40 R19 后未测试原始源**，Model 16、Layout 12、BARS 12，历史源 SHA/path 严格去重。
+- **核心媒体新增 99 份（4 GLB + 95 PNG）**，字节总数 **4,584,551**。28 个 Model/Layout 原始源中，26 个确有合法媒体，2 个是 `no_target_leaf`；绝不算这两个已经完成几何/贴图转换。
+- **BARS 额外新增 124 个有效 PCM WAV 和 124 个无损 AMTA v5**，独立于 99 个核心媒体。BARS 原始容器 12/12 实际处理成功，不等同于 AMTA 全字段播放器语义解码。
+- **Layout 中独立导出 4 个真实 BNSH 原始 Shader 成员（175,632 字节）**，输出与原始叶成员 SHA 相同。它们是编译后资源的无损字节，不是反编译 shader 程序。
+- Layout UI2D 结构：`structured_json=60`（BFLYT/BFLAN）、`font_references_only=11`（FCPX）；另外 `not_ui2d_target=18`，并未重复当作结构化 UI 内容。
+
+### R27 后累计数字与真实缺口
+
+| 分类 | R27 后已测试 | 仍未测试 |
+|---|---:|---:|
+| Model | **1,828** | **58,338** |
+| Layout | **612** | **348** |
+| BARS | **408** | **1,288** |
+| 独立 BWAV | **1,146** | **0** |
+
+- 核心媒体（R19+R27）**8,081**：**526 GLB + 6,409 PNG + 1,146 独立 PCM WAV**；核心媒体源 **3,586**。这里包含 2 个本轮未产生可转换媒体的已测试源。
+- BARS 单独累计 **4,112 个 PCM WAV**、**4,095 个原生 AMTA v5**。BARS 不能直接合并到核心媒体源或独立 BWAV 转换数。
+- 已测但无对应验证成功媒体的 Model/Layout 源，R19 有 136 个，本轮再加 2 个，故目前为 **138 个**；这类与 58,338 个尚未测试 Model 的语义不同。
+
+### 下一轮不得重复的技术限制
+
+**R27 是 R19 之后的最新审计增量。** 新一轮选源器必须同时排除：
+
+1. `derived/3.0.3/media_round19_cumulative/source_manifest.jsonl.gz` 的 3,558 个源；
+2. `derived/3.0.3/r27_cumulative/source_delta.jsonl.gz` 的 28 个新增 Model/Layout 源；
+3. BARS 各历史累计 396 个源 + 同一 R27 delta 中新增的 12 个 BARS 源。
+
+`scripts/acnh303_round27_select.py` 为本轮选择器，固定以 R19 为基线，**不可直接重跑并将同一 40 个源记为下一轮新源**。R28 必须将 R27 增量并入排除集合，保留 `no_target_leaf` 和 Native Shader 未解语义状态。
