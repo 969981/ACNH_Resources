@@ -150,7 +150,7 @@ def main():
     report,delta=inspect(args.collected)
     args.out.mkdir(parents=True,exist_ok=True)
     (args.out/"coverage.json").write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf8")
-    with gzip.open(args.out/"source_delta.jsonl.gz","wt",encoding="utf8",mtime=None) as f:
+    with gzip.open(args.out/"source_delta.jsonl.gz","wt",encoding="utf8") as f:
         for item in delta:f.write(json.dumps(item,ensure_ascii=False,sort_keys=True)+"\n")
     print("R27_AUDITED",json.dumps({k:v for k,v in report.items() if k.startswith("r27_") or k=="delta_original_sources"}))
 if __name__=="__main__":main()
