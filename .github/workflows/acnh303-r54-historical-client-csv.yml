@@ -1,0 +1,70 @@
+name: ACNH 3.0.3 | R54 compare historical PokerCore 3.0.0 and 3.0.2 metadata
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r54_older_client_versions.py'
+      - 'Scripts/test_acnh303_r54_older_client_versions.py'
+      - '.github/workflows/acnh303-r54-historical-client-csv.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r54-compare-pokercore-csv
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/
+          lfs: false
+      - uses: actions/checkout@v4
+        with:
+          repository: 969981/ACNHPokerCore
+          ref: 3cda3450bf7b432bc39d206856dda530cbf22432
+          path: upstream-pokercore-300
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ACNHPokerCore/csv/
+          persist-credentials: false
+          lfs: false
+      - uses: actions/checkout@v4
+        with:
+          repository: 969981/ACNHPokerCore
+          ref: ec697289b079eb933fcd4bc21b40aa9b8c1c0ca8
+          path: upstream-pokercore-302
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ACNHPokerCore/csv/
+          persist-credentials: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate version-specific historical metadata sources
+        run: python -m unittest discover -s Scripts -p test_acnh303_r54_older_client_versions.py -v
+      - name: Cross-check actual historical CSV rows and 3.0.3 original ROM tree
+        run: python Scripts/acnh303_r54_older_client_versions.py --root .
+      - name: Commit provenance and version comparison, never modify images
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/r54-pokercore-versions-and-rom-name-gaps.json assets/evidence/rom-items/r54-unresolved-40-versions.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: compare pinned historical PokerCore item tables and 3.0.3 original source tree'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
