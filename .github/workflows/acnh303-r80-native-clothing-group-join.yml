@@ -1,0 +1,56 @@
+name: ACNH 3.0.3 | R80 enrich original clothing group languages in native SQLite
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r80_clothing_group_enrich.py'
+      - '.github/workflows/acnh303-r80-native-clothing-group-join.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r80-clothing-MSBT
+  cancel-in-progress: false
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r80_clothing_group_enrich.py
+            /Scripts/acnh303_r75_original_message_npc_audit.py
+            /assets/evidence/rom-database/r77-acnh303-native-item-villager.sqlite3.zst
+            /UnPack/1/Bcsv/ItemClothGroup.csv
+            /UnPack/1/Bcsv/ItemParam.csv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install zstandard
+      - name: Exact original clothing group and label association with provenance
+        run: python Scripts/acnh303_r80_clothing_group_enrich.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh-r80-original-clothing-multilingual
+          path: assets/evidence/rom-database/r80-*
+          retention-days: 90
+      - name: Commit completed group name research database and reproducible evidence
+        shell: bash
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -- assets/evidence/rom-database/r80-*
+          git commit -m 'data: map 3.0.3 original clothing group IDs and multilingual MSBT to item variants'
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            git rebase origin/3.0.3_Unpack
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((i*5))
+          done
+          exit 1
