@@ -56,9 +56,30 @@ CI 在 .github/workflows/acnh303-assets.yml 中执行脚本单测、Babybed 原�
 
 基础模型经实际 FMDL/FMAt 解析得到 **mBody、mReBody、mReFabric 三种材质**，其他 15 份变体资源只有纹理、不含 FMDL 模型；详见 [Babybed 来源与材质研究](../docs/ACNH303_BABYBED_TEXTURE_FMAT_ICON_PROVENANCE.md) 和 [FMAT 证据](evidence/babybed-fmat-candidates.json)。
 
-**完整道具图标仍是 0/56**；上面的 37 张原生 BNTX 素材不是直接可供 PokerCore 使用的 56 种模型渲染缩略图。
+**原版运行时渲染来源核验仍为 0/56**，但另已从经过联网确认的社区图片 CDN 导入 56/56 张完整 Babybed 图标到 [images/items/](images/items/)。这些真实 PNG 与上述 37 张原生 BNTX 材质纹理是两种不同来源；图标的原版像素来源尚未独立认证。
 
 ```bash
 python Scripts/probe_acnh_babybed_fmat.py --root .
 python Scripts/acnh303_babybed_texture_export.py --root . --wimgt /path/to/wimgt
 ```
+
+## 完整图片导入：用户清单 27,531 个名称
+
+CDN 来源取自公开的 ACNH 社区素材服务，例如 acnhcdn.com/latest/FtrIcon/ 和 img.iswitchplus.com/acnh/。它们可提供与 PokerCore 命名规则一致的真实 PNG，但**不等于原版内部素材或原版渲染链已经恢复**。所有外部图片都要求 PNG CRC、Pillow 完整像素解码、SHA-256 校验，失败或 404 不伪造。
+
+- 脚本：[Scripts/acnh303_icon_cdn_import.py](../Scripts/acnh303_icon_cdn_import.py)
+- GitHub Actions：[acnh303-icon-cdn-import.yml](../.github/workflows/acnh303-icon-cdn-import.yml)；从清单断点推进，每 3 小时最多检查 750 个名称。运行间隔、是否触发取决于 GitHub Actions。
+- 第一批 56 张 Babybed 图标全部真实导入（128×128，56 个不同 SHA-256）：[evidence/icon-cdn/prefix-FtrBabybed_-000000-000056.json](evidence/icon-cdn/prefix-FtrBabybed_-000000-000056.json)
+- 图片实际存放于：[images/items/](images/items/)；与原版材质 [textures/babybed/](textures/babybed/) 分开。
+- 任务每批生成 `assets/evidence/icon-cdn/batch-<起止序号>.json`，包括源 URL、HTTP 获取结果、图片 SHA、已存在/缺失状态；`next-offset.json` 保存完整清单的续跑位置。
+- Library 另外有 `villager.zip` 中 1,021 张 PNG，已独立生成可解压到仓库根目录的标准化导入包。这个私人 Library 压缩包并非 GitHub Actions 可访问的外部 URL，**不要因为完成本地打包就宣称已全部提交仓库**。
+
+按需手动运行指定类别：
+
+```bash
+python -m pip install -r Scripts/requirements-media.txt
+python Scripts/acnh303_icon_cdn_import.py --prefix FtrBabybed_ --max-count 56
+python Scripts/acnh303_icon_cdn_import.py --offset auto --max-count 750 --delay 0.30
+```
+
+工作流不会把外部 CDN 下载计为“由原版 BFRES 渲染生成”；外部 CDN 与原版数据可能存在版本、图像裁剪或背景差异，需要后续独立像素比对。
