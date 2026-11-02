@@ -53,7 +53,7 @@ jobs:
           if [ "$MODE" = "pilot" ]; then pilot_flag+=(--pilot); fi
           python Scripts/acnh303_rom_item_icons.py plan --root . --limit "$LIMIT" "${pilot_flag[@]}"
           if [ -s /tmp/acnh-rom-icon-sparse.txt ]; then
-            git sparse-checkout add --no-cone --stdin < /tmp/acnh-rom-icon-sparse.txt
+            git sparse-checkout add --stdin < /tmp/acnh-rom-icon-sparse.txt
           fi
       - name: Install checksum-verified pinned nintoolbox genuine BNTX decoder
         shell: bash
