@@ -97,6 +97,7 @@ def main():
          "item_kind_prefix_candidates":db.execute("SELECT COUNT(*) FROM item WHERE base_kind_evidence='prefix_candidate_not_proven'").fetchone()[0],
          "item_kind_unmapped":db.execute("SELECT COUNT(*) FROM item WHERE base_kind_evidence='unmapped_unknown'").fetchone()[0],
          "clothing_group_candidates":db.execute("SELECT COUNT(*) FROM item_clothing_group_candidate").fetchone()[0] if db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='item_clothing_group_candidate'").fetchone()[0] else 0,
+         "items_with_original_closet_png_link":db.execute("SELECT COUNT(*) FROM item WHERE closet_image_path IS NOT NULL").fetchone()[0] if db.execute("SELECT COUNT(*) FROM pragma_table_info('item') WHERE name='closet_image_path'").fetchone()[0] else 0,
          "item_locale_clothing_group_candidate":db.execute("SELECT COUNT(*) FROM item_locale WHERE association_status LIKE 'native_group_candidate_%'").fetchone()[0],
         }
     print(json.dumps(out,ensure_ascii=False,indent=2))

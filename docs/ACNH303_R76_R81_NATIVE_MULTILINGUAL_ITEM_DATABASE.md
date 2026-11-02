@@ -111,6 +111,8 @@ R80 的独立输入：R77 完整 SQLite、`ItemClothGroup.csv` 原版组表及�
 2. **原始内部名去掉末尾变体数字**：只允许整个 ResName 剩余部分与原始组资源名全等，且只有一个候选组，同时 MSBT `Outfit/GroupName` 的类别与已知父类别一致。标为 `exact_ResName_without_trailing_variant_digits` **候选**。
 3. 如果匹配多个 group、不存在 group 或类型不符，保留 NULL，不猜。
 
+R80 还从已由 R73 验证的 5,480 份 ClosetIcon PNG 里，按照服装 ResName 精确文件名另行关联了 **5,422 条 item.closet_image_path**。`item.image_path` 保留原来的 FtrIcon 文件名候选，不与 ClosetIcon 混写。两者仍不是运行时图像消费者证据。
+
 R80 成功输出：
 
 | 项目 | 记录数 |
@@ -137,7 +139,7 @@ R80 成功输出：
 | 表 | 核心字段 |
 | --- | --- |
 | `sources` | 原始 BCSV、14 份 String_*.sarc.zs 的 SHA-256 |
-| `item` | id, id_hex, res_name, original_kind, base_kind_evidence, stack_s16, stack_evidence, image_path |
+| `item` | id, id_hex, res_name, original_kind, base_kind_evidence, stack_s16, stack_evidence, image_path, closet_image_path（独立衣柜家族） |
 | `kind` | label, kind_id, stack_s16, flags_json |
 | `npc` | npc_type, source_index, res_name, npc_key |
 | `msbt` | locale, member, text_index, label, text_raw, text_plain, control_count, malformed_control_count |

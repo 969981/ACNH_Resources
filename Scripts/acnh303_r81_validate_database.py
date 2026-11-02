@@ -40,13 +40,17 @@ def test():
             "item_kind_exact":count("SELECT COUNT(*) FROM item WHERE base_kind_evidence='exact_ItemKind_label'"),
             "item_kind_prefix_candidate":count("SELECT COUNT(*) FROM item WHERE base_kind_evidence='prefix_candidate_not_proven'"),
             "item_kind_unmapped":count("SELECT COUNT(*) FROM item WHERE base_kind_evidence='unmapped_unknown'"),
+            "closet_image_exact_filename_links":count("SELECT COUNT(*) FROM item WHERE closet_image_path IS NOT NULL"),
+            "original_item_icon_filename_candidates":count("SELECT COUNT(*) FROM item WHERE image_path IS NOT NULL"),
         }
         expected={
            "unique_item_ids":11178,"kinds":189,"npc_normal":417,"npc_special_rows":74,
            "msbt_messages":408156,"locale_exact_npc":5838,"item_locale_exact":75712,
            "item_locale_group_candidates":72296,"item_locale_missing":8484,
            "item_kind_exact":6076,"item_kind_prefix_candidate":5050,
-           "item_kind_unmapped":52}
+           "item_kind_unmapped":52,
+           "closet_image_exact_filename_links":info["totals"]["item_rows_with_native_closet_image_path"],
+           "original_item_icon_filename_candidates":10405}
         if actual!=expected:raise ValueError("R80 original database row coverage differs: "+str(actual))
         sample_npc=db.execute("""SELECT display_name FROM npc_locale
            WHERE locale='USen' AND (npc_type,source_index) IN
