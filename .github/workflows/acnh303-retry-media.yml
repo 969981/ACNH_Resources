@@ -1,0 +1,58 @@
+name: ACNH 3.0.3 | Retry verified Model and Layout samples
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths: [".github/workflows/acnh303-retry-media.yml"]
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  launch-verified-slices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Retry Model and Layout with verified nintoolbox nightly-20261028
+        shell: bash
+        run: |
+          set -euo pipefail
+          failed=0
+          for CAT in Model Layout; do
+            SKIP=0
+            echo "::group::Dispatch $CAT, shard=0/8, skip=$SKIP, max=8"
+            prior=$(gh run list -R "$GH_REPO" -w acnh303-incremental-unpack.yml \
+              -e workflow_dispatch -L 1 --json databaseId --jq '.[0].databaseId // 0')
+            gh workflow run acnh303-incremental-unpack.yml -R "$GH_REPO" \
+              -r 3.0.3_Unpack \
+              -f category="$CAT" -f shard=0 -f shards=8 \
+              -f skip_count="$SKIP" -f max_count=8
+            run_id=""
+            for attempt in $(seq 1 40); do
+              latest=$(gh run list -R "$GH_REPO" -w acnh303-incremental-unpack.yml \
+                -e workflow_dispatch -L 1 --json databaseId --jq '.[0].databaseId // 0')
+              if [[ "$latest" != "$prior" && "$latest" != "0" ]]; then
+                run_id="$latest"
+                break
+              fi
+              sleep 4
+            done
+            if [[ -z "$run_id" ]]; then
+              echo "::error::Could not identify dispatched workflow run for $CAT"
+              exit 1
+            fi
+            echo "Running https://github.com/$GH_REPO/actions/runs/$run_id"
+            if ! gh run watch "$run_id" -R "$GH_REPO" --interval 5 --exit-status; then
+              echo "::warning::$CAT batch failed; see immutable per-run SHA report"
+              failed=$((failed+1))
+            fi
+            echo "::endgroup::"
+          done
+          if (( failed > 0 )); then
+            echo "::error::$failed category pilot runs failed; read their reports before further scale-out"
+            exit 1
+          fi

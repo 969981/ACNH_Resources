@@ -18,7 +18,7 @@ status: active
 ## 一键开始
 [GitHub Actions / Incremental verified UnPack](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-incremental-unpack.yml) 可以手动 Run workflow，指定 category、shard、shards、skip_count、max_count。
 
-推送本工作流本身也会触发 **首次 Sound、shard=0/8、skip=0、max=8 的真实试运行**。后续对其它分片使用 workflow_dispatch；不会因提交解包产物再次触发，避免死循环。
+首次 Sound 试运行已在 2026-11-02 触发并完成；随后使用 workflow_dispatch 选择后续分片。工作流目前**仅支持手动启动**，提交解包文件不会再触发重复解码。原始版本 `nightly-20261013` 媒体转换工具已失效，已改用 GitHub Release 上实际存在且带 SHA256SUMS 的 `nightly-20261028`。
 
 ### 本地选择与执行（仓库完整克隆）
 ```powershell
@@ -52,7 +52,7 @@ python Scripts/batch_pipeline.py verify
 ## 已知限制
 - 对超过 90 MiB 的单个输出拒绝入 Git（GitHub 100 MiB 硬限制）；大规模 L3 媒体另走 Release/分卷。
 - 目前只支持已知的 BCSV、BYML、BWAV、BFRES 和 BNTX 真实解析；BDLI、FMAA、AAL、复杂 EventFlow、Shader 仍需研究，不得错误标记为已全解。
-- 初次 Push 触发只代表 **安排了 GitHub Actions 任务**；以 Actions 的成功状态、报告和目标分支上的实际提交为完成依据。
+- GitHub Actions 只有真正完成产物校验且至少生成 1 个可用文件才判定绿色。失败尝试的原因必须保留为日志，而非宣称转换完成。
 - GitHub 的工作流 token 必须具有 repository contents: write，仓库如果配置更严格的规则需要额外授权。
 
 相关 [[03-Unpack-Workflow]]、[[04-Output-Rules]]、[[05-Progress]]、[[06-Evidence]]。
