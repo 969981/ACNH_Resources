@@ -1,0 +1,64 @@
+name: ACNH 3.0.3 | R77 build original 11178 item 14-language SQLite catalog
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r77_build_native_catalog.py'
+      - '.github/workflows/acnh303-r77-native-item-villager-sqlite.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r77-native-database
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh_formats.py
+            /Scripts/acnh303_r75_original_message_npc_audit.py
+            /Scripts/acnh303_r74_metadata_stack_research.py
+            /Scripts/acnh303_r77_build_native_catalog.py
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemKind.csv
+            /UnPack/1/Bcsv/NmlNpcParam.csv
+            /UnPack/1/Bcsv/SpNpcParam.csv
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_*.sarc.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install zstandard
+      - name: Full original 14-locale MSBT -> SQLite and CSV, validate native category mappings
+        run: python Scripts/acnh303_r77_build_native_catalog.py
+      - name: Preserve native database even if GitHub push unavailable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r77-original-native-item-villager-database
+          path: assets/evidence/rom-database/r77-*
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Commit verified native database, reports, and source-backed CSV
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -- assets/evidence/rom-database/r77-*
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data: original ACNH 3.0.3 11178 items, 14-language MSBT and 491 NPC SQLite catalog'
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((i*5))
+          done
+          exit 1
