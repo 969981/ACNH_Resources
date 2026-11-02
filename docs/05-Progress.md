@@ -29,10 +29,13 @@ tags: [status, audit]
 | Layout | 8 Zstandard/布局 | **31 PNG** | 6 源含真实纹理；2 源只含 BFLYT/BFLAN，无 BNTX（[Run 41377837521](https://github.com/969981/ACNH_Resources/actions/runs/41377837521)） |
 | Sound 第 1 组 | 8 BWAV | **8 WAV** | 8 converted / 0 error（[Run 41377232391](https://github.com/969981/ACNH_Resources/actions/runs/41377232391)） |
 | Sound 第 2 组 | 8 BWAV | **8 WAV** | 8 converted / 0 error（[Run 41377567594](https://github.com/969981/ACNH_Resources/actions/runs/41377567594)） |
+| Bcsv 既有结果复核 | 8 BCSV | **8 CSV + 8 JSON（重复验证，不计新增）** | 8 converted / 0 error（[Run 41378321451](https://github.com/969981/ACNH_Resources/actions/runs/41378321451)） |
 
 合计新生成 **63 个实际产物：8 JSON + 8 GLB + 31 PNG + 16 WAV**；这是增量新增数，不包括迁入的旧成果。原 `Bcsv` 下 **234 个 BCSV 已有 468 个 CSV/JSON 文件**，本阶段不把旧 CSV 重复统计为新增。
 
 > [!warning] Layout 结构层
-> 两个源没有可转换的 BNTX 纹理，它们不是损坏的源文件；较早一版媒体封装将这类情况标成 failure，目前正在改成 `no_output`，以便与真正的解码错误区分。即便 31 PNG 验证通过，BFLYT/BFLAN 的完整 UI 动画及渲染语义仍未达到 L4。
+> 两个源没有可转换的 BNTX 纹理，它们不是损坏的源文件。已在 [Layout 复核 Run 41378213870](https://github.com/969981/ACNH_Resources/actions/runs/41378213870) 中证实：**6 partial（31 个有效 PNG），2 no_output，0 failed**。BFLYT/BFLAN 的完整 UI 动画及渲染语义仍未达到 L4。
 
 本批次期间也修复了两个真实故障：媒体转换暂存目录不在仓库根导致 L3 校验报错；历史 nintoolbox `nightly-20261013` 发布地址失效，改为有 SHA256SUMS 的 `nightly-20261028`。旧失败运行保留为证据，不当作完成进度。
+
+**当前新分支实际有效 RomFS 输出文件数：2,208**（按 Git Tree 复核，剔除 `.gitkeep`；此前迁移 2,145 + 本轮新增 63）。另有 ExeFS 的 `UnPack/0/main.elf`，不参与 RomFS 计数。后续批次应继续记录全局唯一源路径/哈希，避免把复核产物累加到新增数。
