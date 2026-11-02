@@ -1,0 +1,58 @@
+name: ACNH 3.0.3 | R47 migrated research regression
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths: ['.github/workflows/acnh303-r47-compat.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  migrated-research-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+            /derived/3.0.3/r45_fmaa/
+            /derived/3.0.3/r46/
+            /derived/3.0.3/r47/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install decoder dependencies
+        run: |
+          python -m pip install -r Scripts/requirements.txt
+          python -m pip install -r Scripts/requirements-media.txt
+      - name: Verify R44 R45 R46 R47 and current resume planner
+        run: |
+          set -euo pipefail
+          python -m compileall -q Scripts
+          for n in 44 45 46 47; do
+            python -m unittest discover -s Scripts -p "test_acnh303_round${n}.py" -v
+          done
+          python -m unittest discover -s Scripts -p 'test_acnh303_resume_plan.py' -v
+      - name: Recalculate verified R46 tex_srt0 sample values
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_round46_texsrt_values.py --help
+          python Scripts/acnh303_round47_aal_target_audit.py --out r47-aal-not-captured.json
+          python - <<'PY'
+          import json
+          d=json.load(open('r47-aal-not-captured.json'))
+          assert not d.get('runtime_FileOpen_Read_Close_proven',False)
+          print('Offline AAL remains NOT_CAPTURED; no simulated runtime proof')
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-migrated-r47-regression-${{ github.run_id }}
+          path: r47-aal-not-captured.json
+          if-no-files-found: warn
+          retention-days: 30
