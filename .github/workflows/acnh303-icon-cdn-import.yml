@@ -1,0 +1,88 @@
+name: ACNH 3.0.3 | Import validated community item PNGs
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_icon_cdn_import.py'
+      - '.github/workflows/acnh303-icon-cdn-import.yml'
+  workflow_dispatch:
+    inputs:
+      prefix:
+        description: "Filename prefix; blank for full-catalog resumption"
+        type: string
+        required: false
+        default: ''
+      offset:
+        description: "auto or numeric offset"
+        type: string
+        required: false
+        default: auto
+      max_count:
+        description: "Max expected names per batch (1..2000)"
+        type: number
+        required: true
+        default: 500
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acnh303-icon-import-serial-write
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      BATCH_PREFIX: ${{ github.event_name == 'push' && 'FtrBabybed_' || inputs.prefix }}
+      BATCH_OFFSET: ${{ github.event_name == 'push' && 'auto' || inputs.offset }}
+      BATCH_COUNT: ${{ github.event_name == 'push' && '56' || inputs.max_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Real PNG validation dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Run bounded validated icon import
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_icon_cdn_import.py \
+            --catalog assets/catalog/expected-png-names.txt \
+            --output assets/images/items \
+            --manifest-dir assets/evidence/icon-cdn \
+            --prefix "$BATCH_PREFIX" --offset "$BATCH_OFFSET" \
+            --max-count "$BATCH_COUNT" --delay 0.18
+      - name: Preserve original URL and per-PNG sha256 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-icon-import-${{ github.run_id }}
+          path: |
+            assets/evidence/icon-cdn/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit actual PNG bytes and source evidence; never fake missing files
+        if: success() && github.ref == 'refs/heads/3.0.3_Unpack'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/images/items assets/evidence/icon-cdn
+          if git diff --cached --quiet; then
+            echo "No new validated PNGs or provenance"
+          else
+            git commit -m "assets: verified community PNG import (named source subset)"
+            git push
+          fi
