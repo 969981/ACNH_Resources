@@ -167,7 +167,7 @@ def main():
     data=analyze(a.root)
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(data,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
-    print("R47_CEDAR_FMAT",[(m["source_relative"],m["status"],len(m["materials"])) for m in data["models"]],
+    print("R47_CEDAR_FMAT",[(m["source_relative"],m["status"],m.get("model_count"),m.get("first_model_pointer"),len(m["materials"])) for m in data["models"]],
           "candidate_count=",data["candidate_count"])
 if __name__=="__main__":
     main()
