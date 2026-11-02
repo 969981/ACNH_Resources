@@ -25,6 +25,7 @@ status: active
 - [[ACNH303_R60_R62_ALL_ORIGINAL_PNG_SOURCES|R60–R62 全部 27,531 个文件名的原版来源索引与查询]]
 - [[ACNH303_R63_R67_UI_SELECTION_NATIVE_CONSUMER|R63–R67 选图语义与原版 ARM64 资源消费者取证]]
 - [[ACNH303_R68_VILLAGER_ITEM_IMAGE_COMPLETENESS|R68 村民和物品图片完整率与尚未提取的 5,445 个原版来源]]
+- [[ACNH303_R69_R73_ALL_FOUR_ORIGINAL_ICON_FAMILIES|R69–R73 补齐 5,445 张原版图标与 5,480 张 ClosetIcon 验收]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
