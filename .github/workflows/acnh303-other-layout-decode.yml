@@ -1,0 +1,82 @@
+name: ACNH 3.0.3 | Extract exact other-layout original ROM textures
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - '.github/workflows/acnh303-other-layout-decode.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-other-layout-rom-images
+  cancel-in-progress: false
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original BNTX and PNG decoder dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Sparse-fetch exact source files from original ROM
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_other_layout_decode.py plan
+          git sparse-checkout add --stdin < /tmp/acnh-other-sources.txt
+      - name: Install SHA256SUMS-verified genuine BNTX converter
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Decode 391 original ROM BNTX sources and verify image SHA
+        shell: bash
+        run: python Scripts/acnh303_other_layout_decode.py export --wimgt "$(cat /tmp/wimgt.path)"
+      - name: Preserve true output and evidence on any result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh-other-layout-native
+          path: |
+            assets/evidence/rom-other-layout/
+            assets/images/other-layout/
+            assets/textures/other-layout/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit originals to separate families without overwriting item icons
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-other-layout
+          for d in assets/images/other-layout assets/textures/other-layout; do
+            if [ -d "$d" ]; then git add --sparse -A -- "$d"; fi
+          done
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'assets: decode original non-FtrIcon alternate UI layout textures'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
