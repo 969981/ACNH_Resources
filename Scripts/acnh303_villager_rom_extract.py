@@ -99,7 +99,9 @@ def convert_one(root: Path, wimgt: Path, rec: tuple, *,
     total = sum(len(x[0]) for x in flattened)
     if total > output_mb * 1024 * 1024:
         raise ValueError("per-source output size cap exceeded")
-    if len(flattened)==1:
+    row["native_bnti_name_matches_filename"] = bool(len(flattened) == 1 and
+        flattened[0][1]["native_brti_name_at_same_index_candidate"] == image_name.removesuffix(".png"))
+    if len(flattened)==1 and row["native_bnti_name_matches_filename"]:
         path_out = root / dst / image_name
         row["status"] = "one_original_rom_texture_exported"
         items=[(path_out,flattened[0])]
