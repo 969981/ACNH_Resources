@@ -1,0 +1,51 @@
+name: ACNH 3.0.3 | R59 independently validate 39 original clothing icon aliases
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r59_original_alias_candidates.py'
+      - '.github/workflows/acnh303-r59-cloth-alias-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r59-native-original-catalog
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r59_original_alias_candidates.py
+            /Scripts/acnh303_assets.py
+            /assets/evidence/rom-items/
+            /assets/evidence/rom-clothing-layout/
+            /assets/images/clothing-original-layout/
+            /assets/catalog/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate 78 real PNG CRC SHA and build conservative 39-source alias table
+        run: python Scripts/acnh303_r59_original_alias_candidates.py --root .
+      - name: Publish native-only mapping data without touching source images
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-clothing-layout/catalog-alias-candidates.json assets/catalog/original-39-native-png-alias-candidates.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: publish 39 original cloth FtrIcon and ClosetIcon source aliases with SHA'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
