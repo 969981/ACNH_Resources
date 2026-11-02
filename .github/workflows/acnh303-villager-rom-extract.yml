@@ -111,9 +111,26 @@ jobs:
           for attempt in 1 2 3 4 5; do
             git fetch --no-tags origin 3.0.3_Unpack
             if ! git rebase origin/3.0.3_Unpack; then
-              git rebase --abort || true
-              echo "::error::Conflicting concurrent commit; refuse force push"
-              exit 1
+              # A previous ROM extractor run can advance the cursor while
+              # this job is converting. Only the monotonic cursor conflict
+              # is automatically repairable; never discard image conflicts.
+              conflict_paths="$(git diff --name-only --diff-filter=U)"
+              if [ "$conflict_paths" = "assets/evidence/rom-villager/next-offset.json" ]; then
+                ours="$(git show :2:assets/evidence/rom-villager/next-offset.json | python -c 'import sys,json;print(json.load(sys.stdin)["next_offset"])')"
+                theirs="$(git show :3:assets/evidence/rom-villager/next-offset.json | python -c 'import sys,json;print(json.load(sys.stdin)["next_offset"])')"
+                if [ "$theirs" -ge "$ours" ]; then
+                  git checkout --theirs -- assets/evidence/rom-villager/next-offset.json
+                else
+                  git checkout --ours -- assets/evidence/rom-villager/next-offset.json
+                fi
+                git add -- assets/evidence/rom-villager/next-offset.json
+                GIT_EDITOR=true git rebase --continue
+                echo "Merged monotonic ROM cursor: remote=$ours incoming=$theirs"
+              else
+                git rebase --abort || true
+                echo "::error::Image/evidence conflicts require review; refuse force push"
+                exit 1
+              fi
             fi
             if git push origin HEAD:3.0.3_Unpack; then
               exit 0
