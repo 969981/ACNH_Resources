@@ -5,6 +5,8 @@ on:
     paths:
       - 'Scripts/acnh303_rom_item_icons.py'
       - '.github/workflows/acnh303-rom-item-icons.yml'
+  schedule:
+    - cron: '07,27,47 * * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -16,7 +18,7 @@ on:
       limit:
         description: "Max matched icon names to decode (1..500)"
         type: number
-        default: 250
+        default: 500
         required: true
 permissions:
   contents: write
@@ -28,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     env:
-      MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'pilot' }}
-      LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '250' }}
+      MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'batch' }}
+      LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '500' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -68,10 +70,23 @@ jobs:
           find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
           test -s /tmp/wimgt.path
           chmod +x "$(cat /tmp/wimgt.path)"
-      - name: Export original ROM layouts into validated PNGs
+      - name: Export original ROM layouts into validated PNGs; continue bounded batches
+        shell: bash
         run: |
+          set -euo pipefail
           python Scripts/acnh303_rom_item_icons.py export --root . \
             --wimgt "$(cat /tmp/wimgt.path)"
+          if [ "$MODE" = "batch" ]; then
+            for pass in 2 3 4; do
+              echo "Original ROM item icon pass ${pass}/4"
+              python Scripts/acnh303_rom_item_icons.py plan --root . --limit "$LIMIT"
+              if [ -s /tmp/acnh-rom-icon-sparse.txt ]; then
+                git sparse-checkout add --stdin < /tmp/acnh-rom-icon-sparse.txt
+              fi
+              python Scripts/acnh303_rom_item_icons.py export --root . \
+                --wimgt "$(cat /tmp/wimgt.path)"
+            done
+          fi
       - name: Save pixel and provenance evidence
         if: always()
         uses: actions/upload-artifact@v4
