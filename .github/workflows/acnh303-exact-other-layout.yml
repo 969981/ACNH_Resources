@@ -1,0 +1,45 @@
+name: ACNH 3.0.3 | Find exact non-FtrIcon ROM UI layout sources
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_exact_other_layout.py'
+      - '.github/workflows/acnh303-exact-other-layout.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-exact-other-layout-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_exact_other_layout.py
+            /assets/evidence/rom-items/unmatched-candidate-audit.json
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit exact other-layout names against original Git RomFS tree
+        run: python Scripts/acnh303_exact_other_layout.py --root .
+      - name: Commit evidence only, no images modified
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/evidence/rom-items/unmatched-exact-other-layout.json assets/evidence/rom-items/unmatched-exact-other-layout.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "evidence: index exact non-FtrIcon original UI layout resources"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
