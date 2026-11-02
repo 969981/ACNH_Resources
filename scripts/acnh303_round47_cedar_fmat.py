@@ -57,64 +57,71 @@ def parse_fres(data):
         raise ValueError("not FRES")
     model_ptr = u64(data, 0x28)
     model_count = u16(data, 0xdc)
-    if model_count != 1:
+    if model_count == 0 or model_count > 128:
         return {"status":"UNSUPPORTED_MODEL_COUNT", "model_count":model_count,
-                "first_model_pointer":model_ptr, "materials":[],
+                "first_model_pointer":model_ptr, "models":[], "materials":[],
                 "binding_verified":False}
-    bounds(data, model_ptr, 0x70, "FMDL")
-    if data[model_ptr:model_ptr+4] != b"FMDL":
-        raise ValueError("declared model array head is not FMDL")
-    model_name = nw_name(data, u64(data, model_ptr + 8))
-    material_ptr = u64(data, model_ptr + 0x38)
-    material_count = u16(data, model_ptr + 0x6c)
-    if material_count > 256:
-        raise ValueError("unbounded FMAT array")
-    materials = []
-    if material_count:
-        bounds(data, material_ptr, material_count * 0xa0, "FMDL FMAT array")
-    for i in range(material_count):
-        p = material_ptr + i * 0xa0
-        if data[p:p+4] != b"FMAT":
-            raise ValueError("FMAT member stride/magic does not match Switch v9")
-        name = nw_name(data, u64(data, p + 8))
-        param_ptr = u64(data, p + 0x48)
-        source_ptr = u64(data, p + 0x58)
-        param_count = u16(data, p + 0x96)
-        source_len = u16(data, p + 0x9a)
-        if param_count > 1024 or source_len > 65535:
-            raise ValueError("unbounded FMAT source parameter count/size")
-        if param_count:
-            bounds(data, param_ptr, param_count * 0x20, "FMAT ShaderParam array")
-        if source_len:
-            bounds(data, source_ptr, source_len, "FMAT raw shader param buffer")
-        params = []
-        for j in range(param_count):
-            q = param_ptr + j * 0x20
-            param_name = nw_name(data, u64(data, q + 8))
-            data_offset = u16(data, q + 0x12)
-            size = data[q + 0x11]
-            offset_verified = bool(source_len and size and data_offset + size <= source_len)
-            value = data[source_ptr+data_offset:source_ptr+data_offset+size] if offset_verified else b""
-            params.append({
-                "name":param_name, "entry_offset":q, "type_raw_byte":data[q+0x10],
-                "declared_data_size":size, "data_offset_within_source":data_offset,
-                "shader_uniform_offset_raw_u32":u32(data, q+0x14),
-                "source_offset_and_length_bounded":offset_verified,
-                "raw_source_param_bytes_sha256":sha256(value) if offset_verified else None,
-                "raw_source_param_prefix_hex":value[:32].hex() if offset_verified else None
-            })
-        materials.append({
-            "name":name, "header_offset":p, "source_param_buffer_offset":source_ptr,
-            "source_param_buffer_size":source_len, "source_param_count":param_count,
-            "source_param_buffer_sha256":sha256(data[source_ptr:source_ptr+source_len]) if source_len else None,
-            "shader_params":params
-        })
-    return {
-        "status":"STRUCTURAL_FMDL_FMAT_SHADERPARAM_READ",
-        "model_count":model_count, "model_name":model_name,
-        "first_model_pointer":model_ptr, "first_material_pointer":material_ptr,
-        "materials":materials, "binding_verified":False
-    }
+    bounds(data, model_ptr, model_count * 0x78, "FMDL contiguous array")
+    models=[]
+    materials=[]
+    for midx in range(model_count):
+        mp=model_ptr + midx * 0x78
+        if data[mp:mp+4] != b"FMDL":
+            raise ValueError("FMDL stride 0x78 did not match original v9 array at model index "+str(midx))
+        model_name = nw_name(data, u64(data, mp + 8))
+        material_ptr = u64(data, mp + 0x38)
+        material_count = u16(data, mp + 0x6c)
+        if material_count > 256:
+            raise ValueError("unbounded FMAT count")
+        if material_count:
+            bounds(data, material_ptr, material_count * 0xa0, "FMDL FMAT array")
+        model_materials=[]
+        for i in range(material_count):
+            p = material_ptr + i * 0xa0
+            if data[p:p+4] != b"FMAT":
+                raise ValueError("FMAT member stride/magic does not match Switch v9 model "+str(midx))
+            name = nw_name(data, u64(data, p + 8))
+            param_ptr = u64(data, p + 0x48)
+            source_ptr = u64(data, p + 0x58)
+            param_count = u16(data, p + 0x96)
+            source_len = u16(data, p + 0x9a)
+            if param_count > 1024:
+                raise ValueError("unbounded FMAT source parameter count")
+            if param_count:
+                bounds(data, param_ptr, param_count * 0x20, "FMAT ShaderParam array")
+            if source_len:
+                bounds(data, source_ptr, source_len, "FMAT raw shader param buffer")
+            params = []
+            for j in range(param_count):
+                q = param_ptr + j * 0x20
+                param_name = nw_name(data, u64(data, q + 8))
+                data_offset = u16(data, q + 0x12)
+                size = data[q + 0x11]
+                offset_verified = bool(source_len and size and data_offset + size <= source_len)
+                value = data[source_ptr+data_offset:source_ptr+data_offset+size] if offset_verified else b""
+                params.append({
+                    "name":param_name, "entry_offset":q, "type_raw_byte":data[q+0x10],
+                    "declared_data_size":size, "data_offset_within_source":data_offset,
+                    "shader_uniform_offset_raw_u32":u32(data, q+0x14),
+                    "source_offset_and_length_bounded":offset_verified,
+                    "raw_source_param_bytes_sha256":sha256(value) if offset_verified else None,
+                    "raw_source_param_prefix_hex":value[:32].hex() if offset_verified else None
+                })
+            item={"name":name, "model_name":model_name, "model_array_index":midx,
+                  "header_offset":p, "source_param_buffer_offset":source_ptr,
+                  "source_param_buffer_size":source_len, "source_param_count":param_count,
+                  "source_param_buffer_sha256":sha256(data[source_ptr:source_ptr+source_len]) if source_len else None,
+                  "shader_params":params}
+            model_materials.append(item)
+            materials.append(item)
+        models.append({"model_index":midx, "model_header_offset":mp,
+                       "model_name":model_name, "material_count":material_count,
+                       "material_array_offset":material_ptr,
+                       "materials":model_materials})
+    return {"status":"STRUCTURAL_FMDL_FMAT_SHADERPARAM_READ",
+            "model_count":model_count, "first_model_pointer":model_ptr,
+            "model_name":models[0]["model_name"] if len(models)==1 else None,
+            "models":models,"materials":materials,"binding_verified":False}
 
 def analyze(root=Path(".")):
     anim = json.loads(R45.read_text("utf-8"))
