@@ -36,10 +36,15 @@ def get_itemkind():
     for row in kind["rows"]:
         label=row[LABEL]
         if label in values:raise ValueError("Duplicate original ItemKind label "+label)
-        val=int(row[STACK])
+        raw=int(row[STACK])
+        # This BCSV field is s16. The CSV decoder displays -1 as 65535;
+        # this is a sentinel, NOT a capacity of 65,535.
+        if not (0<=raw<=65535):raise ValueError("Invalid s16 stack representation")
+        val=raw if raw<=32767 else raw-65536
         values[label]={"original_kind_label":label,"unique_kind_id":int(row[ID]),
-            "max_stack_raw":val,
-            "nhse_practical_stack_normalization":10 if val==-1 else 1 if val==0 else val,
+            "max_stack_raw_csv_unsigned":raw,"max_stack_s16":val,
+            "stack_positive_capacity_if_direct":val if val>0 else 1 if val==0 else None,
+            "nhse_tool_sentinel_minus_one_substitution":10 if val==-1 else None,
             "stack_interpretation_requires_runtime_confirmation":val==-1,
             "flags":{f:int(row[field(f,"u8")]) for f in FLAG_NAMES}}
     return kind,values
@@ -78,8 +83,9 @@ def items_and_groups(kinds):
             "original_internal_name":row.get(NAME,""),
             "original_itemkind_raw":k,"itemkind_label":label,
             "kind_has_known_stack_record":bool(original),
-            "max_stack_raw":original.get("max_stack_raw"),
-            "nhse_practical_stack_max":original.get("nhse_practical_stack_normalization"),
+            "max_stack_s16":original.get("max_stack_s16"),
+            "stack_positive_capacity_if_direct":original.get("stack_positive_capacity_if_direct"),
+            "stack_sentinel_requires_runtime_verification":original.get("stack_interpretation_requires_runtime_confirmation"),
             "can_pick_up_in_world_verified":False}
         for key in ("CanPut","CanSell","CanSetChest","CanSetCloset","CanBury","CanPlant","CantTakeOver"):
             dest[key]=original.get("flags",{}).get(key)
@@ -116,7 +122,7 @@ def main():
     rec=csvdata(BCSV/"RecipeCraftParam.csv")
     names=message_names()
     report={
-       "schema":"acnh303_r74_original_metadata_schema_and_stack_join_v1",
+       "schema":"acnh303_r74_original_metadata_schema_and_stack_join_v2",
        "original_version":"3.0.3",
        "ItemParam":{"path":item["path"],"sha256":item["sha256"],
                     "rows":len(item["rows"]),"unique_item_ids":len(rows),
@@ -138,7 +144,8 @@ def main():
        "CanPut_is_not_equivalent_to_can_pickup":True,
        "CantTakeOver_is_not_equivalent_to_can_pickup":True,
        "multi_hold_zero_interpreted_as_1_as_in_NHSE":True,
-       "multi_hold_minus_one_interpreted_as_10_as_in_NHSE_but_unverified_in_3_0_3_runtime":True,
+       "multi_hold_s16_minus_one_is_unknown_sentinel_not_65535_capacity":True,
+       "NHSE_minus_one_to_10_is_tool_compatibility_not_verified_ROM_max":True,
        "client_third_party_names_not_substituted_for_original_3_0_3_MSBT":True}
     dest=OUT;dest.mkdir(parents=True,exist_ok=True)
     (dest/"r74-original-item-npc-stack-schema.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n","utf-8")
