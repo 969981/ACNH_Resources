@@ -19,10 +19,10 @@ class R47(unittest.TestCase):
         struct.pack_into("<H",b,0x16c,1)
         b[0x200:0x204]=b"FMAT"
         struct.pack_into("<Q",b,0x208,0x420)
-        struct.pack_into("<Q",b,0x248,0x300)
-        struct.pack_into("<Q",b,0x258,0x380)
-        struct.pack_into("<H",b,0x296,1)
-        struct.pack_into("<H",b,0x29a,0x30)
+        struct.pack_into("<Q",b,0x250,0x300)
+        struct.pack_into("<Q",b,0x260,0x380)
+        struct.pack_into("<H",b,0x29e,1)
+        struct.pack_into("<H",b,0x2a2,0x30)
         struct.pack_into("<Q",b,0x308,0x440)
         b[0x310]=3
         b[0x311]=4
