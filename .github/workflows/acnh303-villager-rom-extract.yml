@@ -1,0 +1,106 @@
+name: ACNH 3.0.3 | Decode real ROM villager portraits and photo textures
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_villager_rom_extract.py'
+      - '.github/workflows/acnh303-villager-rom-extract.yml'
+  workflow_dispatch:
+    inputs:
+      pilot:
+        description: "Samples per family (0=full catalog batch)"
+        type: number
+        default: 3
+        required: true
+      limit:
+        description: "Source files per batch (1..500)"
+        type: number
+        default: 100
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-villager-native-rom-write
+  cancel-in-progress: false
+jobs:
+  native-villager-textures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      PILOT: ${{ inputs.pilot || '3' }}
+      LIMIT: ${{ inputs.limit || '100' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Layout_NpcBromide_*.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Layout_NpcIcon_*.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_PosterNpc*.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpc*_Remake_0_0.Nin_NX_NVN.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install native format and PNG pixel validation dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Install verified pinned genuine BNTX decoder
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Export genuine ROM textures; no CDN substitution
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_villager_rom_extract.py \
+            --root . --wimgt "$(cat /tmp/wimgt.path)" \
+            --pilot "$PILOT" --limit "$LIMIT"
+      - name: Upload original ROM proof and true PNG pixels even if push fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-rom-villager-${{ github.run_id }}
+          path: |
+            assets/images/villager/
+            assets/textures/villager/
+            assets/evidence/rom-villager/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit verified ROM-derived pixels with bounded concurrent push retries
+        if: success() && github.ref == 'refs/heads/3.0.3_Unpack'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/images/villager assets/textures/villager assets/evidence/rom-villager
+          if git diff --cached --quiet; then
+            echo "No new evidence"
+            exit 0
+          fi
+          git commit -m "assets: original 3.0.3 ROM villager texture PNGs"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then
+              git rebase --abort || true
+              echo "::error::Conflicting concurrent commit; refuse force push"
+              exit 1
+            fi
+            if git push origin HEAD:3.0.3_Unpack; then
+              exit 0
+            fi
+            sleep $((attempt * 3))
+          done
+          exit 1
