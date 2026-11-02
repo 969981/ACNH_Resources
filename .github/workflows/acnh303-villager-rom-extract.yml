@@ -5,6 +5,8 @@ on:
     paths:
       - 'Scripts/acnh303_villager_rom_extract.py'
       - '.github/workflows/acnh303-villager-rom-extract.yml'
+  schedule:
+    - cron: '13,33,53 * * * *'
   workflow_dispatch:
     inputs:
       pilot:
@@ -15,7 +17,7 @@ on:
       limit:
         description: "Source files per batch (1..500)"
         type: number
-        default: 100
+        default: 250
         required: true
 permissions:
   contents: write
@@ -27,8 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     env:
-      PILOT: ${{ inputs.pilot || '3' }}
-      LIMIT: ${{ inputs.limit || '100' }}
+      PILOT: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.pilot) || '0' }}
+      LIMIT: ${{ inputs.limit || '250' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,7 +87,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- assets/images/villager assets/textures/villager assets/evidence/rom-villager
+          git add -A -- assets/images/villager assets/evidence/rom-villager
+          if [ -d assets/textures/villager ]; then
+            git add -A -- assets/textures/villager
+          fi
           if git diff --cached --quiet; then
             echo "No new evidence"
             exit 0
