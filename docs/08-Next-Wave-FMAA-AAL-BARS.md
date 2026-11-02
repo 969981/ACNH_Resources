@@ -58,3 +58,30 @@ Scripts/acnh303_fmaa_aal_native_probe.py 针对 SHA 固定的 ACNH 3.0.3 ELF64/A
 - [ ] AMTA v5 真实循环、标记及原生读取者复核
 
 关联：[[05-Progress]]、[[07-Incremental-Batches]]、[[02-Format-Catalog]]、[[06-Evidence]]。
+
+## 第二轮扩大后：实际 SHA-256 批次报告（2026-11-02）
+
+第 2 次派发设置每类最多 24 个新来源，四类均产出了数据提交：
+
+| 类别 | shard=0/8 的偏移 | 去重来源 | 实测产物 | 真正状态 |
+| --- | --- | ---: | ---: | --- |
+| Param | 16–39 | 24 | 24 JSON | 24 converted, 0 failed |
+| Model | 16–39 | 24 | 24 GLB | 24 converted, 0 failed |
+| Layout | 16–39 | 24 | 125 PNG | 14 partial, 10 no_output, 0 failed |
+| Sound | 24–47 | 24 | 24 WAV | 24 converted, 0 failed |
+
+[Param 41379697858](https://github.com/969981/ACNH_Resources/actions/runs/41379697858)、[Model 41379737898](https://github.com/969981/ACNH_Resources/actions/runs/41379737898)、[Layout 41379778052](https://github.com/969981/ACNH_Resources/actions/runs/41379778052)、[Sound 41379820695](https://github.com/969981/ACNH_Resources/actions/runs/41379820695)。共 **96 个新增来源，197 个独立验证输出**。第一轮 32/57，连续两轮合计 128 个新增来源、254 个输出。第二轮 10 个 Layout no_output 不能归类为解码失败，更不能计入成功转换。
+
+## 与 R41–R47 已完成研究真正衔接
+
+本分支从原研究分支 `feat/acnh303-round47-cedar-fmat-aal-io-contract` 以**同一 Git Blob**重新引入 218 个之前缺失的研究脚本和 7 份技术报告，且保留新分支现有 Scripts 文件；原始 research 数据 `derived/3.0.3/` 仍属于旧研究分支，不能因为复制程序就声明原来的二进制证据都已迁移或重算。
+
+[[ACNH303_ROUND47_CEDAR_FMAT_AAL_TARGET_IO_EVIDENCE]] 已在 2026-11-02 的原分支 CI [41378390870](https://github.com/969981/ACNH_Resources/actions/runs/41378390870) 验证过以下真正的源数据解析：
+- Cedar/积雪两份真实 FRES v9，每份 4 个 FMDL、每模型 4 个材质；8 处 `mPltTreeDecoA/B` 名字级候选；每目标材质 66 个 ShaderParam。
+- 原始 `tex_srt0` ShaderParam：`Type=30`（TexSrt），`Size=24`，材质源参数数据偏移 `0x184`，初始 Mode=0、Scale=(1,1)、Rotation=0、Translation=(0,0)。`AnimDataOffset=0x10` 与 TexSrt 结构内 Translation.X 相符，但 `SubBindIndex=0xFFFF` 还未解决，**并没有运行时动画写回的证据**。
+- [[ACNH303_ROUND46_TEXSRT_AAL_NATIVE_VTABLE]]：两条可核对的原始 ELF 虚表调用 `main+0x3E451FC`、`main+0x3E45218`，`BLR X8` 目标动态未知；不能直接命名 FileOpen。
+- [[ACNH303_ROUND43_BARS_FULL_L3_MODEL_SCALEOUT]]：旧分支已经对全部 1,696 份 BARS 原始来源做 L3 测试；**覆盖来源不等于全部可播放**，其中 3 个 92 字节 BWAV Header-only 成员不能从不存在的内部 payload 恢复 WAV。新分支的四文件 BARS 样本属于回归证据抽样，而不是新发现的未测试 BARS。
+
+仍未解决的关键问题转为：R47 同名材质到 Native FMAA 运行时 ShaderParam 的实际 SubBind、对象内存写回与纹理变化；R46/R47 同一真实游戏会话的虚表目标 → FileOpen/Read/Close/Buffer/源 SHA 证据。合成测试、源码静态字节、运行时文件 I/O 分级独立。
+
+研究脚本现在位于大写 `Scripts/`；旧研究文档示例多数使用原分支小写 `scripts/`，在本分支运行需要调整路径，并为要求旧版 `derived/3.0.3/` 的研究脚本显式提供对应经过来源核验的数据。不要把没有读取到数据的调用记为成功。
