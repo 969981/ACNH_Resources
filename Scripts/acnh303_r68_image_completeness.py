@@ -71,6 +71,7 @@ def main_audit(root):
     all_png_paths=ls(root,"assets/images/")
     if len(model)<50000:raise ValueError("Original model path inventory unexpectedly incomplete")
     pngs={p for p in all_png_paths if p.endswith(".png")}
+    png_basenames={p.rsplit("/",1)[-1] for p in pngs}
     all_native=villager_records(root)
     direct=native_records(root)
     extra=other_sources(root)
@@ -125,7 +126,7 @@ def main_audit(root):
             literal=row["catalog_name"]
             # Some true source names live in other subdirs. This checks exact
             # basename in ANY user visible items image folder, not 1-to-1 images.
-            if any(p.rsplit("/",1)[-1]==literal for p in pngs):
+            if literal in png_basenames:
                 catalog["actual_requested_png_filename_in_tree"]+=1
             elif row["source_status"]=="verified_native_source_candidate_only":
                 catalog["candidate_missing_requested_exact_filename"]+=1
