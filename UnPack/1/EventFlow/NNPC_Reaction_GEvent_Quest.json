@@ -1,0 +1,299 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetNpcFeel"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 15,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 5,
+        "name": "CatchInsectFes_Quest"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 13,
+        "name": "CatchFishFes_Quest"
+      }
+    ],
+    "event_count": 16,
+    "event_flow_name": "NNPC_Reaction_GEvent_Quest",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event5",
+        "next": 1,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event6",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event7",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cLandTemp:CatchInsectFesQuestStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CatchInsectFes_Quest",
+        "flowchart": "",
+        "index": 7,
+        "name": "Event0",
+        "next": 14,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cLandTemp:CatchFishFesQuestStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CatchFishFes_Quest",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event9",
+        "next": 14,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_GEvent_Quest:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          },
+          {
+            "target": 12,
+            "value": 2
+          }
+        ],
+        "index": 13,
+        "name": "Event13",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event14",
+        "next": 0,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event15",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_GEvent_Quest",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6386f834218b0b0bb81050ec0a9cc1e0c921817dceae8366de44c5d8971e4c70",
+  "size": 4296,
+  "status": "converted"
+}

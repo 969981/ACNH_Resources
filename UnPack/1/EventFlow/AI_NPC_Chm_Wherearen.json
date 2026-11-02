@@ -1,0 +1,373 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryIsWherearenResumeFirstShareHouse",
+          "EventFlowQueryWherearenLookForHousemateState",
+          "EventFlowQueryWherearenNpcOrderType",
+          "EventFlowQueryWherearenOrderStatus"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeBlockWanderState",
+          "EventFlowActionNpcReservrForErase",
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionSetNpcSpeakFlow",
+          "EventFlowActionNpcChangeInvisibleState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 8,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 10,
+        "name": "Disappear"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "Appear"
+      }
+    ],
+    "event_count": 16,
+    "event_flow_name": "AI_NPC_Chm_Wherearen",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "Flag": true,
+          "SettingType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 5,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeBlockWanderState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgInt0": 0,
+          "ArgInt1": 3,
+          "ArgInt2": 11,
+          "ArgInt3": 11,
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cBlockWander",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_chm_Wherearen"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcReservrForErase",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event12",
+        "params": {
+          "CheckStage": "cWherearenMainIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cSchoolEvent",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event14",
+        "next": 6,
+        "params": {
+          "EntryName": "chm_Lesson",
+          "FlowName": "Demo_SchoolEvent"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event15",
+        "params": {
+          "CheckStage": "cWherearenMainIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event16",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryIsWherearenResumeFirstShareHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Disappear",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          }
+        ],
+        "index": 13,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryWherearenLookForHousemateState",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          },
+          {
+            "target": 2,
+            "value": 3
+          }
+        ],
+        "index": 14,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryWherearenNpcOrderType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          },
+          {
+            "target": 2,
+            "value": 2
+          },
+          {
+            "target": 2,
+            "value": 3
+          },
+          {
+            "target": 2,
+            "value": 4
+          },
+          {
+            "target": 2,
+            "value": 5
+          },
+          {
+            "target": 2,
+            "value": 6
+          },
+          {
+            "target": 2,
+            "value": 7
+          }
+        ],
+        "index": 15,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Chm_Wherearen",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "43d65c6894825eb9a3fc92eed04573589a11239bdfb522e15c5251288d2e823f",
+  "size": 5024,
+  "status": "converted"
+}

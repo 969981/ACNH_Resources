@@ -1,0 +1,822 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSmartPhone",
+          "EventFlowActionNpcSetRewardRecipe"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionSystemMailSend"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerHouseLevel",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryRandomChoice3",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 3,
+        "name": "Rco_Cmn_UpgradeHouseSel"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 8,
+        "name": "RcoCmnProcessUpgradeMyhome"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 44,
+        "name": "HHA_1st_BuildCelebration"
+      }
+    ],
+    "event_count": 54,
+    "event_flow_name": "SNPC_rco_10_Common_UpgradeMyhome",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:216"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 20,
+            "value": 2
+          },
+          {
+            "target": 24,
+            "value": 3
+          },
+          {
+            "target": 25,
+            "value": 4
+          },
+          {
+            "target": 26,
+            "value": 5
+          },
+          {
+            "target": 27,
+            "value": 6
+          },
+          {
+            "target": 0,
+            "value": 7
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 49,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:209"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_02_SelRoofColor",
+        "index": 7,
+        "name": "Event7",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event8",
+        "next": 28,
+        "params": {
+          "AccessKey": "cPlayer:RcoOrderedHouseBuilt"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 11,
+            "value": 2
+          },
+          {
+            "target": 13,
+            "value": 3
+          },
+          {
+            "target": 12,
+            "value": 4
+          },
+          {
+            "target": 14,
+            "value": 5
+          },
+          {
+            "target": 16,
+            "value": 6
+          },
+          {
+            "target": 15,
+            "value": 7
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event10",
+        "next": 40,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder2"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder4"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder3"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder5"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder7"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "AccessKey": "cHouse:HouseOrder6"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event17",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Cmn_UpgradeHouseSel",
+        "flowchart": "",
+        "index": 18,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 1
+          },
+          {
+            "target": 21,
+            "value": 2
+          },
+          {
+            "target": 17,
+            "value": 3
+          },
+          {
+            "target": 21,
+            "value": 4
+          },
+          {
+            "target": 17,
+            "value": 5
+          },
+          {
+            "target": 17,
+            "value": 6
+          },
+          {
+            "target": 17,
+            "value": 7
+          }
+        ],
+        "index": 19,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event20",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:211"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event21",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:251"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_02_SelRoofColor",
+        "index": 22,
+        "name": "Event23",
+        "next": 23,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event24",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:252"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event22",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:212"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event25",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:213"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event26",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:214"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event27",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:215"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event28",
+        "next": 9,
+        "params": {
+          "AccessKey": "cPlayer:RcoHeardRemodel1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoCmnProcessUpgradeMyhome",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event42",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoCmnProcessUpgradeMyhome",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event44",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:209_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event45",
+        "next": 47,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:209_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event33",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:209_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event46",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:209_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event47",
+        "next": 36,
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRndDailyQuest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event48",
+        "next": 38,
+        "params": {
+          "AccessKey": "cPlayer:PlayerSonkatsuQuestEnable"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoCmnProcessUpgradeMyhome",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event49",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event50",
+        "next": 50,
+        "params": {
+          "AccessKey": "cPlayer:Mobile1stBoot_MilageProgram"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event57",
+        "next": 34,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event29",
+        "next": 46,
+        "params": {
+          "AccessKey": "cPlayer:NnpcFinishHintTalk"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event30",
+        "next": 45,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 7133
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event31",
+        "next": 45,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 3438
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event35",
+        "next": 45,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 7134
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          },
+          {
+            "target": 42,
+            "value": 2
+          }
+        ],
+        "index": 44,
+        "name": "Event36",
+        "params": {
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryRandomChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_SP_HHA_BuildCelebration",
+          "FromType": "cHHA",
+          "LabelIndex": 1,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastTomorrow",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "HHA_1st_BuildCelebration",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SendingDataOneWay",
+        "flowchart": "Demo_Common_PhoneCall",
+        "index": 47,
+        "name": "Event39",
+        "next": 33,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_Office_CmnSelAgain",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 48,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 2
+          }
+        ],
+        "index": 49,
+        "name": "Event34",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event40",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "EarthDay"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayer:MailSendFlag_EarthDayNotice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemMailSend",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event51",
+        "next": 53,
+        "params": {
+          "FileIndex": "MAIL_SNpc_rco",
+          "FromType": "cRco",
+          "LabelIndex": 6,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastToday",
+          "TagType": "cNone",
+          "ToSharePlayer": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event52",
+        "next": 37,
+        "params": {
+          "AccessKey": "cPlayer:MailSendFlag_EarthDayNotice"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_10_Common_UpgradeMyhome",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "46844c27af1701e44407b0ecdbd6bbe80d9be55ce64d9429ab83ece99978ddb5",
+  "size": 11488,
+  "status": "converted"
+}

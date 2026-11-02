@@ -1,0 +1,227 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionCameraReserveFirstStateCommand",
+          "EventFlowActionReserveSystemFlowDemo",
+          "EventFlowActionRequestLessonDemoForSound"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 10,
+        "name": "Root"
+      }
+    ],
+    "event_count": 13,
+    "event_flow_name": "SNPC_slo_Wherearen",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event10",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/slo/SP_slo_WherearenEvent:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event11",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/slo/SP_slo_WherearenEvent:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event12",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/slo/SP_slo_WherearenEvent:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event14",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/slo/SP_slo_WherearenEvent:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event15",
+        "next": 8,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_LessonEventStart"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenSchool"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraReserveFirstStateCommand",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event17",
+        "next": 12,
+        "params": {
+          "Command": "Demo:EventLessonStart",
+          "DemoTarget": "Place:EditArea",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event18",
+        "next": 9,
+        "params": {
+          "AccessKey": "cLandTemp:ReserveFaderKeep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event19",
+        "next": 7,
+        "params": {
+          "EntryName": "LessonStart",
+          "FlowFile": "Demo_SchoolEvent",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_SloTalkedNow"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_SloTalkedNow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestLessonDemoForSound",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event4",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_slo_Wherearen",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "78f9b06d58f3952c6252c47cbae666180a5549d8b63cd660263ec00831889527",
+  "size": 4176,
+  "status": "converted"
+}

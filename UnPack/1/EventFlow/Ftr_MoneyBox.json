@@ -1,0 +1,904 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionUISpeakMoneyBox",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryMoneyCapacity",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQuerySubflowResultChoice2"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerWorkbenchThinking"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionAddMoneyBoxCount",
+          "EventFlowActionFtrMoneyBoxRingSE",
+          "EventFlowActionSetMoneyBoxAmount",
+          "EventFlowActionResetMoneyBoxCount"
+        ],
+        "argument_name": "",
+        "identifier": "Ftr",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckMoneyBoxAmount"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 7768,
+          "offset_10": 7808,
+          "subflow_index_count": 11
+        },
+        "main_event": 55,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 3,
+        "name": "EndProcess"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "AddFreeParam"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 9,
+        "name": "SendChat"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 2,
+        "name": "SeqPutMoney"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 29,
+        "name": "ChkMyMoneyBox"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 13,
+        "name": "SeqTakeMoney"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 46,
+        "name": "TakeMoneyDemo"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 50,
+        "name": "PutMoneyDemo"
+      }
+    ],
+    "event_count": 56,
+    "event_flow_name": "Ftr_MoneyBox",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 19,
+            "value": 2
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event3",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event6",
+        "params": {
+          "Money": 1000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EndProcess",
+        "flowchart": "",
+        "index": 4,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event11",
+        "params": {
+          "CheckStage": "cOtherPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          }
+        ],
+        "index": 6,
+        "name": "Event12",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event13",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUISpeakMoneyBox",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SendChat",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event18",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "AddFreeParam",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event19",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          },
+          {
+            "target": 23,
+            "value": 2
+          }
+        ],
+        "index": 13,
+        "name": "Event20",
+        "params": {
+          "AddMoney": "AmountMoney",
+          "SellType": "cMoneyBox"
+        },
+        "query": "EventFlowQueryMoneyCapacity",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SeqPutMoney",
+        "flowchart": "",
+        "index": 15,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event30",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event2",
+        "next": 27,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 1,
+          "TagType": "cFlow",
+          "Value": 1000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EndProcess",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "EndProcess",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event32",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 21,
+        "name": "Event33",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event34",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 23,
+        "name": "Event35",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 24,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event29",
+        "next": 18,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": "AmountMoney"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionAddMoneyBoxCount",
+        "actor": "Ftr",
+        "index": 26,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Ftr",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event38",
+        "params": {
+          "Border": 1
+        },
+        "query": "EventFlowQueryCheckMoneyBoxAmount",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "Ftr",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event14",
+        "params": {
+          "Border": 99000
+        },
+        "query": "EventFlowQueryCheckMoneyBoxAmount",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event39",
+        "params": {
+          "CheckStage": "cTalkingPlayerHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event40",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event42",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkMyMoneyBox",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event44",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event45",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 37,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 38,
+        "name": "Event47",
+        "next": 40,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_MoneyBox:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EndProcess",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event48",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event49",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SeqTakeMoney",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event50",
+        "next": null,
+        "params": {
+          "AmountMoney": "AmountMoney"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event51",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetMoneyBoxAmount",
+        "actor": "Ftr",
+        "index": 43,
+        "name": "Event21",
+        "next": 35,
+        "params": {
+          "EntryVariableKeyInt_AmountMoney": "AmountMoney"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionResetMoneyBoxCount",
+        "actor": "Ftr",
+        "index": 44,
+        "name": "Event9",
+        "next": 4,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "Money": "AmountMoney",
+          "Reverse": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event23",
+        "next": 47,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFtrMoneyBoxRingSE",
+        "actor": "Ftr",
+        "index": 47,
+        "name": "Event24",
+        "next": 54,
+        "params": {
+          "SeType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "TakeMoneyDemo",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event52",
+        "next": 44,
+        "params": {
+          "AmountMoney": "AmountMoney"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "Money": 1000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event5",
+        "next": 51,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFtrMoneyBoxRingSE",
+        "actor": "Ftr",
+        "index": 51,
+        "name": "Event10",
+        "next": 53,
+        "params": {
+          "SeType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PutMoneyDemo",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event53",
+        "next": 12,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event54",
+        "next": 49,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event55",
+        "next": 45,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWorkbenchThinking",
+        "actor": "Player",
+        "index": 55,
+        "name": "Event56",
+        "next": 16,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_MoneyBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "f4ecb479662212a86ee44a2b956a2c4d87fa19f1fc8bfe0c67ac74cc3a8b231c",
+  "size": 10144,
+  "status": "converted"
+}

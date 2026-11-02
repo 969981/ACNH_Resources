@@ -1,0 +1,189 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIMiniGameTimerAppear",
+          "EventFlowActionBGMPropertyControl",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetSharePlayChangeCondition",
+          "EventFlowActionDisappearChatBaloon"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryIsSharePlay"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "StartTimer"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "BgmStop"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 3,
+        "name": "FinishTimer"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "System_FishCatch",
+    "events": [
+      {
+        "action": "EventFlowActionUIMiniGameTimerAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "CounterUIType": "cFishFes",
+          "Time": 180
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 9,
+        "params": {
+          "BGMProperty": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 0,
+        "params": {
+          "BGMProperty": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBGMPropertyControl",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": 8,
+        "params": {
+          "BGMProperty": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:BevQuestFinish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerVisit:DC_BevQuestFinish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSharePlayChangeCondition",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "Lock": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionDisappearChatBaloon",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event1",
+        "next": 5,
+        "params": {
+          "BaloonType": "cBaloonType_TimerEvent"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_FishCatch",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6caf4e0935f894170a8ebd45158c37f728785b9043fb3c64a88b0b752cbb2feb",
+  "size": 2592,
+  "status": "converted"
+}

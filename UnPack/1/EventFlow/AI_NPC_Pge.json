@@ -1,0 +1,332 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcAISetRequestSpeakFunc",
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionSetDefaultWaitAs",
+          "EventFlowActionNpcChangeAIState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryNpcIsEquipedHandTool"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryIsSharePlay"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 11,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 6,
+        "name": "Leave_pge"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "AI_NPC_Pge",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AISelectorTiming": "cInit"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 13,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 30,
+          "ArgStr0": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_pge_02_Takeout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": 8,
+        "params": {
+          "Flag": false,
+          "SettingType": 17
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event8",
+        "next": 7,
+        "params": {
+          "IsPlayingWithOther": true,
+          "SpeakType": "cSitdownCafe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event9",
+        "next": 1,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cExitCafe"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 6,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_pge_04_Out"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 19
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event7",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event11",
+        "next": 5,
+        "params": {
+          "Flag": false,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event12",
+        "next": 12,
+        "params": {
+          "Flag": true,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event13",
+        "next": 0,
+        "params": {
+          "Flag": true,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDefaultWaitAs",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "NpcWaitAsType": "cPgeWaitDishcloth"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event15",
+        "params": {
+          "ToolType": 4
+        },
+        "query": "EventFlowQueryNpcIsEquipedHandTool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event17",
+        "next": 13,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cPgePostTalk",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_pge_02_Takeout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event18",
+        "next": 17,
+        "params": {
+          "Flag": true,
+          "SettingType": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event19",
+        "next": 14,
+        "params": {
+          "Flag": true,
+          "SettingType": 5
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Pge",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "6afa51ef7b0c052c846ad6ec744d6a7dfc4fc87f435a0810cdfa3d895ba06c21",
+  "size": 5368,
+  "status": "converted"
+}

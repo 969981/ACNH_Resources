@@ -1,0 +1,199 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEnvSameDate"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcSelectMessage"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "NNPC_Reaction_NewYear",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {
+          "CheckDateType": "cNewYear",
+          "TimeType": "cNowTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cNpcMemory:NewYearGreetingFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "AccessKey": "cNpcMemory:NewYearGreetingFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cNpcMemory:ChineseNewYearGreetingFlag"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event11",
+        "next": 6,
+        "params": {
+          "AccessKey": "cNpcMemory:ChineseNewYearGreetingFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 7,
+        "name": "Event19",
+        "params": {
+          "CheckDateType": "cLunarNewYear",
+          "TimeType": "cNowTime"
+        },
+        "query": "EventFlowQueryEnvSameDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event20",
+        "next": 2,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/React/BO_React_NewYear",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSelectMessage",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event21",
+        "next": 5,
+        "params": {
+          "MessageID0": "TalkNNpc/B1_Bo/React/BO_React_NewYear_Chinese",
+          "MessageID1": "",
+          "MessageID2": "",
+          "MessageID3": "",
+          "StartType0": "cWildCard",
+          "StartType1": "",
+          "StartType2": "",
+          "StartType3": ""
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_NewYear",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "9d2c0fe98789d6d87bf07ec2781bc60603cb177c3570c6df505dda6967e0e7aa",
+  "size": 3448,
+  "status": "converted"
+}

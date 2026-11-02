@@ -1,0 +1,291 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUINetConnectWaitAppear",
+          "EventFlowActionUINetConnectWaitDisappear",
+          "EventFlowActionNetSearchMyDesign",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWaitDownloadMyDesignDataForPreview",
+          "EventFlowActionNetConnectInit",
+          "EventFlowActionMyDesignExchangeResetError",
+          "EventFlowActionNetCheckNSA",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice2"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 5,
+        "name": "GetMyIdList"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "WaitForPreview"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 10,
+        "name": "PreCheckConnection"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "Obj_WorldMyDesignGallery_02_SubFlow",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUINetConnectWaitDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event3",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetSearchMyDesign",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event4",
+        "next": 2,
+        "params": {
+          "Type": "cMyIDList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cPlayerTemp:MyDesignExchangeCallMyIdList"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionWaitDownloadMyDesignDataForPreview",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetConnectInit",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event1",
+        "next": 9,
+        "params": {
+          "Command": "cConnectInet",
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event8",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionMyDesignExchangeResetError",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": 8,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCheckNSA",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event12",
+        "next": 12,
+        "params": {
+          "Command": "cCheckNSA",
+          "IsErrorHandling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          }
+        ],
+        "index": 12,
+        "name": "Event13",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 13,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event16",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "Dialog/DIALOG_Msg:0810"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "PreCheckConnection",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MainUI",
+        "flowchart": "Obj_WorldMyDesignGallery_01_MainScene",
+        "index": 17,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "Obj_WorldMyDesignGallery_02_SubFlow",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d0c207b732cdad0397a231e53b8c7e8615ae3d305b776a49d169923ba47f57e9",
+  "size": 3560,
+  "status": "converted"
+}

@@ -1,0 +1,593 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionShopSellCalc",
+          "EventFlowActionShopSellDone",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionStoreNormalCamera",
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionSetExpensiveReguretion"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryPurchaseBoxFreeQuery2",
+          "EventFlowQueryNetIsDreaming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerPurchaseBoxThinking"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionStartAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "GeneralObject",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[Sub]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 36,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 7048,
+          "offset_10": 7088,
+          "subflow_index_count": 1
+        },
+        "main_event": 8,
+        "name": "BeginningChoice"
+      }
+    ],
+    "event_count": 38,
+    "event_flow_name": "Obj_PurchaseBox",
+    "events": [
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 32,
+        "params": {
+          "FilterType": "cSellBox",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cPurchaseBox"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event2",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 3,
+        "name": "Event4",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionShopSellCalc",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event13",
+        "next": 7,
+        "params": {
+          "EntryVariableKeyInt_SellTotal": "SellTotal",
+          "ExpensivePurchase": false,
+          "IsBox": true,
+          "Rate": 1.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event20",
+        "next": 33,
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseTodayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionShopSellDone",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event17",
+        "next": 20,
+        "params": {
+          "IsBox": true,
+          "Rate": 1.0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event23",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 10,
+        "name": "Event24",
+        "next": 11,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "BeginningChoice",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BeginningChoice",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event26",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:901"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseOnceFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 16,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:902"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event42",
+        "next": 22,
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseOnceFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 18,
+        "name": "Event28",
+        "next": 27,
+        "params": {
+          "ActionName": "BoxOpen",
+          "ActionType": "アクション終了を待たない"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 19,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "ActionName": "BoxClose",
+          "ActionType": "アクション終了を待たない"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 20,
+        "name": "Event22",
+        "next": 23,
+        "params": {
+          "ActionName": "BoxClose",
+          "ActionType": "アクション終了を待たない"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseOnceFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event9",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event10",
+        "next": 6,
+        "params": {
+          "AccessKey": "cLifeSupportAchievement:SellItemRcm",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPurchaseBoxThinking",
+        "actor": "Player",
+        "index": 24,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          18,
+          0
+        ],
+        "index": 25,
+        "join": 26,
+        "name": "Event29",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 26,
+        "name": "Event30",
+        "next": 4,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[Sub]",
+        "index": 27,
+        "name": "Event32",
+        "next": 24,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event14",
+        "params": {
+          "PurchaseBoxQueryType": "cPurchaseBoxQueryType_SavingFull",
+          "SellTotal": "SellTotal"
+        },
+        "query": "EventFlowQueryPurchaseBoxFreeQuery2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 29,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cPlayer:PurchaseBoxUseTodayFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 31,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStoreNormalCamera",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "CameraInterpolateKey": "",
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event11",
+        "next": 37,
+        "params": {
+          "AccessKey": "cPlayer:UsePurchaseBOXFalg"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 35,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkObj/OBJ_PurchaseBox:911"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetExpensiveReguretion",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event37",
+        "next": 34,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event39",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:RcoTipsPurchaseBoxUsed"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_PurchaseBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e0ef7024aaa73710b4d8ea0633b2fbd0e7e8a574baf98a62e731f1f2c5a23d4a",
+  "size": 8792,
+  "status": "converted"
+}

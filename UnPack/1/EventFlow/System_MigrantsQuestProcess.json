@@ -1,0 +1,958 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionCompleteSettlerQuestSubject",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEntryVariableAdd",
+          "EventFlowActionSetSubflowResult",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionDecideSettlerNpc"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsSettlerQuestOutsideComplete",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQueryCheckEntryVariableInt"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 19,
+        "name": "ChkRcoImmQClearChkA"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 20,
+        "name": "ChkRcoImmQClearChkB"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 21,
+        "name": "ChkRcoImmQClearChkC"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 16,
+        "name": "ChkRcoImmQClearChkASub"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 17,
+        "name": "ChkRcoImmQClearChkBSub"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 18,
+        "name": "ChkRcoImmQClearChkCSub"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 28,
+        "name": "ImmQClearChk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 32,
+        "name": "RcoChkClearReportSkip"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 9520,
+          "offset_10": 9560,
+          "subflow_index_count": 0
+        },
+        "main_event": 34,
+        "name": "CountClearNum"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 9576,
+          "offset_10": 9616,
+          "subflow_index_count": 0
+        },
+        "main_event": 44,
+        "name": "CountReportNum"
+      }
+    ],
+    "event_count": 57,
+    "event_flow_name": "System_MigrantsQuestProcess",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_Interior1Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_Interior2Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_Interior3Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "OutsideCheckType": 3,
+          "SettlerType": 0
+        },
+        "query": "EventFlowQueryIsSettlerQuestOutsideComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCompleteSettlerQuestSubject",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event4",
+        "next": 56,
+        "params": {
+          "SettlerType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_Interior1Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_Interior2Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          }
+        ],
+        "index": 7,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_Interior3Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "OutsideCheckType": 3,
+          "SettlerType": 1
+        },
+        "query": "EventFlowQueryIsSettlerQuestOutsideComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_Interior1Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          }
+        ],
+        "index": 10,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_Interior2Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          }
+        ],
+        "index": 11,
+        "name": "Event11",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_Interior3Donate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          }
+        ],
+        "index": 12,
+        "name": "Event12",
+        "params": {
+          "OutsideCheckType": 3,
+          "SettlerType": 2
+        },
+        "query": "EventFlowQueryIsSettlerQuestOutsideComplete",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCompleteSettlerQuestSubject",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event13",
+        "next": 55,
+        "params": {
+          "SettlerType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCompleteSettlerQuestSubject",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event14",
+        "next": 54,
+        "params": {
+          "SettlerType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardNoticeRemoveFtr"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event16",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoA"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoB"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoC"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event20",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkA",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event22",
+        "next": 23,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkB",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event23",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkC",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event24",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkASub",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkBSub",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event26",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkRcoImmQClearChkCSub",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          }
+        ],
+        "index": 29,
+        "name": "Event29",
+        "params": {
+          "AccessKey": "cPlayer:ImmQRunningForPlayer"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoChkClearReportSkip",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 31,
+        "name": "Event31",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CountClearNum",
+        "flowchart": "",
+        "index": 32,
+        "name": "Event32",
+        "next": 31,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CountReportNum",
+        "flowchart": "",
+        "index": 33,
+        "name": "Event33",
+        "next": 43,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event34",
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event35",
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_Complete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event37",
+        "next": 35,
+        "params": {
+          "AddValue": 1,
+          "Key": "ClearCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event38",
+        "next": 36,
+        "params": {
+          "AddValue": 1,
+          "Key": "ClearCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event39",
+        "next": 40,
+        "params": {
+          "AddValue": 1,
+          "Key": "ClearCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event40",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 2,
+          "Value": "ClearCount"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event43",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 44,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoA"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event45",
+        "next": 49,
+        "params": {
+          "AddValue": 1,
+          "Key": "ReportCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 52,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event46",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 1,
+          "Value": "ReportCount"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event47",
+        "next": 50,
+        "params": {
+          "AddValue": 1,
+          "Key": "ReportCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEntryVariableAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event48",
+        "next": 46,
+        "params": {
+          "AddValue": 1,
+          "Key": "ReportCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 49,
+        "name": "Event49",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoB"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 50,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardClearInfoC"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event51",
+        "next": null,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event52",
+        "next": null,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:ImmQHeardNoticeRemoveFtr"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideSettlerNpc",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event54",
+        "next": 18,
+        "params": {
+          "SettlerType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideSettlerNpc",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event55",
+        "next": 17,
+        "params": {
+          "SettlerType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDecideSettlerNpc",
+        "actor": "EventFlowSystemActor",
+        "index": 56,
+        "name": "Event56",
+        "next": 16,
+        "params": {
+          "SettlerType": 0
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_MigrantsQuestProcess",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "16623f71911d5a79b1c72be57d6087e9086c519e18f056a2a79fb4eb6cfc08d9",
+  "size": 11392,
+  "status": "converted"
+}

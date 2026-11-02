@@ -1,0 +1,1188 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionStructureStartPreviewGuide",
+          "EventFlowActionCloudIslandStructureRequestLock",
+          "EventFlowActionCloudIslandStructureCancelLock",
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionSystemDeletePlayerItem",
+          "EventFlowActionBuildStructurePlayReport",
+          "EventFlowActionStructureDeletePreviewGuide",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionCloudIslandStructureLockEffect",
+          "EventFlowActionReservePlayerMutterDemo",
+          "EventFlowActionCloudIslandStructureWaitBuild",
+          "EventFlowActionDeletePreviewStructure",
+          "EventFlowActionFadeOut",
+          "EventFlowActionFadeIn",
+          "EventFlowActionBuildStructure",
+          "EventFlowActionStructureSetIsDuringPreview"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCanBuildHere",
+          "EventFlowQueryCloudIslandStructureIsLockSuccess",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryHasObstacle",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryCloudIslandStructureIsExistPlayerInHouse",
+          "EventFlowQueryCloudIslandStructureIsHouseRemoveLockFailure"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionCharacterEmoticonAction"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 32,
+        "name": "BridgeBuildKit_Cloud"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 41,
+        "name": "SlopeBuildKit_Cloud"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 1,
+        "name": "MovingKit_Cloud"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 6,
+        "name": "HousingKitCommon_CloudIsland"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 75,
+        "name": "DeletePreviewAndBuildStructureCloudIsland"
+      }
+    ],
+    "event_count": 80,
+    "event_flow_name": "Player_HousingKit_CloudIsland",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event1",
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cCloudIslandPlayerHouse"
+        },
+        "query": "EventFlowQueryCanBuildHere",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionStructureStartPreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event2",
+        "next": 0,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cCloudIslandPlayerHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommonError",
+        "flowchart": "Player_HousingKit",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cPlayerHouse"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommon_CloudIsland",
+        "flowchart": "",
+        "index": 3,
+        "name": "Event25",
+        "next": 48,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "BuildType": "cHouseMove",
+          "StructureBuildPosType": "cPlayer",
+          "StructureType": "APP_ENABLE_CLOUD_ISLAND_SCOPE"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event29",
+        "params": {
+          "CloudIslandStructureBuildType": "cHouseMove",
+          "CloudIslandStructureRangeType": "cBuildRange"
+        },
+        "query": "EventFlowQueryCloudIslandStructureIsLockSuccess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event30",
+        "next": 62,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 20,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event6",
+        "params": {
+          "StructureBuildPosType": "StructureBuildPosType",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "StructureType"
+        },
+        "query": "EventFlowQueryHasObstacle",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event7",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:931"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event8",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:932"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDeletePlayerItem",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event12",
+        "next": 15,
+        "params": {
+          "DeleteNum": 1,
+          "DeleteType": "cItemWindow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PreviewStructure",
+        "flowchart": "System_Structure_Common",
+        "index": 14,
+        "name": "Event13",
+        "next": 24,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "StructurePosType": "StructureBuildPosType",
+          "StructureType": "StructureType"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DeletePreviewAndBuildStructureCloudIsland",
+        "flowchart": "",
+        "index": 15,
+        "name": "Event14",
+        "next": 72,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "StructurePosType": "StructureBuildPosType",
+          "StructureType": "StructureType"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "DeletePreviewStructure",
+        "flowchart": "System_Structure_Common",
+        "index": 16,
+        "name": "Event15",
+        "next": 27,
+        "params": {
+          "StructurePosType": "StructureBuildPosType",
+          "StructureType": "StructureType"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BuildStructure",
+        "flowchart": "System_Structure_Common",
+        "index": 17,
+        "name": "Event16",
+        "next": 72,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "StructurePosType": "StructureBuildPosType",
+          "StructureType": "StructureType"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionBuildStructurePlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event18",
+        "next": 13,
+        "params": {
+          "StructureBuildPosType": "StructureBuildPosType",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBuildStructurePlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event20",
+        "next": 73,
+        "params": {
+          "StructureBuildPosType": "StructureBuildPosType",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureDeletePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event21",
+        "next": 26,
+        "params": {
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Player",
+        "index": 21,
+        "name": "Event23",
+        "next": 22,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "AbsentMindedness"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event24",
+        "next": 14,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event32",
+        "next": 21,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCharacterEmoticonAction",
+        "actor": "Player",
+        "index": 24,
+        "name": "Event33",
+        "next": 25,
+        "params": {
+          "Continue": false,
+          "Frame": 0,
+          "MessageID": "",
+          "PlayerAutoEnd": true,
+          "Reaction": "EmotEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event34",
+        "next": 7,
+        "params": {
+          "WaitFrame": 10
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event35",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event36",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event37",
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cBridge"
+        },
+        "query": "EventFlowQueryCanBuildHere",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommon_CloudIsland",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event39",
+        "next": 49,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "BuildType": "cBridgeSlopeBuild",
+          "StructureBuildPosType": "cPlayer",
+          "StructureType": "cBridge"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommonError",
+        "flowchart": "Player_HousingKit",
+        "index": 30,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cBridge"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionStructureStartPreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event42",
+        "next": 28,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cBridge"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event43",
+        "next": 31,
+        "params": {
+          "TagID": 0,
+          "TagType": "cBridgeSlopeKitName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event47",
+        "params": {
+          "CloudIslandStructureBuildType": "cBridgeSlopeBuild",
+          "CloudIslandStructureRangeType": "cBuildRange"
+        },
+        "query": "EventFlowQueryCloudIslandStructureIsLockSuccess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event48",
+        "next": 63,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureDeletePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureDeletePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event50",
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cSlope"
+        },
+        "query": "EventFlowQueryCanBuildHere",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommon_CloudIsland",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event52",
+        "next": 50,
+        "params": {
+          "BuildTiming": "BuildTiming",
+          "BuildType": "cBridgeSlopeBuild",
+          "StructureBuildPosType": "cPlayer",
+          "StructureType": "cSlope"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "HousingKitCommonError",
+        "flowchart": "Player_HousingKit",
+        "index": 39,
+        "name": "Event53",
+        "next": null,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cSlope"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionStructureStartPreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event54",
+        "next": 37,
+        "params": {
+          "StructureBuildPosType": "cPlayer",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "cSlope"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event55",
+        "next": 40,
+        "params": {
+          "TagID": 0,
+          "TagType": "cBridgeSlopeKitName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event58",
+        "params": {
+          "CloudIslandStructureBuildType": "cBridgeSlopeBuild",
+          "CloudIslandStructureRangeType": "cBuildRange"
+        },
+        "query": "EventFlowQueryCloudIslandStructureIsLockSuccess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event59",
+        "next": 66,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureDeletePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureLockEffect",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event60",
+        "next": 60,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureLockEffect",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event49",
+        "next": 59,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureLockEffect",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event31",
+        "next": 58,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event62",
+        "next": null,
+        "params": {
+          "EntryPointName": "HousingFinish_Cloud_PcHouseMove",
+          "EventFileName": "Player_Demo_HousingFinish",
+          "IsResistNpcCast": true,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event63",
+        "next": null,
+        "params": {
+          "EntryPointName": "HousingFinish_Cloud_Bridge",
+          "EventFileName": "Player_Demo_HousingFinish",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReservePlayerMutterDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event64",
+        "next": null,
+        "params": {
+          "EntryPointName": "HousingFinish_Cloud_Slope",
+          "EventFileName": "Player_Demo_HousingFinish",
+          "IsResistNpcCast": false,
+          "MutterStartTiming": "cNowDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureRequestLock",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event65",
+        "next": 42,
+        "params": {
+          "CloudIslandStructureBuildType": "cBridgeSlopeBuild",
+          "CloudIslandStructureRangeType": "cBuildRange",
+          "StructureType": "cSlope"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureRequestLock",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event57",
+        "next": 33,
+        "params": {
+          "CloudIslandStructureBuildType": "cBridgeSlopeBuild",
+          "CloudIslandStructureRangeType": "cBuildRange",
+          "StructureType": "cBridge"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureRequestLock",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event46",
+        "next": 4,
+        "params": {
+          "CloudIslandStructureBuildType": "cHouseMove",
+          "CloudIslandStructureRangeType": "cBuildRange",
+          "StructureType": "cCloudIslandPlayerHouse"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event17",
+        "params": {
+          "CloudIslandStructureBuildType": "BuildType",
+          "CloudIslandStructureRangeType": "cSafeRange"
+        },
+        "query": "EventFlowQueryCloudIslandStructureIsLockSuccess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureRequestLock",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event22",
+        "next": 54,
+        "params": {
+          "CloudIslandStructureBuildType": "BuildType",
+          "CloudIslandStructureRangeType": "cSafeRange",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event19",
+        "params": {
+          "CloudIslandStructureBuildType": "BuildType",
+          "CloudIslandStructureRangeType": "cSafeRange"
+        },
+        "query": "EventFlowQueryCloudIslandStructureIsLockSuccess",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureRequestLock",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event28",
+        "next": 56,
+        "params": {
+          "CloudIslandStructureBuildType": "BuildType",
+          "CloudIslandStructureRangeType": "cSafeRange",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event66",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:941_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event4",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:906_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event38",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:907_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event51",
+        "next": 68,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:920_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event67",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:920_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 63,
+        "name": "Event70",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:920_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event72",
+        "next": 16,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:933"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 65,
+        "name": "Event73",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:933"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 66,
+        "name": "Event74",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:920_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 61,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event75",
+        "params": {},
+        "query": "EventFlowQueryCloudIslandStructureIsExistPlayerInHouse",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionStructureDeletePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event26",
+        "next": null,
+        "params": {
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event27",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:920_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event45",
+        "params": {},
+        "query": "EventFlowQueryCloudIslandStructureIsHouseRemoveLockFailure",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureCancelLock",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event56",
+        "next": 69,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCloudIslandStructureWaitBuild",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event68",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemDeletePlayerItem",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event69",
+        "next": 17,
+        "params": {
+          "DeleteNum": 1,
+          "DeleteType": "cItemWindow"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDeletePreviewStructure",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event71",
+        "next": 78,
+        "params": {
+          "StructureBuildPosType": "StructurePosType",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeOut",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event76",
+        "next": 74,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cNormalFader",
+          "FadeOutSpeed": 1.0,
+          "IsUseDucking": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event77",
+        "next": null,
+        "params": {
+          "IsWait": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionBuildStructure",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event78",
+        "next": 79,
+        "params": {
+          "StructureBuildPosType": "StructurePosType",
+          "StructureBuildTiming": "BuildTiming",
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureSetIsDuringPreview",
+        "actor": "EventFlowSystemActor",
+        "index": 78,
+        "name": "Event79",
+        "next": 77,
+        "params": {
+          "IsPreview": true,
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureSetIsDuringPreview",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event80",
+        "next": 76,
+        "params": {
+          "IsPreview": false,
+          "StructureType": "StructureType"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Player_HousingKit_CloudIsland",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "32a1f3fe2a46a59c93a052613facf434d5a7a30d4b5861d52d5f0061010d94ab",
+  "size": 20520,
+  "status": "converted"
+}

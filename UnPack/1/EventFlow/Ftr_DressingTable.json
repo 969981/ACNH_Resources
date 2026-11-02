@@ -1,0 +1,219 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerWorkbenchThinking",
+          "EventFlowActionPlayerChangeStateDemoTalk"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionUICharactermakingHandling",
+          "EventFlowActionSaveSetFromUIResult",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionUICharactermakingCreate"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "Root"
+      }
+    ],
+    "event_count": 13,
+    "event_flow_name": "Ftr_DressingTable",
+    "events": [
+      {
+        "action": "EventFlowActionUICharactermakingHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "CharctermakingFilterType": "cRemake"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_DressingTable:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSetFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event1",
+        "next": 9,
+        "params": {
+          "SaveType": "cCharaMakeResult"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event5",
+        "next": 11,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cStartFtrName",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUICharactermakingCreate",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event6",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWorkbenchThinking",
+        "actor": "Player",
+        "index": 7,
+        "name": "Event7",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeStateDemoTalk",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeStateDemoTalk",
+        "actor": "Player",
+        "index": 9,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeStateDemoTalk",
+        "actor": "Player",
+        "index": 10,
+        "name": "Event10",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event12",
+        "params": {
+          "CheckStage": "cCloudIslandAll"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 12,
+        "name": "Event13",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkFtr/FTR_DressingTable:002"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Ftr_DressingTable",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "d567eac4e3440ae0ee0892982e85ad55576e292eefb66bfcb2e26c912c54d247",
+  "size": 2912,
+  "status": "converted"
+}

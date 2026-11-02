@@ -1,0 +1,166 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEnvHourCompare"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsEarlyLateReactionSituation",
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "Root"
+      }
+    ],
+    "event_count": 8,
+    "event_flow_name": "NNPC_Reaction_EarlyLate",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event6",
+        "next": 1,
+        "params": {
+          "AccessKey": "cNpcMemory:AcquaintanceshipFlagOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          }
+        ],
+        "index": 2,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryIsEarlyLateReactionSituation",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event9",
+        "params": {
+          "Hour": 12,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": -1
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event0",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_EarlyLate:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event1",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/React/BO_React_EarlyLate:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cNpcMemory:TalkEarlyLateToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event3",
+        "next": 0,
+        "params": {
+          "AccessKey": "cNpcMemory:TalkEarlyLateToday"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_EarlyLate",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "c0b53fbd0e67efcf3821fbd5b798b998563886efd0f809531d1a583feaafb569",
+  "size": 2384,
+  "status": "converted"
+}

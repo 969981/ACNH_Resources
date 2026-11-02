@@ -1,0 +1,1364 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionNetMoveSessionSearch",
+          "EventFlowActionMessageUnlockNext",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionNetMoveStartWait",
+          "EventFlowActionNetMoveFinishWait",
+          "EventFlowActionSaveRegisterMoveInPlayerBuffer",
+          "EventFlowActionNetMoveSessionFinalize",
+          "EventFlowActionSaveUnregisterMoveInPlayerBuffer",
+          "EventFlowActionBeginAsMovedOne",
+          "EventFlowActionSetTagMoveInPlayerInfo",
+          "EventFlowActionSaveSwitchMovedOneToVillager",
+          "EventFlowActionNoticeGameStartForPlayReport",
+          "EventFlowActionResetNA",
+          "EventFlowActionNetEnsureNSA"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryCheckErrorType",
+          "EventFlowQueryMessageUseBCancel",
+          "EventFlowQueryNetMoveFoundSessionNum",
+          "EventFlowQueryNetIsAvailableNA",
+          "EventFlowQueryNetHasPOPID",
+          "EventFlowQueryNetIsRegisteredSameNA",
+          "EventFlowQueryNetMoveMissingSaveExtension",
+          "EventFlowQuerySaveIsAbleToMoveIn",
+          "EventFlowQueryIsPlayingOn"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 19
+        },
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 3,
+        "name": "Cancel_Moving_CharacterMaking"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 19
+        },
+        "main_event": 1,
+        "name": "Retry_Moving"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 15
+        },
+        "main_event": 58,
+        "name": "Return_SearchMoving"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 45,
+        "name": "Cancel_Search_Cmn"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 62,
+        "name": "CheckNALink"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 62,
+        "name": "Loop_CheckNALink"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 57,
+        "name": "Return_HowToMoving"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 70,
+        "name": "Jump_Initialize"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 92,
+        "name": "SaveExpansion"
+      }
+    ],
+    "event_count": 101,
+    "event_flow_name": "Tutorials_Prologue1_Charactermaking_PlayerMoving",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 100,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 58,
+            "value": 0
+          },
+          {
+            "target": 57,
+            "value": 1
+          },
+          {
+            "target": 5,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 4,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2021"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Retry_Moving",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event12",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2023"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event13",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Save:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event14",
+        "next": 8,
+        "params": {
+          "WaitIconType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "WaitFrame": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event16",
+        "next": 30,
+        "params": {
+          "WaitIconType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetMoveSessionSearch",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event17",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event18",
+        "next": 16,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event19",
+        "next": 13,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event20",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryMessageUseBCancel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 17,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event23",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2024"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Return_SearchMoving",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 21,
+        "name": "Event26",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event27",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event29",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event30",
+        "next": 26,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event31",
+        "next": 31,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event33",
+        "next": 39,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event34",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetMoveStartWait",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event35",
+        "next": 96,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 30,
+        "name": "Event36",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event37",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetMoveFinishWait",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event32",
+        "next": 34,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event38",
+        "next": 37,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event39",
+        "next": 33,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event40",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event41",
+        "next": 32,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Network:204"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event42",
+        "params": {
+          "ErrorType": 2
+        },
+        "query": "EventFlowQueryCheckErrorType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event44",
+        "next": 40,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event45",
+        "next": 41,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event46",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 41,
+        "name": "Event47",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          },
+          {
+            "target": 53,
+            "value": 1
+          },
+          {
+            "target": 53,
+            "value": 2
+          }
+        ],
+        "index": 42,
+        "name": "Event49",
+        "params": {},
+        "query": "EventFlowQueryNetMoveFoundSessionNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSaveRegisterMoveInPlayerBuffer",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event50",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetMoveSessionFinalize",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveUnregisterMoveInPlayerBuffer",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event56",
+        "next": 44,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event57",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event58",
+        "next": 18,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event52",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionBeginAsMovedOne",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event53",
+        "next": 54,
+        "params": {
+          "AfterReceivingData": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event59",
+        "next": 28,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNetMoveSessionFinalize",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event60",
+        "next": 49,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event61",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagMoveInPlayerInfo",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event54",
+        "next": 22,
+        "params": {
+          "IdLandName": 0,
+          "IdPlayerName": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSaveSwitchMovedOneToVillager",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event55",
+        "next": 55,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNoticeGameStartForPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 55,
+        "name": "Event62",
+        "next": 90,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Continue_AfterMoving",
+        "flowchart": "Tutorials_Prologue1_Charactermaking",
+        "index": 56,
+        "name": "Event65",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event69",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2007"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event70",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2002_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          }
+        ],
+        "index": 59,
+        "name": "Event71",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 60,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          }
+        ],
+        "index": 61,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNetIsAvailableNA",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          }
+        ],
+        "index": 62,
+        "name": "Event73",
+        "params": {
+          "IsRawDataCheck": true
+        },
+        "query": "EventFlowQueryNetHasPOPID",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event74",
+        "params": {},
+        "query": "EventFlowQueryNetIsRegisteredSameNA",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CheckNALink",
+        "flowchart": "",
+        "index": 64,
+        "name": "Event84",
+        "next": 56,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event48",
+        "next": 66,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          }
+        ],
+        "index": 66,
+        "name": "Event63",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event64",
+        "next": 68,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 74,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 68,
+        "name": "Event66",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event85",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionResetNA",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event86",
+        "next": 69,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetEnsureNSA",
+        "actor": "EventFlowSystemActor",
+        "index": 71,
+        "name": "Event87",
+        "next": 72,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Loop_CheckNALink",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event88",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event89",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event90",
+        "next": 76,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event68",
+        "next": 61,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event75",
+        "next": null,
+        "params": {
+          "WaitFrame": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event76",
+        "next": 88,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 83,
+            "value": 1
+          },
+          {
+            "target": 82,
+            "value": 2
+          }
+        ],
+        "index": 78,
+        "name": "Event77",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event78",
+        "next": 80,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 80,
+        "name": "Event79",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2009"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Return_SearchMoving",
+        "flowchart": "",
+        "index": 81,
+        "name": "Event80",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 82,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Return_HowToMoving",
+        "flowchart": "",
+        "index": 83,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 84,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event11",
+        "next": 86,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9105_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 86,
+        "name": "Event81",
+        "next": null,
+        "params": {
+          "WaitFrame": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Jump_Initialize",
+        "flowchart": "",
+        "index": 87,
+        "name": "Event82",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event83",
+        "next": 89,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event91",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 90,
+        "name": "Event93",
+        "next": 64,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2010"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 99,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          }
+        ],
+        "index": 91,
+        "name": "Event96",
+        "params": {},
+        "query": "EventFlowQueryNetMoveMissingSaveExtension",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 1
+          }
+        ],
+        "index": 92,
+        "name": "Event97",
+        "params": {},
+        "query": "EventFlowQuerySaveIsAbleToMoveIn",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Cancel_Moving_CharacterMaking",
+        "flowchart": "",
+        "index": 93,
+        "name": "Event104",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event107",
+        "next": 98,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event108",
+        "next": 94,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SaveExpansion",
+        "flowchart": "",
+        "index": 96,
+        "name": "Event98",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 97,
+        "name": "Event99",
+        "next": 93,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Tutorials/Tutorials_Prologue1_Airport:2025"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Cancel_Search_Cmn",
+        "flowchart": "",
+        "index": 98,
+        "name": "Event101",
+        "next": 91,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 99,
+        "name": "Event100",
+        "next": 97,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:9114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 77,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 100,
+        "name": "Event102",
+        "params": {},
+        "query": "EventFlowQueryIsPlayingOn",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "Tutorials_Prologue1_Charactermaking_PlayerMoving",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e28ac3ac42ae35212a71ef6acca70e1cf6fadb47af8ab144e2943843f512f6d0",
+  "size": 14808,
+  "status": "converted"
+}

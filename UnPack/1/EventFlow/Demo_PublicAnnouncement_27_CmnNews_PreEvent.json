@@ -1,0 +1,554 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySubflowResultChoice5",
+          "EventFlowQueryEnvCheckBetweenDate",
+          "EventFlowQueryTermEventNow",
+          "EventFlowQuerySubflowResultChoice2",
+          "EventFlowQueryEnvHourCompare",
+          "EventFlowQueryCheckNearEvent"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 14,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "PreEv_Snow"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 18,
+        "name": "PreEv_Easter"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "PreEv_Xmas"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 22,
+        "name": "PreEv_AfterXmas"
+      }
+    ],
+    "event_count": 31,
+    "event_flow_name": "Demo_PublicAnnouncement_27_CmnNews_PreEvent",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 1
+          },
+          {
+            "target": 26,
+            "value": 2
+          },
+          {
+            "target": 12,
+            "value": 3
+          },
+          {
+            "target": 13,
+            "value": 4
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "SetIndex": 22
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_01_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:005"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event8",
+        "params": {
+          "Day0": 1,
+          "Day1": 1,
+          "Month0": 12,
+          "Month1": 12,
+          "TimeType": "cGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvCheckBetweenDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_06"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event11",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "XmasReady1"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event12",
+        "next": 6,
+        "params": {
+          "AccessKey": "cPlayer:AnnouncePreChristmas"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event13",
+        "params": {
+          "Day0": 15,
+          "Day1": 15,
+          "Month0": 12,
+          "Month1": 12,
+          "TimeType": "cGrowUpTime"
+        },
+        "query": "EventFlowQueryEnvCheckBetweenDate",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_07"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_08"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PreEv_Xmas",
+        "flowchart": "",
+        "index": 11,
+        "name": "Event1",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PreEv_Easter",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PreEv_Snow",
+        "flowchart": "",
+        "index": 13,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event16",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 3
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {
+          "SetIndex": 22
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "PreEv_Easter",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event26",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event5",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:PAnnouncePreEaster"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event6",
+        "next": 17,
+        "params": {
+          "AccessKey": "cPlayer:AnnounceEasterReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_00_Rco:041_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          },
+          {
+            "target": 24,
+            "value": 2
+          }
+        ],
+        "index": 21,
+        "name": "Event18",
+        "params": {
+          "Hour": 0,
+          "IsMidNight": true,
+          "IsOverGrowUpTime": true,
+          "Minute": 0
+        },
+        "query": "EventFlowQueryEnvHourCompare",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event21",
+        "next": 21,
+        "params": {
+          "AccessKey": "cPlayer:AnnounceChristmasEve"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event23",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_09"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event24",
+        "next": 25,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_10"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event25",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_10_11"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PreEv_AfterXmas",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event28",
+        "params": {
+          "BcatCheck": false,
+          "EndDays": 1,
+          "EventLabelString": "Easter",
+          "StartDays": 1
+        },
+        "query": "EventFlowQueryCheckNearEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_00_Rco:041_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event30",
+        "params": {
+          "BcatCheck": false,
+          "EndDays": 1,
+          "EventLabelString": "Easter",
+          "StartDays": 1
+        },
+        "query": "EventFlowQueryCheckNearEvent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/PublicAnnouncement/SP_PublicAnnouncement_01_Sza:008_01_02"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Demo_PublicAnnouncement_27_CmnNews_PreEvent",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "55f62ee3a1db7671a88f0834018014647199497c295c1cd1c90b987811ab38d7",
+  "size": 8232,
+  "status": "converted"
+}

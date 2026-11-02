@@ -1,0 +1,271 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionSetNpcFeel"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcIsMovingRoom"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 9,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 7,
+        "name": "FirstMeeting_FlagProcess"
+      }
+    ],
+    "event_count": 16,
+    "event_flow_name": "NNPC_Reaction_First_Root",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_First_Acquaintance",
+        "index": 3,
+        "name": "Event27",
+        "next": 7,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FirstV_Stranger",
+        "flowchart": "NNPC_Reaction_First_V",
+        "index": 4,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Reaction_First_Stranger",
+        "index": 5,
+        "name": "Event29",
+        "next": 7,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "FirstV_Acquaintance",
+        "flowchart": "NNPC_Reaction_First_V",
+        "index": 6,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event31",
+        "next": 8,
+        "params": {
+          "AccessKey": "cNpcMemory:HasAcquaintanceship"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event32",
+        "next": 12,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event33",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillage"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event35",
+        "next": 15,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event36",
+        "next": 11,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          },
+          {
+            "target": 1,
+            "value": 2
+          }
+        ],
+        "index": 13,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryNpcIsMovingRoom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "AccessKey": "cNpcMemory:FirstGreetingAtNpcHome"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Facility_Chk",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 15,
+        "name": "Event8",
+        "next": 10,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_First_Root",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "69d5dfdec3a5fb2776fe1fa35d627171e18b9860ee0e92c480a927329a1483e2",
+  "size": 3200,
+  "status": "converted"
+}

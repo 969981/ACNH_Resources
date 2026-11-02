@@ -1,0 +1,112 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryTermEventNow",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 1,
+        "name": "Root"
+      }
+    ],
+    "event_count": 5,
+    "event_flow_name": "SNPC_rco_60_Event",
+    "events": [
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_61_Event_EarthDay",
+        "index": 0,
+        "name": "Event0",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "EarthDay"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_62_Event_MayDay",
+        "index": 2,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event4",
+        "params": {
+          "CheckNowTime": false,
+          "EventLabelString": "MayDay"
+        },
+        "query": "EventFlowQueryTermEventNow",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {
+          "AccessKey": "cPlayer:DodUseFirstFreeTour"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_60_Event",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "90ca3dde31ce6fea0599d279884401167ee0429f582e0b228dffc55e9d5c463f",
+  "size": 1424,
+  "status": "converted"
+}

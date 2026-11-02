@@ -1,0 +1,340 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionSetNpcSpeakFlow",
+          "EventFlowActionNpcAISetRequestSpeakFunc",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcAITalkCastSetting"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMuseumCafeTakeoutCustomer",
+          "EventFlowQueryMuseumCafeAmiiboNpc",
+          "EventFlowQueryIsNpcType"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 11,
+        "name": "Init"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "AI_NPC_MuseumCafeCustomer",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cSitCafeChair",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_common_CafeSitting"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryIsMuseumCafeTakeoutCustomer",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cTakeout",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_common_CafeTakeout"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 7,
+            "value": 2
+          }
+        ],
+        "index": 3,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryMuseumCafeAmiiboNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cSitCafeChair",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_Cafe_Amiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cSitCafeChair",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_common_CafeAmiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          }
+        ],
+        "index": 6,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryIsNpcType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 0,
+            "value": 2
+          }
+        ],
+        "index": 7,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryIsNpcType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsChangePreState": false,
+          "IsChangeSameState": true,
+          "StateName": "cSitCafeChair",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "NNPC_Spot_Cafe_Normal"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event11",
+        "next": 4,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "NNPC_Spot_Cafe_Amiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcSpeakFlow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event12",
+        "next": 5,
+        "params": {
+          "EntryName": "Root",
+          "FlowName": "SNPC_common_CafeAmiibo"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryIsMuseumCafeTakeoutCustomer",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryMuseumCafeAmiiboNpc",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetRequestSpeakFunc",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "IsPlayingWithOther": false,
+          "SpeakType": "cSitdownCafeCustomer"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event17",
+        "next": 15,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "Flag": true,
+          "SettingType": 19
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAITalkCastSetting",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event10",
+        "next": 10,
+        "params": {
+          "SetupKey": "CafeAmiiboCustomer"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event19",
+        "next": 3,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_MuseumCafeCustomer",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "4dd03c48fc42997afe2fdc3396c57dcc30a394e513b00de07bb620e4bffc5489",
+  "size": 5224,
+  "status": "converted"
+}

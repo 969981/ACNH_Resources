@@ -1,0 +1,1799 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSmartPhone"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryNpcHouseNum",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryPlayerHouseLevel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 30,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 5,
+        "name": "Root_Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 23,
+        "name": "ChkFirstCamperRequest"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 35,
+        "name": "RcoFirstVisit"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 23
+        },
+        "main_event": 32,
+        "name": "RcoEntrieChk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 63,
+        "name": "RcoFirstVisit_Force"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 67,
+        "name": "CheckInfoMoveMyhome"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 74,
+        "name": "RcoFirstVisit_Force_Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 77,
+        "name": "Skip_ChkNpcCoordeUnlockEv"
+      }
+    ],
+    "event_count": 114,
+    "event_flow_name": "SNPC_rco",
+    "events": [
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_03_ChkAfterRemodel",
+        "index": 0,
+        "name": "Event23",
+        "next": 1,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_04_ChkFinishLoan",
+        "index": 1,
+        "name": "Event44",
+        "next": 54,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          },
+          {
+            "target": 3,
+            "value": 2
+          }
+        ],
+        "index": 2,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event65",
+        "params": {
+          "AccessKey": "cPlayer:RcoFirstTalkNewOffice"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "OfficeOpening_NormalTalk",
+        "flowchart": "SNPC_rco_01_Office_1_Entries",
+        "index": 4,
+        "name": "Event66",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event68",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event69",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event73",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event84",
+        "params": {
+          "AccessKey": "cPlayer:RcoDIYtrialOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoDIYongoing",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 9,
+        "name": "Event85",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 64,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event116",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAfterMuseumTent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoTentAboutBuildMuseumTent",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 11,
+        "name": "Event117",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event133",
+        "params": {
+          "AccessKey": "cLand:FinishiPC1Prologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_00_StartMainGame",
+        "index": 13,
+        "name": "Event157",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event172",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalked1stAfterPrologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event173",
+        "params": {
+          "AccessKey": "cPlayer:RcoDIYtrialOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event174",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAfterMuseumTent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event176",
+        "params": {
+          "AccessKey": "cPlayer:RcoPaid1stCharge"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event175",
+        "params": {
+          "AccessKey": "cLand:RcmImmQuestOpen"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event177",
+        "params": {
+          "AccessKey": "cLand:RcmImmQuestRunning"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event178",
+        "next": null,
+        "params": {
+          "ActionType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event179",
+        "next": 20,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkFirstCamperRequest",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event52",
+        "next": 8,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          }
+        ],
+        "index": 23,
+        "name": "Event134",
+        "params": {
+          "AccessKey": "cLand:CampSiteBuilt"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          }
+        ],
+        "index": 24,
+        "name": "Event140",
+        "params": {
+          "AccessKey": "cLand:RcoMeetFirstVisitorComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          }
+        ],
+        "index": 25,
+        "name": "Event141",
+        "params": {
+          "AccessKey": "cPlayer:IslandDevQuestOrderFirstCamperMyself"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event142",
+        "params": {
+          "AccessKey": "cLand:RcoBuildFirstVisitorsHousingKitOngoing"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 27,
+        "name": "Event187",
+        "params": {
+          "NpcHouseType": "cExist",
+          "Num": 6
+        },
+        "query": "EventFlowQueryNpcHouseNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SetFirstCamperHouseRequest",
+        "flowchart": "SNPC_rco_54_IslandDevelopment",
+        "index": 28,
+        "name": "Event56",
+        "next": 52,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event167",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_10_ForVisitor:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalked1stAfterPrologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoFirstVisit",
+        "flowchart": "",
+        "index": 33,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 34,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event5",
+        "next": 39,
+        "params": {
+          "AccessKey": "cPlayer:RcoTalked1stAfterPrologue"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event6",
+        "next": 65,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event7",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event9",
+        "next": 40,
+        "params": {
+          "AccessKey": "cPlayer:RcoTentEnableDIYtrial"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 84,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          },
+          {
+            "target": 41,
+            "value": 2
+          }
+        ],
+        "index": 40,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event11",
+        "next": 45,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 109,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutRemakeTrial"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoRemakeTrialIntro",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 43,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_ImmQ_ReactTalkEntry",
+        "flowchart": "SNPC_rco_53_MigrantsQuest",
+        "index": 44,
+        "name": "Event16",
+        "next": 93,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event17",
+        "next": 79,
+        "params": {
+          "AccessKey": "cPlayer:RcoFirstTalkNewOffice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 46,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutOfficeWork"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "IslandDevelopmentIntro",
+        "flowchart": "SNPC_rco_01_Office_1_Entries",
+        "index": 47,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 46,
+            "value": 2
+          }
+        ],
+        "index": 48,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_05_ChkCeremony",
+        "index": 49,
+        "name": "Event21",
+        "next": 2,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoEntrieChk",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event24",
+        "next": 50,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 52,
+        "name": "Event12",
+        "next": 53,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 53,
+        "name": "Event14",
+        "next": 29,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event27",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event28",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event29",
+        "next": 34,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 57,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event31",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event32",
+        "next": 62,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:801"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 60,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:802_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 61,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:802_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 60,
+            "value": 0
+          },
+          {
+            "target": 61,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event35",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event36",
+        "next": 75,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 64,
+        "name": "Event37",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 79,
+            "value": 1
+          },
+          {
+            "target": 79,
+            "value": 2
+          }
+        ],
+        "index": 65,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "CheckInfoMoveMyhome",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event43",
+        "next": 42,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 67,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutMoveMyHome"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 69,
+            "value": 2
+          },
+          {
+            "target": 69,
+            "value": 3
+          },
+          {
+            "target": 69,
+            "value": 4
+          },
+          {
+            "target": 69,
+            "value": 5
+          },
+          {
+            "target": 69,
+            "value": 6
+          },
+          {
+            "target": 69,
+            "value": 7
+          },
+          {
+            "target": 69,
+            "value": 8
+          }
+        ],
+        "index": 68,
+        "name": "Event40",
+        "params": {},
+        "query": "EventFlowQueryPlayerHouseLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event42",
+        "next": 70,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:031"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 70,
+        "name": "Event45",
+        "next": 72,
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutMoveMyHome"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 71,
+        "name": "Event46",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 72,
+        "name": "Event47",
+        "next": 71,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 68,
+            "value": 1
+          }
+        ],
+        "index": 73,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_DisableTalkCamera",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 74,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_PlayerPos",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 75,
+        "name": "Event26",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event48",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "SNPC_rco_60_Event",
+        "index": 77,
+        "name": "Event49",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          }
+        ],
+        "index": 78,
+        "name": "Event51",
+        "params": {
+          "Border": 1,
+          "Key": "ForceImmQIntro"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event54",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 86,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 80,
+        "name": "Event55",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event60",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event67",
+        "params": {
+          "AccessKey": "cPlayer:CanGetMileTicketTrialForMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "GiveMileTicketForMovingPlayer_Normal",
+        "flowchart": "SNPC_rco_03_ChkAfterRemodel",
+        "index": 83,
+        "name": "Event70",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 84,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 85,
+        "name": "Event74",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event57",
+        "next": 91,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 89,
+            "value": 1
+          },
+          {
+            "target": 90,
+            "value": 2
+          }
+        ],
+        "index": 87,
+        "name": "Event58",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 88,
+        "name": "Event59",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:013_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event61",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:013_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 90,
+        "name": "Event62",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_03_PcHouseTent:013_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 91,
+        "name": "Event75",
+        "next": 92,
+        "params": {
+          "AccessKey": "cLand:FlightBalloonEnable"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 92,
+        "name": "Event76",
+        "next": 81,
+        "params": {
+          "AccessKey": "cLand:MessageBottleAvailable"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 99,
+            "value": 1
+          }
+        ],
+        "index": 93,
+        "name": "Event77",
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNoticeStorageExpansion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NoticeExpandStorage_Normal",
+        "flowchart": "SNPC_rco_10_Common_ExpandHouseStorage",
+        "index": 94,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 77,
+            "value": 1
+          }
+        ],
+        "index": 95,
+        "name": "Event81",
+        "params": {
+          "AccessKey": "cPlayer:WHEREAREN_Unlock_CoordinateNpcHouse"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 101,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event82",
+        "params": {
+          "AccessKey": "cPlayer:RcoCordinateNpcHouseSelEnable"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Skip_ChkNpcCoordeUnlockEv",
+        "flowchart": "",
+        "index": 97,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NpcHouseCoordeOpen",
+        "flowchart": "SNPC_rco_01_Office_1_Entries",
+        "index": 98,
+        "name": "Event87",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          },
+          {
+            "target": 105,
+            "value": 1
+          }
+        ],
+        "index": 99,
+        "name": "Event89",
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v200_AddStorage"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "v200_AddNoticeExpandStorage_Normal",
+        "flowchart": "SNPC_rco_10_Common_ExpandHouseStorage",
+        "index": 100,
+        "name": "Event90",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 97,
+            "value": 0
+          },
+          {
+            "target": 97,
+            "value": 1
+          },
+          {
+            "target": 98,
+            "value": 2
+          }
+        ],
+        "index": 101,
+        "name": "Event93",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 103,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          }
+        ],
+        "index": 102,
+        "name": "Event94",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalkAboutNpcHouseEditOfficeBuild"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 95,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          },
+          {
+            "target": 104,
+            "value": 2
+          }
+        ],
+        "index": 103,
+        "name": "Event95",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NpcHouseCoordeRestartPMoving",
+        "flowchart": "SNPC_rco_01_Office_1_Entries",
+        "index": 104,
+        "name": "Event96",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 106,
+            "value": 0
+          },
+          {
+            "target": 108,
+            "value": 1
+          }
+        ],
+        "index": 105,
+        "name": "Event98",
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v300_AddStorage"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "v200_AddNoticeExpandStorage_Normal",
+        "flowchart": "SNPC_rco_10_Common_ExpandHouseStorage",
+        "index": 106,
+        "name": "Event99",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "v200_AfterExpandStorage_Normal",
+        "flowchart": "SNPC_rco_10_Common_ExpandHouseStorage",
+        "index": 107,
+        "name": "Event91",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 107,
+            "value": 0
+          },
+          {
+            "target": 48,
+            "value": 1
+          }
+        ],
+        "index": 108,
+        "name": "Event92",
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v200_AfterStorageExpansion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 110,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 109,
+        "name": "Event100",
+        "params": {
+          "AccessKey": "cLand:HotelOpenDay"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 111,
+            "value": 0
+          },
+          {
+            "target": 102,
+            "value": 1
+          }
+        ],
+        "index": 110,
+        "name": "Event102",
+        "params": {
+          "AccessKey": "cPlayer:EditTutorialFirstCustomer"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 102,
+            "value": 0
+          },
+          {
+            "target": 113,
+            "value": 1
+          }
+        ],
+        "index": 111,
+        "name": "Event103",
+        "params": {
+          "AccessKey": "cPlayer:RcoNoticeHotelCeremony"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NoticeHotelCeremony",
+        "flowchart": "SNPC_rco_01_Office_1_Entries",
+        "index": 112,
+        "name": "Event104",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 102,
+            "value": 0
+          },
+          {
+            "target": 112,
+            "value": 1
+          }
+        ],
+        "index": 113,
+        "name": "Event105",
+        "params": {
+          "AccessKey": "cPlayer:HeldCeremonyHotel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "270c565a44d4186df4fa28a71097bc2bd5e46e9ab634fd7294fb684a0f9cdd11",
+  "size": 19640,
+  "status": "converted"
+}

@@ -1,0 +1,454 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionFadeOut",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionSetNpcAIBlackBoardByLabel",
+          "EventFlowActionStartTidyingSelectRangePreviewGuide",
+          "EventFlowActionDeleteTidyingSelectRangePreviewGuide",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionRequestDuckingNextWiping",
+          "EventFlowActionRequestRunAwayBeeFotTidying",
+          "EventFlowActionEscapeNpcForTidyingWarpMol"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCanCallNpcTidy",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryIsVillageGateOpened",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryIsMyVillage"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerChangeDemoState",
+          "EventFlowActionPlayerDemoTurn",
+          "EventFlowActionPlayerTransceiver"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "Root"
+      }
+    ],
+    "event_count": 30,
+    "event_flow_name": "Player_Transceiver",
+    "events": [
+      {
+        "action": "EventFlowActionFadeOut",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event2",
+        "next": 6,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "IsUseDucking": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event3",
+        "next": 29,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcAIBlackBoardByLabel",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "Key": "UserSelectCallSpeak",
+          "NpcLabel": "mol",
+          "Option": 1,
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionStartTidyingSelectRangePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event15",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDeleteTidyingSelectRangePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionDeleteTidyingSelectRangePreviewGuide",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event17",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event13",
+        "params": {
+          "CheckStage": "cField"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event19",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:2100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 9,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 10,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryIsVillageGateOpened",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event22",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeDemoState",
+        "actor": "Player",
+        "index": 15,
+        "name": "Event14",
+        "next": 2,
+        "params": {
+          "ChangeDemoState": "cSharePlaySubHideUntilDemoEnd"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          }
+        ],
+        "index": 16,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryCanCallNpcTidy",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event25",
+        "next": 8,
+        "params": {
+          "WaitFrame": 60
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoTurn",
+        "actor": "Player",
+        "index": 19,
+        "name": "Event10",
+        "next": 4,
+        "params": {
+          "Direction4": "cNorth"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoTurn",
+        "actor": "Player",
+        "index": 20,
+        "name": "Event29",
+        "next": 21,
+        "params": {
+          "Direction4": "cSouth"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event32",
+        "next": 22,
+        "params": {
+          "WaitFrame": 14
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerTransceiver",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event33",
+        "next": 23,
+        "params": {
+          "ActionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event36",
+        "next": 26,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event37",
+        "next": 20,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "TidyTransceiver",
+          "CameraParamKey": "TidyTransceiver",
+          "CameraTargetKey": "Player",
+          "UseNearCulling": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerTransceiver",
+        "actor": "Player",
+        "index": 25,
+        "name": "Event40",
+        "next": 27,
+        "params": {
+          "ActionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestDuckingNextWiping",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event1",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionRequestRunAwayBeeFotTidying",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event4",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 28,
+        "name": "Event12",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEscapeNpcForTidyingWarpMol",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event23",
+        "next": 15,
+        "params": {
+          "IsCallByTransceiver": true
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Player_Transceiver",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "837427aa3f546887e64fb93d85a4afd38dc241da19e64f44ac01bd82dfb13655",
+  "size": 6712,
+  "status": "converted"
+}

@@ -1,0 +1,311 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetTagFromUIResult",
+          "EventFlowActionUIPokiDisappear",
+          "EventFlowActionUIPokiAppear"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryIsInspectingWherearen"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionShopCheckItemSet",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionTurnNeck",
+          "EventFlowActionShopBuyDone"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryShopHasBellCount"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnNeck",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "Root"
+      }
+    ],
+    "event_count": 18,
+    "event_flow_name": "NNPC_TailorClerk_ItemCheck",
+    "events": [
+      {
+        "action": "EventFlowActionShopCheckItemSet",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event1",
+        "next": 2,
+        "params": {
+          "BlackBoardKey": "CheckItemIndex",
+          "ShopType": "cWherearenTailor"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "TagID": 0,
+          "TagType": "cWherearenItemPrice"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromUIResult",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "TagID": 0,
+          "TagType": "cItemName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 4,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTurnNeck",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event6",
+        "next": 16,
+        "params": {
+          "IsFast": false,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIPokiDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionShopBuyDone",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event12",
+        "next": 12,
+        "params": {
+          "Flag1": false,
+          "Flag2": false,
+          "Flag3": false,
+          "Set5": false,
+          "UseTailorTicket": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event13",
+        "params": {
+          "Rate": 1.0
+        },
+        "query": "EventFlowQueryShopHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event14",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIPokiAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event16",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event17",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:011"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event18",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:012"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event19",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event20",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:014"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event21",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B1_Bo/OneRoom/BO_Facility_Tailor:015"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:1307"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_TailorClerk_ItemCheck",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "fee5af42ac35b54fe4cc22fdea87a1485f9fe4de9bc921c64259723a8e37c1ba",
+  "size": 4744,
+  "status": "converted"
+}

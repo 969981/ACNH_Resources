@@ -1,0 +1,621 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIHotelRoomSelectEditVisitListHandling",
+          "EventFlowActionUIShopHotelTicketDisappear",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionHotelRoomVisitSceneChange",
+          "EventFlowActionUICloseHotelRoomVisit",
+          "EventFlowActionUIHotelRoomVisit",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionStoreNormalCamera",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionUIHotelDeleteTemporaryCapture",
+          "EventFlowActionNetEndSessionVillage"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryIsVillageGateOpened",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryCheckHotelRoomCreated"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerHotelStairsDown",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerDemoTurn",
+          "EventFlowActionPlayerDemoMove",
+          "EventFlowActionPlayerWaitTurn",
+          "EventFlowActionPlayerHotelRoomSetFlagIgnoreFlow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 32,
+        "name": "ProhibitEnter"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 36,
+        "name": "LeaveRoom"
+      }
+    ],
+    "event_count": 42,
+    "event_flow_name": "System_HotelRoomVisit",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 40,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerHotelStairsDown",
+        "actor": "Player",
+        "index": 1,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopHotelTicketDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event5",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoTurn",
+        "actor": "Player",
+        "index": 3,
+        "name": "Event13",
+        "next": 5,
+        "params": {
+          "Direction4": "cWest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoMove",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "Direction": "cForward",
+          "Distance": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event15",
+        "next": 4,
+        "params": {
+          "WaitFrame": 20
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelRoomSelectEditVisitListHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event19",
+        "next": 10,
+        "params": {
+          "Mode": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoTurn",
+        "actor": "Player",
+        "index": 7,
+        "name": "Event20",
+        "next": 23,
+        "params": {
+          "Direction4": "cNorth"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerDemoMove",
+        "actor": "Player",
+        "index": 8,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "Direction": "cForward",
+          "Distance": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerWaitTurn",
+        "actor": "Player",
+        "index": 9,
+        "name": "Event22",
+        "next": 8,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event24",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelRoomVisit",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event6",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUICloseHotelRoomVisit",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event7",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event8",
+        "params": {},
+        "query": "EventFlowQueryIsVillageGateOpened",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayer:SeqHotelEditTutorialDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 16,
+        "name": "Event23",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2200"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event25",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2201"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 18,
+        "name": "Event28",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2202"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 20,
+        "name": "Event10",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:2300"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          },
+          {
+            "target": 27,
+            "value": 2
+          }
+        ],
+        "index": 21,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerHotelRoomSetFlagIgnoreFlow",
+        "actor": "Player",
+        "index": 22,
+        "name": "Event18",
+        "next": 35,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event33",
+        "next": 9,
+        "params": {
+          "WaitFrame": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionHotelRoomVisitSceneChange",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "TransitionType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionHotelRoomVisitSceneChange",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "TransitionType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event11",
+        "next": 20,
+        "params": {
+          "AdjustAngleYOnEnter": true,
+          "AdjustAngleYOnLeave": false,
+          "Arg": 0,
+          "CameraInterpolateKey": "LeaveRoom",
+          "CameraParamKey": "LeaveRoom",
+          "CameraTargetKey": "Player",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStoreNormalCamera",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event26",
+        "next": 7,
+        "params": {
+          "CameraInterpolateKey": "",
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event27",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 31,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event29",
+        "params": {
+          "AccessKey": "cPlayer:SeqHotelIntroductionDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event30",
+        "params": {
+          "AccessKey": "cLand:HotelOpend"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 31,
+        "name": "Event31",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2200_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event32",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 33,
+        "name": "Event36",
+        "next": 28,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:2203"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelDeleteTemporaryCapture",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event37",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelDeleteTemporaryCapture",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event35",
+        "params": {
+          "HotelRoomTypeString": "cRoom2"
+        },
+        "query": "EventFlowQueryCheckHotelRoomCreated",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerHotelRoomSetFlagIgnoreFlow",
+        "actor": "Player",
+        "index": 37,
+        "name": "Event38",
+        "next": 38,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIHotelDeleteTemporaryCapture",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          1,
+          12
+        ],
+        "index": 39,
+        "join": 41,
+        "name": "Event40",
+        "type": "ForkEvent"
+      },
+      {
+        "action": "EventFlowActionNetEndSessionVillage",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event42",
+        "next": 24,
+        "params": {
+          "Command": "cEndVillageSession",
+          "IsErrorHandling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "index": 41,
+        "name": "*j39",
+        "next": null,
+        "type": "JoinEvent"
+      }
+    ],
+    "flowchart_name": "System_HotelRoomVisit",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5c97dd080cc41eda0509f6fa4cf0b1730738a04a1af222df5f197b2373236a1b",
+  "size": 7744,
+  "status": "converted"
+}

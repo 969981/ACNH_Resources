@@ -1,0 +1,938 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionStructureMoveSaveIndex",
+          "EventFlowActionEventFlagOffAllLiver",
+          "EventFlowActionEventFlagResetAllLiver"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryRandomChoice2",
+          "EventFlowQuerySubflowResultChoice5",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryNpcHouseNum",
+          "EventFlowQueryGlobalEventStart"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 2,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 0,
+        "name": "FirstCamperCheck"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 13,
+        "name": "FirstDay"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 3,
+        "name": "ImmQOutdoorPattern"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 15,
+        "name": "ChkLilyCounter"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 20,
+        "name": "BuildMoveEndChk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 31,
+        "name": "MushroomProbabilityCounter"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 26,
+        "name": "ChkwithIslandEvaluation"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 33,
+        "name": "NNpcContractCounter"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 45,
+        "name": "Root_RewindDay"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 46,
+        "name": "FirstCamperCheck_Rewind"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 55,
+        "name": "EasterFlagChk"
+      }
+    ],
+    "event_count": 56,
+    "event_flow_name": "System_GrowUp_GameProcess",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          }
+        ],
+        "index": 0,
+        "name": "Event22",
+        "params": {
+          "AccessKey": "cLand:CampSiteBuilt"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event23",
+        "next": 10,
+        "params": {
+          "AccessKey": "cLand:RcoMeetFirstVisitorRequest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FirstCamperCheck",
+        "flowchart": "",
+        "index": 2,
+        "name": "Event24",
+        "next": 24,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event25",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event26",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event27",
+        "params": {
+          "ChoiceNumber": 2
+        },
+        "query": "EventFlowQueryRandomChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event28",
+        "next": 4,
+        "params": {
+          "AccessKey": "cLand:ImmQ_A_OutdoorPattern"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event29",
+        "next": 5,
+        "params": {
+          "AccessKey": "cLand:ImmQ_B_OutdoorPattern"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:ImmQ_C_OutdoorPattern"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ImmQOutdoorPattern",
+        "flowchart": "",
+        "index": 9,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event37",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:CampFirstCamperVisit"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event38",
+        "params": {
+          "AccessKey": "cLand:RcoBuildFirstVisitorsHousingKitComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event39",
+        "next": 14,
+        "params": {
+          "AccessKey": "cLand:CampFirstCamperVisit"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cLand:ValidateVillageSave"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:TanuportAmiiboCampUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          },
+          {
+            "target": 16,
+            "value": 2
+          },
+          {
+            "target": 16,
+            "value": 3
+          },
+          {
+            "target": 18,
+            "value": 4
+          }
+        ],
+        "index": 15,
+        "name": "Event8",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:FlwLilyGrowCounter",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:FlwLilyGrowCounter",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          }
+        ],
+        "index": 18,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cLand:TkkFirstLive"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "BuildMoveEndChk",
+        "flowchart": "",
+        "index": 19,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          }
+        ],
+        "index": 20,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cLand:RcoMoveReservedAnyone",
+          "Border": 2,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event13",
+        "next": 22,
+        "params": {
+          "AccessKey": "cLand:RcoMoveReservedKind",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event14",
+        "next": 23,
+        "params": {
+          "AccessKey": "cLand:RcoMoveReservedAnyone",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStructureMoveSaveIndex",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "IndexType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkwithIslandEvaluation",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event16",
+        "next": 19,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ChkLilyCounter",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event5",
+        "next": 27,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "IslandEvaluationChk",
+        "flowchart": "System_IslandEvaluationCheck",
+        "index": 26,
+        "name": "Event6",
+        "next": 25,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "MushroomProbabilityCounter",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event17",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          },
+          {
+            "target": 41,
+            "value": 2
+          },
+          {
+            "target": 41,
+            "value": 3
+          },
+          {
+            "target": 41,
+            "value": 4
+          }
+        ],
+        "index": 28,
+        "name": "Event18",
+        "params": {
+          "SetIndex": 3
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event19",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NNpcContractCounter",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          },
+          {
+            "target": 34,
+            "value": 2
+          },
+          {
+            "target": 35,
+            "value": 3
+          },
+          {
+            "target": 36,
+            "value": 4
+          }
+        ],
+        "index": 31,
+        "name": "Event21",
+        "params": {
+          "SetIndex": 0
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event32",
+        "params": {
+          "NpcHouseType": "cConstructed",
+          "Num": 5
+        },
+        "query": "EventFlowQueryNpcHouseNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 33,
+        "name": "Event33",
+        "params": {
+          "NpcHouseType": "cConstructed",
+          "Num": 8
+        },
+        "query": "EventFlowQueryNpcHouseNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:MushroomProbability",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event35",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:MushroomProbability",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:MushroomProbability",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event41",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event44",
+        "next": 29,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event45",
+        "next": 44,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 43,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:NNpcContractProbablityAddPoint",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          }
+        ],
+        "index": 44,
+        "name": "Event47",
+        "params": {
+          "SetIndex": 2
+        },
+        "query": "EventFlowQuerySubflowResultChoice5",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "FirstCamperCheck_Rewind",
+        "flowchart": "",
+        "index": 45,
+        "name": "Event2",
+        "next": 50,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 47,
+            "value": 0
+          }
+        ],
+        "index": 46,
+        "name": "Event3",
+        "params": {
+          "AccessKey": "cLand:CampSiteBuilt"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          }
+        ],
+        "index": 47,
+        "name": "Event4",
+        "params": {
+          "AccessKey": "cLand:RcoBuildFirstVisitorsHousingKitComplete"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event48",
+        "next": 49,
+        "params": {
+          "AccessKey": "cLand:CampFirstCamperVisit"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 49,
+        "name": "Event49",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:TanuportAmiiboCampUnlock"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "EasterFlagChk",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event52",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagOffAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event53",
+        "next": 52,
+        "params": {
+          "AccessKey": "cPlayer:PynTalkPreVisitDayFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagOffAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event57",
+        "next": 53,
+        "params": {
+          "AccessKey": "cPlayer:PynInventRecipeFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagResetAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 53,
+        "name": "Event58",
+        "next": 54,
+        "params": {
+          "AccessKey": "cPlayer:EasterNnpcRecipeCount"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagOffAllLiver",
+        "actor": "EventFlowSystemActor",
+        "index": 54,
+        "name": "Event50",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PAnnouncePreEaster"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 51,
+            "value": 0
+          }
+        ],
+        "index": 55,
+        "name": "Event64",
+        "params": {
+          "EventLabelString": "Easter"
+        },
+        "query": "EventFlowQueryGlobalEventStart",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "System_GrowUp_GameProcess",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "7ffea72a7d6fffefc22e59e38754a5f21bbe067c0b76dd6fd9720a5278d1b861",
+  "size": 11840,
+  "status": "converted"
+}

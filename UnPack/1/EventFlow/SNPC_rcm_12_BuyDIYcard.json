@@ -1,0 +1,1560 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcSetQuestRewardToPlayerBaggage",
+          "EventFlowActionNpcSetRewardRecipe"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetSubflowResult"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryMultiItemSelectInclude",
+          "EventFlowQueryShopLevel",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySubflowResultChoice6",
+          "EventFlowQueryPlayerHasCraftRecipe",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQuerySubflowResultChoice8"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionTurnBody"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 1,
+          "offset_08": 17928,
+          "offset_10": 17968,
+          "subflow_index_count": 19
+        },
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 30,
+        "name": "Rco_BuyDiyRecipeNoMastered"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 24,
+        "name": "Rco_BuyDiyRecipeMastered"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 18
+        },
+        "main_event": 75,
+        "name": "CheckSelFIXLadderRecipe"
+      }
+    ],
+    "event_count": 96,
+    "event_flow_name": "SNPC_rcm_12_BuyDIYcard",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "ItemUniqueID1": 9048,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "ItemUniqueID1": 9047,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event30",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:092"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rcm_Common_BuyAgain",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 3,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionTurnBody",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event32",
+        "next": 3,
+        "params": {
+          "TurnAngle": 0.0,
+          "TurnTarget": 13
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          },
+          {
+            "target": 4,
+            "value": 2
+          }
+        ],
+        "index": 5,
+        "name": "Event33",
+        "params": {},
+        "query": "EventFlowQueryShopLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetQuestRewardToPlayerBaggage",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event21",
+        "next": 8,
+        "params": {
+          "SetType": "cFree"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event45",
+        "params": {
+          "ItemUniqueID1": 9046,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event46",
+        "next": 2,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmBoughtGrocery"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event58",
+        "next": 47,
+        "params": {
+          "ResultValue": 0,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event59",
+        "next": 48,
+        "params": {
+          "ResultValue": 1,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event60",
+        "next": 49,
+        "params": {
+          "ResultValue": 2,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event61",
+        "next": 50,
+        "params": {
+          "ResultValue": 3,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 78,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event64",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rcm_Cmn_DisableDIY",
+        "flowchart": "SNPC_rcm_11_BuyDIYbook",
+        "index": 14,
+        "name": "Event65",
+        "next": 61,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 19,
+            "value": 3
+          },
+          {
+            "target": 54,
+            "value": 4
+          },
+          {
+            "target": 65,
+            "value": 5
+          }
+        ],
+        "index": 15,
+        "name": "Event66",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event67",
+        "params": {
+          "ItemUniqueId": 3083,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event68",
+        "params": {
+          "ItemUniqueId": 3082,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event69",
+        "params": {
+          "ItemUniqueId": 4703,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 21,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event70",
+        "params": {
+          "ItemUniqueId": 2822,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 20,
+        "name": "Event71",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 21,
+        "name": "Event72",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 22,
+        "name": "Event73",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 23,
+        "name": "Event74",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event75",
+        "next": 71,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          },
+          {
+            "target": 29,
+            "value": 3
+          },
+          {
+            "target": 59,
+            "value": 4
+          },
+          {
+            "target": 70,
+            "value": 5
+          }
+        ],
+        "index": 25,
+        "name": "Event77",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 26,
+        "name": "Event78",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 3083
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event79",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 3082
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event80",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 4703
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event81",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 2822
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event82",
+        "next": 35,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 32,
+        "name": "Event84",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 33,
+        "name": "Event85",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event86",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          },
+          {
+            "target": 60,
+            "value": 2
+          }
+        ],
+        "index": 35,
+        "name": "Event87",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rcm_Common_BuyCheckUI",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 36,
+        "name": "Event89",
+        "next": 85,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          },
+          {
+            "target": 43,
+            "value": 2
+          },
+          {
+            "target": 45,
+            "value": 3
+          },
+          {
+            "target": 57,
+            "value": 4
+          },
+          {
+            "target": 68,
+            "value": 5
+          }
+        ],
+        "index": 37,
+        "name": "Event90",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event96",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 39,
+        "name": "Event2",
+        "next": 40,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_04_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event3",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_04_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event4",
+        "next": 42,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_05_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event5",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_05_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event7",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_06_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 44,
+        "name": "Event8",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_06_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event9",
+        "next": 46,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_07_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 46,
+        "name": "Event10",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_07_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 47,
+        "name": "Event11",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event12",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event13",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 50,
+        "name": "Event14",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 62,
+            "value": 1
+          }
+        ],
+        "index": 51,
+        "name": "Event15",
+        "params": {
+          "ItemUniqueID1": 10309,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event16",
+        "next": 53,
+        "params": {
+          "ResultValue": 4,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 53,
+        "name": "Event17",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 56,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event18",
+        "params": {
+          "ItemUniqueId": 3068,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 55,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 56,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 57,
+        "name": "Event24",
+        "next": 58,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_08_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event25",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_08_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 59,
+        "name": "Event26",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 3068
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rcm_Groceries_Buy_Cancel",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 60,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BuyCancelNoAsk",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 61,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 52,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          }
+        ],
+        "index": 62,
+        "name": "Event6",
+        "params": {
+          "ItemUniqueID1": 12294,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event19",
+        "next": 64,
+        "params": {
+          "ResultValue": 5,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 64,
+        "name": "Event29",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_03_05"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event20",
+        "params": {
+          "ItemUniqueId": 2615,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 67,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event36",
+        "next": 69,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_09_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 69,
+        "name": "Event37",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_09_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 70,
+        "name": "Event38",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 2615
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event39",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rcm_Common_BuyCheckUI",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 72,
+        "name": "Event40",
+        "next": 85,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rcm_Groceries_Buy_Cancel",
+        "flowchart": "SNPC_rcm_00_Common",
+        "index": 73,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CheckSelFIXLadderRecipe",
+        "flowchart": "",
+        "index": 74,
+        "name": "Event44",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event47",
+        "params": {
+          "ItemUniqueID1": 12327,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event48",
+        "next": 77,
+        "params": {
+          "ResultValue": 6,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event49",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_10_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          },
+          {
+            "target": 15,
+            "value": 2
+          },
+          {
+            "target": 15,
+            "value": 3
+          },
+          {
+            "target": 15,
+            "value": 4
+          },
+          {
+            "target": 15,
+            "value": 5
+          },
+          {
+            "target": 79,
+            "value": 6
+          },
+          {
+            "target": 90,
+            "value": 7
+          }
+        ],
+        "index": 78,
+        "name": "Event51",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice8",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event52",
+        "params": {
+          "ItemUniqueId": 13530,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 80,
+        "name": "Event53",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 81,
+        "name": "Event54",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 37,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          },
+          {
+            "target": 37,
+            "value": 2
+          },
+          {
+            "target": 37,
+            "value": 3
+          },
+          {
+            "target": 37,
+            "value": 4
+          },
+          {
+            "target": 37,
+            "value": 5
+          },
+          {
+            "target": 83,
+            "value": 6
+          },
+          {
+            "target": 93,
+            "value": 7
+          }
+        ],
+        "index": 82,
+        "name": "Event56",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice8",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event57",
+        "next": 84,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_10_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event62",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_10_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          },
+          {
+            "target": 25,
+            "value": 2
+          },
+          {
+            "target": 25,
+            "value": 3
+          },
+          {
+            "target": 25,
+            "value": 4
+          },
+          {
+            "target": 25,
+            "value": 5
+          },
+          {
+            "target": 86,
+            "value": 6
+          },
+          {
+            "target": 95,
+            "value": 7
+          }
+        ],
+        "index": 85,
+        "name": "Event76",
+        "params": {
+          "SetIndex": 1
+        },
+        "query": "EventFlowQuerySubflowResultChoice8",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 86,
+        "name": "Event88",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 13530
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 88,
+            "value": 1
+          }
+        ],
+        "index": 87,
+        "name": "Event91",
+        "params": {
+          "ItemUniqueID1": 14863,
+          "ItemUniqueID2": 65534,
+          "ItemUniqueID3": 65534,
+          "ItemUniqueID4": 65534,
+          "ItemUniqueID5": 65534,
+          "ItemUniqueID6": 65534,
+          "ItemUniqueID7": 65534,
+          "ItemUniqueID8": 65534,
+          "JudgeTarget": "cItemSelect"
+        },
+        "query": "EventFlowQueryMultiItemSelectInclude",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetSubflowResult",
+        "actor": "EventFlowSystemActor",
+        "index": 88,
+        "name": "Event92",
+        "next": 89,
+        "params": {
+          "ResultValue": 7,
+          "SetIndex": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 89,
+        "name": "Event93",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_11_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 92,
+            "value": 0
+          },
+          {
+            "target": 91,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event95",
+        "params": {
+          "ItemUniqueId": 2578,
+          "UnlockType": "None"
+        },
+        "query": "EventFlowQueryPlayerHasCraftRecipe",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeNoMastered",
+        "flowchart": "",
+        "index": 91,
+        "name": "Event97",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Rco_BuyDiyRecipeMastered",
+        "flowchart": "",
+        "index": 92,
+        "name": "Event98",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 93,
+        "name": "Event99",
+        "next": 94,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_11_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 94,
+        "name": "Event100",
+        "next": 38,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rcm/SP_rcm_00_common:110_11_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 95,
+        "name": "Event101",
+        "next": 6,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 2578
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rcm_12_BuyDIYcard",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "ea4f5972fa76d114e4e7d68640f03962fb30535d8ac084bcea95ddc0b83d6f8b",
+  "size": 20800,
+  "status": "converted"
+}

@@ -1,0 +1,227 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAIDefaultSetting",
+          "EventFlowActionChangeHouseMode",
+          "EventFlowActionSetNpcTalkFlowName",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeInvisibleState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsInspectingWherearen",
+          "EventFlowQueryWherearenOrderStatus"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "Root"
+      }
+    ],
+    "event_count": 10,
+    "event_flow_name": "AI_NPC_HospitalExamination",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAIDefaultSetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event2",
+        "next": 3,
+        "params": {
+          "ClearPreset": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionChangeHouseMode",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcTalkFlowName",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "EntryPointName": "Root",
+          "EventFlowName": "NNPC_HospitalExamination"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event5",
+        "next": 4,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event6",
+        "next": 2,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event7",
+        "params": {
+          "AccessKey": "cWherearenPlayer:DoctorEventStart"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeInvisibleState",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "ArgInt0": 0,
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cWherearenPlayer:GetMedicalEquipToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event11",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          },
+          {
+            "target": 0,
+            "value": 2
+          },
+          {
+            "target": 0,
+            "value": 3
+          },
+          {
+            "target": 0,
+            "value": 4
+          },
+          {
+            "target": 0,
+            "value": 5
+          },
+          {
+            "target": 0,
+            "value": 6
+          },
+          {
+            "target": 0,
+            "value": 7
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_HospitalExamination",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "39d5b9acbca151b3eab559e30a075d084aee6542828122760e84d9357f0fe410",
+  "size": 3016,
+  "status": "converted"
+}

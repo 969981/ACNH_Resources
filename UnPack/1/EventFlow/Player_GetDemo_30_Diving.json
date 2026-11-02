@@ -1,0 +1,360 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionUIItemSelectWindowHandling",
+          "EventFlowActionSetTagFromSystem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryNetIsDreaming"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerOpenDiveFishGetMessage",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionPlayerPlayPutawayWaitAnimation",
+          "EventFlowActionPlayerPlayCompleteAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerCheckAI",
+          "EventFlowQueryPlayerGetDemoCollectStatus",
+          "EventFlowQueryPlayerHasExchaneableItem",
+          "EventFlowQueryPlayerGetDemoCheckItem"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 19,
+        "name": "Get_DiveFish"
+      }
+    ],
+    "event_count": 21,
+    "event_flow_name": "Player_GetDemo_30_Diving",
+    "events": [
+      {
+        "action": "EventFlowActionUIItemSelectWindowHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "FilterType": "cDiveFishGetFull",
+          "IsSingleSelect": false,
+          "ItemFilterType": "",
+          "ItemKindType": "",
+          "ItemUniqueID": 65534,
+          "Mode": "cExchangeByHarvest"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "PlayerEventFlowAI": "cGetDemo_DiveFishFullItem"
+        },
+        "query": "EventFlowQueryPlayerCheckAI",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerOpenDiveFishGetMessage",
+        "actor": "Player",
+        "index": 2,
+        "name": "Event2",
+        "next": 5,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {
+          "PlayerGetDemoCollectStatus": "cFirstGet"
+        },
+        "query": "EventFlowQueryPlayerGetDemoCollectStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 4,
+        "name": "Event4",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Get_DiveFish:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event5",
+        "params": {
+          "PlayerGetDemoCollectStatus": "cCompleteThisTime"
+        },
+        "query": "EventFlowQueryPlayerGetDemoCollectStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 6,
+        "name": "Event6",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Get_DiveFish:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 7,
+        "name": "Event7",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Get_DiveFish:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "CheckKindBury": false,
+          "CheckKindFishAndDiveFish": true,
+          "CheckKindInsect": false,
+          "CheckKindPut": false
+        },
+        "query": "EventFlowQueryPlayerHasExchaneableItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 9,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:008"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          }
+        ],
+        "index": 10,
+        "name": "Event10",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 11,
+        "name": "Event11",
+        "next": 10,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          }
+        ],
+        "index": 12,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 13,
+        "name": "Event13",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_Player:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event14",
+        "params": {
+          "CheckItem": "cDiveFish_Creature"
+        },
+        "query": "EventFlowQueryPlayerGetDemoCheckItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChumDIY_Chk",
+        "flowchart": "Player_GetDemo_Recipe_DIY",
+        "index": 15,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPlayPutawayWaitAnimation",
+        "actor": "Player",
+        "index": 16,
+        "name": "Event17",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPlayCompleteAnimation",
+        "actor": "Player",
+        "index": 17,
+        "name": "Event18",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event19",
+        "next": 20,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cChachSeafood",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 20,
+        "name": "Event22",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Get_DiveFish:004"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Player_GetDemo_30_Diving",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "12e747e41059e67271327fc298e145abe6edf492e919bd92a3cd84cd913abce3",
+  "size": 5360,
+  "status": "converted"
+}

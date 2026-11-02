@@ -1,0 +1,753 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionNpcDelivery"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSetTagFromSystem",
+          "EventFlowActionEventFlagSystemAdd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryMuseumDonationNumCheck",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryHasKindItem",
+          "EventFlowQueryMuseumLevel"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 1,
+        "name": "owl_Tent_AfterDonation"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 7
+        },
+        "main_event": 4,
+        "name": "owl_DonatedFossil1st_Unknown"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 14,
+        "name": "owl_DonatedFossil1st_Known"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 5
+        },
+        "main_event": 9,
+        "name": "FromDonatedFossil1st_Known"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 23,
+        "name": "Owl_TentDonationAgainAsk"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "Owl_TentDonationAgainAsk_NoFossil"
+      }
+    ],
+    "event_count": 48,
+    "event_flow_name": "SNPC_owl_11_Tent_Entries",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "Border": 20
+        },
+        "query": "EventFlowQueryMuseumDonationNumCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event5",
+        "next": 0,
+        "params": {
+          "AccessKey": "cPlayer:OwlDonationDone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Fossil_Check",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 3,
+        "name": "Event2",
+        "next": 38,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event8",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:151_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 5,
+        "name": "Event9",
+        "params": {
+          "Border": 19
+        },
+        "query": "EventFlowQueryMuseumDonationNumCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Donation_Decline",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 7,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Donation_Accept",
+        "flowchart": "SNPC_owl_02_Museum_Judgment",
+        "index": 8,
+        "name": "Event14",
+        "next": 16,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event15",
+        "params": {
+          "Border": 20
+        },
+        "query": "EventFlowQueryMuseumDonationNumCheck",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Again",
+        "flowchart": "SNPC_owl_00_Common",
+        "index": 10,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event19",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:151_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event21",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:153"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event22",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:154"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event11",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayerTemp:OwlKnownFossil"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "FromDonatedFossil1st_Known",
+        "flowchart": "",
+        "index": 15,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "owl_Tent_AfterDonation",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event27",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:152"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event17",
+        "next": 17,
+        "params": {
+          "Command": 10,
+          "Option": "\"Default\""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Eplanation_ExpertOpinion",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 20,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event28",
+        "next": 43,
+        "params": {
+          "AccessKey": "cLand:DonationAmountForMuseum",
+          "SetTagType": "cDegit",
+          "TagID": 0,
+          "TagType": "cEventFlag",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event31",
+        "next": 21,
+        "params": {
+          "AccessKey": "cLand:DonationAmountForMuseum",
+          "AddNum": -1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 23,
+        "name": "Event29",
+        "next": 24,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:161"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event32",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event33",
+        "next": 2,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:162"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "OwlTentDonationAgain",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 26,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 28,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          },
+          {
+            "target": 15,
+            "value": 3
+          },
+          {
+            "target": 28,
+            "value": 4
+          }
+        ],
+        "index": 27,
+        "name": "Event36",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 28,
+        "name": "Event37",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:151_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Fossil_DonationTypeChk",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 29,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cLand:MuseumTentBuiltToday"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event1",
+        "next": 32,
+        "params": {
+          "AccessKey": "cPlayer:FutaReadyForMuseum"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event3",
+        "next": 33,
+        "params": {
+          "AccessKey": "cPlayer:FutaReadyForMuseumToday"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event4",
+        "next": 36,
+        "params": {
+          "AccessKey": "cLand:MuseumGrowupEnable1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event35",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:191_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event40",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:191_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event7",
+        "next": 30,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/owl/SP_owl_01_MuseumTent:191"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 37,
+        "name": "Event41",
+        "next": 40,
+        "params": {
+          "AccessKey": "cLand:MuseumGrowupEnable1"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 39,
+            "value": 1
+          },
+          {
+            "target": 39,
+            "value": 2
+          },
+          {
+            "target": 9,
+            "value": 3
+          },
+          {
+            "target": 39,
+            "value": 4
+          }
+        ],
+        "index": 38,
+        "name": "Event42",
+        "params": {},
+        "query": "EventFlowQueryMuseumLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Fossil_DonationTypeChk",
+        "flowchart": "SNPC_owl_01_Museum_Donation",
+        "index": 39,
+        "name": "Event43",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "AccessKey": "cLand:FinishMuseumPreparation1stDay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event47",
+        "params": {
+          "CheckItemKindType": "cFilter",
+          "ItemFilterType": "OwlTentDonation2",
+          "ItemKindType": ""
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          }
+        ],
+        "index": 42,
+        "name": "Event48",
+        "params": {
+          "CheckItemKindType": "cFilter",
+          "ItemFilterType": "OwlTentDonation3",
+          "ItemKindType": ""
+        },
+        "query": "EventFlowQueryHasKindItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cLand:OwlFoundFossil"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Owl_TentDonationAgainAsk",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Owl_TentDonationAgainAsk",
+        "flowchart": "",
+        "index": 45,
+        "name": "Event52",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Owl_TentDonationAgainAsk_NoFossil",
+        "flowchart": "",
+        "index": 46,
+        "name": "Event54",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Owl_TentDonationAgainAsk_NoFossil",
+        "flowchart": "",
+        "index": 47,
+        "name": "Event55",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_owl_11_Tent_Entries",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "033165165e932fa96572d28c35303b51c4335398f0d164c3bd5c7aea6858ffce",
+  "size": 9592,
+  "status": "converted"
+}

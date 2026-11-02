@@ -1,0 +1,863 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSetDeliveryItemAtRandom",
+          "EventFlowActionNpcDelivery",
+          "EventFlowActionSetItemName",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcSetRewardRecipe",
+          "EventFlowActionSetDeliveryItem",
+          "EventFlowActionNpcMailSend"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCheckNpcLook",
+          "EventFlowQueryEventFlagNpcBool",
+          "EventFlowQueryNpcBirthType",
+          "EventFlowQueryIsNnpcTent",
+          "EventFlowQueryNpcIsSitting"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemSet"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryRandomChoice6",
+          "EventFlowQueryIsMyVillage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 11,
+        "name": "RewardSetHA"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 53,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 1,
+        "name": "1P_Lifestart_Conv"
+      }
+    ],
+    "event_count": 55,
+    "event_flow_name": "NNPC_Reaction_1P_LifeStart",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {
+          "AccessKey": "cPlayer:Prologue4HaGetTent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 3
+          },
+          {
+            "target": 0,
+            "value": 5
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcLook",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 7,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {
+          "AccessKey": "cPlayer:Prologue4AnGetTent"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:001_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event6",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event7",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 8,
+        "name": "Event8",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {
+          "CheckStage": "cTalkingNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:001_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          },
+          {
+            "target": 14,
+            "value": 2
+          },
+          {
+            "target": 15,
+            "value": 3
+          },
+          {
+            "target": 48,
+            "value": 4
+          },
+          {
+            "target": 49,
+            "value": 5
+          }
+        ],
+        "index": 11,
+        "name": "Event11",
+        "params": {
+          "ChoiceNumber": 6
+        },
+        "query": "EventFlowQueryRandomChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event12",
+        "next": 19,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5136,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event13",
+        "next": 46,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5128,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event14",
+        "next": 47,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5148,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event15",
+        "next": 50,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 11521,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RewardSetHA",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event16",
+        "next": 17,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event17",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:003_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 18,
+        "name": "Event18",
+        "next": 21,
+        "params": {
+          "Command": 1,
+          "Option": "Keep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 14,
+          "TagType": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event21",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 21,
+        "name": "Event19",
+        "next": 22,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:003_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "Command": 2,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          }
+        ],
+        "index": 23,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cNpcSave:TalkLifeStart1P1st"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 25,
+        "name": "Event26",
+        "next": 27,
+        "params": {
+          "AccessKey": "cNpcSave:TalkLifeStart1P1st"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "1P_Lifestart_Conv",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event27",
+        "next": 25,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event28",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          }
+        ],
+        "index": 28,
+        "name": "Event29",
+        "params": {
+          "BirthType": "cFirst"
+        },
+        "query": "EventFlowQueryNpcBirthType",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 29,
+        "name": "Event22",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          }
+        ],
+        "index": 30,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryIsNnpcTent",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event31",
+        "next": 37,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:003_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event32",
+        "next": 39,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:003_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:003_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event34",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:003_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetItemName",
+        "actor": "MainNpc",
+        "index": 35,
+        "name": "Event35",
+        "next": 38,
+        "params": {
+          "ID": 0,
+          "ItemTarget": 1,
+          "TagType": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event36",
+        "next": 35,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 6840
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDelivery",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event37",
+        "next": 32,
+        "params": {
+          "Command": 1,
+          "Option": "Default"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItem",
+        "actor": "MainNpc",
+        "index": 38,
+        "name": "Event38",
+        "next": 31,
+        "params": {
+          "ApplyToSave": true,
+          "SetItemTarget": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 34,
+            "value": 0
+          },
+          {
+            "target": 33,
+            "value": 1
+          }
+        ],
+        "index": 39,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:MainmenuRecipe"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 40,
+        "name": "Event40",
+        "next": 44,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/B2_Ha/React/HA_React_1P_LifeStart:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 41,
+        "name": "Event42",
+        "next": 43,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkNNpc/G4_An/React/AN_React_1P_LifeStart:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSend",
+        "actor": "MainNpc",
+        "index": 42,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_XX_LifeStart",
+          "LabelIndex": 1,
+          "Present": "cReward",
+          "PrimaryItem": false,
+          "Route": "cFastToday",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetRewardRecipe",
+        "actor": "MainNpc",
+        "index": 43,
+        "name": "Event44",
+        "next": 42,
+        "params": {
+          "DIYNpcItem": false,
+          "ItemUniqueId": 6840
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RewardSetHA",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event45",
+        "next": 45,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcMailSend",
+        "actor": "MainNpc",
+        "index": 45,
+        "name": "Event46",
+        "next": null,
+        "params": {
+          "FileIndex": "MAIL_XX_LifeStart",
+          "LabelIndex": 1,
+          "Present": "cDeliveryItem",
+          "PrimaryItem": false,
+          "Route": "cFastToday",
+          "TagType": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event47",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "SetNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 47,
+        "name": "Event48",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "SetNum": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 48,
+        "name": "Event49",
+        "next": 51,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5258,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetDeliveryItemAtRandom",
+        "actor": "MainNpc",
+        "index": 49,
+        "name": "Event50",
+        "next": 52,
+        "params": {
+          "ApplyToSave": true,
+          "ItemRemakeDecideType": "cVillageRemakePattern",
+          "ItemUniqueID": 5293,
+          "RemakePatternIndex": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 50,
+        "name": "Event51",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "SetNum": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 51,
+        "name": "Event52",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "SetNum": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 52,
+        "name": "Event53",
+        "next": 19,
+        "params": {
+          "AccessKey": "cPlayer:1stPresentHatType",
+          "SetNum": 5
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 0
+          }
+        ],
+        "index": 53,
+        "name": "Event54",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 26,
+            "value": 4
+          }
+        ],
+        "index": 54,
+        "name": "Event41",
+        "params": {},
+        "query": "EventFlowQueryNpcIsSitting",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Reaction_1P_LifeStart",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "2a4d9fd76baa4aa1aebb678d788abd9dcb23765f76ee54b90fd88ded6c8bb0f1",
+  "size": 13752,
+  "status": "converted"
+}

@@ -1,0 +1,1594 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionUIMoneyAppear",
+          "EventFlowActionUIMoneyDisappear",
+          "EventFlowActionBellCountDown",
+          "EventFlowActionSetTagFromSystem"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQueryOfficeLevel",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryFlagSystemIntValue4",
+          "EventFlowQueryFlagSystemIntValue3"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 6
+        },
+        "main_event": 8,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 2,
+        "name": "NoticeExpandStorage_Normal"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 0,
+        "name": "NoticeExpandStorage_Force"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 26,
+        "name": "NoticeExpandStorage_Force_Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 34,
+        "name": "v200_AddNoticeExpandStorage_Normal"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 27,
+        "name": "v200_AddNoticeExpandStorage_Force"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 28,
+        "name": "v200_AddNoticeExpandStorage_Force_Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 13,
+        "name": "NotEnoughMoney"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 60,
+        "name": "v200_AfterExpandStorage_Normal"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 52,
+        "name": "v200_AfterExpandStorage_Force"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 53,
+        "name": "v200_AfterExpandStorage_Force_Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 75,
+        "name": "v300_AddNoticeExpandStorage_Normal"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 70,
+        "name": "v300_AddNoticeExpandStorage_Force"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 71,
+        "name": "v300_AddNoticeExpandStorage_Force_Init"
+      }
+    ],
+    "event_count": 102,
+    "event_flow_name": "SNPC_rco_10_Common_ExpandHouseStorage",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_PlayerPos",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 1,
+        "name": "Event2",
+        "next": 2,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 2,
+        "name": "Event3",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event4",
+        "next": 7,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1101_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event5",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1101_02_00"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event6",
+        "next": 6,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1101_02_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event7",
+        "next": 9,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1101_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cPlayer:PlayerLoanRepaying"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 35,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayer:PlayerLoanRepaying"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNoticeStorageExpansion"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event11",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1111"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event12",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1112"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event13",
+        "next": 18,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1113"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event14",
+        "next": 20,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1114"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event15",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1115"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 15,
+        "name": "Event17",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event18",
+        "params": {
+          "Money": 500000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event19",
+        "next": 10,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event20",
+        "next": 24,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event21",
+        "next": 21,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event24",
+        "next": 22,
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansionReserved"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PlayerMovingReservedStorageExpand"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Rco_Office_CmnSelAgain",
+        "flowchart": "SNPC_rco_00_Common",
+        "index": 23,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 23,
+            "value": 2
+          }
+        ],
+        "index": 24,
+        "name": "Event26",
+        "params": {},
+        "query": "EventFlowQueryOfficeLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event27",
+        "next": 11,
+        "params": {
+          "Money": 500000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_DisableTalkCamera",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 26,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_PlayerPos",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 27,
+        "name": "Event29",
+        "next": 34,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_DisableTalkCamera",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 28,
+        "name": "Event30",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v200_AddStorage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event32",
+        "next": 31,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event33",
+        "next": 29,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 32,
+        "name": "Event34",
+        "next": 33,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event35",
+        "next": 30,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event36",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event39",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansionLevel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 96,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          }
+        ],
+        "index": 36,
+        "name": "Event40",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v200_AddLevel",
+          "Border": 2,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event42",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1311"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event44",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v200_AddLevel",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event45",
+        "next": 37,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 900000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event46",
+        "next": 37,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 700000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 42,
+            "value": 0
+          },
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 41,
+        "name": "Event49",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansionLevel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          },
+          {
+            "target": 45,
+            "value": 1
+          },
+          {
+            "target": 47,
+            "value": 2
+          },
+          {
+            "target": 88,
+            "value": 3
+          }
+        ],
+        "index": 42,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v200_AddLevel",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event51",
+        "params": {
+          "Money": 700000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event52",
+        "next": 11,
+        "params": {
+          "Money": 700000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 50,
+            "value": 1
+          }
+        ],
+        "index": 45,
+        "name": "Event54",
+        "params": {
+          "Money": 900000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event55",
+        "next": 11,
+        "params": {
+          "Money": 900000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 49,
+            "value": 1
+          }
+        ],
+        "index": 47,
+        "name": "Event56",
+        "params": {
+          "Money": 1200000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event57",
+        "next": 11,
+        "params": {
+          "Money": 1200000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NotEnoughMoney",
+        "flowchart": "",
+        "index": 49,
+        "name": "Event58",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NotEnoughMoney",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event59",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NotEnoughMoney",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event60",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_PlayerPos",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 52,
+        "name": "Event61",
+        "next": 60,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_DisableTalkCamera",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 53,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 54,
+        "name": "Event66",
+        "next": 57,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1321"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 55,
+        "name": "Event67",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1322"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 56,
+        "name": "Event68",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1323"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          },
+          {
+            "target": 55,
+            "value": 2
+          },
+          {
+            "target": 80,
+            "value": 3
+          }
+        ],
+        "index": 57,
+        "name": "Event69",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v200_AddLevel",
+          "ChoiceNumber": 4
+        },
+        "query": "EventFlowQueryFlagSystemIntValue4",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 58,
+        "name": "Event70",
+        "next": 59,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event71",
+        "next": 63,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event72",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event73",
+        "next": 64,
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v200_AfterStorageExpansion"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 62,
+        "name": "Event74",
+        "next": 54,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1351"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 62,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 63,
+        "name": "Event75",
+        "params": {
+          "AccessKey": "cPlayer:PlayerMovingAfterStorageExpansion"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 64,
+        "name": "Event76",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:PlayerMovingAfterStorageExpansion"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 66,
+            "value": 1
+          }
+        ],
+        "index": 65,
+        "name": "Event77",
+        "params": {
+          "AccessKey": "cPlayer:RcoExplainStorageExpandCostIncrease"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event78",
+        "next": 67,
+        "params": {
+          "AccessKey": "cPlayer:RcoExplainStorageExpandCostIncrease"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event79",
+        "next": 68,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 700000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 68,
+        "name": "Event80",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1313"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event81",
+        "next": 65,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_PlayerPos",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 70,
+        "name": "Event84",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "RcoTent_Force_DisableTalkCamera",
+        "flowchart": "SNPC_rco_01_Tent_1_Entries",
+        "index": 71,
+        "name": "Event85",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event86",
+        "next": 89,
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v300_AddStorage"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 73,
+        "name": "Event89",
+        "next": 74,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:000"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 74,
+        "name": "Event90",
+        "next": 76,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          },
+          {
+            "target": 73,
+            "value": 1
+          }
+        ],
+        "index": 75,
+        "name": "Event91",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcoTalkSceneFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 76,
+        "name": "Event95",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1500"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 77,
+        "name": "Event96",
+        "next": 78,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 78,
+        "name": "Event97",
+        "next": 72,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1502"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 79,
+        "name": "Event87",
+        "next": 61,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1504"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 100,
+            "value": 0
+          },
+          {
+            "target": 100,
+            "value": 1
+          },
+          {
+            "target": 81,
+            "value": 2
+          }
+        ],
+        "index": 80,
+        "name": "Event88",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v300",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 79,
+            "value": 0
+          },
+          {
+            "target": 56,
+            "value": 1
+          }
+        ],
+        "index": 81,
+        "name": "Event99",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageMax5000_Before_v300"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 87,
+            "value": 1
+          }
+        ],
+        "index": 82,
+        "name": "Event100",
+        "params": {
+          "Money": 1500000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 83,
+        "name": "Event101",
+        "next": 11,
+        "params": {
+          "Money": 1500000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 84,
+        "name": "Event102",
+        "params": {
+          "Money": 1800000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionBellCountDown",
+        "actor": "EventFlowSystemActor",
+        "index": 85,
+        "name": "Event103",
+        "next": 11,
+        "params": {
+          "Money": 1800000,
+          "Reverse": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "NotEnoughMoney",
+        "flowchart": "",
+        "index": 86,
+        "name": "Event104",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "NotEnoughMoney",
+        "flowchart": "",
+        "index": 87,
+        "name": "Event105",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 82,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event106",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v300",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 89,
+        "name": "Event107",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageMax5000_Before_v300"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 94,
+            "value": 0
+          },
+          {
+            "target": 93,
+            "value": 1
+          }
+        ],
+        "index": 90,
+        "name": "Event108",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v300",
+          "Border": 1,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 91,
+        "name": "Event112",
+        "next": 97,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1503"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 92,
+        "name": "Event114",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1311"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 93,
+        "name": "Event115",
+        "next": 99,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 1500000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 94,
+        "name": "Event116",
+        "next": 91,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 1800000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetTagFromSystem",
+        "actor": "EventFlowSystemActor",
+        "index": 95,
+        "name": "Event111",
+        "next": 99,
+        "params": {
+          "AccessKey": "",
+          "SetTagType": "cMoney",
+          "TagID": 0,
+          "TagType": "cFlow",
+          "Value": 1200000
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 90,
+            "value": 0
+          },
+          {
+            "target": 95,
+            "value": 1
+          }
+        ],
+        "index": 96,
+        "name": "Event117",
+        "params": {
+          "AccessKey": "cPlayer:RcoStorageExpansion_v200_AddLevel",
+          "Border": 3,
+          "FlagCheckType": 0
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 97,
+        "name": "Event118",
+        "next": 98,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 98,
+        "name": "Event119",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/rco/SP_rco_00_Common:1312_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMoneyAppear",
+        "actor": "EventFlowSystemActor",
+        "index": 99,
+        "name": "Event120",
+        "next": 92,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 101,
+            "value": 0
+          },
+          {
+            "target": 55,
+            "value": 1
+          }
+        ],
+        "index": 100,
+        "name": "Event113",
+        "params": {
+          "AccessKey": "cPlayer:RcoStandbyNotice_v300_AddStorage"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "v300_AddNoticeExpandStorage_Normal",
+        "flowchart": "",
+        "index": 101,
+        "name": "Event109",
+        "next": 61,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_rco_10_Common_ExpandHouseStorage",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "5c3af07fba46e47a81664b663d9362d35a6ec4681d7ca904e051c38d8c0b5ac6",
+  "size": 21960,
+  "status": "converted"
+}

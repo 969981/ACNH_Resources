@@ -1,0 +1,403 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcChangeAIState",
+          "EventFlowActionSetIsStartNeedActivity",
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionEventFlagNpcOff",
+          "EventFlowActionSetNpcFeel"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemIsVisitQuestPlayerEntered",
+          "EventFlowQueryNpcCheckStateSelectTiming",
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 0,
+        "name": "VisitNWelcome"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 9,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 10,
+        "name": "VisitNGoHome"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 6,
+        "name": "VisitNFurniture"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 7,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 8,
+        "name": "TouchedFurniture"
+      }
+    ],
+    "event_count": 20,
+    "event_flow_name": "AI_NPC_Quest_VisitN",
+    "events": [
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 0,
+        "name": "Event0",
+        "next": null,
+        "params": {
+          "EntryName": "Home_In",
+          "FlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cVisitWelcome",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Home_Talk",
+          "TalkEventFlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQuerySystemIsVisitQuestPlayerEntered",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cVisitFollower",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Home_Talk",
+          "TalkEventFlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {
+          "CheckStage": "cVisitNPCHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 5,
+        "name": "Event6",
+        "next": null,
+        "params": {
+          "EntryName": "End",
+          "FlowName": "NNPC_Quest_VisitN_End"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ContinueSpeak",
+        "flowchart": "AI_NPC_Common",
+        "index": 6,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "EntryName": "Home_Buy",
+          "FlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "BBRegist",
+        "flowchart": "AI_NPC_Indoor",
+        "index": 7,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "TouchedFurniture",
+        "flowchart": "AI_NPC_Indoor",
+        "index": 8,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSetIsStartNeedActivity",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": 4,
+        "params": {
+          "UpdateRequest": "cOff"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event10",
+        "next": 5,
+        "params": {
+          "Flag": false,
+          "SettingType": 4
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event11",
+        "next": 13,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 30,
+          "ArgStr0": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Home_Talk",
+          "TalkEventFlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event12",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 3,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event15",
+        "next": 17,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 30,
+          "ArgStr0": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Home_Talk",
+          "TalkEventFlowName": "NNPC_Quest_VisitN_Home"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event16",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOff",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSetNpcFeel",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event19",
+        "next": 16,
+        "params": {
+          "Feel": "cNormal",
+          "Force": false,
+          "Second": 120
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Quest_VisitN",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "77cadbbf147ed6f017f90566b6dfd17f9a8ac06ed4675595171f7fe192d54385",
+  "size": 6688,
+  "status": "converted"
+}

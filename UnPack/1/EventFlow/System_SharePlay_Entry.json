@@ -1,0 +1,1262 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionCancelSharePlayEntry",
+          "EventFlowActionPrepareSharePlayEntry",
+          "EventFlowActionQuitSharePlay",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionReserveSystemFlowDemo",
+          "EventFlowActionUIMsgCardAdrHandling",
+          "EventFlowActionUIMsgCardAdrCreate",
+          "EventFlowActionWaitFrame",
+          "EventFlowActionUIMenuProfileOthersHandling",
+          "EventFlowActionUIShopMoneyDisappear",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryCountWaitingPlayerNum",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryIsPlayerBirthdayRoom",
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryCountSharePlayerNum",
+          "EventFlowQueryIsUnconnectedPlayerVillagerGreaterThan",
+          "EventFlowQueryGeneralTalkChoice6",
+          "EventFlowQueryIncludeHorizontalController",
+          "EventFlowQueryGeneralTalkChoice7",
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQueryHotelOrderProgress"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerChangeDemoState",
+          "EventFlowActionSmartPhone"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": [
+          "EventFlowQueryPlayerIsForbidMainChange"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 12
+        },
+        "main_event": 21,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 2,
+          "offset_08": 11192,
+          "offset_10": 11248,
+          "subflow_index_count": 0
+        },
+        "main_event": 42,
+        "name": "Choice"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 9
+        },
+        "main_event": 25,
+        "name": "ExitSharePlay"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 20,
+        "name": "SharePlay_SaveAndGameEnd"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 47,
+        "name": "SharePlay_ChangeLeader"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 61,
+        "name": "SharePlay_HowToPlay"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 6,
+        "name": "SharePlay_AppOpen_Solo"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 64,
+        "name": "ChkNpcHouseCoordinate"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 79,
+        "name": "ChkHotelEdit"
+      }
+    ],
+    "event_count": 83,
+    "event_flow_name": "System_SharePlay_Entry",
+    "events": [
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event2",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 35,
+            "value": 0
+          },
+          {
+            "target": 38,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event6",
+        "params": {
+          "Border": 1
+        },
+        "query": "EventFlowQueryCountWaitingPlayerNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event7",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_SharePlay:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event11",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cGrowUpPlayerSwitch"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event17",
+        "next": 3,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice",
+        "flowchart": "",
+        "index": 5,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPrepareSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event4",
+        "next": 1,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 25,
+            "value": 0
+          },
+          {
+            "target": 51,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event33",
+        "params": {
+          "TargetMode": 1
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event34",
+        "next": 15,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_SharePlay:006"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_SharePlay_Exit",
+        "index": 10,
+        "name": "Event35",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPrepareSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event37",
+        "next": 12,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Choice",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 49,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          },
+          {
+            "target": 66,
+            "value": 2
+          },
+          {
+            "target": 44,
+            "value": 3
+          },
+          {
+            "target": 65,
+            "value": 4
+          },
+          {
+            "target": 67,
+            "value": 5
+          },
+          {
+            "target": 14,
+            "value": 6
+          }
+        ],
+        "index": 15,
+        "name": "Event36",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice7",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event42",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cSaveGameClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 70,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event43",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event44",
+        "next": 19,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:013"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event45",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionQuitSharePlay",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event46",
+        "next": 24,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 71,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event47",
+        "params": {
+          "AccessKey": "cPlayer:Mobile1stBoot_SharePlay"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event48",
+        "next": 23,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5041"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event49",
+        "next": 71,
+        "params": {
+          "AccessKey": "cPlayer:Mobile1stBoot_SharePlay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event50",
+        "next": 16,
+        "params": {
+          "EntryName": "AfterSharePlay",
+          "FlowFile": "System_SaveGameClose",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 43,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event59",
+        "params": {
+          "Border": 3
+        },
+        "query": "EventFlowQueryCountSharePlayerNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event60",
+        "next": 27,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSys/SYS_SharePlay:006_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 50,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          },
+          {
+            "target": 45,
+            "value": 2
+          },
+          {
+            "target": 68,
+            "value": 3
+          },
+          {
+            "target": 69,
+            "value": 4
+          },
+          {
+            "target": 28,
+            "value": 5
+          }
+        ],
+        "index": 27,
+        "name": "Event61",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice6",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event62",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "System_SharePlay_Exit",
+        "index": 29,
+        "name": "Event63",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 31,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event68",
+        "params": {},
+        "query": "EventFlowQueryIsPlayerBirthdayRoom",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event69",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 34,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event70",
+        "params": {
+          "CheckStage": "cMysteryTourIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event71",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:018"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 78,
+            "value": 1
+          }
+        ],
+        "index": 34,
+        "name": "Event73",
+        "params": {
+          "CheckStage": "cPhotoStudioIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSmartPhone",
+        "actor": "Player",
+        "index": 35,
+        "name": "Event75",
+        "next": 5,
+        "params": {
+          "ActionType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardAdrHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event72",
+        "next": 37,
+        "params": {
+          "MsgCardAdrType": "cSharePlay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event74",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 39,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 38,
+        "name": "Event0",
+        "params": {
+          "Count": 1
+        },
+        "query": "EventFlowQueryIsUnconnectedPlayerVillagerGreaterThan",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event1",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:020"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 40,
+        "name": "Event3",
+        "params": {
+          "Count": 1
+        },
+        "query": "EventFlowQueryIsUnconnectedPlayerVillagerGreaterThan",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event8",
+        "next": 36,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:019"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMsgCardAdrCreate",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event9",
+        "next": 40,
+        "params": {
+          "MsgCardAdrType": "cSharePlay"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event10",
+        "params": {
+          "Border": 1
+        },
+        "query": "EventFlowQueryCountWaitingPlayerNum",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "SharePlay_SaveAndGameEnd",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event12",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SharePlay_SaveAndGameEnd",
+        "flowchart": "",
+        "index": 45,
+        "name": "Event13",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerChangeDemoState",
+        "actor": "Player",
+        "index": 46,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "ChangeDemoState": "cSharePlayMainChangeReciveWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "Player",
+        "cases": [
+          {
+            "target": 48,
+            "value": 0
+          },
+          {
+            "target": 46,
+            "value": 1
+          }
+        ],
+        "index": 47,
+        "name": "Event15",
+        "params": {},
+        "query": "EventFlowQueryPlayerIsForbidMainChange",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 48,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:016"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "SharePlay_ChangeLeader",
+        "flowchart": "",
+        "index": 49,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SharePlay_ChangeLeader",
+        "flowchart": "",
+        "index": 50,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SharePlay_AppOpen_Solo",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SharePlay_HowToPlay",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event21",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "SharePlay_HowToPlay",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event22",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 57,
+            "value": 0
+          },
+          {
+            "target": 58,
+            "value": 1
+          }
+        ],
+        "index": 54,
+        "name": "Event26",
+        "params": {
+          "AccessKey": "cPlayer:EnableEmoticonUI"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 59,
+            "value": 0
+          },
+          {
+            "target": 60,
+            "value": 1
+          }
+        ],
+        "index": 55,
+        "name": "Event27",
+        "params": {
+          "AccessKey": "cPlayer:EnableEmoticonUI"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 55,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          }
+        ],
+        "index": 56,
+        "name": "Event28",
+        "params": {},
+        "query": "EventFlowQueryIncludeHorizontalController",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 57,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5201_04"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 58,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5201_03"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 59,
+        "name": "Event31",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5201_02"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 60,
+        "name": "Event32",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_Msg:5201_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 61,
+        "name": "Event40",
+        "next": 56,
+        "params": {
+          "WaitFrame": 30
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMenuProfileOthersHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 62,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIMenuProfileOthersHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 63,
+        "name": "Event52",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 75,
+            "value": 0
+          }
+        ],
+        "index": 64,
+        "name": "Event53",
+        "params": {
+          "CheckStage": "cAnyNpcHouse"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 65,
+        "name": "Event55",
+        "next": 63,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 66,
+        "name": "Event56",
+        "next": 11,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 67,
+        "name": "Event57",
+        "next": 52,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 68,
+        "name": "Event54",
+        "next": 62,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIShopMoneyDisappear",
+        "actor": "EventFlowSystemActor",
+        "index": 69,
+        "name": "Event58",
+        "next": 53,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 74,
+            "value": 1
+          }
+        ],
+        "index": 70,
+        "name": "Event24",
+        "params": {
+          "CheckStage": "cCheckStageSymbol00"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 72,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 71,
+        "name": "Event64",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 72,
+        "name": "Event66",
+        "next": 73,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:013_01"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCancelSharePlayEntry",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event67",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 33,
+            "value": 0
+          },
+          {
+            "target": 32,
+            "value": 1
+          }
+        ],
+        "index": 74,
+        "name": "Event76",
+        "params": {
+          "CheckStage": "cKappeiIsland"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 76,
+            "value": 0
+          }
+        ],
+        "index": 75,
+        "name": "Event78",
+        "params": {
+          "AccessKey": "cLandTemp:NpcInteriorCoordinate"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event80",
+        "next": 77,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkNpcHouseCoordinate",
+        "flowchart": "",
+        "index": 78,
+        "name": "Event82",
+        "next": 82,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 80,
+            "value": 1
+          }
+        ],
+        "index": 79,
+        "name": "Event84",
+        "params": {},
+        "query": "EventFlowQueryHotelOrderProgress",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 80,
+        "name": "Event85",
+        "next": 81,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_SharePlay:017"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 81,
+        "name": "Event86",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "ChkHotelEdit",
+        "flowchart": "",
+        "index": 82,
+        "name": "Event88",
+        "next": 30,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "System_SharePlay_Entry",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "932b6ddd3849fb093ee53a229fc0f75b8642fb35d7e106230eafaa976a5484e8",
+  "size": 14472,
+  "status": "converted"
+}

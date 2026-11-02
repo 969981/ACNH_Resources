@@ -1,0 +1,281 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSetNpcAIBlackBoardByLabel",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionUIDIYTradeHandling",
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryNetIsDreaming",
+          "EventFlowQueryNetHasVisitor",
+          "EventFlowQueryIsKppTradeBonusTalk",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionPlayerPurchaseBoxThinking",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionStartAnimation"
+        ],
+        "argument_name": "",
+        "identifier": "GeneralObject",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionWaitFrame"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor[Sub]",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "Root"
+      }
+    ],
+    "event_count": 16,
+    "event_flow_name": "Obj_HotelTradeBox",
+    "events": [
+      {
+        "action": "EventFlowActionSetNpcAIBlackBoardByLabel",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "Key": "TradeBoxSpeak",
+          "NpcLabel": "kpp",
+          "Option": 1,
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 1,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 2,
+        "name": "Event4",
+        "params": {},
+        "query": "EventFlowQueryNetIsDreaming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIDIYTradeHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 3,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 4,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNetHasVisitor",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 0,
+            "value": 0
+          }
+        ],
+        "index": 5,
+        "name": "Event0",
+        "params": {
+          "BonusTalkTypeString": "FromTradeBox",
+          "OnlyCheckMultiPlay": false
+        },
+        "query": "EventFlowQueryIsKppTradeBonusTalk",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event8",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkObj/OBJ_TradeBox:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cPlayer:HotelUnlockDIYTrade"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 8,
+        "name": "Event12",
+        "next": 13,
+        "params": {
+          "ActionName": "BoxOpen",
+          "ActionType": "cTrigger"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStartAnimation",
+        "actor": "GeneralObject",
+        "index": 9,
+        "name": "Event13",
+        "next": 4,
+        "params": {
+          "ActionName": "BoxClose",
+          "ActionType": "cTrigger"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "forks": [
+          8,
+          15
+        ],
+        "index": 10,
+        "join": 11,
+        "name": "Event14",
+        "type": "ForkEvent"
+      },
+      {
+        "index": 11,
+        "name": "Event15",
+        "next": 9,
+        "type": "JoinEvent"
+      },
+      {
+        "action": "EventFlowActionPlayerPurchaseBoxThinking",
+        "actor": "Player",
+        "index": 12,
+        "name": "Event16",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor[Sub]",
+        "index": 13,
+        "name": "Event17",
+        "next": 12,
+        "params": {
+          "WaitFrame": 15
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event7",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_Player:1801"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event6",
+        "next": 3,
+        "params": {
+          "WaitFrame": 5
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Obj_HotelTradeBox",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "856b8ebb464a718047175f6f47f30e68c96c222fa8d5058b6a52b4b96b3273b0",
+  "size": 3672,
+  "status": "converted"
+}

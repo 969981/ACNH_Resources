@@ -1,0 +1,284 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionSwapSpeaker",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 2,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 9,
+        "name": "Preparation"
+      }
+    ],
+    "event_count": 19,
+    "event_flow_name": "SNPC_otg_32_WherearenEvent_PhoneCall",
+    "events": [
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event0",
+        "next": 1,
+        "params": {
+          "AccessKey": "cPlayer:WHEREAREN_Unlock_AccentWall"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event1",
+        "next": 10,
+        "params": {
+          "AccessKey": "cPlayer:UnlockInterior_CeilingFurniture"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PhoneIncoming",
+        "flowchart": "Player_StartGamePhoneCall",
+        "index": 2,
+        "name": "Event3",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "PhoneUnlock",
+        "flowchart": "Player_StartGamePhoneCall",
+        "index": 3,
+        "name": "Event4",
+        "next": 4,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSwapSpeaker",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event6",
+        "next": 12,
+        "params": {
+          "DispNameTag": true,
+          "SwapSpeaker": "cOtg"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PhoneTalkEnd1",
+        "flowchart": "Player_StartGamePhoneCall",
+        "index": 5,
+        "name": "Event5",
+        "next": 6,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSwapSpeaker",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event7",
+        "next": 7,
+        "params": {
+          "DispNameTag": true,
+          "SwapSpeaker": "cNone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "PhoneTalkEnd2",
+        "flowchart": "Player_StartGamePhoneCall",
+        "index": 7,
+        "name": "Event8",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event9",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqCeilingEventReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cPlayer:UnlockInterior_CeilingFurniture"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": 18,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqCeilingEventReady"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 11,
+        "name": "Event12",
+        "next": 3,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:301"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 12,
+        "name": "Event13",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:302"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 13,
+        "name": "Event14",
+        "next": 14,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:303"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event16",
+        "next": 5,
+        "params": {
+          "IsCloseMessageWindow": true,
+          "MessageID": "TalkSNpc/otg/SP_otg_04_WherearenEvent:304"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event15",
+        "next": 17,
+        "params": {
+          "AccessKey": "cPlayer:RepayMileInteriorModePro"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqCeilingEventOrRepayDone"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 17,
+        "name": "Event18",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqCeilingEventOrRepayDone"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event19",
+        "next": null,
+        "params": {
+          "AccessKey": "cWherearenPlayer:SeqCeilingEventOrRepayDone"
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "SNPC_otg_32_WherearenEvent_PhoneCall",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "768a77dbd4fe9a4e2594e30f27b670a09f1087012ae2f25abf96041da7b0bef0",
+  "size": 4352,
+  "status": "converted"
+}

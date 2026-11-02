@@ -1,0 +1,690 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionReserveSystemFlowDemo",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionMessageSuspend",
+          "EventFlowActionNetCaptureScreenshot",
+          "EventFlowActionEventFlagSystemOff",
+          "EventFlowActionStopMeasurePlayTime",
+          "EventFlowActionUIIllegalReportHandling",
+          "EventFlowActionUIWherearenInspectFootPrintAllClear",
+          "EventFlowActionNetWherearenRemoveFollowList",
+          "EventFlowActionWherearenOrderCallback",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionPlayReport",
+          "EventFlowActionMessageLockNext",
+          "EventFlowActionMessageUnlockNext"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryIsInspectingWherearen",
+          "EventFlowQueryWherearenOrderStatus",
+          "EventFlowQueryGeneralTalkChoice3",
+          "EventFlowQueryNetWherearenIsMyOpusData",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryUIIllegalReportResult",
+          "EventFlowQueryCheckMeasuredPlayTime",
+          "EventFlowQueryNetWherearenIsFollowedAuthor"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 18,
+        "name": "WherearenClose"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 23,
+        "name": "Report"
+      }
+    ],
+    "event_count": 47,
+    "event_flow_name": "System_WherearenClose",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          }
+        ],
+        "index": 0,
+        "name": "Event2",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event3",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cCircle",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cCircle",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cSaveGameClose"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReserveSystemFlowDemo",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event4",
+        "next": 1,
+        "params": {
+          "EntryName": "Root",
+          "FlowFile": "System_SaveGameClose",
+          "IsDemoRun": false,
+          "IsImmediate": false,
+          "IsPlayerTurnAccept": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 0
+          },
+          {
+            "target": 4,
+            "value": 1
+          }
+        ],
+        "index": 3,
+        "name": "Event1",
+        "params": {},
+        "query": "EventFlowQueryIsInspectingWherearen",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          },
+          {
+            "target": 37,
+            "value": 2
+          },
+          {
+            "target": 42,
+            "value": 3
+          },
+          {
+            "target": 35,
+            "value": 6
+          }
+        ],
+        "index": 4,
+        "name": "Event6",
+        "params": {},
+        "query": "EventFlowQueryWherearenOrderStatus",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event7",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:101"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event8",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:102"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event5",
+        "next": 8,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:103"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event9",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event10",
+        "next": 12,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:104"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event11",
+        "next": 13,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:105"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event12",
+        "next": 21,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:106"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          }
+        ],
+        "index": 12,
+        "name": "Event13",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 0
+          }
+        ],
+        "index": 13,
+        "name": "Event14",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Setting_ReturnInspect",
+        "flowchart": "System_WherearenResortPlanner",
+        "index": 14,
+        "name": "Event16",
+        "next": 15,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearenInspectBack",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearenInspectBack",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenPlannerApp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Report",
+        "flowchart": "",
+        "index": 16,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 36,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event20",
+        "params": {},
+        "query": "EventFlowQueryNetWherearenIsMyOpusData",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cWherearenPlayer:OtgGetStartingSalary"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 19,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:100"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 20,
+        "name": "Event23",
+        "next": 27,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 21,
+        "name": "Event26",
+        "next": 46,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageSuspend",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event27",
+        "next": 26,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIIllegalReportHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event28",
+        "next": 25,
+        "params": {
+          "ReportTarget": 9
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNetCaptureScreenshot",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event29",
+        "next": 7,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 30,
+            "value": 0
+          }
+        ],
+        "index": 25,
+        "name": "Event31",
+        "params": {},
+        "query": "EventFlowQueryUIIllegalReportResult",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOff",
+        "actor": "EventFlowSystemActor",
+        "index": 26,
+        "name": "Event35",
+        "next": 2,
+        "params": {
+          "AccessKey": "cWherearenPlayer:OtgWithoutMakeup"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStopMeasurePlayTime",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event30",
+        "next": 39,
+        "params": {
+          "Type": "cWherearenInspect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event36",
+        "params": {
+          "CheckValue": 20,
+          "Type": "cWherearenInspect"
+        },
+        "query": "EventFlowQueryCheckMeasuredPlayTime",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIWherearenInspectFootPrintAllClear",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event25",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 45,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 30,
+        "name": "Event38",
+        "params": {},
+        "query": "EventFlowQueryNetWherearenIsFollowedAuthor",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNetWherearenRemoveFollowList",
+        "actor": "EventFlowSystemActor",
+        "index": 31,
+        "name": "Event39",
+        "next": 34,
+        "params": {
+          "Type": "cInspect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 32,
+        "name": "Event40",
+        "next": 33,
+        "params": {
+          "CallBackTiming": "cSuspend"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenOrderCallback",
+        "actor": "EventFlowSystemActor",
+        "index": 33,
+        "name": "Event41",
+        "next": 22,
+        "params": {
+          "CallBackTiming": "cFinish"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 34,
+        "name": "Event42",
+        "next": 11,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_ResortPlanner_IsFollowUpdated"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 35,
+        "name": "Event43",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:108"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 36,
+        "name": "Event44",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:109"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 38,
+            "value": 0
+          },
+          {
+            "target": 6,
+            "value": 1
+          }
+        ],
+        "index": 37,
+        "name": "Event45",
+        "params": {
+          "AccessKey": "cWherearenPlayer:NoticeAboutInsectEdit"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 38,
+        "name": "Event46",
+        "next": 0,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_CloseMenu:110"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 39,
+        "name": "Event47",
+        "next": 28,
+        "params": {
+          "Num0": 0,
+          "PlayReportKind": "cWherearenInspect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStopMeasurePlayTime",
+        "actor": "EventFlowSystemActor",
+        "index": 40,
+        "name": "Event48",
+        "next": 41,
+        "params": {
+          "Type": "cWherearenInspect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionPlayReport",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event49",
+        "next": 29,
+        "params": {
+          "Num0": 0,
+          "PlayReportKind": "cWherearenInspect"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 43,
+            "value": 0
+          }
+        ],
+        "index": 42,
+        "name": "Event50",
+        "params": {
+          "AccessKey": "cWherearenPlayer:IsParty"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Leave_WherearenParty",
+        "flowchart": "SNPC_otg_18_WherearenEvent_Party",
+        "index": 43,
+        "name": "Event52",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 44,
+        "name": "Event51",
+        "next": 14,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_NeedsInspectReply"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageLockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 45,
+        "name": "Event18",
+        "next": 31,
+        "params": {
+          "WaitIconType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionMessageUnlockNext",
+        "actor": "EventFlowSystemActor",
+        "index": 46,
+        "name": "Event19",
+        "next": 40,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "System_WherearenClose",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "ab6a57ff244170d10cb85109fc8bc99513caf1913c1b0c6099992470017ee809",
+  "size": 9712,
+  "status": "converted"
+}

@@ -1,0 +1,450 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcChangeTurnDefaultState",
+          "EventFlowActionNpcAISetExitStrc",
+          "EventFlowActionSetSightRange",
+          "EventFlowActionNpcChangeHeadCtrlMode",
+          "EventFlowActionNpcChangeConversationPretenseState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": []
+      },
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart",
+          "EventFlowActionEventFlagSystemOn"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQuerySystemCheckNowStage",
+          "EventFlowQueryNetIsConnected",
+          "EventFlowQueryIsSharePlay",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 12,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 1,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 7,
+        "name": "ChkTalkRcoAboutShopMaterial"
+      }
+    ],
+    "event_count": 25,
+    "event_flow_name": "AI_NPC_Rcm",
+    "events": [
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 2,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event32",
+        "next": 2,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 3,
+            "value": 0
+          }
+        ],
+        "index": 2,
+        "name": "Event1",
+        "params": {
+          "CheckStage": "cIdrTanukichi"
+        },
+        "query": "EventFlowQuerySystemCheckNowStage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetExitStrc",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event2",
+        "next": 4,
+        "params": {
+          "Frame": 30,
+          "Reaction": "Smiling",
+          "TriggerType": "cTriggerType_ExitStrc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetExitStrc",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event3",
+        "next": 5,
+        "params": {
+          "Frame": 30,
+          "Reaction": "Smiling",
+          "TriggerType": "cTriggerType_EnterStrc"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSetSightRange",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event0",
+        "next": 6,
+        "params": {
+          "Angle": 0,
+          "Distance": 32
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeHeadCtrlMode",
+        "actor": "MainNpc",
+        "index": 6,
+        "name": "Event4",
+        "next": null,
+        "params": {
+          "HeadCtrlMode": "cPlayer",
+          "IsUseTiredLookAt": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 7,
+        "name": "Event5",
+        "params": {},
+        "query": "EventFlowQueryNetIsConnected",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 20,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event6",
+        "params": {
+          "TargetMode": 0
+        },
+        "query": "EventFlowQueryIsSharePlay",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 9,
+        "name": "Event9",
+        "params": {
+          "AccessKey": "cPlayer:RcoAfterHouseRemodel"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cPlayer:RcoGetTvForCongratsHouse"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event14",
+        "params": {
+          "AccessKey": "cPlayer:PlayerLoanFinish1st"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ChkTalkRcoAboutShopMaterial",
+        "flowchart": "",
+        "index": 12,
+        "name": "Event16",
+        "next": 0,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeConversationPretenseState",
+        "actor": "MainNpc",
+        "index": 13,
+        "name": "Event7",
+        "next": 14,
+        "params": {
+          "ArgInt0": 0,
+          "ArgStr0": "rco",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cConversationPretense",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "SNPC_rcm"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 14,
+        "name": "Event8",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event10",
+        "next": 13,
+        "params": {
+          "Flag": false,
+          "SettingType": 3
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event11",
+        "next": 15,
+        "params": {
+          "Flag": false,
+          "SettingType": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          }
+        ],
+        "index": 17,
+        "name": "Event12",
+        "params": {
+          "AccessKey": "cPlayer:MakeVillagePlayerFlag"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event15",
+        "params": {
+          "AccessKey": "cLand:RcoRcmTalkingAboutStoreMaterial"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 16,
+            "value": 1
+          }
+        ],
+        "index": 19,
+        "name": "Event17",
+        "params": {
+          "AccessKey": "cPlayer:RcmTookQuestReq"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 11,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event19",
+        "params": {
+          "AccessKey": "cPlayer:PlayerProducedByPlayerMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 24,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event21",
+        "params": {
+          "AccessKey": "cPlayer:CanGetMileTicketTrialForMoving"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 21,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 22,
+        "name": "Event18",
+        "params": {
+          "AccessKey": "cPlayer:RcoTalked1stAfterPrologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event23",
+        "next": null,
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmCantPlayTalkActingThisScene"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 1
+          }
+        ],
+        "index": 24,
+        "name": "Event24",
+        "params": {
+          "AccessKey": "cPlayerTemp:RcmCantPlayTalkActingThisScene"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Rcm",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "e084a24a00d0cf997db42f4ce503a9c00f9925376bcbde4345ce6734bbf7c88f",
+  "size": 6928,
+  "status": "converted"
+}

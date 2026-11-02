@@ -1,0 +1,704 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionNpcAISetting",
+          "EventFlowActionNpcRegistAIBlackBoard",
+          "EventFlowActionNpcChangeGoToDestinationState",
+          "EventFlowActionNpcAddBlackBoard",
+          "EventFlowActionNpcChangeWaitState",
+          "EventFlowActionNpcSetAIBlackBoard",
+          "EventFlowActionNpcChangeTurnDefaultState",
+          "EventFlowActionNpcChangeAIStateCstm",
+          "EventFlowActionNpcDisableServiceMotion",
+          "EventFlowActionServiceMotionControl",
+          "EventFlowActionNpcChangeAIState"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcBlackBoard",
+          "EventFlowQueryNpcCheckStateSelectTiming"
+        ]
+      },
+      {
+        "actions": [],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryCheckEntryVariableInt"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 23,
+        "name": "Init"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 35,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 6,
+        "name": "Root_2ndStep"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 8,
+        "name": "Root_Common"
+      }
+    ],
+    "event_count": 38,
+    "event_flow_name": "AI_NPC_Prologue_Rct",
+    "events": [
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 0,
+        "name": "Event0",
+        "next": 3,
+        "params": {
+          "Flag": true,
+          "SettingType": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 1,
+        "name": "Event1",
+        "next": 0,
+        "params": {
+          "Key": "PrologueStep",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root_Common",
+        "flowchart": "",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {
+          "OffsetX": -2,
+          "OffsetZ": 0,
+          "PreCampfireAS": "NpcSpArrange",
+          "PreCampfireAngle": 270.0,
+          "TalkEventFlowName": "Tutorials_Prologue4_Orientation2_RcmRct",
+          "Type": 1,
+          "WaitFrame": 90
+        },
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 3,
+        "name": "Event3",
+        "next": 4,
+        "params": {
+          "Key": "HasTent",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event4",
+        "next": 20,
+        "params": {
+          "Key": "IsMove",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeGoToDestinationState",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {
+          "ArgInt0": 1,
+          "ArgInt1": "OffsetX",
+          "ArgInt2": "OffsetZ",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cGoToDestination",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          },
+          {
+            "target": 7,
+            "value": 1
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "Border": 2,
+          "Key": "PrologueStep"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 7,
+        "name": "Event7",
+        "next": 13,
+        "params": {
+          "Flag": true,
+          "SettingType": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 9,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event8",
+        "params": {
+          "Border": 1,
+          "Key": "PrologueStep"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddBlackBoard",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event9",
+        "next": 17,
+        "params": {
+          "AddValue": 1,
+          "Key": "PrologueStep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event12",
+        "next": 16,
+        "params": {
+          "Flag": true,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 11,
+        "name": "Event13",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": "WaitFrame",
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 12,
+        "name": "Event14",
+        "next": 11,
+        "params": {
+          "Key": "IsMove",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 14,
+            "value": 0
+          },
+          {
+            "target": 12,
+            "value": 1
+          }
+        ],
+        "index": 13,
+        "name": "Event15",
+        "params": {
+          "Border": 1,
+          "Key": "IsMove"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAddBlackBoard",
+        "actor": "MainNpc",
+        "index": 14,
+        "name": "Event16",
+        "next": 5,
+        "params": {
+          "AddValue": 1,
+          "Key": "PrologueStep"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 15,
+        "name": "Event17",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 1,
+          "ArgStr1": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 16,
+        "name": "Event18",
+        "next": 21,
+        "params": {
+          "Flag": false,
+          "SettingType": 6
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 17,
+        "name": "Event22",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "",
+          "IsChangePreState": true,
+          "IsChangeSameState": true,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 19,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 18,
+        "name": "Event10",
+        "params": {
+          "AccessKey": "cLand:SetPrologueBonfire"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 19,
+        "name": "Event11",
+        "next": 0,
+        "params": {
+          "Key": "PrologueStep",
+          "Value": 2
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event19",
+        "next": 34,
+        "params": {
+          "Key": "PreCampfire",
+          "Value": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 32,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event20",
+        "params": {
+          "Border": 1,
+          "Key": "PreCampfire"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeWaitState",
+        "actor": "MainNpc",
+        "index": 22,
+        "name": "Event21",
+        "next": null,
+        "params": {
+          "ArgFlag0": true,
+          "ArgInt0": 0,
+          "ArgStr0": "PreCampfireAS",
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cWait",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 18,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event23",
+        "params": {
+          "AccessKey": "cLandTemp:IsFirstPrologue"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIStateCstm",
+        "actor": "MainNpc",
+        "index": 24,
+        "name": "Event24",
+        "next": null,
+        "params": {
+          "CstmType": 2,
+          "ExtendParam": "Angle:0",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 15,
+            "value": 1
+          }
+        ],
+        "index": 25,
+        "name": "Event25",
+        "params": {
+          "AccessKey": "cLandTemp:PrologueStartedCampfire"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event26",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 27,
+        "name": "Event27",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgFloat0": 0.0,
+          "ArgInt0": 1,
+          "ArgStr1": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 29,
+            "value": 0
+          },
+          {
+            "target": 22,
+            "value": 1
+          }
+        ],
+        "index": 28,
+        "name": "Event28",
+        "params": {
+          "AISelectorTiming": "cTalkEnd"
+        },
+        "query": "EventFlowQueryNpcCheckStateSelectTiming",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeTurnDefaultState",
+        "actor": "MainNpc",
+        "index": 29,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "ArgFlag0": false,
+          "ArgFloat0": "PreCampfireAngle",
+          "ArgInt0": 1,
+          "ArgStr1": "",
+          "IsChangePreState": false,
+          "IsChangeSameState": false,
+          "StateName": "cTurn",
+          "SubEntryName": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcDisableServiceMotion",
+        "actor": "MainNpc",
+        "index": 30,
+        "name": "Event31",
+        "next": 31,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionServiceMotionControl",
+        "actor": "MainNpc",
+        "index": 31,
+        "name": "Event30",
+        "next": null,
+        "params": {
+          "CanServiceMotion": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 0
+          },
+          {
+            "target": 37,
+            "value": 1
+          }
+        ],
+        "index": 32,
+        "name": "Event32",
+        "params": {
+          "CheckType": 0,
+          "CheckValue": 0,
+          "Value": "Type"
+        },
+        "query": "EventFlowQueryCheckEntryVariableInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIStateCstm",
+        "actor": "MainNpc",
+        "index": 33,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "CstmType": 4,
+          "ExtendParam": "",
+          "TalkEntryPointName": "Root",
+          "TalkEventFlowName": "TalkEventFlowName"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcRegistAIBlackBoard",
+        "actor": "MainNpc",
+        "index": 34,
+        "name": "Event34",
+        "next": 30,
+        "params": {
+          "Key": "Visible",
+          "Value": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 2,
+            "value": 0
+          },
+          {
+            "target": 36,
+            "value": 1
+          }
+        ],
+        "index": 35,
+        "name": "Event35",
+        "params": {
+          "Border": 1,
+          "Key": "Visible"
+        },
+        "query": "EventFlowQueryNpcBlackBoard",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionNpcChangeAIState",
+        "actor": "MainNpc",
+        "index": 36,
+        "name": "Event36",
+        "next": null,
+        "params": {
+          "IsChangePreState": true,
+          "IsChangeSameState": false,
+          "StateName": "cInvisible",
+          "SubEntryName": "",
+          "TalkEntryPointName": "",
+          "TalkEventFlowName": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionNpcAISetting",
+        "actor": "MainNpc",
+        "index": 37,
+        "name": "Event37",
+        "next": 33,
+        "params": {
+          "Flag": false,
+          "SettingType": 8
+        },
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "AI_NPC_Prologue_Rct",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "1b7448d95406eca07eefaea235ed9fe5d3b15f67f5c4fbddf0a9e1ffd4070bad",
+  "size": 13280,
+  "status": "converted"
+}

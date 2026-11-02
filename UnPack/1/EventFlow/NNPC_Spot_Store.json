@@ -1,0 +1,328 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryIsMyVillage",
+          "EventFlowQueryNpcGeneralTalkChoice",
+          "EventFlowQueryFacilityOpenPastDays"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionEventFlagNpcOn",
+          "EventFlowActionNpcSetTalkManualChoice"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryEventFlagNpcBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 10
+        },
+        "main_event": 10,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 8,
+        "name": "Spot_Gstore"
+      }
+    ],
+    "event_count": 21,
+    "event_flow_name": "NNPC_Spot_Store",
+    "events": [
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 5,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 1,
+        "name": "Event9",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Talk_Greet_Spot",
+        "index": 2,
+        "name": "Event10",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          },
+          {
+            "target": 18,
+            "value": 2
+          },
+          {
+            "target": 16,
+            "value": 3
+          },
+          {
+            "target": 17,
+            "value": 4
+          }
+        ],
+        "index": 3,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryNpcGeneralTalkChoice",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 4,
+        "name": "Event13",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Gstore:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 5,
+        "name": "Event2",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Gstore:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Spot_Gstore",
+        "flowchart": "",
+        "index": 6,
+        "name": "Event3",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Conceal_ShopBuilt2",
+        "flowchart": "NNPC_FreeH_Progress",
+        "index": 7,
+        "name": "Event1",
+        "next": 15,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 9,
+            "value": 0
+          },
+          {
+            "target": 0,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event4",
+        "params": {
+          "CountFacilityType": "cMarket2",
+          "Days": 7
+        },
+        "query": "EventFlowQueryFacilityOpenPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 9,
+        "name": "Event7",
+        "next": 1,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Spot/BO_Spot_Gstore:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagNpcOn",
+        "actor": "MainNpc",
+        "index": 10,
+        "name": "Event6",
+        "next": 7,
+        "params": {
+          "AccessKey": "cNpcTemp:TalkEndWait"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 20,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          }
+        ],
+        "index": 11,
+        "name": "Event8",
+        "params": {
+          "AccessKey": "cNpcMemory:FirstMeetGreetAtThisVillageToday"
+        },
+        "query": "EventFlowQueryEventFlagNpcBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Greet_Again1",
+        "flowchart": "NNPC_Talk_Greet",
+        "index": 12,
+        "name": "Event14",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "GreetV_Again1",
+        "flowchart": "NNPC_Talk_GreetV",
+        "index": 13,
+        "name": "Event15",
+        "next": 3,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 13,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryIsMyVillage",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Situation_Spot",
+        "flowchart": "NNPC_Talk_Situation",
+        "index": 15,
+        "name": "Event17",
+        "next": 11,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_Select_Present",
+        "index": 16,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Give_Capcake",
+        "flowchart": "NNPC_GEvent_BirthdayP",
+        "index": 17,
+        "name": "Event19",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Quest_ConfirmGive",
+        "flowchart": "NNPC_Talk_General",
+        "index": 18,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "End_Root",
+        "flowchart": "NNPC_Talk_General",
+        "index": 19,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionNpcSetTalkManualChoice",
+        "actor": "MainNpc",
+        "index": 20,
+        "name": "Event11",
+        "next": 14,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Spot_Store",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "33d678f9b9001bcaa8e17db7a531d47e1758ca6c1749e4bf148d4e8fe591ad82",
+  "size": 3560,
+  "status": "converted"
+}

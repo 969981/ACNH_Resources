@@ -1,0 +1,1378 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "MainNpc",
+        "params": {},
+        "queries": [
+          "EventFlowQueryNpcHaveQuestType",
+          "EventFlowQueryNpcCanStartQuest",
+          "EventFlowQueryCheckNpcFavorLevel",
+          "EventFlowQueryNpcCheckPastDays",
+          "EventFlowQueryHasNpcWantedItem",
+          "EventFlowQueryNpcCanStartApBNickname",
+          "EventFlowQueryNpcIsFleaHolder",
+          "EventFlowQueryCheckNpcApproachType"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionEventFlagSystemSet",
+          "EventFlowActionEventFlagSystemAdd",
+          "EventFlowActionExitFlowchart"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryRandomChoiceExcludePrevious3",
+          "EventFlowQueryHasBellCount",
+          "EventFlowQuerySystemHasBaggageSpace",
+          "EventFlowQueryEventFlagSystemInt",
+          "EventFlowQueryRandomChoiceExcludePrevious9",
+          "EventFlowQueryRandomChoiceExcludePrevious6",
+          "EventFlowQueryFlagSystemIntValue3",
+          "EventFlowQueryRandomChoiceExcludePrevious2",
+          "EventFlowQueryEventFlagSystemBool"
+        ]
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 38
+        },
+        "main_event": 0,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 10,
+        "name": "ApGreeting"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 8,
+        "name": "ApPresent"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 3
+        },
+        "main_event": 45,
+        "name": "ApNickname"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 14,
+        "name": "ApTrade"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 60,
+        "name": "ApHabit"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 16,
+        "name": "ApWant"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 4
+        },
+        "main_event": 9,
+        "name": "ApSell"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 80,
+        "name": "ApAlways"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 32
+        },
+        "main_event": 43,
+        "name": "Reselection"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 1
+        },
+        "main_event": 74,
+        "name": "ApproachB_Chk"
+      }
+    ],
+    "event_count": 91,
+    "event_flow_name": "NNPC_Approach",
+    "events": [
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 1,
+            "value": 0
+          },
+          {
+            "target": 41,
+            "value": 1
+          }
+        ],
+        "index": 0,
+        "name": "Event0",
+        "params": {},
+        "query": "EventFlowQueryNpcCanStartQuest",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 41,
+            "value": 0
+          },
+          {
+            "target": 2,
+            "value": 1
+          },
+          {
+            "target": 19,
+            "value": 2
+          },
+          {
+            "target": 18,
+            "value": 3
+          },
+          {
+            "target": 20,
+            "value": 4
+          },
+          {
+            "target": 21,
+            "value": 5
+          },
+          {
+            "target": 22,
+            "value": 6
+          },
+          {
+            "target": 41,
+            "value": 7
+          }
+        ],
+        "index": 1,
+        "name": "Event1",
+        "params": {
+          "IncludeFinish": ""
+        },
+        "query": "EventFlowQueryNpcHaveQuestType",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_CatchFishInsect_Begin",
+        "index": 2,
+        "name": "Event2",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 6,
+            "value": 0
+          },
+          {
+            "target": 54,
+            "value": 1
+          },
+          {
+            "target": 50,
+            "value": 2
+          },
+          {
+            "target": 7,
+            "value": 3
+          },
+          {
+            "target": 49,
+            "value": 4
+          },
+          {
+            "target": 49,
+            "value": 5
+          }
+        ],
+        "index": 3,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcFavorLevel",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachB_Habit",
+        "index": 4,
+        "name": "Event4",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachC_Sell",
+        "index": 5,
+        "name": "Event5",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 70,
+            "value": 0
+          },
+          {
+            "target": 71,
+            "value": 1
+          },
+          {
+            "target": 72,
+            "value": 2
+          },
+          {
+            "target": 39,
+            "value": 3
+          },
+          {
+            "target": 38,
+            "value": 4
+          },
+          {
+            "target": 38,
+            "value": 5
+          },
+          {
+            "target": 38,
+            "value": 6
+          },
+          {
+            "target": 33,
+            "value": 7
+          },
+          {
+            "target": 36,
+            "value": 8
+          }
+        ],
+        "index": 6,
+        "name": "Event6",
+        "params": {
+          "ChoiceNumber": 9,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious9",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 64,
+            "value": 0
+          },
+          {
+            "target": 40,
+            "value": 1
+          },
+          {
+            "target": 48,
+            "value": 2
+          }
+        ],
+        "index": 7,
+        "name": "Event7",
+        "params": {
+          "ChoiceNumber": 3,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious3",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 12,
+            "value": 0
+          },
+          {
+            "target": 30,
+            "value": 1
+          }
+        ],
+        "index": 8,
+        "name": "Event11",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 87,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 9,
+        "name": "Event12",
+        "params": {
+          "CheckNum": 1,
+          "CheckTargrt": "cPocketBag"
+        },
+        "query": "EventFlowQuerySystemHasBaggageSpace",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 11,
+            "value": 0
+          },
+          {
+            "target": 29,
+            "value": 1
+          }
+        ],
+        "index": 10,
+        "name": "Event13",
+        "params": {
+          "AccessKey": "cGreeting",
+          "Border": 14
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachB_Greeting",
+        "index": 11,
+        "name": "Event14",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachC_Present",
+        "index": 12,
+        "name": "Event15",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachC_Trade",
+        "index": 13,
+        "name": "Event18",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 27,
+            "value": 1
+          }
+        ],
+        "index": 14,
+        "name": "Event19",
+        "params": {},
+        "query": "EventFlowQueryHasNpcWantedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachC_Want",
+        "index": 15,
+        "name": "Event20",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 15,
+            "value": 0
+          },
+          {
+            "target": 25,
+            "value": 1
+          }
+        ],
+        "index": 16,
+        "name": "Event21",
+        "params": {},
+        "query": "EventFlowQueryHasNpcWantedItem",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 5,
+            "value": 0
+          },
+          {
+            "target": 24,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event22",
+        "params": {
+          "Money": 8000
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_Delivery_Begin",
+        "index": 18,
+        "name": "Event23",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_LostProperty_Begin",
+        "index": 19,
+        "name": "Event24",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_TreasureHunt_Begin",
+        "index": 20,
+        "name": "Event25",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_VisitN_Begin",
+        "index": 21,
+        "name": "Event26",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Begin_Ap",
+        "flowchart": "NNPC_Quest_VisitP_Begin",
+        "index": 22,
+        "name": "Event27",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 26,
+            "value": 1
+          }
+        ],
+        "index": 23,
+        "name": "Event32",
+        "params": {
+          "AccessKey": "cPhrase",
+          "Border": 10
+        },
+        "query": "EventFlowQueryNpcCheckPastDays",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 24,
+        "name": "Event33",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 25,
+        "name": "Event36",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 26,
+        "name": "Event37",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 27,
+        "name": "Event38",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 28,
+        "name": "Event39",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 29,
+        "name": "Event40",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 30,
+        "name": "Event41",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApHabit",
+        "flowchart": "",
+        "index": 31,
+        "name": "Event49",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApNickname",
+        "flowchart": "",
+        "index": 32,
+        "name": "Event50",
+        "next": 73,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApWant",
+        "flowchart": "",
+        "index": 33,
+        "name": "Event53",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApHabit",
+        "flowchart": "",
+        "index": 34,
+        "name": "Event54",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApNickname",
+        "flowchart": "",
+        "index": 35,
+        "name": "Event55",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApTrade",
+        "flowchart": "",
+        "index": 36,
+        "name": "Event56",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApGreeting",
+        "flowchart": "",
+        "index": 37,
+        "name": "Event57",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApPresent",
+        "flowchart": "",
+        "index": 38,
+        "name": "Event58",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApSell",
+        "flowchart": "",
+        "index": 39,
+        "name": "Event35",
+        "next": 77,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApSell",
+        "flowchart": "",
+        "index": 40,
+        "name": "Event43",
+        "next": 73,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemSet",
+        "actor": "EventFlowSystemActor",
+        "index": 41,
+        "name": "Event67",
+        "next": 43,
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcApproachSelectCount",
+          "SetNum": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemAdd",
+        "actor": "EventFlowSystemActor",
+        "index": 42,
+        "name": "Event81",
+        "next": 3,
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcApproachSelectCount",
+          "AddNum": 1
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 44,
+            "value": 0
+          },
+          {
+            "target": 42,
+            "value": 1
+          }
+        ],
+        "index": 43,
+        "name": "Event82",
+        "params": {
+          "AccessKey": "cPlayerTemp:NnpcApproachSelectCount",
+          "Border": 3,
+          "FlagCheckType": 3
+        },
+        "query": "EventFlowQueryEventFlagSystemInt",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ApAlways",
+        "flowchart": "",
+        "index": 44,
+        "name": "Event83",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 46,
+            "value": 0
+          },
+          {
+            "target": 47,
+            "value": 1
+          },
+          {
+            "target": 28,
+            "value": 2
+          }
+        ],
+        "index": 45,
+        "name": "Event30",
+        "params": {},
+        "query": "EventFlowQueryNpcCanStartApBNickname",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "NewName",
+        "flowchart": "NNPC_ApproachB_NickName",
+        "index": 46,
+        "name": "Event31",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "CopyName",
+        "flowchart": "NNPC_ApproachB_NickName",
+        "index": 47,
+        "name": "Event34",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApPresent",
+        "flowchart": "",
+        "index": 48,
+        "name": "Event28",
+        "next": 73,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApPresent",
+        "flowchart": "",
+        "index": 49,
+        "name": "Event17",
+        "next": 78,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 67,
+            "value": 0
+          },
+          {
+            "target": 65,
+            "value": 1
+          },
+          {
+            "target": 52,
+            "value": 2
+          },
+          {
+            "target": 53,
+            "value": 3
+          },
+          {
+            "target": 52,
+            "value": 4
+          },
+          {
+            "target": 53,
+            "value": 5
+          }
+        ],
+        "index": 50,
+        "name": "Event8",
+        "params": {
+          "ChoiceNumber": 6,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious6",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ApNickname",
+        "flowchart": "",
+        "index": 51,
+        "name": "Event9",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApSell",
+        "flowchart": "",
+        "index": 52,
+        "name": "Event42",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApPresent",
+        "flowchart": "",
+        "index": 53,
+        "name": "Event46",
+        "next": 75,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 66,
+            "value": 0
+          },
+          {
+            "target": 69,
+            "value": 1
+          },
+          {
+            "target": 68,
+            "value": 2
+          },
+          {
+            "target": 59,
+            "value": 3
+          },
+          {
+            "target": 58,
+            "value": 4
+          },
+          {
+            "target": 62,
+            "value": 5
+          },
+          {
+            "target": 62,
+            "value": 6
+          },
+          {
+            "target": 61,
+            "value": 7
+          },
+          {
+            "target": 61,
+            "value": 8
+          }
+        ],
+        "index": 54,
+        "name": "Event47",
+        "params": {
+          "ChoiceNumber": 9,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious9",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ApHabit",
+        "flowchart": "",
+        "index": 55,
+        "name": "Event52",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApNickname",
+        "flowchart": "",
+        "index": 56,
+        "name": "Event59",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApGreeting",
+        "flowchart": "",
+        "index": 57,
+        "name": "Event61",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApPresent",
+        "flowchart": "",
+        "index": 58,
+        "name": "Event62",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApSell",
+        "flowchart": "",
+        "index": 59,
+        "name": "Event63",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 26,
+            "value": 0
+          },
+          {
+            "target": 23,
+            "value": 1
+          }
+        ],
+        "index": 60,
+        "name": "Event16",
+        "params": {},
+        "query": "EventFlowQueryNpcIsFleaHolder",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "ApTrade",
+        "flowchart": "",
+        "index": 61,
+        "name": "Event45",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApWant",
+        "flowchart": "",
+        "index": 62,
+        "name": "Event48",
+        "next": 76,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 63,
+        "name": "Event60",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 64,
+        "name": "Event64",
+        "next": 32,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 65,
+        "name": "Event65",
+        "next": 31,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 66,
+        "name": "Event66",
+        "next": 57,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 67,
+        "name": "Event69",
+        "next": 51,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 68,
+        "name": "Event70",
+        "next": 56,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 69,
+        "name": "Event71",
+        "next": 55,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 70,
+        "name": "Event72",
+        "next": 37,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 71,
+        "name": "Event68",
+        "next": 34,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "ApproachB_Chk",
+        "flowchart": "",
+        "index": 72,
+        "name": "Event73",
+        "next": 35,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 73,
+        "name": "Event74",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 63,
+            "value": 1
+          },
+          {
+            "target": 63,
+            "value": 2
+          }
+        ],
+        "index": 74,
+        "name": "Event75",
+        "params": {
+          "AccessKey": "cPlayer:InputApproachBanCount",
+          "ChoiceNumber": 3
+        },
+        "query": "EventFlowQueryFlagSystemIntValue3",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 75,
+        "name": "Event51",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 76,
+        "name": "Event76",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 77,
+        "name": "Event77",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 78,
+        "name": "Event78",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionExitFlowchart",
+        "actor": "EventFlowSystemActor",
+        "index": 79,
+        "name": "Event79",
+        "next": null,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "MainNpc",
+        "cases": [
+          {
+            "target": 85,
+            "value": 0
+          },
+          {
+            "target": 86,
+            "value": 1
+          }
+        ],
+        "index": 80,
+        "name": "Event80",
+        "params": {},
+        "query": "EventFlowQueryCheckNpcApproachType",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 81,
+        "name": "Event86",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachA_Always:001"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 82,
+        "name": "Event87",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachA_Always:002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 83,
+        "name": "Event88",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachA_Always:003"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "MainNpc",
+        "index": 84,
+        "name": "Event89",
+        "next": 79,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkNNpc/B1_Bo/Approach/BO_ApproachA_Always:004"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 81,
+            "value": 0
+          },
+          {
+            "target": 82,
+            "value": 1
+          }
+        ],
+        "index": 85,
+        "name": "Event85",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 83,
+            "value": 0
+          },
+          {
+            "target": 84,
+            "value": 1
+          }
+        ],
+        "index": 86,
+        "name": "Event90",
+        "params": {
+          "ChoiceNumber": 2,
+          "IsSetSpeakerChoiceResult": true
+        },
+        "query": "EventFlowQueryRandomChoiceExcludePrevious2",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 88,
+            "value": 0
+          },
+          {
+            "target": 17,
+            "value": 1
+          }
+        ],
+        "index": 87,
+        "name": "Event92",
+        "params": {
+          "AccessKey": "cLand:RegulationType4"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 89,
+            "value": 0
+          },
+          {
+            "target": 90,
+            "value": 1
+          }
+        ],
+        "index": 88,
+        "name": "Event94",
+        "params": {
+          "Money": 9500
+        },
+        "query": "EventFlowQueryHasBellCount",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "Root",
+        "flowchart": "NNPC_ApproachC_Sell",
+        "index": 89,
+        "name": "Event93",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "entrypoint": "Reselection",
+        "flowchart": "",
+        "index": 90,
+        "name": "Event95",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      }
+    ],
+    "flowchart_name": "NNPC_Approach",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "46d927597538c1d9c3baabcf22e1bf727749e7c0521489a3bff691385263543c",
+  "size": 11856,
+  "status": "converted"
+}

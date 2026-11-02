@@ -1,0 +1,490 @@
+{
+  "format": "bfevfl",
+  "graph": {
+    "actors": [
+      {
+        "actions": [
+          "EventFlowActionWaitFrame",
+          "EventFlowActionFadeIn",
+          "EventFlowActionUIStudyDialogHandling",
+          "EventFlowActionSystemRequestChangeStage",
+          "EventFlowActionOpenMessageWindow",
+          "EventFlowActionReturnStage",
+          "EventFlowActionWherearenStudyCaptureRequest",
+          "EventFlowActionCameraSetDemoParam",
+          "EventFlowActionStoreNormalCamera",
+          "EventFlowActionSystemReenterStage",
+          "EventFlowActionEventFlagSystemOn",
+          "EventFlowActionWherearenResortStudyOutput",
+          "EventFlowActionWherearenResortStudyInput",
+          "EventFlowActionUnlockRoomSketchItem",
+          "EventFlowActionTelopEnd"
+        ],
+        "argument_name": "",
+        "identifier": "EventFlowSystemActor",
+        "params": {},
+        "queries": [
+          "EventFlowQueryUIResultMenuDecide",
+          "EventFlowQueryGeneralTalkChoice2",
+          "EventFlowQueryEventFlagSystemBool",
+          "EventFlowQueryCheckResortStudyModeInNowSituation",
+          "EventFlowQueryCheckOpenResortStudyEditMode"
+        ]
+      },
+      {
+        "actions": [
+          "EventFlowActionOpenMessageWindow"
+        ],
+        "argument_name": "",
+        "identifier": "Player",
+        "params": {},
+        "queries": []
+      }
+    ],
+    "decoder": "evfl",
+    "entrypoints": [
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 20,
+        "name": "EditVirtualRoom"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 29,
+        "name": "Close"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 2
+        },
+        "main_event": 12,
+        "name": "Root"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 21,
+        "name": "Output"
+      },
+      {
+        "acnh_extended_raw": {
+          "flags_1a": 0,
+          "offset_08": 0,
+          "offset_10": 0,
+          "subflow_index_count": 0
+        },
+        "main_event": 16,
+        "name": "Clear"
+      }
+    ],
+    "event_count": 30,
+    "event_flow_name": "Player_SmaphoResortStudy",
+    "events": [
+      {
+        "action": "EventFlowActionSystemRequestChangeStage",
+        "actor": "EventFlowSystemActor",
+        "index": 0,
+        "name": "Event1",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearenStudyGo",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearenStudyGo",
+          "FadeOutSpeed": 1.0,
+          "TargetStage": "cWherearenVirtualRoom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "entrypoint": "Output",
+        "flowchart": "",
+        "index": 1,
+        "name": "Event7",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionFadeIn",
+        "actor": "EventFlowSystemActor",
+        "index": 2,
+        "name": "Event10",
+        "next": null,
+        "params": {
+          "IsWait": true
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 10,
+            "value": 0
+          }
+        ],
+        "index": 3,
+        "name": "Event12",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIStudyDialogHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 4,
+        "name": "Event13",
+        "next": 3,
+        "params": {
+          "WindowType": "cOutput"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionReturnStage",
+        "actor": "EventFlowSystemActor",
+        "index": 5,
+        "name": "Event14",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearenStudyBack",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearenStudyBack",
+          "FadeOutSpeed": 1.0,
+          "NextInfoKey": ""
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionCameraSetDemoParam",
+        "actor": "EventFlowSystemActor",
+        "index": 6,
+        "name": "Event18",
+        "next": 7,
+        "params": {
+          "AdjustAngleYOnEnter": false,
+          "AdjustAngleYOnLeave": true,
+          "Arg": 0,
+          "CameraInterpolateKey": "cDefault",
+          "CameraParamKey": "ResortStudyCapture",
+          "CameraTargetKey": "Place:EditArea",
+          "UseNearCulling": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWaitFrame",
+        "actor": "EventFlowSystemActor",
+        "index": 7,
+        "name": "Event19",
+        "next": 24,
+        "params": {
+          "WaitFrame": 24
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionStoreNormalCamera",
+        "actor": "EventFlowSystemActor",
+        "index": 8,
+        "name": "Event20",
+        "next": null,
+        "params": {
+          "CameraInterpolateKey": "",
+          "IsImmediately": false
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 9,
+        "name": "Event22",
+        "next": 5,
+        "params": {
+          "AccessKey": "cPlayerTemp:WHEREAREN_EnterSceneByResortStudyApp"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenResortStudyOutput",
+        "actor": "EventFlowSystemActor",
+        "index": 10,
+        "name": "Event21",
+        "next": 18,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenResortStudyInput",
+        "actor": "EventFlowSystemActor",
+        "index": 11,
+        "name": "Event23",
+        "next": 9,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 13,
+            "value": 0
+          },
+          {
+            "target": 1,
+            "value": 1
+          }
+        ],
+        "index": 12,
+        "name": "Event25",
+        "params": {},
+        "query": "EventFlowQueryCheckResortStudyModeInNowSituation",
+        "type": "SwitchEvent"
+      },
+      {
+        "entrypoint": "EditVirtualRoom",
+        "flowchart": "",
+        "index": 13,
+        "name": "Event11",
+        "next": null,
+        "params": {},
+        "type": "SubFlowEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 14,
+        "name": "Event16",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_PhoneApp:502"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemReenterStage",
+        "actor": "EventFlowSystemActor",
+        "index": 15,
+        "name": "Event29",
+        "next": null,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearenStudyAllDelete",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearenStudyAllDelete",
+          "FadeOutSpeed": 1.0,
+          "Type": 0
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "EventFlowSystemActor",
+        "index": 16,
+        "name": "Event30",
+        "next": 17,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "Dialog/DIALOG_WherearenMsg:1002"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 28,
+            "value": 1
+          }
+        ],
+        "index": 17,
+        "name": "Event31",
+        "params": {},
+        "query": "EventFlowQueryGeneralTalkChoice2",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 18,
+        "name": "Event32",
+        "next": 23,
+        "params": {
+          "AccessKey": "cWherearenPlayer:RoomSketchPaste"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionOpenMessageWindow",
+        "actor": "Player",
+        "index": 19,
+        "name": "Event33",
+        "next": null,
+        "params": {
+          "IsCloseMessageWindow": false,
+          "MessageID": "TalkSys/SYS_PhoneApp:501"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 22,
+            "value": 0
+          },
+          {
+            "target": 19,
+            "value": 1
+          }
+        ],
+        "index": 20,
+        "name": "Event35",
+        "params": {},
+        "query": "EventFlowQueryCheckOpenResortStudyEditMode",
+        "type": "SwitchEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 4,
+            "value": 0
+          },
+          {
+            "target": 14,
+            "value": 1
+          }
+        ],
+        "index": 21,
+        "name": "Event41",
+        "params": {
+          "AccessKey": "cPlayer:NoticeAboutRoomSketch"
+        },
+        "query": "EventFlowQueryEventFlagSystemBool",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUnlockRoomSketchItem",
+        "actor": "EventFlowSystemActor",
+        "index": 22,
+        "name": "Event42",
+        "next": 0,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionSystemReenterStage",
+        "actor": "EventFlowSystemActor",
+        "index": 23,
+        "name": "Event8",
+        "next": 2,
+        "params": {
+          "FadeColorString": "cBlack",
+          "FadeInKindString": "cWherearenStudyOutput",
+          "FadeInSpeed": 1.0,
+          "FadeOutKindString": "cWherearenStudyOutput",
+          "FadeOutSpeed": 1.0,
+          "Type": 7
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionWherearenStudyCaptureRequest",
+        "actor": "EventFlowSystemActor",
+        "index": 24,
+        "name": "Event9",
+        "next": 25,
+        "params": {},
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionUIStudyDialogHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 25,
+        "name": "Event2",
+        "next": 26,
+        "params": {
+          "WindowType": "cFinishEdit"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "actor": "EventFlowSystemActor",
+        "cases": [
+          {
+            "target": 27,
+            "value": 0
+          },
+          {
+            "target": 8,
+            "value": 1
+          }
+        ],
+        "index": 26,
+        "name": "Event3",
+        "params": {},
+        "query": "EventFlowQueryUIResultMenuDecide",
+        "type": "SwitchEvent"
+      },
+      {
+        "action": "EventFlowActionUIStudyDialogHandling",
+        "actor": "EventFlowSystemActor",
+        "index": 27,
+        "name": "Event4",
+        "next": 11,
+        "params": {
+          "WindowType": "cExplanation"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionEventFlagSystemOn",
+        "actor": "EventFlowSystemActor",
+        "index": 28,
+        "name": "Event5",
+        "next": 15,
+        "params": {
+          "AccessKey": "cPlayerTemp:ClearVirtualRoom"
+        },
+        "type": "ActionEvent"
+      },
+      {
+        "action": "EventFlowActionTelopEnd",
+        "actor": "EventFlowSystemActor",
+        "index": 29,
+        "name": "Event15",
+        "next": 6,
+        "params": {},
+        "type": "ActionEvent"
+      }
+    ],
+    "flowchart_name": "Player_SmaphoResortStudy",
+    "format": "BFEVFL",
+    "warning": "Decoded graph and parameter values; gameplay meanings require native-code analysis."
+  },
+  "sha256": "902dadfde3eb52b6e6c67bd774cd9bd1d8d6f1154ceed6da8b1349c576ccd8a2",
+  "size": 7640,
+  "status": "converted"
+}
