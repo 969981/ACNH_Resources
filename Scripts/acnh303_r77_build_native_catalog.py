@@ -278,10 +278,51 @@ def build():
             labels=[db.execute("SELECT display_name FROM npc_locale WHERE npc_type=? AND source_index=? AND locale=?",
                  (tp,idx,l)).fetchone()[0] for l in ("CNzh","TWzh","JPja","USen")]
             w.writerow([tp,idx,res]+labels)
+    # Preserve a compact, inspectable coverage gap by original ItemParam subkind.
+    with (E/"r77-native-name-gaps-by-kind.csv").open("w",newline="",encoding="utf-8") as f:
+        w=csv.writer(f)
+        w.writerow(["original_kind","items","missing_USen","missing_CNzh","kind_association"])
+        rows=db.execute("""SELECT original_kind,base_kind_evidence,COUNT(*),
+            SUM(CASE WHEN il_us.association_status!='unique_text_from_ROM_ID_suffix' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN il_cn.association_status!='unique_text_from_ROM_ID_suffix' THEN 1 ELSE 0 END)
+            FROM item i
+            JOIN item_locale il_us ON il_us.item_id=i.id AND il_us.locale='USen'
+            JOIN item_locale il_cn ON il_cn.item_id=i.id AND il_cn.locale='CNzh'
+            GROUP BY original_kind,base_kind_evidence ORDER BY COUNT(*) DESC""").fetchall()
+        for kind,evidence,count,us,cn in rows:
+            w.writerow([kind,count,us,cn,evidence])
     db.execute("PRAGMA optimize");db.close()
-    report={"schema":"acnh303_r77_multilingual_original_database_v1",
+    # A raw 151+ MB SQLite exceeds GitHub's hard 100 MB blob limit. Preserve
+    # the FULL original dataset in a deterministic zstd stream, not a truncated
+    # database. The query CLI can reconstruct the SQLite file locally.
+    import zstandard
+    compressed=dbpath.with_suffix(dbpath.suffix+".zst")
+    with dbpath.open("rb") as f,compressed.open("wb") as out:
+        c=zstandard.ZstdCompressor(level=15,threads=0,write_checksum=True)
+        c.copy_stream(f,out)
+    size_uncompressed=dbpath.stat().st_size
+    compressed_sha=hashlib.sha256(compressed.read_bytes()).hexdigest()
+    # Independent streaming roundtrip verifies byte-exact original DB before
+    # deletion of the too-large working copy.
+    testhash=hashlib.sha256()
+    with compressed.open("rb") as f:
+        with zstandard.ZstdDecompressor().stream_reader(f) as stream:
+            for chunk in iter(lambda:stream.read(1024*1024),b""):
+                testhash.update(chunk)
+    rawhash=hashlib.sha256()
+    with dbpath.open("rb") as f:
+        for chunk in iter(lambda:f.read(1024*1024),b""):
+            rawhash.update(chunk)
+    if testhash.hexdigest()!=rawhash.hexdigest():
+        raise ValueError("Native SQLite zstd roundtrip checksum failed")
+    dbpath.unlink()
+    report={"schema":"acnh303_r77_multilingual_original_database_v2_zstd",
         "original_version":"3.0.3","totals":counts,
-        "sqlite":"assets/evidence/rom-database/r77-acnh303-native-item-villager.sqlite3",
+        "sqlite_zstd":"assets/evidence/rom-database/r77-acnh303-native-item-villager.sqlite3.zst",
+        "sqlite_uncompressed_byte_size":size_uncompressed,
+        "sqlite_zstd_sha256":compressed_sha,
+        "sqlite_uncompressed_sha256":rawhash.hexdigest(),
+        "sqlite_zstd_roundtrip_reverified":True,
         "item_csv":"assets/evidence/rom-database/r77-native-items-11178.csv",
         "npc_csv":"assets/evidence/rom-database/r77-native-villagers.csv",
         "parent_mapping":"explicit_prefix_candidate_not_proven",
@@ -290,7 +331,7 @@ def build():
         "language_source_sha256_recorded_in_sqlite":True}
     (E/"r77-database-build-and-evidence.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n","utf-8")
     print(json.dumps({"summary":counts,"files":[{"path":str(p),"bytes":p.stat().st_size}
-       for p in (dbpath,E/"r77-native-items-11178.csv",E/"r77-native-villagers.csv")]},ensure_ascii=False)[:9000])
+       for p in (compressed,E/"r77-native-items-11178.csv",E/"r77-native-villagers.csv")]},ensure_ascii=False)[:9000])
 
 if __name__=="__main__":
     idset=set(int(r[ID]) for r in table("ItemParam.csv")[0])
