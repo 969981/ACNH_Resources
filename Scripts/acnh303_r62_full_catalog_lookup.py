@@ -76,6 +76,11 @@ def build(root):
             status=x.get("status","")
             source=x.get("source_path","")
             out=x.get("output_path","")
+            # For two identical already-existing original PNGs, the extractor
+            # recorded the source SHA and image SHA, but omitted output_path.
+            # The identical file itself lives in the canonical items directory.
+            if not out and x.get("status")=="existing_identical_png":
+                out="assets/images/items/"+name
             name_native=x.get("native_brti_name","")
             if not source.startswith(NCA) or not out.startswith("assets/images/") or out not in tree:
                 raise ValueError("Original PNG/source missing in Git index "+name+" :: "+repr({"source":source,"output_path":out,"in_tree":out in tree,"source_valid":source.startswith(NCA),"output_is_png":out.startswith("assets/images/")}))
