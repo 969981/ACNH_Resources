@@ -1,0 +1,71 @@
+name: ACNH 3.0.3 R46 tex_srt0 source interpolation and native AAL dispatch audit
+on:
+  push:
+    branches: [feat/acnh303-round46-texsrt-aal-vtable-runtime]
+    paths:
+      - '.github/workflows/acnh303-round46-texsrt-aal.yml'
+      - 'scripts/acnh303_round46_texsrt_values.py'
+      - 'scripts/acnh303_round46_aal_dispatch.py'
+      - 'scripts/acnh303_round46_aal_vtable_gdb.py'
+      - 'scripts/test_acnh303_round46.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validate_originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify R45 original Curves, R39 ELF BLR instruction bytes and strict runtime provenance gate
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/acnh303_round46_*.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round46.py' -v
+          python scripts/acnh303_round46_texsrt_values.py \
+            --out derived/3.0.3/r46/cedar_texsrt_bounded_candidate_values.json
+          python scripts/acnh303_round46_aal_dispatch.py \
+            --out derived/3.0.3/r46/aal_BLR_verified_no_runtime_target.json
+          python - <<'PY'
+          import json
+          base='derived/3.0.3/r46/'
+          mat=json.load(open(base+'cedar_texsrt_bounded_candidate_values.json'))
+          aal=json.load(open(base+'aal_BLR_verified_no_runtime_target.json'))
+          assert mat['runtime_shader_binding_and_gameplay_parity_verified'] is False
+          assert len(mat['animations'])==2
+          assert aal['runtime_vtable_target_status']=='NOT_CAPTURED'
+          assert aal['AAL_file_open_read_close_status']=='NOT_CAPTURED'
+          assert aal['live_AAL_file_IO_proven'] is False
+          print('R46_SOURCE_EVIDENCE_AND_SEMANTIC_GATES_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r46-real-source-texsrt-and-AAL-negative-gate
+          path: |
+            derived/3.0.3/r46/cedar_texsrt_bounded_candidate_values.json
+            derived/3.0.3/r46/aal_BLR_verified_no_runtime_target.json
+          if-no-files-found: error
+      - name: Publish checked structural evidence without inventing native runtime records
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r46
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r46): original tex_srt0 value previews and verified native BLR without runtime'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round46-texsrt-aal-vtable-runtime
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round46-texsrt-aal-vtable-runtime; then exit 0; fi
+            sleep 1
+          done
+          exit 1
