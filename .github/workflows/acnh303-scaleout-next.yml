@@ -1,0 +1,92 @@
+name: ACNH 3.0.3 | Verified next four-category wave
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths: ['.github/workflows/acnh303-scaleout-next.yml']
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: acnh303-next-wave-launcher
+  cancel-in-progress: false
+
+jobs:
+  dispatch-nonoverlapping-batches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+            /UnPack/_meta/batches/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test resume planner and select next untouched sources
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p 'test_acnh303_resume_plan.py' -v
+          python Scripts/acnh303_resume_plan.py --shard 0 --shards 8 --count 8 --output next-wave.json
+          cat next-wave.json
+      - name: Dispatch and observe four actual verified-batch workflows
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' > dispatch.tsv
+          import json
+          p=json.load(open('next-wave.json',encoding='utf-8'))
+          for item in p['categories']:
+              print(f"{item['category']}\t{item['shard']}\t{item['shards']}\t{item['skip_count']}\t{item['max_count']}")
+          PY
+          failed=0
+          while IFS=$'\t' read -r CAT SHARD SHARDS SKIP COUNT; do
+            echo "::group::${CAT} shard=${SHARD}/${SHARDS} skip=${SKIP} count=${COUNT}"
+            prior=$(gh run list -R "$GH_REPO" -w acnh303-incremental-unpack.yml \
+              -e workflow_dispatch -L 1 --json databaseId --jq '.[0].databaseId // 0')
+            gh workflow run acnh303-incremental-unpack.yml -R "$GH_REPO" -r 3.0.3_Unpack \
+              -f category="$CAT" -f shard="$SHARD" -f shards="$SHARDS" \
+              -f skip_count="$SKIP" -f max_count="$COUNT"
+            run_id=""
+            for attempt in $(seq 1 45); do
+              current=$(gh run list -R "$GH_REPO" -w acnh303-incremental-unpack.yml \
+                -e workflow_dispatch -L 1 --json databaseId --jq '.[0].databaseId // 0')
+              if [[ "$current" != "$prior" && "$current" != 0 ]]; then
+                run_id="$current"
+                break
+              fi
+              sleep 4
+            done
+            if [[ -z "$run_id" ]]; then
+              echo "::error::Cannot identify dispatched ${CAT} run; refusing ambiguous attribution"
+              exit 1
+            fi
+            echo "Batch: https://github.com/${GH_REPO}/actions/runs/${run_id}"
+            if ! gh run watch "$run_id" -R "$GH_REPO" --interval 10 --exit-status; then
+              echo "::warning::${CAT} run failed; inspect its own immutable audit"
+              failed=$((failed+1))
+            fi
+            echo "::endgroup::"
+          done < dispatch.tsv
+          if ((failed)); then
+            echo "::error::${failed} of four runs did not pass independent verification"
+            exit 1
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-next-wave-plan-${{ github.run_id }}
+          path: |
+            next-wave.json
+            dispatch.tsv
+          retention-days: 30
+          if-no-files-found: warn
