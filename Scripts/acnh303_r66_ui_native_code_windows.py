@@ -115,6 +115,7 @@ def analyze(root):
     template+=["","# No runtime logs have been collected in this research run.",
                "# Do not identify nearby BL/BLR targets as verified loader functions.",
                "# Re-check each register at the hit before treating it as a string pointer."]
+    (root/"docs").mkdir(parents=True,exist_ok=True)
     (root/"docs/ACNH303_R66_READ_ONLY_GDB_UI_FAMILY_TRACE.md").write_text(
         "\n".join(template)+"\n",encoding="utf-8")
     print(json.dumps({k:v for k,v in result.items() if k!="entries"},ensure_ascii=False))
