@@ -39,10 +39,14 @@ def scan():
         rows=read_csv(file)
         if not rows or RES not in rows[0]:raise ValueError("Missing verifiable original ResName hash")
         names=[r[RES] for r in rows]
-        if len(names)!=len(set(names)) or any(not x.startswith(prefix) for x in names):
-            raise ValueError("Real original NPC ResName not identified correctly "+file)
+        if any(not x.startswith(prefix) for x in names):
+            raise ValueError("Original NPC resource name prefix mismatched "+file)
+        # Original SpNpcParam is not guaranteed 1:1 by ResName; record
+        # duplicate resource references without treating them as parse failure.
         villagers[file]={"source_table":file,"res_name_hash":RES,
                          "original_npc_records":len(rows),
+                         "distinct_resource_names":len(set(names)),
+                         "reused_resource_name_rows":len(names)-len(set(names)),
                          "original_resource_name_examples":names[:18],
                          "all_names_identified_from_original_BCSV":True}
     result={"schema":"acnh303_r75_original_multilingual_String_SARC_and_NPC_name_v1",
