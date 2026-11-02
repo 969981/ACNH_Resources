@@ -129,6 +129,11 @@ def analyze(root):
     r61=load(root/E/"r61-all-1254-original-native-sources.json")
     r62=load(root/E/"r62-all-27531-source-reconciliation.json")
     cloth=load(root/V)
+    r52=load(root/E/"r52-pokercore-fallback-and-40.json")
+    remake_table={x["original_item_name"]:bool(x["itemremake_same_id_record_count"])
+                  for x in r52["variant_records"]}
+    if len(remake_table)!=344 or sum(remake_table.values())!=30:
+        raise ValueError("Original R52 30/314 ItemRemake join provenance changed")
     if len(r53["base_names_344"])!=344 or len(cloth["entries"])!=39 or len(r61["records"])!=1254 or r62["exact_name_original_BRTI_PNGs"]!=26277:
         raise ValueError("R53/R61/R62 baseline changed")
     contract=pinned_contract(root)
@@ -150,7 +155,7 @@ def analyze(root):
             raise ValueError("Previously verified two CSV identifiers changed")
         bydata={str(d):simulate(id_,client,native,d) for d in trials}
         records.append({"itemparam_iname":name,"itemparam_id_decimal":id_,
-            "itemremake_same_id":any(str(iid)==str(id_) for iid in []),
+            "itemremake_same_id":remake_table[name],
             "predicted_client_file_found_for_data_0":bydata["0"]["filename"],
             "predicted_default_branch":bydata["0"]["branch"],
             "request_data_trials":bydata,
@@ -197,6 +202,8 @@ def analyze(root):
         "client_CSharp_executable_invoked":False,
         "Nintendo_original_runtime_invoked":False,
         "remake_344_total":len(records),
+        "remake_344_with_ItemRemake_same_id_record":sum(x["itemremake_same_id"] for x in records),
+        "remake_344_without_ItemRemake_same_id_record":sum(not x["itemremake_same_id"] for x in records),
         "remake_344_default_native_matches":sum(r["source_native_image_name_match"] for r in records),
         "remake_344_default_selection_branch":cats(records,"predicted_default_branch"),
         "remake_344_data_samples":{str(d):dict(sorted(Counter(x["request_data_trials"][str(d)]["branch"] for x in records).items())) for d in trials},
