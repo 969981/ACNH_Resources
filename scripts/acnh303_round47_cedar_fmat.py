@@ -79,7 +79,7 @@ def parse_fres(data):
         for i in range(material_count):
             p = material_ptr + i * 0xa0
             if data[p:p+4] != b"FMAT":
-                raise ValueError("FMAT member stride/magic does not match Switch v9 model "+str(midx))
+                raise ValueError("FMAT model=%d item=%d model_ptr=%x material_ptr=%x material_count=%d observed=%s first_fmat=%x" % (midx,i,mp,material_ptr,material_count,data[p:p+48].hex(),data.find(b"FMAT")))
             name = nw_name(data, u64(data, p + 8))
             param_ptr = u64(data, p + 0x48)
             source_ptr = u64(data, p + 0x58)
