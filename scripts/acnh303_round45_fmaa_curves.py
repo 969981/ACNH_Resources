@@ -112,11 +112,20 @@ def parse(b):
   print("R45_DATA_COUNTS",name,"FMAA",counts,"MAT",[
    {"offset":x["offset"],"name":x["name"],"curves":x["curve_count"],
     "params":x["shader_param_count"],"header":x["header_sha256"]} for x in mat])
-  if curves!=counts["curve"] or params!=counts["shader_param"]:
-   raise ValueError(f"{name}: material item curve/param counts differ from FMAA native header")
+  # FMAA ShaderParamAnimCount is an aggregate channel count, not necessarily
+  # the number of per-material ParamAnimInfo records. Keep both distinct.
+  channels=sum(info["float_curve_count"]+info["int_curve_count"]
+      for m in mat for info in m["shader_param_infos"])
+  if curves!=counts["curve"]:
+   raise ValueError(f"{name}: material curve count differs from original FMAA header")
+  if params>counts["shader_param"] or channels>counts["shader_param"]:
+   raise ValueError(f"{name}: shader param record/curve indices exceed header aggregate")
   result.append({"animation_name":name,"animation_header_offset":head["offset"],
    "animation_frame_count":head["frame_count_raw"],"material_anim_records":mat,
-   "total_curve_count_verified":curves,"total_shader_param_info_verified":params})
+   "total_curve_count_verified":curves,"total_shader_param_info_records":params,
+   "total_shader_param_channel_curve_counts":channels,
+   "original_FMAA_shader_param_header_counter":counts["shader_param"],
+   "shader_param_header_semantic_relationship":"RECORD_AND_CHANNEL_COUNTS_DISTINCT_NOT_ASSUMED_EQUAL"})
  return {"schema":"acnh303-r45-original-FMAA-material-data-curves-frames-keys-v1",
  "original_source_sha256":SOURCE_SHA,"fres_member_sha256":INNER_SHA,
  "native_animation_objects":result,"native_material_curve_bytes_decoded":all(
