@@ -18,7 +18,7 @@ from pathlib import Path
 NCA = "e10617820db06889e1638499478da0de_NCA/1/Model"
 EXT = ".Nin_NX_NVN.zs"
 FAMILIES = ("FtrIcon", "ClosetIcon", "NpcIcon")
-SAFE = re.compile(r"[A-Za-z0-9_-]+\.png\Z")
+SAFE = re.compile(r"[A-Za-z0-9_.-]+\.png\Z")
 
 
 def filenames(path: Path) -> list[str]:
