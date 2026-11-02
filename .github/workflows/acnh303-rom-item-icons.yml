@@ -73,6 +73,12 @@ jobs:
           find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
           test -s /tmp/wimgt.path
           chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Verify all pending names against the ROM tree (no guess promoted)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p 'test_acnh303_unmatched_rom_audit.py' -v
+          python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
       - name: Export original ROM layouts into validated PNGs; continue bounded batches
         shell: bash
         run: |
@@ -90,12 +96,6 @@ jobs:
                 --wimgt "$(cat /tmp/wimgt.path)"
             done
           fi
-      - name: Verify all pending names against the ROM tree (no guess promoted)
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m unittest discover -s Scripts -p 'test_acnh303_unmatched_rom_audit.py' -v
-          python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
       - name: Save pixel and provenance evidence
         if: always()
         uses: actions/upload-artifact@v4
