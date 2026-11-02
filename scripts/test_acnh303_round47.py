@@ -27,7 +27,7 @@ class R47(unittest.TestCase):
         b[0x310]=30
         b[0x311]=24
         struct.pack_into("<H",b,0x312,0x10)
-        struct.pack_into("<I5f",b,0x380,0,1.0,1.0,0.0,0.0,0.0)
+        struct.pack_into("<I5f",b,0x390,0,1.0,1.0,0.0,0.0,0.0)
         for ptr,s in [(0x400,b"Cedar"),(0x420,b"mPltTreeDeco"),(0x440,b"tex_srt0")]:
             struct.pack_into("<H",b,ptr,len(s))
             b[ptr+2:ptr+2+len(s)]=s
