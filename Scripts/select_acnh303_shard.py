@@ -44,7 +44,7 @@ def main():
     items = items[args.skip_count:]
     if args.max_count:
         items = items[:args.max_count]
-    patterns = ["/scripts/"] + ["/" + p for p in items]
+    patterns = ["/Scripts/" if Path("Scripts").is_dir() else "/scripts/"] + ["/" + p for p in items]
     # Keep this within shell process; git sparse-checkout accepts newline patterns.
     subprocess.run(["git", "sparse-checkout", "set", "--no-cone", "--stdin"],
                    input=("\n".join(patterns) + "\n").encode(), check=True)
