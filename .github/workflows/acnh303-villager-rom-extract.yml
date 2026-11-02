@@ -4,6 +4,8 @@ on:
     branches: [3.0.3_Unpack]
     paths:
       - 'Scripts/acnh303_villager_rom_extract.py'
+      - 'Scripts/acnh303_villager_rom_verify.py'
+      - 'Scripts/test_acnh303_villager_rom_verify.py'
       - '.github/workflows/acnh303-villager-rom-extract.yml'
   schedule:
     - cron: '17 3 * * *'
@@ -81,6 +83,12 @@ jobs:
                 --pilot 0 --offset auto --limit "$LIMIT"
             done
           fi
+      - name: Verify committed original ROM villager images, pixels, and compressed source hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p 'test_acnh303_villager_rom_verify.py' -v
+          python Scripts/acnh303_villager_rom_verify.py --root . --expect 1934 --require-source-files
       - name: Upload original ROM proof and true PNG pixels even if push fails
         if: always()
         uses: actions/upload-artifact@v4

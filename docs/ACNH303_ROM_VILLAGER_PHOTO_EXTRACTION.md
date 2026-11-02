@@ -92,3 +92,12 @@ python Scripts/acnh303_villager_rom_extract.py \
 3. **CDN 无关**：原版照片与 `assets/images/items/` 下此前的社区图标分开放置；仅当完成像素来源比对才考虑覆盖现有文件。
 4. **失败重试**：每批来源、错误和输出文件 SHA 单独记录；少量坏源不会阻塞其他真实 ROM 文件，但绝不记为已成功转换。
 5. **尚未宣称**：全套 8 种照片框重制组合、原版游戏 UI 像素级合成一致、或 Library ZIP 与全量原 ROM 文件位级一致。
+
+## 原版图片独立复核（新增）
+
+`Scripts/acnh303_villager_rom_verify.py` 对已经提交的五份批次记录逐项复核 1,934 个源文件的连续区间、四类对应关系、原版 BRTI 名、PNG 完整像素解码/CRC、图片 SHA-256 和独立 ROM `.zs` 原始字节的 SHA-256。校验成功才生成 `assets/evidence/rom-villager/reconciliation.json` 并允许 Actions 提交。此报告只声明 **原 ROM 单纹理图片还原**，不声明原版游戏 UI 组合画面或任意 1,254 个待匹配道具名称已经确定。
+
+```bash
+python -m unittest discover -s Scripts -p 'test_acnh303_villager_rom_verify.py' -v
+python Scripts/acnh303_villager_rom_verify.py --root . --expect 1934 --require-source-files
+```
