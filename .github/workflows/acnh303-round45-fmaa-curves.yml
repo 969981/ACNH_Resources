@@ -1,0 +1,51 @@
+name: ACNH R45 Original MaterialAnimData FMAA Curve Decode
+on:
+  push:
+    branches: [feat/acnh303-round45-fmaa-curves-aal-runtime-gate]
+    paths:
+      - '.github/workflows/acnh303-round45-fmaa-curves.yml'
+      - 'scripts/acnh303_round45_fmaa_curves.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Decode source-bound material records, shader params and original curve keys
+        run: |
+          set -euo pipefail
+          printf '/scripts/\n/derived/\n/e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs\n' |
+            git sparse-checkout set --no-cone --stdin
+          python -m py_compile scripts/acnh303_round45_fmaa_curves.py
+          python scripts/acnh303_round45_fmaa_curves.py --out derived/3.0.3/r45_fmaa/cedar_two_material_anims_source_curves.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r45-cedar-original-materialanim-curves
+          path: derived/3.0.3/r45_fmaa/cedar_two_material_anims_source_curves.json
+          if-no-files-found: error
+      - name: Commit only metadata/number arrays, never protected source binaries
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r45_fmaa/cedar_two_material_anims_source_curves.json
+          git commit -m 'data(r45): read exact source FMAA material curves and original keyframes'
+          for i in 1 2 3 4 5; do
+            git fetch origin feat/acnh303-round45-fmaa-curves-aal-runtime-gate
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round45-fmaa-curves-aal-runtime-gate; then exit 0; fi
+            sleep 1
+          done
+          exit 1
