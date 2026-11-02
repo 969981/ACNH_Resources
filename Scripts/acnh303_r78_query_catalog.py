@@ -12,7 +12,7 @@ Examples:
 from __future__ import annotations
 import argparse,json,sqlite3,sys
 from pathlib import Path
-DB=Path("assets/evidence/rom-database/r77-acnh303-native-item-villager.sqlite3")
+DB=Path("assets/evidence/rom-database/r80-acnh303-multilingual-clothing-enriched.sqlite3")
 def jsonrow(r):return dict(r) if r is not None else None
 def main():
     p=argparse.ArgumentParser(description=__doc__)
@@ -97,6 +97,8 @@ def main():
          "item_kind_exact":db.execute("SELECT COUNT(*) FROM item WHERE base_kind_evidence='exact_ItemKind_label'").fetchone()[0],
          "item_kind_prefix_candidates":db.execute("SELECT COUNT(*) FROM item WHERE base_kind_evidence='prefix_candidate_not_proven'").fetchone()[0],
          "item_kind_unmapped":db.execute("SELECT COUNT(*) FROM item WHERE base_kind_evidence='unmapped_unknown'").fetchone()[0],
+         "clothing_group_candidates":db.execute("SELECT COUNT(*) FROM item_clothing_group_candidate").fetchone()[0] if db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='item_clothing_group_candidate'").fetchone()[0] else 0,
+         "item_locale_clothing_group_candidate":db.execute("SELECT COUNT(*) FROM item_locale WHERE association_status LIKE 'native_group_candidate_%'").fetchone()[0],
         }
     print(json.dumps(out,ensure_ascii=False,indent=2))
     db.close()
