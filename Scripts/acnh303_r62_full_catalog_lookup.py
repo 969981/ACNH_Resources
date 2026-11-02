@@ -78,7 +78,7 @@ def build(root):
             out=x.get("output_path","")
             name_native=x.get("native_brti_name","")
             if not source.startswith(NCA) or not out.startswith("assets/images/") or out not in tree:
-                raise ValueError("Original PNG or source missing from actual Git index "+name)
+                raise ValueError("Original PNG/source missing in Git index "+name+" :: "+repr({"source":source,"output_path":out,"in_tree":out in tree,"source_valid":source.startswith(NCA),"output_is_png":out.startswith("assets/images/")}))
             if name_native!=name.removesuffix(".png"):
                 raise ValueError("Original BRTI name does not match exact filename "+name)
             hs=x.get("source_sha256","")
