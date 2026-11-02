@@ -18,6 +18,7 @@ status: active
 - [[07-Incremental-Batches|增量分片和 SHA-256 验收]]
 - [[08-Next-Wave-FMAA-AAL-BARS|四类扩容 / FMAA / AAL / BARS 新阶段]]
 - [[ACNH303_ROUND49_FMAA_RUNTIME_WRITE_AAL_CALL_RETURN|R49 FMAA ShaderParam 动态写入 / AAL BLR X8 取证]]
+- [[ACNH303_R50_ORIGINAL_ITEM_UI_MAPPING|R50 原版图片 ItemRemake ID / 其他 UI Layout 来源]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
