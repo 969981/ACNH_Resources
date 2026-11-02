@@ -9,7 +9,7 @@ ResName after removing only trailing variant number (candidate).
 from __future__ import annotations
 import collections,csv,hashlib,json,re,sqlite3,zstandard
 from pathlib import Path
-from acnh303_r75_original_message_npc_audit import LOCALES
+LOCALES=("CNzh","TWzh","JPja","USen","EUen","KRko","EUde","EUfr","EUes","EUit","EUnl","EUru","USes","USfr")
 BASE=Path("assets/evidence/rom-database")
 IN=BASE/"r77-acnh303-native-item-villager.sqlite3.zst"
 DB=BASE/"r80-acnh303-multilingual-clothing-enriched.sqlite3"
