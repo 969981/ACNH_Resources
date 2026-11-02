@@ -24,10 +24,10 @@ class R47(unittest.TestCase):
         struct.pack_into("<H",b,0x29e,1)
         struct.pack_into("<H",b,0x2a2,0x30)
         struct.pack_into("<Q",b,0x308,0x440)
-        b[0x310]=3
-        b[0x311]=4
+        b[0x310]=30
+        b[0x311]=24
         struct.pack_into("<H",b,0x312,0x10)
-        b[0x390:0x394]=b"\x01\x02\x03\x04"
+        struct.pack_into("<I5f",b,0x380,0,1.0,1.0,0.0,0.0,0.0)
         for ptr,s in [(0x400,b"Cedar"),(0x420,b"mPltTreeDeco"),(0x440,b"tex_srt0")]:
             struct.pack_into("<H",b,ptr,len(s))
             b[ptr+2:ptr+2+len(s)]=s
@@ -36,7 +36,10 @@ class R47(unittest.TestCase):
         p=result["materials"][0]["shader_params"][0]
         self.assertEqual(p["name"],"tex_srt0")
         self.assertEqual(p["data_offset_within_source"],0x10)
-        self.assertEqual(p["raw_source_param_prefix_hex"],"01020304")
+        self.assertEqual(p["raw_source_param_prefix_hex"],"000000000000803f0000803f000000000000000000000000")
+        self.assertEqual(p["texture_transform_source_fields"]["type_name_from_BfresLibrary"],"TexSrt")
+        self.assertEqual(p["texture_transform_source_fields"]["FMAA_AnimDataOffset_0x10_field_candidate"],"translation_x")
+        self.assertFalse(p["texture_transform_source_fields"]["native_animation_binding_verified"])
         self.assertFalse(result["binding_verified"])
         self.assertEqual(len(git_blob_sha(bytes(b))),40)
 

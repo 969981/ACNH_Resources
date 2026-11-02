@@ -62,3 +62,22 @@ python scripts/acnh303_round47_aal_target_audit.py --out derived/3.0.3/r47/aal_t
 3. **NATIVE_RUNTIME_UNATTESTED / CAPTURED**：只有真实会话、模块基址、动态代码/参数/I/O、ShaderParam 写入的独立观察与复核，才能逐步关闭原版 Native 语义 Gate。
 
 原始 \`e10617820db06889e1638499478da0de_NCA/1\` 始终只读，没有修改模型、动画、存档或游戏进程业务状态。
+
+
+## 4. R47 完成后的真实来源解析结果（2026-11-02）
+
+首轮解析器误把材质数组步长当作 \`0xA0\`，后依据实际原始字节 \`FMAT\` 魔数位置验证：首个 FMAT \`0x4E0\`、第二个 \`0x588\`，步长为 \`0xA8\`。再按 Switch v9 \`MaterialParser.cs\` 精确纠正 FMAT 字段：ShaderParam 数组指针 \`FMAT+0x50\`、源数据 \`FMAT+0x60\`、ShaderParam 数目 \`FMAT+0x9E\`、SourceParamSize \`FMAT+0xA2\`。这两个纠错均由真实 CI 的初次失败、原始记录和重跑成功验证，不是跳过校验。
+
+真实两份模型内层 FRES version=\`0x00090000\`，每份四个 FMDL，每 FMDL 四个材质。找到了八个完整的名字匹配候选（常绿 A/B 模型及其 Node 变体、积雪 A/B 模型及其 Node 变体）：
+- 材质名字为 \`mPltTreeDecoA\` 或 \`mPltTreeDecoB\`；每个 FMAT ShaderParam 数目 **66**。
+- 原始 \`tex_srt0\` ShaderParam 的 type raw=**30**，依据 BfresLibrary \`ShaderParamType\` 枚举对应 **TexSrt**。
+- 结构大小 **24 bytes**，位于对应材质的 ShaderParamData 内 **byte offset 388 = 0x184**，其初始来源字节固定为 \`00000000 0000803f 0000803f 00000000 00000000 00000000\`（Mode=0，Scale=(1,1)，Rotation=0，Translation=(0,0)）。
+- 依据 [TexSrt 的真实字段结构](https://github.com/KillzXGaming/BfresLibrary/blob/master/BfresLibrary/Shared/Common/SrtStructs.cs)，其 +0x10 为 \`Translation.X\`。因此 R45 原始 FMAA 的 \`AnimDataOffset=0x10\` 与此结构**在字段语义层**吻合，可以提出「动画控制纹理平移 X」这一具体、可检测的静态假设。
+- \`mPltTreeDeco\` 的独立原始材质名**没有**在这两份候选模型内找到，与 R45 FMAA 的同名轨道尚未闭合。不能将 A/B 的匹配反推为该通用轨道也已确认绑定。
+
+**严格的结论：原始 Model 结构 + ShaderParam 类型、大小、初始值、位置 + FMAA 的曲线字段偏移已经相互吻合，但 FMAA 到目标 FMAT 的 Native \`SubBindIndex\` 及运行时写入/纹理移动仍未证明。** AAL 真实 FileOpen/Read/Close 同样未采集。
+
+产物：
+- \`derived/3.0.3/r47/cedar_fmat_source_candidates.json\`：完整逐源/逐模型参数 SHA 记录。
+- \`derived/3.0.3/r47/cedar_fmat_essential_summary.json\`：精简的模型、材质、TexSrt 参数和匹配证据。
+- \`derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json\`：原版 AAL 运行时取证负面结果。

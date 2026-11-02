@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import struct
 from pathlib import Path
 from acnh303_media_l3 import NCA, find_leaf
@@ -107,6 +108,18 @@ def parse_fres(data):
                     "raw_source_param_bytes_sha256":sha256(value) if offset_verified else None,
                     "raw_source_param_prefix_hex":value[:32].hex() if offset_verified else None
                 })
+                if param_name == "tex_srt0" and data[q+0x10] == 30 and size == 24 and offset_verified:
+                    mode, sx, sy, rot, tx, ty = struct.unpack("<I5f", value)
+                    if not all(math.isfinite(z) for z in (sx, sy, rot, tx, ty)):
+                        raise ValueError("nonfinite original TexSrt source fields")
+                    params[-1]["texture_transform_source_fields"] = {
+                        "type_name_from_BfresLibrary": "TexSrt",
+                        "mode_raw_u32":mode,
+                        "scale_x":sx,"scale_y":sy,"rotation":rot,
+                        "translation_x":tx,"translation_y":ty,
+                        "FMAA_AnimDataOffset_0x10_field_candidate": "translation_x",
+                        "native_animation_binding_verified":False
+                    }
             item={"name":name, "model_name":model_name, "model_array_index":midx,
                   "header_offset":p, "source_param_buffer_offset":source_ptr,
                   "source_param_buffer_size":source_len, "source_param_count":param_count,
@@ -148,7 +161,7 @@ def analyze(root=Path(".")):
         for m in source["materials"]:
             for param in m["shader_params"]:
                 if (m["name"], param["name"]) in targets:
-                    candidates.append({"source_relative":path, "model_name":source.get("model_name"),
+                    candidates.append({"source_relative":path, "model_name":m["model_name"],
                         "material_name":m["name"], "param_name":param["name"],
                         "source_shader_param_data_offset":param["data_offset_within_source"],
                         "shader_param_data_length":param["declared_data_size"],
@@ -161,6 +174,8 @@ def analyze(root=Path(".")):
         "R45_curve_report_sha256":sha256(R45.read_bytes()),
         "models":models, "matched_animation_material_shader_param_names":candidates,
         "candidate_count":len(candidates),
+        "unmatched_animation_material_shader_param_pairs":[{"material_name":name,"param_name":param}
+            for name,param in sorted(targets) if not any(x["material_name"]==name and x["param_name"]==param for x in candidates)],
         "source_structural_matches_not_runtime_bindings":True,
         "native_material_animation_binding_verified":False,
         "original_game_shader_uniform_write_verified":False,
@@ -177,6 +192,7 @@ def main():
     compact={
         "schema":"acnh303-r47-Cedar-compact-source-FMAT-v1",
         "candidate_count":data["candidate_count"],
+        "unmatched_animation_material_shader_param_pairs":data["unmatched_animation_material_shader_param_pairs"],
         "matches":data["matched_animation_material_shader_param_names"],
         "original_game_shader_uniform_write_verified":False,
         "models":[{

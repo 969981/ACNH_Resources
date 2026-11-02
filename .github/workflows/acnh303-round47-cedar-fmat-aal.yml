@@ -40,8 +40,16 @@ jobs:
           import json
           a=json.load(open("derived/3.0.3/r47/cedar_fmat_source_candidates.json"))
           b=json.load(open("derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json"))
+          compact=json.load(open("derived/3.0.3/r47/cedar_fmat_essential_summary.json"))
           assert len(a["models"]) == 2
           assert all(m["status"] == "STRUCTURAL_FMDL_FMAT_SHADERPARAM_READ" for m in a["models"])
+          assert all(m["model_count"] == 4 and m["fres_version_u32"] == 0x90000 for m in a["models"])
+          assert a["candidate_count"] == 8 and compact["candidate_count"] == 8
+          assert a["unmatched_animation_material_shader_param_pairs"] == [{"material_name":"mPltTreeDeco","param_name":"tex_srt0"}]
+          assert all(any(mat["tex_srt0_params"] and all(p["type_raw_byte"]==30 and p["declared_data_size"]==24 and p["data_offset_within_source"]==388
+              and p["texture_transform_source_fields"]["FMAA_AnimDataOffset_0x10_field_candidate"]=="translation_x"
+              for p in mat["tex_srt0_params"]) for model in source["models"] for mat in model["relevant_materials"])
+              for source in compact["models"])
           assert a["native_material_animation_binding_verified"] is False
           assert b["runtime_FileOpen_Read_Close_proven"] is False
           assert b["candidate_target_entries"] == "NOT_CAPTURED"
@@ -52,6 +60,7 @@ jobs:
           name: r47-cedar-real-FMAT-and-aal-no-game-session
           path: |
             derived/3.0.3/r47/cedar_fmat_source_candidates.json
+            derived/3.0.3/r47/cedar_fmat_essential_summary.json
             derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json
           if-no-files-found: error
       - name: Persist original source-only evidence for later comparison
