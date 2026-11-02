@@ -24,19 +24,19 @@ TOKENS=("inkling","octling","hylia","zelda","majora","tulin","mineru",
         "inktank","takoroka","ikasweat","trishred","legoblock","legohead","legologo",
         "fuka","utsuho","salmon","force","replica","champion","hotel","beans",
         "triangle","lowcut","kneeboot","backpack")
-MAX_SELECTED_MODEL=650
+MAX_SELECTED_MODEL=200
 MAX_SELECTED_BYTES=160*1024*1024
 
 def sha(b):return hashlib.sha256(b).hexdigest()
 def jsonfile(p):return json.loads(p.read_text("utf-8"))
 def ls(root):
-    output=subprocess.check_output(["git","ls-tree","-r","-l","HEAD","--",PREFIX],cwd=root,text=True,timeout=180)
+    output=subprocess.check_output(["git","ls-tree","-r","HEAD","--",PREFIX],cwd=root,text=True,timeout=180)
     files=[]
     for line in output.splitlines():
         meta,path=line.split("\t",1)
         fields=meta.split()
-        if len(fields)!=4 or fields[1]!="blob":continue
-        size=int(fields[3]) if fields[3].isdigit() else 0
+        if len(fields)!=3 or fields[1]!="blob":continue
+        size=0  # filtered git tree does not hydrate blob sizes
         files.append({"path":path,"git_sha":fields[2],"size":size})
     return files
 def inputs(root):
@@ -70,7 +70,8 @@ def plan(root,output):
            "original_layout_source_count":len(layout),
            "original_model_lexical_candidates":len(models),
            "selected_model_sources":chosen,
-           "selected_model_bytes":total,
+           "selected_model_bytes":None,
+           "source_blob_sizes_unavailable_due_to_filtered_tree":True,
            "original_pack_sources":packs,
            "nca_1_git_tree_sha":"8809e830a4caa2593916239ef2391b5d17b98dd5",
            "plan_is_not_a_source_mapping":True}
