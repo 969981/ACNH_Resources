@@ -1,0 +1,52 @@
+name: ACNH 3.0.3 | R68 Audit real villager and item picture completeness
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r68_image_completeness.py'
+      - '.github/workflows/acnh303-r68-villager-item-picture-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r68-picture-completeness
+  cancel-in-progress: false
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r68_image_completeness.py
+            /assets/evidence/rom-villager/
+            /assets/evidence/rom-items/
+            /assets/evidence/rom-other-layout/
+            /assets/evidence/rom-clothing-layout/
+            /assets/evidence/rom-softdrink/
+            /assets/catalog/original-27531-sourced-lookup.csv
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Match real original ROM image paths, prior PNG evidence and Git PNG filenames
+        run: python Scripts/acnh303_r68_image_completeness.py
+      - name: Commit source-backed missing/complete classification without modifying PNGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-completeness/r68-villager-item-source-completeness.json assets/evidence/rom-completeness/r68-original-layout-sources-without-extracted-png.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: compare actual 3.0.3 original villager and item layout sources to exported PNG'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
