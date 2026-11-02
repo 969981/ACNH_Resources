@@ -128,7 +128,7 @@ def run():
    ix=int(nr["source_index"]);rn=nr["res_name"]
    if int(raw["_row_index"])!=ix or raw["hash_48EF0398"]!=rn:
     raise ValueError("Original decoded row does not match resident identity: "+rn)
-   db.execute("INSERT INTO npc_original_fields VALUES(?,?,?,?,?,?,?,?)",(
+   db.execute("INSERT INTO npc_original_fields VALUES("+",".join(["?"]*9)+")",(
      typ,ix,int(raw["_row_index"]),int(raw["_row_offset_raw"]),
      json.dumps(raw,ensure_ascii=False,sort_keys=True),
      orig.as_posix(),originalsha,decoded.as_posix(),csvsha))
@@ -136,7 +136,7 @@ def run():
     x=raw.get(F[col][0])
     return int(x) if x not in ("",None) else None
    def nameval(col):return raw.get(F[col][0]) or None
-   db.execute("INSERT INTO npc_verified_metadata VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(
+   db.execute("INSERT INTO npc_verified_metadata VALUES("+",".join(["?"]*22)+")",(
       typ,ix,rn,val("UniqueID"),val("BirthMonth"),val("BirthMDay"),
       val("BromideItemID"),val("PosterItemID"),val("InitLive"),val("InitRemakeId"),
       val("Tops"),val("Umbrella"),val("NpcTalkType"),val("NpcColor"),
