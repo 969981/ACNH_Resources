@@ -1,0 +1,451 @@
+name: ACNH 3.0.3 R44 2560 Model Sources FMAA and AAL Native Evidence
+on:
+  push:
+    branches: [feat/acnh303-round44-model-fmaa-aal-provenance]
+    paths:
+      - '.github/workflows/acnh303-round44-unpack.yml'
+      - 'scripts/acnh303_round44_select.py'
+      - 'scripts/acnh303_round44_reconcile.py'
+      - 'scripts/acnh303_round44_release_verify.py'
+      - 'scripts/test_acnh303_round44.py'
+      - 'scripts/acnh303_round44_layers.py'
+      - 'scripts/acnh303_round44_fmaa_native.py'
+      - 'scripts/acnh303_round44_aal_provenance.py'
+      - 'scripts/acnh303_round44_native_summary.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh303-r44-real-unpack
+  cancel-in-progress: false
+jobs:
+  regress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Syntax, source counts, safety and existing decoder tests
+        run: |
+          python -m compileall -q scripts/acnh303_round44_*.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round44.py' -v
+          python scripts/acnh303_round44_select.py --category Model --suffix .zs --shard 0 --shards 64 --count 40 --no-checkout
+          python scripts/acnh303_round44_aal_provenance.py --out /tmp/r44-aal-proof.json
+          python -m unittest discover -s scripts -p 'test_acnh303_media_l3.py' -v
+          python -m unittest discover -s scripts -p 'test_acnh303_ui2d_parser.py' -v
+  unpack:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {category: Model, suffix: ".zs", shard: 0, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 1, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 2, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 3, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 4, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 5, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 6, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 7, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 8, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 9, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 10, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 11, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 12, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 13, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 14, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 15, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 16, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 17, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 18, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 19, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 20, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 21, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 22, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 23, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 24, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 25, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 26, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 27, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 28, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 29, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 30, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 31, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 32, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 33, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 34, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 35, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 36, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 37, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 38, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 39, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 40, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 41, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 42, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 43, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 44, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 45, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 46, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 47, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 48, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 49, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 50, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 51, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 52, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 53, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 54, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 55, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 56, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 57, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 58, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 59, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 60, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 61, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 62, shards: 64, cap: 40, mode: media}
+          - {category: Model, suffix: ".zs", shard: 63, shards: 64, cap: 40, mode: media}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          sparse-checkout-cone-mode: true
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Select 2560 source-audited R19-R43 disjoint Model originals
+        run: |
+          python scripts/acnh303_round44_select.py --category '${{ matrix.category }}' \
+            --suffix '${{ matrix.suffix }}' --shard '${{ matrix.shard }}' \
+            --shards '${{ matrix.shards }}' --count '${{ matrix.cap }}'
+      - name: Install tested native media decoders
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ '${{ matrix.mode }}' = 'bars' ]; then
+            curl -fLsS --retry 3 https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip -o /tmp/vgmstream.zip
+            mkdir -p /tmp/vgmstream
+            unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+            find /tmp/vgmstream -name 'vgmstream-cli*' -type f | head -n1 > /tmp/vgmstream.path
+            test -s /tmp/vgmstream.path
+            chmod +x "$(cat /tmp/vgmstream.path)"
+            echo /nonexistent/wmdlt >/tmp/wmdlt.path
+            echo /nonexistent/wimgt >/tmp/wimgt.path
+          else
+            u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+            curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox.tar.gz
+            curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/nintoolbox.sha256
+            (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' nintoolbox.sha256 | sed 's/nintoolbox-linux-x86_64.tar.gz/nintoolbox.tar.gz/' | sha256sum -c -)
+            mkdir -p /tmp/nintoolbox
+            tar -xzf /tmp/nintoolbox.tar.gz -C /tmp/nintoolbox
+            find /tmp/nintoolbox -type f -name wimgt | head -n1 >/tmp/wimgt.path
+            find /tmp/nintoolbox -type f -name wmdlt | head -n1 >/tmp/wmdlt.path
+            chmod +x "$(cat /tmp/wimgt.path)" "$(cat /tmp/wmdlt.path)"
+            echo /nonexistent/vgmstream >/tmp/vgmstream.path
+          fi
+      - name: Convert original BFRES / BNTX to verified GLB or PNG
+        if: matrix.mode == 'media'
+        run: |
+          python scripts/acnh303_media_batch.py --root . --selection selection.json \
+            --out Unpack_L3_Round44 --report-dir derived/3.0.3/media_round44 \
+            --tool-wmdlt "$(cat /tmp/wmdlt.path)" --tool-wimgt "$(cat /tmp/wimgt.path)" \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Decode Layout BFLYT / BFLAN / FCPX structures
+        if: matrix.category == 'Layout'
+        run: |
+          python scripts/acnh303_layout_semantic_shard.py --root . --selection selection.json \
+            --output Unpack_UI2D_Round44 --report-dir derived/3.0.3/layout_semantic_round44
+      - name: Losslessly export previously unseparated nested BNSH bytes
+        if: matrix.category == 'Layout'
+        run: |
+          python scripts/acnh303_round27_bnsh_extract.py --selection selection.json \
+            --out Unpack_BNSH_Round44 \
+            --report derived/3.0.3/bnsh_round44/bnsh_${{ matrix.shard }}/bnsh_manifest.json
+      - name: Decode BARS member BWAV to actual playable PCM
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out Unpack_BARS_Round44 --report derived/3.0.3/bars_round44/bars_${{ matrix.shard }} \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+      - name: Preserve exact AMTA v5 binary metadata
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_bars_amta_export.py --selection selection.json \
+            --out Unpack_AMTA_Round44 --report derived/3.0.3/amta_round44/amta_${{ matrix.shard }}
+      - name: Re-open failed BARS members from SHA-verified original bytes
+        if: matrix.mode == 'bars'
+        run: |
+          python scripts/acnh303_round44_bars_native.py \
+            --selection selection.json \
+            --report derived/3.0.3/bars_round44/bars_${{ matrix.shard }}/report.json \
+            --out derived/3.0.3/bars_native_round44/bars_${{ matrix.shard }}/native_header_audit.json
+      - name: Verify every source and derived file SHA256 within shard
+        run: |
+          python - <<'PY'
+          import json,hashlib,pathlib
+          s=json.load(open('selection.json'))
+          sha=lambda path:hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+          selected={p.split('/1/',1)[1] for p in s['paths']}
+          assert len(selected)==s['selected_files']
+          root=pathlib.Path('e10617820db06889e1638499478da0de_NCA/1')
+          kind=s['category']; i=s['shard']
+          if kind=='Sound':
+              docs=[json.load(open(f'derived/3.0.3/{prefix}_round44/{prefix}_{i}/report.json'))
+                    for prefix in ('bars','amta')]
+              for d in docs:
+                  assert {r['source_path'] for r in d['records']}==selected
+                  for r in d['records']:
+                      assert sha(root/r['source_path'])==r['source_sha256']
+                      for m in r['members']:
+                          if m['status']=='converted_pcm_wav':
+                              assert sha(m['output_path'])==m['output_sha256']
+                              assert m['validation']['frames']>0
+                          if m['status']=='lossless_amta_extracted':
+                              assert sha(m['output_path'])==m['amta_sha256']
+                              assert m['native']['version_hex']=='0x0500'
+          else:
+              p=f'derived/3.0.3/media_round44/{kind}/{i:03d}-of-{s["shards"]:03d}/manifest.json'
+              a=json.load(open(p))
+              assert {r['source_path'] for r in a}==selected
+              for r in a:
+                  assert sha(root/r['source_path'])==r['sha256']
+                  for out in r['validated_outputs']:
+                      assert sha(out['path'])==out['sha256']
+                      assert out['validation']['type'] in ('glb','png')
+              if kind=='Layout':
+                  u=json.load(open(f'derived/3.0.3/layout_semantic_round44/Layout/{i:03d}-of-004/semantic_manifest.json'))
+                  b=json.load(open(f'derived/3.0.3/bnsh_round44/bnsh_{i}/bnsh_manifest.json'))
+                  assert len(u['source_records'])==len(b['records'])==len(a)
+                  byname={r['source_path']:r['sha256'] for r in a}
+                  for r in u['source_records']:
+                      assert r['source_sha256']==byname[r['source_path']]
+                      for leaf in r['leaves']:
+                          if 'output_path' in leaf:
+                              assert sha(leaf['output_path'])==leaf['output_sha256']
+                  for r in b['records']:
+                      assert r['source_sha256']==byname[r['source_path']]
+                      for leaf in r['bnsh_members']:
+                          if leaf['status']=='exact_native_bnsh_extracted':
+                              assert sha(leaf['output_path'])==leaf['output_sha256']==leaf['member_sha256']
+          print('R44 ORIGINALS AND OUTPUTS VERIFIED',kind,i,len(selected))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r44-report-${{ matrix.category }}-${{ matrix.shard }}
+          path: |
+            derived/3.0.3/media_round44/
+            derived/3.0.3/layout_semantic_round44/
+            derived/3.0.3/bnsh_round44/
+            derived/3.0.3/bars_round44/
+            derived/3.0.3/amta_round44/
+            derived/3.0.3/bars_native_round44/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: r44-data-${{ matrix.category }}-${{ matrix.shard }}
+          path: |
+            Unpack_L3_Round44/
+            Unpack_UI2D_Round44/
+            Unpack_BNSH_Round44/
+            Unpack_BARS_Round44/
+            Unpack_AMTA_Round44/
+          if-no-files-found: error
+          compression-level: 2
+  native_model:
+    needs: regress
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Verify native FRES FMAA material animation header and array count
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '/scripts/\n/derived/\n/e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs\n' |
+            git sparse-checkout set --no-cone --stdin
+          python scripts/acnh303_round44_fmaa_native.py --out native_model/cedar_fmaa.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r44-native-fmaa-pointer-evidence
+          path: native_model/cedar_fmaa.json
+          if-no-files-found: error
+  aal_evidence:
+    needs: regress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Independently cross-check R37-R40 873 original CRC-linked Stream sources
+        run: |
+          python scripts/acnh303_round44_aal_provenance.py \
+            --out native_audio/aal_original_source_provenance.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r44-native-aal-source-evidence
+          path: native_audio/aal_original_source_provenance.json
+          if-no-files-found: error
+  reconcile:
+    needs: [regress,unpack,native_model,aal_evidence]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r44-report-*
+          path: collected
+      - uses: actions/download-artifact@v4
+        with:
+          name: r44-native-fmaa-pointer-evidence
+          path: collected/native_model
+      - uses: actions/download-artifact@v4
+        with:
+          name: r44-native-aal-source-evidence
+          path: collected/native_audio
+      - name: Independently reconcile R44 2560 originals, BNSH and output counts
+        run: |
+          python scripts/acnh303_round44_reconcile.py --collected collected \
+            --out derived/3.0.3/r44_cumulative
+      - name: Check delta source identities and historical zero overlap
+        run: |
+          python - <<'PY'
+          import gzip,json
+          r=json.load(open('derived/3.0.3/r44_cumulative/coverage.json'))
+          with gzip.open('derived/3.0.3/r44_cumulative/source_delta.jsonl.gz','rt') as f:
+              d=[json.loads(line) for line in f if line.strip()]
+          assert len(d)==2560 and len(set(x['source_path'] for x in d))==2560
+          assert (r['delta_model_sources'],r['delta_layout_sources'],r['delta_bars_sources'])==(2560,0,0)
+          assert r['baseline_r19_to_r43_media_sources']==6894
+          assert r['authoritative_original_inventory']==103400
+          print('R44 DELTA CHECKED',r['r44_core_media_by_type'],r['r44_bars_pcm_wav'],
+                r['r44_bars_native_amta'],r['r44_lossless_bnsh_members'])
+          PY
+      - name: Validate source-bound native gaps and Cedar animation candidate
+        run: |
+          python scripts/acnh303_round44_native_summary.py \
+            --fmaa collected/native_model/cedar_fmaa.json \
+            --aal collected/native_audio/aal_original_source_provenance.json \
+            --r43 derived/3.0.3/r43_cumulative/native_gap_matrix.json \
+            --out derived/3.0.3/r44_cumulative/native_gap_matrix.json
+      - name: Separately audit original source coverage and L3 test progress
+        run: |
+          python scripts/acnh303_round44_layers.py \
+            --delta derived/3.0.3/r44_cumulative/source_delta.jsonl.gz \
+            --out derived/3.0.3/r44_cumulative/unified_coverage.json
+      - name: Commit SHA-verifiable compact result ONLY to R44 branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r44_cumulative
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r44): 2560 fresh Model original source SHA audits and 64 shard real outputs'
+          for retry in 1 2 3 4 5 6 7 8; do
+            git fetch origin feat/acnh303-round44-model-fmaa-aal-provenance
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round44-model-fmaa-aal-provenance; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+  publish:
+    needs: reconcile
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: 969981/ACNH_Resources
+      TAG: acnh303-r44-2560-model-fmaa-aal-20261102
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/acnh303-round44-model-fmaa-aal-provenance
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r44-data-*
+          path: actual_data
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: r44-report-*
+          path: actual_reports
+      - name: Rehash every real output from this exact run (no report-only publication)
+        run: |
+          python scripts/acnh303_round44_release_verify.py \
+            --data actual_data --reports actual_reports \
+            --out r44-release-verification.json
+      - name: Package verified real outputs into durable Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p releasefiles
+          for d in actual_data/r44-data-*; do
+            test -d "$d"
+            base="$(basename "$d")"
+            tar -czf "releasefiles/$base.tar.gz" -C "$d" .
+          done
+          test "$(find releasefiles -name 'r44-data-*.tar.gz' | wc -l)" -eq 64
+          cp derived/3.0.3/r44_cumulative/coverage.json releasefiles/
+          cp derived/3.0.3/r44_cumulative/unified_coverage.json releasefiles/
+          cp derived/3.0.3/r44_cumulative/native_gap_matrix.json releasefiles/
+          cp derived/3.0.3/r44_cumulative/source_delta.jsonl.gz releasefiles/
+          cp r44-release-verification.json releasefiles/
+          (cd releasefiles && sha256sum * > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          printf 'ACNH 3.0.3 R44: 2560 previously untested original Model archives excluding all R19+R27+R28+R29+R30+R31+R32+R33+R34+R35+R36+R41+R42+R43 Model originals; real BFRES geometry and BNTX PNG (no new Layout/BNSH since Layout L3 is fully source-tested). All payloads were rehashed from this Actions run. This does not prove full semantic or all-resource completion.\n' > notes.txt
+          if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release create "$TAG" -R "$REPO" \
+              --target feat/acnh303-round44-model-fmaa-aal-provenance \
+              --title 'ACNH 3.0.3 R44 - 2560 Verified Model Sources and FMAA AAL Provenance' \
+              --notes-file notes.txt --prerelease
+          fi
+          gh release upload "$TAG" -R "$REPO" releasefiles/* --clobber
+          gh release view "$TAG" -R "$REPO" --json url,assets \
+            --jq '{url:.url,assets:[.assets[]|{name:.name,size:.size}]}'
