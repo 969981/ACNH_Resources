@@ -22,6 +22,7 @@ status: active
 - [[ACNH303_R52_POKERCORE_FALLBACK_AND_40|R52 314 项 PokerCore 图标回退 / 40 项原始版本缺口]]
 - [[ACNH303_R53_R54_CLIENT_CSV_VERSION_EVIDENCE|R53–R54 客户端 ID/iName 精确映射和历史版本对照]]
 - [[ACNH303_R56_R59_CLOTHING_NATIVE_SOURCE_AND_PNG|R56–R59 39 个服装原版 Layout 的实际解码与哈希证据]]
+- [[ACNH303_R60_R62_ALL_ORIGINAL_PNG_SOURCES|R60–R62 全部 27,531 个文件名的原版来源索引与查询]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
