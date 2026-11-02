@@ -1,0 +1,93 @@
+name: ACNH 3.0.3 assets - Babybed verified material texture PNGs
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_babybed_texture_export.py'
+      - '.github/workflows/acnh303-babybed-textures.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acnh303-babybed-textures-write
+  cancel-in-progress: false
+
+jobs:
+  export-bntx-textures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybed.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybedReBody*.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybedReFabric*.Nin_NX_NVN.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install zstd + genuine PNG raster validation dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Install existing pinned/checksummed format converters
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Export all original Babybed BNTX texture pixels with real decoder
+        run: |
+          python Scripts/acnh303_babybed_texture_export.py --root . \
+            --wimgt "$(cat /tmp/wimgt.path)" \
+            --out assets/textures/babybed \
+            --max-total-mb 100
+      - name: Verify material textures are not misnamed as rendered item icons
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('assets/textures/babybed/_texture_evidence.json')
+          doc=json.loads(p.read_text())
+          assert doc['icon_56_rendered'] is False
+          assert doc['native_material_binding_verified'] is False
+          assert not doc['errors'], doc['errors']
+          assert len(doc['sources']) == 16
+          assert doc['exported_png_count'] > 0
+          paths=[Path(e['png']) for s in doc['sources'] for b in s['bntx'] for e in b['pngs']]
+          assert len(paths) == doc['exported_png_count']
+          assert all(x.is_file() and not x.name.startswith('FtrBabybed_Remake_') for x in paths)
+          print('Validated native BNTX texture PNGs:', len(paths))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-babybed-native-textures-${{ github.run_id }}
+          path: assets/textures/babybed/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit actual decoded texture pixels and hashes
+        if: success() && github.ref == 'refs/heads/3.0.3_Unpack'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A assets/textures/babybed
+          if git diff --cached --quiet; then
+            echo "No new textures"
+          else
+            git commit -m "assets: real Babybed native BNTX texture exports with pixel validation"
+            git push
+          fi
