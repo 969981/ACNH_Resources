@@ -58,6 +58,8 @@ def record(meta_dir: Path, item: dict) -> None:
 def copy_verified(src: Path, dest: Path, *, overwrite: bool = False) -> dict:
     if not src.is_file() or src.is_symlink():
         raise RuntimeError("missing or unsafe conversion output: " + str(src))
+    if src.stat().st_size > 90 * 1024 * 1024:
+        raise RuntimeError("Output exceeds safe per-file GitHub limit (90 MiB): " + str(src))
     sha = digest(src)
     if dest.exists():
         if not dest.is_file() or dest.is_symlink():
@@ -82,8 +84,8 @@ def copy_verified(src: Path, dest: Path, *, overwrite: bool = False) -> dict:
 def original_paths(root: Path):
     source = root / NCA
     exe, rom = source / "0", source / "1"
-    if not exe.is_dir() or not rom.is_dir():
-        raise FileNotFoundError("source NCA 0/ and 1/ directories are required")
+    if not rom.is_dir():
+        raise FileNotFoundError("source NCA 1/ RomFS directory is required")
     return exe, rom
 
 
@@ -187,7 +189,7 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
         stage = Path(temporary)
         cmd = [
             sys.executable, str(script), "--root", str(root), "--source", rel.as_posix(),
-            "--out", str(stage), "--require", args.require, "--fail-on-no-conversion",
+            "--out", str(stage), "--require", args.require, "--fail-on-no-conversion", "--max-output-mb", "90",
         ]
         if args.wmdlt:
             cmd += ["--tool-wmdlt", args.wmdlt]

@@ -20,3 +20,7 @@ python Scripts/mirror_unpack.py audit
 ```
 
 For richer media conversion and external tool dependencies, see [workflow documentation](docs/03-Unpack-Workflow.md). The former `3.0.3` branch holds historical reports and far larger Release archives.
+
+## Incremental conversion automation
+
+Use [Incremental verified UnPack](.github/workflows/acnh303-incremental-unpack.yml) and [batch documentation](docs/07-Incremental-Batches.md) to process 1–24 original files at a time. Each batch records source Git blob identity, original SHA-256, actual output SHA-256 and decoder status; media has explicit real-decoder validation. New media data are committed only on a successful workflow execution; missing/unsupported formats are not invented.
