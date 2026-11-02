@@ -1,0 +1,60 @@
+name: ACNH 3.0.3 | Verify distinct ROM assets for 1254 pending names
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_unmatched_rom_linkage.py'
+      - 'Scripts/test_acnh303_unmatched_rom_linkage.py'
+      - '.github/workflows/acnh303-unmatched-rom-linkage.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-original-pending-linkage
+  cancel-in-progress: false
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test non-promotion and plan exact original PNG paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p test_acnh303_unmatched_rom_linkage.py -v
+          python Scripts/acnh303_unmatched_rom_linkage.py plan --root .
+          if [ -s /tmp/acnh-linked-original-pngs.txt ]; then
+            git sparse-checkout add --stdin < /tmp/acnh-linked-original-pngs.txt
+          fi
+      - name: Hash-check only linked real ROM PNGs and generate pending evidence
+        run: python Scripts/acnh303_unmatched_rom_linkage.py export --root .
+      - name: Commit evidence without renaming any PNG or promoting pending names
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/evidence/rom-items/unmatched-native-linkage.json assets/evidence/rom-items/unmatched-native-linkage.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "evidence: retain 1254 unmatched names and link separate native ROM images"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt * 3))
+          done
+          exit 1
