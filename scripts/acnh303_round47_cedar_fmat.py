@@ -74,10 +74,10 @@ def parse_fres(data):
         if material_count > 256:
             raise ValueError("unbounded FMAT count")
         if material_count:
-            bounds(data, material_ptr, material_count * 0xa0, "FMDL FMAT array")
+            bounds(data, material_ptr, material_count * 0xa8, "FMDL FMAT array")
         model_materials=[]
         for i in range(material_count):
-            p = material_ptr + i * 0xa0
+            p = material_ptr + i * 0xa8
             if data[p:p+4] != b"FMAT":
                 raise ValueError("FMAT model=%d item=%d model_ptr=%x material_ptr=%x material_count=%d observed=%s first_fmat=%x" % (midx,i,mp,material_ptr,material_count,data[p:p+48].hex(),data.find(b"FMAT")))
             name = nw_name(data, u64(data, p + 8))
