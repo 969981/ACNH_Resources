@@ -1,0 +1,52 @@
+name: ACNH 3.0.3 | Verify ItemParam-ItemRemake shared item IDs
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_itemremake_id_crossref.py'
+      - 'Scripts/test_acnh303_itemremake_id_crossref.py'
+      - '.github/workflows/acnh303-itemremake-id-crossref.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-itemremake-join
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_itemremake_id_crossref.py
+            /Scripts/test_acnh303_itemremake_id_crossref.py
+            /assets/evidence/rom-items/
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemRemake.csv
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify field names and retain strict semantic bounds
+        run: python -m unittest discover -s Scripts -p test_acnh303_itemremake_id_crossref.py -v
+      - name: Join original ItemParam IDs to ItemRemake IDs (not row indices)
+        run: python Scripts/acnh303_itemremake_id_crossref.py --root .
+      - name: Commit verified ID evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/itemparam-itemremake-id-crossref.json assets/evidence/rom-items/itemparam-itemremake-id-crossref.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: join original ACNH item IDs to remake table without promoting default icons'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
