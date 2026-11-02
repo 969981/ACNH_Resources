@@ -66,8 +66,8 @@ def screenshot_name_hints(name):
     without_variant = re.sub(r"_Remake_\d+_\d+$", "", base)
     if base.endswith("_3.0.0"):
         without_variant = base[:-len("_3.0.0")]
-    elif re.search(r"_\d+_\d+$", base):
-        without_variant = re.sub(r"_\d+_\d+$", "", base)
+    elif re.search(r"\d+_\d+$", base):
+        without_variant = re.sub(r"\d+_\d+$", "", base)
     return [base] if base == without_variant else [base, without_variant]
 
 
