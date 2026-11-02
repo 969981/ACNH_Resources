@@ -39,3 +39,16 @@ tags: [status, audit]
 本批次期间也修复了两个真实故障：媒体转换暂存目录不在仓库根导致 L3 校验报错；历史 nintoolbox `nightly-20261013` 发布地址失效，改为有 SHA256SUMS 的 `nightly-20261028`。旧失败运行保留为证据，不当作完成进度。
 
 **当前新分支实际有效 RomFS 输出文件数：2,208**（按 Git Tree 复核，剔除 `.gitkeep`；此前迁移 2,145 + 本轮新增 63）。另有 ExeFS 的 `UnPack/0/main.elf`，不参与 RomFS 计数。后续批次应继续记录全局唯一源路径/哈希，避免把复核产物累加到新增数。
+
+
+## 2026-11-02 — 第二阶段第一轮实测（shard 0/8）
+已运行 [[08-Next-Wave-FMAA-AAL-BARS]] 自动续跑，以下是 GitHub Actions 实际产物，而非目标值：
+
+| 类别 | 本轮偏移 / 输入 | 实际有效产物 | 独立状态 |
+| --- | --- | --- | --- |
+| Param | 8–15 / 8 | 8 JSON | 8 converted、0 failed，[Run 41379351661](https://github.com/969981/ACNH_Resources/actions/runs/41379351661) |
+| Model | 8–15 / 8 | 8 GLB | 8 converted、0 failed，[Run 41379402176](https://github.com/969981/ACNH_Resources/actions/runs/41379402176) |
+| Layout | 8–15 / 8 | 33 PNG | 8 partial、0 failed，[Run 41379447647](https://github.com/969981/ACNH_Resources/actions/runs/41379447647) |
+| Sound | 16–23 / 8 | 8 WAV | 8 converted、0 failed，[Run 41379494570](https://github.com/969981/ACNH_Resources/actions/runs/41379494570) |
+
+**本轮共 32 个未重复来源、57 个经输出哈希复核的真实媒体/JSON 文件。** Layout 的 partial 是可用纹理已导出但还没有完整 BFLYT/BFLAN 及运行时语义；不能把 8 个 partial 当成完全 L4 完成。按本分支原先已复核的 2,208 个有效 RomFS 输出加本轮 57 个新增文件，累计暂为 **2,265**，需要后续再次做全树独立 Git Tree 复核。BARS/FMAA/AAL 专项工作流仅采集进一步证据，不等于相关格式已全语义解码。
