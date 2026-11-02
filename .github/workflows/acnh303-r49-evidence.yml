@@ -1,0 +1,67 @@
+name: ACNH 3.0.3 | R49 FMAA and AAL runtime evidence gates
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_round49_*'
+      - 'Scripts/test_acnh303_round49.py'
+      - 'Scripts/acnh303_r48_join_texsrt_fmat.py'
+      - 'docs/ACNH303_ROUND49_*'
+      - '.github/workflows/acnh303-r49-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+            /derived/3.0.3/r45_fmaa/
+            /derived/3.0.3/r46/
+            /derived/3.0.3/r47/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original source parsing dependencies
+        run: |
+          python -m pip install -r Scripts/requirements.txt
+          python -m pip install -r Scripts/requirements-media.txt
+      - name: Independent source-only and negative-case tests
+        run: |
+          set -euo pipefail
+          python -m compileall -q Scripts
+          python -m unittest discover -s Scripts -p 'test_acnh303_round47.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_r48_join.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_round49.py' -v
+      - name: Write machine-readable fail-closed proof status
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r48_join_texsrt_fmat.py --out r49-source-name-candidates.json
+          python Scripts/acnh303_round49_runtime_audit.py --out r49-no-native-capture.json
+          python - <<'PY'
+          import json
+          s = json.load(open('r49-no-native-capture.json'))
+          assert s['trace_status'] == 'NOT_CAPTURED'
+          assert s['original_fmat_static_name_candidates'] == 8
+          assert s['runtime_shader_uniform_binding_verified'] is False
+          assert s['runtime_AAL_FileOpen_Read_Close_verified'] is False
+          print('R49 source candidates = 8, live native evidence = NOT_CAPTURED')
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r49-source-and-runtime-gates-${{ github.run_id }}
+          path: |
+            r49-source-name-candidates.json
+            r49-no-native-capture.json
+          if-no-files-found: warn
+          retention-days: 30
