@@ -1,0 +1,109 @@
+name: ACNH 3.0.3 | BARS audio and FMAA/AAL static evidence
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths: ['.github/workflows/acnh303-bars-fmaa-aal-probe.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bars-structure-and-real-wav:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parsing dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Select four real Sound BARS files with full Git tree
+        run: |
+          set -euo pipefail
+          python Scripts/select_acnh303_shard.py --category Sound --suffix .bars \
+            --shard 0 --shards 8 --skip-count 0 --max-count 4
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          selected=json.load(open('selection.json'))
+          assert selected['selected_files'] == 4
+          assert all(Path(p).is_file() for p in selected['paths'])
+          PY
+      - name: Get pinned real PCM converter
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 \
+            https://github.com/vgmstream/vgmstream/releases/download/r2117/vgmstream-linux.zip \
+            -o /tmp/vgmstream.zip
+          mkdir -p /tmp/vgmstream
+          unzip -q /tmp/vgmstream.zip -d /tmp/vgmstream
+          find /tmp/vgmstream -type f -name 'vgmstream-cli*' | head -n1 > /tmp/vgmstream.path
+          test -s /tmp/vgmstream.path
+          chmod +x "$(cat /tmp/vgmstream.path)"
+          sha256sum /tmp/vgmstream.zip
+      - name: Separately inspect BARS index, AMTA v5 and BWAV-to-WAV
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_bars_probe.py --selection selection.json --out audit/bars-structure
+          python Scripts/acnh303_bars_amta_export.py --selection selection.json \
+            --out audit/native-amta --report audit/amta-report
+          python Scripts/acnh303_bars_audio_l3.py --selection selection.json \
+            --out audit/pcm-wav --report audit/pcm-report \
+            --tool-vgmstream "$(cat /tmp/vgmstream.path)"
+          python - <<'PY'
+          import json
+          s=json.load(open('audit/bars-structure/report.json'))
+          a=json.load(open('audit/amta-report/report.json'))
+          w=json.load(open('audit/pcm-report/report.json'))
+          assert len(s['records'])==len(a['records'])==len(w['records'])==4
+          for x,y,z in zip(s['records'], a['records'], w['records']):
+              assert x['source_path']==y['source_path']==z['source_path']
+              assert x['source_sha256']==y['source_sha256']==z['source_sha256']
+          print('Validated identical input provenance for structure, AMTA and WAV evidence')
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-bars-native-and-pcm-${{ github.run_id }}
+          path: |
+            selection.json
+            audit/
+          retention-days: 14
+          if-no-files-found: warn
+
+  fmaa-aal-elf-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+            /UnPack/0/main.elf
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test ELF parser and collect bounded XREF candidates
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p test_acnh303_round11_elf_xref.py -v
+          python Scripts/acnh303_fmaa_aal_native_probe.py \
+            --elf UnPack/0/main.elf --out evidence/fmaa-aal-static.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-fmaa-aal-static-candidates-${{ github.run_id }}
+          path: evidence/fmaa-aal-static.json
+          retention-days: 30
+          if-no-files-found: warn
