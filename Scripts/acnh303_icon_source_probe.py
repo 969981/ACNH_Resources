@@ -11,6 +11,15 @@ PROBES = [
     ("iswitchplus", "https://img.iswitchplus.com/acnh/FtrBabybed_Remake_0_0.png"),
     ("iswitchplus", "https://img.iswitchplus.com/acnh/FtrBabybed.png"),
     ("iswitchplus", "https://img.iswitchplus.com/acnh/FtrArtHunterSnow.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/BromideNpcNmlAnt00_Remake_0_0.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/TopsTexMarinesuitNormalLNook0.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/CapBangsBear0.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/NpcNmlAnt00.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/PosterNpcNmlAnt00.png"),
+    ("iswitchplus", "https://img.iswitchplus.com/acnh/ToolAngling.png"),
+    ("acnhcdn", "https://acnhcdn.com/latest/ClosetIcon/TopsTexMarinesuitNormalLNook0.png"),
+    ("acnhcdn", "https://acnhcdn.com/latest/FtrIcon/BromideNpcNmlAnt00_Remake_0_0.png"),
+    ("acnhcdn", "https://acnhcdn.com/latest/ItemIcon/ToolAngling.png"),
 ]
 
 def main():
