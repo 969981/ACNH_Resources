@@ -1,0 +1,124 @@
+name: ACNH 3.0.3 | R71 finish 5241 missing original ClosetIcon sources
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r71_verify_all_closets.py'
+      - '.github/workflows/acnh303-r71-all-closet-icons.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r71-all-original-closet-icons
+  cancel-in-progress: false
+jobs:
+  decode-shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-completeness/r68-original-layout-sources-without-extracted-png.csv
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original BNTX decoder requirements
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Sparse checkout only current original ROM files
+        shell: bash
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          START=$((200 + SHARD * 200))
+          echo "START=$START" >> "$GITHUB_ENV"
+          python Scripts/acnh303_r69_native_layout_incremental.py plan --family ClosetIcon --start "$START" --limit 200
+          printf -v sparselist "/tmp/acnh-closeticon-%05d-sparse.txt" "$START"
+          git sparse-checkout add --stdin < "$sparselist"
+      - name: Download verified original wimgt converter
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Decode and record original source outcomes
+        shell: bash
+        run: python Scripts/acnh303_r69_native_layout_incremental.py extract --family ClosetIcon --start "$START" --limit 200 --decoder "$(cat /tmp/wimgt.path)"
+      - name: Save disjoint original PNG and per-file SHA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r71-closet-shard-${{ matrix.shard }}
+          path: |
+            assets/evidence/rom-completeness/native-layout-batches/
+            assets/images/clothing-original-layout/ClosetIcon/
+            assets/textures/completion-original-layout/
+          retention-days: 30
+          if-no-files-found: error
+  reconcile-and-commit:
+    needs: decode-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-completeness/
+            /assets/evidence/rom-clothing-layout/reconciliation.json
+            /assets/images/clothing-original-layout/ClosetIcon/
+          lfs: false
+      - name: Fetch all 27 distinct shard artifacts into original paths
+        uses: actions/download-artifact@v4
+        with:
+          pattern: acnh-r71-closet-shard-*
+          merge-multiple: true
+          path: .
+      - name: Independently verify all 5480 source PNGs and actual CRC/SHA
+        run: python Scripts/acnh303_r71_verify_all_closets.py
+      - name: Preserve final audit before any git push
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r71-final-audit
+          path: assets/evidence/rom-completeness/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit all authentic PNGs and source manifests without re-labeling files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-completeness/native-layout-batches/
+          git add --sparse -A -- assets/evidence/rom-completeness/r71-closet-5480-final-audit.json assets/evidence/rom-completeness/r71-closet-5480-unresolved.csv
+          git add --sparse -A -- assets/images/clothing-original-layout/ClosetIcon/
+          if [ -d assets/textures/completion-original-layout ]; then git add --sparse -A -- assets/textures/completion-original-layout/; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'assets: verify all 5480 original ClosetIcon source outcomes and PNGs'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*5))
+          done
+          exit 1
