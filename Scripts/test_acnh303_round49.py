@@ -94,12 +94,12 @@ class R49Test(unittest.TestCase):
         temp, path = write_test([x])
         dp = Path(temp.name) / "dispatch.jsonl"
         try:
-            dp.write_text(json.dumps(d) + "\\n", encoding="utf-8")
+            dp.write_text(json.dumps(d) + "\n", encoding="utf-8")
             result = analyse(path, dispatch=dp)
             self.assertTrue(result["aal_r46_dispatch_targets_correlated"])
             self.assertFalse(result["runtime_AAL_FileOpen_Read_Close_verified"])
             d["resolved_target_va"] = BASE + 0x3000
-            dp.write_text(json.dumps(d) + "\\n", encoding="utf-8")
+            dp.write_text(json.dumps(d) + "\n", encoding="utf-8")
             with self.assertRaises(ValueError):
                 analyse(path, dispatch=dp)
         finally:
