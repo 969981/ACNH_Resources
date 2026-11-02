@@ -90,11 +90,21 @@ def audit(names: list[str], tree: set[str]) -> dict:
         stem = filename[:-4]
         direct = [family_path(family, stem) for family in FAMILIES
                   if family_path(family, stem) in tree]
-        if direct:
+        # Mirror the exact-name matching policy in acnh303_rom_item_icons.py:
+        # a filename with embedded dots is *not* accepted as a direct match.
+        canonical = bool(re.fullmatch(r"[A-Za-z0-9_-]+\\.png", filename))
+        if direct and canonical:
             matched_count += 1
             alternate_count += len(direct) - 1
             continue
         category, candidates = find_candidates(stem, tree)
+        if direct and not canonical:
+            category = "noncanonical_filename_requires_manual_mapping"
+            candidates = [
+                {"source_path": path, "hypothesis": "noncanonical_exact_name",
+                 "mapping_verified": False, "pixel_verified": False}
+                for path in direct
+            ] + candidates
         unmatched.append({
             "filename": filename,
             "status": "pending_original_rom_source_verification",
