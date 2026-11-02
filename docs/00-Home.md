@@ -16,6 +16,7 @@ status: active
 - [[02-Format-Catalog|文件格式、内容与转换]]
 - [[03-Unpack-Workflow|工具使用与批量解包]]
 - [[07-Incremental-Batches|增量分片和 SHA-256 验收]]
+- [[08-Next-Wave-FMAA-AAL-BARS|四类扩容 / FMAA / AAL / BARS 新阶段]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
