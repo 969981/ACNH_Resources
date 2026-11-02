@@ -1,0 +1,91 @@
+name: ACNH 3.0.3 assets - Babybed source and PNG coverage
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_assets.py'
+      - 'Scripts/probe_acnh_babybed_textures.py'
+      - 'Scripts/test_acnh303_assets.py'
+      - 'assets/README.md'
+      - 'assets/catalog/expected-png-names.txt'
+      - 'assets/catalog/babybed-source-mapping.csv'
+      - '.github/workflows/acnh303-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acnh303-assets-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybed.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybedReBody*.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybedReFabric*.Nin_NX_NVN.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install read-only ZSTD parser
+        run: python -m pip install zstandard
+      - name: Independent PNG and naming tests
+        run: python -m unittest discover -s Scripts -p 'test_acnh303_assets.py' -v
+      - name: Parse real Babybed 3.0.3 resource blobs
+        run: python Scripts/probe_acnh_babybed_textures.py --root .
+      - name: Audit named PNG presence (missing never fabricated)
+        run: python Scripts/acnh303_assets.py --prefix FtrBabybed_ --report assets/evidence/babybed-png-coverage.json audit
+      - name: Verify full source inventory and report structure
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, csv
+          from pathlib import Path
+          report=json.loads(Path('assets/evidence/babybed_bntx_native.json').read_text())
+          rows=report['sources']
+          assert len(rows)==16, f'expected 16 real resource files, got {len(rows)}'
+          missing=[r['source_path'] for r in rows if r['status']=='missing_source']
+          assert not missing, f'original ROM resource sparse-checkout missing: {missing}'
+          combos=list(csv.DictReader(open('assets/catalog/babybed-56-combinations.csv', encoding='utf-8-sig')))
+          assert len(combos)==56, f'expected 56 body×fabric rows, got {len(combos)}'
+          audit=json.loads(Path('assets/evidence/babybed-png-coverage.json').read_text())
+          assert audit['babybed_expected']==56
+          assert all(r.get('native_game_icon_verified') is False for r in audit['imported'])
+          print('16 original files found; 56 candidate combinations; names are NOT icon pixel proof')
+          for r in rows:
+              print(r['source_path'], r['status'])
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-babybed-assets-evidence-${{ github.run_id }}
+          path: |
+            assets/evidence/babybed_bntx_native.json
+            assets/evidence/babybed-png-coverage.json
+            assets/catalog/babybed-56-combinations.csv
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Commit machine-readable source evidence (not fake PNGs)
+        if: success() && github.ref == 'refs/heads/3.0.3_Unpack'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/evidence/babybed_bntx_native.json assets/evidence/babybed-png-coverage.json assets/catalog/babybed-56-combinations.csv
+          if git diff --cached --quiet; then
+            echo "No changes to evidence"
+          else
+            git commit -m "assets: capture real Babybed BNTX source evidence and PNG coverage"
+            git push
+          fi
