@@ -1,0 +1,47 @@
+name: ACNH 3.0.3 | R57 resolve original 39 clothing group model source names
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r57_clothing_name_sources.py'
+      - '.github/workflows/acnh303-r57-cloth-source-tree.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r57-original-clothing
+  cancel-in-progress: false
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r57_clothing_name_sources.py
+            /assets/evidence/rom-items/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Join ItemParam instance to ItemClothGroup and inspect Git ROM tree
+        run: python Scripts/acnh303_r57_clothing_name_sources.py --root .
+      - name: Commit exact source path evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/r57-original-clothing39-name-source-lookup.json assets/evidence/rom-items/r57-original-clothing39-name-source-lookup.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: check 39 original clothing groups and native model names'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
