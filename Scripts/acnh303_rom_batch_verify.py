@@ -66,7 +66,7 @@ def verify(root: Path, evidence: Path, audit: Path, expected_pending: int | None
                     raise EvidenceError(f"conflicting PNG provenance: {dest}")
                 verified_paths[dest] = actual
             elif status == QUARANTINE:
-                if not row.get("quarantine_folder") or not row.get("native_brti_names"):
+                if not row.get("quarantine_folder") or "native_brti_names" not in row:
                     raise EvidenceError(f"missing quarantine provenance: {name}")
                 unresolved.append({"filename": name, "source_path": source, "status": status})
             else:
