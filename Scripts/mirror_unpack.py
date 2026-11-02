@@ -159,7 +159,7 @@ def run_basic(root: Path, rom: Path, out: Path, args) -> None:
 
 def output_filename(source: Path, leaf: Path, total_for_extension: int) -> str:
     name = source.name
-    for compression in (".zs", ".szs"):
+    for compression in (".zs", ".szs", ".bwav"):
         if name.lower().endswith(compression):
             name = name[:-len(compression)]
             break
@@ -185,7 +185,7 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
     if not source.is_file() or source.is_symlink():
         raise FileNotFoundError(source)
     script = root / "Scripts" / "acnh303_media_l3.py"
-    with tempfile.TemporaryDirectory(prefix="acnh303_media_") as temporary:
+    with tempfile.TemporaryDirectory(prefix="acnh303_media_", dir=root) as temporary:
         stage = Path(temporary)
         cmd = [
             sys.executable, str(script), "--root", str(root), "--source", rel.as_posix(),

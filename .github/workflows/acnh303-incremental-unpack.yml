@@ -159,3 +159,16 @@ jobs:
           git fetch origin 3.0.3_Unpack
           git rebase origin/3.0.3_Unpack
           git push origin HEAD:3.0.3_Unpack
+
+      - name: Fail green status when no actual decoded output was produced
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          pointer=json.loads(Path("batch_result.json").read_text(encoding="utf-8"))
+          report=json.loads(Path(pointer["report"]).read_text(encoding="utf-8"))
+          count=report["converted_output_count"]
+          print(f"Real SHA-256-verified outputs: {count}; statuses: {report['status_counts']}")
+          if count < 1:
+              raise SystemExit("No real converted outputs; see committed failure manifest")
+          PY
