@@ -130,11 +130,30 @@ def audit():
                     WHERE item_id=? AND locale=?""",(
                     display,"native_group_candidate_"+method,member,label,item_id,locale))
                 status["new_locale_candidate"]+=1
+    # A clothing family has its own native ClosetIcon PNGs. Link exact source
+    # stem -> ROM ItemParam.ResName without merging FtrIcon with ClosetIcon
+    # or assuming anything about in-game icon selection.
+    original_closet_pngs=db.execute("SELECT COUNT(*) FROM image_asset WHERE family='ClosetIcon'").fetchone()[0]
+    if original_closet_pngs!=5480:
+        raise ValueError("R73 actual original 5480 ClosetIcon PNG corpus changed")
+    db.execute("""UPDATE item SET
+        image_path=(SELECT a.path FROM image_asset a
+            WHERE a.family='ClosetIcon' AND a.texture_stem=item.res_name
+            ORDER BY a.path LIMIT 1),
+        image_selection_evidence='native_ClosetIcon_exact_resname_filename_only'
+        WHERE image_path IS NULL AND base_kind IN
+            ('Tops','OnePiece','Bottoms','Socks','Shoes','Cap',
+             'Helmet','Accessory','Bag','HandBag','MarineSuit')
+        AND EXISTS(SELECT 1 FROM image_asset a WHERE a.family='ClosetIcon'
+            AND a.texture_stem=item.res_name)""")
     db.commit()
     def n(sql):return db.execute(sql).fetchone()[0]
     counters={
        "item_records":n("SELECT COUNT(*) FROM item"),
        "original_R77_item_locale_verified":original_locale,
+       "original_closet_images_in_Git_corpus":original_closet_pngs,
+       "item_rows_with_native_closet_image_path":n("SELECT COUNT(*) FROM item WHERE image_selection_evidence='native_ClosetIcon_exact_resname_filename_only'"),
+       "item_rows_with_any_native_filename_candidate":n("SELECT COUNT(*) FROM item WHERE image_path IS NOT NULL"),
        "native_clothing_group_BCSV_rows":rows,
        "native_clothing_groups_linked_items":accepted,
        "native_group_locale_candidate_links":n("SELECT COUNT(*) FROM item_locale WHERE association_status LIKE 'native_group_candidate_%'"),
