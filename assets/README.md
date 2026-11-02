@@ -63,6 +63,30 @@ python Scripts/probe_acnh_babybed_fmat.py --root .
 python Scripts/acnh303_babybed_texture_export.py --root . --wimgt /path/to/wimgt
 ```
 
+## 原版 ROM Layout 直接提取：村民素材和道具图标
+
+**已经从真实 3.0.3 ROM 文件成功提取 1,934 张村民相关 PNG，错误为 0：**
+
+| 原版 Layout 来源 | 数量 | 已输出目录 |
+|---|---:|---|
+| `Layout_NpcBromide_*` | 481 | [images/villager/photos/](images/villager/photos/) |
+| `Layout_NpcIcon_*` | 488 | [images/villager/icons/](images/villager/icons/) |
+| `Layout_FtrIcon_PosterNpc*` | 486 | [images/villager/posters/](images/villager/posters/) |
+| `Layout_FtrIcon_BromideNpc*_Remake_0_0` | 479 | [images/villager/bromide-items/](images/villager/bromide-items/) |
+
+全部图片经原始压缩源 → BNTX/BRTI 真实名字 → wimgt PNG 转换，生成每图源 SHA-256 与解码证据：[evidence/rom-villager/](evidence/rom-villager/)。游标 `1934 / 1934`。参见 [原版村民图片研究](../docs/ACNH303_ROM_VILLAGER_PHOTO_EXTRACTION.md)。
+
+**原版道具图标也已找出真实来源：** 在 `Model` 里有 25,794 份 `Layout_FtrIcon_*` 和 5,480 份 `Layout_ClosetIcon_*`。逐名匹配用户 27,531 个预期 PNG，可准确定位 **26,277** 个同名 ROM 源；剩余 1,254 个尚需别名或版本研究。匹配数不是已完成转换数。
+
+包括 Babybed 的 56 个组合，ROM 中每种都有独立的 `Layout_FtrIcon_FtrBabybed_Remake_X_Y.Nin_NX_NVN.zs`，应从 Layout 而非仅从模型 FRES 提取。原版图标试运行 [Run #41392108047](https://github.com/969981/ACNH_Resources/actions/runs/41392108047) 已成功实际提取 5 个原版 PNG 源，两个新文件加入 `images/items/`，三个与已有 CDN 同名但存在每通道最大 1/255 的差异，后者放入 `images/items-rom/`，不覆盖 CDN。
+
+- 实际源提取代码：[Scripts/acnh303_rom_item_icons.py](../Scripts/acnh303_rom_item_icons.py)
+- 分批工作流：[acnh303-rom-item-icons.yml](../.github/workflows/acnh303-rom-item-icons.yml)
+- 单张来源/冲突/状态证据：[evidence/rom-items/](evidence/rom-items/)
+- 完整技术文档：[ROM 道具图片原始来源与提取](../docs/ACNH303_ROM_ITEM_ICON_EXTRACTION.md)
+
+> [!important] `assets/images/items/` 在迁移期间是“实际存在 PNG”的合集，可能同时存在旧 CDN PNG 和新 ROM PNG；**不能仅根据路径推断每张图片的来源**。请以逐图 manifest 为准。所有原版图片都没有自动替换已有 CDN 文件。
+
 ## 完整图片导入：用户清单 27,531 个名称
 
 CDN 来源取自公开的 ACNH 社区素材服务，例如 acnhcdn.com/latest/FtrIcon/ 和 img.iswitchplus.com/acnh/。它们可提供与 PokerCore 命名规则一致的真实 PNG，但**不等于原版内部素材或原版渲染链已经恢复**。所有外部图片都要求 PNG CRC、Pillow 完整像素解码、SHA-256 校验，失败或 404 不伪造。
