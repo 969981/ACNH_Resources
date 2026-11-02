@@ -59,7 +59,7 @@ def _expected_animation_value(joined, material, frame):
         (frame - left["frame"]) / (right["frame"] - left["frame"])
     )
 
-def analyse(capture=None, r46=R46, r47=R47):
+def analyse(capture=None, r46=R46, r47=R47, dispatch=None):
     curve = json.loads(Path(r46).read_text("utf-8"))
     model = json.loads(Path(r47).read_text("utf-8"))
     joined = join(curve, model)
@@ -70,6 +70,7 @@ def analyse(capture=None, r46=R46, r47=R47):
         "hypothesis_source_byte_offset_not_live_uniform": "0x194",
         "trace_status": "NOT_CAPTURED",
         "aal_candidate_returns": 0,
+        "aal_r46_dispatch_targets_correlated": False,
         "fmaa_observed_write_count": 0,
         "fmaa_bounded_curve_comparisons": [],
         "runtime_FMAA_SubBindIndex_resolved": False,
@@ -96,6 +97,33 @@ def analyse(capture=None, r46=R46, r47=R47):
     if len(bases) != 1 or not _integer(next(iter(bases))) or next(iter(bases)) < 0x10000:
         raise ValueError("missing / mixed main base")
     base = next(iter(bases))
+    dispatch_targets = None
+    if dispatch is not None:
+        dpath = Path(dispatch)
+        if dpath.stat().st_size > 8 * 1024 * 1024:
+            raise ValueError("R46 dispatch log too large")
+        dr = [json.loads(s) for s in dpath.read_text("utf-8").splitlines() if s.strip()]
+        if not dr or len(dr) > MAX_EVENTS:
+            raise ValueError("empty/unbounded R46 dispatch")
+        dispatch_targets = set()
+        for d in dr:
+            if (d.get("schema") != "acnh303-r46-gdb-indirect-dispatch-observer-v1"
+                or d.get("ELF_reference_file_sha256") != ELF_SHA
+                or d.get("session_id") != next(iter(sessions))
+                or d.get("module_base") != base):
+                raise ValueError("R46 dispatch session/base/source mismatch")
+            if d.get("type") != "IndirectBLRX8":
+                continue
+            site = d.get("rva")
+            slot = {0x3e451fc: 0x20, 0x3e45218: 0x28}.get(site)
+            target = d.get("resolved_target_va")
+            if (slot is None or d.get("vtable_slot_offset") != slot
+                or d.get("pc") != base + site or d.get("slot_equals_register_x8") is not True
+                or not _integer(target) or target % 4 or not base <= target < base+0x6000000):
+                raise ValueError("unverified R46 BLR X8 target or slot")
+            dispatch_targets.add(target)
+        if not dispatch_targets:
+            raise ValueError("R46 has no matching BLR X8 target")
     last_seq = 0
     entries = {}
     returns = set()
@@ -151,6 +179,8 @@ def analyse(capture=None, r46=R46, r47=R47):
             if kind == "AAL_CandidateEnter":
                 if call_id in entries or pc != base + rva:
                     raise ValueError("duplicate call or target entry PC differs")
+                if dispatch_targets is not None and pc not in dispatch_targets:
+                    raise ValueError("R49 target absent from R46 same-session X8 dispatch")
                 snapshots = row.get("argument_snapshots")
                 if not isinstance(snapshots, dict) or set(snapshots) != {"x0", "x1", "x2", "x3"}:
                     raise ValueError("incomplete register snapshot set")
@@ -170,6 +200,7 @@ def analyse(capture=None, r46=R46, r47=R47):
         "session_id": next(iter(sessions)), "module_base": base,
         "event_count": len(rows), "aal_candidate_calls": len(entries),
         "aal_candidate_returns": len(returns),
+        "aal_r46_dispatch_targets_correlated": (bool(entries) and dispatch_targets is not None),
         "aal_unreturned_calls": len(entries) - len(returns),
         "fmaa_observed_write_count": writes,
         "fmaa_bounded_curve_comparisons": comparisons,
@@ -179,11 +210,12 @@ def analyse(capture=None, r46=R46, r47=R47):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--capture", type=Path)
+    p.add_argument("--dispatch", type=Path, help="unaltered same-session R46 BLR X8 JSONL")
     p.add_argument("--curves", type=Path, default=R46)
     p.add_argument("--models", type=Path, default=R47)
     p.add_argument("--out", type=Path, required=True)
     a = p.parse_args()
-    result = analyse(a.capture, a.curves, a.models)
+    result = analyse(a.capture, a.curves, a.models, a.dispatch)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
     print("R49", result["trace_status"], "FMAA writes", result["fmaa_observed_write_count"],
