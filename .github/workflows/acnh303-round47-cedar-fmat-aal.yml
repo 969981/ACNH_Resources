@@ -1,0 +1,71 @@
+name: ACNH 3.0.3 R47 original Cedar FMAT parameters and bounded AAL target audit
+on:
+  push:
+    branches: [feat/acnh303-round47-cedar-fmat-aal-io-contract]
+    paths:
+      - 'scripts/acnh303_round47_*.py'
+      - 'scripts/test_acnh303_round47.py'
+      - '.github/workflows/acnh303-round47-cedar-fmat-aal.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validate_native_sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /derived/3.0.3/r45_fmaa/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDeco.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDecoSnow.Nin_NX_NVN.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original resource decompressor
+        run: python -m pip install zstandard
+      - name: Validate Python, synthetic negative controls and original Cedar model material parameter bytes
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/acnh303_round47_*.py scripts/test_acnh303_round47.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round47.py' -v
+          python scripts/acnh303_round47_cedar_fmat.py --out derived/3.0.3/r47/cedar_fmat_source_candidates.json
+          python scripts/acnh303_round47_aal_target_audit.py --out derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json
+          python - <<'PY'
+          import json
+          a=json.load(open("derived/3.0.3/r47/cedar_fmat_source_candidates.json"))
+          b=json.load(open("derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json"))
+          assert len(a["models"]) == 2
+          assert all(m["status"] == "STRUCTURAL_FMDL_FMAT_SHADERPARAM_READ" for m in a["models"])
+          assert a["native_material_animation_binding_verified"] is False
+          assert b["runtime_FileOpen_Read_Close_proven"] is False
+          assert b["candidate_target_entries"] == "NOT_CAPTURED"
+          print("R47_ORIGINAL_SOURCE_FMAT_EVIDENCE_AND_RUNTIME_NEGATIVE_GATE_PASSED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r47-cedar-real-FMAT-and-aal-no-game-session
+          path: |
+            derived/3.0.3/r47/cedar_fmat_source_candidates.json
+            derived/3.0.3/r47/aal_target_IO_NOT_CAPTURED.json
+          if-no-files-found: error
+      - name: Persist original source-only evidence for later comparison
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r47
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data(r47): SHA-backed Cedar FMAT source candidates and AAL runtime negative gate'
+          for i in 1 2 3 4 5 6; do
+            git fetch origin feat/acnh303-round47-cedar-fmat-aal-io-contract
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round47-cedar-fmat-aal-io-contract; then exit 0; fi
+            sleep 1
+          done
+          exit 1
