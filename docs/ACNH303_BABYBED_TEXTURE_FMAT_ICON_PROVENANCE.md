@@ -59,3 +59,14 @@ CI：
 1. 在基础 FtrBabybed FMAT 中恢复三个材质的 TextureRef、SamplerRef、原始纹理名及运行时替换入口。
 2. 用 ReBody0/1 与 ReFabric0/1 做 2×2 控制样本，对比原版运行时 sampler 绑定、材质复制、差分纹理。
 3. 定位游戏物品缩略图真实源（独立 UI 图集、Nin_NX_NVN/UILayout 或 Runtime offscreen render）；只有实际像素及相同视角校验通过后才写入 assets/images/items/FtrBabybed_Remake_X_Y.png。
+
+## 6. 真实完整图标：社区 CDN 56/56 已导入（与原版渲染研究分开）
+
+2026-11-02 在 GitHub Actions [Run 41386718647](https://github.com/969981/ACNH_Resources/actions/runs/41386718647) 上实际访问 `https://acnhcdn.com/latest/FtrIcon/FtrBabybed_Remake_i_j.png`，全部 56 个组合均返回有效 PNG。每张分辨率 128×128，56 个独立 SHA-256，合计约 994 KB。验证包括真实网络 200 回应、PNG 签名与 CRC、Pillow 像素解码和源 URL 审计。
+
+- **已实际存在**：`assets/images/items/FtrBabybed_Remake_0_0.png` 至 `FtrBabybed_Remake_7_6.png`。
+- **逐张验证**：`assets/evidence/icon-cdn/prefix-FtrBabybed_-000000-000056.json`。
+- **独立的原版解码结果**：`assets/textures/babybed/` 仍为 37 张 BFRES/BNTX 原始模型纹理；两组不等价。
+- **未完成**：原版运行时完整图标渲染/像素一致性验证，仍不可将社区图片认定为 Native 运行时生成。
+
+其余 27,531 个命名条目由 `Scripts/acnh303_icon_cdn_import.py` 和定时 GitHub Actions 分批验证；无效图片或 404 只计入失败来源，不创建伪造素材。
