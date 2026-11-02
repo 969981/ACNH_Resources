@@ -41,11 +41,14 @@ jobs:
       - name: Recalculate verified R46 tex_srt0 sample values
         run: |
           set -euo pipefail
-          python Scripts/acnh303_round46_texsrt_values.py --help
+          python Scripts/acnh303_round46_texsrt_values.py --out r47-texsrt-recomputed.json
           python Scripts/acnh303_round47_aal_target_audit.py --out r47-aal-not-captured.json
           python - <<'PY'
           import json
           d=json.load(open('r47-aal-not-captured.json'))
+          curves=json.load(open('r47-texsrt-recomputed.json'))
+          assert curves['runtime_shader_binding_and_gameplay_parity_verified'] is False
+          assert len(curves['animations'])==2
           assert not d.get('runtime_FileOpen_Read_Close_proven',False)
           print('Offline AAL remains NOT_CAPTURED; no simulated runtime proof')
           PY
@@ -53,6 +56,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: acnh303-migrated-r47-regression-${{ github.run_id }}
-          path: r47-aal-not-captured.json
+          path: |
+            r47-aal-not-captured.json
+            r47-texsrt-recomputed.json
           if-no-files-found: warn
           retention-days: 30
