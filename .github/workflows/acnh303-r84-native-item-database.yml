@@ -23,6 +23,9 @@ jobs:
             /UnPack/1/Bcsv/ItemParam.json
             /UnPack/1/Bcsv/ItemRemake.csv
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
+            /UnPack/1/Bcsv/ItemKind.csv
             /assets/evidence/rom-database/r82-acnh303-villager-provenance.sqlite3.zst
       - uses: actions/setup-python@v5
         with:
@@ -37,6 +40,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ACNH303_R84_ItemParam107_SourceRemake_Images_SQLite
-          path: assets/evidence/rom-database/r84/**
+          path: |
+            assets/evidence/rom-database/r84/**
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
+            UnPack/1/Bcsv/ItemParam.csv
+            UnPack/1/Bcsv/ItemParam.json
+            UnPack/1/Bcsv/ItemRemake.csv
+            UnPack/1/Bcsv/ItemKind.csv
           if-no-files-found: warn
           retention-days: 90
