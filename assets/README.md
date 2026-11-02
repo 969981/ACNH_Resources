@@ -49,3 +49,16 @@ python Scripts/probe_acnh_babybed_textures.py --root .
 目前 56 个组合对应的 16 份原始资源是 L0/L1 映射；BNTX 探测试图提高 L2，仍未证明 L3/L4。即使用户提供有效 PNG，也只证明有像素，不证明来自原版。
 
 CI 在 .github/workflows/acnh303-assets.yml 中执行脚本单测、Babybed 原始源探测及覆盖率检查；不会从第三方图片网站无来源验证批量抓图或生成伪图。
+
+## 实际运行结果（2026-11-02）
+
+目前 16 份原始 BFRES/BNTX 资源全部完成 BRTI 解析；**37 张真实模型纹理 PNG** 已从这些资源以 wimgt 解码并经 Pillow 完整像素校验，写入 [textures/babybed/](textures/babybed/)（6 张基础纹理、24 张 ReBody 纹理、7 张 ReFabric 纹理）。
+
+基础模型经实际 FMDL/FMAt 解析得到 **mBody、mReBody、mReFabric 三种材质**，其他 15 份变体资源只有纹理、不含 FMDL 模型；详见 [Babybed 来源与材质研究](../docs/ACNH303_BABYBED_TEXTURE_FMAT_ICON_PROVENANCE.md) 和 [FMAT 证据](evidence/babybed-fmat-candidates.json)。
+
+**完整道具图标仍是 0/56**；上面的 37 张原生 BNTX 素材不是直接可供 PokerCore 使用的 56 种模型渲染缩略图。
+
+```bash
+python Scripts/probe_acnh_babybed_fmat.py --root .
+python Scripts/acnh303_babybed_texture_export.py --root . --wimgt /path/to/wimgt
+```
