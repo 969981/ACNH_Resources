@@ -1,0 +1,63 @@
+name: ACNH R45 AAL original-runtime capture gate and FMAA tests
+on:
+  push:
+    branches: [feat/acnh303-round45-fmaa-curves-aal-runtime-gate]
+    paths:
+      - '.github/workflows/acnh303-round45-aal-runtime-gate.yml'
+      - 'scripts/acnh303_round45_aal_runtime_validate.py'
+      - 'scripts/acnh303_round45_aal_gdb_observer.py'
+      - 'scripts/test_acnh303_round45.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  source_and_runtime_gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts
+            derived
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-media.txt
+      - name: Verify bounded curves and fail-closed real AAL capture acceptance
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/acnh303_round45_aal_runtime_validate.py scripts/acnh303_round45_aal_gdb_observer.py scripts/acnh303_round45_fmaa_curves.py
+          python -m unittest discover -s scripts -p 'test_acnh303_round45.py' -v
+          python scripts/acnh303_round45_aal_runtime_validate.py \
+            --out derived/3.0.3/r45_aal/runtime_IO_NOT_CAPTURED.json
+          python - <<'PY'
+          import json
+          p='derived/3.0.3/r45_aal/runtime_IO_NOT_CAPTURED.json'
+          d=json.load(open(p))
+          assert d["trace_status"]=="NOT_CAPTURED"
+          assert not d["native_AAL_FileOpen_Read_Close_proven"]
+          assert not d["native_audio_PCM_playback_proven"]
+          assert not d["user_supplied_capture_structure_validated"]
+          print("R45_NO_RUNTIME_TRACE_FALSE_CLAIMS",d["trace_status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r45-aal-real-capture-negative-control
+          path: derived/3.0.3/r45_aal/runtime_IO_NOT_CAPTURED.json
+          if-no-files-found: error
+      - name: Publish explicit NOT_CAPTURED status to evidence branch only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse derived/3.0.3/r45_aal/runtime_IO_NOT_CAPTURED.json
+          git commit -m 'data(r45): explicit no real AAL FileOpen Read Close evidence captured'
+          for i in 1 2 3 4 5; do
+            git fetch origin feat/acnh303-round45-fmaa-curves-aal-runtime-gate
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feat/acnh303-round45-fmaa-curves-aal-runtime-gate; then exit 0; fi
+            sleep 1
+          done
+          exit 1
