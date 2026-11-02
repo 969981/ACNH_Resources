@@ -6,7 +6,7 @@ on:
       - 'Scripts/acnh303_villager_rom_extract.py'
       - '.github/workflows/acnh303-villager-rom-extract.yml'
   schedule:
-    - cron: '13,33,53 * * * *'
+    - cron: '17 3 * * *'
   workflow_dispatch:
     inputs:
       pilot:
@@ -17,7 +17,7 @@ on:
       limit:
         description: "Source files per batch (1..500)"
         type: number
-        default: 250
+        default: 500
         required: true
 permissions:
   contents: write
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 50
     env:
       PILOT: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.pilot) || '0' }}
-      LIMIT: ${{ inputs.limit || '250' }}
+      LIMIT: ${{ inputs.limit || '500' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,9 +66,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python Scripts/acnh303_villager_rom_extract.py \
-            --root . --wimgt "$(cat /tmp/wimgt.path)" \
-            --pilot "$PILOT" --limit "$LIMIT"
+          if [ "$PILOT" -gt 0 ]; then
+            python Scripts/acnh303_villager_rom_extract.py \
+              --root . --wimgt "$(cat /tmp/wimgt.path)" \
+              --pilot "$PILOT" --limit "$LIMIT"
+          else
+            # Bound a single CI invocation to five 500-source passes. The
+            # script saves an auditable cursor after each independently
+            # verified pass. A no-op once the entire ROM source list ends.
+            for batch in 1 2 3 4 5; do
+              echo "ROM batch pass $batch / 5"
+              python Scripts/acnh303_villager_rom_extract.py \
+                --root . --wimgt "$(cat /tmp/wimgt.path)" \
+                --pilot 0 --offset auto --limit "$LIMIT"
+            done
+          fi
       - name: Upload original ROM proof and true PNG pixels even if push fails
         if: always()
         uses: actions/upload-artifact@v4
