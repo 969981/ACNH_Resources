@@ -111,7 +111,7 @@ def parse_fres(data):
                   "header_offset":p, "source_param_buffer_offset":source_ptr,
                   "source_param_buffer_size":source_len, "source_param_count":param_count,
                   "source_param_buffer_sha256":sha256(data[source_ptr:source_ptr+source_len]) if source_len else None,
-                  "shader_params":params}
+                  "shader_params":params, "raw_fmat_header_first_0xa8_hex":data[p:p+0xa8].hex() if i==0 and midx==0 else None}
             model_materials.append(item)
             materials.append(item)
         models.append({"model_index":midx, "model_header_offset":mp,
@@ -120,7 +120,7 @@ def parse_fres(data):
                        "materials":model_materials})
     return {"status":"STRUCTURAL_FMDL_FMAT_SHADERPARAM_READ",
             "model_count":model_count, "first_model_pointer":model_ptr,
-            "model_name":models[0]["model_name"] if len(models)==1 else None,
+            "fres_version_u32":u32(data,8), "model_name":models[0]["model_name"] if len(models)==1 else None,
             "models":models,"materials":materials,"binding_verified":False}
 
 def analyze(root=Path(".")):
