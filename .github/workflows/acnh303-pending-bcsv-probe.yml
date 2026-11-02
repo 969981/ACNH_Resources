@@ -1,0 +1,55 @@
+name: ACNH 3.0.3 | Probe 344 remake mappings and 431 unresolved ROM names
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_pending_bcsv_probe.py'
+      - 'Scripts/test_acnh303_pending_bcsv_probe.py'
+      - '.github/workflows/acnh303-pending-bcsv-probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-pending-bcsv-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemRemake.csv
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test strict unverified-match handling
+        run: python -m unittest discover -s Scripts -p test_acnh303_pending_bcsv_probe.py -v
+      - name: Inspect original item parameter names and full 3.0.3 RomFS tree
+        run: python Scripts/acnh303_pending_bcsv_probe.py --root .
+      - name: Commit pure evidence, never copy or rename PNGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/unmatched-bcsv-rom-probe.json assets/evidence/rom-items/unmatched-bcsv-rom-probe.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: probe 344 remake mapping and 431 unmatched RomFS names'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
