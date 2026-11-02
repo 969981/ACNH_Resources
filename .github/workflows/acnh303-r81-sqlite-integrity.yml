@@ -1,0 +1,61 @@
+name: ACNH 3.0.3 | R81 native multilingual SQLite integrity and source audit
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r81_validate_database.py'
+      - '.github/workflows/acnh303-r81-sqlite-integrity.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r81_validate_database.py
+            /Scripts/acnh303_r78_query_catalog.py
+            /assets/evidence/rom-database/r80-group-names-evidence.json
+            /assets/evidence/rom-database/r80-acnh303-multilingual-clothing-enriched.sqlite3.zst
+            /assets/evidence/rom-database/r77-database-build-and-evidence.json
+      - run: python -m pip install zstandard
+      - name: Validate source hashes, SQLite integrity, record totals and two native joins
+        run: python Scripts/acnh303_r81_validate_database.py
+      - name: Execute independent CLI query and verify a real 3.0.3 item
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r78_query_catalog.py stats > /tmp/acnh-r81-stats.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/acnh-r81-stats.json'))
+          assert d["items"]==11178 and d["native_npc_locale_exact"]==5838
+          print("CLI actual original DB query verified")
+          PY
+          python Scripts/acnh303_r78_query_catalog.py item 0DE5 > /tmp/acnh-r81-item.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/acnh-r81-item.json'))
+          assert d["res_name"]=="FtrBambooLamp" and d["id"]==3557
+          print("Item 0x0DE5 direct lookup verified")
+          PY
+      - name: Commit independently verified 3.0.3 catalog integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -- assets/evidence/rom-database/r81-native-sqlite-integration-check.json
+          git commit -m 'test: verify native ACNH multilingual SQLite hashes, 11178 items, 14 languages, 491 NPC rows'
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            git rebase origin/3.0.3_Unpack
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep 3
+          done
+          exit 1
