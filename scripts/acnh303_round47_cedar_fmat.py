@@ -174,6 +174,25 @@ def main():
     data=analyze(a.root)
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(data,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    compact={
+        "schema":"acnh303-r47-Cedar-compact-source-FMAT-v1",
+        "candidate_count":data["candidate_count"],
+        "matches":data["matched_animation_material_shader_param_names"],
+        "original_game_shader_uniform_write_verified":False,
+        "models":[{
+            "source":m["source_relative"],"FRES_version_hex":hex(m["fres_version_u32"]),
+            "FRES_member_sha256":m["member_sha256"],"model_count":m["model_count"],
+            "models":[{"name":model["model_name"],"material_count":model["material_count"],
+                "relevant_materials":[{
+                    "name":mat["name"],"param_count":mat["source_param_count"],
+                    "tex_srt0_params":[p for p in mat["shader_params"] if p["name"]=="tex_srt0"]
+                } for mat in model["materials"] if mat["name"] in
+                     ("mPltTreeDeco","mPltTreeDecoA","mPltTreeDecoB")]
+            } for model in m["models"]]
+        } for m in data["models"]]
+    }
+    (a.out.parent/"cedar_fmat_essential_summary.json").write_text(
+        json.dumps(compact,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print("R47_CEDAR_FMAT",[(m["source_relative"],m["status"],m.get("model_count"),m.get("first_model_pointer"),len(m["materials"])) for m in data["models"]],
           "candidate_count=",data["candidate_count"])
 if __name__=="__main__":
