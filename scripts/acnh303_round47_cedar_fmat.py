@@ -81,10 +81,10 @@ def parse_fres(data):
             if data[p:p+4] != b"FMAT":
                 raise ValueError("FMAT model=%d item=%d model_ptr=%x material_ptr=%x material_count=%d observed=%s first_fmat=%x" % (midx,i,mp,material_ptr,material_count,data[p:p+48].hex(),data.find(b"FMAT")))
             name = nw_name(data, u64(data, p + 8))
-            param_ptr = u64(data, p + 0x48)
-            source_ptr = u64(data, p + 0x58)
-            param_count = u16(data, p + 0x96)
-            source_len = u16(data, p + 0x9a)
+            param_ptr = u64(data, p + 0x50)
+            source_ptr = u64(data, p + 0x60)
+            param_count = u16(data, p + 0x9e)
+            source_len = u16(data, p + 0xa2)
             if param_count > 1024:
                 raise ValueError("unbounded FMAT source parameter count")
             if param_count:
