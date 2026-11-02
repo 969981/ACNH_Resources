@@ -90,6 +90,34 @@ R46 BLR X8 + actual vtable slot
 
 **路径、句柄、返回指针、缓冲大小以及文件偏移都必须来自真实调用参数/返回值与可重复的字节证据。** 出现 ASCII `Sound/Resource` 或看见一段 BWAV 魔数并不等于追到了系统文件 API。
 
+### 新恢复的 R39 原版指令：X22 的来源要和句柄严格区分
+
+已把旧研究分支的真实 `derived/3.0.3/r39_aal_manager/original_manager_vtable_and_path_native_code.json` **以完全相同的 Git Blob** 恢复到此分支。其指令在目标调用之前的寄存器来源如下（RVA 均为 main 相对地址）：
+
+```asm
+0x3E4519C  MOV X19, X1
+0x3E451BC  LDR X21, [X19]          ; 条件路径，X21 原来来自 [X1]
+0x3E451C4  LDR X24, [X19,#0x10]
+0x3E451CC  LDR X8,  [X19,#0x8]
+0x3E451D0  LDR X22, [X8,#0x18]     ; 优先来源
+0x3E451D4  CBNZ X22, 0x3E451E4
+0x3E451D8  LDR X8,  [X8,#0x10]
+0x3E451E0  LDR X22, [X8,#0x180]    ; 备用来源
+0x3E451E4  LDR X8,  [X21,#0xA8]    ; 与 X22 是不同来源！
+0x3E451F0  MOV X0, X22
+0x3E451F4  LDR X8,  [X22]
+0x3E451F8  LDR X8,  [X8,#0x20]
+0x3E451FC  BLR X8
+0x3E45200  LDR W8,  [X24,#0xC]
+0x3E45208  ADD W8, W8, #1
+0x3E4520C  STR W8,  [X24,#0xC]
+0x3E45210  LDR X8,  [X22]
+0x3E45214  LDR X8,  [X8,#0x28]
+0x3E45218  BLR X8
+```
+
+这说明下一次采样要**分别核对** `[X19+8]` 派生的 `X22`、`[X19+0x10]` 的 `X24`、`[X21+0xA8]` 的另一路成员以及两个虚表槽；不能混为一个文件句柄。同时 `[X24+0xC]` 在两次 BLR 中间递增，暗示有对象状态/计数管理，**但不构成任何 FileOpen/Read/Close 身份证据**。
+
 ## 3. 独立审计和复现
 
 ```bash
@@ -100,8 +128,11 @@ python Scripts/acnh303_round49_runtime_audit.py \
 # 从真实游戏采样后（不要用合成测试日志充当游戏证据）
 python Scripts/acnh303_round49_runtime_audit.py \
   --capture /absolute/path/to/r49-native.jsonl \
+  --dispatch /absolute/path/to/same-session-r46-blr-x8.jsonl \
   --out /tmp/r49-native-audit.json
 ```
+
+提供 `--dispatch` 时会强制要求 R49 候选目标出现于同一会话 R46 的两个真实 BLR X8 虚表槽，目标 RVA/PC、指针与 slot 校验必须自洽；输出仍只能写 `aal_r46_dispatch_targets_correlated`，不能转成 FileOpen 认证。R47 的入口字节独立审计仍需另外运行。
 
 审计器拒绝：混合 session/base、伪造参考 ELF、无效/重复 sequence、虚假 Native 验证标志、超过 64 B 的 snapshot、SHA 不匹配、24B TexSrt 格式错误、无配对 AAL 返回、未知目标/错误入口 PC。支持返回缺失（异常/异步）但记为 unreturned。只对 0–50 帧进行离线插值比较，不推断 wrap。
 
@@ -118,3 +149,8 @@ python Scripts/acnh303_round49_runtime_audit.py \
 > [!caution] GDB 的 breakpoint/watchpoint 可能对被调试线程造成停顿或暂时修改调试指令。观察器不主动写入游戏业务数据、资源文件或存档。只在有授权的离线游戏会话操作，调试期间保留未经编辑的原始日志；公开前审查指针采样里是否存在敏感内容。
 
 关联：[[08-Next-Wave-FMAA-AAL-BARS]]、[[ACNH303_ROUND47_CEDAR_FMAT_AAL_TARGET_IO_EVIDENCE]]。
+
+## 5. CI 状态
+
+- [R49 source/runtime evidence workflow](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-r49-evidence.yml) 对 R47/R48 原始源关联、R49 负面/错误注入以及无会话 `NOT_CAPTURED` 做自动回归。
+- [R47 migrated regression（修复并通过）](https://github.com/969981/ACNH_Resources/actions/runs/41382005954)：从历史分支补回真实 R39 JSON 原始证据后，R45–R47 与 R48 回归通过。R44 完整累计 source_delta 旧数据仍未搬迁，因此其依赖该批数据的两项用例不在此次迁移 CI 范围，不能当作通过。
