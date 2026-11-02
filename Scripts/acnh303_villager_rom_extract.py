@@ -190,13 +190,16 @@ def main() -> int:
     label="pilot" if args.pilot else "batch"
     dst=args.manifest / f"{label}-{start:04d}-{next_offset:04d}.json"
     dst.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
-    if not args.pilot and not report["errors"] and args.offset=="auto":
-        cursor.write_text(json.dumps({"next_offset":next_offset,"total":len(full)},indent=2)+"\n","utf-8")
+    error_budget = max(2, len(results) // 10)
+    if not args.pilot and args.offset=="auto" and len(report["errors"]) <= error_budget:
+        cursor.write_text(json.dumps({"next_offset":next_offset,"total":len(full),
+            "failure_count_in_last_batch":len(report["errors"]),
+            "failed_sources_retained_in_manifest":True},indent=2)+"\n","utf-8")
     print(json.dumps({"report":str(dst),"count":len(results),
                       "single_rom_texture_png":report["single_rom_texture_png"],
                       "multi_texture_sources":report["multi_texture_component_sources"],
                       "errors":len(report["errors"])},ensure_ascii=False),flush=True)
-    return 1 if report["errors"] else 0
+    return 1 if len(report["errors"]) > error_budget else 0
 
 
 if __name__=="__main__":
