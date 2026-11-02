@@ -1,0 +1,48 @@
+name: ACNH 3.0.3 | ItemRemake numeric cross-reference triage
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_itemremake_semantic_triage.py'
+      - '.github/workflows/acnh303-itemremake-semantic-triage.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-itemremake-semantic-triage
+  cancel-in-progress: false
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_itemremake_semantic_triage.py
+            /assets/evidence/rom-items/
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemRemake.csv
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read unpromoted ItemParam and ItemRemake evidence
+        run: python Scripts/acnh303_itemremake_semantic_triage.py --root .
+      - name: Publish research only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/unmatched-bcsv-semantic-triage.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: explore numeric ItemRemake joins without mapping promotion'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
