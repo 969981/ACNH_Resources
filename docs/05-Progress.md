@@ -58,3 +58,15 @@ tags: [status, audit]
 来自仓库实际提交和报告（不由计划数量推断）：Param +24 JSON（[Run 41379697858](https://github.com/969981/ACNH_Resources/actions/runs/41379697858)）、Model +24 GLB（[Run 41379737898](https://github.com/969981/ACNH_Resources/actions/runs/41379737898)）、Layout +125 PNG（14 partial、10 no_output，[Run 41379778052](https://github.com/969981/ACNH_Resources/actions/runs/41379778052)）、Sound +24 WAV（[Run 41379820695](https://github.com/969981/ACNH_Resources/actions/runs/41379820695)）。共 **96 个新来源、197 个有效输出、0 failed**；不能算 10 个 Layout no_output 已解码。本次会话两轮累计 **128 来源、254 产物**，上一次全树核验的 2,208 个 RomFS 输出加本轮 254 个按无碰撞增量推算为 2,462，**尚未执行完整全树复核**。
 
 另保留旧 R47 分支 218 个缺失的研究脚本与 7 份 R41–R47 文档，详见 [[08-Next-Wave-FMAA-AAL-BARS]]。这是**程序/技术记录复用**，不是将旧 derived/3.0.3 数据、旧分支测试的所有模型或 BARS 真实媒体文件搬迁至这个 UnPack 路径。R47 已确证 Cedar TexSrt 24 B/Type 30/offset 0x184，而 AAL 实际 I/O 和 FMAA 运行时 binding 仍未验证。
+
+## 2026-11-02 — R49 FMAA/AAL Native 动态证据接口
+
+已提交 [[ACNH303_ROUND49_FMAA_RUNTIME_WRITE_AAL_CALL_RETURN]]，不是游戏运行时验证成功：
+
+- `Scripts/acnh303_round49_live_observer_gdb.py`：需要真实游戏进程中的 TexSrt RAM 指针和/或从 R46 实测 X8 获得的目标 RVA，才能对材质 +0x10 的写入、候选函数入口/返回进行限量取证。不能把源文件 `0x194` 当作 RAM/GPU Uniform 地址。
+- `Scripts/acnh303_round49_runtime_audit.py`：将原版 R46/R47 源报告与有 SHA 的有限日志自洽校验；可选 `--dispatch` 严格要求 R49 AAL 目标来自同会话 R46 两个虚表槽。**即使自洽仍为 STRUCTURALLY_COHERENT_UNATTESTED。**
+- 恢复的原始 `derived/3.0.3/r39_aal_manager/original_manager_vtable_and_path_native_code.json` 与历史研究分支 Git Blob SHA **6b3890fdd9d7b4bb34c62a25f95371cb848799bd** 完全相同，作为 AAL X22/X21/X24 来源与静态指令复核依据。
+- [R49 Actions #41382219051](https://github.com/969981/ACNH_Resources/actions/runs/41382219051)：**success**，R47/R48 源数据与 R49 synthetic/negative 回归通过，生成无真实会话的 `NOT_CAPTURED` 报告。
+- [R47 compatibility #41382005954](https://github.com/969981/ACNH_Resources/actions/runs/41382005954)：**success**，修复缺少真实 R39 ELF 派生依据导致的 R46 回归失败；R44 大型旧累计 source_delta 数据未迁移，因此两项依赖旧数据的完整覆盖回归未执行。
+
+Native FMAA SubBind、真实 Uniform 写回、GPU 纹理移动，以及 AAL FileOpen/Read/Close + handle/buffer/file SHA 对照，目前均为 **NOT_CAPTURED / UNVERIFIED**。此阶段**未新增 RomFS 语义 L4 完成数**，也未增加媒体转换产物计数。
