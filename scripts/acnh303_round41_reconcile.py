@@ -137,7 +137,7 @@ def inspect(collected):
           "source_bytes":p[BARS_W]["original_bytes"],"category":"BARS",
           "status":p[BARS_W]["status"],
           "validated_media_count":sum(m["status"]=="converted_pcm_wav" for m in p[BARS_W]["members"])})
-    if len(delta)!=480 or len({v["source_path"] for v in delta})!=320:
+    if len(delta)!=480 or len({v["source_path"] for v in delta})!=480:
         raise ValueError("expected 480 original new distinct sources")
     report={"schema":"acnh303-r41-independent-L3-native-delta-v1",
       "authoritative_original_inventory":len(inv),

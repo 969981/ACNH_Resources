@@ -309,7 +309,7 @@ jobs:
           cp derived/3.0.3/r41_cumulative/source_delta.jsonl.gz releasefiles/
           cp r41-release-verification.json releasefiles/
           (cd releasefiles && sha256sum * > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
-          printf 'ACNH 3.0.3 R41: 480 previously untested original resource archives excluding all R19+R27+R28+R29+R30+R31+R32+R33+R34+R35 originals; real BFRES/PNG and BARS native WAV/AMTA (no new Layout/BNSH since Layout L3 is fully source-tested). All payloads were rehashed from this Actions run. This does not prove full semantic or all-resource completion.\n' > notes.txt
+          printf 'ACNH 3.0.3 R41: 480 previously untested original resource archives excluding all R19+R27+R28+R29+R30+R31+R32+R33+R34+R35+R36 originals; real BFRES/PNG and BARS native WAV/AMTA (no new Layout/BNSH since Layout L3 is fully source-tested). All payloads were rehashed from this Actions run. This does not prove full semantic or all-resource completion.\n' > notes.txt
           if ! gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
             gh release create "$TAG" -R "$REPO" \
               --target feat/acnh303-round41-model-bars-coverage \
