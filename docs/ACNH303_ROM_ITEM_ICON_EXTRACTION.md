@@ -85,3 +85,12 @@ python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
 ```
 
 以上记录的数量是 **CI 扩容前的已核验基线**；新增进度必须以本分支最新游标、批次报告和对应实际 PNG 文件数量重新核实，不能预先宣称全部完成。
+
+
+## 2026-11-02 完成验收：26,277 原版道具 + 待查项来源关联
+
+已提交的原始批次结果 `assets/evidence/rom-items/reconciliation.json` 证明 53 个批次已完成 `26,277 / 26,277`：25,500 个新 ROM PNG、775 个保留既有来源差异后另存的 ROM PNG、2 个完全相同的现有 PNG，未解决来源 0。村民来源另行验收 `1,934 / 1,934`。
+
+新增 [独立待查来源关联验收](../.github/workflows/acnh303-unmatched-rom-linkage.yml) 已成功通过 [Actions 41404505141](https://github.com/969981/ACNH_Resources/actions/runs/41404505141)：`assets/evidence/rom-items/unmatched-native-linkage.json` 和 `.csv` 已将 1,254 个待核查目录项逐条关联，发现 823 项存在已提取且重新核验 SHA-256 的**其他名称／用途**原版图片，其中 479 项对应原生村民照片、344 项对应 `_Remake_0_0` 原版款式图标。剩余 431 项目前没有候选 ROM Layout 同名来源。1,254 个原名称始终仍是 `pending_original_rom_source_verification`，`mapping_verified=false`，不能把有相关图片等同于已满足未匹配的命名或 UI 成品映射。
+
+由于原始同名图标全部完成，取消旧图标工作流每小时三次的定时触发，避免重复下载解码器及空跑；保留手动触发、脚本变更推送触发及已实现的游标续跑机制。待查项独立在来源证据变更时重新运行。
