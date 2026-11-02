@@ -34,7 +34,10 @@ jobs:
         run: |
           set -euo pipefail
           python -m compileall -q Scripts
-          for n in 44 45 46 47; do
+          # R44's full cumulative source_delta.jsonl.gz history was NOT migrated.
+          # Exercise its argument rejection only; do not fabricate its missing data.
+          python -m unittest discover -s Scripts -p 'test_acnh303_round44.py' -k test_selection_invalid -v
+          for n in 45 46 47; do
             python -m unittest discover -s Scripts -p "test_acnh303_round${n}.py" -v
           done
           python -m unittest discover -s Scripts -p 'test_acnh303_resume_plan.py' -v
