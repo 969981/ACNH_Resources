@@ -1,0 +1,54 @@
+name: ACNH 3.0.3 | R83 authentic original NPC BCSV source archives
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - '.github/workflows/acnh303-r83-native-npc-original-files.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/SpNpcParam.bcsv
+            /UnPack/1/Bcsv/NmlNpcParam.csv
+            /UnPack/1/Bcsv/SpNpcParam.csv
+            /assets/evidence/rom-database/r82-villagers-source-enriched.csv
+      - name: Verify original ROM binary BCSV hashes, decoded CSV and 491 rows
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,hashlib
+          from pathlib import Path
+          source=Path('e10617820db06889e1638499478da0de_NCA/1/Bcsv')
+          rows=list(csv.DictReader(Path('assets/evidence/rom-database/r82-villagers-source-enriched.csv').open(encoding='utf-8-sig')))
+          assert len(rows)==491
+          for t,count in [('NmlNpcParam',417),('SpNpcParam',74)]:
+              sub=[r for r in rows if r['original_bcsv_path'].endswith('/'+t+'.bcsv')]
+              assert len(sub)==count
+              file=source/(t+'.bcsv')
+              assert file.exists()
+              digest=hashlib.sha256(file.read_bytes()).hexdigest()
+              assert all(r['original_bcsv_sha256']==digest for r in sub)
+              csvsrc=Path('UnPack/1/Bcsv')/(t+'.csv')
+              csvsha=hashlib.sha256(csvsrc.read_bytes()).hexdigest()
+              assert all(r['decoded_csv_sha256']==csvsha for r in sub)
+              print(t,len(sub),len(file.read_bytes()),digest)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNH303_R83_Unmodified_Original_NPC_BCSV_And_Decoded_CSV
+          path: |
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/SpNpcParam.bcsv
+            UnPack/1/Bcsv/NmlNpcParam.csv
+            UnPack/1/Bcsv/SpNpcParam.csv
+          retention-days: 90
