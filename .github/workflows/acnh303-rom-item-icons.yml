@@ -5,6 +5,8 @@ on:
     paths:
       - 'Scripts/acnh303_rom_item_icons.py'
       - 'Scripts/acnh303_unmatched_rom_audit.py'
+      - 'Scripts/acnh303_rom_batch_verify.py'
+      - 'Scripts/test_acnh303_rom_batch_verify.py'
       - 'Scripts/test_acnh303_unmatched_rom_audit.py'
       - '.github/workflows/acnh303-rom-item-icons.yml'
   schedule:
@@ -78,6 +80,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m unittest discover -s Scripts -p 'test_acnh303_unmatched_rom_audit.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_rom_batch_verify.py' -v
           python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
       - name: Export original ROM layouts into validated PNGs; continue bounded batches
         shell: bash
@@ -87,7 +90,7 @@ jobs:
             --wimgt "$(cat /tmp/wimgt.path)"
           if [ "$MODE" = "batch" ]; then
             for pass in $(seq 2 12); do
-              echo "Original ROM item icon pass ${pass}/4"
+              echo "Original ROM item icon pass ${pass}/12"
               python Scripts/acnh303_rom_item_icons.py plan --root . --limit "$LIMIT"
               if [ -s /tmp/acnh-rom-icon-sparse.txt ]; then
                 git sparse-checkout add --stdin < /tmp/acnh-rom-icon-sparse.txt
@@ -96,6 +99,11 @@ jobs:
                 --wimgt "$(cat /tmp/wimgt.path)"
             done
           fi
+      - name: Reconcile exported original ROM pixels with the cursor and 1254 pending names
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_rom_batch_verify.py --root . --expect-pending 1254
       - name: Save pixel and provenance evidence
         if: always()
         uses: actions/upload-artifact@v4
