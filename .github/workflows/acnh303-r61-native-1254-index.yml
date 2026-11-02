@@ -1,0 +1,57 @@
+name: ACNH 3.0.3 | R61 reconcile all 1254 original native PNG sources
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r61_full_1254_source_index.py'
+      - '.github/workflows/acnh303-r61-native-1254-index.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r61-full-native-source-index
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/
+            /assets/evidence/rom-other-layout/
+            /assets/evidence/rom-clothing-layout/
+            /assets/evidence/rom-softdrink/
+            /assets/catalog/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prove every original missing name has one sourced and isolated candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r61_full_1254_source_index.py plan
+          git sparse-checkout add --stdin < /tmp/acnh-r61-sparse-native-pngs.txt
+      - name: Independently reverify original PNG CRC SHA across all source categories
+        run: python Scripts/acnh303_r61_full_1254_source_index.py verify
+      - name: Commit source registry without renaming or replacing original PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/r61-all-1254-original-native-sources.json assets/catalog/original-1254-provenance-index.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: reconcile all 1254 catalog names against SHA-verified 3.0.3 native sources'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
