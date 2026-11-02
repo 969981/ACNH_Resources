@@ -48,6 +48,7 @@ def scan():
                          "distinct_resource_names":len(set(names)),
                          "reused_resource_name_rows":len(names)-len(set(names)),
                          "original_resource_name_examples":names[:18],
+                         "all_original_resource_names":names,
                          "all_names_identified_from_original_BCSV":True}
     result={"schema":"acnh303_r75_original_multilingual_String_SARC_and_NPC_name_v1",
         "language_archives_from_real_3_0_3_ROM":len(out),
