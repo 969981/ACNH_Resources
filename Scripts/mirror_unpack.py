@@ -189,7 +189,7 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
         stage = Path(temporary)
         cmd = [
             sys.executable, str(script), "--root", str(root), "--source", rel.as_posix(),
-            "--out", str(stage), "--require", args.require, "--fail-on-no-conversion", "--max-output-mb", "90",
+            "--out", str(stage), "--require", args.require, "--max-output-mb", "90",
         ]
         if args.wmdlt:
             cmd += ["--tool-wmdlt", args.wmdlt]
@@ -218,7 +218,17 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
                     raise RuntimeError("conversion manifest checksum mismatch: " + leaf)
                 candidates.append(src)
         if not candidates:
-            raise RuntimeError("no verified media output; nothing was copied")
+            actual_errors = [m.get("error", "") for m in manifest.get("members", []) if m.get("error")]
+            if actual_errors:
+                raise RuntimeError("verified decoder produced errors: " + "; ".join(actual_errors)[-1000:])
+            record(out / "_meta", {
+                "command": "media", "source": rel.as_posix(),
+                "source_sha256": manifest["source_sha256"], "produced": [],
+                "status": "no_target_leaf", "leaf_count": manifest.get("leaf_count", 0),
+                "note": "No validated BFRES/BNTX/BWAV target; original container may only contain BFLYT/BFLAN/other structures",
+            })
+            print("No supported media target in " + rel.as_posix())
+            return
         counts = {ext: sum(p.suffix.lower() == ext for p in candidates) for ext in MEDIA_SUFFIXES}
         outputs = []
         names = set()
