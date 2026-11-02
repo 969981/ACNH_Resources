@@ -18,7 +18,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--db",type=Path,default=DB)
     cmds=p.add_subparsers(dest="cmd",required=True)
-    i=cmds.add_parser("item");i.add_argument("id",help="decimal ID, 0xABCD or fixed four-hex-digit ID")
+    i=cmds.add_parser("item");i.add_argument("id",help="decimal ID or hex with 0x prefix (0DE5 accepted if contains A-F)")
     s=cmds.add_parser("search");s.add_argument("text");s.add_argument("--locale",default="CNzh");s.add_argument("--limit",type=int,default=30)
     n=cmds.add_parser("npc");n.add_argument("key",help="ant00 or original full ResName")
     c=cmds.add_parser("categories");c.add_argument("--limit",type=int,default=40)
@@ -50,8 +50,7 @@ def main():
     db.execute("PRAGMA query_only=ON")
     if a.cmd=="item":
         try:
-            uid=int(a.id,16) if a.id.lower().startswith("0x") or (
-              len(a.id)==4 and all(x in "0123456789abcdefABCDEF" for x in a.id)) else int(a.id)
+            uid=int(a.id,16) if a.id.lower().startswith("0x") or any(ch in "abcdefABCDEF" for ch in a.id) else int(a.id)
         except ValueError:p.error("Invalid native item ID")
         record=jsonrow(db.execute("SELECT * FROM item WHERE id=?",(uid,)).fetchone())
         if record:
