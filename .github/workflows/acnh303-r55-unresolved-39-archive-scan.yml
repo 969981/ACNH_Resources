@@ -1,0 +1,56 @@
+name: ACNH 3.0.3 | R55 inspect 39 missing names in original archives
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r55_missing_39_archive_audit.py'
+      - '.github/workflows/acnh303-r55-unresolved-39-archive-scan.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r55-original-39-scan
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/
+            /UnPack/1/Bcsv/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install bounded original zstd decoder
+        run: python -m pip install zstandard
+      - name: Plan original archive scope from complete Git tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r55_missing_39_archive_audit.py plan
+          git sparse-checkout add --stdin < /tmp/acnh-r55-original-sparse.txt
+      - name: Inspect real original SARC and zstd content, BCSV rows and layout sources
+        run: python Scripts/acnh303_r55_missing_39_archive_audit.py scan
+      - name: Commit audit findings without modifying ROM PNGs or requested names
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- assets/evidence/rom-items/r55-original-39-nested-archive-content.json assets/evidence/rom-items/r55-original-39-nested-archive-content.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: scan original 3.0.3 archives for 39 unresolved names'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
