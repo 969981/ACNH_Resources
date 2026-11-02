@@ -85,3 +85,11 @@ Scripts/acnh303_fmaa_aal_native_probe.py 针对 SHA 固定的 ACNH 3.0.3 ELF64/A
 仍未解决的关键问题转为：R47 同名材质到 Native FMAA 运行时 ShaderParam 的实际 SubBind、对象内存写回与纹理变化；R46/R47 同一真实游戏会话的虚表目标 → FileOpen/Read/Close/Buffer/源 SHA 证据。合成测试、源码静态字节、运行时文件 I/O 分级独立。
 
 研究脚本现在位于大写 `Scripts/`；旧研究文档示例多数使用原分支小写 `scripts/`，在本分支运行需要调整路径，并为要求旧版 `derived/3.0.3/` 的研究脚本显式提供对应经过来源核验的数据。不要把没有读取到数据的调用记为成功。
+
+## R48：静态曲线与真实材质的交叉证据关口
+
+历史研发源证据以 Git Blob 原样导入 `derived/3.0.3/r45_fmaa/`、`r46/`、`r47/`，包括实际 FMAA 键帧、Cedar ShaderParam 原始来源映射和 AAL 未捕获诊断，见提交 [52b3e876](https://github.com/969981/ACNH_Resources/commit/52b3e876dafa8bdd7726c3ec2f7b4182c2b35ace)。
+
+新增 `Scripts/acnh303_r48_join_texsrt_fmat.py` 与 `Scripts/test_acnh303_r48_join.py` 将 R46 的帧 0、12.5、25、37.5、50 的候选数值和 R47 的八处材质源信息按名字关联，并检查参数长度 24 B、source offset `0x184`、TexSrt 内位移 X 偏移 `0x10`，形成候选 SourceData offset `0x194`。按输入报告结构，应有 8 份候选 × 5 帧 = 40 个**离线计算样本**，且 `mPltTreeDeco` 两条泛化轨道保持未匹配。此数量是静态关联测试目标，必须由独立 CI 的实际输出确认，绝非 40 次游戏动画采样。
+
+自动回归 [R47/R48 migrated regression](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-r47-compat.yml) 复验 R44–R47 原解析器、R46 源曲线再计算和 R48 错误注入测试；原始数据不满足结构/SHA 预期时应失败。真实 native `SubBindIndex`、内存写回、纹理变换、AAL FileOpen/Read/Close 均仍未闭合，后续需要运行时会话。
