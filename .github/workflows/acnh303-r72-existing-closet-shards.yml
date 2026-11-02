@@ -1,0 +1,97 @@
+name: ACNH 3.0.3 | R72 verify and recover existing 27 ClosetIcon shards
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - '.github/workflows/acnh303-r72-existing-closet-shards.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: acnh303-r72-source-verified-closets
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-completeness/
+            /assets/evidence/rom-clothing-layout/reconciliation.json
+            /assets/images/clothing-original-layout/ClosetIcon/
+          lfs: false
+      - name: Wait for R71 sharded extraction to finish without rerunning textures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 480); do
+            json=$(curl -fLsS --retry 2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/969981/ACNH_Resources/actions/runs/41452935272")
+            state=$(echo "$json" | jq -r '.status')
+            if [ "$state" = completed ]; then
+              verdict=$(echo "$json" | jq -r '.conclusion')
+              echo "R71 conclusion: $verdict"
+              if [ "$verdict" = success ]; then echo "RECOVER=0" >> "$GITHUB_ENV"; else echo "RECOVER=1" >> "$GITHUB_ENV"; fi
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Timed out waiting for R71 source batches" >&2
+          exit 1
+      - uses: actions/download-artifact@v4
+        if: env.RECOVER == '1'
+        with:
+          repository: 969981/ACNH_Resources
+          run-id: 41452935272
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: acnh-r71-closet-shard-*
+          merge-multiple: true
+          path: .
+      - name: Restore canonical assets path from artifact common-parent flattening
+        if: env.RECOVER == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for sub in evidence images textures; do
+            if [ -d "$sub" ]; then
+              mkdir -p "assets/$sub"
+              cp -a "$sub/." "assets/$sub/"
+            fi
+          done
+          ls assets/evidence/rom-completeness/native-layout-batches/ClosetIcon-*.json | wc -l
+      - name: Strictly revalidate all 5480 original ClosetIcon sources and CRC SHA
+        if: env.RECOVER == '1'
+        run: python Scripts/acnh303_r71_verify_all_closets.py
+      - uses: actions/upload-artifact@v4
+        if: env.RECOVER == '1'
+        with:
+          name: acnh-r72-source-verified-closet-final
+          path: assets/evidence/rom-completeness/r71-closet-5480-*
+          retention-days: 30
+      - name: Commit 5241 original native textures with original names and evidence
+        if: env.RECOVER == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-completeness/native-layout-batches/
+          git add --sparse -A -- assets/evidence/rom-completeness/r71-closet-5480-final-audit.json assets/evidence/rom-completeness/r71-closet-5480-unresolved.csv
+          git add --sparse -A -- assets/images/clothing-original-layout/ClosetIcon/
+          if [ -d assets/textures/completion-original-layout ]; then git add --sparse -A -- assets/textures/completion-original-layout/; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'assets: validate 5480 original ClosetIcon outputs using immutable R71 shard evidence'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*5))
+          done
+          exit 1
