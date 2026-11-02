@@ -109,6 +109,9 @@ def parse(b):
   mat=[parse_material(b,p+0x40*i) for i in range(n)]
   curves=sum(x["curve_count"] for x in mat)
   params=sum(x["shader_param_count"] for x in mat)
+  print("R45_DATA_COUNTS",name,"FMAA",counts,"MAT",[
+   {"offset":x["offset"],"name":x["name"],"curves":x["curve_count"],
+    "params":x["shader_param_count"],"header":x["header_sha256"]} for x in mat])
   if curves!=counts["curve"] or params!=counts["shader_param"]:
    raise ValueError(f"{name}: material item curve/param counts differ from FMAA native header")
   result.append({"animation_name":name,"animation_header_offset":head["offset"],
