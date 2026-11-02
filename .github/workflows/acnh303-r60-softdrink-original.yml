@@ -1,0 +1,79 @@
+name: ACNH 3.0.3 | R60 decode original Softdrink FtrIcon and CookingIcon
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r60_softdrink_original.py'
+      - '.github/workflows/acnh303-r60-softdrink-original.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r60-softdrink-native
+  cancel-in-progress: false
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-softdrink/
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install real original-BNTX decoder prerequisites
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Plan two exact original source file paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r60_softdrink_original.py plan
+          git sparse-checkout add --stdin < /tmp/acnh-r60-original-sources.txt
+      - name: Download checksum-verified wimgt
+        shell: bash
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - name: Decode and preserve both original textures with native BRTI name
+        run: python Scripts/acnh303_r60_softdrink_original.py export --wimgt "$(cat /tmp/wimgt.path)"
+      - name: Save original evidence independently of commit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh-r60-softdrink-original
+          path: |
+            assets/evidence/rom-softdrink/
+            assets/images/softdrink-original/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit real decoded original icons and source hashes
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-softdrink assets/images/softdrink-original
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'assets: extract original ACNH 3.0.3 softdrink layouts with independent hashes'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
