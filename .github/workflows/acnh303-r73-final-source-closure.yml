@@ -1,0 +1,45 @@
+name: ACNH 3.0.3 | R73 independent complete source inventory verification
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r73_verify_image_family_closure.py'
+      - '.github/workflows/acnh303-r73-final-source-closure.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r73-icon-family-completeness
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r73_verify_image_family_closure.py
+            /assets/evidence/rom-completeness/
+            /assets/evidence/rom-villager/reconciliation.json
+          lfs: false
+      - name: Compare actual original layout source ledger to committed Git PNG trees
+        run: python Scripts/acnh303_r73_verify_image_family_closure.py
+      - name: Commit independently verified source coverage and unchanged scope limits
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-completeness/r73-four-family-original-image-completeness.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: verify 0 remaining FtrIcon GardeningIcon ClosetIcon NpcIcon source gaps'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then git rebase --abort || true; exit 1; fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
+          exit 1
