@@ -5,6 +5,8 @@ on:
     paths:
       - 'Scripts/acnh303_icon_cdn_import.py'
       - '.github/workflows/acnh303-icon-cdn-import.yml'
+  schedule:
+    - cron: '23 */3 * * *'
   workflow_dispatch:
     inputs:
       prefix:
@@ -21,7 +23,7 @@ on:
         description: "Max expected names per batch (1..2000)"
         type: number
         required: true
-        default: 500
+        default: 750
 
 permissions:
   contents: write
@@ -35,9 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 55
     env:
-      BATCH_PREFIX: ${{ github.event_name == 'push' && 'FtrBabybed_' || inputs.prefix }}
-      BATCH_OFFSET: ${{ github.event_name == 'push' && 'auto' || inputs.offset }}
-      BATCH_COUNT: ${{ github.event_name == 'push' && '56' || inputs.max_count }}
+      BATCH_PREFIX: ${{ inputs.prefix || '' }}
+      BATCH_OFFSET: ${{ inputs.offset || 'auto' }}
+      BATCH_COUNT: ${{ inputs.max_count || '750' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,7 +64,7 @@ jobs:
             --output assets/images/items \
             --manifest-dir assets/evidence/icon-cdn \
             --prefix "$BATCH_PREFIX" --offset "$BATCH_OFFSET" \
-            --max-count "$BATCH_COUNT" --delay 0.18
+            --max-count "$BATCH_COUNT" --delay 0.30
       - name: Preserve original URL and per-PNG sha256 evidence
         if: always()
         uses: actions/upload-artifact@v4
