@@ -19,6 +19,7 @@ status: active
 - [[08-Next-Wave-FMAA-AAL-BARS|四类扩容 / FMAA / AAL / BARS 新阶段]]
 - [[ACNH303_ROUND49_FMAA_RUNTIME_WRITE_AAL_CALL_RETURN|R49 FMAA ShaderParam 动态写入 / AAL BLR X8 取证]]
 - [[ACNH303_R50_ORIGINAL_ITEM_UI_MAPPING|R50 原版图片 ItemRemake ID / 其他 UI Layout 来源]]
+- [[ACNH303_R52_POKERCORE_FALLBACK_AND_40|R52 314 项 PokerCore 图标回退 / 40 项原始版本缺口]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
