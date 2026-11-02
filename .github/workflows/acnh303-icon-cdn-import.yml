@@ -72,6 +72,7 @@ jobs:
           name: acnh303-icon-import-${{ github.run_id }}
           path: |
             assets/evidence/icon-cdn/
+            assets/images/items/
           retention-days: 30
           if-no-files-found: warn
       - name: Commit actual PNG bytes and source evidence; never fake missing files
@@ -86,5 +87,27 @@ jobs:
             echo "No new validated PNGs or provenance"
           else
             git commit -m "assets: verified community PNG import (named source subset)"
-            git push
+            # Other ACNH workflows and documentation commits can advance the
+            # same branch while a ~750-image download is still running.
+            # Never force-push; integrate remote work and retry boundedly.
+            pushed=0
+            for attempt in 1 2 3 4 5; do
+              echo "Sync/push attempt $attempt of 5"
+              git fetch --no-tags origin 3.0.3_Unpack
+              if ! git rebase origin/3.0.3_Unpack; then
+                echo "::error::Rebase conflict; preserving output artifact and refusing force-push"
+                git rebase --abort || true
+                exit 1
+              fi
+              if git push origin HEAD:3.0.3_Unpack; then
+                pushed=1
+                break
+              fi
+              echo "::warning::Branch advanced concurrently; retrying after sync"
+              sleep $((attempt * 3))
+            done
+            if [ "$pushed" -ne 1 ]; then
+              echo "::error::All five non-force push attempts failed"
+              exit 1
+            fi
           fi
