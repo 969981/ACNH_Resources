@@ -63,13 +63,20 @@ def analyze(root):
         if not all(addr in at and at[addr].mnemonic+" "+at[addr].op_str==expected
                    for addr,expected in req["ordered"]):
             raise ValueError("Original AArch64 instruction sequence changed: "+label)
-        # Guard against register x1 writes between the last assignment and the call.
+        # The literal-carrying DIY path branches at 0x19f6d80 directly
+        # to 0x19f6dec. A different predecessor from 0x19f6d84 overwrites
+        # X1 at 0x19f6dd8. Prove only the concrete observed branch.
         if label=="DIYRecipeIcon":
-            for instr in instructions:
-                if 0x19f6d74<=instr.address<req["call"]:
-                    parts=instr.op_str.split(",")
-                    if parts[0] in ("x1","w1"):
-                        raise ValueError("DIYRecipeIcon argument X1 is overwritten before call")
+            branch=next((i for i in instructions if i.address==0x19f6d80),None)
+            if branch is None or branch.mnemonic+" "+branch.op_str!="b #0x19f6dec":
+                raise ValueError("Original bounded DIY direct branch changed")
+            selected=[i for i in instructions if
+                (0x19f6d74<=i.address<=0x19f6d80) or
+                (0x19f6dec<=i.address<req["call"])]
+            for instr in selected:
+                target=instr.op_str.split(",")[0]
+                if target in ("x1","w1"):
+                    raise ValueError("DIYRecipeIcon X1 overwritten on its selected branch")
         target=req["callee"]
         callee=read_va(blob,segments,target,0x90)
         head=[{"va":hex(i.address),"opcode":i.bytes.hex(),"asm":i.mnemonic+" "+i.op_str}
@@ -81,11 +88,12 @@ def analyze(root):
           "original_code_window_sha256":hashlib.sha256(b).hexdigest(),
           "verified_register_to_argument_flow":
               "ADR+ADD x9 -> STP [SP+8], X1=SP -> BL" if label=="GardeningIcon"
-              else "ADRP+ADD X1 -> BL, X0=pointer, X2=size",
+              else "ADRP+ADD X1 -> 0x19f6d80 direct branch -> BL; other predecessor overwrites X1",
           "exact_original_instruction_proof":[{"pc":hex(addr),"asm":expected} for addr,expected in req["ordered"]],
           "next_callee_original_code_window_sha256":hashlib.sha256(callee).hexdigest(),
           "next_callee_first_24_instructions":head,
           "break_at_call_before_execution_pc":hex(req["call"]),
+          "alternate_control_flow_may_change_X1":label=="DIYRecipeIcon",
           "real_runtime_argument_value_captured":False,
           "callee_proven_to_load_the_icon":False,
           "texture_BRTI_consumed_by_callee_verified":False})
