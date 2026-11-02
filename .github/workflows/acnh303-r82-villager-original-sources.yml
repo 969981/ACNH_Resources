@@ -1,0 +1,58 @@
+name: ACNH 3.0.3 | R82 Villager original BCSV and image provenance exports
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r82_villager_original_sources.py'
+      - '.github/workflows/acnh303-r82-villager-original-sources.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r82_villager_original_sources.py
+            /UnPack/1/Bcsv/NmlNpcParam.csv
+            /UnPack/1/Bcsv/SpNpcParam.csv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/SpNpcParam.bcsv
+            /assets/evidence/rom-villager/batch-*.json
+            /assets/evidence/rom-database/r80-acnh303-multilingual-clothing-enriched.sqlite3.zst
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install zstandard
+      - name: Build source-backed 491 NPC rows, 1934 original images and complete SQLite
+        run: python Scripts/acnh303_r82_villager_original_sources.py
+      - name: Preserve outputs for download (raw params embedded with original source links)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ACNH303_R82_Villagers_CSV_JSON_SQLite_Sources
+          path: |
+            assets/evidence/rom-database/r82-*
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit validated original NPC source metadata and database
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -A -- assets/evidence/rom-database/r82-*
+          git commit -m 'data: original 3.0.3 villager BCSV raw fields, item IDs, multilingual provenance, 1934 native image links'
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            git rebase origin/3.0.3_Unpack || exit 1
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((i*4))
+          done
+          exit 1
