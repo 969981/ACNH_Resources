@@ -56,3 +56,32 @@ tags:
 - `assets/textures/items-rom/`：如果一个源有多 BRTI 或 BRTI 名称不匹配，将解码纹理隔离存放，**不把组件称为完整图标**。
 
 原始资源与 PNG 的字节来源、真实 BRTI 名称、像素核验结果的声明严格独立于游戏运行时 UI 层。确切的“已转换”图片数，应以各次 CI 提交后的 `assets/evidence/rom-items/batch-*.json` 为准，而不是上述 26,277 的静态映射数量。
+
+
+## 2026-11-02 — 批次续跑与 1,254 个未配对项审计
+
+按 Git 提交后的真实证据核验，村民素材已独立提取：照片 481、头像 488、海报 486、照片道具款式 0_0 共 479，仓库中确有 **1,934 个 PNG 文件**。对应村民游标为 `1934/1934`，末批 `batch-1500-1934.json` 为 434/434 单纹理 PNG、0 error。这个结论**仅涉及源纹理解码，不涉及原游戏 UI 的最终渲染等价性**。参见 [[ACNH303_ROM_VILLAGER_PHOTO_EXTRACTION]]。
+
+本轮扩容前，道具原版同名 Layout 来源已完成 `2000/26277`：
+- 第 1 批 500：新原版 10、独立保留与已有社区图不同的原版 490；
+- 第 2 批 500：新原版 271、独立保留不同原版 229；
+- 第 3 批 500：新原版 499、已有图与原版 PNG 文件一致 1；
+- 第 4 批 500：新原版 500。
+以上 2,000 个已处理来源，报告中均为 0 error；**26,277 是能按名字定位源的总数，而不是已经生成的 PNG 总数**。
+
+从当前工作流起，单次 batch 模式最多跑 12 × 500 个同名源，读取 `assets/evidence/rom-items/next-offset.json` 后继续。仅在工作流正常完成、推送已验证数据并且未达到 `26277/26277` 时，自动以 `workflow_dispatch mode=batch` 申请下一个有限批次。每次运行依然独立保存源 SHA、BRTI 名、输出 PNG SHA、不同来源像素比较与失败记录。工作流失败不能等同于源已处理完。
+
+`Scripts/acnh303_unmatched_rom_audit.py` 用原始 ROM Git tree 重新扫描 **1,254 个无直接同名 Layout** 的目录清单项目，生成：
+- `assets/evidence/rom-items/unmatched-candidate-audit.json`（逐文件候选路径与分类）。
+- `assets/evidence/rom-items/unmatched-candidate-audit.csv`（人工核查友好版）。
+
+分类包括 `villager_photo_other_family`、`variant_mapping_needed`、`model_or_base_resource_only`、`no_named_candidate_in_rom_tree`。**无论出现多少候选，它们全部保持 `pending_original_rom_source_verification`，且 `native_png_extracted_for_this_entry=false`**。例如 `NpcNmlAnt00.png` 虽有独立 `Layout_NpcBromide_` 照片源，但不能将它算作同名道具图标；某项只找到 `_Remake_0_0`，也必须先证明型号/变体映射关系，不能自行把材质贴图改名为成品图标。
+
+审计命令：
+
+```bash
+python -m unittest discover -s Scripts -p 'test_acnh303_unmatched_rom_audit.py' -v
+python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
+```
+
+以上记录的数量是 **CI 扩容前的已核验基线**；新增进度必须以本分支最新游标、批次报告和对应实际 PNG 文件数量重新核实，不能预先宣称全部完成。
