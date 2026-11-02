@@ -1,0 +1,72 @@
+name: ACNH 3.0.3 | R52 application icon fallback and unresolved 40
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_r52_icon_fallback_audit.py'
+      - 'Scripts/test_acnh303_r52_icon_fallback_audit.py'
+      - '.github/workflows/acnh303-r52-image-fallback-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh303-r52-icon-fallback-original
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: .
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/
+            /assets/catalog/
+          lfs: false
+      - uses: actions/checkout@v4
+        with:
+          repository: 969981/ACNHPokerCore
+          ref: 85e50a1ad182c926b2ebd51c00abc612e0a859d5
+          path: upstream-pokercore
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ACNHPokerCore/Map/map.cs
+            /ACNHPokerCore/Custom/variation.cs
+          persist-credentials: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit test conservative filename and version heuristics
+        run: python -m unittest discover -s Scripts -p test_acnh303_r52_icon_fallback_audit.py -v
+      - name: Validate CSharp lookup source and plan exact 344 original PNG paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_r52_icon_fallback_audit.py plan --root .
+          git sparse-checkout add --stdin < /tmp/acnh-r52-original-pngs.txt
+      - name: SHA256 verify 344 real ROM PNGs and classify unresolved 40
+        run: python Scripts/acnh303_r52_icon_fallback_audit.py report --root .
+      - name: Commit evidence only, never duplicate or rename ROM PNGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/evidence/rom-items/r52-pokercore-fallback-and-40.json assets/evidence/rom-items/r52-unresolved-40.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "evidence: verify PokerCore fallback PNGs and preserve 40 unresolved source names"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin 3.0.3_Unpack
+            if ! git rebase origin/3.0.3_Unpack; then
+              git rebase --abort || true
+              echo "::error::Source provenance conflict, no forced overwrite"
+              exit 1
+            fi
+            if git push origin HEAD:3.0.3_Unpack; then exit 0; fi
+            sleep $((attempt*3))
+          done
