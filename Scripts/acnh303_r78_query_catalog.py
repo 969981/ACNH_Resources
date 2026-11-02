@@ -25,7 +25,26 @@ def main():
     u=cmds.add_parser("unresolved");u.add_argument("--limit",type=int,default=40)
     cmds.add_parser("stats")
     a=p.parse_args()
-    if not a.db.is_file():p.error("native original database missing: "+str(a.db))
+    if not a.db.is_file():
+        compressed=Path(str(a.db)+".zst")
+        if compressed.is_file():
+            try:
+                import zstandard
+            except ImportError:
+                p.error("zstandard needed to restore full native SQLite: python -m pip install zstandard")
+            print("Restoring byte-exact original SQLite from "+str(compressed),file=sys.stderr)
+            a.db.parent.mkdir(parents=True,exist_ok=True)
+            tmp=a.db.with_name(a.db.name+".tmp")
+            with compressed.open("rb") as src, tmp.open("wb") as dest:
+                with zstandard.ZstdDecompressor().stream_reader(src) as reader:
+                    for chunk in iter(lambda:reader.read(1024*1024),b""):
+                        dest.write(chunk)
+            if tmp.stat().st_size<1024*1024:
+                tmp.unlink(missing_ok=True)
+                p.error("unexpectedly small native SQLite after decompression")
+            tmp.replace(a.db)
+        else:
+            p.error("missing verified database or compressed archive: "+str(a.db))
     uri="file:"+str(a.db.resolve())+"?mode=ro"
     db=sqlite3.connect(uri,uri=True);db.row_factory=sqlite3.Row
     db.execute("PRAGMA query_only=ON")
