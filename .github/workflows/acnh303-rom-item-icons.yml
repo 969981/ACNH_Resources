@@ -24,6 +24,7 @@ on:
         required: true
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: acnh303-native-item-icons-serial-write
   cancel-in-progress: false
@@ -143,3 +144,32 @@ jobs:
             sleep $((attempt*3))
           done
           exit 1
+
+      - name: Continue verified original ROM item extraction until catalog cursor ends
+        if: ${{ success() && env.MODE == 'batch' && github.ref == 'refs/heads/3.0.3_Unpack' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 3.0.3_Unpack
+          git show origin/3.0.3_Unpack:assets/evidence/rom-items/next-offset.json > /tmp/native-icon-progress.json
+          read -r NEXT TOTAL < <(python - <<'PY'
+          import json
+          p=json.load(open('/tmp/native-icon-progress.json'))
+          print(int(p['next_offset']),int(p['total']))
+          PY
+          )
+          echo "Native ROM source cursor: ${NEXT}/${TOTAL}"
+          if (( NEXT > TOTAL || TOTAL < 1 )); then
+            echo "::error::Invalid source cursor, refusing to dispatch"
+            exit 1
+          fi
+          if (( NEXT == TOTAL )); then
+            echo "All direct-matched ROM icon source names visited; no further dispatch"
+            exit 0
+          fi
+          gh workflow run acnh303-rom-item-icons.yml -R "$GH_REPO" -r 3.0.3_Unpack \
+            -f mode=batch -f limit=500
+          echo "Next bounded batch queued; the next run must pass its own PNG and source audit"
