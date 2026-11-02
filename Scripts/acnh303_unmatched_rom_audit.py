@@ -92,7 +92,7 @@ def audit(names: list[str], tree: set[str]) -> dict:
                   if family_path(family, stem) in tree]
         # Mirror the exact-name matching policy in acnh303_rom_item_icons.py:
         # a filename with embedded dots is *not* accepted as a direct match.
-        canonical = bool(re.fullmatch(r"[A-Za-z0-9_-]+\\.png", filename))
+        canonical = bool(re.fullmatch("[A-Za-z0-9_-]+[.]png", filename))
         if direct and canonical:
             matched_count += 1
             alternate_count += len(direct) - 1
