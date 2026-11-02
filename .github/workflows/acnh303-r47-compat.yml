@@ -38,15 +38,20 @@ jobs:
             python -m unittest discover -s Scripts -p "test_acnh303_round${n}.py" -v
           done
           python -m unittest discover -s Scripts -p 'test_acnh303_resume_plan.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_r48_join.py' -v
       - name: Recalculate verified R46 tex_srt0 sample values
         run: |
           set -euo pipefail
           python Scripts/acnh303_round46_texsrt_values.py --out r47-texsrt-recomputed.json
+          python Scripts/acnh303_r48_join_texsrt_fmat.py --out r48-cedar-source-static-join.json
           python Scripts/acnh303_round47_aal_target_audit.py --out r47-aal-not-captured.json
           python - <<'PY'
           import json
           d=json.load(open('r47-aal-not-captured.json'))
           curves=json.load(open('r47-texsrt-recomputed.json'))
+          r48=json.load(open('r48-cedar-source-static-join.json'))
+          assert r48['candidate_materials']==8 and r48['offline_curve_samples']==40
+          assert r48['runtime_shader_binding_verified'] is False
           assert curves['runtime_shader_binding_and_gameplay_parity_verified'] is False
           assert len(curves['animations'])==2
           assert not d.get('runtime_FileOpen_Read_Close_proven',False)
@@ -59,5 +64,6 @@ jobs:
           path: |
             r47-aal-not-captured.json
             r47-texsrt-recomputed.json
+            r48-cedar-source-static-join.json
           if-no-files-found: warn
           retention-days: 30
