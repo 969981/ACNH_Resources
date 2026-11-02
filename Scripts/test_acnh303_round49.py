@@ -79,6 +79,32 @@ class R49Test(unittest.TestCase):
         finally:
             temp.cleanup()
 
+    def test_r46_same_session_dispatch_target_validation(self):
+        x = row("AAL_CandidateEnter", 1, BASE + 0x2000)
+        x.update({"call_id": 1, "candidate_target_rva": 0x2000,
+                  "argument_snapshots": {k: {"status": "INVALID_POINTER"} for k in
+                                         ("x0", "x1", "x2", "x3")}})
+        d = {"schema": "acnh303-r46-gdb-indirect-dispatch-observer-v1",
+             "ELF_reference_file_sha256": ELF_SHA,
+             "type": "IndirectBLRX8", "session_id": "TEST_SYNTHETIC_NOT_GAME",
+             "module_base": BASE, "rva": 0x3e451fc,
+             "pc": BASE + 0x3e451fc, "vtable_slot_offset": 0x20,
+             "resolved_target_va": BASE + 0x2000,
+             "slot_equals_register_x8": True}
+        temp, path = write_test([x])
+        dp = Path(temp.name) / "dispatch.jsonl"
+        try:
+            dp.write_text(json.dumps(d) + "\\n", encoding="utf-8")
+            result = analyse(path, dispatch=dp)
+            self.assertTrue(result["aal_r46_dispatch_targets_correlated"])
+            self.assertFalse(result["runtime_AAL_FileOpen_Read_Close_verified"])
+            d["resolved_target_va"] = BASE + 0x3000
+            dp.write_text(json.dumps(d) + "\\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                analyse(path, dispatch=dp)
+        finally:
+            temp.cleanup()
+
     def test_reject_false_native_proof(self):
         x = row("AAL_CandidateEnter", 1, BASE + 0x2000)
         x.update({"call_id": 1, "candidate_target_rva": 0x2000,
