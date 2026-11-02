@@ -1,4 +1,4 @@
-name: ACNH 3.0.3 | Layout no-target classification regression
+name: ACNH 3.0.3 | Existing BCSV CSV JSON verification
 on:
   push:
     branches: [3.0.3_Unpack]
@@ -17,12 +17,12 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
     steps:
-      - name: Reclassify Layout samples without BNTX as no_target_leaf
+      - name: Recalculate BCSV CSV JSON from original sources with SHA-256
         shell: bash
         run: |
           set -euo pipefail
           failed=0
-          for CAT in Layout; do
+          for CAT in Bcsv; do
             SKIP=0
             echo "::group::Dispatch $CAT, shard=0/8, skip=$SKIP, max=8"
             prior=$(gh run list -R "$GH_REPO" -w acnh303-incremental-unpack.yml \
