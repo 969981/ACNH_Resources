@@ -156,6 +156,9 @@ def main() -> int:
         start=int(json.loads(cursor.read_text("utf-8"))["next_offset"]) if args.offset=="auto" and cursor.is_file() else int(args.offset) if args.offset!="auto" else 0
         if start<0 or start>len(full):p.error("offset outside source list")
         batch=full[start:start+args.limit]
+    if not batch:
+        print(json.dumps({"status":"all_rom_sources_processed","total":len(full),"next_offset":start},ensure_ascii=False))
+        return 0
     results=[]
     for i,rec in enumerate(batch):
         cat,output,src,name=rec
