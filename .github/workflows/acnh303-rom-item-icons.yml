@@ -4,6 +4,8 @@ on:
     branches: [3.0.3_Unpack]
     paths:
       - 'Scripts/acnh303_rom_item_icons.py'
+      - 'Scripts/acnh303_unmatched_rom_audit.py'
+      - 'Scripts/test_acnh303_unmatched_rom_audit.py'
       - '.github/workflows/acnh303-rom-item-icons.yml'
   schedule:
     - cron: '07,27,47 * * * *'
@@ -28,7 +30,7 @@ concurrency:
 jobs:
   decode:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 100
     env:
       MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'batch' }}
       LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '500' }}
@@ -77,7 +79,7 @@ jobs:
           python Scripts/acnh303_rom_item_icons.py export --root . \
             --wimgt "$(cat /tmp/wimgt.path)"
           if [ "$MODE" = "batch" ]; then
-            for pass in 2 3 4; do
+            for pass in $(seq 2 12); do
               echo "Original ROM item icon pass ${pass}/4"
               python Scripts/acnh303_rom_item_icons.py plan --root . --limit "$LIMIT"
               if [ -s /tmp/acnh-rom-icon-sparse.txt ]; then
@@ -87,6 +89,12 @@ jobs:
                 --wimgt "$(cat /tmp/wimgt.path)"
             done
           fi
+      - name: Verify all pending names against the ROM tree (no guess promoted)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p 'test_acnh303_unmatched_rom_audit.py' -v
+          python Scripts/acnh303_unmatched_rom_audit.py --root . --expect-unmatched 1254
       - name: Save pixel and provenance evidence
         if: always()
         uses: actions/upload-artifact@v4
