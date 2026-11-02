@@ -105,6 +105,7 @@ def run():
    PRIMARY KEY(npc_type,field_hash));
  """)
  originmap={}
+ idbykey=defaultdict(set)
  for typ,name in [("normal","NmlNpcParam"),("special","SpNpcParam")]:
   orig=ROOT/"Bcsv"/(name+".bcsv")
   decoded=SRC/(name+".csv")
@@ -143,6 +144,8 @@ def run():
       nameval("HavokResName"),nameval("HelperBoneResName"),int(typ=="normal"),
       None,None,None,None,"unknown_requires_per_character_native_runtime_and_game_context"))
    originmap[rn]=(typ,ix)
+   native_code=(rn[len("NpcNml"):] if rn.startswith("NpcNml") else rn[len("NpcSp"):] if rn.startswith("NpcSp") else None)
+   if native_code:idbykey[native_code.lower()].add(rn)
  count=Counter()
  for file in sorted(EVID.glob("batch-*.json")):
   evidence=json.loads(file.read_text("utf-8"))
@@ -154,10 +157,17 @@ def run():
    # Never find a partial key: only exact original recognized source naming,
    # optional 'Poster'/'Bromide', no alias if trailing 2/variation suffix.
    token=brti
-   for prefix in ("Poster","Bromide"):
-    if token.startswith(prefix):token=token[len(prefix):]
-   matched=token if token in originmap else None
-   evidence_type="exact_native_BRTI_embeds_Npc_ResName" if matched else "original_image_unlinked"
+   if e["category"]=="poster" and token.startswith("Poster"):
+    token=token[len("Poster"):]
+   elif e["category"]=="bromide_item" and token.startswith("Bromide") and token.endswith("_Remake_0_0"):
+    token=token[len("Bromide"):-len("_Remake_0_0")]
+   if e["category"]=="icon":
+    exact=idbykey.get(brti.lower(),set())
+    matched=next(iter(exact)) if len(exact)==1 else None
+    evidence_type="exact_NPC_native_key_to_NpcIcon_BRTI" if matched else "original_image_unlinked"
+   else:
+    matched=token if token in originmap else None
+    evidence_type="exact_native_BRTI_with_documented_family_suffix_to_Npc_ResName" if matched else "original_image_unlinked"
    db.execute("INSERT INTO npc_image_source VALUES(?,?,?,?,?,?,?,?,?,?,?)",(
      e["category"],e["source"],e["original_source_sha256"],e["original_source_bytes"],
      p["output"],p["sha256"],brti,p["width"],p["height"],matched,evidence_type))
