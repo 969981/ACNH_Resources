@@ -28,6 +28,8 @@ status: active
 - [[ACNH303_R69_R73_ALL_FOUR_ORIGINAL_ICON_FAMILIES|R69–R73 补齐 5,445 张原版图标与 5,480 张 ClosetIcon 验收]]
 - [[ACNH303_R74_R75_ORIGINAL_ITEM_NPC_METADATA_AND_LANGUAGES|R74–R75 物品/村民原版参数、语言和堆叠字段]]
 - [[ACNH303_R76_R81_NATIVE_MULTILINGUAL_ITEM_DATABASE|R76–R81 物品/村民 14 语言 SQLite 完整技术文档和脚本]]
+- [[ACNH303_R84_ITEMPARAM_107_FIELDS_SOURCE_AND_EXPORT|R84 11,178 个道具的原版 107 字段、模型/图标和改造映射数据库]]
+- [[ACNH303_R84_RUNTIME_ITEM_RESTRICTIONS_EVIDENCE|R84 道具拾取、投放、联机转移 Native 行为验证边界]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
