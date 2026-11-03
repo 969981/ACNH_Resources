@@ -82,3 +82,35 @@ jobs:
             sleep $((attempt*3))
           done
           exit 1
+
+      - name: Publish R84 long-term release archive (without duplicate git binaries)
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/ACNH303_R84_Original_Item_Database.zip"
+          zip -q -9 "$archive" \
+            assets/evidence/rom-database/r84/r84-acnh303-item-native.sqlite3.zst \
+            assets/evidence/rom-database/r84/r84-itemparam-original-107-fields.csv \
+            assets/evidence/rom-database/r84/r84-original-model-icon-source-audit.csv \
+            assets/evidence/rom-database/r84/r84-itemremake-ID-mapping.csv \
+            assets/evidence/rom-database/r84/r84-field-hash-dictionary.csv \
+            assets/evidence/rom-database/r84/r84-evidence-summary.json \
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv \
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv \
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv \
+            UnPack/1/Bcsv/ItemParam.csv \
+            UnPack/1/Bcsv/ItemParam.json \
+            UnPack/1/Bcsv/ItemRemake.csv \
+            UnPack/1/Bcsv/ItemKind.csv
+          tag="acnh303-r84-native-item-database-20261103"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$archive" --clobber
+          else
+            gh release create "$tag" "$archive" \
+              --target "$(git rev-parse HEAD)" \
+              --title "ACNH 3.0.3 R84 | Native 107-field item database and ROM provenance" \
+              --notes "Verified 11,178 ItemParam ID bytes, 107 preserved hash-named fields and original record slices. 9,104 original model file paths, 8,623 FtrIcon paths and 821 native ItemRemake ID links; BNTX runtime icon selection, pickup and transfer behavior remain unverified. See docs/ACNH303_R84_ITEMPARAM_107_FIELDS_SOURCE_AND_EXPORT.md."
+          fi
