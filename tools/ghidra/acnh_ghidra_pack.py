@@ -174,6 +174,13 @@ def ingest(batch: Path, root: Path, work: Path, chunk_mib: int) -> dict:
             idx = int(r["index"])
             indices.append(idx)
             state = r["decompile_status"]
+            if state == "ok":
+                rel = r.get("c_path")
+                if not rel or Path(rel).is_absolute() or ".." in Path(rel).parts:
+                    raise ValueError(f"Invalid C file path for function {idx}: {rel}")
+                csrc = batch / rel
+                if not csrc.is_file() or csrc.stat().st_size >= 100_000_000:
+                    raise ValueError(f"Missing/oversize decompiled C for function {idx}: {csrc}")
             success += state == "ok"
             failure += state != "ok"
             db.execute("""INSERT OR REPLACE INTO functions
