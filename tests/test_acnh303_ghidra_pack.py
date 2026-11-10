@@ -89,6 +89,9 @@ class ShardsTest(unittest.TestCase):
             self.assertEqual((published/"c/00/00000000.c").read_text(), cfile.read_text())
             second=root/"second"
             jsonlines(second/"functions.ndjson",[fn(2,"ok")])
+            c2=second/"c/00/00000002.c"
+            c2.parent.mkdir(parents=True)
+            c2.write_text("void f2(void) {}\n")
             pack.write_json(second/"export-summary.json",{
                 "total_functions":3,"start_index":2,"processed":1,
                 "decompiled_ok":1,"decompiled_failed":0
