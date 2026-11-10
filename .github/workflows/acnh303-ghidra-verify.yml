@@ -1,0 +1,29 @@
+name: ACNH 3.0.3 | Verify lossless Ghidra sharding
+
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - ".github/workflows/acnh303-ghidra-verify.yml"
+      - "tools/ghidra/acnh_ghidra_pack.py"
+      - "tests/test_acnh303_ghidra_pack.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /tools/ghidra/acnh_ghidra_pack.py
+            /tests/test_acnh303_ghidra_pack.py
+          lfs: false
+      - name: Test byte-exact project/database fragments and JSONL boundaries
+        run: python3 -m unittest discover -s tests -p test_acnh303_ghidra_pack.py -v
