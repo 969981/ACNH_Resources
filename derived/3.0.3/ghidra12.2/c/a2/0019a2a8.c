@@ -1,0 +1,29 @@
+
+void FUN_0019a2a8(long *param_1,undefined4 param_2)
+
+{
+  *param_1 = (long)(PTR_DAT_04bcbc48 + 0x10);
+  *(undefined4 *)(param_1 + 1) = 1;
+  *(undefined1 *)((long)param_1 + 0xc) = 0;
+  param_1[2] = 0;
+  param_1[3] = 0;
+  *(undefined4 *)(param_1 + 6) = 0;
+  *(undefined4 *)(param_1 + 7) = param_2;
+  param_1[10] = 0;
+  param_1[0xb] = 0;
+  param_1[8] = 0;
+  *(undefined4 *)(param_1 + 9) = 0;
+  param_1[5] = 0;
+  *(undefined1 *)(param_1 + 4) = 0;
+  *(undefined2 *)(param_1 + 0xc) = 0x100;
+  param_1[0xd] = 0;
+  *param_1 = (long)&PTR_FUN_04839840;
+  param_1[0x11] = 0;
+  param_1[0x12] = 0;
+  *(undefined4 *)(param_1 + 0xe) = 0;
+  param_1[0x13] = 0;
+  param_1[0xf] = (long)&DAT_0483a078;
+  param_1[0x10] = 0;
+  return;
+}
+

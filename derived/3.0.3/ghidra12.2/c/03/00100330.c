@@ -1,0 +1,7 @@
+
+char * nndetailRoGetRoDataEnd(void)
+
+{
+  return "";
+}
+
