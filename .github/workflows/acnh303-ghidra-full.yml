@@ -1,0 +1,201 @@
+name: ACNH 3.0.3 | Ghidra 12.2 full database and decompilation
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: "Consecutive function count to decompile in this run"
+        required: false
+        default: "2500"
+        type: string
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - ".github/workflows/acnh303-ghidra-full.yml"
+      - "tools/ghidra/**"
+  schedule:
+    - cron: "23 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acnh303-ghidra12.2-full-export
+  cancel-in-progress: false
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      SOURCE_ELF: e10617820db06889e1638499478da0de_NCA/0/main.elf
+      RESULT: derived/3.0.3/ghidra12.2
+      GHIDRA_URL: https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip
+      GHIDRA_SHA256: 2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67
+      ELF_SHA256: 145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664
+      BATCH_SIZE: ${{ inputs.batch_size || '2500' }}
+    steps:
+      - name: Checkout only required original ELF and output
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/acnh303-ghidra-full.yml
+            /tools/ghidra/
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /derived/3.0.3/ghidra12.2/
+          lfs: false
+
+      - name: Read verified continuation checkpoint
+        id: progress
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          path=Path("derived/3.0.3/ghidra12.2/progress.json")
+          data=json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+          print("done=" + str(bool(data.get("complete"))).lower())
+          print("next_index=" + str(data.get("next_index",0)))
+          PY
+
+      - name: Set up required JDK 25
+        if: steps.progress.outputs.done != 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Cache pinned Ghidra 12.2 installation
+        if: steps.progress.outputs.done != 'true'
+        id: ghidra-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/ghidra_12.2_PUBLIC
+          key: ghidra-12.2-20261016-sha256-2c2cd776-v1
+
+      - name: Fetch official Ghidra and verify SHA-256
+        if: steps.progress.outputs.done != 'true' && steps.ghidra-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 5 \
+            -o "$RUNNER_TEMP/ghidra_12.2.zip" "$GHIDRA_URL"
+          echo "$GHIDRA_SHA256  $RUNNER_TEMP/ghidra_12.2.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/ghidra_12.2.zip" -d "$RUNNER_TEMP"
+          test -x "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless"
+
+      - name: Check target ELF size, SHA and architecture
+        if: steps.progress.outputs.done != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$ELF_SHA256  $SOURCE_ELF" | sha256sum --check
+          test "$(stat -c '%s' "$SOURCE_ELF")" -eq 79000340
+          file "$SOURCE_ELF"
+          readelf -h "$SOURCE_ELF"
+
+      - name: Restore existing Ghidra project or analyze original ELF
+        if: steps.progress.outputs.done != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/acnh-project" "$RUNNER_TEMP/acnh-work" "$RESULT/project"
+          P="$RUNNER_TEMP/acnh-project"
+          REPORT="$RESULT/project/ghidra_project.tar.manifest.json"
+          if [ -f "$REPORT" ]; then
+            python3 tools/ghidra/acnh_ghidra_pack.py join \
+              "$REPORT" "$RUNNER_TEMP/acnh-work/ghidra_project.tar"
+            tar -xf "$RUNNER_TEMP/acnh-work/ghidra_project.tar" -C "$P"
+          else
+            "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" \
+              "$P" ACNH303 -import "$PWD/$SOURCE_ELF" \
+              -analysisTimeoutPerFile 10800 -max-cpu 2 \
+              -log "$RUNNER_TEMP/acnh-work/analysis.log"
+            test -f "$P/ACNH303.gpr"
+            test -d "$P/ACNH303.rep"
+            tar -C "$P" -cf "$RUNNER_TEMP/acnh-work/ghidra_project.tar" \
+              ACNH303.gpr ACNH303.rep
+            python3 tools/ghidra/acnh_ghidra_pack.py split \
+              "$RUNNER_TEMP/acnh-work/ghidra_project.tar" "$RESULT/project" \
+              --chunk-mib 48
+          fi
+          test -f "$P/ACNH303.gpr"
+          test -d "$P/ACNH303.rep"
+
+      - name: Decompile next batch and export complete catalogs on first batch
+        if: steps.progress.outputs.done != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! [[ "$BATCH_SIZE" =~ ^[0-9]+$ ]] ||
+             [ "$BATCH_SIZE" -lt 1 ] || [ "$BATCH_SIZE" -gt 50000 ]; then
+            echo "Invalid batch_size: $BATCH_SIZE" >&2; exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/acnh-work/export"
+          "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" \
+            "$RUNNER_TEMP/acnh-project" ACNH303 \
+            -process main.elf -noanalysis -readOnly -max-cpu 2 \
+            -scriptPath "$PWD/tools/ghidra" \
+            -postScript ExportACNH303.java \
+              "$RUNNER_TEMP/acnh-work/export" \
+              "${{ steps.progress.outputs.next_index }}" "$BATCH_SIZE" "25" \
+            -log "$RUNNER_TEMP/acnh-work/export.log" \
+            -scriptlog "$RUNNER_TEMP/acnh-work/script.log"
+          test -s "$RUNNER_TEMP/acnh-work/export/export-summary.json"
+          cat "$RUNNER_TEMP/acnh-work/export/export-summary.json"
+
+      - name: Index full JSON records, shard SQLite raw bytes and verify
+        if: steps.progress.outputs.done != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/ghidra/acnh_ghidra_pack.py ingest \
+            --batch "$RUNNER_TEMP/acnh-work/export" \
+            --root "$RESULT" \
+            --work "$RUNNER_TEMP/acnh-work/db" \
+            --chunk-mib 48
+          python3 tools/ghidra/acnh_ghidra_pack.py join \
+            "$RESULT/sqlite/acnh303_ghidra.sqlite.manifest.json" \
+            "$RUNNER_TEMP/acnh-work/verified.sqlite"
+          python3 - "$RUNNER_TEMP/acnh-work/verified.sqlite" "$RESULT/progress.json" <<'PY'
+          import json, sqlite3, sys
+          from pathlib import Path
+          dbpath=Path(sys.argv[1]); state=json.loads(Path(sys.argv[2]).read_text())
+          with sqlite3.connect(dbpath) as conn:
+              assert conn.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+              assert conn.execute("SELECT COUNT(*) FROM functions").fetchone()[0] == state["functions_exported"]
+          print("Verified lossless SQLite reconstruction",state)
+          PY
+
+      - name: Commit original project slices, NDJSON, SQLite and individual C files
+        if: steps.progress.outputs.done != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$RESULT"
+          if git diff --cached --quiet; then
+            echo "All outputs already identical to branch"
+            exit 0
+          fi
+          git commit -m "build(acnh303): Ghidra 12.2 decompilation from index ${{ steps.progress.outputs.next_index }}"
+          git fetch origin 3.0.3_Unpack
+          git rebase origin/3.0.3_Unpack
+          git push origin HEAD:3.0.3_Unpack
+
+      - name: Upload logs even when a Ghidra step fails
+        if: always() && steps.progress.outputs.done != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-ghidra12.2-logs-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/acnh-work/*.log
+            ${{ runner.temp }}/acnh-work/export/export-summary.json
+            derived/3.0.3/ghidra12.2/progress.json
+          if-no-files-found: warn
+          retention-days: 30
