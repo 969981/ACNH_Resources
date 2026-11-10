@@ -24,3 +24,19 @@ For richer media conversion and external tool dependencies, see [workflow docume
 ## Incremental conversion automation
 
 Use [Incremental verified UnPack](.github/workflows/acnh303-incremental-unpack.yml) and [batch documentation](docs/07-Incremental-Batches.md) to process 1–24 original files at a time. Each batch records source Git blob identity, original SHA-256, actual output SHA-256 and decoder status; media has explicit real-decoder validation. New media data are committed only on a successful workflow execution; missing/unsupported formats are not invented.
+
+
+## nx2elf native source and ExeFS main.elf
+
+The complete source of nx2elf is vendored directly under
+[tools/nx2elf](tools/nx2elf), not via Git submodule. It is pinned to upstream
+commit a1760ba54e2aefb41444933f53b90e6e8b05c399.
+
+Rebuild the original ACNH 3.0.3 ExeFS main to an ELF64 AArch64 file:
+
+    python Scripts/convert_acnh_main.py --report UnPack/_meta/nx2elf-main-3.0.3.json
+
+Output: e10617820db06889e1638499478da0de_NCA/0/main.elf
+
+See [the ExeFS conversion guide](docs/08-ExeFS-nx2elf.md) and the
+[GitHub Actions rebuild workflow](.github/workflows/acnh303-nx2elf.yml).

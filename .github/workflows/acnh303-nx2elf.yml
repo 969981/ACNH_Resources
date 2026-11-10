@@ -1,0 +1,75 @@
+name: ACNH 3.0.3 | Rebuild main.elf from vendored nx2elf
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - "tools/nx2elf/**"
+      - "Scripts/convert_acnh_main.py"
+      - ".github/workflows/acnh303-nx2elf.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acnh303-nx2elf-rebuild
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /tools/nx2elf/
+            /Scripts/convert_acnh_main.py
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /UnPack/_meta/
+          lfs: false
+
+      - name: Build bundled nx2elf and convert original NSO
+        run: |
+          set -euo pipefail
+          python3 Scripts/convert_acnh_main.py --report UnPack/_meta/nx2elf-main-3.0.3.json
+
+      - name: Validate ELF architecture and section table
+        run: |
+          set -euo pipefail
+          OUTPUT="e10617820db06889e1638499478da0de_NCA/0/main.elf"
+          file "$OUTPUT"
+          readelf -h "$OUTPUT"
+          readelf -S "$OUTPUT" > /tmp/acnh303-sections.txt
+          test -s /tmp/acnh303-sections.txt
+          sha256sum "$OUTPUT"
+
+      - name: Upload SHA-256 conversion report
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-nx2elf-manifest
+          path: UnPack/_meta/nx2elf-main-3.0.3.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit verified ELF and conversion report
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            e10617820db06889e1638499478da0de_NCA/0/main.elf \
+            UnPack/_meta/nx2elf-main-3.0.3.json
+          if git diff --cached --quiet; then
+            echo "ELF and report already match the repository."
+            exit 0
+          fi
+          git commit -m "build(acnh303): verify main.elf using vendored nx2elf"
+          git fetch origin 3.0.3_Unpack
+          git rebase origin/3.0.3_Unpack
+          git push origin HEAD:3.0.3_Unpack
