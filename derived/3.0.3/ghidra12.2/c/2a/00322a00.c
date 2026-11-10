@@ -1,0 +1,12 @@
+
+void FUN_00322a00(long param_1,undefined8 param_2)
+
+{
+  long lVar1;
+  
+  for (lVar1 = *(long *)(param_1 + 0x160); lVar1 != 0; lVar1 = *(long *)(lVar1 + 0x80)) {
+    *(undefined8 *)(lVar1 + 0x470) = param_2;
+  }
+  return;
+}
+

@@ -1,0 +1,84 @@
+
+void FUN_002abfc4(undefined1 *param_1)
+
+{
+  undefined4 uVar1;
+  undefined *puVar2;
+  
+  FUN_002ac10c();
+  puVar2 = PTR_DAT_04bcb8c8;
+  *(undefined4 *)(param_1 + 0x508) = 0;
+  *(undefined2 *)(param_1 + 0x510) = 0;
+  *(undefined4 *)(param_1 + 0x8f8) = 0;
+  uVar1 = *(undefined4 *)puVar2;
+  param_1[0x8fc] = 0;
+  *(undefined4 *)(param_1 + 0x50c) = uVar1;
+  memset(param_1 + 0x518,0,0x3e0);
+  *(undefined2 *)(param_1 + 0x500) = 0;
+  *param_1 = 0;
+  *(undefined8 *)(param_1 + 8) = 0;
+  param_1[0x28] = 0;
+  *(undefined8 *)(param_1 + 0x30) = 0;
+  param_1[0x50] = 0;
+  *(undefined8 *)(param_1 + 0x58) = 0;
+  param_1[0x78] = 0;
+  *(undefined8 *)(param_1 + 0x80) = 0;
+  param_1[0xa0] = 0;
+  *(undefined8 *)(param_1 + 0xa8) = 0;
+  param_1[200] = 0;
+  *(undefined8 *)(param_1 + 0xd0) = 0;
+  param_1[0xf0] = 0;
+  *(undefined8 *)(param_1 + 0xf8) = 0;
+  param_1[0x118] = 0;
+  *(undefined8 *)(param_1 + 0x120) = 0;
+  param_1[0x140] = 0;
+  *(undefined8 *)(param_1 + 0x148) = 0;
+  param_1[0x168] = 0;
+  *(undefined8 *)(param_1 + 0x170) = 0;
+  param_1[400] = 0;
+  *(undefined8 *)(param_1 + 0x198) = 0;
+  param_1[0x1b8] = 0;
+  *(undefined8 *)(param_1 + 0x1c0) = 0;
+  param_1[0x1e0] = 0;
+  *(undefined8 *)(param_1 + 0x1e8) = 0;
+  param_1[0x208] = 0;
+  *(undefined8 *)(param_1 + 0x210) = 0;
+  param_1[0x230] = 0;
+  *(undefined8 *)(param_1 + 0x238) = 0;
+  param_1[600] = 0;
+  *(undefined8 *)(param_1 + 0x260) = 0;
+  param_1[0x280] = 0;
+  *(undefined8 *)(param_1 + 0x288) = 0;
+  param_1[0x2a8] = 0;
+  *(undefined8 *)(param_1 + 0x2b0) = 0;
+  param_1[0x2d0] = 0;
+  *(undefined8 *)(param_1 + 0x2d8) = 0;
+  param_1[0x2f8] = 0;
+  *(undefined8 *)(param_1 + 0x300) = 0;
+  param_1[800] = 0;
+  *(undefined8 *)(param_1 + 0x328) = 0;
+  param_1[0x348] = 0;
+  *(undefined8 *)(param_1 + 0x350) = 0;
+  param_1[0x370] = 0;
+  *(undefined8 *)(param_1 + 0x378) = 0;
+  param_1[0x398] = 0;
+  *(undefined8 *)(param_1 + 0x3a0) = 0;
+  param_1[0x3c0] = 0;
+  *(undefined8 *)(param_1 + 0x3c8) = 0;
+  param_1[1000] = 0;
+  *(undefined8 *)(param_1 + 0x3f0) = 0;
+  param_1[0x410] = 0;
+  *(undefined8 *)(param_1 + 0x418) = 0;
+  param_1[0x438] = 0;
+  *(undefined8 *)(param_1 + 0x440) = 0;
+  param_1[0x460] = 0;
+  *(undefined8 *)(param_1 + 0x468) = 0;
+  param_1[0x488] = 0;
+  *(undefined8 *)(param_1 + 0x490) = 0;
+  param_1[0x4b0] = 0;
+  *(undefined8 *)(param_1 + 0x4b8) = 0;
+  param_1[0x4d8] = 0;
+  *(undefined8 *)(param_1 + 0x4e0) = 0;
+  return;
+}
+

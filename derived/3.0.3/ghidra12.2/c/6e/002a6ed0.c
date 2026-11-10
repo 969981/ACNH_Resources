@@ -1,0 +1,34 @@
+
+undefined8 FUN_002a6ed0(undefined8 param_1,undefined1 param_2)
+
+{
+  switch(param_2) {
+  case 8:
+  case 0x14:
+  case 0x18:
+  case 0x1c:
+  case 0x24:
+  case 0x34:
+  case 0x44:
+  case 0x58:
+  case 0x65:
+  case 0x68:
+  case 0x73:
+  case 0x74:
+  case 0x75:
+  case 0x76:
+  case 0x77:
+  case 0x7b:
+  case 0x7c:
+  case 0x80:
+  case 0x81:
+  case 0x94:
+  case 0xa4:
+  case 0xb0:
+  case 0xb4:
+    return 1;
+  default:
+    return 0;
+  }
+}
+
