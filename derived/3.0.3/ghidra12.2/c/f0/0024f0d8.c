@@ -1,0 +1,20 @@
+
+void FUN_0024f0d8(undefined8 *param_1,undefined8 param_2)
+
+{
+  undefined8 uVar1;
+  long lVar2;
+  
+  FUN_00227770();
+  param_1[0xb] = 0;
+  param_1[0xd] = param_2;
+  *param_1 = &PTR_FUN_048431f8;
+  uVar1 = FUN_0021f454();
+  lVar2 = FUN_00285d10(0x30,uVar1);
+  if (lVar2 != 0) {
+    FUN_00220ebc(lVar2);
+  }
+  param_1[0xc] = lVar2;
+  return;
+}
+

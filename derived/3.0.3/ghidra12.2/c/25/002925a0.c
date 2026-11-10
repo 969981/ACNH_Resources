@@ -1,0 +1,18 @@
+
+void FUN_002925a0(long param_1,long param_2,undefined1 param_3)
+
+{
+  long lVar1;
+  
+  lVar1 = *(long *)(param_1 + 0x10);
+  while( true ) {
+    if (lVar1 == param_1 + 8) {
+      return;
+    }
+    if (*(long *)(lVar1 + 0x20) == param_2) break;
+    lVar1 = *(long *)(lVar1 + 8);
+  }
+  *(undefined1 *)(lVar1 + 0x2d) = param_3;
+  return;
+}
+

@@ -1,0 +1,8 @@
+
+void FUN_00232c64(long param_1,undefined4 param_2)
+
+{
+  *(undefined4 *)(param_1 + 0x16cc) = param_2;
+  return;
+}
+
