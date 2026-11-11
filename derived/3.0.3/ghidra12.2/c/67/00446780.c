@@ -1,0 +1,11 @@
+
+void _INIT_222(void)
+
+{
+  FUN_004440c0(&DAT_04c6f548,"default");
+  FUN_001001d0(&LAB_00444290,&DAT_04c6f548,&__DT_FINI_ARRAY);
+  FUN_004440c0(&DAT_04c6f5b0,"common");
+  FUN_001001d0(&LAB_00444290,&DAT_04c6f5b0,&__DT_FINI_ARRAY);
+  return;
+}
+

@@ -1,0 +1,10 @@
+
+void _INIT_360(void)
+
+{
+  DAT_04c71940 = 0;
+  FUN_001001d0(&LAB_004d16a0,&DAT_04c71940,&__DT_FINI_ARRAY);
+  FUN_00442840(&DAT_04c71948,"$hkConcurrency",&LAB_004d16b0,&LAB_004d1760,&DAT_04c71940,1);
+  return;
+}
+

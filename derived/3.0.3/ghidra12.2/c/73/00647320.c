@@ -1,0 +1,10 @@
+
+void _INIT_844(void)
+
+{
+  DAT_04c792b0 = 0;
+  FUN_001001d0(&LAB_00647210,&DAT_04c792b0,&__DT_FINI_ARRAY);
+  FUN_00442840(&DAT_04c792b8,"$hkProcessFactory",&LAB_00647220,&LAB_006472c0,&DAT_04c792b0,1);
+  return;
+}
+

@@ -1,0 +1,85 @@
+
+void FUN_00482280(undefined8 *param_1,undefined1 (*param_2) [12],undefined1 (*param_3) [12])
+
+{
+  undefined1 auVar1 [16];
+  undefined1 auVar2 [16];
+  undefined1 auVar3 [16];
+  undefined1 auVar4 [16];
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar11;
+  undefined1 auVar10 [16];
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float fVar15;
+  float fVar16;
+  float fVar17;
+  float fVar18;
+  float fVar19;
+  float fVar20;
+  float fVar21;
+  undefined1 auVar22 [16];
+  undefined8 uVar23;
+  undefined8 uVar24;
+  undefined1 auVar25 [16];
+  undefined1 auVar26 [16];
+  
+  fVar7 = (float)*(undefined8 *)(*param_2 + 8);
+  fVar8 = (float)((ulong)*(undefined8 *)(*param_2 + 8) >> 0x20);
+  fVar5 = (float)*(undefined8 *)*param_2;
+  fVar6 = (float)((ulong)*(undefined8 *)*param_2 >> 0x20);
+  auVar10._12_4_ = fVar8;
+  auVar10._0_12_ = *param_2;
+  auVar22._12_4_ = fVar8;
+  auVar22._0_12_ = *param_2;
+  auVar10 = NEON_ext(auVar10,auVar22,8,1);
+  fVar11 = auVar10._4_4_ * auVar10._4_4_;
+  fVar9 = fVar11 - (float)DAT_0413f410;
+  fVar11 = fVar11 - (float)((ulong)DAT_0413f410 >> 0x20);
+  fVar16 = (float)*(undefined8 *)(*param_3 + 8);
+  fVar18 = (float)((ulong)*(undefined8 *)(*param_3 + 8) >> 0x20);
+  fVar12 = (float)*(undefined8 *)*param_3;
+  fVar14 = (float)((ulong)*(undefined8 *)*param_3 >> 0x20);
+  fVar20 = fVar5 * fVar12 + fVar6 * fVar14 + fVar7 * fVar16;
+  fVar21 = fVar5 * fVar12 + fVar6 * fVar14 + fVar7 * fVar16;
+  auVar26._12_4_ = fVar18;
+  auVar26._0_12_ = *param_3;
+  auVar2._12_4_ = fVar18;
+  auVar2._0_12_ = *param_3;
+  auVar22 = NEON_ext(auVar26,auVar2,4,1);
+  auVar26 = NEON_ext(auVar22,auVar22,8,1);
+  auVar25._12_4_ = fVar8;
+  auVar25._0_12_ = *param_2;
+  auVar1._12_4_ = fVar8;
+  auVar1._0_12_ = *param_2;
+  auVar10 = NEON_ext(auVar25,auVar1,4,1);
+  auVar25 = NEON_ext(auVar10,auVar10,8,1);
+  uVar23 = NEON_rev64(auVar25._0_8_,4);
+  uVar24 = NEON_rev64(auVar26._0_8_,4);
+  fVar13 = fVar5 * auVar22._0_4_ - fVar12 * auVar10._0_4_;
+  fVar15 = fVar6 * auVar22._4_4_ - fVar14 * auVar10._4_4_;
+  fVar17 = fVar7 * (float)uVar24 - fVar16 * (float)uVar23;
+  fVar19 = fVar8 * (float)((ulong)uVar24 >> 0x20) - fVar18 * (float)((ulong)uVar23 >> 0x20);
+  auVar3._4_4_ = fVar15;
+  auVar3._0_4_ = fVar13;
+  auVar3._8_4_ = fVar17;
+  auVar3._12_4_ = fVar19;
+  auVar4._4_4_ = fVar15;
+  auVar4._0_4_ = fVar13;
+  auVar4._8_4_ = fVar17;
+  auVar4._12_4_ = fVar19;
+  auVar10 = NEON_ext(auVar3,auVar4,4,1);
+  fVar5 = fVar12 * fVar9 + fVar5 * fVar20 + auVar10._0_4_ * fVar8;
+  fVar6 = fVar14 * fVar11 + fVar6 * fVar21 + auVar10._4_4_ * fVar8;
+  fVar7 = fVar16 * fVar9 + fVar7 * fVar20 + fVar13 * fVar8;
+  fVar8 = fVar18 * fVar11 + fVar8 * fVar21 + fVar15 * fVar8;
+  param_1[1] = CONCAT44(fVar8 + fVar8,fVar7 + fVar7);
+  *param_1 = CONCAT44(fVar6 + fVar6,fVar5 + fVar5);
+  return;
+}
+

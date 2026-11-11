@@ -1,0 +1,10 @@
+
+void _INIT_215(void)
+
+{
+  DAT_04c6f378 = 0;
+  FUN_001001d0(&LAB_00443200,&DAT_04c6f378,&__DT_FINI_ARRAY);
+  FUN_00442840(&DAT_04c6f380,"$hkErrorRouter",&LAB_00443210,&LAB_00443290,&DAT_04c6f378,1);
+  return;
+}
+

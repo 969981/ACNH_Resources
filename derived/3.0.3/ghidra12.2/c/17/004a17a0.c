@@ -1,0 +1,24 @@
+
+void _INIT_345(void)
+
+{
+  FUN_004440c0(&DAT_04c712c0,"base.reflect.copier");
+  FUN_001001d0(&LAB_00444290,&DAT_04c712c0,&__DT_FINI_ARRAY);
+  DAT_04c71328 = &DAT_040e7e9d;
+  DAT_04c71330 = &PTR_s_MSVC_x86_04c20ca0;
+  DAT_04c71338 = &PTR_s_Arm32_04c20cb0;
+  DAT_04c71340 = &DAT_040c34f9;
+  DAT_04c71348 = &PTR_s_Arm32_04c20cb0;
+  DAT_04c71350 = &PTR_s_MSVC_x64_04c20cc0;
+  DAT_04c71358 = &DAT_040a9beb;
+  DAT_04c71360 = &PTR_s_Generic_x86_04c20c98;
+  DAT_04c71368 = &PTR_s_MSVC_x86_04c20ca0;
+  DAT_04c71370 = &DAT_040c8718;
+  DAT_04c71378 = &PTR_s_MSVC_x64_04c20cc0;
+  DAT_04c71380 = &PTR_s_Generic_x64_04c20cd8;
+  DAT_04c71388 = &DAT_0409a4c6;
+  DAT_04c71390 = &PTR_s_Generic_x64_04c20cd8;
+  DAT_04c71398 = &DAT_04c20cf8;
+  return;
+}
+

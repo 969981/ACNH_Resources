@@ -1,0 +1,14 @@
+
+void _INIT_334(void)
+
+{
+  FUN_004440c0(&DAT_04c70da0,"base.s11n");
+  FUN_001001d0(&LAB_00444290,&DAT_04c70da0,&__DT_FINI_ARRAY);
+  DAT_04c70e20 = 0;
+  DAT_04c70e10 = 0;
+  DAT_04c70e18 = 0;
+  DAT_04c70e08 = 0;
+  FUN_001001d0(&LAB_004866a0,&DAT_04c70e08,&__DT_FINI_ARRAY);
+  return;
+}
+
