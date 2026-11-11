@@ -1,0 +1,12 @@
+
+void _INIT_212(void)
+
+{
+  FUN_004440c0(&DAT_04c6f1b8,"base.reflect");
+  FUN_001001d0(&LAB_00444290,&DAT_04c6f1b8,&__DT_FINI_ARRAY);
+  FUN_0043dcf0(&DAT_04c6f220);
+  DAT_04c6f220 = &PTR_FUN_04860fa0;
+  FUN_001001d0(FUN_0043f070,&DAT_04c6f220,&__DT_FINI_ARRAY);
+  return;
+}
+

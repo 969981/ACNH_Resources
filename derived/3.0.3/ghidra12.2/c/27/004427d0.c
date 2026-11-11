@@ -1,0 +1,10 @@
+
+void _INIT_213(void)
+
+{
+  DAT_04c6f258 = 0;
+  FUN_001001d0(&LAB_00442580,&DAT_04c6f258,&__DT_FINI_ARRAY);
+  FUN_00442840(&DAT_04c6f260,"$hkError",&LAB_00442590,&LAB_004425e0,&DAT_04c6f258,1);
+  return;
+}
+

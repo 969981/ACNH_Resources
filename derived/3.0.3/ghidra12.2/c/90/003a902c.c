@@ -1,0 +1,285 @@
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bool FUN_003a902c(byte *param_1,long param_2)
+
+{
+  undefined1 auVar1 [16];
+  undefined1 auVar2 [16];
+  undefined8 uVar3;
+  undefined1 auVar4 [16];
+  ulong uVar5;
+  float __x;
+  float fVar6;
+  float fVar7;
+  undefined8 uVar8;
+  undefined8 uVar9;
+  float fVar14;
+  undefined1 auVar11 [12];
+  undefined1 auVar12 [16];
+  undefined8 uVar10;
+  undefined1 auVar13 [16];
+  int iVar15;
+  float fVar23;
+  int iVar24;
+  int iVar25;
+  undefined1 auVar16 [16];
+  undefined1 auVar17 [16];
+  undefined1 auVar18 [16];
+  undefined1 auVar19 [16];
+  undefined1 auVar20 [16];
+  undefined1 auVar21 [16];
+  undefined1 auVar22 [16];
+  int iVar26;
+  undefined1 auVar27 [16];
+  undefined1 auVar28 [16];
+  undefined8 uVar29;
+  undefined1 auVar30 [16];
+  undefined1 auVar31 [16];
+  undefined1 auVar32 [16];
+  undefined8 uVar33;
+  undefined1 auVar34 [16];
+  undefined1 auVar35 [16];
+  undefined8 uVar36;
+  undefined1 auVar37 [16];
+  undefined1 auVar38 [16];
+  undefined1 auVar39 [16];
+  undefined8 uVar40;
+  undefined8 uVar41;
+  undefined1 auVar42 [16];
+  undefined1 auVar43 [16];
+  undefined1 auVar44 [16];
+  undefined1 auVar45 [16];
+  float fVar46;
+  float fVar47;
+  float fVar48;
+  float fVar49;
+  undefined8 uVar50;
+  undefined8 uVar51;
+  
+  uVar36 = DAT_041016a0;
+  uVar5 = DAT_041015c8;
+  uVar29 = DAT_04101598;
+  uVar33 = DAT_04101580;
+  auVar42 = *(undefined1 (*) [16])(param_2 + 0x20);
+  auVar16 = *(undefined1 (*) [16])(param_2 + 0x30);
+  uVar40 = a64_TBL(ZEXT816(0),auVar42,DAT_04101580);
+  auVar30._8_8_ = 0;
+  auVar30._0_8_ = DAT_041015c8;
+  uVar51 = a64_TBL(ZEXT816(0),auVar42,DAT_041015c8);
+  uVar10 = a64_TBL(ZEXT816(0),auVar16,DAT_04101598);
+  uVar50 = a64_TBL(ZEXT816(0),auVar16,DAT_041016a0);
+  uVar3 = a64_TBL(ZEXT816(0),auVar16,DAT_041015c8);
+  uVar41 = a64_TBL(ZEXT816(0),auVar42,DAT_04101598);
+  uVar8 = a64_TBL(ZEXT816(0),auVar42,DAT_041016a0);
+  uVar9 = a64_TBL(ZEXT816(0),auVar16,DAT_04101580);
+  fVar46 = (float)uVar40 * (float)uVar10 - (float)uVar9 * (float)uVar41;
+  fVar47 = (float)((ulong)uVar40 >> 0x20) * (float)((ulong)uVar10 >> 0x20) -
+           (float)((ulong)uVar9 >> 0x20) * (float)((ulong)uVar41 >> 0x20);
+  fVar48 = (float)uVar51 * (float)uVar50 - (float)uVar3 * (float)uVar8;
+  fVar49 = (float)((ulong)uVar51 >> 0x20) * (float)((ulong)uVar50 >> 0x20) -
+           (float)((ulong)uVar3 >> 0x20) * (float)((ulong)uVar8 >> 0x20);
+  auVar42._0_4_ = auVar16._0_4_ * auVar16._0_4_;
+  auVar42._4_4_ = auVar16._4_4_ * auVar16._4_4_;
+  auVar42._8_4_ = auVar16._8_4_ * auVar16._8_4_;
+  auVar42._12_4_ = auVar16._12_4_ * auVar16._12_4_;
+  auVar16 = NEON_ext(auVar42,auVar42,8,1);
+  fVar6 = auVar16._0_4_ + auVar42._0_4_;
+  fVar14 = auVar16._4_4_ + auVar42._4_4_;
+  __x = fVar6 + fVar14;
+  auVar11._4_4_ = fVar6 + fVar14;
+  auVar11._0_4_ = __x;
+  auVar11._8_4_ = 0;
+  auVar16._0_4_ = fVar46 * fVar46;
+  auVar16._4_4_ = fVar47 * fVar47;
+  auVar16._8_4_ = fVar48 * fVar48;
+  auVar16._12_4_ = fVar49 * fVar49;
+  auVar42 = NEON_ext(auVar16,auVar16,8,1);
+  auVar17._0_4_ = auVar42._0_4_ + auVar16._0_4_;
+  auVar17._4_4_ = auVar42._4_4_ + auVar16._4_4_;
+  auVar17._8_8_ = 0;
+  fVar6 = auVar17._0_4_ + auVar17._4_4_;
+  if (fVar6 != 0.0 && __x != 0.0) {
+    fVar14 = SQRT(__x);
+    if (NAN(fVar14)) {
+      fVar14 = sqrtf(__x);
+    }
+    fVar14 = 1.0 / fVar14;
+    fVar7 = SQRT(fVar6);
+    if (NAN(fVar7)) {
+      fVar7 = sqrtf(fVar6);
+    }
+    fVar7 = 1.0 / fVar7;
+    auVar18._0_4_ = *(float *)(param_2 + 0x30) * fVar14;
+    auVar18._4_4_ = *(float *)(param_2 + 0x34) * fVar14;
+    auVar18._8_4_ = *(float *)(param_2 + 0x38) * fVar14;
+    auVar18._12_4_ = *(float *)(param_2 + 0x3c) * fVar14;
+    uVar51 = a64_TBL(ZEXT816(0),auVar18,uVar5);
+    auVar43._0_4_ = fVar46 * fVar7;
+    auVar43._4_4_ = fVar47 * fVar7;
+    auVar43._8_4_ = fVar48 * fVar7;
+    auVar43._12_4_ = fVar49 * fVar7;
+    uVar8 = a64_TBL(ZEXT816(0),auVar18,uVar33);
+    uVar10 = a64_TBL(ZEXT816(0),auVar43,uVar29);
+    uVar40 = a64_TBL(ZEXT816(0),auVar43,uVar36);
+    uVar9 = a64_TBL(ZEXT816(0),auVar18,uVar29);
+    uVar36 = a64_TBL(ZEXT816(0),auVar18,uVar36);
+    uVar29 = a64_TBL(ZEXT816(0),auVar43,uVar5);
+    auVar16 = NEON_ext(auVar18,auVar18,8,1);
+    uVar3 = a64_TBL(ZEXT816(0),auVar43,uVar33);
+    auVar12._0_4_ = (float)uVar8 * (float)uVar10 - (float)uVar3 * (float)uVar9;
+    auVar12._4_4_ =
+         (float)((ulong)uVar8 >> 0x20) * (float)((ulong)uVar10 >> 0x20) -
+         (float)((ulong)uVar3 >> 0x20) * (float)((ulong)uVar9 >> 0x20);
+    auVar12._8_4_ = (float)uVar51 * (float)uVar40 - (float)uVar29 * (float)uVar36;
+    auVar12._12_4_ =
+         (float)((ulong)uVar51 >> 0x20) * (float)((ulong)uVar40 >> 0x20) -
+         (float)((ulong)uVar29 >> 0x20) * (float)((ulong)uVar36 >> 0x20);
+    auVar30._4_4_ = auVar18._0_4_;
+    auVar30._0_4_ = auVar12._0_4_;
+    auVar17._4_4_ = auVar18._4_4_;
+    auVar17._0_4_ = auVar12._4_4_;
+    auVar42 = NEON_ext(auVar12,auVar12,8,1);
+    auVar30._8_4_ = auVar43._0_4_;
+    auVar30._12_4_ = 0;
+    auVar11._4_4_ = auVar16._0_4_;
+    auVar11._0_4_ = auVar42._0_4_;
+    auVar17._8_4_ = auVar43._4_4_;
+    auVar17._12_4_ = 0;
+    auVar11._8_4_ = auVar43._8_4_;
+  }
+  auVar42 = NEON_ext(auVar17,auVar17,8,1);
+  auVar16 = NEON_ext(auVar30,auVar30,8,1);
+  uVar51 = NEON_ext(auVar30._0_8_,auVar11._0_8_,4,1);
+  fVar47 = auVar30._0_4_;
+  fVar46 = auVar17._4_4_;
+  fVar14 = auVar11._8_4_;
+  auVar34._0_4_ = (float)uVar51 + auVar17._0_4_;
+  fVar48 = (float)((ulong)uVar51 >> 0x20);
+  auVar34._4_4_ = fVar48 + auVar16._0_4_;
+  auVar34._8_4_ = auVar42._0_4_ + auVar11._4_4_;
+  auVar34._12_4_ = 0;
+  auVar37._0_4_ = (float)uVar51 - auVar17._0_4_;
+  auVar37._4_4_ = fVar48 - auVar16._0_4_;
+  auVar37._8_4_ = auVar42._0_4_ - auVar11._4_4_;
+  auVar37._12_4_ = 0;
+  uVar10 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_041016d0);
+  uVar29 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_04101680);
+  uVar36 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_041016a8);
+  auVar27._0_8_ = a64_TBL(ZEXT816(0),auVar34,auVar37,uVar33);
+  uVar51 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_04101600);
+  uVar3 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_041016d8);
+  uVar33 = a64_TBL(ZEXT816(0),auVar34,auVar37,DAT_04101570);
+  auVar42 = NEON_fmov(0x3f800000,4);
+  fVar48 = (float)_DAT_041027a0 * fVar47 + (float)_DAT_04102140 * fVar46 +
+           (float)_DAT_041024d0 * fVar14 + auVar42._0_4_;
+  fVar49 = (float)((ulong)_DAT_041027a0 >> 0x20) * fVar47 +
+           (float)((ulong)_DAT_04102140 >> 0x20) * fVar46 +
+           (float)((ulong)_DAT_041024d0 >> 0x20) * fVar14 + auVar42._4_4_;
+  fVar7 = (float)_UNK_041027a8 * fVar47 + (float)_UNK_04102148 * fVar46 +
+          (float)_UNK_041024d8 * fVar14 + auVar42._8_4_;
+  fVar14 = (float)((ulong)_UNK_041027a8 >> 0x20) * fVar47 +
+           (float)((ulong)_UNK_04102148 >> 0x20) * fVar46 +
+           (float)((ulong)_UNK_041024d8 >> 0x20) * fVar14 + auVar42._12_4_;
+  auVar44._4_4_ = fVar48;
+  auVar44._0_4_ = fVar48;
+  auVar44._8_4_ = fVar48;
+  auVar44._12_4_ = fVar48;
+  auVar38._8_8_ = uVar29;
+  auVar38._0_8_ = uVar10;
+  auVar19._4_4_ = fVar49;
+  auVar19._0_4_ = fVar49;
+  auVar19._8_4_ = fVar49;
+  auVar19._12_4_ = fVar49;
+  auVar35._4_4_ = fVar7;
+  auVar35._0_4_ = fVar7;
+  auVar35._8_4_ = fVar7;
+  auVar35._12_4_ = fVar7;
+  auVar13._0_4_ = (undefined4)uVar10;
+  auVar13._4_4_ = fVar49;
+  auVar13._8_8_ = uVar36;
+  auVar27._12_4_ = (undefined4)((ulong)uVar51 >> 0x20);
+  auVar27._8_4_ = fVar7;
+  auVar39._4_12_ = auVar38._4_12_;
+  auVar39._0_4_ = fVar48;
+  auVar1._4_4_ = -(uint)(fVar48 <= fVar49);
+  auVar1._0_4_ = -(uint)(fVar48 <= fVar49);
+  auVar1._8_4_ = -(uint)(fVar48 <= fVar49);
+  auVar1._12_4_ = -(uint)(fVar48 <= fVar49);
+  auVar19 = auVar19 ^ (auVar19 ^ auVar44) & ~auVar1;
+  auVar45._0_4_ = -(uint)(auVar19._0_4_ <= fVar7);
+  auVar45._4_4_ = -(uint)(auVar19._4_4_ <= fVar7);
+  auVar45._8_4_ = -(uint)(auVar19._8_4_ <= fVar7);
+  auVar45._12_4_ = -(uint)(auVar19._12_4_ <= fVar7);
+  auVar2._4_4_ = -(uint)(fVar48 <= fVar49);
+  auVar2._0_4_ = -(uint)(fVar48 <= fVar49);
+  auVar2._8_4_ = -(uint)(fVar48 <= fVar49);
+  auVar2._12_4_ = -(uint)(fVar48 <= fVar49);
+  auVar13 = auVar13 ^ (auVar13 ^ auVar39) & ~auVar2;
+  auVar19 = auVar19 ^ (auVar19 ^ auVar35) & auVar45;
+  auVar13 = auVar13 ^ (auVar13 ^ auVar27) & auVar45;
+  auVar20._0_4_ = -(uint)(auVar19._0_4_ <= fVar14);
+  auVar20._4_4_ = -(uint)(auVar19._4_4_ <= fVar14);
+  auVar20._8_4_ = -(uint)(auVar19._8_4_ <= fVar14);
+  auVar20._12_4_ = -(uint)(auVar19._12_4_ <= fVar14);
+  auVar4._8_4_ = (int)uVar33;
+  auVar4._0_8_ = uVar3;
+  auVar4._12_4_ = fVar14;
+  auVar13 = auVar13 ^ (auVar13 ^ auVar4) & auVar20;
+  fVar47 = auVar13._0_4_;
+  auVar21._0_4_ = fVar47 * fVar47;
+  fVar48 = auVar13._4_4_;
+  auVar21._4_4_ = fVar48 * fVar48;
+  fVar49 = auVar13._8_4_;
+  auVar21._8_4_ = fVar49 * fVar49;
+  fVar7 = auVar13._12_4_;
+  auVar21._12_4_ = fVar7 * fVar7;
+  auVar42 = NEON_ext(auVar21,auVar21,8,1);
+  fVar46 = auVar42._0_4_ + auVar21._0_4_;
+  fVar23 = auVar42._4_4_ + auVar21._4_4_;
+  fVar14 = fVar46 + fVar23;
+  fVar46 = fVar46 + fVar23;
+  auVar22._8_8_ = CONCAT44(fVar46,fVar14);
+  auVar22._0_8_ = CONCAT44(fVar46,fVar14);
+  auVar42 = NEON_frsqrte(auVar22,4);
+  auVar31._0_4_ = auVar42._0_4_ * fVar14;
+  auVar31._4_4_ = auVar42._4_4_ * fVar46;
+  auVar31._8_4_ = auVar42._8_4_ * fVar14;
+  auVar31._12_4_ = auVar42._12_4_ * fVar46;
+  auVar16 = NEON_frsqrts(auVar42,auVar31,4);
+  auVar28._0_4_ = auVar42._0_4_ * auVar16._0_4_;
+  auVar28._4_4_ = auVar42._4_4_ * auVar16._4_4_;
+  auVar28._8_4_ = auVar42._8_4_ * auVar16._8_4_;
+  auVar28._12_4_ = auVar42._12_4_ * auVar16._12_4_;
+  auVar32._0_4_ = fVar14 * auVar28._0_4_;
+  auVar32._4_4_ = fVar46 * auVar28._4_4_;
+  auVar32._8_4_ = fVar14 * auVar28._8_4_;
+  auVar32._12_4_ = fVar46 * auVar28._12_4_;
+  iVar15 = -(uint)(fVar14 == 0.0);
+  iVar24 = -(uint)(fVar46 == 0.0);
+  iVar25 = -(uint)(fVar14 == 0.0);
+  iVar26 = -(uint)(fVar46 == 0.0);
+  auVar42 = NEON_frsqrts(auVar28,auVar32,4);
+  fVar47 = auVar28._0_4_ * auVar42._0_4_ * fVar47;
+  fVar48 = auVar28._4_4_ * auVar42._4_4_ * fVar48;
+  fVar49 = auVar28._8_4_ * auVar42._8_4_ * fVar49;
+  fVar7 = auVar28._12_4_ * auVar42._12_4_ * fVar7;
+  param_1[8] = SUB41(fVar49,0) & ~(byte)iVar25;
+  param_1[9] = (byte)((uint)fVar49 >> 8) & ~(byte)((uint)iVar25 >> 8);
+  param_1[10] = (byte)((uint)fVar49 >> 0x10) & ~(byte)((uint)iVar25 >> 0x10);
+  param_1[0xb] = (byte)((uint)fVar49 >> 0x18) & ~(byte)((uint)iVar25 >> 0x18);
+  param_1[0xc] = SUB41(fVar7,0) & ~(byte)iVar26;
+  param_1[0xd] = (byte)((uint)fVar7 >> 8) & ~(byte)((uint)iVar26 >> 8);
+  param_1[0xe] = (byte)((uint)fVar7 >> 0x10) & ~(byte)((uint)iVar26 >> 0x10);
+  param_1[0xf] = (byte)((uint)fVar7 >> 0x18) & ~(byte)((uint)iVar26 >> 0x18);
+  *param_1 = SUB41(fVar47,0) & ~(byte)iVar15;
+  param_1[1] = (byte)((uint)fVar47 >> 8) & ~(byte)((uint)iVar15 >> 8);
+  param_1[2] = (byte)((uint)fVar47 >> 0x10) & ~(byte)((uint)iVar15 >> 0x10);
+  param_1[3] = (byte)((uint)fVar47 >> 0x18) & ~(byte)((uint)iVar15 >> 0x18);
+  param_1[4] = SUB41(fVar48,0) & ~(byte)iVar24;
+  param_1[5] = (byte)((uint)fVar48 >> 8) & ~(byte)((uint)iVar24 >> 8);
+  param_1[6] = (byte)((uint)fVar48 >> 0x10) & ~(byte)((uint)iVar24 >> 0x10);
+  param_1[7] = (byte)((uint)fVar48 >> 0x18) & ~(byte)((uint)iVar24 >> 0x18);
+  return fVar6 != 0.0 && __x != 0.0;
+}
+

@@ -1,0 +1,85 @@
+
+void FUN_003f70ac(long *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined1 local_44 [3];
+  undefined1 uStack_41;
+  
+  FUN_0019a2a8(param_1,2,&uStack_41);
+  *(undefined4 *)(param_1 + 0x14) = 0;
+  puVar1 = PTR_DAT_04bd2738;
+  param_1[0x15] = 0;
+  param_1[0x16] = 0;
+  param_1[0x18] = 0;
+  param_1[0x1b] = 0;
+  *(undefined1 *)(param_1 + 0x17) = 1;
+  *(undefined4 *)(param_1 + 0x1c) = 0;
+  *param_1 = (long)(puVar1 + 0x10);
+  param_1[0x1d] = 0;
+  param_1[0x1e] = 0;
+  FUN_001fb850(param_1 + 0x1f,0);
+  puVar1 = PTR_DAT_04bc0f20;
+  *(undefined1 *)(param_1 + 0x38) = 0;
+  *(undefined1 *)(param_1 + 0x3a) = 0;
+  puVar2 = PTR_DAT_04bc0ec8;
+  param_1[0x37] = (long)(puVar1 + 0x10);
+  param_1[0x39] = (long)(puVar2 + 0x10);
+  param_1[0x3c] = (long)(param_1 + 0x3a);
+  param_1[0x3d] = 0x10;
+  FUN_0019d7fc(param_1 + 0x3f,0,0);
+  param_1[0x48] = 0;
+  *(undefined2 *)(param_1 + 0x47) = 0x300;
+  param_1[0x49] = 0;
+  puVar1 = PTR_DAT_04bc0f00;
+  param_1[0x4a] = 0;
+  param_1[0x46] = (long)(puVar1 + 0x10);
+  FUN_01c68940(param_1 + 0x48,0,0,0);
+  *(undefined2 *)(param_1 + 0x4c) = 0x300;
+  param_1[0x4d] = 0;
+  param_1[0x4e] = 0;
+  param_1[0x4f] = 0;
+  param_1[0x4b] = (long)(puVar1 + 0x10);
+  FUN_01c68940(param_1 + 0x4d,0,0,0);
+  param_1[0x52] = 0;
+  param_1[0x53] = 0;
+  param_1[0x54] = 0;
+  param_1[0x55] = 0;
+  param_1[0x56] = 0;
+  param_1[0x57] = 0;
+  *(undefined1 *)(param_1 + 0x59) = 0;
+  puVar1 = PTR_DAT_04bc0f70 + 0x10;
+  *(undefined1 *)((long)param_1 + 0x2cc) = 1;
+  param_1[0x5a] = 0;
+  param_1[0x5b] = 0;
+  param_1[0x58] = (long)puVar1;
+  *(undefined2 *)((long)param_1 + 0x2ca) = 0xffff;
+  puVar1 = PTR_DAT_04bc0f48 + 0x10;
+  param_1[0x5c] = 0;
+  param_1[0x37] = (long)puVar1;
+  FUN_01c690b0(param_1 + 0x37);
+  param_1[0x5d] = 0;
+  *(undefined1 *)(param_1 + 0x5f) = 0;
+  param_1[0x61] = (long)(puVar2 + 0x10);
+  param_1[100] = (long)(param_1 + 0x62);
+  *(undefined1 *)(param_1 + 0x62) = 0;
+  param_1[0x65] = 0x10;
+  param_1[0x66] = 0;
+  param_1[0x67] = 0;
+  param_1[0x68] = 0;
+  param_1[0x69] = 0;
+  param_1[0x6a] = 0;
+  param_1[0x6b] = 0;
+  param_1[0x6c] = 0;
+  param_1[0x6d] = 0;
+  param_1[0x6e] = 0;
+  param_1[0x5e] = (long)(PTR_DAT_04bd2740 + 0x10);
+  param_1[0x6f] = 0;
+  param_1[0x70] = 0;
+  local_44[0] = 1;
+  FUN_0018aa90(param_1 + 0x71,local_44);
+  param_1[0x74] = 0;
+  return;
+}
+

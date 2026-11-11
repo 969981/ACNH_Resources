@@ -1,0 +1,12 @@
+
+void _INIT_209(void)
+
+{
+  FUN_004440c0(&DAT_04c6f078,"sys.io.filesys");
+  FUN_001001d0(&LAB_00444290,&DAT_04c6f078,&__DT_FINI_ARRAY);
+  DAT_04c6f0e0 = 0;
+  FUN_001001d0(&LAB_0043b8c0,&DAT_04c6f0e0,&__DT_FINI_ARRAY);
+  FUN_00442840(&DAT_04c6f0e8,"$hkFileSystem",&LAB_0043b8d0,&LAB_0043b950,&DAT_04c6f0e0,1);
+  return;
+}
+

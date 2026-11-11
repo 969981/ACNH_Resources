@@ -1,0 +1,10 @@
+
+void _INIT_52(void)
+
+{
+  FUN_0043dcf0(&DAT_04c6a440);
+  DAT_04c6a440 = &PTR_FUN_04853850;
+  FUN_001001d0(FUN_0043f070,&DAT_04c6a440,&__DT_FINI_ARRAY);
+  return;
+}
+
