@@ -1,0 +1,145 @@
+
+void FUN_00b11554(long *param_1,long *param_2)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined *puVar3;
+  undefined4 uVar4;
+  undefined4 uVar5;
+  long lVar6;
+  undefined8 *puVar7;
+  undefined8 local_38;
+  
+  *param_1 = (long)(PTR_DAT_04bbb810 + 0x10);
+  puVar1 = PTR_DAT_04bb6560;
+  param_1[1] = *param_2;
+  puVar1 = puVar1 + 0x10;
+  lVar6 = param_2[1];
+  param_1[0x18] = (long)puVar1;
+  param_1[3] = 0;
+  *(undefined4 *)(param_1 + 0x16) = 0;
+  param_1[6] = (long)(param_1 + 0x18);
+  puVar2 = PTR_DAT_04bb2020;
+  *param_1 = (long)&PTR_FUN_04936030;
+  param_1[5] = (long)(param_1 + 6);
+  param_1[0x1e] = (long)puVar1;
+  param_1[0x17] = (long)param_1;
+  param_1[0x1d] = (long)param_1;
+  *(int *)(param_1 + 2) = (int)lVar6;
+  param_1[0x23] = (long)param_1;
+  param_1[0x24] = (long)puVar1;
+  param_1[0x29] = (long)param_1;
+  param_1[0x2a] = (long)puVar1;
+  puVar1 = puVar2 + 0x10;
+  param_1[0x1f] = (long)puVar1;
+  param_1[0x20] = (long)"SubEntryName";
+  param_1[0x19] = (long)puVar1;
+  param_1[0x1a] = (long)"StateName";
+  *(undefined4 *)(param_1 + 4) = 2;
+  *(undefined4 *)((long)param_1 + 0x24) = 0x10;
+  param_1[0x1b] = (long)puVar1;
+  param_1[0x1c] = (long)&DAT_0407ebb1;
+  param_1[0x21] = (long)puVar1;
+  param_1[0x22] = (long)&DAT_0407ebb1;
+  param_1[0x25] = (long)puVar1;
+  param_1[0x26] = (long)"TalkEventFlowName";
+  param_1[7] = (long)(param_1 + 0x1e);
+  param_1[8] = (long)(param_1 + 0x24);
+  *(undefined4 *)(param_1 + 4) = 3;
+  lVar6 = param_1[0x17];
+  param_1[0x2f] = lVar6;
+  param_1[0x27] = (long)puVar1;
+  param_1[0x28] = (long)&DAT_0407ebb1;
+  param_1[0x2b] = (long)puVar1;
+  param_1[0x2c] = (long)"TalkEntryPointName";
+  param_1[0x2d] = (long)puVar1;
+  param_1[0x2e] = (long)&DAT_0407ebb1;
+  if (*(int *)(lVar6 + 0x20) < *(int *)(lVar6 + 0x24)) {
+    *(long **)(*(long *)(lVar6 + 0x28) + (long)*(int *)(lVar6 + 0x20) * 8) = param_1 + 0x2a;
+    *(int *)(lVar6 + 0x20) = *(int *)(lVar6 + 0x20) + 1;
+    lVar6 = param_1[0x17];
+  }
+  puVar3 = PTR_DAT_04bb6568;
+  *(undefined1 *)(param_1 + 0x33) = 0;
+  param_1[0x34] = lVar6;
+  param_1[0x30] = (long)(puVar3 + 0x10);
+  param_1[0x31] = (long)puVar1;
+  param_1[0x32] = (long)"IsChangeSameState";
+  if (*(int *)(lVar6 + 0x20) < *(int *)(lVar6 + 0x24)) {
+    *(long **)(*(long *)(lVar6 + 0x28) + (long)*(int *)(lVar6 + 0x20) * 8) = param_1 + 0x30;
+    *(int *)(lVar6 + 0x20) = *(int *)(lVar6 + 0x20) + 1;
+    lVar6 = param_1[0x17];
+  }
+  *(undefined1 *)(param_1 + 0x38) = 0;
+  param_1[0x39] = lVar6;
+  param_1[0x35] = (long)(puVar3 + 0x10);
+  param_1[0x36] = (long)(puVar2 + 0x10);
+  param_1[0x37] = (long)"IsChangePreState";
+  if (*(int *)(lVar6 + 0x20) < *(int *)(lVar6 + 0x24)) {
+    *(long **)(*(long *)(lVar6 + 0x28) + (long)*(int *)(lVar6 + 0x20) * 8) = param_1 + 0x35;
+    *(int *)(lVar6 + 0x20) = *(int *)(lVar6 + 0x20) + 1;
+  }
+  puVar2 = PTR_DAT_04bbc1a0;
+  *(undefined4 *)(param_1 + 0x3a) = 0;
+  puVar1 = PTR_DAT_04bb2010;
+  param_1[0x3d] = 0;
+  *(undefined4 *)((long)param_1 + 0x214) = 0;
+  param_1[0x3b] = (long)(puVar2 + 0x10);
+  param_1[0x3c] = (long)(puVar1 + 0x10);
+  param_1[0x3e] = (long)(puVar1 + 0x10);
+  param_1[0x3f] = 0;
+  *(undefined8 *)((long)param_1 + 0x20c) = 0xfffe00000000;
+  FUN_0277d4ac(param_1 + 0x42);
+  *(undefined8 *)((long)param_1 + 0x22c) = 0;
+  *(undefined8 *)((long)param_1 + 0x231) = 0;
+  puVar7 = (undefined8 *)((long)param_1 + 0x23c);
+  *puVar7 = 0xfffe;
+  param_1[0x43] = 0x41c8000041800000;
+  param_1[0x44] = -0x407fffff40800000;
+  *(undefined4 *)(param_1 + 0x45) = 0xbf800000;
+  FUN_0277d4ac(puVar7);
+  *(undefined4 *)((long)param_1 + 0x244) = 0;
+  *(undefined1 *)((long)param_1 + 0x284) = 0;
+  *(undefined1 *)((long)param_1 + 0x2a3) = 0;
+  puVar1 = PTR_DAT_04bb2028;
+  param_1[0x4f] = (long)param_1 + 0x284;
+  *(undefined1 *)((long)param_1 + 700) = 0;
+  *(undefined4 *)(param_1 + 0x50) = 0x20;
+  param_1[0x56] = (long)param_1 + 700;
+  *(undefined4 *)(param_1 + 0x57) = 0x20;
+  *(undefined1 *)((long)param_1 + 0x2db) = 0;
+  *(undefined4 *)(param_1 + 0x3a) = 0;
+  param_1[0x4e] = (long)(puVar1 + 0x10);
+  param_1[0x55] = (long)(puVar1 + 0x10);
+  param_1[0x3d] = 0;
+  param_1[0x41] = 0;
+  local_38 = 0xfffe;
+  param_1[0x3f] = 0;
+  param_1[0x40] = 0;
+  FUN_0277d4ac(&local_38);
+  uVar4 = (undefined4)local_38;
+  uVar5 = local_38._4_4_;
+  param_1[0x43] = 0x41c8000041800000;
+  param_1[0x44] = -0x407fffff40800000;
+  *(undefined4 *)(param_1 + 0x45) = 0xbf800000;
+  *(undefined8 *)((long)param_1 + 0x22c) = 0;
+  *(undefined8 *)((long)param_1 + 0x231) = 0;
+  local_38 = 0xfffe;
+  *(undefined4 *)(param_1 + 0x42) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x214) = uVar5;
+  FUN_0277d4ac(&local_38);
+  *(undefined4 *)((long)param_1 + 0x244) = 0;
+  *(undefined2 *)(param_1 + 0x49) = 0;
+  *(undefined8 *)((long)param_1 + 0x24c) = 0;
+  *(undefined8 *)((long)param_1 + 0x254) = 0;
+  *(undefined8 *)((long)param_1 + 0x25c) = 0;
+  *(undefined8 *)((long)param_1 + 0x264) = 0;
+  *(undefined4 *)((long)param_1 + 0x26c) = 0;
+  *(undefined4 *)puVar7 = (undefined4)local_38;
+  *(undefined4 *)(param_1 + 0x48) = local_38._4_4_;
+  *(undefined1 *)param_1[0x4f] = 0;
+  *(undefined1 *)param_1[0x56] = 0;
+  return;
+}
+

@@ -1,0 +1,80 @@
+
+void FUN_0093c43c(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  
+  puVar1 = PTR_DAT_04bbc1a0;
+  *param_1 = &PTR_LAB_04928ed8;
+  param_1[0x9a0] = puVar1 + 0x10;
+  param_1[0x99a] = puVar1 + 0x10;
+  puVar1 = PTR_DAT_04bb2cc0 + 0x10;
+  param_1[0x97f] = puVar1;
+  param_1[0x96f] = puVar1;
+  param_1[0x95f] = puVar1;
+  param_1[0x94f] = puVar1;
+  param_1[0x93f] = puVar1;
+  param_1[0x92f] = puVar1;
+  param_1[0x91f] = puVar1;
+  param_1[0x90f] = puVar1;
+  param_1[0x8ff] = puVar1;
+  param_1[0x8ef] = puVar1;
+  param_1[0x8df] = puVar1;
+  param_1[0x8cf] = puVar1;
+  param_1[0x8bf] = puVar1;
+  param_1[0x8af] = puVar1;
+  param_1[0x89f] = puVar1;
+  param_1[0x88f] = puVar1;
+  param_1[0x87f] = puVar1;
+  param_1[0x86f] = puVar1;
+  param_1[0x85f] = puVar1;
+  param_1[0x84f] = puVar1;
+  param_1[0x83f] = puVar1;
+  param_1[0x82f] = puVar1;
+  param_1[0x81f] = puVar1;
+  param_1[0x80f] = puVar1;
+  param_1[0x7ff] = puVar1;
+  param_1[0x7ef] = puVar1;
+  param_1[0x7df] = puVar1;
+  param_1[1999] = puVar1;
+  param_1[0x7bf] = puVar1;
+  param_1[0x7af] = puVar1;
+  param_1[0x79f] = puVar1;
+  param_1[0x78f] = puVar1;
+  param_1[0x77f] = puVar1;
+  param_1[0x76f] = puVar1;
+  param_1[0x75f] = puVar1;
+  param_1[0x74f] = puVar1;
+  param_1[0x73f] = puVar1;
+  param_1[0x72f] = puVar1;
+  param_1[0x71f] = puVar1;
+  param_1[0x70f] = puVar1;
+  param_1[0x6ff] = puVar1;
+  param_1[0x6ef] = puVar1;
+  param_1[0x6df] = puVar1;
+  param_1[0x6cf] = puVar1;
+  param_1[0x6bf] = puVar1;
+  param_1[0x6af] = puVar1;
+  param_1[0x69f] = puVar1;
+  param_1[0x68f] = puVar1;
+  param_1[0x67f] = puVar1;
+  param_1[0x66f] = puVar1;
+  param_1[0x65f] = puVar1;
+  param_1[0x64f] = puVar1;
+  param_1[0x63f] = puVar1;
+  param_1[0x62f] = puVar1;
+  param_1[0x61f] = puVar1;
+  param_1[0x60f] = puVar1;
+  param_1[0x5ff] = puVar1;
+  param_1[0x5ef] = puVar1;
+  param_1[0x5df] = puVar1;
+  param_1[0x5cf] = puVar1;
+  param_1[0x5bf] = puVar1;
+  param_1[0x5af] = puVar1;
+  param_1[0x59f] = puVar1;
+  param_1[0x58f] = puVar1;
+  FUN_0093c6a4(param_1 + 0x1d);
+  param_1[8] = puVar1;
+  return;
+}
+

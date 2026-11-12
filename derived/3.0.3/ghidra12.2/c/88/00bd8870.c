@@ -1,0 +1,74 @@
+
+void _INIT_2270(void)
+
+{
+  DAT_04e23b80 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_04e23b84);
+  DAT_04e23b90 = 0x8004ef;
+  DAT_04e23b98 = nn::os::GetSystemTick();
+  DAT_04e23ba8 = PTR_DAT_04bb2020 + 0x10;
+  DAT_04e23bb0 = "CatchInsectFesQuestStart";
+  DAT_04e23bb8 = DAT_04e23ba8;
+  DAT_04e23bc0 = "CatchInsectFesGetNum";
+  DAT_04e23bc8 = DAT_04e23ba8;
+  DAT_04e23bd0 = "CatchInsectFesGetTotalNum";
+  DAT_04e23be8 = DAT_04e23ba8;
+  DAT_04e23bf0 = "System_InsectCatch";
+  DAT_04e23bd8 = DAT_04e23ba8;
+  DAT_04e23be0 = "CatchInsectFesCount";
+  DAT_04e23c08 = DAT_04e23ba8;
+  DAT_04e23c10 = "CatchInsectFes_Bonus";
+  DAT_04e23bf8 = DAT_04e23ba8;
+  DAT_04e23c00 = "CatchInsectFesQuestEntry";
+  DAT_04e23c28 = DAT_04e23ba8;
+  DAT_04e23c30 = "DC_CatchInsectFes_Bonus";
+  DAT_04e23c18 = DAT_04e23ba8;
+  DAT_04e23c20 = "CatchInsectFes_CooperativeBonus";
+  DAT_04e23c48 = DAT_04e23ba8;
+  DAT_04e23c50 = "CatchInsectFesEntryNum";
+  DAT_04e23c38 = DAT_04e23ba8;
+  DAT_04e23c40 = "DC_CatchInsectFes_CooperativeBonus";
+  DAT_04e23c68 = DAT_04e23ba8;
+  DAT_04e23c70 = "CatchFishFesGetNum";
+  DAT_04e23c58 = DAT_04e23ba8;
+  DAT_04e23c60 = "CatchFishFesQuestStart";
+  DAT_04e23c88 = DAT_04e23ba8;
+  DAT_04e23c90 = "CatchFishFesCount";
+  DAT_04e23c78 = DAT_04e23ba8;
+  DAT_04e23c80 = "CatchFishFesGetTotalNum";
+  DAT_04e23ca8 = DAT_04e23ba8;
+  DAT_04e23cb0 = "CatchFishFesQuestEntry";
+  DAT_04e23c98 = DAT_04e23ba8;
+  DAT_04e23ca0 = "System_FishCatch";
+  DAT_04e23cc8 = DAT_04e23ba8;
+  DAT_04e23cd0 = "CatchFishFes_CooperativeBonus";
+  DAT_04e23cb8 = DAT_04e23ba8;
+  DAT_04e23cc0 = "CatchFishFes_Bonus";
+  DAT_04e23ce8 = DAT_04e23ba8;
+  DAT_04e23cf0 = "DC_CatchFishFes_CooperativeBonus";
+  DAT_04e23cd8 = DAT_04e23ba8;
+  DAT_04e23ce0 = "DC_CatchFishFes_Bonus";
+  DAT_04e23d08 = DAT_04e23ba8;
+  DAT_04e23d10 = "FesBoxNotEmpty";
+  DAT_04e23cf8 = DAT_04e23ba8;
+  DAT_04e23d00 = "CatchFishFesEntryNum";
+  DAT_04e23ba0 = 0;
+  DAT_04e23d18 = DAT_04e23ba8;
+  DAT_04e23d20 = "CatchFesGetPoint";
+  DAT_04e23d28 = DAT_04e23ba8;
+  DAT_04e23d30 = "ModelOnUI";
+  DAT_04e23d38 = 3;
+  DAT_04e23d3c = 2;
+  DAT_04e23d71 = 1;
+  DAT_04e23d69 = &DAT_101010101010101;
+  DAT_04e23d61 = &DAT_101010101010101;
+  DAT_04e23d59 = &DAT_101010101010101;
+  DAT_04e23d51 = &DAT_101010101010101;
+  DAT_04e23d49 = &DAT_101010101010101;
+  DAT_04e23d41 = &DAT_101010101010101;
+  DAT_04e23d40 = 0;
+  uRam0000000004e23d76 = 0x20202;
+  DAT_04e23d72 = 0x2020202;
+  return;
+}
+

@@ -1,0 +1,71 @@
+
+void FUN_0093c594(undefined8 *param_1)
+
+{
+  param_1[0x3f0] = &PTR_FUN_048fc2b8;
+  param_1[0x3e0] = &PTR_FUN_048fc2b8;
+  param_1[0x3d0] = &PTR_FUN_048fc2b8;
+  param_1[0x3c0] = &PTR_FUN_048fc2b8;
+  param_1[0x3b0] = &PTR_FUN_048fc2b8;
+  param_1[0x3a0] = &PTR_FUN_048fc2b8;
+  param_1[0x390] = &PTR_FUN_048fc2b8;
+  param_1[0x380] = &PTR_FUN_048fc2b8;
+  param_1[0x370] = &PTR_FUN_048fc2b8;
+  param_1[0x360] = &PTR_FUN_048fc2b8;
+  param_1[0x350] = &PTR_FUN_048fc2b8;
+  param_1[0x340] = &PTR_FUN_048fc2b8;
+  param_1[0x330] = &PTR_FUN_048fc2b8;
+  param_1[800] = &PTR_FUN_048fc2b8;
+  param_1[0x310] = &PTR_FUN_048fc2b8;
+  param_1[0x300] = &PTR_FUN_048fc2b8;
+  param_1[0x2f0] = &PTR_FUN_048fc2b8;
+  param_1[0x2e0] = &PTR_FUN_048fc2b8;
+  param_1[0x2d0] = &PTR_FUN_048fc2b8;
+  param_1[0x2c0] = &PTR_FUN_048fc2b8;
+  param_1[0x2b0] = &PTR_FUN_048fc2b8;
+  param_1[0x2a0] = &PTR_FUN_048fc2b8;
+  param_1[0x290] = &PTR_FUN_048fc2b8;
+  param_1[0x280] = &PTR_FUN_048fc2b8;
+  param_1[0x270] = &PTR_FUN_048fc2b8;
+  param_1[0x260] = &PTR_FUN_048fc2b8;
+  param_1[0x250] = &PTR_FUN_048fc2b8;
+  param_1[0x240] = &PTR_FUN_048fc2b8;
+  param_1[0x230] = &PTR_FUN_048fc2b8;
+  param_1[0x220] = &PTR_FUN_048fc2b8;
+  param_1[0x210] = &PTR_FUN_048fc2b8;
+  param_1[0x200] = &PTR_FUN_048fc2b8;
+  param_1[0x1f0] = &PTR_FUN_048fc2b8;
+  param_1[0x1e0] = &PTR_FUN_048fc2b8;
+  param_1[0x1d0] = &PTR_FUN_048fc2b8;
+  param_1[0x1c0] = &PTR_FUN_048fc2b8;
+  param_1[0x1b0] = &PTR_FUN_048fc2b8;
+  param_1[0x1a0] = &PTR_FUN_048fc2b8;
+  param_1[400] = &PTR_FUN_048fc2b8;
+  param_1[0x180] = &PTR_FUN_048fc2b8;
+  param_1[0x170] = &PTR_FUN_048fc2b8;
+  param_1[0x160] = &PTR_FUN_048fc2b8;
+  param_1[0x150] = &PTR_FUN_048fc2b8;
+  param_1[0x140] = &PTR_FUN_048fc2b8;
+  param_1[0x130] = &PTR_FUN_048fc2b8;
+  param_1[0x120] = &PTR_FUN_048fc2b8;
+  param_1[0x110] = &PTR_FUN_048fc2b8;
+  param_1[0x100] = &PTR_FUN_048fc2b8;
+  param_1[0xf0] = &PTR_FUN_048fc2b8;
+  param_1[0xe0] = &PTR_FUN_048fc2b8;
+  param_1[0xd0] = &PTR_FUN_048fc2b8;
+  param_1[0xc0] = &PTR_FUN_048fc2b8;
+  param_1[0xb0] = &PTR_FUN_048fc2b8;
+  param_1[0xa0] = &PTR_FUN_048fc2b8;
+  param_1[0x90] = &PTR_FUN_048fc2b8;
+  param_1[0x80] = &PTR_FUN_048fc2b8;
+  param_1[0x70] = &PTR_FUN_048fc2b8;
+  param_1[0x60] = &PTR_FUN_048fc2b8;
+  param_1[0x50] = &PTR_FUN_048fc2b8;
+  param_1[0x40] = &PTR_FUN_048fc2b8;
+  param_1[0x30] = &PTR_FUN_048fc2b8;
+  param_1[0x20] = &PTR_FUN_048fc2b8;
+  param_1[0x10] = &PTR_FUN_048fc2b8;
+  *param_1 = &PTR_FUN_048fc2b8;
+  return;
+}
+
