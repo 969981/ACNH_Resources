@@ -1,0 +1,82 @@
+
+void FUN_007f07a0(undefined8 *param_1)
+
+{
+  undefined8 *puVar1;
+  
+  param_1[0x82] = 0;
+  param_1[0x1e] = param_1 + 0x20;
+  *param_1 = 0;
+  param_1[1] = 0;
+  param_1[0x1c] = param_1 + 0x1e;
+  param_1[0x1a] = param_1 + 0x1c;
+  param_1[0x18] = param_1 + 0x1a;
+  param_1[0x16] = param_1 + 0x18;
+  param_1[0x20] = param_1 + 0x22;
+  param_1[0x14] = param_1 + 0x16;
+  param_1[0x22] = param_1 + 0x24;
+  param_1[0x12] = param_1 + 0x14;
+  param_1[0x24] = param_1 + 0x26;
+  param_1[0x10] = param_1 + 0x12;
+  param_1[0x26] = param_1 + 0x28;
+  param_1[0xe] = param_1 + 0x10;
+  param_1[0x28] = param_1 + 0x2a;
+  param_1[0xc] = param_1 + 0xe;
+  param_1[0x2a] = param_1 + 0x2c;
+  param_1[10] = param_1 + 0xc;
+  param_1[0x2c] = param_1 + 0x2e;
+  param_1[8] = param_1 + 10;
+  param_1[0x2e] = param_1 + 0x30;
+  param_1[6] = param_1 + 8;
+  param_1[0x30] = param_1 + 0x32;
+  puVar1 = param_1 + 4;
+  *puVar1 = param_1 + 6;
+  param_1[0x32] = param_1 + 0x34;
+  param_1[0x34] = param_1 + 0x36;
+  param_1[0x36] = param_1 + 0x38;
+  param_1[0x38] = param_1 + 0x3a;
+  param_1[0x3a] = param_1 + 0x3c;
+  param_1[0x3c] = param_1 + 0x3e;
+  param_1[0x3e] = param_1 + 0x40;
+  param_1[0x40] = param_1 + 0x42;
+  param_1[0x42] = param_1 + 0x44;
+  param_1[0x44] = param_1 + 0x46;
+  param_1[0x46] = param_1 + 0x48;
+  param_1[0x48] = param_1 + 0x4a;
+  param_1[0x4a] = param_1 + 0x4c;
+  param_1[0x4c] = param_1 + 0x4e;
+  param_1[0x4e] = param_1 + 0x50;
+  param_1[0x50] = param_1 + 0x52;
+  param_1[0x52] = param_1 + 0x54;
+  param_1[0x54] = param_1 + 0x56;
+  param_1[0x56] = param_1 + 0x58;
+  param_1[0x58] = param_1 + 0x5a;
+  param_1[0x5a] = param_1 + 0x5c;
+  param_1[0x5c] = param_1 + 0x5e;
+  param_1[0x5e] = param_1 + 0x60;
+  param_1[0x60] = param_1 + 0x62;
+  param_1[0x62] = param_1 + 100;
+  param_1[100] = param_1 + 0x66;
+  param_1[0x66] = param_1 + 0x68;
+  param_1[0x68] = param_1 + 0x6a;
+  param_1[0x6a] = param_1 + 0x6c;
+  param_1[0x6c] = param_1 + 0x6e;
+  param_1[0x6e] = param_1 + 0x70;
+  param_1[0x70] = param_1 + 0x72;
+  param_1[0x72] = param_1 + 0x74;
+  param_1[0x74] = param_1 + 0x76;
+  param_1[0x76] = param_1 + 0x78;
+  param_1[0x78] = param_1 + 0x7a;
+  param_1[0x7a] = param_1 + 0x7c;
+  param_1[0x7c] = param_1 + 0x7e;
+  param_1[0x7e] = param_1 + 0x80;
+  param_1[0x80] = param_1 + 0x82;
+  param_1[2] = puVar1;
+  param_1[3] = puVar1;
+  if (param_1 + 0x84 != (undefined8 *)0x0) {
+    *param_1 = 0x4000000000;
+    param_1[1] = param_1 + 0x84;
+  }
+  return;
+}
+

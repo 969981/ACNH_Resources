@@ -1,0 +1,81 @@
+
+void FUN_007cdc74(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  undefined4 uVar2;
+  undefined1 uVar3;
+  undefined1 uVar4;
+  undefined2 uVar5;
+  undefined *puVar6;
+  
+  param_1[2] = 0;
+  puVar1 = PTR_DAT_04bb2010;
+  param_1[6] = 0;
+  puVar6 = PTR_DAT_04bb37e0;
+  param_1[8] = 0;
+  puVar1 = puVar1 + 0x10;
+  param_1[0xc] = 0;
+  param_1[0x10] = 0;
+  param_1[0x14] = 0;
+  param_1[0x18] = 0;
+  param_1[0x1c] = 0;
+  *(undefined2 *)((long)param_1 + 0x104) = 0;
+  *param_1 = 0;
+  param_1[1] = puVar1;
+  uVar5 = *(undefined2 *)puVar6;
+  uVar3 = puVar6[2];
+  uVar4 = puVar6[3];
+  uVar2 = *(undefined4 *)(puVar6 + 4);
+  *(undefined2 *)(param_1 + 3) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x1a) = uVar3;
+  *(undefined1 *)((long)param_1 + 0x1b) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x1c) = uVar2;
+  *(undefined2 *)(param_1 + 7) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x3a) = uVar3;
+  *(undefined1 *)((long)param_1 + 0x3b) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x3c) = uVar2;
+  *(undefined2 *)(param_1 + 0xb) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x5a) = uVar3;
+  *(undefined1 *)((long)param_1 + 0x5b) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x5c) = uVar2;
+  *(undefined2 *)(param_1 + 0xf) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x7a) = uVar3;
+  *(undefined1 *)((long)param_1 + 0x7b) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x7c) = uVar2;
+  *(undefined2 *)(param_1 + 0x13) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x9a) = uVar3;
+  *(undefined1 *)((long)param_1 + 0x9b) = uVar4;
+  *(undefined4 *)((long)param_1 + 0x9c) = uVar2;
+  *(undefined2 *)(param_1 + 0x17) = uVar5;
+  *(undefined1 *)((long)param_1 + 0xba) = uVar3;
+  *(undefined1 *)((long)param_1 + 0xbb) = uVar4;
+  *(undefined4 *)((long)param_1 + 0xbc) = uVar2;
+  *(undefined2 *)(param_1 + 0x1b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0xda) = uVar3;
+  *(undefined1 *)((long)param_1 + 0xdb) = uVar4;
+  *(undefined4 *)((long)param_1 + 0xdc) = uVar2;
+  *(undefined2 *)(param_1 + 0x1f) = uVar5;
+  *(undefined1 *)((long)param_1 + 0xfa) = uVar3;
+  *(undefined1 *)((long)param_1 + 0xfb) = uVar4;
+  *(undefined4 *)((long)param_1 + 0xfc) = uVar2;
+  *(undefined4 *)(param_1 + 0x20) = 0;
+  param_1[4] = 0;
+  param_1[5] = puVar1;
+  param_1[9] = puVar1;
+  param_1[10] = 0;
+  param_1[0xd] = puVar1;
+  param_1[0xe] = 0;
+  param_1[0x11] = puVar1;
+  param_1[0x12] = 0;
+  param_1[0x15] = puVar1;
+  param_1[0x16] = 0;
+  param_1[0x19] = puVar1;
+  param_1[0x1a] = 0;
+  param_1[0x1d] = puVar1;
+  param_1[0x1e] = 0;
+  *(undefined8 *)((long)param_1 + 0x10d) = 0;
+  param_1[0x21] = 0;
+  return;
+}
+

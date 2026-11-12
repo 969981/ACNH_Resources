@@ -1,0 +1,9 @@
+
+void _INIT_1051(void)
+
+{
+  FUN_0069c700(&DAT_04c81380,&DAT_04c81398,8);
+  FUN_0069c92c(&DAT_04c81658,&DAT_04c81670,8);
+  return;
+}
+

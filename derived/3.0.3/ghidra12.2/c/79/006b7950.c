@@ -1,0 +1,10 @@
+
+void _INIT_1053(void)
+
+{
+  FUN_001001d0(&LAB_006af2d4,&DAT_04c81ac0,&__DT_FINI_ARRAY);
+  FUN_001001d0(&LAB_006b17f4,&DAT_04c81ac8,&__DT_FINI_ARRAY);
+  FUN_001001d0(&LAB_006b62e4,&DAT_04c81ad0,&__DT_FINI_ARRAY);
+  return;
+}
+
