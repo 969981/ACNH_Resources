@@ -1,0 +1,51 @@
+
+void _INIT_4256(void)
+
+{
+  DAT_050b5918 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_050b591c);
+  DAT_050b5928 = 0x8004ef;
+  DAT_050b5930 = nn::os::GetSystemTick();
+  DAT_050b5940 = PTR_DAT_04bb2020 + 0x10;
+  DAT_050b5948 = "Player";
+  DAT_050b5950 = DAT_050b5940;
+  DAT_050b5958 = "MainNpc";
+  DAT_050b5960 = DAT_050b5940;
+  DAT_050b5968 = "SubNpc";
+  DAT_050b5970 = DAT_050b5940;
+  DAT_050b5978 = "EventFlowSystemActor";
+  DAT_050b5980 = DAT_050b5940;
+  DAT_050b5988 = &DAT_040c4b68;
+  DAT_050b5990 = DAT_050b5940;
+  DAT_050b5998 = "SnowMan";
+  DAT_050b59a0 = DAT_050b5940;
+  DAT_050b59a8 = "HaniwaKun";
+  DAT_050b59b0 = DAT_050b5940;
+  DAT_050b59b8 = "GeneralObject";
+  DAT_050b59c0 = DAT_050b5940;
+  DAT_050b59c8 = "DynamicCast_";
+  DAT_050b59d0 = DAT_050b5940;
+  DAT_050b59d8 = "NNPC_Talk_Sequence";
+  DAT_050b59e0 = DAT_050b5940;
+  DAT_050b59e8 = &DAT_04066c7f;
+  DAT_050b59f0 = DAT_050b5940;
+  DAT_050b59f8 = "AI_NPC_";
+  DAT_050b5a00 = DAT_050b5940;
+  DAT_050b5a08 = &DAT_040a029a;
+  DAT_050b5a10 = 1;
+  DAT_050b5a14 = 3;
+  DAT_050b5a18 = 2;
+  DAT_050b5a1d = &DAT_101010101010101;
+  DAT_050b5a25 = &DAT_101010101010101;
+  DAT_050b5a2d = &DAT_101010101010101;
+  DAT_050b5a35 = &DAT_101010101010101;
+  DAT_050b5a3d = &DAT_101010101010101;
+  DAT_050b5a45 = &DAT_101010101010101;
+  DAT_050b5a4d = 1;
+  DAT_050b5938 = 0;
+  DAT_050b5a1c = 0;
+  uRam00000000050b5a52 = 0x20202;
+  DAT_050b5a4e = 0x2020202;
+  return;
+}
+

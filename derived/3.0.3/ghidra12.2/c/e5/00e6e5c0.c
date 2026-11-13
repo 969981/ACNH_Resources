@@ -1,0 +1,52 @@
+
+void _INIT_3226(void)
+
+{
+  DAT_04f67590 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_04f67594);
+  DAT_04f675a0 = 0x8004ef;
+  DAT_04f675a8 = nn::os::GetSystemTick();
+  DAT_04f675b8 = 3;
+  DAT_04f675bc = 2;
+  DAT_04f675b0 = 0;
+  DAT_04f67600 = PTR_DAT_04bb2020 + 0x10;
+  DAT_04f67608 = "NNPC_Talk_Sequence";
+  DAT_04f67618 = &DAT_04066c7f;
+  DAT_04f67628 = "AI_NPC_";
+  DAT_04f67638 = &DAT_040a029a;
+  DAT_04f675c1 = &DAT_101010101010101;
+  DAT_04f675c9 = &DAT_101010101010101;
+  DAT_04f675d1 = &DAT_101010101010101;
+  DAT_04f675d9 = &DAT_101010101010101;
+  DAT_04f675e1 = &DAT_101010101010101;
+  DAT_04f675e9 = &DAT_101010101010101;
+  DAT_04f675f1 = 1;
+  DAT_04f675c0 = 0;
+  DAT_04f67648 = "cat00";
+  DAT_04f675f2 = 0x2020202;
+  uRam0000000004f675f6 = 0x20202;
+  DAT_04f67660 = 1;
+  DAT_04f67658 = "Normal";
+  DAT_04f67670 = &DAT_04f6767c;
+  DAT_04f67678 = 0x20;
+  DAT_04f6769b = 0;
+  DAT_04f67684 = 0x65676174;
+  DAT_04f67688 = 0;
+  DAT_04f6767c._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_04f6767c._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_04f6767c._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_04f6767c._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_04f6767c._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_04f6767c._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_04f6767c._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_04f6767c._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_04f67668 = PTR_DAT_04bb2028 + 0x10;
+  DAT_04f67610 = DAT_04f67600;
+  DAT_04f67620 = DAT_04f67600;
+  DAT_04f67630 = DAT_04f67600;
+  DAT_04f67640 = DAT_04f67600;
+  DAT_04f67650 = DAT_04f67600;
+  DAT_04f676a0 = FUN_006bd550("InvalidStage",0);
+  return;
+}
+

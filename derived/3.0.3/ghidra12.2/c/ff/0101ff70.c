@@ -1,0 +1,24 @@
+
+void _INIT_3834(void)
+
+{
+  DAT_05053d68 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_05053d6c);
+  DAT_05053d78 = 0x8004ef;
+  DAT_05053d80 = nn::os::GetSystemTick();
+  DAT_05053d88 = 0;
+  DAT_05053d90 = 3;
+  DAT_05053d94 = 2;
+  DAT_05053d99 = &DAT_101010101010101;
+  DAT_05053da1 = &DAT_101010101010101;
+  DAT_05053da9 = &DAT_101010101010101;
+  DAT_05053db1 = &DAT_101010101010101;
+  DAT_05053db9 = &DAT_101010101010101;
+  DAT_05053dc1 = &DAT_101010101010101;
+  DAT_05053dc9 = 1;
+  DAT_05053d98 = 0;
+  DAT_05053dca = 0x2020202;
+  uRam0000000005053dce = 0x20202;
+  return;
+}
+

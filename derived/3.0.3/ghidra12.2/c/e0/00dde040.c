@@ -1,0 +1,32 @@
+
+void _INIT_2943(void)
+
+{
+  DAT_04f2c418 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_04f2c41c);
+  DAT_04f2c428 = 0x8004ef;
+  DAT_04f2c430 = nn::os::GetSystemTick();
+  DAT_04f2c440 = 3;
+  DAT_04f2c444 = 2;
+  DAT_04f2c438 = 0;
+  DAT_04f2c488 = PTR_DAT_04bb2020 + 0x10;
+  DAT_04f2c490 = "NNPC_Talk_Sequence";
+  DAT_04f2c498 = DAT_04f2c488;
+  DAT_04f2c4a0 = &DAT_04066c7f;
+  DAT_04f2c449 = &DAT_101010101010101;
+  DAT_04f2c451 = &DAT_101010101010101;
+  DAT_04f2c459 = &DAT_101010101010101;
+  DAT_04f2c461 = &DAT_101010101010101;
+  DAT_04f2c469 = &DAT_101010101010101;
+  DAT_04f2c471 = &DAT_101010101010101;
+  DAT_04f2c479 = 1;
+  DAT_04f2c448 = 0;
+  DAT_04f2c4a8 = DAT_04f2c488;
+  DAT_04f2c4b0 = "AI_NPC_";
+  DAT_04f2c47a = 0x2020202;
+  uRam0000000004f2c47e = 0x20202;
+  DAT_04f2c4b8 = DAT_04f2c488;
+  DAT_04f2c4c0 = &DAT_040a029a;
+  return;
+}
+
