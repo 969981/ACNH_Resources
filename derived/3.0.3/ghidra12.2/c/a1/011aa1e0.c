@@ -1,0 +1,28 @@
+
+void _INIT_4298(void)
+
+{
+  DAT_050d15a8 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_050d15ac);
+  DAT_050d15b8 = 0x8004ef;
+  DAT_050d15c0 = nn::os::GetSystemTick();
+  DAT_050d15c8 = 0;
+  DAT_050d15d0 = 3;
+  DAT_050d15d4 = 2;
+  DAT_050d15d9 = &DAT_101010101010101;
+  DAT_050d15e1 = &DAT_101010101010101;
+  DAT_050d15e9 = &DAT_101010101010101;
+  DAT_050d15f1 = &DAT_101010101010101;
+  DAT_050d15f9 = &DAT_101010101010101;
+  DAT_050d1601 = &DAT_101010101010101;
+  DAT_050d1609 = 1;
+  DAT_050d15d8 = 0;
+  DAT_050d1618 = PTR_DAT_04bb2020 + 0x10;
+  DAT_050d1620 = "EventObjCarnivalLight";
+  DAT_050d160a = 0x2020202;
+  uRam00000000050d160e = 0x20202;
+  DAT_050d1628 = PTR_DAT_04bb2020 + 0x10;
+  DAT_050d1630 = "Blink";
+  return;
+}
+

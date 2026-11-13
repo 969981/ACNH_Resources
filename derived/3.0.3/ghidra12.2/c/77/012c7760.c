@@ -1,0 +1,71 @@
+
+void FUN_012c7760(long param_1)
+
+{
+  FUN_012c7a38();
+  FUN_012c7a38(param_1 + 0x200);
+  FUN_012c7a38(param_1 + 0x400);
+  FUN_012c7a38(param_1 + 0x600);
+  FUN_012c7a38(param_1 + 0x800);
+  FUN_012c7a38(param_1 + 0xa00);
+  FUN_012c7a38(param_1 + 0xc00);
+  FUN_012c7a38(param_1 + 0xe00);
+  FUN_012c7a38(param_1 + 0x1000);
+  FUN_012c7a38(param_1 + 0x1200);
+  FUN_012c7a38(param_1 + 0x1400);
+  FUN_012c7a38(param_1 + 0x1600);
+  FUN_012c7a38(param_1 + 0x1800);
+  FUN_012c7a38(param_1 + 0x1a00);
+  FUN_012c7a38(param_1 + 0x1c00);
+  FUN_012c7a38(param_1 + 0x1e00);
+  FUN_012c7a38(param_1 + 0x2000);
+  FUN_012c7a38(param_1 + 0x2200);
+  FUN_012c7a38(param_1 + 0x2400);
+  FUN_012c7a38(param_1 + 0x2600);
+  FUN_012c7a38(param_1 + 0x2800);
+  FUN_012c7a38(param_1 + 0x2a00);
+  FUN_012c7a38(param_1 + 0x2c00);
+  FUN_012c7a38(param_1 + 0x2e00);
+  FUN_012c7a38(param_1 + 0x3000);
+  FUN_012c7a38(param_1 + 0x3200);
+  FUN_012c7a38(param_1 + 0x3400);
+  FUN_012c7a38(param_1 + 0x3600);
+  FUN_012c7a38(param_1 + 0x3800);
+  FUN_012c7a38(param_1 + 0x3a00);
+  FUN_012c7a38(param_1 + 0x3c00);
+  FUN_012c7a38(param_1 + 0x3e00);
+  FUN_012c7a38(param_1 + 0x4000);
+  FUN_012c7a38(param_1 + 0x4200);
+  FUN_012c7a38(param_1 + 0x4400);
+  FUN_012c7a38(param_1 + 0x4600);
+  FUN_012c7a38(param_1 + 0x4800);
+  FUN_012c7a38(param_1 + 0x4a00);
+  FUN_012c7a38(param_1 + 0x4c00);
+  FUN_012c7a38(param_1 + 0x4e00);
+  FUN_012c7a38(param_1 + 0x5000);
+  FUN_012c7a38(param_1 + 0x5200);
+  FUN_012c7a38(param_1 + 0x5400);
+  FUN_012c7a38(param_1 + 0x5600);
+  FUN_012c7a38(param_1 + 0x5800);
+  FUN_012c7a38(param_1 + 0x5a00);
+  FUN_012c7a38(param_1 + 0x5c00);
+  FUN_012c7a38(param_1 + 0x5e00);
+  FUN_012c7a38(param_1 + 0x6000);
+  FUN_012c7a38(param_1 + 0x6200);
+  FUN_012c7a38(param_1 + 0x6400);
+  FUN_012c7a38(param_1 + 0x6600);
+  FUN_012c7a38(param_1 + 0x6800);
+  FUN_012c7a38(param_1 + 0x6a00);
+  FUN_012c7a38(param_1 + 0x6c00);
+  FUN_012c7a38(param_1 + 0x6e00);
+  FUN_012c7a38(param_1 + 0x7000);
+  FUN_012c7a38(param_1 + 0x7200);
+  FUN_012c7a38(param_1 + 0x7400);
+  FUN_012c7a38(param_1 + 0x7600);
+  FUN_012c7a38(param_1 + 0x7800);
+  FUN_012c7a38(param_1 + 0x7a00);
+  FUN_012c7a38(param_1 + 0x7c00);
+  FUN_012c7a38(param_1 + 0x7e00);
+  return;
+}
+

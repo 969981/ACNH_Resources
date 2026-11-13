@@ -1,0 +1,78 @@
+
+void _INIT_4619(void)
+
+{
+  DAT_051cf648 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_051cf64c);
+  DAT_051cf658 = 0x8004ef;
+  DAT_051cf660 = nn::os::GetSystemTick();
+  DAT_051cf668 = 0;
+  DAT_051cf670 = 0xc0000000;
+  DAT_051cf674 = 0x40000000;
+  DAT_051cf688 = 0x20;
+  DAT_051cf6ab = 0;
+  DAT_051cf680 = &DAT_051cf68c;
+  DAT_051cf694 = 0x65676174;
+  DAT_051cf698 = 0;
+  DAT_051cf68c._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_051cf68c._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_051cf68c._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_051cf68c._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_051cf68c._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_051cf68c._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_051cf68c._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_051cf68c._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_051cf678 = PTR_DAT_04bb2028 + 0x10;
+  DAT_051cf6b0 = FUN_006bd550("InvalidStage",0);
+  DAT_051cf6c8 = 0x40;
+  DAT_051cf6c0 = &DAT_051cf6cc;
+  DAT_051cf70b = 0;
+  DAT_051cf6e4 = 0x73;
+  DAT_051cf6cc._0_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0];
+  DAT_051cf6cc._1_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[1];
+  DAT_051cf6cc._2_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[2];
+  DAT_051cf6cc._3_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[3];
+  DAT_051cf6cc._4_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[4];
+  DAT_051cf6cc._5_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[5];
+  DAT_051cf6cc._6_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[6];
+  DAT_051cf6cc._7_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[7];
+  DAT_051cf6d4._0_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[8];
+  DAT_051cf6d4._1_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[9];
+  DAT_051cf6d4._2_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[10];
+  DAT_051cf6d4._3_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0xb];
+  DAT_051cf6d4._4_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0xc];
+  DAT_051cf6d4._5_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0xd];
+  DAT_051cf6d4._6_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0xe];
+  DAT_051cf6d4._7_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0xf];
+  DAT_051cf6dc._0_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x10];
+  DAT_051cf6dc._1_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x11];
+  DAT_051cf6dc._2_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x12];
+  DAT_051cf6dc._3_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x13];
+  DAT_051cf6dc._4_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x14];
+  DAT_051cf6dc._5_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x15];
+  DAT_051cf6dc._6_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x16];
+  DAT_051cf6dc._7_1_ = s_Obj_Radio_RadioGymnastics_04086ed0[0x17];
+  DAT_051cf720 = 0x40;
+  DAT_051cf763 = 0;
+  DAT_051cf718 = &DAT_051cf724;
+  DAT_051cf6b8 = PTR_DAT_04bb2bc0 + 0x10;
+  DAT_051cf733 = 0;
+  DAT_051cf724._0_1_ = s_RadioGymnastics_040df240[0];
+  DAT_051cf724._1_1_ = s_RadioGymnastics_040df240[1];
+  DAT_051cf724._2_1_ = s_RadioGymnastics_040df240[2];
+  DAT_051cf724._3_1_ = s_RadioGymnastics_040df240[3];
+  DAT_051cf724._4_1_ = s_RadioGymnastics_040df240[4];
+  DAT_051cf724._5_1_ = s_RadioGymnastics_040df240[5];
+  DAT_051cf724._6_1_ = s_RadioGymnastics_040df240[6];
+  DAT_051cf724._7_1_ = s_RadioGymnastics_040df240[7];
+  uRam00000000051cf72c._0_1_ = s_RadioGymnastics_040df240[8];
+  uRam00000000051cf72c._1_1_ = s_RadioGymnastics_040df240[9];
+  uRam00000000051cf72c._2_1_ = s_RadioGymnastics_040df240[10];
+  uRam00000000051cf72c._3_1_ = s_RadioGymnastics_040df240[0xb];
+  uRam00000000051cf72c._4_1_ = s_RadioGymnastics_040df240[0xc];
+  uRam00000000051cf72c._5_1_ = s_RadioGymnastics_040df240[0xd];
+  uRam00000000051cf72c._6_1_ = s_RadioGymnastics_040df240[0xe];
+  DAT_051cf710 = PTR_DAT_04bb2bc0 + 0x10;
+  return;
+}
+

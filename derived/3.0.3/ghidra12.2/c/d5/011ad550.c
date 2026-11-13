@@ -1,0 +1,48 @@
+
+void _INIT_4300(void)
+
+{
+  DAT_050d16b8 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_050d16bc);
+  DAT_050d16c8 = 0x8004ef;
+  DAT_050d16d0 = nn::os::GetSystemTick();
+  DAT_050d16e0 = 3;
+  DAT_050d16e4 = 2;
+  DAT_050d16d8 = 0;
+  DAT_050d1728 = PTR_DAT_04bb2020 + 0x10;
+  DAT_050d1730 = "EventObjCountdownBoard";
+  DAT_050d1738 = DAT_050d1728;
+  DAT_050d1740 = "OneSecond";
+  DAT_050d1748 = DAT_050d1728;
+  DAT_050d1750 = "TenSecond";
+  DAT_050d1758 = DAT_050d1728;
+  DAT_050d1760 = "OneMinute";
+  DAT_050d1768 = DAT_050d1728;
+  DAT_050d1770 = "TenMinute";
+  DAT_050d1778 = DAT_050d1728;
+  DAT_050d1780 = "OneHour";
+  DAT_050d1788 = DAT_050d1728;
+  DAT_050d1790 = "TenHour";
+  DAT_050d1798 = DAT_050d1728;
+  DAT_050d17a0 = "Colon";
+  DAT_050d17a8 = DAT_050d1728;
+  DAT_050d17b0 = "RestSecond";
+  DAT_050d17b8 = DAT_050d1728;
+  DAT_050d17c0 = "Clock";
+  DAT_050d16e9 = &DAT_101010101010101;
+  DAT_050d16f1 = &DAT_101010101010101;
+  DAT_050d16f9 = &DAT_101010101010101;
+  DAT_050d1701 = &DAT_101010101010101;
+  DAT_050d1709 = &DAT_101010101010101;
+  DAT_050d1711 = &DAT_101010101010101;
+  DAT_050d1719 = 1;
+  DAT_050d16e8 = 0;
+  DAT_050d17c8 = DAT_050d1728;
+  DAT_050d17d0 = "CountdownBig";
+  DAT_050d171a = 0x2020202;
+  uRam00000000050d171e = 0x20202;
+  DAT_050d17d8 = DAT_050d1728;
+  DAT_050d17e0 = "NewYear";
+  return;
+}
+

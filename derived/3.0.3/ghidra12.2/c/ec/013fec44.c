@@ -1,0 +1,92 @@
+
+void FUN_013fec44(void *param_1)
+
+{
+  int iVar1;
+  undefined *puVar2;
+  undefined4 uVar3;
+  long *plVar4;
+  void *pvVar5;
+  undefined8 *__s;
+  
+  *(undefined8 *)((long)param_1 + 0x400) = 0;
+  *(undefined ***)((long)param_1 + 0x350) = &PTR_FUN_04996eb8;
+  puVar2 = PTR_DAT_04bb2698;
+  DAT_051b6998 = 1;
+  DAT_051b699c = 0xffffffffffffffff;
+  DAT_051b69a4 = 0xffffffffffffffff;
+  pvVar5 = *(void **)((long)param_1 + 0x420);
+  if (pvVar5 != (void *)0x0) {
+    if (*(long *)PTR_DAT_04bb2698 == 0) {
+      free(pvVar5);
+    }
+    else {
+      plVar4 = (long *)FUN_038cb610(*(long *)PTR_DAT_04bb2698,pvVar5);
+      if (plVar4 != (long *)0x0) {
+        (**(code **)(*plVar4 + 0x38))(plVar4,pvVar5);
+      }
+    }
+    *(undefined8 *)((long)param_1 + 0x420) = 0;
+    *(undefined4 *)((long)param_1 + 0x418) = 0;
+  }
+  pvVar5 = *(void **)((long)param_1 + 0x508);
+  if (pvVar5 != (void *)0x0) {
+    if (*(long *)puVar2 == 0) {
+      free(pvVar5);
+    }
+    else {
+      plVar4 = (long *)FUN_038cb610(*(long *)puVar2,pvVar5);
+      if (plVar4 != (long *)0x0) {
+        (**(code **)(*plVar4 + 0x38))(plVar4,pvVar5);
+      }
+    }
+    *(undefined8 *)((long)param_1 + 0x508) = 0;
+    *(undefined4 *)((long)param_1 + 0x500) = 0;
+  }
+  pvVar5 = *(void **)((long)param_1 + 0x520);
+  *(undefined4 *)((long)param_1 + 0x510) = 0xffffffff;
+  if (pvVar5 != (void *)0x0) {
+    if (*(long *)puVar2 == 0) {
+      free(pvVar5);
+    }
+    else {
+      plVar4 = (long *)FUN_038cb610(*(long *)puVar2,pvVar5);
+      if (plVar4 != (long *)0x0) {
+        (**(code **)(*plVar4 + 0x38))(plVar4,pvVar5);
+      }
+    }
+    *(undefined8 *)((long)param_1 + 0x520) = 0;
+    *(undefined4 *)((long)param_1 + 0x518) = 0;
+  }
+  __s = *(undefined8 **)((long)param_1 + 0x360);
+  *(undefined ***)((long)param_1 + 0x350) = &PTR_FUN_04b5e7f8;
+  if (__s != &DAT_0407ebb1) {
+    iVar1 = 0;
+    if (*(int *)((long)param_1 + 0x368) < 1) {
+      iVar1 = *(int *)((long)param_1 + 0x368) + -1;
+    }
+    memset(__s,0,(long)iVar1);
+    *(undefined1 *)((long)__s + (long)iVar1) = 0;
+  }
+  (**(code **)(*(long *)((long)param_1 + 0x358) + 0x18))((long)param_1 + 0x358);
+  uVar3 = FUN_006bd550(*(undefined8 *)((long)param_1 + 0x360),0);
+  *(undefined4 *)((long)param_1 + 0x3f0) = uVar3;
+  *(undefined8 *)((long)param_1 + 0x3f8) = 0;
+  *(undefined8 *)((long)param_1 + 0x400) = 0;
+  *(undefined8 *)((long)param_1 + 0x408) = 0;
+  FUN_013ff104((long)param_1 + 0x150);
+  FUN_009931e0(param_1);
+  if (*(long *)puVar2 == 0) {
+    free(param_1);
+    return;
+  }
+  plVar4 = (long *)FUN_038cb610(*(long *)puVar2,param_1);
+  if (plVar4 == (long *)0x0) {
+    return;
+  }
+                    /* WARNING: Could not recover jumptable at 0x013fee08. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(*plVar4 + 0x38))(plVar4,param_1);
+  return;
+}
+

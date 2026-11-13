@@ -1,0 +1,97 @@
+
+void FUN_01302100(long param_1)
+
+{
+  undefined8 *puVar1;
+  uint uVar2;
+  uint uVar3;
+  
+  *(undefined8 *)(param_1 + 0x18) = 0;
+  *(undefined8 *)(param_1 + 0x28) = 0;
+  uVar2 = 0;
+  do {
+    puVar1 = (undefined8 *)(param_1 + 0x30) + (ulong)uVar2 * 0x48;
+    if (3 < uVar2) {
+      puVar1 = (undefined8 *)(param_1 + 0x30);
+    }
+    uVar3 = 4;
+    if ((int)uVar2 < 4) {
+      uVar3 = uVar2 + 1;
+    }
+    *puVar1 = 0x500000005;
+    puVar1[1] = 0x500000005;
+    puVar1[2] = 0x500000005;
+    puVar1[3] = 0x500000005;
+    puVar1[0x40] = 0x500000005;
+    puVar1[4] = 0x500000005;
+    puVar1[5] = 0x500000005;
+    puVar1[0x41] = 0x500000005;
+    puVar1[6] = 0x500000005;
+    puVar1[7] = 0x500000005;
+    puVar1[0x42] = 0x500000005;
+    puVar1[0x43] = 0x500000005;
+    puVar1[0x44] = 0x500000005;
+    puVar1[0x45] = 0x500000005;
+    puVar1[0x46] = 0x500000005;
+    puVar1[0x47] = 0x500000005;
+    puVar1[8] = 0x500000005;
+    puVar1[9] = 0x500000005;
+    puVar1[10] = 0x500000005;
+    puVar1[0xb] = 0x500000005;
+    puVar1[0xc] = 0x500000005;
+    puVar1[0xd] = 0x500000005;
+    puVar1[0xe] = 0x500000005;
+    puVar1[0xf] = 0x500000005;
+    puVar1[0x10] = 0x500000005;
+    puVar1[0x11] = 0x500000005;
+    puVar1[0x12] = 0x500000005;
+    puVar1[0x13] = 0x500000005;
+    puVar1[0x14] = 0x500000005;
+    puVar1[0x15] = 0x500000005;
+    puVar1[0x16] = 0x500000005;
+    puVar1[0x17] = 0x500000005;
+    puVar1[0x18] = 0x500000005;
+    puVar1[0x19] = 0x500000005;
+    puVar1[0x1a] = 0x500000005;
+    puVar1[0x1b] = 0x500000005;
+    puVar1[0x1c] = 0x500000005;
+    puVar1[0x1d] = 0x500000005;
+    puVar1[0x1e] = 0x500000005;
+    puVar1[0x1f] = 0x500000005;
+    puVar1[0x20] = 0x500000005;
+    puVar1[0x21] = 0x500000005;
+    puVar1[0x22] = 0x500000005;
+    puVar1[0x23] = 0x500000005;
+    puVar1[0x24] = 0x500000005;
+    puVar1[0x25] = 0x500000005;
+    puVar1[0x26] = 0x500000005;
+    puVar1[0x27] = 0x500000005;
+    puVar1[0x28] = 0x500000005;
+    puVar1[0x29] = 0x500000005;
+    puVar1[0x2a] = 0x500000005;
+    puVar1[0x2b] = 0x500000005;
+    puVar1[0x2c] = 0x500000005;
+    puVar1[0x2d] = 0x500000005;
+    puVar1[0x2e] = 0x500000005;
+    puVar1[0x2f] = 0x500000005;
+    puVar1[0x30] = 0x500000005;
+    puVar1[0x31] = 0x500000005;
+    puVar1[0x32] = 0x500000005;
+    puVar1[0x33] = 0x500000005;
+    puVar1[0x34] = 0x500000005;
+    puVar1[0x35] = 0x500000005;
+    puVar1[0x36] = 0x500000005;
+    puVar1[0x37] = 0x500000005;
+    puVar1[0x38] = 0x500000005;
+    puVar1[0x39] = 0x500000005;
+    puVar1[0x3a] = 0x500000005;
+    puVar1[0x3b] = 0x500000005;
+    puVar1[0x3c] = 0x500000005;
+    puVar1[0x3d] = 0x500000005;
+    puVar1[0x3e] = 0x500000005;
+    puVar1[0x3f] = 0x500000005;
+    uVar2 = uVar3;
+  } while (uVar3 != 4);
+  return;
+}
+
