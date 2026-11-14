@@ -8,6 +8,7 @@ on:
     paths:
       - Scripts/acnh303_r85_item_npc_static_audit.py
       - .github/workflows/acnh303-r85-static-invite-kind.yml
+      - Scripts/acnh303_r86_category_locale_audit.py
 
 permissions:
   contents: read
@@ -25,6 +26,12 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /Scripts/acnh303_r85_item_npc_static_audit.py
+            /Scripts/acnh303_r86_category_locale_audit.py
+            /Scripts/acnh_formats.py
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_CNzh.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_TWzh.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_JPja.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_EUen.sarc.zs
             /UnPack/1/Bcsv/ItemKind.csv
             /UnPack/1/Bcsv/ItemParam.csv
             /UnPack/1/Bcsv/NmlNpcParam.csv
@@ -53,6 +60,12 @@ jobs:
 
       - name: Audit 11,178 item kinds and 417 normal NPC eligibility as UNKNOWN
         run: python3 Scripts/acnh303_r85_item_npc_static_audit.py --repo-root . --out r85-output
+
+      - name: Parse native 4-language CategoryName MSBT and attempt exact ItemKind joins
+        run: |
+          python3 -m pip install zstandard
+          python3 -m py_compile Scripts/acnh303_r86_category_locale_audit.py
+          python3 Scripts/acnh303_r86_category_locale_audit.py --repo-root . --out r85-output
 
       - name: Upload inspectable source-backed evidence
         uses: actions/upload-artifact@v4

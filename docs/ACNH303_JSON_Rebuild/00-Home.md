@@ -14,6 +14,9 @@ updated: 2026-11-14
 >
 > 旧网页还有 **924 条 DIY**（全共用展示商品 ID 5794，以 recipe_id 区分）和 **17,170 条变体**（来自 1,782 个物品）。两份 JSON 均非可直接从 RomFS 找到的同名原始文件。
 
+## R86 · 原版类别四语 MSBT 实际核对
+- [[ACNH303_JSON_Rebuild/docs/14-四语类别原版MSBT核验|CNzh / TWzh / JPja / EUen 的 STR_CategoryName 标签与 ItemKind 严格匹配]]
+
 ## R85 · 道具类别与村民邀请判定（原版静态证据）
 - [[ACNH303_JSON_Rebuild/docs/11-原版道具分类与操作标志|189 类 ItemKind 原版标志及 11,178 个物品关联]]
 - [[ACNH303_JSON_Rebuild/docs/12-村民入住跨岛接走露营地和amiibo|417 村民、12 条邀请/搬家/amiibo 原版事件流程]]
