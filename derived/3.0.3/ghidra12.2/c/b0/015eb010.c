@@ -1,0 +1,80 @@
+
+void FUN_015eb010(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  
+  param_1[5] = 0;
+  param_1[6] = 0;
+  param_1[3] = 0;
+  param_1[4] = 0;
+  param_1[1] = 0;
+  param_1[2] = 0;
+  *param_1 = &PTR_FUN_049b0438;
+  FUN_038e18e4(param_1 + 7);
+  memset(param_1 + 0xf,0,8000000);
+  param_1[0xf4256] = 0;
+  *(undefined4 *)(param_1 + 0xf4257) = 0;
+  param_1[0xf424f] = 0x7f7fffff7f7fffff;
+  param_1[0xf4250] = 0xff7fffff7f7fffff;
+  param_1[0xf4251] = 0xff7fffffff7fffff;
+  param_1[0xf4258] = 0;
+  param_1[0xf4254] = 0;
+  *(undefined4 *)(param_1 + 0xf4255) = 0;
+  param_1[0xf4252] = 0;
+  param_1[0xf4253] = 0;
+  FUN_038e18e4(param_1 + 0xf4259);
+  param_1[0xf4261] = 0x20000000000;
+  param_1[0xf4262] = param_1 + 0xf4263;
+  FUN_038e18e4(param_1 + 0xf4463);
+  param_1[0xf446b] = 0x20000000000;
+  param_1[0xf446c] = param_1 + 0xf446d;
+  FUN_038e18e4(param_1 + 0xf466d);
+  param_1[0xf4675] = 0x20000000000;
+  param_1[0xf4676] = param_1 + 0xf4677;
+  FUN_038e18e4(param_1 + 0xf4877);
+  param_1[0xf487f] = 0x20000000000;
+  param_1[0xf4880] = param_1 + 0xf4881;
+  FUN_038e18e4(param_1 + 0xf4a81);
+  param_1[0xf4a89] = 0x20000000000;
+  param_1[0xf4a8a] = param_1 + 0xf4a8b;
+  FUN_038e18e4(param_1 + 0xf4c8b);
+  param_1[0xf5095] = 0;
+  puVar1 = PTR_DAT_04bb3048;
+  param_1[0xf4c93] = 0x40000000000;
+  param_1[0xf4c94] = param_1 + 0xf4c95;
+  puVar2 = PTR_DAT_04bdf1b8;
+  param_1[0xf5099] = 0;
+  param_1[0xf509a] = 0;
+  *(undefined2 *)(param_1 + 0xf509c) = 0;
+  param_1[0xf5096] = puVar1 + 0x10;
+  param_1[0xf5097] = 0;
+  param_1[0xf509b] = puVar2 + 0x10;
+  *(undefined4 *)(param_1 + 0xf50a3) = 0;
+  param_1[0xf50a9] = 0;
+  param_1[0xf50a4] = 0;
+  param_1[0xf50a5] = 0;
+  param_1[0xf509d] = 0;
+  param_1[0xf509e] = 0;
+  param_1[0xf509f] = 0;
+  param_1[0xf50a0] = 0;
+  param_1[0xf50a1] = 0;
+  param_1[0xf50a2] = 0;
+  puVar1 = PTR_DAT_04bd0e58;
+  param_1[0xf50a7] = 0;
+  param_1[0xf50a8] = 0;
+  param_1[0xf50a6] = puVar1 + 0x10;
+  nn::os::InitializeLightEvent((LightEventType *)(param_1 + 0xf50aa),0,0);
+  puVar1 = PTR_DAT_04bb2120;
+  param_1[0xf50ac] = PTR_DAT_04bb2020 + 0x10;
+  param_1[0xf50ad] = puVar1;
+  nn::os::SignalLightEvent((LightEventType *)(param_1 + 0xf50aa));
+  *(undefined4 *)(param_1 + 0xf50b2) = 1;
+  param_1[0xf50ae] = &PTR_LAB_049b04d8;
+  param_1[0xf50af] = param_1;
+  param_1[0xf50b0] = &LAB_015eb250;
+  param_1[0xf50b1] = 0;
+  return;
+}
+

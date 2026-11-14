@@ -1,0 +1,105 @@
+
+void FUN_0161d240(long *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  
+  puVar1 = PTR_DAT_04bb2020;
+  param_1[4] = 0;
+  param_1[5] = (long)param_1;
+  puVar2 = PTR_DAT_04bbd4a0;
+  param_1[6] = 0;
+  *(undefined1 *)(param_1 + 7) = 1;
+  param_1[2] = (long)&DAT_0407ebb1;
+  param_1[3] = 0;
+  param_1[8] = 0;
+  *param_1 = (long)(puVar2 + 0x10);
+  param_1[1] = (long)(puVar1 + 0x10);
+  FUN_03941294(param_1 + 9);
+  param_1[0x51] = 0;
+  param_1[0x50] = 0;
+  *param_1 = (long)&PTR_LAB_049b3f10;
+  puVar1 = PTR_DAT_04bd11b8 + 0x10;
+  *(undefined1 *)(param_1 + 0x52) = 0;
+  param_1[0x53] = 0;
+  param_1[0x55] = 0;
+  param_1[0x56] = 0;
+  param_1[0x57] = 0;
+  param_1[0x58] = 0;
+  param_1[0x59] = 0;
+  param_1[0x5a] = 0;
+  *(undefined1 *)((long)param_1 + 0x2dc) = 0;
+  param_1[0x62] = 0;
+  *(undefined4 *)(param_1 + 99) = 0;
+  param_1[100] = 0;
+  param_1[0x54] = (long)puVar1;
+  param_1[0x65] = 0;
+  *(undefined4 *)(param_1 + 0x5b) = 0x10001;
+  FUN_0390cee0(param_1 + 0x66);
+  *(undefined4 *)(param_1 + 0x82) = 0;
+  param_1[0x83] = 0;
+  *(undefined4 *)(param_1 + 0x84) = 0;
+  param_1[0x85] = 0;
+  FUN_0390e190(param_1 + 0x86);
+  FUN_0390e190(param_1 + 0xc2);
+  param_1[0xfe] = 0;
+  *(undefined8 *)((long)param_1 + 0x814) = 0;
+  param_1[0xff] = 0;
+  *(undefined8 *)((long)param_1 + 0x81c) = 0xffffffff00000000;
+  *(undefined4 *)(param_1 + 0x10f) = 0xffffffff;
+  param_1[0x117] = (long)"agl::TextureData";
+  param_1[0x100] = 0;
+  *(undefined4 *)(param_1 + 0x118) = 0x10000;
+  param_1[0x101] = 0;
+  *(undefined1 *)(param_1 + 0x102) = 0;
+  *(undefined1 *)((long)param_1 + 0x824) = 0;
+  param_1[0x105] = 0;
+  param_1[0x106] = 0;
+  param_1[0x107] = 0;
+  param_1[0x108] = 0;
+  param_1[0x109] = 0;
+  param_1[0x10a] = 0;
+  param_1[0x10b] = 0;
+  param_1[0x10c] = 0;
+  param_1[0x10d] = 0;
+  param_1[0x10e] = 0;
+  param_1[0x110] = 0;
+  param_1[0x111] = 0;
+  param_1[0x112] = 0;
+  param_1[0x113] = 0;
+  param_1[0x114] = 0;
+  param_1[0x115] = 0;
+  param_1[0x116] = 0;
+  *(undefined4 *)(param_1 + 0x11a) = 0;
+  param_1[0x11b] = 0;
+  *(undefined4 *)(param_1 + 0x11c) = 0;
+  param_1[0x11d] = 0;
+  *(undefined4 *)(param_1 + 0x11e) = 0;
+  *(undefined1 *)((long)param_1 + 0x8f4) = 1;
+  param_1[0x11f] = 0;
+  param_1[0x120] = 0;
+  param_1[0x121] = 0;
+  param_1[0x122] = 0;
+  param_1[0x123] = 0;
+  param_1[0x124] = 0;
+  param_1[0x125] = 0;
+  param_1[0x126] = 0;
+  param_1[0x127] = 0;
+  *(undefined4 *)(param_1 + 0x128) = 0;
+  *(undefined4 *)((long)param_1 + 0x944) = 90000;
+  if ((char)param_1[7] != '\0') {
+    *(undefined1 *)(param_1 + 7) = 0;
+    (**(code **)(*param_1 + 0xb8))(param_1,0);
+  }
+  *(undefined8 *)((long)param_1 + 0x904) = 0;
+  *(undefined8 *)((long)param_1 + 0x90c) = 0x3f80000000000000;
+  *(undefined8 *)((long)param_1 + 0x914) = 0x3f800000;
+  *(undefined8 *)((long)param_1 + 0x91c) = 0x3f80000000000000;
+  *(undefined8 *)((long)param_1 + 0x924) = 0;
+  *(undefined1 **)((long)param_1 + 0x92c) = &DAT_3f8000003f800000;
+  *(undefined1 **)((long)param_1 + 0x934) = &DAT_3f8000003f800000;
+  *(undefined8 *)((long)param_1 + 0x93c) = 0x3f800000;
+  return;
+}
+
