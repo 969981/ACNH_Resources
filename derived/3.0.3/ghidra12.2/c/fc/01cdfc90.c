@@ -1,0 +1,51 @@
+
+void _INIT_5361(void)
+
+{
+  DAT_0535fd10 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_0535fd14);
+  DAT_0535fd20 = 0x8004ef;
+  DAT_0535fd28 = nn::os::GetSystemTick();
+  DAT_0535fd30 = 0;
+  DAT_0535fd38 = 0x1c2b;
+  FUN_0277d4ac();
+  DAT_0535fd40 = 0x142e;
+  FUN_0277d4ac();
+  DAT_0535fd50 = &DAT_0406d288;
+  DAT_0535fd58 = &PTR_LAB_04a4a4e8;
+  DAT_0535fdd8 = &PTR_LAB_04a4a588;
+  DAT_0535fe08 = &PTR_LAB_04a4a5b0;
+  DAT_0535fe28 = &PTR_LAB_04a4a5d8;
+  DAT_0535fe48 = &PTR_LAB_04a4a600;
+  DAT_0535fe68 = &PTR_LAB_04a4a628;
+  DAT_0535fe88 = &PTR_LAB_04a4a650;
+  DAT_0535fd48 = PTR_DAT_04bb2020 + 0x10;
+  DAT_0535ff58 = DAT_0535fd48;
+  DAT_05360008 = DAT_0535fd48;
+  DAT_0535fea8 = DAT_0535fd48;
+  DAT_0535feb0 = "mTips";
+  DAT_0535feb8 = &PTR_LAB_04a4a678;
+  DAT_0535fed8 = &PTR_LAB_04a4a6a0;
+  DAT_0535fef8 = &PTR_LAB_04a4a6c8;
+  DAT_0535fd98 = &PTR_LAB_04a4a538;
+  DAT_0535ff18 = &PTR_LAB_04a4a6f0;
+  DAT_0535fdf8 = DAT_0535fd48;
+  DAT_0535fe00 = "mAppReleaseVersion";
+  DAT_0535ff38 = &PTR_LAB_04a4a740;
+  DAT_0535ff60 = "mSerialNumber";
+  DAT_05360010 = "mNewTipsNum";
+  DAT_0535ff68 = &PTR_LAB_04a4a790;
+  DAT_05360018 = &PTR_LAB_04a4a858;
+  DAT_0535ff88 = &PTR_LAB_04a4a7b8;
+  DAT_05360038 = &PTR_LAB_04a4a880;
+  DAT_0535ffa8 = &PTR_LAB_04a4a7e0;
+  DAT_05360058 = &PTR_LAB_04a4a8a8;
+  DAT_0535fd78 = &PTR_LAB_04a4a510;
+  DAT_0535ffc8 = &PTR_LAB_04a4a808;
+  DAT_05360078 = &PTR_LAB_04a4a8d0;
+  DAT_0535fdb8 = &PTR_LAB_04a4a560;
+  DAT_0535ffe8 = &PTR_LAB_04a4a830;
+  DAT_05360098 = &PTR_LAB_04a4a8f8;
+  return;
+}
+

@@ -1,0 +1,40 @@
+
+void _INIT_5359(void)
+
+{
+  DAT_0535f448 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_0535f44c);
+  DAT_0535f458 = 0x8004ef;
+  DAT_0535f460 = nn::os::GetSystemTick();
+  DAT_0535f468 = 0;
+  DAT_0535f470 = 0x1c2b;
+  FUN_0277d4ac();
+  DAT_0535f478 = 0x142e;
+  FUN_0277d4ac();
+  DAT_0535f490 = 1;
+  DAT_0535f4a8 = &PTR_LAB_04a49b38;
+  DAT_0535f480 = PTR_DAT_04bb2020 + 0x10;
+  DAT_0535f488 = "ModelOnUI";
+  DAT_0535f498 = DAT_0535f480;
+  DAT_0535f4a0 = &DAT_0406d288;
+  DAT_0535f4c8 = &PTR_LAB_04a49b60;
+  DAT_0535f4e8 = &PTR_LAB_04a49b88;
+  DAT_0535f508 = &PTR_LAB_04a49bb0;
+  DAT_0535f528 = &PTR_LAB_04a49bd8;
+  DAT_0535f548 = DAT_0535f480;
+  DAT_0535f550 = "mAppReleaseVersion";
+  DAT_0535f578 = &PTR_LAB_04a49c28;
+  DAT_0535f5b8 = &PTR_LAB_04a49c78;
+  DAT_0535f558 = &PTR_LAB_04a49c00;
+  DAT_0535f5f8 = DAT_0535f480;
+  DAT_0535f600 = "mEmoticonList";
+  DAT_0535f608 = &PTR_LAB_04a49cc8;
+  DAT_0535f628 = &PTR_LAB_04a49cf0;
+  DAT_0535f648 = &PTR_LAB_04a49d18;
+  DAT_0535f598 = &PTR_LAB_04a49c50;
+  DAT_0535f668 = &PTR_LAB_04a49d40;
+  DAT_0535f5d8 = &PTR_LAB_04a49ca0;
+  DAT_0535f688 = &PTR_LAB_04a49d90;
+  return;
+}
+

@@ -1,0 +1,46 @@
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void _INIT_5410(void)
+
+{
+  DAT_053725c8 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_053725cc);
+  DAT_053725d8 = 0x8004ef;
+  DAT_053725e0 = nn::os::GetSystemTick();
+  DAT_05372623 = 0;
+  DAT_053725e8 = 0;
+  DAT_053725f8 = &DAT_05372604;
+  DAT_05372600 = 0x20;
+  DAT_0537260c = 0x65676174;
+  DAT_05372610 = 0;
+  DAT_05372604._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_05372604._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_05372604._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_05372604._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_05372604._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_05372604._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_05372604._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_05372604._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_053725f0 = PTR_DAT_04bb2028 + 0x10;
+  DAT_05372628 = FUN_006bd550("InvalidStage",0);
+  DAT_05372630 = 0;
+  DAT_05372638 = 0;
+  DAT_05372640 = 1;
+  DAT_05372644 = 3;
+  DAT_05372648 = 2;
+  DAT_0537264d = &DAT_101010101010101;
+  DAT_05372655 = &DAT_101010101010101;
+  DAT_0537265d = &DAT_101010101010101;
+  DAT_05372665 = &DAT_101010101010101;
+  DAT_0537266d = &DAT_101010101010101;
+  DAT_05372675 = &DAT_101010101010101;
+  DAT_0537267d = 1;
+  DAT_0537264c = 0;
+  DAT_0537267e = 0x2020202;
+  uRam0000000005372682 = 0x20202;
+  _DAT_05372688 = 0x3000000000;
+  DAT_05372690 = &DAT_05372698;
+  return;
+}
+

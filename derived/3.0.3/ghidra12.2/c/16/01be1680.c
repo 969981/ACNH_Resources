@@ -1,0 +1,174 @@
+
+void FUN_01be1680(undefined1 *param_1)
+
+{
+  undefined *puVar1;
+  undefined1 *puVar2;
+  undefined *puVar3;
+  undefined1 *puVar4;
+  undefined8 *__s;
+  
+  *param_1 = 1;
+  memset(param_1 + 8,0,0x520);
+  puVar1 = PTR_DAT_04bb6b18 + 0x10;
+  *(undefined **)(param_1 + 0x18) = puVar1;
+  *(undefined4 *)(param_1 + 0x28) = 0x40;
+  *(undefined4 *)(param_1 + 0x30) = 0xffffffff;
+  *(undefined8 *)(param_1 + 0x38) = 0xffffffff00000000;
+  *(undefined4 *)(param_1 + 0x40) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x58) = 0x40;
+  puVar2 = param_1 + 0x178;
+  __s = (undefined8 *)(param_1 + 0xf8);
+  *__s = 0;
+  param_1[0x5c] = 0;
+  param_1[0xb4] = 0;
+  puVar3 = PTR_DAT_04bb2bc0;
+  *(undefined8 **)(param_1 + 0x20) = __s;
+  *(undefined4 *)(param_1 + 0xb0) = 0x40;
+  *(undefined8 *)(param_1 + 0x100) = 0;
+  *(undefined8 *)(param_1 + 0x108) = 0;
+  puVar3 = puVar3 + 0x10;
+  *(undefined8 *)(param_1 + 0x110) = 0;
+  *(undefined8 *)(param_1 + 0x118) = 0;
+  *(undefined8 *)(param_1 + 0x170) = 0;
+  *(undefined8 *)(param_1 + 0x120) = 0;
+  *(undefined8 *)(param_1 + 0x128) = 0;
+  *(undefined **)(param_1 + 0x48) = puVar3;
+  *(undefined1 **)(param_1 + 0x50) = param_1 + 0x5c;
+  puVar4 = puVar2;
+  if (puVar2 <= param_1 + 0xfa) {
+    puVar4 = param_1 + 0xfa;
+  }
+  *(undefined **)(param_1 + 0xa0) = puVar3;
+  *(undefined1 **)(param_1 + 0xa8) = param_1 + 0xb4;
+  *(undefined8 *)(param_1 + 0x130) = 0;
+  *(undefined8 *)(param_1 + 0x138) = 0;
+  *(undefined8 *)(param_1 + 0x140) = 0;
+  *(undefined8 *)(param_1 + 0x148) = 0;
+  *(undefined8 *)(param_1 + 0x150) = 0;
+  *(undefined8 *)(param_1 + 0x158) = 0;
+  *(undefined8 *)(param_1 + 0x160) = 0;
+  *(undefined8 *)(param_1 + 0x168) = 0;
+  memset(__s,0,((ulong)(puVar4 + (-0xe1 - (long)(param_1 + 0x18))) & 0xfffffffffffffffe) + 2);
+  *(undefined4 *)(param_1 + 0x188) = 0x40;
+  param_1[0x1bc] = 0;
+  *(undefined **)(param_1 + 0x1a8) = puVar3;
+  *(undefined1 **)(param_1 + 0x1b0) = param_1 + 0x1bc;
+  param_1[0x18c] = 0;
+  param_1[0x214] = 0;
+  *(undefined4 *)(param_1 + 0x1a0) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x1b8) = 0x40;
+  param_1[0x1fb] = 0;
+  *(undefined4 *)(param_1 + 0x210) = 0x40;
+  param_1[0x253] = 0;
+  *(undefined8 *)(param_1 + 0x2d0) = 0;
+  *(undefined8 *)(param_1 + 0x2c8) = 0;
+  *(undefined8 *)(param_1 + 0x2c0) = 0;
+  *(undefined8 *)(param_1 + 0x2b8) = 0;
+  *(undefined8 *)(param_1 + 0x2b0) = 0;
+  *(undefined8 *)(param_1 + 0x2a8) = 0;
+  *(undefined8 *)(param_1 + 0x2a0) = 0;
+  *(undefined8 *)(param_1 + 0x298) = 0;
+  *(undefined8 *)(param_1 + 0x290) = 0;
+  *(undefined8 *)(param_1 + 0x288) = 0;
+  *(undefined8 *)(param_1 + 0x280) = 0;
+  *(undefined8 *)(param_1 + 0x278) = 0;
+  *(undefined8 *)(param_1 + 0x270) = 0;
+  *(undefined8 *)(param_1 + 0x268) = 0;
+  *(undefined8 *)(param_1 + 0x260) = 0;
+  *(undefined8 *)(param_1 + 600) = 0;
+  *(undefined **)(param_1 + 0x200) = puVar3;
+  *(undefined1 **)(param_1 + 0x208) = param_1 + 0x214;
+  puVar4 = param_1 + 0x2d8;
+  if (param_1 + 0x2d8 <= param_1 + 0x25a) {
+    puVar4 = param_1 + 0x25a;
+  }
+  *(undefined8 *)(param_1 + 400) = 0xffffffff;
+  *(undefined8 *)(param_1 + 0x198) = 0xffffffff00000000;
+  *(undefined **)(param_1 + 0x178) = puVar1;
+  *(undefined1 **)(param_1 + 0x180) = param_1 + 600;
+  memset(param_1 + 600,0,((ulong)(puVar4 + (-0xe1 - (long)puVar2)) & 0xfffffffffffffffe) + 2);
+  puVar2 = param_1 + 0x448;
+  param_1[0x2d8] = 0;
+  param_1[0x32c] = 0;
+  *(undefined1 **)(param_1 + 800) = param_1 + 0x32c;
+  *(undefined1 **)(param_1 + 0x378) = param_1 + 900;
+  *(undefined4 *)(param_1 + 0x2da) = 0;
+  puVar4 = puVar2;
+  if (puVar2 <= param_1 + 0x3ca) {
+    puVar4 = param_1 + 0x3ca;
+  }
+  *(undefined4 *)(param_1 + 0x2e0) = 0;
+  *(undefined1 **)(param_1 + 0x2f0) = param_1 + 0x3c8;
+  *(undefined4 *)(param_1 + 0x2f8) = 0x40;
+  param_1[0x2fc] = 0;
+  *(undefined8 *)(param_1 + 0x300) = 0xffffffff;
+  *(undefined8 *)(param_1 + 0x308) = 0xffffffff00000000;
+  *(undefined4 *)(param_1 + 0x310) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x328) = 0x40;
+  param_1[0x36b] = 0;
+  *(undefined **)(param_1 + 0x318) = puVar3;
+  *(undefined4 *)(param_1 + 0x380) = 0x40;
+  param_1[0x3c3] = 0;
+  param_1[900] = 0;
+  *(undefined **)(param_1 + 0x370) = puVar3;
+  *(undefined **)(param_1 + 0x2e8) = puVar1;
+  *(undefined8 *)(param_1 + 0x440) = 0;
+  *(undefined8 *)(param_1 + 0x438) = 0;
+  *(undefined8 *)(param_1 + 0x430) = 0;
+  *(undefined8 *)(param_1 + 0x428) = 0;
+  *(undefined8 *)(param_1 + 0x420) = 0;
+  *(undefined8 *)(param_1 + 0x418) = 0;
+  *(undefined8 *)(param_1 + 0x410) = 0;
+  *(undefined8 *)(param_1 + 0x408) = 0;
+  *(undefined8 *)(param_1 + 0x400) = 0;
+  *(undefined8 *)(param_1 + 0x3f8) = 0;
+  *(undefined8 *)(param_1 + 0x3f0) = 0;
+  *(undefined8 *)(param_1 + 1000) = 0;
+  *(undefined8 *)(param_1 + 0x3e0) = 0;
+  *(undefined8 *)(param_1 + 0x3d8) = 0;
+  *(undefined8 *)(param_1 + 0x3d0) = 0;
+  *(undefined8 *)(param_1 + 0x3c8) = 0;
+  memset(param_1 + 0x3c8,0,
+         ((ulong)(puVar4 + (-0xe1 - (long)(param_1 + 0x2e8))) & 0xfffffffffffffffe) + 2);
+  *(undefined4 *)(param_1 + 0x458) = 0x40;
+  param_1[0x48c] = 0;
+  *(undefined1 **)(param_1 + 0x480) = param_1 + 0x48c;
+  param_1[0x4e4] = 0;
+  *(undefined1 **)(param_1 + 0x4d8) = param_1 + 0x4e4;
+  *(undefined1 **)(param_1 + 0x450) = param_1 + 0x528;
+  puVar4 = param_1 + 0x5a8;
+  if (param_1 + 0x5a8 <= param_1 + 0x52a) {
+    puVar4 = param_1 + 0x52a;
+  }
+  param_1[0x45c] = 0;
+  *(undefined8 *)(param_1 + 0x468) = 0xffffffff00000000;
+  *(undefined8 *)(param_1 + 0x460) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x470) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x488) = 0x40;
+  param_1[0x4cb] = 0;
+  *(undefined **)(param_1 + 0x478) = puVar3;
+  *(undefined4 *)(param_1 + 0x4e0) = 0x40;
+  param_1[0x523] = 0;
+  *(undefined **)(param_1 + 0x4d0) = puVar3;
+  *(undefined **)(param_1 + 0x448) = puVar1;
+  *(undefined8 *)(param_1 + 0x5a0) = 0;
+  *(undefined8 *)(param_1 + 0x598) = 0;
+  *(undefined8 *)(param_1 + 0x590) = 0;
+  *(undefined8 *)(param_1 + 0x588) = 0;
+  *(undefined8 *)(param_1 + 0x580) = 0;
+  *(undefined8 *)(param_1 + 0x578) = 0;
+  *(undefined8 *)(param_1 + 0x570) = 0;
+  *(undefined8 *)(param_1 + 0x568) = 0;
+  *(undefined8 *)(param_1 + 0x560) = 0;
+  *(undefined8 *)(param_1 + 0x558) = 0;
+  *(undefined8 *)(param_1 + 0x550) = 0;
+  *(undefined8 *)(param_1 + 0x548) = 0;
+  *(undefined8 *)(param_1 + 0x540) = 0;
+  *(undefined8 *)(param_1 + 0x538) = 0;
+  *(undefined8 *)(param_1 + 0x530) = 0;
+  *(undefined8 *)(param_1 + 0x528) = 0;
+  memset(param_1 + 0x528,0,((ulong)(puVar4 + (-0xe1 - (long)puVar2)) & 0xfffffffffffffffe) + 2);
+  return;
+}
+
