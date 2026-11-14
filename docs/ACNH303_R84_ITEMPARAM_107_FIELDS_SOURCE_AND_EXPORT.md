@@ -6,7 +6,7 @@
 - 原版 ItemParam.bcsv SHA-256：`9f31230158ab9ace881fe6e5c64579e206f5318646d8d77d8ac7c197abed3609`。
 - 原版 ItemParam.csv SHA-256：`ff4637555a07a649070b19677b3c633c853d3ada7c784bb4de4cf35ca5ba26f0`。
 - Git 树中存在**9,104** 个与道具名精确匹配的原版模型 `.zs` 路径，**8,623** 个原版 FtrIcon `.zs` 路径；**8,624** 个同名 PNG Git 路径。
-- **821** 个不同道具 ID 在 ItemRemake 中找到相同原始物品 ID；这不是验证过的默认改造组合。
+- **修正说明（2026-11-14）**：旧版 R84 使用了 `ItemRemake.UniqueID`（`hash_54706054`，改造记录自身 ID）而非 `ItemUniqueID`（`hash_FD9AF1E1`，物品外键）与 ItemParam 联表。因此此前 **821 个关联**是错误键形成的旧统计，**不得继续引用**。脚本已改为使用 `ItemUniqueID`；新的实际数量要重新运行 R84 才能得到。
 - **0** 个道具完成本阶段 BNTX 纹理内容级验证；**0** 个完成拾取、放置、存档及联机携带 Native 动态验证。
 
 ## 文件与用途
@@ -18,7 +18,7 @@
 | `ACNH_3.0.3_R84_Complete.sqlite3` | 之前物品、村民、多语言表 + R84 的 `item_r84_raw107`、`item_r84_asset_paths`、`item_r84_remake`、`item_r84_runtime` |
 | `r84-itemparam-original-107-fields.csv` | 107 个哈希字段展开的主表，含原版行索引、原始字节偏移及每行 SHA256 |
 | `r84-original-model-icon-source-audit.csv` | 原版模型、FtrIcon、原始同名 PNG 文件在 Git 树中是否实际存在 |
-| `r84-itemremake-ID-mapping.csv` | 按原生 Item ID 连接 ItemParam 与 ItemRemake，列出原始行号 |
+| `r84-itemremake-ID-mapping.csv` | 旧产物来自错误 UniqueID 联接，**需要用修正后的 ItemUniqueID 外键重新生成**；当前仓库留存的旧 CSV 不可视为准确映射 |
 | `r84-field-hash-dictionary.csv` | 107 个原始字段的哈希、行内偏移、字节宽度、语义验证状态 |
 | `ACNH_3.0.3_R84_Excel_Index_Samples.xlsx` | Excel 便捷索引与部分样本；**不是 11,178×107 全量 Excel**；全量请用 CSV/SQLite |
 | `Original_ROM_Files/` | 未改动的 ItemParam / ItemRemake / ItemKind BCSV 及解包 CSV/元数据 |
@@ -61,3 +61,12 @@ FROM item i JOIN item_r84_runtime c ON c.item_id=i.id;
 原始 BCSV 文件路径、原始记录偏移及 Item ID 字节已核验；107 个解码字段值与对应原始字节切片已保留，但尚未逐字段证明全部数值类型及业务语义；但尚未遍历解码全部模型与图标内部 BNTX/BFRES，也没有 3.0.3 Native 动态追踪证据，故现阶段只验证**源文件是否实际存在**，不提升为**最终显示纹理及实际游戏限制已验证**。
 
 下一步可针对这批精确的 `.zs` 路径逐个解码 BNTX 名称，并通过 3.0.3 真机/模拟器 Native trace 检查特定道具的行为限制。
+
+## 2026-11-14 原始 ItemRemake 双 ID 纠错
+
+| 哈希 | CRC32 原始字段签名 | 正确含义 |
+|---|---|---|
+| `hash_54706054` | `UniqueID u16` | 改造记录的主键，例 72 |
+| `hash_FD9AF1E1` | `ItemUniqueID u16` | 被改造物品的 ItemParam.UniqueID，例 1288 |
+
+原始 ItemRemake 第一条记录的 `ItemUniqueID=1288`，`UniqueID=72`，两者不可混淆。修正后的源码 `Scripts/acnh303_r84_native_item_database.py` 采用 `REMAKE_ITEM_ID`，但尚未在当前环境重跑含有旧统计的 `assets/evidence/rom-database/r84/` 导出，需重建并替换报告后方能恢复 ItemRemake 的准确覆盖率。

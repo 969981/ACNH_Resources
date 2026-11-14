@@ -17,12 +17,12 @@ flowchart LR
   C --> E
 ~~~
 
-例：旧苹果电视图纸 recipe_id=6、label=FtrFruitsTV；原版候选产物 Item ID 为 2596，应要求 ItemParam[2596].ResName 与它相等。配方产物字段候选 hash_1BBFA75E 尚需对完整 924 条原生数据作严谨验证。
+例：旧苹果电视图纸 recipe_id=6、label=FtrFruitsTV；原版候选产物 Item ID 为 2596，应要求 ItemParam[2596].ResName 与它相等。原版产物字段是 `hash_89A3482C`（`Item u16`），而 `hash_1BBFA75E`（`Material1 u16`）是第一种材料 ID；完整 924 条产物关系仍需逐行校验。
 
 ## Variations
 旧 variations 是字符串形式的 JSON 数组，需先 json.loads，再规范化为 (item_id, variant_id, label)。本轮成功展开 **17,170 条**、来自 **1,782** 个物品；解码错误 0，物品内部 variant_id 冲突 0。
 
-ItemRemake、ItemRemakeCommonPattern、Model 与 Layout_FtrIcon 是后续溯源入口。仓库 R84 在 ItemRemake 中对上 **821 个物品 ID**，但 821 不能直接与 1,782 比较并判定缺失；改造表与旧网站列举款式/颜色的定义未必相同。
+ItemRemake、ItemRemakeCommonPattern、Model 与 Layout_FtrIcon 是后续溯源入口。仓库 R84 旧版 **821 个所谓关联**用错了 `ItemRemake.UniqueID`（改造行身份）；已修正源码为 `ItemUniqueID=hash_FD9AF1E1` 外键，但覆盖数必须重新运行完整 R84 后才能确认，更不能直接与旧站 1,782 个有变体的物品比较。
 
 本次未做 17,170 条与原版贴图、默认款式、运行时 UI 选图的逐条验证。网页变体名称不得冒充原版内部选择 ID。
 
