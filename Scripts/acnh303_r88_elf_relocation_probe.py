@@ -14,7 +14,7 @@ from pathlib import Path
 from elftools.elf.elffile import ELFFile
 from elftools.elf.relocation import RelocationSection
 from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
-from acnh303_round11_elf_xref import parse_elf
+from acnh303_round11_elf_xref import parse_elf, bl_target
 
 ELF_REL="e10617820db06889e1638499478da0de_NCA/0/main.elf"
 ELF_SHA="145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664"
@@ -33,6 +33,8 @@ PROBES={
  "Camp_flag_reference_cluster":0x00bd4f90,
  "Ghidra_C_candidate_00ee5828_mapped_raw":0x00de5828,
  "Ghidra_C_candidate_00f089a0_mapped_raw":0x00e089a0,
+ "Ghidra_direct_caller_00EE53B4_mapped_raw":0x00de53b4,
+ "Ghidra_direct_caller_00F08758_mapped_raw":0x00e08758,
 }
 
 
@@ -138,6 +140,39 @@ def disassemble(blob,segments,windows):
     return ret
 
 
+def verify_ghidra_calls(blob, segments, imagebase):
+    # These are proven UNCONDITIONAL_CALL xrefs from the checksum-restored
+    # Ghidra global SQLite as emitted by the successful R89 Actions run.
+    pairs=[
+      ("Camp_flag_candidate_A",0x00EE53B4,0x00EE5828),
+      ("Camp_flag_candidate_B",0x00F08758,0x00F089A0),
+    ]
+    rows=[]
+    for name,gh_site,gh_target in pairs:
+        site=gh_site-imagebase
+        target=gh_target-imagebase
+        word_bytes=va_to_bytes(blob,segments,site,4)
+        if word_bytes is None:
+            raise ValueError("Ghidra callsite not mapped to source ELF")
+        opcode=int.from_bytes(word_bytes,"little")
+        decoded=bl_target(opcode,site)
+        if decoded!=target:
+            raise ValueError(f"R89 XREF edge not a matching raw ARM64 BL: {name}:"
+                             f" decoded={decoded}, expected={hex(target)}"
+                             f", opcode={word_bytes.hex()}")
+        rows.append({
+          "name":name,"ghidra_caller_site":hex(gh_site),
+          "original_elf_caller_site":hex(site),
+          "ghidra_callee_entry":hex(gh_target),
+          "original_elf_callee_entry":hex(target),
+          "raw_instruction_hex":word_bytes.hex(),
+          "arm64_instruction":f"BL #{hex(target)}",
+          "provenance":"R89 Ghidra XREF UNCONDITIONAL_CALL + direct original ELF BL opcode",
+          "query_dispatch_identity_verified":False
+        })
+    return rows
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root",type=Path,default=Path("."))
@@ -159,6 +194,7 @@ def main():
     data_ptr=pointer_scan(blob,seg,TARGETS)
     rel=relocation_scan(path,TARGETS)
     dasm=disassemble(blob,seg,PROBES)
+    call_edges=verify_ghidra_calls(blob,seg,ghidra_image_base)
     report={
       "schema":"acnh303_r88_original_relocation_and_ui_consumers_v1",
       "elf_source":ELF_REL,"elf_sha256":sha,
@@ -173,6 +209,7 @@ def main():
       "elf_bytes":len(blob),
       "note":"Ghidra address from C file is a candidate code address; exact relocation does not identify a named EVFL query.",
       "candidates":data_ptr,"relocations":rel,
+      "exact_direct_BL_edges_verified":call_edges,
       "disassembly":dasm,
       "limitations":[
         "No definitive mapping from EventFlowQueryCanInduceNpc to native function without direct registration or vtable consumer xref",
@@ -190,6 +227,7 @@ def main():
         "native_sha256":sha,
         "ghidra_image_base":"0x00100000",
         "native_address_corrected":True,
+        "exact_BL_edges_verified":len(call_edges),
         "relocation_sections":rel["sections_scanned"],
         "relocations_total":rel["total_relocations"],
         "direct_pointer_slots":{n:len(v["direct_le64_pointer_slots"]) for n,v in data_ptr.items()},

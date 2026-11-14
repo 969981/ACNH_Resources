@@ -42,3 +42,16 @@ R88 第一版直接将 `FUN_00EE5828` 和 `FUN_00F089A0` 当作 ELF raw VA 搜�
 这次修正版严格核对 Ghidra 的元数据，再对减基址后的 ELF VA 重做函数指针/重定位/反汇编；**原版的 UI 字符串地址引用仍保持 raw ELF VA，不能重复减基址**。
 
 这个地址对齐可以证明两份 Ghidra C 函数确实对应原版 `main.elf` 中的代码区域，但仍需要进一步证明它们与具体 EventFlow Query 的注册关系。
+
+## R89→R88 交叉证明：两个真实直接 BL 边
+
+R89 通过校验后的 Ghidra SQLite 8,332,586 条 XREF 找到：
+
+| Ghidra 呼叫位置 | Ghidra 目标函数 | 证据 |
+|---|---|---|
+| `00EE53B4` | `FUN_00EE5828` | `UNCONDITIONAL_CALL` + 同目标 `INDIRECTION` 与 `DATA` 引用 |
+| `00F08758` | `FUN_00F089A0` | `UNCONDITIONAL_CALL` + 同目标 `INDIRECTION` 与 `DATA` 引用 |
+
+R88 新增了按 Ghidra image_base 减法转换后的原始 ELF 4 字节 **BL 指令目标验证**（这一步专门区分 Ghidra 的语义 XREF 与 ELF 机器码，避免把裸字符串 XREF 当调用）。
+
+两段属于**邀请失败状态处理**的本地调用链，但是注册到哪个 EventFlow Query 仍未严格证明。不能填充 417 人的能力 true/false。

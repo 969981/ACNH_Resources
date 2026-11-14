@@ -21,3 +21,10 @@ R89 在 GitHub Actions 中 **校验并拼合仓库的 `acnh303_ghidra.sqlite` �
 
 > [!important] 不能自动得出 417 个村民的可接结论
 > 即使 Ghidra 某函数有引用源，仍需从 `EventFlowQueryCanInduceNpc` 的具体事件派发注册一路追到返回分支，并检查当前玩家和 NPC 的实际搬入/搬出状态。任何没有上下文的 `can_adopt` 静态布尔值仍保持未知。
+
+
+## R89 实际跑通的统计
+
+[Actions #43612007216](https://github.com/969981/ACNH_Resources/actions/runs/43612007216) 完成 1.076 GB Ghidra SQLite 的 byte-for-byte 拼合。库包含 `25,000` 个已导出函数、`8,332,586` 个全局 XREF 与 `2,892,486` 个符号。两段函数各有 `1` 个 `UNCONDITIONAL_CALL`、`1` 个 `INDIRECTION` 和 `1` 个 `DATA` 引用；精确调用者位置分别为 Ghidra `00EE53B4` 和 `00F08758`。字符串引用中 `Camp_InduceFailFlag` 有 9 条、`Camp_InduceFailAlreadyInduced` 有 5 条、`STR_CategoryName` 有 1 条。全局索引不仅证明这些地址存在，还可与 R88 原始 ARM64 BL 指令交叉核验。
+
+参考：[[ACNH303_JSON_Rebuild/docs/16-ELF重定位与Ghidra函数指针追踪]]。
