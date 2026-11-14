@@ -38,6 +38,8 @@ py Scripts/acnh303_r86_category_locale_audit.py --repo-root . --out r85-output
 
 另外可将 `ItemKind` 中日文备注，与 `STR_CategoryName` 的 JPja 原文做完全相等的文本比较：**6 个种类存在同文候选**，其中 3 个仅对应一个数字标签（`Bromide` ↔ `1923`，`Poster` ↔ `1951`，`DIYRecipe` ↔ `2503`），`Rug` / `Gyroid` / `Music` 分别有多个数字标签，只能记录歧义。
 
+本轮已通过 [Actions #43610018031](https://github.com/969981/ACNH_Resources/actions/runs/43610018031) 完成额外的日文语义候选扫描。候选清单也持久保存在 [R86 候选 CSV](../evidence/r85/r86_japanese_note_text_candidates.csv)。
+
 独立输出 `r86_japanese_note_text_candidates.csv`；这些只能标记 `unique_exact_JP_text_candidate` 或 `ambiguous_JP_text_candidate`，**不写入已经验证的 CNzh ItemKind 名称列**。要建立正式映射仍须跟踪 Item UI 分类枚举与调用者。
 
 对应工作流：`.github/workflows/acnh303-r85-static-invite-kind.yml`。回到 [[ACNH303_JSON_Rebuild/00-Home|专题首页]]。

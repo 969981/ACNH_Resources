@@ -13,3 +13,5 @@
 ## R86 正式四语类别文本
 
 通过 [Actions #43609711677](https://github.com/969981/ACNH_Resources/actions/runs/43609711677) 真实解压 4 个原版语言包；每份 `STR_CategoryName.msbt` 各 224 条，严格匹配 189 个 ItemKind.Label 的结果为 **0**。新的 `r86_japanese_note_text_candidates.csv` 是经过 JPja 文本相等产生的候选表，不能当作原生 ID 外键。
+
+- `r86_japanese_note_text_candidates.csv`：R86 最终通过 Actions #43610018031，从 JPja 文本完全相等派生的 6 条候选（3 唯一 / 3 歧义）；不是已证实的 ItemKind UI 分类外键。
