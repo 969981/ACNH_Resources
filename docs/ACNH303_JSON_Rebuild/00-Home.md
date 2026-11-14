@@ -14,6 +14,9 @@ updated: 2026-11-14
 >
 > 旧网页还有 **924 条 DIY**（全共用展示商品 ID 5794，以 recipe_id 区分）和 **17,170 条变体**（来自 1,782 个物品）。两份 JSON 均非可直接从 RomFS 找到的同名原始文件。
 
+## R87–R89 · 实测总结和跨库/机器码交叉验证
+- [[ACNH303_JSON_Rebuild/docs/18-R87R89实测总结与证据边界|UI 分类候选、双 BL 调用、417 人仍 UNKNOWN]]
+
 ## R89 · 全局 Ghidra XREF SQLite 查找
 - [[ACNH303_JSON_Rebuild/docs/17-Ghidra全局XREF原生函数索引验证|1.076 GB Ghidra 原版索引，准确查函数引用和字符串引用]]
 
