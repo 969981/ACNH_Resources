@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import collections
 import hashlib
 import json
 from pathlib import Path
@@ -133,6 +134,38 @@ def main() -> None:
              loc + "_join_status")]],
         linked,
     )
+    # Secondary, explicitly non-identity evidence: Japanese ItemKind source
+    # notes may share DISPLAY TEXT with CategoryName JPja. This is not a
+    # verified enum/ID mapping and must not fill exact locale columns.
+    japanese_name_index = collections.defaultdict(list)
+    for msbt_label, source_text in tables["JPja"].items():
+        japanese_name_index[source_text].append(msbt_label)
+    name_candidate_rows = []
+    status_counts = collections.Counter()
+    for source in categories:
+        source_note = source[NATIVE_NOTE]
+        codes = sorted(set(japanese_name_index.get(source_note, [])))
+        if not codes:
+            continue
+        status = ("unique_exact_JP_text_candidate" if len(codes) == 1
+                  else "ambiguous_JP_text_candidate")
+        status_counts[status] += 1
+        cn = sorted({tables["CNzh"].get(code, "") for code in codes})
+        tw = sorted({tables["TWzh"].get(code, "") for code in codes})
+        eu = sorted({tables["EUen"].get(code, "") for code in codes})
+        name_candidate_rows.append([
+            source["hash_54706054"], source[KIND_LABEL], source_note,
+            "|".join(codes), "|".join(cn), "|".join(tw), "|".join(eu),
+            status,
+        ])
+    csvout(
+        dest / "r86_japanese_note_text_candidates.csv",
+        ["kind_id", "itemkind_label", "original_japanese_note",
+         "matching_category_msbt_numeric_labels", "candidate_CNzh_text",
+         "candidate_TWzh_text", "candidate_EUen_text", "evidence_status"],
+        name_candidate_rows,
+    )
+
     result = {
         "schema": "acnh303_r86_exact_original_category_msbt_join_v1",
         "game_version": "3.0.3",
@@ -140,6 +173,7 @@ def main() -> None:
         "locales": manifest,
         "itemkind_rows": len(categories),
         "per_locale_status": stats,
+        "japanese_note_text_candidates": dict(status_counts),
         "evidence_boundary": [
             "Only exact native label match is treated as a verified join",
             "Casefold is recorded as a candidate, never promoted to a verified join",
@@ -155,6 +189,7 @@ def main() -> None:
         "itemkind_rows": len(categories),
         "msbt_labels_by_locale": {k: len(v) for k, v in tables.items()},
         "matches": stats,
+        "japanese_note_candidates": dict(status_counts),
         "output_dir": str(dest),
     }, ensure_ascii=False, indent=2))
 
