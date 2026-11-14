@@ -1,0 +1,244 @@
+
+void FUN_0182b5ec(long *param_1,long *param_2)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined *puVar3;
+  long *plVar4;
+  int iVar5;
+  undefined4 uVar6;
+  float *pfVar7;
+  uint uVar8;
+  undefined8 *puVar9;
+  long lVar10;
+  char *pcVar11;
+  float fVar12;
+  undefined *local_50;
+  char *pcStack_48;
+  
+  FUN_01812e50(param_1,param_2[4]);
+  puVar1 = PTR_DAT_04bbe7f8;
+  pcVar11 = (char *)param_1[0xc];
+  *(undefined2 *)((long)param_1 + 0x496) = 0;
+  *param_1 = (long)(puVar1 + 0x10);
+  if (pcVar11 != "InsectActionFieldFly") {
+    iVar5 = 0x14;
+    if ((int)param_1[0xd] < 0x15) {
+      iVar5 = (int)param_1[0xd] + -1;
+    }
+    memcpy(pcVar11,"InsectActionFieldFly",(long)iVar5);
+    pcVar11[iVar5] = '\0';
+  }
+  param_1[0x93] = (long)&PTR_LAB_049c6d00;
+  param_1[0x94] = *param_2;
+  param_1[0x95] = param_2[1];
+  param_1[0x96] = param_2[2];
+  lVar10 = param_2[3];
+  *param_1 = (long)&PTR_LAB_049c69e0;
+  param_1[0x93] = (long)&PTR_LAB_049c6cd0;
+  puVar1 = PTR_DAT_04bcb470;
+  *(undefined4 *)(param_1 + 0x9b) = 0x1e;
+  *(undefined4 *)(param_1 + 0x98) = 0;
+  *(undefined1 *)((long)param_1 + 0x4dc) = 0;
+  param_1[0x9a] = 0;
+  *(undefined4 *)(param_1 + 0x9c) = 1;
+  param_1[0x9e] = -0x8000000000000000;
+  *(undefined4 *)(param_1 + 0x9f) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x4fc) = 0;
+  param_1[0xa1] = -0x8000000000000000;
+  *(undefined4 *)(param_1 + 0xa2) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x514) = 0;
+  *(undefined1 *)((long)param_1 + 0x52c) = 0;
+  *(undefined4 *)(param_1 + 0xa5) = 0xf;
+  param_1[0xa4] = 0;
+  puVar1 = puVar1 + 0x10;
+  param_1[0x97] = lVar10;
+  param_1[0xaa] = 0;
+  param_1[0xa6] = 0;
+  param_1[0xa7] = 0;
+  *(undefined4 *)(param_1 + 0xa8) = 0;
+  param_1[0x99] = (long)puVar1;
+  param_1[0x9d] = (long)puVar1;
+  param_1[0xa0] = (long)puVar1;
+  param_1[0xa3] = (long)puVar1;
+  puVar2 = PTR_DAT_04bb2018 + 0x10;
+  param_1[0xac] = -0x8000000000000000;
+  *(undefined4 *)(param_1 + 0xad) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x56c) = 0;
+  param_1[0xab] = (long)puVar1;
+  *(undefined2 *)(param_1 + 0xae) = 0;
+  param_1[0xb0] = -0x8000000000000000;
+  *(undefined4 *)(param_1 + 0xb1) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x58c) = 0;
+  param_1[0xa9] = (long)puVar2;
+  puVar3 = PTR_DAT_04bcb468 + 0x10;
+  param_1[0xb5] = 0;
+  param_1[0xb4] = 0;
+  param_1[0xb3] = 0;
+  param_1[0xaf] = (long)puVar3;
+  param_1[0xb2] = (long)&PTR_LAB_049c6d80;
+  uVar6 = *(undefined4 *)(PTR_DAT_04bb5d40 + 0xc);
+  *(undefined4 *)(param_1 + 0xb7) = *(undefined4 *)(PTR_DAT_04bb5d40 + 8);
+  *(undefined4 *)((long)param_1 + 0x5bc) = uVar6;
+  puVar3 = PTR_DAT_04bb2010;
+  pcVar11 = (char *)param_1[0xc];
+  param_1[0xc3] = -0x8000000000000000;
+  param_1[0xc6] = -0x8000000000000000;
+  param_1[0xc9] = -0x8000000000000000;
+  param_1[0xcc] = -0x8000000000000000;
+  param_1[0xbb] = 0;
+  param_1[0xba] = 0;
+  param_1[0xb9] = 0;
+  param_1[0xbe] = (long)puVar2;
+  *(undefined4 *)(param_1 + 0xc1) = 0;
+  param_1[0xc0] = 0;
+  *(undefined4 *)(param_1 + 0xc4) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x624) = 0;
+  param_1[0xc2] = (long)puVar1;
+  *(undefined4 *)(param_1 + 199) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x63c) = 0;
+  param_1[0xc5] = (long)puVar1;
+  *(undefined4 *)(param_1 + 0xca) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x654) = 0;
+  param_1[200] = (long)puVar1;
+  *(undefined4 *)(param_1 + 0xcd) = 0x7fffffff;
+  *(undefined1 *)((long)param_1 + 0x66c) = 0;
+  param_1[0xcb] = (long)puVar1;
+  *(undefined1 *)(param_1 + 0xce) = 0;
+  param_1[0xb6] = (long)(puVar3 + 0x10);
+  param_1[0xb8] = (long)&PTR_LAB_049c6d30;
+  param_1[0xbc] = 0x7fc000007fc00000;
+  *(undefined4 *)(param_1 + 0xbd) = 0x7fc00000;
+  uVar6 = DAT_0529d21c;
+  *(undefined4 *)(param_1 + 0xbf) = DAT_0529d218;
+  *(undefined4 *)((long)param_1 + 0x5fc) = uVar6;
+  if (pcVar11 != "InsectActionFieldButterfly") {
+    iVar5 = 0x1a;
+    if ((int)param_1[0xd] < 0x1b) {
+      iVar5 = (int)param_1[0xd] + -1;
+    }
+    memcpy(pcVar11,"InsectActionFieldButterfly",(long)iVar5);
+    pcVar11[iVar5] = '\0';
+  }
+  plVar4 = param_1 + 0x4f;
+  *(uint *)(param_1 + 0x4c) = *(uint *)(param_1 + 0x4c) | 1;
+  FUN_03ebac90(plVar4,10,5,0,0);
+  puVar1 = PTR_DAT_04bb2020 + 0x10;
+  pcStack_48 = "State::cEscape";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,0,&local_50);
+  puVar9 = (undefined8 *)param_1[0x55];
+  puVar9[2] = 0x2b0;
+  puVar9[3] = 1;
+  puVar9[4] = 0x2b8;
+  puVar9[5] = 1;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[6] = 0x2c0;
+  puVar9[7] = 1;
+  pcStack_48 = "State::cRelease";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,1,&local_50);
+  puVar9 = (undefined8 *)(param_1[0x55] + (ulong)(1 < *(uint *)(param_1 + 0x54)) * 0x40);
+  puVar9[2] = 0x2c8;
+  puVar9[3] = 1;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[4] = 0x2d0;
+  puVar9[5] = 1;
+  puVar9[6] = 0x2d8;
+  puVar9[7] = 1;
+  pcStack_48 = "State::cToDestination";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,5,&local_50);
+  lVar10 = 0x140;
+  if (*(uint *)(param_1 + 0x54) < 6) {
+    lVar10 = 0;
+  }
+  puVar9 = (undefined8 *)(param_1[0x55] + lVar10);
+  puVar9[2] = FUN_0182bb90;
+  puVar9[3] = 0;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[4] = &LAB_0182bcd0;
+  puVar9[5] = 0;
+  puVar9[6] = &LAB_0182ce88;
+  puVar9[7] = 0;
+  pcStack_48 = "State::cLanding";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,6,&local_50);
+  lVar10 = 0x180;
+  if (*(uint *)(param_1 + 0x54) < 7) {
+    lVar10 = 0;
+  }
+  puVar9 = (undefined8 *)(param_1[0x55] + lVar10);
+  puVar9[2] = &LAB_0182cfc8;
+  puVar9[3] = 0;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[4] = &LAB_0182d2d0;
+  puVar9[5] = 0;
+  puVar9[6] = &LAB_0182d6d0;
+  puVar9[7] = 0;
+  pcStack_48 = "State::cRest";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,7,&local_50);
+  lVar10 = 0x1c0;
+  if (*(uint *)(param_1 + 0x54) < 8) {
+    lVar10 = 0;
+  }
+  puVar9 = (undefined8 *)(param_1[0x55] + lVar10);
+  puVar9[2] = &LAB_0182d794;
+  puVar9[3] = 0;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[4] = &LAB_0182d830;
+  puVar9[5] = 0;
+  puVar9[6] = &LAB_0182d954;
+  puVar9[7] = 0;
+  pcStack_48 = "State::cTakeoff";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,8,&local_50);
+  puVar9 = (undefined8 *)(param_1[0x55] + (ulong)(8 < *(uint *)(param_1 + 0x54)) * 0x200);
+  puVar9[4] = &LAB_0182dbc0;
+  puVar9[5] = 0;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[2] = &LAB_0182dad8;
+  puVar9[3] = 0;
+  puVar9[6] = &LAB_0182de3c;
+  puVar9[7] = 0;
+  pcStack_48 = "State::cAroundTree";
+  local_50 = puVar1;
+  FUN_03ebaf40(plVar4,9,&local_50);
+  lVar10 = 0x240;
+  if (*(uint *)(param_1 + 0x54) < 10) {
+    lVar10 = 0;
+  }
+  puVar9 = (undefined8 *)(param_1[0x55] + lVar10);
+  puVar9[2] = &LAB_0182df04;
+  puVar9[3] = 0;
+  *puVar9 = &PTR_LAB_049c6dd0;
+  puVar9[1] = param_1;
+  puVar9[4] = &LAB_0182e120;
+  puVar9[5] = 0;
+  puVar9[6] = &LAB_0182e454;
+  puVar9[7] = 0;
+  pfVar7 = (float *)(**(code **)(*(long *)(param_1[0x96] + 0xf0) + 0xf0))();
+  fVar12 = *pfVar7;
+  *(undefined4 *)(param_1 + 0x9e) = 0;
+  uVar8 = (uint)fVar12;
+  *(byte *)((long)param_1 + 0x4fc) = (byte)(uVar8 >> 0x1f);
+  *(uint *)((long)param_1 + 0x4f4) = uVar8 & (int)uVar8 >> 0x1f;
+  *(uint *)(param_1 + 0x9f) = uVar8 & ((int)uVar8 >> 0x1f ^ 0xffffffffU);
+  pfVar7 = (float *)(**(code **)(*(long *)(param_1[0x96] + 0x120) + 0xf0))(param_1[0x96] + 0x120);
+  fVar12 = *pfVar7;
+  *(undefined4 *)(param_1 + 0xa1) = 0;
+  uVar8 = (uint)fVar12;
+  *(byte *)((long)param_1 + 0x514) = (byte)(uVar8 >> 0x1f);
+  *(uint *)(param_1 + 0xa2) = uVar8 & ((int)uVar8 >> 0x1f ^ 0xffffffffU);
+  *(uint *)((long)param_1 + 0x50c) = uVar8 & (int)uVar8 >> 0x1f;
+  return;
+}
+
