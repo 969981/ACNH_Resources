@@ -48,14 +48,14 @@ e10617820db06889e1638499478da0de_NCA/1/
 | 家具改造候选 | Bcsv/ItemRemake.bcsv | 原版改造条目和源路径；旧 variations 全量组合仍待确认 |
 | 物品四语言 | Message/String_{CNzh,TWzh,JPja,EUen}.sarc.zs | Item/STR_ItemName_*.msbt 及 Outfit/GroupName/STR_OutfitGroupName_*.msbt |
 
-**语言区别**：旧村民字段 nameEn 使用 USen；旧商品字段 name_enEU 应对 EUen，不能直接混为同一来源。
+**语言区别**：**更正（2026-11-14 全量核对）**：旧村民字段 nameEn 实际使用 **EUen**（417/417 相等），并非 USen；USen 仅有 Jacob/Jakey 和 Spork/Crackle 两例地区名称差异。旧商品字段 name_enEU 同样对应 EUen。
 
 ### 村民准确关联
 
 - NmlNpcParam 的 ResName 使用 hash_48EF0398，如 NpcNmlAnt00。
 - 去掉 NpcNml 前缀并转为小写得到 ant00。
 - 在对应地区 String_*.sarc.zs 内寻找 Npc/STR_NNpcName.msbt 的精确 ant00 标签。
-- 例如 ant00 对应旧文本 阳明 / 陽明 / さくらじま / Cyrano；仓库 R76 已验证 CNzh/USen 示例；**旧 417×4 个名称与原版的全量相等性尚未在本轮完成复核**。
+- 例如 ant00 对应旧文本 阳明 / 陽明 / さくらじま / Cyrano；仓库 R76 已验证 CNzh/USen 示例；**现已与此前 3.0.3 原生导出 CSV 完成 417×4 全量比较且完全一致（并非本轮重新解析 ROM 二进制）**。
 
 ### 物品准确关联
 
@@ -126,3 +126,8 @@ py Scripts/acnh303_r78_query_catalog.py item 2596
 本轮已实测**旧 JSON 全量结构**、原仓库源文件和解码管线，以及配方 ID 的几个真实样本；未在当前环境执行完整原生 SQLite 对照，因此不声称重建的 11,178 条原版物品已经与旧 11,713 行全部一一等价。随附独立 Obsidian 研究包还含分章笔记、只读核对脚本和机器可读审计报告。
 
 扩展参考：[ACNH Dialog Editing](https://ac-modding.com/ACNH/mods/dialog_editing.html)，[历史 ItemParam 字段表（1.6.0，仅辅助字段名识别）](https://wuffs.org/acnh/bcsv_160/html/ItemParam.html)，[[ACNH303_ROM_VILLAGER_PHOTO_EXTRACTION]]。
+
+
+## 7. 2026-11-14 补充：完整 ID 交集与 Obsidian 专题
+
+已将上传的两份旧 JSON 与既有 3.0.3 原生导出 CSV 完成全量比较：旧 10,789 个非 DIY ID 全在原版 11,178 中且 ResName 全相等；原版另外有 389 个 ID，详见 [[ACNH303_JSON_Rebuild/03-全量对账与389条差异]] 和专题 [[ACNH303_JSON_Rebuild/00-Home]]。已把只读 Python 对账脚本与审计摘要纳入 Git，不把本次既有 CSV 对账称为新的 ROM 二进制复现。
