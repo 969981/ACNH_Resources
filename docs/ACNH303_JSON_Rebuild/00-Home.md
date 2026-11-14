@@ -14,6 +14,12 @@ updated: 2026-11-14
 >
 > 旧网页还有 **924 条 DIY**（全共用展示商品 ID 5794，以 recipe_id 区分）和 **17,170 条变体**（来自 1,782 个物品）。两份 JSON 均非可直接从 RomFS 找到的同名原始文件。
 
+## 原始文件读取、字段解释与双 JSON 重建
+- [[ACNH303_JSON_Rebuild/docs/07-原始格式如何读取|BCSV / Zstd / SARC / MSBT 读取及偏移]]
+- [[ACNH303_JSON_Rebuild/docs/08-字段数据字典总览|五张原版表 265 个字段与含义]]
+- [[ACNH303_JSON_Rebuild/docs/09-生成双JSON的关联流程|417 村民与 11,713 旧站记录生成关系]]
+- [[ACNH303_JSON_Rebuild/docs/10-证据分级与已知错误|配方成品/材料、ItemRemake 外键纠错]]
+
 ## 阅读导航
 1. [[01-原始来源和解包路径]] — BCSV、MSBT、SARC、Zstd 和 ROM 路径
 2. [[02-字段溯源与SQLite模型]] — 旧字段与原版字段映射、数据库结构
