@@ -26,3 +26,8 @@ R86 已独立读取四语言各 224 个 `STR_CategoryName.msbt` 数字标签，�
 对 `EventFlowQueryCanInduceNpc`、`EventFlowQueryIsCallableAmiiboNpc` 等同样要求**注册表 → 函数指针 → 具体条件代码 → 实际返回分支**的闭环。ELF 字符串引用即使与某段反编译代码邻近，也不证明 Query 身份或每一位村民的入住/接走资格。
 
 依据：[[ACNH303_JSON_Rebuild/docs/12-村民入住跨岛接走露营地和amiibo]]、[[ACNH303_JSON_Rebuild/docs/14-四语类别原版MSBT核验]]。
+
+
+## R88 地址基准一致性说明
+
+Ghidra 的函数地址采用 `image_base=0x00100000`，ELF 原始虚拟地址需要减去该值。示例：`FUN_00EE5828` → raw `0xDE5828`，原始 `Camp_InduceFailFlag` xref 为 `0xDE584C`，对应函数入口后 36 字节。见 [[ACNH303_JSON_Rebuild/docs/16-ELF重定位与Ghidra函数指针追踪]]。

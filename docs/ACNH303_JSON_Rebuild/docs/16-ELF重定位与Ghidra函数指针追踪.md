@@ -27,3 +27,18 @@ py Scripts/acnh303_r88_elf_relocation_probe.py --repo-root . --out r88-output
 ~~~
 
 参见 [[ACNH303_JSON_Rebuild/docs/15-UI类别和原生ARM64查询XREF研究]]。
+
+## 2026-11-14 关键更正：Ghidra 地址相对 ELF 有固定镜像基址
+
+R88 第一版直接将 `FUN_00EE5828` 和 `FUN_00F089A0` 当作 ELF raw VA 搜索，造成直接调用/重定位未命中的假阴性。真正的 Ghidra 导出元数据 `derived/3.0.3/ghidra12.2/ndjson/batch-00000000/export-summary.json` 显示 `image_base = 00100000`、`program = main.elf`。
+
+**对应关系**：
+
+| Ghidra 函数地址 | 原始 ELF VA（减 0x00100000） | 同一函数的原版字符串引用 |
+|---|---|---|
+| `0x00EE5828` | `0x00DE5828` | `0x00DE584C` 直接引用 `Camp_InduceFailFlag` |
+| `0x00F089A0` | `0x00E089A0` | `0x00E08A10` 直接引用 `Camp_InduceFailAlreadyInduced` |
+
+这次修正版严格核对 Ghidra 的元数据，再对减基址后的 ELF VA 重做函数指针/重定位/反汇编；**原版的 UI 字符串地址引用仍保持 raw ELF VA，不能重复减基址**。
+
+这个地址对齐可以证明两份 Ghidra C 函数确实对应原版 `main.elf` 中的代码区域，但仍需要进一步证明它们与具体 EventFlow Query 的注册关系。

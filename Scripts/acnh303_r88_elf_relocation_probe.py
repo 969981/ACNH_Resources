@@ -19,8 +19,8 @@ from acnh303_round11_elf_xref import parse_elf
 ELF_REL="e10617820db06889e1638499478da0de_NCA/0/main.elf"
 ELF_SHA="145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664"
 TARGETS={
- "candidate_Camp_flags_00EE5828":0x00ee5828,
- "candidate_Camp_flags_00F089A0":0x00f089a0,
+ "candidate_Camp_flags_Ghidra_00EE5828_ELF_00DE5828":0x00de5828,
+ "candidate_Camp_flags_Ghidra_00F089A0_ELF_00E089A0":0x00e089a0,
  "UI_STR_CategoryName_0x3033118":0x03033118,
  "UI_furniture_BCSV_literal_0x19CEE68":0x019cee68,
  "UI_outfit_BCSV_literal_0x19A39A8":0x019a39a8,
@@ -31,8 +31,8 @@ PROBES={
  "ItemUIFurnitureCategory":0x019cedd4,
  "ItemOutfitCategory":0x019a3914,
  "Camp_flag_reference_cluster":0x00bd4f90,
- "Ghidra_C_candidate_00ee5828":0x00ee5828,
- "Ghidra_C_candidate_00f089a0":0x00f089a0,
+ "Ghidra_C_candidate_00ee5828_mapped_raw":0x00de5828,
+ "Ghidra_C_candidate_00f089a0_mapped_raw":0x00e089a0,
 }
 
 
@@ -151,12 +151,25 @@ def main():
     sha=hashlib.sha256(blob).hexdigest()
     if sha!=ELF_SHA:raise ValueError("Incorrect ACNH 3.0.3 ELF "+sha)
     seg=parse_elf(blob)
+    ghidra_summary_path=(root/"derived/3.0.3/ghidra12.2/ndjson/batch-00000000/export-summary.json")
+    ghidra_summary=json.loads(ghidra_summary_path.read_text(encoding="utf-8"))
+    ghidra_image_base=int(ghidra_summary["image_base"],16)
+    if ghidra_image_base!=0x100000 or ghidra_summary.get("program")!="main.elf":
+        raise ValueError("Unexpected original Ghidra image base or source program")
     data_ptr=pointer_scan(blob,seg,TARGETS)
     rel=relocation_scan(path,TARGETS)
     dasm=disassemble(blob,seg,PROBES)
     report={
       "schema":"acnh303_r88_original_relocation_and_ui_consumers_v1",
       "elf_source":ELF_REL,"elf_sha256":sha,
+      "ghidra_image_base_hex":hex(ghidra_image_base),
+      "ghidra_export_summary_sha256":hashlib.sha256(ghidra_summary_path.read_bytes()).hexdigest(),
+      "ghidra_to_original_elf_va_rule":"Ghidra address minus 0x00100000 = original ELF VA (verified by literal site)",
+      "candidate_native_va_bridge":[
+        {"ghidra_c_function_entry":"0x00EE5828","elf_entry":hex(0xEE5828-ghidra_image_base),
+         "elf_observed_Camp_InduceFailFlag_ref":"0xDE584C"},
+        {"ghidra_c_function_entry":"0x00F089A0","elf_entry":hex(0xF089A0-ghidra_image_base),
+         "elf_observed_Camp_InduceFailAlreadyInduced_ref":"0xE08A10"}],
       "elf_bytes":len(blob),
       "note":"Ghidra address from C file is a candidate code address; exact relocation does not identify a named EVFL query.",
       "candidates":data_ptr,"relocations":rel,
@@ -175,6 +188,8 @@ def main():
        json.dumps({"elf_sha256":sha,"windows":dasm},ensure_ascii=False,indent=2)+"\n")
     summary={
         "native_sha256":sha,
+        "ghidra_image_base":"0x00100000",
+        "native_address_corrected":True,
         "relocation_sections":rel["sections_scanned"],
         "relocations_total":rel["total_relocations"],
         "direct_pointer_slots":{n:len(v["direct_le64_pointer_slots"]) for n,v in data_ptr.items()},
