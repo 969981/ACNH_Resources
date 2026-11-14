@@ -1,5 +1,5 @@
 # ACNH 3.0.3 · JSON 数据库溯源（Obsidian）
-本专题已纳入仓库 docs/ Obsidian Vault。从 [[00-Home]] 进入六篇笔记。
+本专题已纳入仓库 docs/ Obsidian Vault。从 [[ACNH303_JSON_Rebuild/00-Home|专题首页]] 进入六篇笔记。
 
 **已完成**：417 村民 EUen 语言来源校正；10,789 个旧非 DIY ID 和 ResName 全匹配；原生多出 389 个 ID；924 配方和 17,170 变体结构审计。
 

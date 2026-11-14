@@ -130,4 +130,4 @@ py Scripts/acnh303_r78_query_catalog.py item 2596
 
 ## 7. 2026-11-14 补充：完整 ID 交集与 Obsidian 专题
 
-已将上传的两份旧 JSON 与既有 3.0.3 原生导出 CSV 完成全量比较：旧 10,789 个非 DIY ID 全在原版 11,178 中且 ResName 全相等；原版另外有 389 个 ID，详见 [[ACNH303_JSON_Rebuild/03-全量对账与389条差异]] 和专题 [[ACNH303_JSON_Rebuild/00-Home]]。已把只读 Python 对账脚本与审计摘要纳入 Git，不把本次既有 CSV 对账称为新的 ROM 二进制复现。
+已将上传的两份旧 JSON 与既有 3.0.3 原生导出 CSV 完成全量比较：旧 10,789 个非 DIY ID 全在原版 11,178 中且 ResName 全相等；原版另外有 389 个 ID，详见 [[ACNH303_JSON_Rebuild/docs/03-全量对账与389条差异]] 和专题 [[ACNH303_JSON_Rebuild/00-Home]]。已把只读 Python 对账脚本与审计摘要纳入 Git，不把本次既有 CSV 对账称为新的 ROM 二进制复现。
