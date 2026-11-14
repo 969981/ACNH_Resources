@@ -14,6 +14,9 @@ updated: 2026-11-14
 >
 > 旧网页还有 **924 条 DIY**（全共用展示商品 ID 5794，以 recipe_id 区分）和 **17,170 条变体**（来自 1,782 个物品）。两份 JSON 均非可直接从 RomFS 找到的同名原始文件。
 
+## R88 · ELF 重定位与函数表追踪
+- [[ACNH303_JSON_Rebuild/docs/16-ELF重定位与Ghidra函数指针追踪|Native vtable/relocation 及 ARM64 UI 加载窗口]]
+
 ## R87 · 原始 ELF xrefs 和 UI 子类别映射
 - [[ACNH303_JSON_Rebuild/docs/15-UI类别和原生ARM64查询XREF研究|256 家具 UI 类别、117 服装 UI 类别、ELF 注册函数追踪]]
 
