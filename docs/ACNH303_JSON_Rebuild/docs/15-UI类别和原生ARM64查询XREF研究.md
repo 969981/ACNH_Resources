@@ -31,3 +31,8 @@ R86 已独立读取四语言各 224 个 `STR_CategoryName.msbt` 数字标签，�
 ## R88 地址基准一致性说明
 
 Ghidra 的函数地址采用 `image_base=0x00100000`，ELF 原始虚拟地址需要减去该值。示例：`FUN_00EE5828` → raw `0xDE5828`，原始 `Camp_InduceFailFlag` xref 为 `0xDE584C`，对应函数入口后 36 字节。见 [[ACNH303_JSON_Rebuild/docs/16-ELF重定位与Ghidra函数指针追踪]]。
+
+
+## R89 / 中间表进一步核查
+
+R87 已在原版进行 `ItemKind.Label` 到 `ItemOutfitCategory.Label` 严格相等核对，交集 **28**；到 `ItemUIFurnitureCategory.Label` 交集 **23**，两者独立于 `STR_CategoryName` 的 224 个数值 UI 标签。增强的 R87 额外按 **JPja 名称文本完全相等** 关联两个 UI 中间表的日文原生注释，输出 `r87_ui_intermediate_table_japanese_text_candidates.csv`，仍为候选，**不强行填充 189 种 ItemKind 的正式 CNzh 名**。

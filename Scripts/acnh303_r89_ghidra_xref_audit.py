@@ -86,12 +86,37 @@ def main():
           "decompile_status,c_path FROM functions WHERE lower(address)=?",
           (address.lower(),)).fetchone()
         count,refs=xrefs_for(db,va)
+        callers=[]
+        for x in refs:
+            if x["ref_type"] not in ("UNCONDITIONAL_CALL","CONDITIONAL_CALL"):
+                continue
+            # Ghidra export functions.address has fixed-width hex keys.
+            # The immediately preceding function entry is a bounded candidate.
+            # Confirm with original body size / callsite offset.
+            code=db.execute(
+                "SELECT idx,address,name,namespace,signature,byte_count,"
+                "decompile_status,c_path FROM functions "
+                "WHERE address<=? ORDER BY address DESC LIMIT 1",
+                (x["source"].lower(),)).fetchone()
+            rec=dict(code) if code is not None else None
+            diff=(int(x["source"],16)-int(rec["address"],16)
+                  if rec else None)
+            callers.append({
+                "callsite_ghidra_va":x["source"],
+                "xref_ref_type":x["ref_type"],
+                "nearest_indexed_function_entry":rec,
+                "callsite_minus_function_entry_bytes":diff,
+                "is_inside_conservative_entry_plus_bytecount_window":
+                    (bool(rec) and diff>=0 and diff<int(rec["byte_count"])),
+                "status":"nearest_Ghidra_function_entry_candidate_not_runtime_semantics"
+            })
         functions[name]={
             "ghidra_va":"0x"+address.upper(),
             "original_elf_va":hex(va-imagebase),
             "ghidra_function_metadata":dict(row) if row else None,
             "xref_target_exact_count":count,
             "xref_samples":refs,
+            "indexed_direct_callers":callers,
             "status":"registered_query_not_proven_even_if_callers_exist",
         }
 

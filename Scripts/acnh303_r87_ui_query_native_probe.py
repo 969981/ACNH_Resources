@@ -125,6 +125,32 @@ def exact_links(root:Path,out:Path,messages:dict):
              ["itemkind_label","original_japanese_note","ui_numeric_msbt_labels",
               "evidence_status","candidate_CNzh_display"],source_rows)
 
+    # Exact Japanese-name intersections from the two intermediate UI category tables.
+    # Never promote shared display text to native enum identity.
+    mid_rows=[]
+    mid_counter=Counter()
+    for table,rows,key,jpcol in (
+        ("ItemUIFurnitureCategory",ui,"hash_13AB5198","hash_036E8EBE"),
+        ("ItemOutfitCategory",outfit,"hash_87BF00E8","hash_977ADFCE"),
+    ):
+        for source in rows:
+            note=source.get(jpcol,"")
+            codes=sorted(set(note_to_jp.get(note,[]))) if note else []
+            status=("unique_same_JP_text_candidate" if len(codes)==1 else
+                    "ambiguous_same_JP_text_candidate" if codes else
+                    "no_same_JP_text_candidate")
+            mid_counter[table+"::"+status]+=1
+            mid_rows.append([
+                table,source["hash_54706054"],source[key],note,
+                int(source[key] in labels),"|".join(codes),status,
+                "|".join(messages["CNzh"].get(x,"") for x in codes),
+            ])
+    dump_csv(out/"r87_ui_intermediate_table_japanese_text_candidates.csv",
+             ["native_table","table_unique_id","source_internal_label",
+              "source_original_japanese_name","label_also_exists_in_ItemKind",
+              "candidate_STR_CategoryName_numeric_labels","candidate_status",
+              "candidate_CNzh_display"],mid_rows)
+
     # Very different key namespaces: preserve *numeric intersection only* as
     # a candidate and show that ID equality is not a verified foreign key.
     ui_numeric={int(k) for k in messages["JPja"] if k.isdecimal()}
@@ -178,6 +204,7 @@ def exact_links(root:Path,out:Path,messages:dict):
             "ui_outfit_count":len(outfit),"item_count":len(item),
             "strict_label_intersections":joins,"numeric_intersections":overlaps,
             "itemparam_numeric_candidates":candidates[:40],
+            "intermediate_UI_original_JP_text_matches":dict(mid_counter),
             "strong_claims":"NONE; only exact text and numeric matches, no game consumer proof"}
 
 

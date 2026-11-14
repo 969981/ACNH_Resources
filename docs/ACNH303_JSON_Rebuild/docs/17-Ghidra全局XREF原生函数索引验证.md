@@ -28,3 +28,8 @@ R89 在 GitHub Actions 中 **校验并拼合仓库的 `acnh303_ghidra.sqlite` �
 [Actions #43612007216](https://github.com/969981/ACNH_Resources/actions/runs/43612007216) 完成 1.076 GB Ghidra SQLite 的 byte-for-byte 拼合。库包含 `25,000` 个已导出函数、`8,332,586` 个全局 XREF 与 `2,892,486` 个符号。两段函数各有 `1` 个 `UNCONDITIONAL_CALL`、`1` 个 `INDIRECTION` 和 `1` 个 `DATA` 引用；精确调用者位置分别为 Ghidra `00EE53B4` 和 `00F08758`。字符串引用中 `Camp_InduceFailFlag` 有 9 条、`Camp_InduceFailAlreadyInduced` 有 5 条、`STR_CategoryName` 有 1 条。全局索引不仅证明这些地址存在，还可与 R88 原始 ARM64 BL 指令交叉核验。
 
 参考：[[ACNH303_JSON_Rebuild/docs/16-ELF重定位与Ghidra函数指针追踪]]。
+
+
+## 新增：从确切调用地址回溯所属函数
+
+R89 的 `UNCONDITIONAL_CALL` 来源是精确地址 `00EE53B4` 和 `00F08758`。增强的脚本在已验证 Ghidra 全局函数表中对每个来源地址查找**前一个最近函数入口**，同时输出函数 `c_path`、`byte_count` 与 callsite 差值，并检查是否落在保守线性范围内。这个结果仅用于选取应审阅的上游 C 代码，不会自动推断其 Query 名称。
