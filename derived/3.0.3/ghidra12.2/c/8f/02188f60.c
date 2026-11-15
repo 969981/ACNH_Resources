@@ -1,0 +1,105 @@
+
+void FUN_02188f60(undefined2 *param_1)
+
+{
+  undefined2 uVar1;
+  undefined1 uVar2;
+  undefined1 uVar3;
+  undefined4 uVar4;
+  int iVar5;
+  undefined1 *puVar6;
+  undefined2 *puVar7;
+  long lVar8;
+  
+  lVar8 = 0x80;
+  puVar7 = param_1 + 0x1e;
+  *param_1 = 0;
+  do {
+    *(undefined4 *)(puVar7 + -0x12) = 0x10;
+    *(undefined1 *)(puVar7 + -0x10) = 0;
+    *(undefined8 *)(puVar7 + -6) = 0xfffe;
+    *(undefined2 **)(puVar7 + -0x16) = puVar7 + -0x10;
+    *(undefined1 *)((long)puVar7 + -0x11) = 0;
+    *(undefined ***)(puVar7 + -0x1a) = &PTR_LAB_048fb098;
+    FUN_0277d4ac();
+    *(undefined8 *)(puVar7 + -2) = 0xfffe;
+    FUN_0277d4ac(puVar7 + -2);
+    puVar7 = puVar7 + 0x1c;
+    lVar8 = lVar8 + -1;
+  } while (lVar8 != 0);
+  param_1[0xe04] = 0;
+  *(undefined1 *)(param_1 + 0xe42) = 0;
+  *(undefined2 **)(param_1 + 0xe3c) = param_1 + 0xe42;
+  *(undefined1 *)(param_1 + 0xe6e) = 0;
+  *(undefined8 *)(param_1 + 0xe08) = 0;
+  iVar5 = 0;
+  *(undefined2 **)(param_1 + 0xe10) = param_1 + 0xe16;
+  *(undefined4 *)(param_1 + 0xe14) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1c6b) = 0;
+  *(undefined1 *)(param_1 + 0xe16) = 0;
+  *(undefined2 **)(param_1 + 0xe68) = param_1 + 0xe6e;
+  *(undefined4 *)(param_1 + 0xe40) = 0x40;
+  *(undefined1 *)(param_1 + 0xec6) = 0;
+  *(undefined2 **)(param_1 + 0xec0) = param_1 + 0xec6;
+  *(undefined1 *)((long)param_1 + 0x1cc3) = 0;
+  *(undefined1 *)(param_1 + 0xef2) = 0;
+  *(undefined2 **)(param_1 + 0xeec) = param_1 + 0xef2;
+  *(undefined2 **)(param_1 + 0xf44) = param_1 + 0xf4a;
+  *(undefined ***)(param_1 + 0xe0c) = &PTR_LAB_048fb9f8;
+  *(undefined ***)(param_1 + 0xe38) = &PTR_LAB_048fb9f8;
+  *(undefined1 *)(param_1 + 0xf76) = 0;
+  *(undefined4 *)(param_1 + 0xe6c) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1d1b) = 0;
+  *(undefined ***)(param_1 + 0xe64) = &PTR_LAB_048fb9f8;
+  *(undefined2 **)(param_1 + 0xe94) = param_1 + 0xe9a;
+  *(undefined4 *)(param_1 + 0xe98) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1d73) = 0;
+  *(undefined1 *)(param_1 + 0xe9a) = 0;
+  *(undefined ***)(param_1 + 0xe90) = &PTR_LAB_048fb9f8;
+  *(undefined4 *)(param_1 + 0xec4) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1dcb) = 0;
+  *(undefined ***)(param_1 + 0xebc) = &PTR_LAB_048fb9f8;
+  *(undefined4 *)(param_1 + 0xef0) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1e23) = 0;
+  *(undefined ***)(param_1 + 0xee8) = &PTR_LAB_048fb9f8;
+  *(undefined2 **)(param_1 + 0xf18) = param_1 + 0xf1e;
+  *(undefined4 *)(param_1 + 0xf1c) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1e7b) = 0;
+  *(undefined1 *)(param_1 + 0xf1e) = 0;
+  *(undefined ***)(param_1 + 0xf14) = &PTR_LAB_048fb9f8;
+  *(undefined4 *)(param_1 + 0xf48) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1ed3) = 0;
+  *(undefined1 *)(param_1 + 0xf4a) = 0;
+  *(undefined ***)(param_1 + 0xf40) = &PTR_LAB_048fb9f8;
+  *(undefined2 **)(param_1 + 0xf70) = param_1 + 0xf76;
+  *(undefined4 *)(param_1 + 0xf74) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1f2b) = 0;
+  *(undefined ***)(param_1 + 0xf6c) = &PTR_LAB_048fb9f8;
+  *(undefined2 **)(param_1 + 0xf9c) = param_1 + 0xfa2;
+  *(undefined4 *)(param_1 + 4000) = 0x40;
+  *(undefined1 *)((long)param_1 + 0x1f83) = 0;
+  *(undefined1 *)(param_1 + 0xfa2) = 0;
+  *(undefined ***)(param_1 + 0xf98) = &PTR_LAB_048fb9f8;
+  param_1[0xfc4] = 0;
+  do {
+    uVar1 = DAT_05586008;
+    lVar8 = (long)iVar5;
+    iVar5 = iVar5 + 1;
+    param_1[lVar8 * 0x1c + 0x18] = DAT_05586008;
+    uVar2 = DAT_0558600a;
+    *(undefined1 *)(param_1 + lVar8 * 0x1c + 0x19) = DAT_0558600a;
+    uVar3 = DAT_0558600b;
+    *(undefined1 *)((long)param_1 + lVar8 * 0x38 + 0x33) = DAT_0558600b;
+    uVar4 = DAT_0558600c;
+    param_1[lVar8 * 0x1c + 0x1c] = uVar1;
+    puVar6 = *(undefined1 **)(param_1 + lVar8 * 0x1c + 8);
+    *(undefined1 *)(param_1 + lVar8 * 0x1c + 0x1d) = uVar2;
+    *(undefined1 *)((long)param_1 + lVar8 * 0x38 + 0x3b) = uVar3;
+    *(undefined4 *)(param_1 + lVar8 * 0x1c + 0x1a) = uVar4;
+    *(undefined4 *)(param_1 + lVar8 * 0x1c + 0x1e) = uVar4;
+    *puVar6 = 0;
+  } while (iVar5 != 0x80);
+  param_1[0xe04] = 0;
+  return;
+}
+

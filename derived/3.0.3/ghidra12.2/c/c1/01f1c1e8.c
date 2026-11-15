@@ -1,0 +1,30 @@
+
+bool FUN_01f1c1e8(undefined8 param_1,undefined *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+  if ((*PTR_DAT_04bb6a80 & 1) == 0) {
+    iVar2 = __cxa_guard_acquire(PTR_DAT_04bb6a80);
+    if (iVar2 != 0) {
+      *(undefined **)PTR_DAT_04bb6a78 = PTR_DAT_04bb4100 + 0x10;
+      __cxa_guard_release(PTR_DAT_04bb6a80);
+    }
+  }
+  if (param_2 == PTR_DAT_04bb6a78) {
+    bVar1 = true;
+  }
+  else {
+    if ((*PTR_DAT_04bb4110 & 1) == 0) {
+      iVar2 = __cxa_guard_acquire(PTR_DAT_04bb4110);
+      if (iVar2 != 0) {
+        *(undefined **)PTR_DAT_04bb4108 = PTR_DAT_04bb2000 + 0x10;
+        __cxa_guard_release(PTR_DAT_04bb4110);
+      }
+    }
+    bVar1 = param_2 == PTR_DAT_04bb4108;
+  }
+  return bVar1;
+}
+
