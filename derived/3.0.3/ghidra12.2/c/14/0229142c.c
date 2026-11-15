@@ -1,0 +1,71 @@
+
+undefined8 FUN_0229142c(long param_1,long param_2,undefined1 param_3)
+
+{
+  *(undefined1 *)(param_1 + 0x900) = param_3;
+  *(undefined4 *)(param_1 + 0x1c8) = *(undefined4 *)(param_2 + 8);
+  *(undefined4 *)(param_1 + 0x1cc) = *(undefined4 *)(param_2 + 0xc);
+  *(undefined4 *)(param_1 + 0x1d0) = *(undefined4 *)(param_2 + 0x10);
+  *(undefined4 *)(param_1 + 0x1e8) = *(undefined4 *)(param_2 + 0x28);
+  *(undefined4 *)(param_1 + 0x1ec) = *(undefined4 *)(param_2 + 0x2c);
+  *(undefined4 *)(param_1 + 0x1f8) = *(undefined4 *)(param_2 + 0x38);
+  *(undefined4 *)(param_1 + 0x1fc) = *(undefined4 *)(param_2 + 0x3c);
+  *(undefined4 *)(param_1 + 0x210) = *(undefined4 *)(param_2 + 0x50);
+  *(undefined4 *)(param_1 + 0x214) = *(undefined4 *)(param_2 + 0x54);
+  *(undefined4 *)(param_1 + 0x220) = *(undefined4 *)(param_2 + 0x60);
+  *(undefined4 *)(param_1 + 0x224) = *(undefined4 *)(param_2 + 100);
+  *(undefined4 *)(param_1 + 0x238) = *(undefined4 *)(param_2 + 0x78);
+  *(undefined4 *)(param_1 + 0x23c) = *(undefined4 *)(param_2 + 0x7c);
+  *(undefined4 *)(param_1 + 0x248) = *(undefined4 *)(param_2 + 0x88);
+  *(undefined4 *)(param_1 + 0x24c) = *(undefined4 *)(param_2 + 0x8c);
+  *(undefined4 *)(param_1 + 0x260) = *(undefined4 *)(param_2 + 0xa0);
+  *(undefined4 *)(param_1 + 0x264) = *(undefined4 *)(param_2 + 0xa4);
+  *(undefined4 *)(param_1 + 0x270) = *(undefined4 *)(param_2 + 0xb0);
+  *(undefined4 *)(param_1 + 0x274) = *(undefined4 *)(param_2 + 0xb4);
+  *(undefined8 *)(param_1 + 0x280) = *(undefined8 *)(param_2 + 0xc0);
+  *(undefined4 *)(param_1 + 0x288) = *(undefined4 *)(param_2 + 200);
+  *(undefined4 *)(param_1 + 0x2a0) = *(undefined4 *)(param_2 + 0xe0);
+  *(undefined4 *)(param_1 + 0x2a4) = *(undefined4 *)(param_2 + 0xe4);
+  *(undefined4 *)(param_1 + 0x2b0) = *(undefined4 *)(param_2 + 0xf0);
+  *(undefined4 *)(param_1 + 0x2b4) = *(undefined4 *)(param_2 + 0xf4);
+  FUN_0228efe8(param_1 + 0x2b8,param_2 + 0xf8);
+  *(undefined4 *)(param_1 + 0x798) = *(undefined4 *)(param_2 + 0x5d8);
+  *(undefined4 *)(param_1 + 0x79c) = *(undefined4 *)(param_2 + 0x5dc);
+  *(undefined4 *)(param_1 + 0x7a8) = *(undefined4 *)(param_2 + 0x5e8);
+  *(undefined4 *)(param_1 + 0x7ac) = *(undefined4 *)(param_2 + 0x5ec);
+  *(undefined4 *)(param_1 + 0x7c0) = *(undefined4 *)(param_2 + 0x600);
+  *(undefined4 *)(param_1 + 0x7c4) = *(undefined4 *)(param_2 + 0x604);
+  *(undefined4 *)(param_1 + 2000) = *(undefined4 *)(param_2 + 0x610);
+  *(undefined4 *)(param_1 + 0x7d4) = *(undefined4 *)(param_2 + 0x614);
+  *(undefined4 *)(param_1 + 0x7e0) = *(undefined4 *)(param_2 + 0x620);
+  *(undefined4 *)(param_1 + 0x7e4) = *(undefined4 *)(param_2 + 0x624);
+  *(undefined4 *)(param_1 + 0x7f0) = *(undefined4 *)(param_2 + 0x630);
+  *(undefined4 *)(param_1 + 0x7f4) = *(undefined4 *)(param_2 + 0x634);
+  *(undefined4 *)(param_1 + 0x808) = *(undefined4 *)(param_2 + 0x648);
+  *(undefined4 *)(param_1 + 0x80c) = *(undefined4 *)(param_2 + 0x64c);
+  *(undefined4 *)(param_1 + 0x818) = *(undefined4 *)(param_2 + 0x658);
+  *(undefined4 *)(param_1 + 0x81c) = *(undefined4 *)(param_2 + 0x65c);
+  *(undefined4 *)(param_1 + 0x830) = *(undefined4 *)(param_2 + 0x670);
+  *(undefined4 *)(param_1 + 0x834) = *(undefined4 *)(param_2 + 0x674);
+  *(undefined4 *)(param_1 + 0x840) = *(undefined4 *)(param_2 + 0x680);
+  *(undefined4 *)(param_1 + 0x844) = *(undefined4 *)(param_2 + 0x684);
+  *(undefined4 *)(param_1 + 0x850) = *(undefined4 *)(param_2 + 0x690);
+  *(undefined4 *)(param_1 + 0x854) = *(undefined4 *)(param_2 + 0x694);
+  *(undefined4 *)(param_1 + 0x860) = *(undefined4 *)(param_2 + 0x6a0);
+  *(undefined4 *)(param_1 + 0x864) = *(undefined4 *)(param_2 + 0x6a4);
+  *(undefined4 *)(param_1 + 0x878) = *(undefined4 *)(param_2 + 0x6b8);
+  *(undefined4 *)(param_1 + 0x87c) = *(undefined4 *)(param_2 + 0x6bc);
+  *(undefined4 *)(param_1 + 0x888) = *(undefined4 *)(param_2 + 0x6c8);
+  *(undefined4 *)(param_1 + 0x88c) = *(undefined4 *)(param_2 + 0x6cc);
+  *(undefined4 *)(param_1 + 0x8a0) = *(undefined4 *)(param_2 + 0x6e0);
+  *(undefined4 *)(param_1 + 0x8a4) = *(undefined4 *)(param_2 + 0x6e4);
+  *(undefined4 *)(param_1 + 0x8b0) = *(undefined4 *)(param_2 + 0x6f0);
+  *(undefined4 *)(param_1 + 0x8b4) = *(undefined4 *)(param_2 + 0x6f4);
+  *(undefined4 *)(param_1 + 0x8c0) = *(undefined4 *)(param_2 + 0x700);
+  *(undefined4 *)(param_1 + 0x8c4) = *(undefined4 *)(param_2 + 0x704);
+  *(undefined4 *)(param_1 + 0x8d0) = *(undefined4 *)(param_2 + 0x710);
+  *(undefined4 *)(param_1 + 0x8d4) = *(undefined4 *)(param_2 + 0x714);
+  *(undefined1 *)(param_1 + 0x901) = 1;
+  return 1;
+}
+
