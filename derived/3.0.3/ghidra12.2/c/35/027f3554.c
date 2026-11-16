@@ -1,0 +1,102 @@
+
+void FUN_027f3554(undefined2 *param_1,long param_2,uint param_3)
+
+{
+  ulong uVar1;
+  uint uVar2;
+  uint uVar3;
+  undefined5 uStack_1b0;
+  undefined3 local_1ab;
+  undefined4 uStack_1a8;
+  undefined1 uStack_1a4;
+  undefined **local_1a0;
+  undefined8 *puStack_198;
+  undefined4 local_190;
+  undefined1 local_18c;
+  undefined8 local_188;
+  undefined8 uStack_180;
+  undefined4 local_178;
+  undefined **local_170;
+  undefined1 *puStack_168;
+  undefined4 local_160;
+  undefined1 local_15c [63];
+  undefined1 local_11d;
+  undefined **local_118;
+  undefined1 *puStack_110;
+  undefined4 local_108;
+  undefined1 local_104 [63];
+  undefined1 local_c5;
+  undefined8 local_c0;
+  undefined8 uStack_b8;
+  undefined8 local_b0;
+  undefined8 uStack_a8;
+  undefined8 local_a0;
+  undefined8 uStack_98;
+  undefined8 local_90;
+  undefined8 uStack_88;
+  undefined8 local_80;
+  undefined8 uStack_78;
+  undefined8 local_70;
+  undefined8 uStack_68;
+  undefined8 local_60;
+  undefined8 uStack_58;
+  undefined8 local_50;
+  undefined8 uStack_48;
+  
+  uStack_1a8 = 0;
+  uStack_1a4 = 0;
+  uVar2 = (param_3 ^ param_3 >> 0x1e) * 0x6c078965 + 1;
+  local_188 = 0xffffffff;
+  uStack_180 = 0xffffffff00000000;
+  local_18c = 0;
+  local_11d = 0;
+  local_15c[0] = 0;
+  local_c5 = 0;
+  uVar3 = (uVar2 ^ uVar2 >> 0x1e) * 0x6c078965 + 2;
+  local_178 = 0xffffffff;
+  local_190 = 0x40;
+  local_160 = 0x40;
+  local_108 = 0x40;
+  uVar3 = (uVar3 ^ uVar3 >> 0x1e) * 0x6c078965 + 3;
+  puStack_168 = local_15c;
+  local_170 = &PTR_LAB_048fb9f8;
+  puStack_110 = local_104;
+  local_118 = &PTR_LAB_048fb9f8;
+  puStack_198 = &local_c0;
+  local_104[0] = 0;
+  local_50 = 0;
+  uStack_48 = 0;
+  local_60 = 0;
+  uStack_58 = 0;
+  uStack_1b0 = 0;
+  local_1ab = 0;
+  local_1a0 = &PTR_LAB_04937f50;
+  uVar2 = ((uVar3 ^ uVar3 >> 0x1e) * 0x6c078965 + 4 ^ uVar2 * 0x800 ^ uVar2) >> 0x1b & 0x18;
+  local_70 = 0;
+  uStack_68 = 0;
+  uVar3 = 0x2020101 >> (ulong)uVar2;
+  local_80 = 0;
+  uStack_78 = 0;
+  uVar1 = (long)register0x00000008 - 0x40U;
+  if ((long)register0x00000008 - 0x40U <= (long)&local_c0 + 2U) {
+    uVar1 = (long)&local_c0 + 2U;
+  }
+  local_90 = 0;
+  uStack_88 = 0;
+  local_a0 = 0;
+  uStack_98 = 0;
+  local_b0 = 0;
+  uStack_a8 = 0;
+  local_c0 = 0;
+  uStack_b8 = 0;
+  memset(puStack_198,0,(uVar1 - (long)&local_1a0) - 0xe0);
+  FUN_01be1e04(&uStack_1b0,999,uVar3 & 3,0,*(int *)(param_2 + 0x18) != 1);
+  *param_1 = 999;
+  *(char *)(param_1 + 1) = (char)uVar3;
+  param_1[2] = 999;
+  *(char *)(param_1 + 3) = (char)(0x2010201 >> (ulong)uVar2);
+  *(undefined1 *)(param_1 + 4) = 0;
+  *(char *)((long)param_1 + 7) = (char)uStack_1a8;
+  return;
+}
+

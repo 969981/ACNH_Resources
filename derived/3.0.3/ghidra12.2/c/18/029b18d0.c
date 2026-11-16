@@ -1,0 +1,27 @@
+
+void _INIT_6541(void)
+
+{
+  DAT_055e7258 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_055e725c);
+  DAT_055e7268 = 0x8004ef;
+  DAT_055e7270 = nn::os::GetSystemTick();
+  DAT_055e7278 = 0;
+  DAT_055e7280 = 1;
+  DAT_055e7284 = 3;
+  DAT_055e7288 = 2;
+  DAT_055e728c = 0;
+  DAT_055e728d = &DAT_101010101010101;
+  DAT_055e7295 = &DAT_101010101010101;
+  DAT_055e729d = &DAT_101010101010101;
+  DAT_055e72a5 = &DAT_101010101010101;
+  DAT_055e72ad = &DAT_101010101010101;
+  DAT_055e72b5 = &DAT_101010101010101;
+  DAT_055e72bd = 1;
+  DAT_055e72be = 0x2020202;
+  uRam00000000055e72c2 = 0x20202;
+  DAT_055e72c8 = PTR_DAT_04bb2020 + 0x10;
+  DAT_055e72d0 = "BGM_OneRoom_Demo_Complete_House";
+  return;
+}
+

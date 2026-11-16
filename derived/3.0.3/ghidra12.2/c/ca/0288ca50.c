@@ -1,0 +1,408 @@
+
+void FUN_0288ca50(undefined2 *param_1,long param_2)
+
+{
+  undefined **ppuVar1;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  undefined1 uVar4;
+  undefined1 uVar5;
+  undefined2 uVar6;
+  undefined *puVar7;
+  uint uVar8;
+  void *pvVar9;
+  long lVar10;
+  long lVar11;
+  undefined4 local_1e1c;
+  undefined **local_1e18;
+  uint *apuStack_1e10 [234];
+  uint local_16bc;
+  uint local_16b8;
+  uint local_16b4;
+  int local_16b0;
+  undefined **local_16a8;
+  undefined1 *apuStack_16a0 [234];
+  uint local_f4c;
+  uint local_f48;
+  uint local_f44;
+  int local_f40;
+  undefined **local_f38;
+  undefined1 auStack_f30 [1876];
+  uint local_7dc;
+  uint local_7d8;
+  uint local_7d4;
+  int local_7d0;
+  undefined1 local_7c4 [4];
+  undefined8 local_7c0;
+  undefined4 *local_7b8;
+  
+  puVar7 = PTR_DAT_04bb37e0;
+  local_7c4[0] = 0;
+  uVar6 = *(undefined2 *)PTR_DAT_04bb37e0;
+  *param_1 = uVar6;
+  param_1[4] = uVar6;
+  param_1[8] = uVar6;
+  param_1[0xc] = uVar6;
+  param_1[0x10] = uVar6;
+  param_1[0x14] = uVar6;
+  param_1[0x18] = uVar6;
+  param_1[0x1c] = uVar6;
+  param_1[0x20] = uVar6;
+  uVar4 = puVar7[2];
+  param_1[0x24] = uVar6;
+  param_1[0x28] = uVar6;
+  param_1[0x2c] = uVar6;
+  param_1[0x30] = uVar6;
+  param_1[0x34] = uVar6;
+  param_1[0x38] = uVar6;
+  param_1[0x3c] = uVar6;
+  param_1[0x40] = uVar6;
+  param_1[0x44] = uVar6;
+  param_1[0x48] = uVar6;
+  param_1[0x4c] = uVar6;
+  param_1[0x50] = uVar6;
+  param_1[0x54] = uVar6;
+  param_1[0x58] = uVar6;
+  param_1[0x5c] = uVar6;
+  param_1[0x60] = uVar6;
+  uVar6 = *(undefined2 *)puVar7;
+  *(undefined1 *)(param_1 + 1) = uVar4;
+  uVar5 = puVar7[3];
+  *(undefined1 *)(param_1 + 5) = uVar4;
+  *(undefined1 *)(param_1 + 9) = uVar4;
+  *(undefined1 *)(param_1 + 0xd) = uVar4;
+  *(undefined1 *)(param_1 + 0x11) = uVar4;
+  *(undefined1 *)(param_1 + 0x15) = uVar4;
+  *(undefined1 *)(param_1 + 0x19) = uVar4;
+  *(undefined1 *)(param_1 + 0x1d) = uVar4;
+  *(undefined1 *)(param_1 + 0x21) = uVar4;
+  *(undefined1 *)(param_1 + 0x25) = uVar4;
+  *(undefined1 *)(param_1 + 0x29) = uVar4;
+  *(undefined1 *)(param_1 + 0x2d) = uVar4;
+  *(undefined1 *)(param_1 + 0x31) = uVar4;
+  *(undefined1 *)(param_1 + 0x35) = uVar4;
+  *(undefined1 *)(param_1 + 0x39) = uVar4;
+  *(undefined1 *)(param_1 + 0x3d) = uVar4;
+  *(undefined1 *)(param_1 + 0x41) = uVar4;
+  *(undefined1 *)((long)param_1 + 3) = uVar5;
+  uVar2 = *(undefined4 *)(puVar7 + 4);
+  *(undefined1 *)((long)param_1 + 0xb) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x13) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x1b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x23) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x2b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x33) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x3b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x43) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x4b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x53) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x5b) = uVar5;
+  *(undefined1 *)((long)param_1 + 99) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x6b) = uVar5;
+  *(undefined4 *)(param_1 + 2) = uVar2;
+  *(undefined1 *)((long)param_1 + 0x73) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x7b) = uVar5;
+  *(undefined1 *)((long)param_1 + 0x83) = uVar5;
+  *(undefined1 *)(param_1 + 0x45) = uVar4;
+  *(undefined1 *)((long)param_1 + 0x8b) = uVar5;
+  *(undefined1 *)(param_1 + 0x49) = uVar4;
+  *(undefined1 *)((long)param_1 + 0x93) = uVar5;
+  *(undefined1 *)(param_1 + 0x4d) = uVar4;
+  *(undefined1 *)((long)param_1 + 0x9b) = uVar5;
+  *(undefined1 *)(param_1 + 0x51) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xa3) = uVar5;
+  *(undefined1 *)(param_1 + 0x55) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xab) = uVar5;
+  *(undefined1 *)(param_1 + 0x59) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xb3) = uVar5;
+  *(undefined1 *)(param_1 + 0x5d) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xbb) = uVar5;
+  *(undefined1 *)(param_1 + 0x61) = uVar4;
+  uVar4 = puVar7[2];
+  *(undefined1 *)((long)param_1 + 0xc3) = uVar5;
+  uVar5 = puVar7[3];
+  uVar3 = *(undefined4 *)(puVar7 + 4);
+  *(undefined4 *)(param_1 + 6) = uVar2;
+  *(undefined4 *)(param_1 + 10) = uVar2;
+  *(undefined4 *)(param_1 + 0xe) = uVar2;
+  *(undefined4 *)(param_1 + 0x12) = uVar2;
+  *(undefined4 *)(param_1 + 0x16) = uVar2;
+  *(undefined4 *)(param_1 + 0x1a) = uVar2;
+  *(undefined4 *)(param_1 + 0x1e) = uVar2;
+  *(undefined4 *)(param_1 + 0x22) = uVar2;
+  *(undefined4 *)(param_1 + 0x26) = uVar2;
+  *(undefined4 *)(param_1 + 0x2a) = uVar2;
+  *(undefined4 *)(param_1 + 0x2e) = uVar2;
+  *(undefined4 *)(param_1 + 0x32) = uVar2;
+  *(undefined4 *)(param_1 + 0x36) = uVar2;
+  *(undefined4 *)(param_1 + 0x3a) = uVar2;
+  *(undefined4 *)(param_1 + 0x3e) = uVar2;
+  *(undefined4 *)(param_1 + 0x42) = uVar2;
+  *(undefined4 *)(param_1 + 0x46) = uVar2;
+  *(undefined4 *)(param_1 + 0x4a) = uVar2;
+  *(undefined4 *)(param_1 + 0x4e) = uVar2;
+  *(undefined4 *)(param_1 + 0x52) = uVar2;
+  *(undefined4 *)(param_1 + 0x56) = uVar2;
+  *(undefined4 *)(param_1 + 0x5a) = uVar2;
+  *(undefined4 *)(param_1 + 0x5e) = uVar2;
+  *(undefined4 *)(param_1 + 0x62) = uVar2;
+  param_1[100] = uVar6;
+  *(undefined1 *)(param_1 + 0x65) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xcb) = uVar5;
+  *(undefined4 *)(param_1 + 0x66) = uVar3;
+  param_1[0x68] = uVar6;
+  *(undefined1 *)(param_1 + 0x69) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xd3) = uVar5;
+  *(undefined4 *)(param_1 + 0x6a) = uVar3;
+  param_1[0x6c] = uVar6;
+  *(undefined1 *)(param_1 + 0x6d) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xdb) = uVar5;
+  *(undefined4 *)(param_1 + 0x6e) = uVar3;
+  param_1[0x70] = uVar6;
+  *(undefined1 *)(param_1 + 0x71) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xe3) = uVar5;
+  *(undefined4 *)(param_1 + 0x72) = uVar3;
+  param_1[0x74] = uVar6;
+  *(undefined1 *)(param_1 + 0x75) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xeb) = uVar5;
+  *(undefined4 *)(param_1 + 0x76) = uVar3;
+  param_1[0x78] = uVar6;
+  *(undefined1 *)(param_1 + 0x79) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xf3) = uVar5;
+  *(undefined4 *)(param_1 + 0x7a) = uVar3;
+  param_1[0x7c] = uVar6;
+  *(undefined1 *)(param_1 + 0x7d) = uVar4;
+  *(undefined1 *)((long)param_1 + 0xfb) = uVar5;
+  *(undefined4 *)(param_1 + 0x7e) = uVar3;
+  FUN_01b02920(local_7c4,param_2 + 0x10,0);
+  ppuVar1 = (undefined **)(PTR_DAT_04bbfe60 + 0x10);
+  local_f38 = ppuVar1;
+  memset(auStack_f30,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_7dc = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_7d8 = (local_7dc ^ local_7dc >> 0x1e) * 0x6c078965 + 2;
+  local_7d4 = (local_7d8 ^ local_7d8 >> 0x1e) * 0x6c078965 + 3;
+  local_7d0 = (local_7d4 ^ local_7d4 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_f38);
+  memset(pvVar9,0,0x754);
+  local_16a8 = &PTR_FUN_049ff6a0;
+  apuStack_16a0[0] = local_7c4;
+  FUN_008a1ba0(&local_f38,&local_16a8);
+  local_16a8 = ppuVar1;
+  memset(apuStack_16a0,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_f4c = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_f48 = (local_f4c ^ local_f4c >> 0x1e) * 0x6c078965 + 2;
+  local_f44 = (local_f48 ^ local_f48 >> 0x1e) * 0x6c078965 + 3;
+  local_f40 = (local_f44 ^ local_f44 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_16a8);
+  memset(pvVar9,0,0x754);
+  local_7c0 = (undefined **)CONCAT44(local_7c0._4_4_,0xf);
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_1e18 = ppuVar1;
+  memset(apuStack_1e10,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_16bc = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_16b8 = (local_16bc ^ local_16bc >> 0x1e) * 0x6c078965 + 2;
+  local_16b4 = (local_16b8 ^ local_16b8 >> 0x1e) * 0x6c078965 + 3;
+  local_16b0 = (local_16b4 ^ local_16b4 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_1e18);
+  memset(pvVar9,0,0x754);
+  local_1e1c = 0x5a;
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_1e1c = 0x5c;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_1e18[4])(&local_1e18);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_f38[4])(&local_f38);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  FUN_0288d740(param_1,&local_16a8,3);
+  ppuVar1 = (undefined **)(PTR_DAT_04bbfe60 + 0x10);
+  local_16a8 = ppuVar1;
+  memset(apuStack_16a0,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_f4c = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_f48 = (local_f4c ^ local_f4c >> 0x1e) * 0x6c078965 + 2;
+  local_f44 = (local_f48 ^ local_f48 >> 0x1e) * 0x6c078965 + 3;
+  local_f40 = (local_f44 ^ local_f44 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_16a8);
+  memset(pvVar9,0,0x754);
+  local_7c0 = (undefined **)CONCAT44(local_7c0._4_4_,0xe);
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_1e18 = ppuVar1;
+  memset(apuStack_1e10,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_16bc = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_16b8 = (local_16bc ^ local_16bc >> 0x1e) * 0x6c078965 + 2;
+  local_16b4 = (local_16b8 ^ local_16b8 >> 0x1e) * 0x6c078965 + 3;
+  local_16b0 = (local_16b4 ^ local_16b4 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_1e18);
+  memset(pvVar9,0,0x754);
+  local_1e1c = 0x5a;
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_1e1c = 0x5c;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_1e18[4])(&local_1e18);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_f38[4])(&local_f38);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  FUN_0288d740(param_1,&local_16a8,3);
+  ppuVar1 = (undefined **)(PTR_DAT_04bbfe60 + 0x10);
+  local_16a8 = ppuVar1;
+  memset(apuStack_16a0,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_f4c = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_f48 = (local_f4c ^ local_f4c >> 0x1e) * 0x6c078965 + 2;
+  local_f44 = (local_f48 ^ local_f48 >> 0x1e) * 0x6c078965 + 3;
+  local_f40 = (local_f44 ^ local_f44 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_16a8);
+  memset(pvVar9,0,0x754);
+  local_7c0._0_4_ = 0x13;
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_7c0 = (undefined **)CONCAT44(local_7c0._4_4_,0x25);
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_1e18 = ppuVar1;
+  memset(apuStack_1e10,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_16bc = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_16b8 = (local_16bc ^ local_16bc >> 0x1e) * 0x6c078965 + 2;
+  local_16b4 = (local_16b8 ^ local_16b8 >> 0x1e) * 0x6c078965 + 3;
+  local_16b0 = (local_16b4 ^ local_16b4 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_1e18);
+  memset(pvVar9,0,0x754);
+  local_1e1c = 0x5a;
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_1e18[4])(&local_1e18);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_f38[4])(&local_f38);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  FUN_0288d740(param_1,&local_16a8,2);
+  ppuVar1 = (undefined **)(PTR_DAT_04bbfe60 + 0x10);
+  local_16a8 = ppuVar1;
+  memset(apuStack_16a0,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_f4c = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_f48 = (local_f4c ^ local_f4c >> 0x1e) * 0x6c078965 + 2;
+  local_f44 = (local_f48 ^ local_f48 >> 0x1e) * 0x6c078965 + 3;
+  local_f40 = (local_f44 ^ local_f44 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_16a8);
+  memset(pvVar9,0,0x754);
+  local_7c0._0_4_ = 0x13;
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_7c0 = (undefined **)CONCAT44(local_7c0._4_4_,0x25);
+  local_1e18 = &PTR_FUN_049ff448;
+  apuStack_1e10[0] = (uint *)&local_7c0;
+  FUN_008a1ba0(&local_16a8,&local_1e18);
+  local_1e18 = ppuVar1;
+  memset(apuStack_1e10,0,0x754);
+  uVar8 = nn::os::GetSystemTick();
+  local_16bc = (uVar8 ^ uVar8 >> 0x1e) * 0x6c078965 + 1;
+  local_16b8 = (local_16bc ^ local_16bc >> 0x1e) * 0x6c078965 + 2;
+  local_16b4 = (local_16b8 ^ local_16b8 >> 0x1e) * 0x6c078965 + 3;
+  local_16b0 = (local_16b4 ^ local_16b4 >> 0x1e) * 0x6c078965 + 4;
+  pvVar9 = (void *)FUN_01a451fc(&local_1e18);
+  memset(pvVar9,0,0x754);
+  local_1e1c = 0x5c;
+  local_7c0 = &PTR_FUN_049ff4e8;
+  local_7b8 = &local_1e1c;
+  FUN_008a1ba0(&local_1e18,&local_7c0);
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_1e18[4])(&local_1e18);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  pvVar9 = (void *)(*(code *)local_16a8[3])(&local_16a8);
+  lVar10 = (*(code *)local_f38[4])(&local_f38);
+  for (lVar11 = 0;
+      *(uint *)((long)&local_7c0 + lVar11) =
+           *(uint *)(lVar10 + lVar11) & *(uint *)((long)pvVar9 + lVar11), lVar11 != 0x750;
+      lVar11 = lVar11 + 8) {
+    *(uint *)((long)&local_7c0 + lVar11 + 4) =
+         *(uint *)(lVar10 + lVar11 + 4) & *(uint *)((long)pvVar9 + lVar11 + 4);
+  }
+  memcpy(pvVar9,&local_7c0,0x754);
+  *(uint *)((long)pvVar9 + 0x750) = *(uint *)((long)pvVar9 + 0x750) & 0xffffff;
+  FUN_0288d740(param_1,&local_16a8,3);
+  return;
+}
+

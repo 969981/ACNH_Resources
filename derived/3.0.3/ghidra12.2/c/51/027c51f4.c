@@ -1,0 +1,71 @@
+
+void FUN_027c51f4(undefined1 *param_1)
+
+{
+  *(undefined8 *)(param_1 + 8) = 0;
+  *param_1 = 0;
+  *(undefined8 *)(param_1 + 0x10c) = 0;
+  *(undefined8 *)(param_1 + 0x1c) = 0;
+  *(undefined8 *)(param_1 + 0x134) = 0;
+  param_1[0x14] = 0;
+  *(undefined8 *)(param_1 + 0x15c) = 0;
+  *(undefined8 *)(param_1 + 0x30) = 0;
+  *(undefined8 *)(param_1 + 0x184) = 0;
+  param_1[0x28] = 0;
+  *(undefined8 *)(param_1 + 0x1ac) = 0;
+  *(undefined8 *)(param_1 + 0x44) = 0;
+  *(undefined8 *)(param_1 + 0x1d4) = 0;
+  param_1[0x3c] = 0;
+  *(undefined8 *)(param_1 + 0x1fc) = 0;
+  *(undefined8 *)(param_1 + 0x58) = 0;
+  *(undefined8 *)(param_1 + 0x224) = 0;
+  param_1[0x50] = 0;
+  *(undefined8 *)(param_1 + 0x24c) = 0;
+  *(undefined8 *)(param_1 + 0x6c) = 0;
+  param_1[100] = 0;
+  *(undefined8 *)(param_1 + 0x80) = 0;
+  param_1[0x78] = 0;
+  *(undefined8 *)(param_1 + 0x94) = 0;
+  param_1[0x8c] = 0;
+  *(undefined8 *)(param_1 + 0xa8) = 0;
+  param_1[0xa0] = 0;
+  *(undefined8 *)(param_1 + 0xbc) = 0;
+  param_1[0xb4] = 0;
+  *(undefined8 *)(param_1 + 0xd0) = 0;
+  param_1[200] = 0;
+  *(undefined8 *)(param_1 + 0xe4) = 0;
+  param_1[0xdc] = 0;
+  *(undefined8 *)(param_1 + 0xf8) = 0;
+  param_1[0xf0] = 0;
+  param_1[0x104] = 0;
+  *(undefined8 *)(param_1 + 0x120) = 0;
+  param_1[0x118] = 0;
+  param_1[300] = 0;
+  *(undefined8 *)(param_1 + 0x148) = 0;
+  param_1[0x140] = 0;
+  param_1[0x154] = 0;
+  *(undefined8 *)(param_1 + 0x170) = 0;
+  param_1[0x168] = 0;
+  param_1[0x17c] = 0;
+  *(undefined8 *)(param_1 + 0x198) = 0;
+  param_1[400] = 0;
+  param_1[0x1a4] = 0;
+  *(undefined8 *)(param_1 + 0x1c0) = 0;
+  param_1[0x1b8] = 0;
+  param_1[0x1cc] = 0;
+  *(undefined8 *)(param_1 + 0x1e8) = 0;
+  param_1[0x1e0] = 0;
+  param_1[500] = 0;
+  *(undefined8 *)(param_1 + 0x210) = 0;
+  param_1[0x208] = 0;
+  param_1[0x21c] = 0;
+  *(undefined8 *)(param_1 + 0x238) = 0;
+  param_1[0x230] = 0;
+  param_1[0x244] = 0;
+  *(undefined8 *)(param_1 + 0x260) = 0;
+  param_1[600] = 0;
+  *(undefined8 *)(param_1 + 0x274) = 0;
+  param_1[0x26c] = 0;
+  return;
+}
+
