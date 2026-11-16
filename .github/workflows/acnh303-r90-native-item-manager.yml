@@ -1,0 +1,40 @@
+name: ACNH 3.0.3 | R90 native item manager catalog
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [docs/acnh303-json-database-provenance]
+    paths:
+      - Scripts/acnh303_r90_native_item_manager.py
+      - .github/workflows/acnh303-r90-native-item-manager.yml
+
+permissions:
+  contents: read
+
+jobs:
+  native_catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r90_native_item_manager.py
+            /Scripts/acnh303_r85_item_npc_static_audit.py
+            /UnPack/1/Bcsv/ItemKind.csv
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemRemake.csv
+            /UnPack/1/Bcsv/RecipeCraftParam.csv
+      - name: Verify source-backed item master, 189 kinds, remakes and DIY
+        run: |
+          python3 -m py_compile Scripts/acnh303_r90_native_item_manager.py
+          python3 Scripts/acnh303_r90_native_item_manager.py --repo-root . --out r90-output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r90-item-catalog-remake-recipes
+          path: r90-output/
+          if-no-files-found: error
+          retention-days: 30
