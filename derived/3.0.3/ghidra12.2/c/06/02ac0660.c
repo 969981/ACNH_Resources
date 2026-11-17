@@ -1,0 +1,108 @@
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void _INIT_6754(void)
+
+{
+  undefined *puVar1;
+  undefined4 uVar2;
+  
+  DAT_0560f34c = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_0560f350);
+  DAT_0560f35c = 0x8004ef;
+  DAT_0560f360 = nn::os::GetSystemTick();
+  puVar1 = PTR_s_PlayerHouse0_04bb7e50;
+  _DAT_0560f398 = 0;
+  DAT_0560f368 = 0;
+  DAT_0560f370 = 1;
+  DAT_0560f378 = &PTR_LAB_04a9e328;
+  _DAT_0560f380 = 0;
+  _DAT_0560f388 = 0;
+  _DAT_0560f390 = 0;
+  uVar2 = FUN_006bd550(PTR_s_PlayerHouse0_04bb7e50,0);
+  _DAT_0560f380 = CONCAT44(DAT_0560f384,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0xd,0);
+  _DAT_0560f380 = CONCAT44(uVar2,DAT_0560f380);
+  uVar2 = FUN_006bd550(puVar1 + 0x1a,0);
+  _DAT_0560f388 = CONCAT44(DAT_0560f38c,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x27,0);
+  _DAT_0560f388 = CONCAT44(uVar2,DAT_0560f388);
+  uVar2 = FUN_006bd550(puVar1 + 0x34,0);
+  _DAT_0560f390 = CONCAT44(DAT_0560f394,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x41,0);
+  _DAT_0560f390 = CONCAT44(uVar2,DAT_0560f390);
+  uVar2 = FUN_006bd550(puVar1 + 0x4e,0);
+  _DAT_0560f398 = CONCAT44(DAT_0560f39c,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x5b,0);
+  puVar1 = PTR_s_NpcHouse0_04bb7e48;
+  _DAT_0560f398 = CONCAT44(uVar2,DAT_0560f398);
+  DAT_0560f3a0 = &PTR_LAB_04a9e348;
+  _DAT_0560f3a8 = 0;
+  _DAT_0560f3b0 = 0;
+  _DAT_0560f3b8 = 0;
+  _DAT_0560f3c0 = 0;
+  _DAT_0560f3c8 = 0;
+  uVar2 = FUN_006bd550(PTR_s_NpcHouse0_04bb7e48,0);
+  _DAT_0560f3a8 = CONCAT44(DAT_0560f3ac,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 10,0);
+  _DAT_0560f3a8 = CONCAT44(uVar2,DAT_0560f3a8);
+  uVar2 = FUN_006bd550(puVar1 + 0x14,0);
+  _DAT_0560f3b0 = CONCAT44(DAT_0560f3b4,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x1e,0);
+  _DAT_0560f3b0 = CONCAT44(uVar2,DAT_0560f3b0);
+  uVar2 = FUN_006bd550(puVar1 + 0x28,0);
+  _DAT_0560f3b8 = CONCAT44(DAT_0560f3bc,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x32,0);
+  _DAT_0560f3b8 = CONCAT44(uVar2,DAT_0560f3b8);
+  uVar2 = FUN_006bd550(puVar1 + 0x3c,0);
+  _DAT_0560f3c0 = CONCAT44(DAT_0560f3c4,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x46,0);
+  _DAT_0560f3c0 = CONCAT44(uVar2,DAT_0560f3c0);
+  uVar2 = FUN_006bd550(puVar1 + 0x50,0);
+  _DAT_0560f3c8 = CONCAT44(DAT_0560f3cc,uVar2);
+  uVar2 = FUN_006bd550(puVar1 + 0x5a,0);
+  _DAT_0560f3c8 = CONCAT44(uVar2,DAT_0560f3c8);
+  _DAT_0560f410 = 0;
+  DAT_0560f3d0 = &PTR_LAB_04a9e368;
+  _DAT_0560f3d8 = 0;
+  _DAT_0560f3e0 = 0;
+  _DAT_0560f3e8 = 0;
+  _DAT_0560f3f0 = 0;
+  _DAT_0560f3f8 = 0;
+  _DAT_0560f400 = 0;
+  _DAT_0560f408 = 0;
+  uVar2 = FUN_006bd550(s_Market_04a9e378,0);
+  _DAT_0560f3d8 = CONCAT44(DAT_0560f3dc,uVar2);
+  uVar2 = FUN_006bd550(s_Office_04a9e37f,0);
+  _DAT_0560f3d8 = CONCAT44(uVar2,DAT_0560f3d8);
+  uVar2 = FUN_006bd550(s_Museum_04a9e386,0);
+  _DAT_0560f3e0 = CONCAT44(DAT_0560f3e4,uVar2);
+  uVar2 = FUN_006bd550(s_Airport_04a9e38d,0);
+  _DAT_0560f3e0 = CONCAT44(uVar2,DAT_0560f3e0);
+  uVar2 = FUN_006bd550(s_TanukichiTent_04a9e395,0);
+  _DAT_0560f3e8 = CONCAT44(DAT_0560f3ec,uVar2);
+  uVar2 = FUN_006bd550(s_Tailor_04a9e3a3,0);
+  _DAT_0560f3e8 = CONCAT44(uVar2,DAT_0560f3e8);
+  uVar2 = FUN_006bd550(s_CampSite_04a9e3aa,0);
+  _DAT_0560f3f0 = CONCAT44(DAT_0560f3f4,uVar2);
+  uVar2 = FUN_006bd550(s_PhotoStudio_04a9e3b3,0);
+  _DAT_0560f3f0 = CONCAT44(uVar2,DAT_0560f3f0);
+  uVar2 = FUN_006bd550(s_TsunekichiShop_04a9e3bf,0);
+  _DAT_0560f3f8 = CONCAT44(DAT_0560f3fc,uVar2);
+  uVar2 = FUN_006bd550(s_WherearenOffice_04a9e3ce,0);
+  _DAT_0560f3f8 = CONCAT44(uVar2,DAT_0560f3f8);
+  uVar2 = FUN_006bd550(s_WherearenSchool_04a9e3de,0);
+  _DAT_0560f400 = CONCAT44(DAT_0560f404,uVar2);
+  uVar2 = FUN_006bd550(s_WherearenHospital_04a9e3ee,0);
+  _DAT_0560f400 = CONCAT44(uVar2,DAT_0560f400);
+  uVar2 = FUN_006bd550(s_WherearenRestaurant_04a9e400,0);
+  _DAT_0560f408 = CONCAT44(DAT_0560f40c,uVar2);
+  uVar2 = FUN_006bd550(s_WherearenCafe_04a9e414,0);
+  _DAT_0560f408 = CONCAT44(uVar2,DAT_0560f408);
+  uVar2 = FUN_006bd550(s_WherearenTailor_04a9e422,0);
+  _DAT_0560f410 = CONCAT44(DAT_0560f414,uVar2);
+  uVar2 = FUN_006bd550(s_Hotel_04a9e432,0);
+  _DAT_0560f410 = CONCAT44(uVar2,DAT_0560f410);
+  return;
+}
+
