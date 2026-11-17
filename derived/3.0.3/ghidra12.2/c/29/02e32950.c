@@ -1,0 +1,57 @@
+
+void _INIT_7100(void)
+
+{
+  undefined *puVar1;
+  
+  DAT_05695fa0 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_05695fa4);
+  DAT_05695fb0 = 0x8004ef;
+  DAT_05695fb8 = nn::os::GetSystemTick();
+  DAT_05695fc0 = 0;
+  DAT_05695fd8 = 3;
+  DAT_05695fdc = 2;
+  puVar1 = PTR_DAT_04bb2020 + 0x10;
+  DAT_05695fd0 = "ModelOnUI";
+  DAT_05695fe0 = 0;
+  DAT_05695fe1 = &DAT_101010101010101;
+  DAT_05695fe9 = &DAT_101010101010101;
+  DAT_05695ff1 = &DAT_101010101010101;
+  DAT_05695ff9 = &DAT_101010101010101;
+  DAT_05696001 = &DAT_101010101010101;
+  DAT_05696009 = &DAT_101010101010101;
+  DAT_05696011 = 1;
+  DAT_05696053 = 0;
+  DAT_05696012 = 0x2020202;
+  uRam0000000005696016 = 0x20202;
+  DAT_05696030 = 0x20;
+  DAT_05696028 = &DAT_05696034;
+  DAT_0569603c = 0x65676174;
+  DAT_05696040 = 0;
+  DAT_05696034._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_05696034._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_05696034._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_05696034._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_05696034._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_05696034._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_05696034._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_05696034._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_05696020 = PTR_DAT_04bb2028 + 0x10;
+  DAT_05695fc8 = puVar1;
+  DAT_05696058 = FUN_006bd550("InvalidStage",0);
+  DAT_05696060 = 1;
+  DAT_05696068 = puVar1;
+  DAT_05696070 = "NNPC_Talk_Sequence";
+  DAT_05696078 = puVar1;
+  DAT_05696080 = &DAT_04066c7f;
+  DAT_05696088 = puVar1;
+  DAT_05696090 = "AI_NPC_";
+  DAT_05696098 = puVar1;
+  DAT_056960a0 = &DAT_040a029a;
+  DAT_056960a8 = puVar1;
+  DAT_056960b0 = "cat00";
+  DAT_056960b8 = puVar1;
+  DAT_056960c0 = "Normal";
+  return;
+}
+

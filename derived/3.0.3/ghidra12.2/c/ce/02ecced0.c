@@ -1,0 +1,28 @@
+
+void _INIT_7180(void)
+
+{
+  DAT_056af028 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_056af02c);
+  DAT_056af038 = 0x8004ef;
+  DAT_056af040 = nn::os::GetSystemTick();
+  DAT_056af048 = 0;
+  DAT_056af050 = 0xc0000000;
+  DAT_056af054 = 0x40000000;
+  DAT_056af058 = PTR_DAT_04bb2020 + 0x10;
+  DAT_056af060 = "ModelOnUI";
+  DAT_056af068 = 3;
+  DAT_056af06c = 2;
+  DAT_056af071 = &DAT_101010101010101;
+  DAT_056af079 = &DAT_101010101010101;
+  DAT_056af081 = &DAT_101010101010101;
+  DAT_056af089 = &DAT_101010101010101;
+  DAT_056af091 = &DAT_101010101010101;
+  DAT_056af099 = &DAT_101010101010101;
+  DAT_056af0a1 = 1;
+  DAT_056af070 = 0;
+  DAT_056af0a2 = 0x2020202;
+  uRam00000000056af0a6 = 0x20202;
+  return;
+}
+

@@ -1,0 +1,76 @@
+
+void _INIT_7213(void)
+
+{
+  DAT_056bb1e0 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_056bb1e4);
+  DAT_056bb1f0 = 0x8004ef;
+  DAT_056bb1f8 = nn::os::GetSystemTick();
+  DAT_056bb200 = 0;
+  DAT_056bb283 = 0;
+  DAT_056bb208 = 1;
+  DAT_056bb20c = 3;
+  DAT_056bb210 = 2;
+  DAT_056bb215 = &DAT_101010101010101;
+  DAT_056bb21d = &DAT_101010101010101;
+  DAT_056bb225 = &DAT_101010101010101;
+  DAT_056bb22d = &DAT_101010101010101;
+  DAT_056bb235 = &DAT_101010101010101;
+  DAT_056bb23d = &DAT_101010101010101;
+  DAT_056bb245 = 1;
+  DAT_056bb214 = 0;
+  DAT_056bb246 = 0x2020202;
+  uRam00000000056bb24a = 0x20202;
+  DAT_056bb258 = &DAT_056bb264;
+  DAT_056bb260 = 0x20;
+  DAT_056bb26c = 0x65676174;
+  DAT_056bb270 = 0;
+  DAT_056bb264._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_056bb264._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_056bb264._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_056bb264._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_056bb264._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_056bb264._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_056bb264._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_056bb264._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_056bb250 = PTR_DAT_04bb2028 + 0x10;
+  DAT_056bb288 = FUN_006bd550("InvalidStage",0);
+  DAT_056bb290 = PTR_DAT_04bb2020 + 0x10;
+  DAT_056bb298 = "1001_00";
+  DAT_056bb2b0 = DAT_056bb290;
+  DAT_056bb2b8 = "1002_02";
+  DAT_056bb2a0 = DAT_056bb290;
+  DAT_056bb2a8 = "1002_00";
+  DAT_056bb2c0 = DAT_056bb290;
+  DAT_056bb2c8 = "1002_01";
+  DAT_056bb2d0 = DAT_056bb290;
+  DAT_056bb2d8 = "1003_02";
+  DAT_056bb2f0 = DAT_056bb290;
+  DAT_056bb2f8 = "1003_03";
+  DAT_056bb300 = DAT_056bb290;
+  DAT_056bb308 = "1003_01";
+  DAT_056bb320 = DAT_056bb290;
+  DAT_056bb328 = "1004_00";
+  DAT_056bb2e0 = DAT_056bb290;
+  DAT_056bb2e8 = "1003_00";
+  DAT_056bb330 = DAT_056bb290;
+  DAT_056bb338 = "1004_03";
+  DAT_056bb310 = DAT_056bb290;
+  DAT_056bb318 = "1004_02";
+  DAT_056bb350 = DAT_056bb290;
+  DAT_056bb358 = "1005_01";
+  DAT_056bb340 = DAT_056bb290;
+  DAT_056bb348 = "1004_01";
+  DAT_056bb360 = DAT_056bb290;
+  DAT_056bb368 = "1005_00";
+  DAT_056bb370 = DAT_056bb290;
+  DAT_056bb378 = "1006_01";
+  DAT_056bb380 = DAT_056bb290;
+  DAT_056bb388 = "1006_00";
+  DAT_056bb390 = DAT_056bb290;
+  DAT_056bb398 = "1007_00";
+  DAT_056bb3a0 = DAT_056bb290;
+  DAT_056bb3a8 = "1007_01";
+  return;
+}
+

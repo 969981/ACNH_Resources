@@ -1,0 +1,45 @@
+
+void _INIT_7453(void)
+
+{
+  DAT_056f3228 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_056f322c);
+  DAT_056f3238 = 0x8004ef;
+  DAT_056f3240 = nn::os::GetSystemTick();
+  DAT_056f3248 = 0;
+  DAT_056f3250 = 3;
+  DAT_056f3254 = 2;
+  DAT_056f3259 = &DAT_101010101010101;
+  DAT_056f3261 = &DAT_101010101010101;
+  DAT_056f3269 = &DAT_101010101010101;
+  DAT_056f3271 = &DAT_101010101010101;
+  DAT_056f3279 = &DAT_101010101010101;
+  DAT_056f3281 = &DAT_101010101010101;
+  DAT_056f3289 = 1;
+  DAT_056f3258 = 0;
+  DAT_056f328a = 0x2020202;
+  uRam00000000056f328e = 0x20202;
+  DAT_056f3294 = 0x10;
+  DAT_056f3298 = 0x11;
+  DAT_056f329c = 0x12;
+  DAT_056f32a0 = 0x13;
+  DAT_056f32a4 = 0x14;
+  DAT_056f32a8 = 0x15;
+  DAT_056f32ac = 0x16;
+  DAT_056f32b0 = 0x17;
+  DAT_056f32b4 = 0x1a;
+  DAT_056f32b8 = 0x1b;
+  DAT_056f32bc = 0x1c;
+  DAT_056f32c0 = 0x1d;
+  DAT_056f32c4 = 0x1e;
+  DAT_056f32c8 = 0x1f;
+  DAT_056f32cc = 1;
+  DAT_056f32d0 = 0x1c2b;
+  FUN_0277d4ac();
+  DAT_056f32d8 = 0x142e;
+  FUN_0277d4ac();
+  DAT_056f32e0 = PTR_DAT_04bb2020 + 0x10;
+  DAT_056f32e8 = "STR_RegionEventArea";
+  return;
+}
+
