@@ -1,0 +1,28 @@
+
+void _INIT_7815(void)
+
+{
+  DAT_057312f8 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_057312fc);
+  DAT_05731308 = 0x8004ef;
+  DAT_05731310 = nn::os::GetSystemTick();
+  DAT_05731318 = 0;
+  DAT_05731320 = PTR_DAT_04bb2020 + 0x10;
+  DAT_05731328 = "MainContents";
+  DAT_05731330 = DAT_05731320;
+  DAT_05731338 = "FixedUi";
+  DAT_05731340 = DAT_05731320;
+  DAT_05731348 = "Prepare";
+  DAT_05731350 = DAT_05731320;
+  DAT_05731358 = "Layout";
+  DAT_05731360 = DAT_05731320;
+  DAT_05731368 = "Scene";
+  DAT_05731370 = DAT_05731320;
+  DAT_05731378 = "Fader";
+  DAT_05731380 = DAT_05731320;
+  DAT_05731388 = "Notification";
+  DAT_05731390 = 0xc4070000c4700000;
+  DAT_05731398 = 0x4407000044700000;
+  return;
+}
+

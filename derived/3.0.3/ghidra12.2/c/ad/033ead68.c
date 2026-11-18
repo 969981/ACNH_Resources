@@ -1,0 +1,202 @@
+
+void FUN_033ead68(long param_1,int param_2,undefined2 param_3)
+
+{
+  undefined *puVar1;
+  int iVar2;
+  ulong uVar3;
+  undefined8 *puVar4;
+  long lVar5;
+  undefined *local_460;
+  char *pcStack_458;
+  undefined *local_450;
+  undefined2 local_448;
+  undefined8 local_444;
+  undefined4 local_43c;
+  undefined *local_438;
+  undefined8 uStack_430;
+  undefined4 local_428;
+  undefined1 local_424;
+  undefined8 local_420;
+  undefined8 uStack_418;
+  undefined4 local_410;
+  undefined *local_408;
+  undefined1 *puStack_400;
+  undefined4 local_3f8;
+  undefined1 local_3f4 [63];
+  undefined1 local_3b5;
+  undefined *local_3b0;
+  undefined1 *puStack_3a8;
+  undefined4 local_3a0;
+  undefined1 local_39c [63];
+  undefined1 local_35d;
+  undefined8 local_358;
+  undefined *local_350;
+  undefined8 uStack_348;
+  undefined4 local_340;
+  undefined1 local_33c;
+  undefined8 local_338;
+  undefined8 uStack_330;
+  undefined4 local_328;
+  undefined *local_320;
+  undefined1 *puStack_318;
+  undefined4 local_310;
+  undefined1 local_30c [63];
+  undefined1 local_2cd;
+  undefined *local_2c8;
+  undefined1 *puStack_2c0;
+  undefined4 local_2b8;
+  undefined1 local_2b4 [63];
+  undefined1 local_275;
+  undefined8 local_270;
+  undefined *local_268;
+  undefined8 uStack_260;
+  undefined4 local_258;
+  undefined1 local_254;
+  undefined8 local_250;
+  undefined8 local_248;
+  undefined4 local_240;
+  undefined *local_238;
+  undefined1 *local_230;
+  undefined4 local_228;
+  undefined1 local_224 [63];
+  undefined1 local_1e5;
+  undefined *local_1e0;
+  undefined1 *local_1d8;
+  undefined4 local_1d0;
+  undefined1 local_1cc [63];
+  undefined1 local_18d;
+  undefined8 local_188;
+  undefined8 local_180;
+  undefined8 local_178;
+  undefined *local_170;
+  undefined1 *local_168;
+  undefined4 local_160;
+  undefined1 local_15c [63];
+  undefined1 local_11d;
+  undefined *local_118;
+  undefined1 *local_110;
+  undefined4 local_108;
+  undefined1 local_104 [63];
+  undefined1 local_c5;
+  undefined *local_c0;
+  int local_b8;
+  undefined1 local_b4;
+  undefined8 local_b0;
+  undefined2 local_a8;
+  undefined8 local_a0;
+  undefined *local_98;
+  undefined1 *puStack_90;
+  undefined4 local_88;
+  undefined1 local_84 [63];
+  undefined1 local_45;
+  
+  if (((*(char *)(*(long *)PTR_DAT_04bb38d0 + 0xb4) == '\0') &&
+      (local_450 = (undefined *)((ulong)local_450 & 0xffffffff00000000),
+      **(int **)(*(long *)PTR_DAT_04bb46c0 + 0x10) < 1)) && (*(int *)(param_1 + 0x218) != param_2))
+  {
+    *(int *)(param_1 + 0x218) = param_2;
+    puVar4 = (undefined8 *)**(undefined8 **)(*(long *)(param_1 + 0x210) + 0x3f8);
+    if (((*PTR_DAT_04bc4e60 & 1) == 0) &&
+       (iVar2 = __cxa_guard_acquire(PTR_DAT_04bc4e60), iVar2 != 0)) {
+      *(undefined **)PTR_DAT_04bc4e58 = PTR_DAT_04bc4d38 + 0x10;
+      __cxa_guard_release(PTR_DAT_04bc4e60);
+    }
+    if (((puVar4 != (undefined8 *)0x0) &&
+        (uVar3 = (**(code **)*puVar4)(puVar4,PTR_DAT_04bc4e58), (uVar3 & 1) != 0)) &&
+       (lVar5 = *(long *)puVar4[0x43], lVar5 != 0)) {
+      local_45 = 0;
+      local_88 = 0x40;
+      puStack_90 = local_84;
+      local_84[0] = 0;
+      puVar1 = PTR_DAT_04bb2bc0 + 0x10;
+      local_98 = puVar1;
+      FUN_038d1270(&local_98,&DAT_040e92c2,param_3);
+      local_444 = 0;
+      local_448 = 0x100;
+      puStack_400 = local_3f4;
+      local_43c = 0;
+      local_428 = 0;
+      local_424 = 0;
+      local_410 = 0xffffffff;
+      local_3f8 = 0x40;
+      local_3b5 = 0;
+      local_3f4[0] = 0;
+      local_3a0 = 0x40;
+      local_35d = 0;
+      local_39c[0] = 0;
+      local_420 = 0xffffffff;
+      uStack_418 = 0xffffffff00000000;
+      puStack_3a8 = local_39c;
+      local_328 = 0xffffffff;
+      local_250 = 0xffffffff;
+      local_240 = 0xffffffff;
+      local_248 = 0xffffffff00000000;
+      local_340 = 0;
+      local_33c = 0;
+      local_310 = 0x40;
+      local_2cd = 0;
+      local_2b8 = 0x40;
+      local_275 = 0;
+      local_358 = 0;
+      local_258 = 0;
+      local_254 = 0;
+      local_228 = 0x40;
+      local_1e5 = 0;
+      local_1d0 = 0x40;
+      local_18d = 0;
+      local_270 = 0;
+      local_178 = 0;
+      local_180 = 0;
+      local_188 = 0;
+      local_160 = 0x40;
+      local_11d = 0;
+      local_108 = 0x40;
+      local_c5 = 0;
+      local_438 = PTR_DAT_04bb2e00 + 0x10;
+      puStack_2c0 = local_2b4;
+      local_2b4[0] = 0;
+      puStack_318 = local_30c;
+      local_30c[0] = 0;
+      local_338 = 0xffffffff;
+      uStack_330 = 0xffffffff00000000;
+      local_230 = local_224;
+      local_224[0] = 0;
+      local_168 = local_15c;
+      local_15c[0] = 0;
+      local_110 = local_104;
+      local_1d8 = local_1cc;
+      local_1cc[0] = 0;
+      local_104[0] = 0;
+      uStack_430 = 0;
+      uStack_348 = 0;
+      uStack_260 = 0;
+      local_b8 = *(int *)PTR_DAT_04bc0b30;
+      local_b4 = 0;
+      *(int *)PTR_DAT_04bc0b30 = local_b8 + 1;
+      local_c0 = PTR_DAT_04bc0a78 + 0x10;
+      local_b0 = 0;
+      local_a8 = 0;
+      local_450 = PTR_DAT_04bc0bf0 + 0x10;
+      local_a0 = 0;
+      local_408 = puVar1;
+      local_3b0 = puVar1;
+      local_350 = local_438;
+      local_320 = puVar1;
+      local_2c8 = puVar1;
+      local_268 = local_438;
+      local_238 = puVar1;
+      local_1e0 = puVar1;
+      local_170 = puVar1;
+      local_118 = puVar1;
+      FUN_01beb660(lVar5);
+      local_460 = PTR_DAT_04bb2020 + 0x10;
+      pcStack_458 = "OneRoom_ThemeTweet";
+      FUN_01bea210(&local_450,lVar5,&local_460,&local_98);
+      FUN_01bea9c8(&local_450);
+      FUN_01be9eb8(&local_450);
+    }
+  }
+  return;
+}
+

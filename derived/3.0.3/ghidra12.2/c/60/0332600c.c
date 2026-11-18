@@ -1,0 +1,82 @@
+
+void FUN_0332600c(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  
+  puVar1 = PTR_DAT_04bb2020 + 0x10;
+  param_1[2] = puVar1;
+  param_1[3] = &DAT_0407ebb1;
+  puVar2 = PTR_DAT_04bc8e50;
+  param_1[4] = 0;
+  param_1[5] = 0;
+  *param_1 = &PTR_LAB_04b1eb30;
+  param_1[1] = puVar2 + 0x10;
+  puVar2 = PTR_DAT_04bc8e60;
+  param_1[7] = &PTR_LAB_04b1eb50;
+  param_1[8] = puVar1;
+  *(undefined4 *)(param_1 + 6) = 0;
+  param_1[0xb] = 0;
+  param_1[0x20] = 0;
+  param_1[0x35] = 0;
+  param_1[0x41] = 0;
+  param_1[0x47] = puVar1;
+  puVar2 = puVar2 + 0x10;
+  param_1[0x4a] = 0;
+  param_1[0x50] = 0;
+  param_1[0x56] = 0;
+  param_1[0x5c] = puVar1;
+  param_1[0x5f] = 0;
+  param_1[0x65] = 0;
+  param_1[0x6b] = 0;
+  param_1[0x7a] = 0;
+  *(undefined4 *)(param_1 + 0x7b) = 0;
+  param_1[0x7c] = 0;
+  *(undefined1 *)(param_1 + 0x7d) = 0;
+  *(undefined2 *)(param_1 + 0x7e) = 0;
+  *(undefined1 *)((long)param_1 + 0x3f2) = 0;
+  *(undefined4 *)(param_1 + 0x79) = 0;
+  param_1[0x78] = 0;
+  param_1[0x77] = 0;
+  param_1[0x76] = 0;
+  param_1[0x75] = 0;
+  param_1[0x74] = 0;
+  param_1[0x73] = 0;
+  param_1[0x72] = 0;
+  param_1[0x40] = puVar2;
+  param_1[0x49] = puVar2;
+  param_1[0x4f] = puVar2;
+  param_1[0x55] = puVar2;
+  param_1[0x5e] = puVar2;
+  param_1[100] = puVar2;
+  param_1[0x6a] = puVar2;
+  param_1[0x71] = 0;
+  param_1[0x70] = 0;
+  param_1[0x1e] = &DAT_040dbd97;
+  param_1[0x1f] = puVar2;
+  param_1[0x1c] = &PTR_LAB_04b1eb70;
+  param_1[0x1d] = puVar1;
+  param_1[0x33] = "StMain";
+  param_1[0x34] = puVar2;
+  param_1[0x31] = &PTR_LAB_04b1eb90;
+  param_1[0x32] = puVar1;
+  param_1[0x48] = "StOut";
+  param_1[0x46] = &PTR_LAB_04b1ebb0;
+  param_1[0x5d] = "StDlgOut";
+  param_1[9] = "StNone";
+  param_1[10] = puVar2;
+  param_1[0x10] = puVar2;
+  param_1[0x11] = 0;
+  param_1[0x16] = puVar2;
+  param_1[0x17] = 0;
+  param_1[0x25] = puVar2;
+  param_1[0x26] = 0;
+  param_1[0x2b] = puVar2;
+  param_1[0x2c] = 0;
+  param_1[0x3a] = puVar2;
+  param_1[0x3b] = 0;
+  param_1[0x5b] = &PTR_LAB_04b1ebd0;
+  return;
+}
+

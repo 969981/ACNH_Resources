@@ -1,0 +1,36 @@
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void _INIT_7852(void)
+
+{
+  DAT_05736f48 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_05736f4c);
+  DAT_05736f58 = 0x8004ef;
+  DAT_05736f60 = nn::os::GetSystemTick();
+  DAT_05736f68 = 0;
+  DAT_05736f80 = 3;
+  DAT_05736f84 = 2;
+  DAT_05736f70 = &PTR_LAB_048f9770;
+  DAT_05736f78 = "ModelOnUI";
+  DAT_05736f89 = &DAT_101010101010101;
+  DAT_05736f91 = &DAT_101010101010101;
+  DAT_05736f99 = &DAT_101010101010101;
+  DAT_05736fa1 = &DAT_101010101010101;
+  DAT_05736fa9 = &DAT_101010101010101;
+  DAT_05736fb1 = &DAT_101010101010101;
+  DAT_05736fb9 = 1;
+  DAT_05736f88 = 0;
+  DAT_05736fba = 0x2020202;
+  uRam0000000005736fbe = 0x20202;
+  DAT_05736fc8 = &DAT_040b0e00;
+  _DAT_05736fd0 = 0x1900000000;
+  DAT_05736fd8 = &DAT_040b5ef0;
+  DAT_05736fe0 = 0x1a00000001;
+  DAT_05736fe8 = &DAT_040c47ff;
+  DAT_05736ff0 = 0x1700000002;
+  DAT_05736ff8 = &DAT_040962e2;
+  DAT_05737000 = 0x1800000002;
+  return;
+}
+
