@@ -1,0 +1,92 @@
+
+bool FUN_03786db0(long param_1,uint *param_2)
+
+{
+  uint uVar1;
+  undefined *puVar2;
+  int iVar3;
+  long *plVar4;
+  ulong uVar5;
+  long lVar6;
+  long lVar7;
+  long lVar8;
+  long *plVar9;
+  uint uVar10;
+  
+  puVar2 = PTR_DAT_04bb27c0;
+  iVar3 = *(int *)(*(long *)(param_1 + 0x18) + 0xe0);
+  if (iVar3 != 0) {
+    lVar7 = *(long *)(*(long *)(param_1 + 0x18) + 0xe8);
+    lVar6 = 0;
+    lVar8 = (long)iVar3 << 3;
+    do {
+      if (*param_2 == *(uint *)(*(long *)(lVar7 + lVar6 * 8) + 8)) {
+        iVar3 = *(int *)(*(long *)(lVar7 + lVar6 * 8) + 0xd8);
+        goto LAB_03786e10;
+      }
+      lVar6 = lVar6 + 1;
+      lVar8 = lVar8 + -8;
+    } while (lVar8 != 0);
+  }
+  iVar3 = 0;
+LAB_03786e10:
+  if (iVar3 != **(int **)(param_1 + 8)) {
+    return false;
+  }
+  lVar6 = *(long *)PTR_DAT_04bb27c0;
+  if (lVar6 == 0) {
+    return false;
+  }
+  uVar10 = *param_2;
+  if ((((uVar10 == 0) ||
+       (plVar9 = *(long **)(*(long *)(*(long *)(lVar6 + 0x1c0) + 8) +
+                           ((ulong)(uVar10 >> 0x11) & 0x7ff8)), plVar9 == (long *)0x0)) ||
+      ((*(uint *)(plVar9 + 0x49) >> 1 & 1) != 0)) || (*(uint *)(plVar9 + 0x46) != uVar10)) {
+    plVar9 = (long *)0x0;
+  }
+  if (*(int *)(lVar6 + 0x288) == 1 || *(int *)(lVar6 + 0x288) == -1) {
+    plVar4 = (long *)nn::os::GetTlsValue(*(undefined4 *)(*(long *)PTR_DAT_04bb3350 + 0x68));
+    lVar6 = *(long *)puVar2;
+    iVar3 = (**(code **)(*plVar4 + 0x60))();
+    if (iVar3 < 0x11) {
+      uVar10 = 1;
+      goto joined_r0x03786f48;
+    }
+    if (*(uint *)(lVar6 + 0x5e8) < 5) {
+      uVar10 = 0x1aU >> (ulong)(*(uint *)(lVar6 + 0x5e8) & 0x1f) & 1;
+      goto joined_r0x03786f48;
+    }
+  }
+  uVar10 = 0;
+joined_r0x03786f48:
+  if (plVar9 == (long *)0x0) {
+    return false;
+  }
+  lVar6 = plVar9[0x2a];
+  if (((*PTR_DAT_04bb37d8 & 1) == 0) && (iVar3 = __cxa_guard_acquire(PTR_DAT_04bb37d8), iVar3 != 0))
+  {
+    *(undefined **)PTR_DAT_04bb37d0 = PTR_DAT_04bb3750 + 0x10;
+    __cxa_guard_release(PTR_DAT_04bb37d8);
+  }
+  uVar5 = (**(code **)(*plVar9 + 0x20))(plVar9,PTR_DAT_04bb37d0);
+  uVar1 = 0;
+  if ((int)lVar6 == 1) {
+    uVar1 = uVar10;
+  }
+  if ((uVar5 & 1) == 0) {
+    return false;
+  }
+  if (uVar1 == 0) {
+    return false;
+  }
+  lVar6 = *(long *)(param_1 + 0x18);
+  iVar3 = FUN_03722560(lVar6,plVar9 + 0x7c);
+  if (iVar3 == -1) {
+    iVar3 = -1;
+  }
+  else {
+    iVar3 = *(int *)(*(long *)(*(long *)(lVar6 + 0xe8) + (long)iVar3 * 8) + 0xdc);
+  }
+  return iVar3 == *(int *)(param_1 + 0x10);
+}
+

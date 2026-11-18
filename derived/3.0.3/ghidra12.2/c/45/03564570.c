@@ -1,0 +1,86 @@
+
+void _INIT_8079(void)
+
+{
+  undefined *puVar1;
+  
+  DAT_0576eb28 = 4;
+  nn::err::ErrorResultVariant::ErrorResultVariant((ErrorResultVariant *)&DAT_0576eb2c);
+  DAT_0576eb38 = 0x8004ef;
+  DAT_0576eb40 = nn::os::GetSystemTick();
+  DAT_0576eb48 = 0;
+  puVar1 = PTR_DAT_04bb2020 + 0x10;
+  DAT_0576eb60 = 0x1c2b;
+  DAT_0576eb58 = "ModelOnUI";
+  DAT_0576eb50 = puVar1;
+  FUN_0277d4ac();
+  DAT_0576eb68 = 0x142e;
+  FUN_0277d4ac();
+  DAT_0576eb70 = 3;
+  DAT_0576eb74 = 2;
+  DAT_0576eb79 = &DAT_101010101010101;
+  DAT_0576eb81 = &DAT_101010101010101;
+  DAT_0576eb89 = &DAT_101010101010101;
+  DAT_0576eb91 = &DAT_101010101010101;
+  DAT_0576eb99 = &DAT_101010101010101;
+  DAT_0576eba1 = &DAT_101010101010101;
+  DAT_0576eba9 = 1;
+  DAT_0576eb78 = 0;
+  DAT_0576ebaa = 0x2020202;
+  uRam000000000576ebae = 0x20202;
+  DAT_0576ebc8 = 0x20;
+  DAT_0576ebc0 = &DAT_0576ebcc;
+  DAT_0576ebeb = 0;
+  DAT_0576ebd4 = 0x65676174;
+  DAT_0576ebd8 = 0;
+  DAT_0576ebcc._0_1_ = s_InvalidStage_040d9503[0];
+  DAT_0576ebcc._1_1_ = s_InvalidStage_040d9503[1];
+  DAT_0576ebcc._2_1_ = s_InvalidStage_040d9503[2];
+  DAT_0576ebcc._3_1_ = s_InvalidStage_040d9503[3];
+  DAT_0576ebcc._4_1_ = s_InvalidStage_040d9503[4];
+  DAT_0576ebcc._5_1_ = s_InvalidStage_040d9503[5];
+  DAT_0576ebcc._6_1_ = s_InvalidStage_040d9503[6];
+  DAT_0576ebcc._7_1_ = s_InvalidStage_040d9503[7];
+  DAT_0576ebb8 = PTR_DAT_04bb2028 + 0x10;
+  DAT_0576ebf0 = FUN_006bd550("InvalidStage",0);
+  DAT_0576ebf8 = 0x10;
+  DAT_0576ebfc = 0x11;
+  DAT_0576ec00 = 0x12;
+  DAT_0576ec04 = 0x13;
+  DAT_0576ec08 = 0x14;
+  DAT_0576ec0c = 0x15;
+  DAT_0576ec10 = 0x16;
+  DAT_0576ec14 = 0x17;
+  DAT_0576ec18 = 0x1a;
+  DAT_0576ec1c = 0x1b;
+  DAT_0576ec20 = 0x1c;
+  DAT_0576ec24 = 0x1d;
+  DAT_0576ec28 = 0x1e;
+  DAT_0576ec2c = 0x1f;
+  DAT_0576ece8 = 0x13;
+  DAT_0576ec30 = 1;
+  DAT_0576ec38 = puVar1;
+  DAT_0576ec40 = &DAT_04100084;
+  DAT_0576ec58 = puVar1;
+  DAT_0576ec60 = &DAT_0406c2cf;
+  DAT_0576ec68 = puVar1;
+  DAT_0576ec70 = &DAT_040d60e1;
+  DAT_0576ec48 = puVar1;
+  DAT_0576ec50 = &DAT_040a049e;
+  DAT_0576ec88 = puVar1;
+  DAT_0576ec90 = &DAT_04097e6c;
+  DAT_0576ec78 = puVar1;
+  DAT_0576ec80 = &DAT_040affe1;
+  DAT_0576ec98 = puVar1;
+  DAT_0576eca0 = &DAT_040d97a2;
+  DAT_0576eca8 = puVar1;
+  DAT_0576ecb0 = &DAT_04080da4;
+  DAT_0576ecb8 = puVar1;
+  DAT_0576ecc0 = &DAT_0407bc05;
+  DAT_0576ecc8 = puVar1;
+  DAT_0576ecd0 = &DAT_040aae8a;
+  DAT_0576ecd8 = puVar1;
+  DAT_0576ece0 = &DAT_040e5e0f;
+  return;
+}
+
