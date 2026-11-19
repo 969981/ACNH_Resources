@@ -1,0 +1,172 @@
+
+void FUN_03a8c950(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined *puVar3;
+  undefined4 uVar4;
+  undefined4 uVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  uint uVar8;
+  long *plVar9;
+  undefined *puVar10;
+  undefined8 uVar11;
+  uint uVar12;
+  uint uVar13;
+  undefined *local_70;
+  byte *local_68;
+  
+  puVar1 = PTR_DAT_04bb2020 + 0x10;
+  local_68 = &DAT_040fc150;
+  local_70 = puVar1;
+  FUN_03955370(param_1,&local_70,0);
+  *(undefined4 *)(param_1 + 0x3a) = 0;
+  param_1[0x3b] = 0;
+  param_1[0x41] = 0;
+  puVar3 = PTR_DAT_04bd1068;
+  uVar4 = crc32b(0xffffffff,0x73,0x4c11db7);
+  uVar5 = crc32b(0xffffffff,0x65,0x4c11db7);
+  param_1[0x45] = 0;
+  param_1[0x46] = 0;
+  puVar2 = PTR_DAT_04bd1078;
+  uVar6 = crc32b(0xffffffff,0x62,0x4c11db7);
+  param_1[0x47] = 0;
+  *(undefined4 *)(param_1 + 0x4b) = 0;
+  puVar10 = PTR_DAT_04bd1080;
+  uVar7 = crc32b(uVar4,0x74,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  *(undefined4 *)(param_1 + 0x3c) = 1;
+  uVar6 = crc32b(uVar6,0x6c,0x4c11db7);
+  param_1[0x43] = param_1 + 0x48;
+  uVar7 = crc32b(uVar7,0x61,0x4c11db7);
+  param_1[0x4a] = param_1 + 0x4c;
+  uVar12 = crc32b(uVar5,100,0x4c11db7);
+  param_1[0x4e] = param_1 + 0x50;
+  param_1[0x52] = param_1 + 0x54;
+  uVar5 = crc32b(uVar6,0x75,0x4c11db7);
+  uVar4 = crc32b(uVar4,99,0x4c11db7);
+  *(undefined4 *)(param_1 + 0x4f) = 0xc3480000;
+  param_1[0x56] = param_1 + 0x58;
+  *param_1 = &PTR_FUN_04b70a50;
+  *(undefined4 *)(param_1 + 0x53) = 0;
+  param_1[0x42] = puVar3 + 0x10;
+  param_1[0x50] = puVar10 + 0x10;
+  param_1[0x54] = puVar10 + 0x10;
+  uVar5 = crc32b(uVar5,0x72,0x4c11db7);
+  uVar4 = crc32b(uVar4,0x61,0x4c11db7);
+  uVar6 = crc32b(uVar7,0x72,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x5f,0x4c11db7);
+  uVar4 = crc32b(uVar4,0x6c,0x4c11db7);
+  param_1[0x5c] = PTR_DAT_04bd1090 + 0x10;
+  puVar3 = PTR_DAT_04bd10d8;
+  uVar13 = crc32b(uVar6,0x74,0x4c11db7);
+  *(uint *)(param_1 + 0x4d) = ~uVar12;
+  uVar6 = crc32b(uVar5,0x6b,0x4c11db7);
+  uVar12 = crc32b(uVar4,0x65,0x4c11db7);
+  *(uint *)(param_1 + 0x49) = ~uVar13;
+  uVar4 = crc32b(uVar5,0x74,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  uVar6 = crc32b(uVar6,0x65,0x4c11db7);
+  uVar7 = crc32b(uVar12,0x5f,0x4c11db7);
+  uVar4 = crc32b(uVar4,0x79,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x75,0x4c11db7);
+  uVar6 = crc32b(uVar6,0x72,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x72,0x4c11db7);
+  uVar4 = crc32b(uVar4,0x70,0x4c11db7);
+  uVar13 = crc32b(uVar5,0x6d,0x4c11db7);
+  uVar5 = crc32b(uVar6,0x6e,0x4c11db7);
+  uVar6 = crc32b(uVar7,0x65,0x4c11db7);
+  uVar7 = crc32b(0xffffffff,99,0x4c11db7);
+  uVar8 = crc32b(uVar4,0x65,0x4c11db7);
+  *(uint *)(param_1 + 0x55) = ~uVar13;
+  uVar4 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar5 = crc32b(uVar6,100,0x4c11db7);
+  uVar6 = crc32b(uVar7,0x6f,0x4c11db7);
+  *(uint *)(param_1 + 0x51) = ~uVar8;
+  uVar13 = crc32b(uVar4,0x6c,0x4c11db7);
+  uVar4 = crc32b(uVar5,0x75,0x4c11db7);
+  *(uint *)(param_1 + 0x59) = ~uVar13;
+  param_1[0x5b] = &DAT_3f8000003f800000;
+  uVar5 = crc32b(uVar6,0x6c,0x4c11db7);
+  puVar2 = puVar2 + 0x10;
+  puVar3 = puVar3 + 0x10;
+  uVar4 = crc32b(uVar4,99,0x4c11db7);
+  param_1[100] = &DAT_3f8000003f800000;
+  uVar5 = crc32b(uVar5,0x6f,0x4c11db7);
+  param_1[0x68] = &DAT_3f8000003f800000;
+  uVar13 = crc32b(uVar4,0x65,0x4c11db7);
+  *(undefined4 *)(param_1 + 0x57) = 0;
+  param_1[0x48] = puVar2;
+  uVar8 = crc32b(uVar5,0x72,0x4c11db7);
+  param_1[0x4c] = puVar2;
+  *(uint *)(param_1 + 0x66) = ~uVar13;
+  *(uint *)(param_1 + 0x5d) = ~uVar8;
+  param_1[99] = param_1 + 0x65;
+  param_1[0x44] = param_1 + 0x65;
+  param_1[0x58] = puVar3;
+  param_1[0x5a] = param_1 + 0x5c;
+  param_1[0x5f] = 0;
+  param_1[0x60] = 0x3f80000000000000;
+  param_1[0x61] = puVar3;
+  *(uint *)(param_1 + 0x62) = ~uVar12;
+  param_1[0x5e] = param_1 + 0x61;
+  param_1[0x65] = puVar3;
+  param_1[0x67] = 0;
+  *(undefined4 *)(param_1 + 0x45) = 8;
+  uVar4 = crc32b(0xffffffff,100,0x4c11db7);
+  FUN_03941294(param_1 + 0x69);
+  puVar3 = PTR_DAT_04bd10b0;
+  uVar5 = crc32b(0xffffffff,0x68,0x4c11db7);
+  uVar4 = crc32b(uVar4,0x69,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar12 = crc32b(uVar4,0x72,0x4c11db7);
+  uVar4 = crc32b(uVar5,0x69,0x4c11db7);
+  local_68 = &DAT_040fc150;
+  *(uint *)(param_1 + 0xb1) = ~uVar12;
+  param_1[0xb0] = puVar3 + 0x10;
+  plVar9 = param_1 + 0x43;
+  if (param_1[0x44] != 0) {
+    plVar9 = (long *)(param_1[0x44] + 0x10);
+  }
+  uVar4 = crc32b(uVar4,0x67,0x4c11db7);
+  *plVar9 = (long)(param_1 + 0xb0);
+  param_1[0xb3] = 0x3f80000000000000;
+  *(undefined4 *)(param_1 + 0xb4) = 0;
+  param_1[0xb5] = puVar2;
+  param_1[0xb7] = 0;
+  param_1[0xb2] = param_1 + 0xb5;
+  param_1[0x44] = param_1 + 0xb5;
+  *(undefined4 *)(param_1 + 0xb8) = 0;
+  uVar4 = crc32b(uVar4,0x68,0x4c11db7);
+  *(int *)(param_1 + 0x45) = *(int *)(param_1 + 0x45) + 2;
+  uVar12 = crc32b(uVar4,0x74,0x4c11db7);
+  *(uint *)(param_1 + 0xb6) = ~uVar12;
+  uVar11 = 0;
+  local_70 = puVar1;
+  if (*(long *)PTR_DAT_04bd1140 != 0) {
+    uVar11 = FUN_03954f70(*(long *)PTR_DAT_04bd1140,&local_70);
+  }
+  param_1[0x47] = uVar11;
+  (**(code **)(local_70 + 0x18))(&local_70);
+  uVar12 = (uint)*local_68;
+  if (*local_68 != 0) {
+    uVar13 = 0xffffffff;
+    do {
+      local_68 = local_68 + 1;
+      uVar13 = crc32b(uVar13,uVar12,0x4c11db7);
+      uVar12 = (uint)*local_68;
+    } while (uVar12 != 0);
+    uVar12 = ~uVar13;
+  }
+  *(uint *)((long)param_1 + 0x22c) = uVar12;
+  plVar9 = param_1 + 1;
+  if (param_1[2] != 0) {
+    plVar9 = (long *)(param_1[2] + 0x20);
+  }
+  *plVar9 = (long)(param_1 + 0x42);
+  param_1[2] = param_1 + 0x42;
+  return;
+}
+

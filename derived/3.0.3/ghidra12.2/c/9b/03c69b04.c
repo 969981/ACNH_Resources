@@ -1,0 +1,10 @@
+
+bool FUN_03c69b04(undefined8 param_1,float *param_2,float *param_3)
+
+{
+  if ((*param_2 == *param_3) && (param_2[1] == param_3[1])) {
+    return param_2[2] == param_3[2];
+  }
+  return false;
+}
+

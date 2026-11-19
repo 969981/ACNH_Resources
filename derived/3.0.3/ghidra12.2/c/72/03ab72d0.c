@@ -1,0 +1,117 @@
+
+void FUN_03ab72d0(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  uint *puVar2;
+  char cVar3;
+  bool bVar4;
+  
+  *param_1 = 0;
+  param_1[1] = 0;
+  param_1[4] = 0;
+  param_1[5] = &DAT_3f8000003f800000;
+  param_1[6] = 0;
+  param_1[7] = 0;
+  param_1[2] = &PTR_FUN_04b65d70;
+  param_1[3] = &DAT_3f8000003f800000;
+  param_1[0xe] = 0;
+  param_1[8] = 0;
+  param_1[9] = 0;
+  param_1[10] = 0;
+  param_1[0xb] = 0;
+  param_1[0xc] = 0;
+  param_1[0xd] = 0;
+  param_1[0x10] = 0;
+  param_1[0x11] = 0;
+  param_1[0x12] = 0;
+  param_1[0x13] = 0;
+  param_1[0x14] = 0;
+  param_1[0x15] = 0;
+  param_1[0x16] = 0;
+  param_1[0x17] = 0;
+  puVar1 = PTR_DAT_04bd1198 + 0x10;
+  param_1[0x18] = 0;
+  param_1[0x19] = 0;
+  param_1[0xf] = puVar1;
+  *(undefined4 *)(param_1 + 0x1a) = 0xffffffff;
+  *(undefined4 *)(param_1 + 0x23) = 0x10000;
+  param_1[0x1b] = 0;
+  param_1[0x1c] = 0;
+  param_1[0x1d] = 0;
+  param_1[0x1e] = 0;
+  param_1[0x1f] = 0;
+  param_1[0x20] = 0;
+  param_1[0x21] = 0;
+  param_1[0x22] = "agl::TextureData";
+  *(undefined4 *)(param_1 + 0x26) = 0xff;
+  *(undefined4 *)((long)param_1 + 0x134) = 0;
+  param_1[0x2b] = 0;
+  param_1[0x27] = 0x80000000000;
+  param_1[0x28] = 0;
+  param_1[0x29] = 0;
+  param_1[0x2a] = 0;
+  FUN_0390cee0(param_1 + 0x2c);
+  param_1[0x4a] = &DAT_3f8000003f800000;
+  param_1[0x4b] = 0;
+  param_1[0x50] = 0;
+  param_1[0x51] = 0;
+  param_1[0x52] = 0;
+  param_1[0x53] = 0;
+  param_1[0x54] = 0;
+  param_1[0x55] = 0;
+  param_1[0x57] = 0;
+  param_1[0x58] = 0;
+  param_1[0x59] = 0;
+  param_1[0x5a] = 0;
+  param_1[0x5b] = 0;
+  param_1[0x5c] = 0;
+  param_1[0x5d] = 0;
+  param_1[0x5e] = 0;
+  param_1[0x5f] = 0;
+  param_1[0x60] = 0;
+  *(undefined4 *)(param_1 + 0x61) = 0xffffffff;
+  param_1[0x62] = 0;
+  param_1[99] = 0;
+  param_1[100] = 0;
+  param_1[0x65] = 0;
+  param_1[0x66] = 0;
+  param_1[0x67] = 0;
+  param_1[0x68] = 0;
+  param_1[0x69] = "agl::TextureData";
+  *(undefined4 *)(param_1 + 0x6a) = 0x10000;
+  param_1[0x48] = 0;
+  param_1[0x49] = &PTR_FUN_04b65d70;
+  param_1[0x4c] = &DAT_3f8000003f800000;
+  param_1[0x4d] = 0;
+  param_1[0x4e] = 0;
+  param_1[0x4f] = 0;
+  *(undefined4 *)(param_1 + 0x6d) = 0xff;
+  *(undefined4 *)((long)param_1 + 0x36c) = 0;
+  param_1[0x56] = puVar1;
+  param_1[0x6e] = 0x80000000000;
+  param_1[0x6f] = 0;
+  param_1[0x70] = 0;
+  param_1[0x71] = 0;
+  FUN_0390cee0(param_1 + 0x72);
+  param_1[0x8e] = 0;
+  FUN_0390cee0(param_1 + 0x8f);
+  param_1[0xab] = 0;
+  FUN_0390cee0(param_1 + 0xac);
+  puVar2 = (uint *)((long)param_1 + 0x634);
+  param_1[200] = 0;
+  param_1[6] = param_1 + 0xf;
+  param_1[0xe] = 0;
+  *(undefined2 *)((long)param_1 + 0x624) = 0;
+  *(undefined1 *)((long)param_1 + 0x626) = 0;
+  do {
+    cVar3 = '\x01';
+    bVar4 = (bool)ExclusiveMonitorPass(puVar2,0x10);
+    if (bVar4) {
+      *puVar2 = *puVar2 | 4;
+      cVar3 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar3 != '\0');
+  return;
+}
+

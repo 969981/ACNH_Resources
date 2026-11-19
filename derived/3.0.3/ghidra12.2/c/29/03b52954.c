@@ -1,0 +1,86 @@
+
+void FUN_03b52954(undefined8 *param_1)
+
+{
+  undefined8 *puVar1;
+  undefined8 uVar2;
+  MutexType *pMVar3;
+  
+  *(undefined4 *)(param_1 + 2) = 0;
+  *(undefined4 *)(param_1 + 4) = 0;
+  *param_1 = &PTR___cxa_pure_virtual_04b769d0;
+  param_1[1] = &PTR_LAB_04b76a18;
+  param_1[5] = &PTR_LAB_04b76950;
+  puVar1 = param_1 + 7;
+  pMVar3 = (MutexType *)(param_1 + 10);
+  *(undefined2 *)pMVar3 = 0;
+  param_1[3] = &PTR_LAB_04b76a18;
+  *(undefined2 *)(param_1 + 6) = 0xffff;
+  param_1[7] = puVar1;
+  *(undefined8 *)((long)param_1 + 0x54) = 0;
+  param_1[0xc] = 0;
+  *(undefined4 *)(param_1 + 0xd) = 0;
+  param_1[8] = puVar1;
+  param_1[9] = 0xffffffff00000000;
+  nn::os::InitializeMutex(pMVar3,true,0);
+  *(undefined4 *)(param_1 + 6) = 0xffff;
+  *(undefined4 *)((long)param_1 + 0x4c) = 0x20;
+  *(undefined4 *)(param_1 + 2) = 0;
+  *(undefined4 *)(param_1 + 4) = 0;
+  nn::os::LockMutex(pMVar3);
+  FUN_03b55fd0(puVar1);
+  *(undefined2 *)((long)param_1 + 0x32) = 0;
+  nn::os::UnlockMutex(pMVar3);
+  *(undefined2 *)(param_1 + 6) = 0xffff;
+  *param_1 = &PTR___cxa_pure_virtual_04b76710;
+  param_1[0x10] = param_1 + 0x10;
+  param_1[0x11] = param_1 + 0x10;
+  param_1[0xe] = 0;
+  *(undefined8 *)((long)param_1 + 0x75) = 0;
+  *(undefined4 *)(param_1 + 2) = 0;
+  *(undefined4 *)(param_1 + 4) = 0;
+  param_1[0x12] = 0x1000000000;
+  param_1[0x13] = &PTR_LAB_04b76990;
+  param_1[0x16] = 0;
+  param_1[0x17] = 0;
+  param_1[0x18] = 0;
+  param_1[0x19] = 0;
+  param_1[0x14] = 0;
+  param_1[0x15] = 0;
+  nn::os::LockMutex(pMVar3);
+  FUN_03b55fd0(puVar1);
+  *(undefined2 *)((long)param_1 + 0x32) = 0;
+  nn::os::UnlockMutex(pMVar3);
+  *(undefined2 *)(param_1 + 6) = 0xffff;
+  *param_1 = &PTR_LAB_04b767b0;
+  *(undefined4 *)((long)param_1 + 0xec) = 0;
+  param_1[0x1c] = 0;
+  *(undefined1 *)(param_1 + 0x1d) = 0;
+  *(undefined4 *)(param_1 + 0x20) = 0;
+  param_1[0x21] = 0;
+  param_1[0x1a] = 0;
+  param_1[0x1b] = 0;
+  param_1[0x1e] = 0;
+  param_1[0x1f] = &PTR_LAB_04b76930;
+  *(undefined4 *)(param_1 + 0x22) = 0;
+  *(undefined4 *)((long)param_1 + 0x114) = 0;
+  param_1[0x24] = &PTR_LAB_04b76930;
+  *(undefined4 *)(param_1 + 0x23) = 0;
+  *(undefined4 *)(param_1 + 0x25) = 0;
+  param_1[0x26] = 0;
+  *(undefined4 *)(param_1 + 0x27) = 0;
+  *(undefined4 *)((long)param_1 + 0x13c) = 0;
+  *(undefined4 *)(param_1 + 0x28) = 0;
+  param_1[0x2b] = &PTR_LAB_04b76910;
+  param_1[0x29] = 0;
+  param_1[0x2a] = 0;
+  param_1[0x2e] = 0;
+  param_1[0x2f] = 0;
+  param_1[0x2c] = 0;
+  param_1[0x2d] = 0;
+  uVar2 = nn::os::GetSystemTick();
+  param_1[0x30] = uVar2;
+  param_1[0x31] = 0;
+  return;
+}
+
