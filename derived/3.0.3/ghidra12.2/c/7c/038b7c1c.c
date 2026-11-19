@@ -1,0 +1,107 @@
+
+void FUN_038b7c1c(undefined8 *param_1,uint *param_2)
+
+{
+  undefined *puVar1;
+  undefined8 uVar2;
+  undefined8 uVar3;
+  undefined8 uVar4;
+  undefined *puVar5;
+  undefined8 uVar6;
+  long lVar7;
+  float fVar8;
+  
+  *(undefined1 *)(param_1 + 1) = 0;
+  puVar5 = PTR_DAT_04bd0c98;
+  *(undefined4 *)(param_1 + 6) = 0;
+  puVar1 = PTR_DAT_04bb2020;
+  param_1[7] = 0;
+  param_1[8] = 0;
+  param_1[9] = 0;
+  *(undefined4 *)(param_1 + 10) = 0;
+  puVar1 = puVar1 + 0x10;
+  param_1[2] = 0;
+  param_1[3] = puVar5 + 0x10;
+  param_1[0x13] = &LAB_038bada0;
+  *param_1 = &PTR_LAB_04b63678;
+  param_1[4] = param_1 + 4;
+  param_1[5] = param_1 + 4;
+  param_1[0xb] = puVar1;
+  param_1[0xc] = &DAT_0407ebb1;
+  param_1[0xd] = puVar1;
+  param_1[0xe] = &DAT_0407ebb1;
+  param_1[0xf] = puVar1;
+  param_1[0x10] = &DAT_0407ebb1;
+  param_1[0x11] = 0;
+  param_1[0x12] = 0;
+  uVar6 = *(undefined8 *)(param_2 + 2);
+  param_1[0x14] = *(undefined8 *)param_2;
+  param_1[0x15] = uVar6;
+  uVar6 = *(undefined8 *)(param_2 + 4);
+  uVar2 = *(undefined8 *)(param_2 + 6);
+  uVar3 = *(undefined8 *)(param_2 + 10);
+  param_1[0x18] = *(undefined8 *)(param_2 + 8);
+  param_1[0x19] = uVar3;
+  param_1[0x16] = uVar6;
+  param_1[0x17] = uVar2;
+  uVar6 = *(undefined8 *)(param_2 + 0xc);
+  uVar3 = *(undefined8 *)(param_2 + 0xe);
+  uVar2 = *(undefined8 *)(param_2 + 0x10);
+  uVar4 = *(undefined8 *)(param_2 + 0x12);
+  param_1[0x1e] = 0;
+  param_1[0x1c] = uVar2;
+  param_1[0x1d] = uVar4;
+  param_1[0x1a] = uVar6;
+  param_1[0x1b] = uVar3;
+  uVar6 = nn::os::GetSystemTick();
+  puVar5 = PTR_DAT_04bc95a8;
+  param_1[0x1f] = uVar6;
+  param_1[0x20] = 0;
+  param_1[0x23] = 0;
+  param_1[0x24] = &DAT_3f8000003f800000;
+  param_1[0x25] = 0;
+  param_1[0x26] = 0;
+  param_1[0x21] = puVar5 + 0x10;
+  param_1[0x22] = &DAT_3f8000003f800000;
+  uVar6 = nn::os::GetSystemTick();
+  param_1[0x27] = uVar6;
+  uVar6 = nn::os::GetSystemTick();
+  param_1[0x34] = 0;
+  param_1[0x40] = &DAT_0407ebb1;
+  *(undefined4 *)(param_1 + 0x48) = 0x1000001;
+  *(undefined4 *)(param_1 + 0x35) = 0;
+  *(undefined2 *)((long)param_1 + 0x244) = 0xff00;
+  param_1[0x41] = 0;
+  param_1[0x49] = &PTR_LAB_04b637a8;
+  param_1[0x13] = 0;
+  param_1[0x28] = uVar6;
+  param_1[0x29] = 0;
+  param_1[0x2a] = 0;
+  param_1[0x2b] = 0;
+  param_1[0x2c] = 0;
+  param_1[0x2d] = 0;
+  param_1[0x2e] = 0;
+  param_1[0x2f] = 0;
+  param_1[0x30] = 0;
+  param_1[0x31] = 0;
+  param_1[0x32] = 0;
+  param_1[0x33] = 0;
+  param_1[0x36] = 0;
+  param_1[0x37] = 0;
+  param_1[0x38] = 0;
+  param_1[0x39] = 0;
+  param_1[0x3a] = 0;
+  param_1[0x3b] = 0;
+  param_1[0x3c] = 0;
+  param_1[0x3d] = 0;
+  param_1[0x3e] = 0;
+  param_1[0x3f] = puVar1;
+  if (*param_2 != 0) {
+    lVar7 = *(long *)PTR_DAT_04bb29d0;
+    param_1[0x29] = (long)((0.985 / (60.0 / (float)*param_2)) * (float)lVar7);
+    fVar8 = (float)NEON_ucvtf(*param_2);
+    param_1[0x2a] = (long)((0.006 / (60.0 / fVar8)) * (float)lVar7);
+  }
+  return;
+}
+
