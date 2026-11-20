@@ -1,0 +1,21 @@
+
+void FUN_03d1c168(void)
+
+{
+  FUN_03c7fd94(&DAT_05af62e8);
+  DAT_05af6938 = PTR_LAB_04bd3ec8;
+  DAT_05af6940 = PTR_LAB_04bd3ed0;
+  DAT_05af6948 = PTR_LAB_04bd3ed8;
+  FUN_03d188e4(&DAT_05af62e8);
+  DAT_05af6818 = &LAB_03d1c224;
+  DAT_05af6828 = &LAB_03d1c234;
+  DAT_05af6838 = &LAB_03d1c240;
+  DAT_05af6830 = &LAB_03d1c248;
+  DAT_05af6848 = &LAB_03d1c250;
+  DAT_05af6858 = &LAB_03d1c2d4;
+  DAT_05af6868 = &LAB_03d1c2dc;
+  DAT_05af6920 = &LAB_03d1c314;
+  DAT_05af62e8 = 8;
+  return;
+}
+

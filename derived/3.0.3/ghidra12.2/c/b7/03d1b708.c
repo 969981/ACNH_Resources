@@ -1,0 +1,66 @@
+
+void FUN_03d1b708(void)
+
+{
+  FUN_03c7fd94(&DAT_05af42b8);
+  DAT_05af4908 = PTR_LAB_04bd3ec8;
+  DAT_05af4910 = PTR_LAB_04bd3ed0;
+  DAT_05af4918 = PTR_LAB_04bd3ed8;
+  FUN_03d188e4(&DAT_05af42b8);
+  DAT_05af45e8 = &LAB_03d1ad38;
+  DAT_05af45f8 = &LAB_03d1ad40;
+  DAT_05af45f0 = &LAB_03d1ad78;
+  DAT_05af4608 = &LAB_03d1ae20;
+  DAT_05af4600 = &LAB_03d1ae28;
+  DAT_05af4618 = &LAB_03d1ae2c;
+  DAT_05af4610 = &LAB_03d1ae34;
+  DAT_05af4628 = &LAB_03d1ae70;
+  DAT_05af4620 = &LAB_03d1ae78;
+  DAT_05af4638 = &LAB_03d1aeb4;
+  DAT_05af4630 = &LAB_03d1aec0;
+  DAT_05af4648 = &LAB_03d1af0c;
+  DAT_05af4640 = &LAB_03d1af24;
+  DAT_05af4658 = &LAB_03d1af78;
+  DAT_05af4650 = &LAB_03d1af84;
+  DAT_05af4668 = &LAB_03d1afc8;
+  DAT_05af4660 = &LAB_03d1afd4;
+  DAT_05af4678 = &LAB_03d1aff4;
+  DAT_05af4670 = &LAB_03d1affc;
+  DAT_05af4688 = &LAB_03d1b038;
+  DAT_05af4680 = &LAB_03d1b040;
+  DAT_05af4698 = &LAB_03d1b098;
+  DAT_05af4690 = &LAB_03d1b0a0;
+  DAT_05af46a8 = &LAB_03d1b0f8;
+  DAT_05af46a0 = &LAB_03d1b16c;
+  DAT_05af46b8 = &LAB_03d1b2ac;
+  DAT_05af46b0 = &LAB_03d1b2b4;
+  DAT_05af46c8 = &LAB_03d1b2f0;
+  DAT_05af46d8 = &LAB_03d1b338;
+  DAT_05af46e8 = &LAB_03d1b388;
+  DAT_05af46f8 = &LAB_03d1b3d8;
+  DAT_05af4708 = &LAB_03d1b3dc;
+  DAT_05af4700 = &LAB_03d1b3e0;
+  DAT_05af4878 = &LAB_03d1b3e4;
+  DAT_05af4880 = &LAB_03d1b428;
+  DAT_05af4718 = &LAB_03d1b450;
+  DAT_05af4710 = &LAB_03d1b45c;
+  DAT_05af4738 = &LAB_03d1b47c;
+  DAT_05af4730 = &LAB_03d1b480;
+  DAT_05af4748 = &LAB_03d1b484;
+  DAT_05af4740 = &LAB_03d1b490;
+  DAT_05af4728 = &LAB_03d1b4ec;
+  DAT_05af4888 = &LAB_03d1b4f4;
+  DAT_05af4890 = &LAB_03d1b500;
+  DAT_05af4898 = &LAB_03d1b588;
+  DAT_05af48a0 = &LAB_03d1b5c0;
+  DAT_05af48a8 = &LAB_03d1b614;
+  DAT_05af48b0 = &LAB_03d1b668;
+  DAT_05af48b8 = &LAB_03d1b66c;
+  DAT_05af48c0 = &LAB_03d1b688;
+  DAT_05af48c8 = FUN_03d1b9e0;
+  DAT_05af48d0 = FUN_03d1ba38;
+  DAT_05af4758 = &LAB_03d1ba90;
+  DAT_05af42b8 = 3;
+  return;
+}
+

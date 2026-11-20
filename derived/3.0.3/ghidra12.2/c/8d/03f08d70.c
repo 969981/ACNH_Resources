@@ -1,0 +1,245 @@
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_03f08d70(undefined8 *param_1)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined *puVar3;
+  long lVar4;
+  undefined4 uVar5;
+  uint uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  uint uVar11;
+  int iVar12;
+  undefined *puVar13;
+  long lVar14;
+  long *plVar15;
+  undefined5 *__src;
+  long *plVar16;
+  undefined *local_b8;
+  char *local_b0;
+  undefined *local_a8;
+  char *local_a0;
+  undefined *local_98;
+  undefined5 *puStack_90;
+  int local_88;
+  undefined5 local_84;
+  undefined5 local_7c;
+  undefined3 uStack_77;
+  undefined5 uStack_74;
+  undefined1 local_6f;
+  undefined1 local_65;
+  
+  puVar1 = PTR_DAT_04bd1310;
+  local_65 = 0;
+  param_1[4] = 0;
+  param_1[5] = 0;
+  local_88 = 0x20;
+  plVar15 = param_1 + 6;
+  *plVar15 = (long)(puVar1 + 0x10);
+  plVar16 = param_1 + 1;
+  *plVar16 = (long)plVar15;
+  puVar1 = PTR_DAT_04bb2020;
+  *param_1 = &PTR_LAB_04ba7a20;
+  uVar5 = crc32b(0xffffffff,0x4e,0x4c11db7);
+  param_1[8] = 0;
+  param_1[2] = plVar15;
+  param_1[3] = 0;
+  local_6f = 0;
+  uVar5 = crc32b(uVar5,0x61,0x4c11db7);
+  puVar1 = puVar1 + 0x10;
+  *(undefined4 *)(param_1 + 3) = 1;
+  param_1[9] = puVar1;
+  param_1[10] = "new_preset";
+  uVar5 = crc32b(uVar5,0x6d,0x4c11db7);
+  uVar6 = crc32b(uVar5,0x65,0x4c11db7);
+  *(uint *)(param_1 + 7) = ~uVar6;
+  local_7c = (undefined5)DAT_040c7af2;
+  uStack_77 = DAT_040c7af2._5_3_;
+  uStack_74 = _UNK_040c7afa;
+  _local_84 = DAT_040c7aea;
+  puVar2 = PTR_DAT_04bb2028 + 0x10;
+  local_a0 = "Label";
+  local_b0 = "Label";
+  local_b8 = puVar1;
+  local_a8 = puVar1;
+  local_98 = puVar2;
+  puStack_90 = &local_84;
+  FUN_0394da90(param_1 + 0xb,&local_98,&local_a8,&local_b8,param_1);
+  uVar5 = crc32b(0xffffffff,0x4d,0x4c11db7);
+  uVar7 = crc32b(uVar5,0x61,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x69,0x4c11db7);
+  uVar8 = crc32b(0xffffffff,0x53,0x4c11db7);
+  uVar8 = crc32b(uVar8,0x75,0x4c11db7);
+  puVar3 = PTR_DAT_04bd1078 + 0x10;
+  uVar9 = crc32b(uVar7,0x69,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x78,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  plVar15 = plVar16;
+  if (param_1[2] != 0) {
+    plVar15 = (long *)(param_1[2] + 0x10);
+  }
+  uVar8 = crc32b(uVar8,0x62,0x4c11db7);
+  param_1[0x15] = puVar3;
+  uVar9 = crc32b(uVar9,0x6e,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x53,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x53,0x4c11db7);
+  uVar10 = crc32b(uVar9,0x44,0x4c11db7);
+  uVar10 = crc32b(uVar10,0x72,0x4c11db7);
+  uVar10 = crc32b(uVar10,0x61,0x4c11db7);
+  uVar6 = crc32b(uVar10,0x67,0x4c11db7);
+  *(uint *)(param_1 + 0x16) = ~uVar6;
+  *plVar15 = (long)(param_1 + 0x15);
+  param_1[0x1d] = puVar3;
+  uVar5 = crc32b(uVar5,0x70,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x70,0x4c11db7);
+  uVar10 = crc32b(uVar8,0x57,0x4c11db7);
+  *(undefined4 *)(param_1 + 0x20) = 0xc0400000;
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x65,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x65,0x4c11db7);
+  uVar6 = crc32b(uVar5,100,0x4c11db7);
+  uVar11 = crc32b(uVar7,100,0x4c11db7);
+  *(uint *)(param_1 + 0x1e) = ~uVar6;
+  puVar13 = PTR_DAT_04bd10b0;
+  *(uint *)(param_1 + 0x22) = ~uVar11;
+  *(undefined4 *)(param_1 + 0x24) = 0x41a00000;
+  uVar5 = crc32b(uVar9,0x46,0x4c11db7);
+  *(undefined4 *)(param_1 + 0x18) = 0;
+  *(undefined4 *)(param_1 + 0x1c) = 0;
+  param_1[0x1b] = param_1 + 0x1d;
+  param_1[0x21] = puVar3;
+  *(undefined4 *)(param_1 + 0x29) = 0;
+  param_1[0x2a] = puVar3;
+  param_1[0x2e] = puVar3;
+  param_1[0x30] = 0;
+  *(undefined4 *)(param_1 + 0x31) = 0;
+  local_65 = 0;
+  uVar5 = crc32b(uVar5,0x72,0x4c11db7);
+  uVar7 = crc32b(uVar10,0x69,0x4c11db7);
+  param_1[0x25] = puVar13 + 0x10;
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x6e,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x71,0x4c11db7);
+  uVar6 = crc32b(uVar7,100,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x75,0x4c11db7);
+  uVar7 = crc32b(uVar6,0x46,0x4c11db7);
+  *(uint *)(param_1 + 0x26) = ~uVar6;
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  param_1[0x1f] = param_1 + 0x21;
+  uVar7 = crc32b(uVar7,0x61,0x4c11db7);
+  param_1[0x23] = param_1 + 0x25;
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  param_1[0x19] = puVar3;
+  param_1[0x17] = param_1 + 0x19;
+  uVar7 = crc32b(uVar7,99,0x4c11db7);
+  uVar5 = crc32b(uVar5,99,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x74,0x4c11db7);
+  *(int *)(param_1 + 3) = *(int *)(param_1 + 3) + 7;
+  uVar6 = crc32b(uVar5,0x79,0x4c11db7);
+  local_88 = 0x20;
+  uVar5 = crc32b(uVar7,0x6f,0x4c11db7);
+  uVar11 = crc32b(uVar5,0x72,0x4c11db7);
+  *(uint *)(param_1 + 0x1a) = ~uVar6;
+  param_1[0x27] = param_1 + 0x2a;
+  param_1[0x28] = 0;
+  *(undefined4 *)(param_1 + 0x2d) = 0x3f800000;
+  param_1[0x2c] = param_1 + 0x2e;
+  param_1[2] = param_1 + 0x2e;
+  *(uint *)(param_1 + 0x2b) = ~uVar11;
+  uVar5 = crc32b(uVar8,0x46,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x72,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x71,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x75,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  uVar5 = crc32b(uVar5,99,0x4c11db7);
+  uVar6 = crc32b(uVar5,0x79,0x4c11db7);
+  *(uint *)(param_1 + 0x2f) = ~uVar6;
+  puVar13 = PTR_PTR_04bb2238;
+  local_98 = PTR_DAT_04bb2a08 + 0x10;
+  puStack_90 = &local_84;
+  (**(code **)(*(long *)PTR_PTR_04bb2238 + 0x18))(PTR_PTR_04bb2238);
+  __src = *(undefined5 **)(puVar13 + 8);
+  if (&local_84 != __src) {
+    (**(code **)(*(long *)puVar13 + 0x18))(puVar13);
+    lVar14 = 0;
+    do {
+      if (*(char *)(*(long *)(puVar13 + 8) + lVar14) == '\0') goto LAB_03f09130;
+      lVar4 = *(long *)(puVar13 + 8) + lVar14;
+      if (*(char *)(lVar4 + 1) == '\0') {
+        lVar14 = lVar14 + 1;
+        goto LAB_03f09130;
+      }
+      if (*(char *)(lVar4 + 2) == '\0') {
+        lVar14 = lVar14 + 2;
+        goto LAB_03f09130;
+      }
+      lVar14 = lVar14 + 3;
+    } while (lVar14 != 0x80001);
+    lVar14 = 0;
+LAB_03f09130:
+    iVar12 = (int)lVar14;
+    if (local_88 <= (int)lVar14) {
+      iVar12 = local_88 + -1;
+    }
+    memcpy(&local_84,__src,(long)iVar12);
+    *(undefined1 *)((long)&local_84 + (long)iVar12) = 0;
+  }
+  local_b0 = &DAT_040c7b00;
+  local_a0 = "FluctuationType";
+  local_b8 = puVar1;
+  local_a8 = puVar1;
+  local_98 = puVar2;
+  FUN_0394da90(param_1 + 0x32,&local_98,&local_a8,&local_b8,param_1);
+  param_1[0x3c] = puVar3;
+  uVar5 = crc32b(0xffffffff,0x46,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6c,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x75,0x4c11db7);
+  uVar5 = crc32b(uVar5,99,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x74,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x75,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x61,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x74,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x69,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6f,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6e,0x4c11db7);
+  uVar7 = crc32b(uVar5,0x46,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x50,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x72,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x65,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x65,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x72,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x71,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x69,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x75,0x4c11db7);
+  uVar5 = crc32b(uVar5,0x6f,0x4c11db7);
+  uVar7 = crc32b(uVar7,0x65,0x4c11db7);
+  if (param_1[2] != 0) {
+    plVar16 = (long *)(param_1[2] + 0x10);
+  }
+  uVar6 = crc32b(uVar5,100,0x4c11db7);
+  *(uint *)(param_1 + 0x3d) = ~uVar6;
+  uVar5 = crc32b(uVar7,0x6e,0x4c11db7);
+  *plVar16 = (long)(param_1 + 0x3c);
+  *(undefined4 *)(param_1 + 0x3f) = 0x40800000;
+  param_1[0x40] = puVar3;
+  param_1[0x42] = 0;
+  *(undefined4 *)(param_1 + 0x43) = 0x40800000;
+  param_1[0x44] = 0;
+  param_1[0x3e] = param_1 + 0x40;
+  param_1[2] = param_1 + 0x40;
+  uVar5 = crc32b(uVar5,99,0x4c11db7);
+  uVar6 = crc32b(uVar5,0x79,0x4c11db7);
+  *(uint *)(param_1 + 0x41) = ~uVar6;
+  *(int *)(param_1 + 3) = *(int *)(param_1 + 3) + 2;
+  return;
+}
+

@@ -1,0 +1,33 @@
+
+void _INIT_8710(void)
+
+{
+  DAT_05af7dc0 = nn::os::GetSystemTick();
+  DAT_05af7dc8 = 0;
+  DAT_05af7dd0 = 0x3d8080813f800000;
+  DAT_05af7dd8 = 0x3f8000003f008081;
+  DAT_05af7de0 = 0x3d8080813f800000;
+  DAT_05af7de8 = 0x3f8000003d808081;
+  DAT_05af7df0 = 0x3ec0c0c13f800000;
+  DAT_05af7df8 = 0x3f8000003d808081;
+  DAT_05af7e00 = &DAT_3f8000003f800000;
+  DAT_05af7e08 = 0x3f8000003d808081;
+  DAT_05af7e10 = 0;
+  DAT_05af7e14 = 0;
+  DAT_05af7e18 = 0;
+  FUN_001001d0(&LAB_03d5aac8,&DAT_05af7e10,&__DT_FINI_ARRAY);
+  DAT_05af7e1c = 0;
+  DAT_05af7e20 = 0;
+  DAT_05af7e24 = 0;
+  FUN_001001d0(&LAB_03d5aac8,&DAT_05af7e1c,&__DT_FINI_ARRAY);
+  DAT_05af7e28 = 0;
+  DAT_05af7e2c = 0;
+  DAT_05af7e30 = 0;
+  FUN_001001d0(&LAB_03d5aac8,&DAT_05af7e28,&__DT_FINI_ARRAY);
+  DAT_05af7e34 = 0;
+  DAT_05af7e38 = 0;
+  DAT_05af7e3c = 0;
+  FUN_001001d0(&LAB_03d5aac8,&DAT_05af7e34,&__DT_FINI_ARRAY);
+  return;
+}
+
