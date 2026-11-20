@@ -1,0 +1,10 @@
+
+void _INIT_8745(void)
+
+{
+  DAT_05b059b0 = 0;
+  DAT_05b059a8 = &PTR_LAB_04bb1a58;
+  FUN_001001d0(&LAB_04002304,&DAT_05b059a8,&__DT_FINI_ARRAY);
+  return;
+}
+
