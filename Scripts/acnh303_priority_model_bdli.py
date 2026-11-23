@@ -12,6 +12,7 @@ from collections import Counter
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
 
 from acnh303_full_audit import git_blob_sha1, inventory_from_git
@@ -195,6 +196,7 @@ def run_wave(root: Path, selection: dict, expected: dict[str, str] | None = None
     return {
         "schema": SCHEMA, "game_version": "3.0.3",
         "selection": selection, "sample_count": len(rows),
+        "producer_workflow_run_id": int(os.environ.get("GITHUB_RUN_ID", "0")),
         "original_git_tree_sources": 103400,
         "exact_original_git_blob_verified": len(rows),
         "original_source_sha256_verified": len(rows),
