@@ -2,7 +2,7 @@
 title: ACNH 3.0.3 · R8 普通媒体与 R19 累计来源 SHA 对账
 aliases: [R8 R19 Media Reconciliation]
 tags: [ACNH, 3.0.3, provenance, SHA256, R8, R19, media]
-status: ci-pending
+status: ci-verified
 ---
 # R8 → R19 · 普通媒体累计来源清单对账
 
@@ -13,6 +13,18 @@ status: ci-pending
 1. `acnh303-bars-first8-42wav-20261014`：独立 8 个 BARS 原始归档；已在 PR #56 验证并合并到主账本，8 行经去重净增 7 路径。
 2. `acnh303-l3-layout-ui2d-bwav-round8-20261014`：普通媒体 1,112 个**累计**原始来源，本任务的研究对象，不是净增 1,112 条。
 3. `acnh303-r19-animation-native-20261014`：后续累计普通媒体 3,558 个来源，另附 80 个原始 BARS 的双轨清单。本任务只与普通媒体 3,558 条逐源对账，避免两类 BARS 混淆。
+
+## 2026-11-23 真实 CI 结果（已完成）
+
+[PR #58](https://github.com/969981/ACNH_Resources/pull/58) 对应 [Actions #45176742114](https://github.com/969981/ACNH_Resources/actions/runs/45176742114) 真实下载两份 Release，验证 SHA256SUMS 和逐源字段并出具 Artifact。
+
+- R8 普通媒体累计身份：**1,112**；分类 Layout **232**、Model **308**、Sound **572**；
+- R8 逐源路径 + SHA-256 + 字节数与 R19 完全相符：**1,112 / 1,112**；R19 普通媒体累计 **3,558**；
+- 与本次运行时既有的 **11,269** 条正式账本也完全匹配：**1,112 / 1,112**；
+- R8 不在 R19、或不在当时账本的真实源均为 **0**；冲突 **0**；对这条来源轴**净新增 0**。
+- 这只闭合“R8 普通媒体历史来源身份”，不证明新的 ROM 字节复验、L3 再转换或 Native 语义。
+
+对账时的旧账本为 11,269。随后 R69–R72 的另一个 PR #57 对账净增 4,822，属于独立来源，不应混入 R8 统计。
 
 ## 验收实现
 
