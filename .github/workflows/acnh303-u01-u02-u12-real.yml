@@ -1,0 +1,67 @@
+name: ACNH 3.0.3 | U01 U02 U12 and real Cedar source regression
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_unified.py'
+      - 'Scripts/acnh303_recursive_archive.py'
+      - 'Scripts/acnh303_full_audit.py'
+      - 'Scripts/acnh303_real_cedar_regression.py'
+      - 'Scripts/acnh_formats.py'
+      - 'Scripts/test_acnh303_unified.py'
+      - 'Scripts/test_acnh303_recursive_archive.py'
+      - 'Scripts/test_acnh303_full_audit.py'
+      - '.github/workflows/acnh303-u01-u02-u12-real.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-and-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parsers and media validators
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Compile and unit regressions
+        run: |
+          python -m compileall -q Scripts
+          for module in test_acnh303_unified.py test_acnh303_recursive_archive.py test_acnh303_full_audit.py; do
+            python -m unittest discover -s Scripts -p "$module" -v
+          done
+          python -m unittest discover -s Scripts -p 'test_acnh303_media_*.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh_unpack.py' -v
+      - name: Real original source 3.0.3 Cedar SHA and FMAA classification
+        run: |
+          python Scripts/acnh303_real_cedar_regression.py --root . --out cedar_real_regression.json
+      - name: Audit true complete 3.0.3 Git Tree inventory (record L0 gaps, not a completion claim)
+        run: |
+          python Scripts/acnh303_full_audit.py --root . --expected-count 103400
+          python - <<'PY'
+          import json
+          report=json.load(open("UnPack/_meta/unified/coverage.json",encoding="utf8"))
+          assert report["git_original_sources"] == 103400
+          assert report["full_l0_record_coverage"] is False
+          assert report["strict_gate_pass"] is False
+          print("Actual Git tree has 103,400 originals; sparse CI intentionally reports remaining validation gaps")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-cedar-real-source-verification
+          path: |
+            cedar_real_regression.json
+            UnPack/_meta/unified/coverage.json
+            UnPack/_meta/unified/problems.csv
+          if-no-files-found: error
+          retention-days: 30
