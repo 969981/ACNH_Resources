@@ -45,9 +45,23 @@ jobs:
       - name: Real original source 3.0.3 Cedar SHA and FMAA classification
         run: |
           python Scripts/acnh303_real_cedar_regression.py --root . --out cedar_real_regression.json
+      - name: Audit true complete 3.0.3 Git Tree inventory (record L0 gaps, not a completion claim)
+        run: |
+          python Scripts/acnh303_full_audit.py --root . --expected-count 103400
+          python - <<'PY'
+          import json
+          report=json.load(open("UnPack/_meta/unified/coverage.json",encoding="utf8"))
+          assert report["git_original_sources"] == 103400
+          assert report["full_l0_record_coverage"] is False
+          assert report["strict_gate_pass"] is False
+          print("Actual Git tree has 103,400 originals; sparse CI intentionally reports remaining validation gaps")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: acnh303-cedar-real-source-verification
-          path: cedar_real_regression.json
+          path: |
+            cedar_real_regression.json
+            UnPack/_meta/unified/coverage.json
+            UnPack/_meta/unified/problems.csv
           if-no-files-found: error
           retention-days: 30
