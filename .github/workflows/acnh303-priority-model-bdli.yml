@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: acnh303-priority-model-bdli
@@ -116,3 +117,17 @@ jobs:
           git fetch origin 3.0.3_Unpack
           git rebase origin/3.0.3_Unpack
           git push origin HEAD:3.0.3_Unpack
+
+      - name: Explicitly dispatch original SHA ledger rebuild after priority evidence publication
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -s UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json
+          # GITHUB_TOKEN push commits do NOT trigger other push workflows.
+          # workflow_dispatch is a GitHub-supported exception to that restriction.
+          gh workflow run acnh303-historical-sha-ledger.yml \
+            --ref 3.0.3_Unpack --repo "$GITHUB_REPOSITORY"
+          echo 'Requested a verified-source-ledger recalculation (not yet claiming completion)'
