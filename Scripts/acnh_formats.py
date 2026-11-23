@@ -250,10 +250,13 @@ def parse_byml(data: bytes, max_nodes: int = 300_000) -> dict:
 
 
 def safe_member_name(name: str) -> str:
-    if not name or "\x00" in name or "\\" in name or name.startswith("/"):
+    # Inspect the original components BEFORE PurePosixPath normalizes "." and "//".
+    # Otherwise a malicious archive can alias two members to one output path.
+    if (not name or "\x00" in name or "\\" in name or name.startswith("/")
+            or len(name) > 512 or any(ord(ch) < 32 for ch in name)):
         raise FormatError("unsafe archive name")
-    parts = PurePosixPath(name).parts
-    if any(p in ("", ".", "..") for p in parts) or len(parts) > 32 or len(name) > 512:
+    parts = name.split("/")
+    if len(parts) > 32 or any(p in ("", ".", "..") for p in parts):
         raise FormatError("unsafe archive path")
     if any(":" in p or p.endswith(" ") or p.endswith(".") for p in parts):
         raise FormatError("nonportable archive path")
@@ -270,7 +273,8 @@ def parse_sarc(data: bytes, max_members: int = 30_000) -> tuple[list[dict], list
     u32 = lambda p: number(data, p, 4, order)
     header_len = u16(4)
     file_size, data_start = u32(8), u32(12)
-    if header_len < 0x14 or file_size > len(data) or data_start > len(data):
+    if (header_len < 0x14 or file_size > len(data) or
+            file_size < header_len or data_start > file_size):
         raise FormatError("invalid SARC header")
     sfat = header_len
     if bounded(data, sfat, 4) != b"SFAT":
@@ -289,13 +293,13 @@ def parse_sarc(data: bytes, max_members: int = 30_000) -> tuple[list[dict], list
     for i in range(count):
         entry = node_start + i * 16
         key, attr, begin, end = (u32(entry + k) for k in (0, 4, 8, 12))
-        if begin > end or data_start + end > len(data):
+        if begin > end or data_start + end > file_size:
             raise FormatError("invalid SARC member bounds")
         if attr & 0x01000000:
             name_pos = name_start + (attr & 0x00FFFFFF) * 4
             bounded(data, name_pos, 1)
             end_name = data.find(b"\x00", name_pos)
-            if end_name < 0 or end_name - name_pos > 512:
+            if end_name < 0 or end_name >= data_start or end_name - name_pos > 512:
                 raise FormatError("bad SARC member name")
             name = data[name_pos:end_name].decode("utf-8", "strict")
         else:
