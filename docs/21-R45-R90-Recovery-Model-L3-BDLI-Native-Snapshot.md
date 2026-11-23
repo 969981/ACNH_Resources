@@ -2,11 +2,18 @@
 title: ACNH 3.0.3 · R45–R90 历史证据追回与 Model L3 / BDLI Native 阶段总结
 aliases: [ACNH303 R45 R90 Recovery Snapshot 2026-11-23]
 tags: [ACNH, 3.0.3, R45, R90, Model, BDLI, SHA256, L3, Native, audit]
-status: verified-2026-11-23
+status: verified-and-updated-2026-11-23
 ---
 # R45–R90 · 原始身份、媒体转换、Native 消费者三轴验收
 
-## 2026-11-23 · 最新主分支持久化快照
+## 2026-11-23 · 最新真实缺口资源分片后续（主分支验收）
+
+- [PR #63](https://github.com/969981/ACNH_Resources/pull/63) 对**旧 SHA 账本之外**的 16 Model + 48 BDLI 实际读取原始 NCA/Git blob，16 Model 新生成 4 GLB 与 12 PNG、48 BDLI 验证 1,092 个 LBLI 区段；所有 64 份原始 SHA/bytes 与 Git blob 验证、0 历史已入账重复。
+- [PR #64](https://github.com/969981/ACNH_Resources/pull/64) 修复主分支持久化时并发 rebase 冲突；[Actions #45184623253](https://github.com/969981/ACNH_Resources/actions/runs/45184623253) 最终成功更新权威来源账本。
+- **权威覆盖 39,381 / 103,400**、尚未纳入 **64,019**；Model **35,427 / 60,166**（缺 **24,739**），BDLI **92 / 36,708**（缺 **36,616**）。
+- 本轮增加的是 64 条源身份，4 GLB/12 PNG 为独立真正重解码 L3 文件计数；BDLI 的 **Native 仍 NOT_CAPTURED**，没有动态消费者证明。详见 [[22-Unrepresented-Model-BDLI-Real-Source-Shards]]。
+
+## 2026-11-23 · 历史阶段快照（R50–R62 后）
 
 **原始 Git Tree：103,400 条；逐源 SHA-256 证据已纳入 39,317 条，仍未纳入 64,083 条，来源身份覆盖率 38.02%。**
 
