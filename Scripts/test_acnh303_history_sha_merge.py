@@ -1,0 +1,135 @@
+"""Historical SHA merge fail-closed unit tests: retries, conflicts, fabricated counts."""
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+from acnh303_history_sha_merge import (
+    RELEASES, batch_attempts, deduplicate, normalize_status,
+    release_sha, read_releases, aggregate, write_results, canonical,
+    r51_attempts,
+)
+
+
+def attempt(path, sha=None, status="converted", outputs=1, source="release-R41"):
+    return {
+        "source_path": path,
+        "source_sha256": sha or hashlib.sha256(path.encode()).hexdigest(),
+        "source_bytes": 10,
+        "source_git_blob_sha": None,
+        "category": path.split("/")[0],
+        "status": status,
+        "raw_status": status,
+        "source": source,
+        "source_proof": "historical_verified",
+        "output_proof": "historical_count_only",
+        "claimed_verified_media_count": outputs,
+        "evidence_level": "L3_ATTEMPT",
+    }
+
+
+class HistoricalLedgerTests(unittest.TestCase):
+    def test_duplicate_same_source_sha_is_one_original_not_two(self):
+        path = "Model/shared.zs"
+        rows = [
+            attempt(path, status="failed", outputs=0, source="committed-batch:retry-1"),
+            attempt(path, status="converted", outputs=1, source="committed-batch:retry-2"),
+            attempt(path, status="failed", outputs=0, source="committed-batch:retry-3"),
+        ]
+        ledger, counts = deduplicate({path: "a" * 40}, rows)
+        self.assertEqual(len(ledger), 1)
+        self.assertEqual(ledger[path]["best_status"], "converted")
+        self.assertEqual(len(ledger[path]["history"]), 3)
+        self.assertEqual(counts["deduplicated_retry_rows"], 2)
+
+    def test_conflicting_source_sha_or_size_refused(self):
+        path = "Model/shared.zs"
+        a = attempt(path)
+        b = attempt(path, sha="b" * 64, source="committed-batch:new")
+        with self.assertRaisesRegex(ValueError, "conflicting SHA"):
+            deduplicate({path: "a" * 40}, [a, b])
+        b["source_sha256"] = a["source_sha256"]
+        b["source_bytes"] += 1
+        with self.assertRaisesRegex(ValueError, "conflicting SHA"):
+            deduplicate({path: "a" * 40}, [a, b])
+
+    def test_same_content_in_two_paths_is_two_original_sources(self):
+        a = attempt("Model/one.zs", sha="f" * 64)
+        b = attempt("Model/two.zs", sha="f" * 64, source="committed-batch:another")
+        ledger, stats = deduplicate({a["source_path"]: "a" * 40, b["source_path"]: "b" * 40}, [a, b])
+        self.assertEqual(len(ledger), 2)
+        self.assertEqual(stats["identical_byte_content_different_original_paths"], 1)
+
+    def test_overlapping_independent_release_deltas_rejected(self):
+        p = "Model/one.zs"
+        x, y = attempt(p), attempt(p, source="release-R42")
+        with self.assertRaisesRegex(ValueError, "release deltas unexpectedly overlap"):
+            deduplicate({p: "a" * 40}, [x, y])
+
+    def test_missing_original_sha_is_quarantined_and_retry_does_not_fake_success(self):
+        valid = attempt("Model/a.zs", status="failed", outputs=0)
+        bad = {"source_path": "Model/b.zs", "source": "old-batch", "quarantined": True}
+        ledger, stat = deduplicate({"Model/a.zs": "a" * 40, "Model/b.zs": "b" * 40},
+                                   [valid, bad])
+        self.assertEqual(len(ledger), 1)
+        self.assertEqual(stat["quarantined_missing_sha_attempts"], 1)
+        counts = aggregate({"Model/a.zs": "a" * 40, "Model/b.zs": "b" * 40},
+                           ledger, stat, {})["categories"]["Model"]
+        self.assertEqual(counts["historically_attempted"], 1)
+        self.assertEqual(counts["not_in_imported_evidence"], 1)
+        self.assertEqual(counts["failed_or_no_output"], 1)
+
+    def test_zero_target_is_not_fake_conversion(self):
+        self.assertEqual(normalize_status("converted", 0, layer="release"), "no_output")
+        self.assertEqual(normalize_status("failed", 10, layer="release"), "failed")
+        self.assertEqual(normalize_status("partial", 2, layer="release"), "partial")
+
+    def test_sha256sums_exactly_one_entry_and_real_digest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            path = folder / "source_delta.jsonl.gz"
+            path.write_bytes(b"abc")
+            digest = hashlib.sha256(b"abc").hexdigest()
+            sums = folder / "SHA256SUMS.txt"
+            sums.write_text(digest + "  source_delta.jsonl.gz\n", encoding="utf8")
+            self.assertEqual(release_sha(path, sums), digest)
+            path.write_bytes(b"changed")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                release_sha(path, sums)
+            sums.write_text(digest + "  source_delta.jsonl.gz\n" +
+                            digest + "  source_delta.jsonl.gz\n", encoding="utf8")
+            with self.assertRaisesRegex(ValueError, "missing/duplicate"):
+                release_sha(path, sums)
+
+    def test_next_shard_contains_only_missing_or_failed_and_is_deterministic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            expected = {"Model/a.zs": "a" * 40, "Model/b.zs": "b" * 40,
+                        "Model/c.zs": "c" * 40}
+            rows, stats = deduplicate(expected, [
+                attempt("Model/a.zs", status="converted"),
+                attempt("Model/b.zs", status="failed", outputs=0),
+            ])
+            report = aggregate(expected, rows, stats, {})
+            write_results(p, expected, rows, report, shard=0, shards=1,
+                          limit=24, category="Model")
+            q = json.loads((p / "next_sources.json").read_text("utf8"))
+            self.assertEqual(len(q["candidates"]), 2)
+            self.assertEqual({x["source_path"] for x in q["candidates"]},
+                             {"Model/b.zs", "Model/c.zs"})
+            self.assertEqual(len(list(gzip.open(p / "source_ledger.jsonl.gz", "rt"))), 2)
+
+    def test_path_traversal_and_uncertified_github_blob_rejected(self):
+        for raw in ("../Model/a.zs", "Model/./a.zs", "Model//a.zs", "C:/bad"):
+            with self.subTest(raw=raw), self.assertRaises(ValueError):
+                canonical(raw)
+        row = attempt("Model/a.zs")
+        row["source_git_blob_sha"] = "c" * 40
+        with self.assertRaisesRegex(ValueError, "Git blob"):
+            deduplicate({"Model/a.zs": "a" * 40}, [row])
+
+
+if __name__ == "__main__":
+    unittest.main()
