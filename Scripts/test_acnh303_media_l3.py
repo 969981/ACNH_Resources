@@ -101,5 +101,108 @@ class OutputValidation(unittest.TestCase):
         self.assertEqual(next(find_leaf(b"BWAV" + b"\0" * 100, "a.bwav"))["format"], "bwav")
 
 
+    @staticmethod
+    def _synthetic_fres(with_geometry: bool = False) -> bytes:
+        data = bytearray(0x600)
+        data[:4] = b"FRES"
+        struct.pack_into("<I", data, 8, 0x00090000)
+        struct.pack_into("<H", data, 0x0C, 0xFEFF)
+        if with_geometry:
+            struct.pack_into("<Q", data, 0x28, 0x200)
+            data[0x200:0x204] = b"FMDL"
+        else:
+            # Cedar-like bounded header locations are *candidates* only.
+            data[0xF0:0xF4] = b"FMAA"
+            data[0x160:0x164] = b"FMAA"
+            struct.pack_into("<I", data, 0xF4, 4)
+            struct.pack_into("<I", data, 0x164, 4)
+        return bytes(data)
+
+    @staticmethod
+    def _run_synthetic_media(source_data: bytes, mock_process=None):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from unittest.mock import patch
+        from acnh303_media_l3 import NCA, main
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rel = "Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs"
+            source = root / NCA / "1" / rel
+            source.parent.mkdir(parents=True)
+            source.write_bytes(source_data)
+            argv = ["media", "--root", str(root), "--source", rel]
+            with patch("sys.argv", argv), redirect_stdout(StringIO()):
+                if mock_process is not None:
+                    with patch("acnh303_media_l3.subprocess.run", return_value=mock_process) as mocked:
+                        result = main()
+                        assert mocked.call_count == 1
+                else:
+                    with patch("acnh303_media_l3.subprocess.run") as mocked:
+                        result = main()
+                        assert mocked.call_count == 0, "meshless animation must not call wmdlt"
+            output_dir = root / "Unpack_L3" / NCA / "1" / "Model" / (
+                "PltTreeCedarDecoAnim.Nin_NX_NVN.zs.converted"
+            )
+            manifest = json.loads((output_dir / "_conversion_manifest.json").read_text("utf8"))
+            logs = {
+                p.name: p.read_bytes()
+                for p in (output_dir / "_tool_logs").glob("*")
+            } if (output_dir / "_tool_logs").exists() else {}
+            return result, manifest, logs
+
+    def test_animation_candidate_preserves_evidence_and_skips_geometry(self):
+        import hashlib
+        from acnh303_media_l3 import classify_animation_only_fres_candidate, find_leaf
+        raw = self._synthetic_fres()
+        evidence = classify_animation_only_fres_candidate(raw)
+        self.assertEqual(evidence["classification"], "NON_GEOMETRY_ANIMATION_CANDIDATE")
+        self.assertEqual(
+            [x["offset"] for x in evidence["candidate_magic_offsets"]],
+            [0xF0, 0x160],
+        )
+        self.assertEqual(next(find_leaf(raw, "cedar.zs"))["origin_type"],
+                         "non_geometry_fres_animation_candidate")
+        status, manifest, logs = self._run_synthetic_media(raw)
+        self.assertEqual(status, 0)
+        self.assertEqual(manifest["source_sha256"], hashlib.sha256(raw).hexdigest())
+        self.assertEqual(manifest["converted_count"], 0)
+        self.assertEqual(manifest["members"][0]["status"], "unsupported")
+        self.assertNotIn("outputs", manifest["members"][0])
+        self.assertFalse(logs)
+        self.assertIsNone(classify_animation_only_fres_candidate(
+            self._synthetic_fres(with_geometry=True)))
+        broken = bytearray(raw)
+        struct.pack_into("<Q", broken, 0x28, 0x200)
+        self.assertIsNone(classify_animation_only_fres_candidate(bytes(broken)))
+
+    def test_zero_exit_without_output_is_failure_and_keeps_full_logs(self):
+        import hashlib
+        import subprocess
+        proc = subprocess.CompletedProcess(
+            ["wmdlt"], 0, stdout=b"converter said success but no GLB\n",
+            stderr=b"no model was emitted\n")
+        status, manifest, logs = self._run_synthetic_media(
+            self._synthetic_fres(with_geometry=True), proc)
+        self.assertEqual(status, 0)
+        self.assertEqual(manifest["converted_count"], 0)
+        self.assertEqual(manifest["members"][0]["error_class"],
+                         "tool_zero_exit_no_output")
+        self.assertEqual(logs["leaf_00000.stdout.log"], proc.stdout)
+        self.assertEqual(logs["leaf_00000.stderr.log"], proc.stderr)
+        self.assertEqual(
+            manifest["members"][0]["tool_stdout_log"]["sha256"],
+            hashlib.sha256(proc.stdout).hexdigest())
+
+    def test_nonzero_exit_records_distinct_failure_class(self):
+        import subprocess
+        proc = subprocess.CompletedProcess(
+            ["wmdlt"], 2, stdout=b"", stderr=b"invalid input\n")
+        _, manifest, logs = self._run_synthetic_media(
+            self._synthetic_fres(with_geometry=True), proc)
+        self.assertEqual(manifest["members"][0]["error_class"], "tool_nonzero_exit")
+        self.assertIn("nonzero exit code 2", manifest["members"][0]["error"])
+        self.assertEqual(logs["leaf_00000.stderr.log"], proc.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()
