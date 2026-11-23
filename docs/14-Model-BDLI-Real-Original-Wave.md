@@ -8,7 +8,16 @@ status: implementation
 
 关联 [[13-Historical-SHA-Ledger-R41-R90]]、[[11-Unified-Unpack-Recursive-Audit-2026-11-23]]、[[12-R51-Real-Wave-Gaps]]。
 
-## 已有有效基线（2026-11-23，R9–R18 修复并合并后）
+
+## 验收结论 · 2026-11-23（已实际运行，不是预估）
+
+- [PR #54](https://github.com/969981/ACNH_Resources/pull/54) 已合并；[真实源 Run #45141584240](https://github.com/969981/ACNH_Resources/actions/runs/45141584240) 成功、24 个源已真实读取并完成原始 SHA-256 + Git blob 验证；Model 12、BDLI 12，**24 个记录均为 no_output，新增 L3/Native 成功为 0**。
+- [PR #55](https://github.com/969981/ACNH_Resources/pull/55) 解决 GITHUB_TOKEN 自己的 push 不触发另一工作流的问题；用显式 workflow_dispatch 触发后续账本核验。
+- [历史重算 Run #45141648523](https://github.com/969981/ACNH_Resources/actions/runs/45141648523) 成功，逐源账本 **11,238 → 11,262**；“没有纳入当前账本的来源” **92,162 → 92,138**。
+- **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
+- 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
+
+## 前序基线（2026-11-23，R9–R18 合并后、优先波验收前）
 
 - 原始完整 Git Tree：**103,400**，SHA 来源账本已纳入 **11,238** 个不同原始路径；其余 **92,162** 只是**本次账本中无逐源证据**，不可定义成历史从未运行。
 - Model：**60,166** 原始源；已有 **7,356** 逐源证据，**52,810** 当前证据缺位。
