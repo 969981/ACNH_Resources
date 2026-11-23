@@ -795,6 +795,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
             "R8 BARS first-8 original report is imported only when its authenticated Release is provided; R8 core media cumulative and other early records remain a separate provenance task.",
             "R69-R72 icon source SHA and image reports are committed historical evidence; current CI does not rehash those original bytes or prove Native UI binding.",
+            "Independent real-unrepresented Model/BDLI shards carry original SHA/Git blob and real media/static parsing reports; imported counts are source identities, not GLB or Native semantic successes.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -844,6 +845,7 @@ def main() -> int:
     a.add_argument("--r69-r72-dir", type=Path, help="Committed R69-R72 original icon JSON shard manifests")
     a.add_argument("--r83-r84-report", type=Path, help="Verified original R83/R84 Git and Actions BCSV byte evidence")
     a.add_argument("--r50-r62-dir", type=Path, help="Committed 53 original native item PNG per-source reports")
+    a.add_argument("--uncovered-wave-dir", type=Path, help="Committed real-original CI shards: Model L3 and BDLI LBLI static")
     a.add_argument("--batches", type=Path, default=Path("UnPack/_meta/batches"))
     a.add_argument("--basic-last", type=Path, default=Path("UnPack/_meta/basic_last_manifest.json"))
     a.add_argument("--out", type=Path, default=Path("UnPack/_meta/history_sha_merge"))
@@ -886,7 +888,12 @@ def main() -> int:
         (root / args.r50_r62_dir).resolve(), expected, native_png_git_paths(root))
         if args.r50_r62_dir else ([], {"status": "not_supplied"}))
     assets["R50-R62-native-item-PNG"] = icon_provenance
-    attempts = r19 + r8 + early + release + batch + r51 + basic + priority + image_wave + bcsv_wave + icon_rows
+    from acnh303_uncovered_wave_ledger import read_reports as read_uncovered_wave_reports
+    new_shards, new_provenance = (read_uncovered_wave_reports(
+        (root / args.uncovered_wave_dir).resolve(), expected)
+        if args.uncovered_wave_dir else ([], {"status": "not_supplied"}))
+    assets["Unrepresented-Model-BDLI-Real-Shards"] = new_provenance
+    attempts = r19 + r8 + early + release + batch + r51 + basic + priority + image_wave + bcsv_wave + icon_rows + new_shards
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
                                  "release_R8_BARS": len(r8),
@@ -897,7 +904,8 @@ def main() -> int:
                                  "priority_original_model_bdli": len(priority),
                                  "committed_R69_R72_original_icon_sources": len(image_wave),
                                  "real_R83_R84_original_BCSV": len(bcsv_wave),
-                                 "committed_R50_R62_native_icon_source_rows": len(icon_rows)}
+                                 "committed_R50_R62_native_icon_source_rows": len(icon_rows),
+                                 "new_real_unrepresented_model_bdli_shard_rows": len(new_shards)}
     report = aggregate(expected, records, stats, assets)
     write_results((root / args.out).resolve(), expected, records, report,
                   shard=args.shard, shards=args.shards, limit=args.limit,
