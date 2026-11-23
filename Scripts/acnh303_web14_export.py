@@ -442,26 +442,39 @@ def build(db: sqlite3.Connection, originals: dict, original_proof: dict,
 
 def frontend_shards(out:Path,items:list,npcs:list) -> dict:
     """Small on-demand frontend files: one locale + base, not 51MB at startup."""
+    # UI core references 189 kind rules rather than copying all 18 static
+    # ItemKind flags and verbose evidence strings into 11,178 repeated cards.
+    # Full evidence remains losslessly available in web_db_multi_v2.json.
     item_core_fields=(
-        "id","id_hex","label","ItemKind","original_kind","base_kind",
-        "base_kind_evidence","category","category_evidence","category_candidate",
-        "max_stack","stack_rule","kind_flags","kind_flag_evidence",
-        "can_pick_up","pickup_status","price","price_evidence",
-        "image_path","closet_image_path","image_selection_evidence",
-        "remake_original_row_count",
+        "id","id_hex","label","ItemKind","base_kind",
+        "base_kind_evidence","category","category_candidate",
+        "max_stack","can_pick_up","price",
+        "image_path","closet_image_path","remake_original_row_count",
     )
     npc_core_fields=(
-        "Label","ResName","npc_type","source_index","birthday","birth_month",
-        "birth_day","unique_id","bromide_item_id","poster_item_id",
-        "npc_talk_type_raw","npc_color_raw","can_invite","can_adopt",
-        "personality","gender","species","native_images",
+        "Label","ResName","birthday","birth_month","birth_day",
+        "unique_id","bromide_item_id","poster_item_id",
+        "personality","gender","species","can_invite","can_adopt",
     )
+    item_core=[{k:row[k] for k in item_core_fields} for row in items]
+    npc_core=[]
+    for row in npcs:
+        record={k:row[k] for k in npc_core_fields}
+        category_paths=defaultdict(set)
+        for image in row["native_images"]:
+            category_paths[image["category"]].add(image["png_path"])
+        # Do not guess among multiple native image sources; frontend can
+        # choose a verified single-image family or show a fallback.
+        record["image_candidates"]={
+            category:sorted(paths) for category,paths in category_paths.items()
+        }
+        record["image_selection_runtime_verified"]=False
+        npc_core.append(record)
     artifacts={}
-    for filename,rows,columns in (
-        ("items_core_v2.json",items,item_core_fields),
-        ("villagers_core_v2.json",npcs,npc_core_fields),
+    for filename,compact in (
+        ("items_core_v2.json",item_core),
+        ("villagers_core_v2.json",npc_core),
     ):
-        compact=[{k:row[k] for k in columns} for row in rows]
         artifacts[filename]={"rows":len(compact),"sha256":write_json(out/filename,compact)}
     for locale in LOCALES:
         for prefix,rows,key in (("item",items,"id"),("villager",npcs,"Label")):
