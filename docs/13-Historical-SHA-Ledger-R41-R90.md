@@ -71,12 +71,12 @@ status: active
 | R14 | bars_source_manifest.jsonl.gz | BARS 16 |
 | R16 | bars_source_manifest.jsonl.gz | BARS 36 |
 | R17 | bars_source_manifest.jsonl.gz | BARS 60 |
-| R18 | bars_source_manifest.jsonl.gz | BARS 60 |
-| **合计（导入前）** | 同一 BARS 的两个音频轨道只能算一个原始源 | **300** |
+| R18 | bars_source_manifest.jsonl.gz | BARS 100 |
+| **合计（导入前）** | 同一 BARS 的两个音频轨道只能算一个原始源 | **340** |
 
 新增 read_early_releases()：校验 Release 文件 SHA-256、原始 Git 路径、源 SHA-256/字节数，BARS/AMTA 成对一致、真实 WAV 成员哈希、BDLI LBLI 区段摘要。R9 BDLI 只能计入 L2 原始区段提取，不代表语言文本或 Native 语义完成；PCM 媒体成功也不能冒充原生播放参数验证。
 
-**300 是新导入前的身份行，不是净新增覆盖数。** R19、既有 Release、提交的 batch 与 R51 会再通过路径+源 SHA 去重；发现 SHA/size 冲突则失败。R8 原始 8 BARS 身份仍需追回；R11–R13、R15 没有单独恢复到符合逐源 SHA 要求的独立 Release，不能用旧汇总数字代替。R45–R90 继续从 Actions/历史提交追回可验证记录。
+**340 是新导入前的身份行，不是净新增覆盖数。** R19、既有 Release、提交的 batch 与 R51 会再通过路径+源 SHA 去重；发现 SHA/size 冲突则失败。R8 原始 8 BARS 身份仍需追回；R11–R13、R15 没有单独恢复到符合逐源 SHA 要求的独立 Release，不能用旧汇总数字代替。R45–R90 继续从 Actions/历史提交追回可验证记录。
 
 **注意：上方 10,902 / 92,498 仍是 PR52 已通过的旧基线。** 新 CI 结果产生并提交 coverage.json 前，严禁预先更新这些统计。
 
