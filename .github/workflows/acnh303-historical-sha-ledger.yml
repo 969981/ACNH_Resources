@@ -5,12 +5,15 @@ on:
     paths:
       - 'Scripts/acnh303_history_sha_merge.py'
       - 'Scripts/test_acnh303_history_sha_merge.py'
+      - 'Scripts/acnh303_priority_model_bdli.py'
+      - 'Scripts/test_acnh303_priority_model_bdli.py'
       - 'docs/13-Historical-SHA-Ledger-R41-R90.md'
       - '.github/workflows/acnh303-historical-sha-ledger.yml'
   push:
     branches: [3.0.3_Unpack]
     paths:
       - '.github/workflows/acnh303-historical-sha-ledger.yml'
+      - 'UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json'
   workflow_dispatch:
 
 permissions:
@@ -156,6 +159,7 @@ jobs:
           assert r['original_git_tree_sources']==103400
           assert r['import_stats']['input_type_rows']['release_R19_cumulative']==3638
           assert r['import_stats']['input_type_rows']['release_R9_R18_early']==340
+          assert r['import_stats']['input_type_rows']['priority_original_model_bdli'] in (0, 24)
           assert r['import_stats']['input_type_rows']['release_R27_R44']==7196
           assert r['import_stats']['input_type_rows']['r51_real_source_ci']==16
           assert r['imported_unique_original_sources']<=103400
