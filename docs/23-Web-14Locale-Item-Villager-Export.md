@@ -2,10 +2,22 @@
 title: ACNH 3.0.3 · 网页道具与村民全14地区语种原版数据库导出
 aliases: [ACNH Web DB Export, web_db_multi v2, villager_db_multi v2]
 tags: [ACNH, 3.0.3, JSON, SQLite, 14-locale, ItemParam, ItemKind, NmlNpcParam, ItemRemake, RecipeCraftParam, MSBT, Obsidian]
-status: ci-pending
+status: ci-verified-merged-2026-11-23
 ---
 
 # ACNH 3.0.3 · 网页道具/村民数据库与完整溯源导出
+
+## 2026-11-23 · 真实导出通过、代码已合并
+
+- [PR #65](https://github.com/969981/ACNH_Resources/pull/65) 已合并到 `3.0.3_Unpack`，最终[原版真实完整导出 CI #45199513614](https://github.com/969981/ACNH_Resources/actions/runs/45199513614) **success**，Artifact `acnh303-full-14locale-website-database-45199513614`。
+- 原版数据库和 `ItemParam` 逐字节 SHA 以及 SQLite `integrity_check` 通过；所有 **11,178 个 Item ID 的 107 个原始字段和小端 ID** 验真后已写入档案。
+- 完整交付 **39 个文件**：11,178 item、417 普通村民、74 特殊 NPC、189 ItemKind、924 原始配方行、1,306 个原始 ItemRemake 键（其中**821 个与 ItemParam 关联，485 个无当前物品 ID 直接关联**），全量 408,156 MSBT 记录以及 14 locale 的网页轻量分片。
+- 原版 `item_locale` **156,492 条**中：**75,712 条 ID 直接关联**、**72,296 条服装组名称候选**、**8,484 条仍未找到可靠名字**；不能把候选与缺失翻译冒充原版游戏场景实际显示。
+- 原版 `npc_locale` 6,874 条中普通村民 **5,838/5,838** 为 14 locale 精确键关联；74 特殊 NPC 的 **1,036** 个 locale 名称仍为 `missing/null`，不是“14 种特殊 NPC 名称已经全部证明”。
+- **网页性能**：研究完整 `web_db_multi_v2.json` 为 **51,556,420 bytes**，不适合作为首页启动 JSON。经过优化的 `items_core_v2.json` 为 **4,433,045 bytes**，`villagers_core_v2.json` 为 **234,666 bytes**；14 个名称分片（道具+村民共 28 个）按需加载。完整归档与部署资源严格分开。
+- 不在本仓库直接替换旧站 `src/views/Acnh.vue`：先升级网站读取 v2 core + locale 并按 ID/Label 连接，再逐步迁移分类、图片、DIY / 变体展示。
+
+
 
 > [!important] 不覆盖网站原数据
 > 用户网页旧版 `public/data/web_db_multi.json` 是 **11,713 条**，其中旧 DIY 配方 **924 条**另有与道具共用的 `id`，真正旧非配方 item 约 **10,789 条**；`public/data/villager_db_multi.json` 是 **417 名村民**，原版网站只有 4 种语言。新 3.0.3 ROM 的 `ItemParam` 有 **11,178** 个唯一 item ID；新格式必须把物品、配方、改造和 NPC 分开，不把 11,713 与 11,178 简单做总数相减，也不能直接把 v2 当旧数组无差别覆盖。
