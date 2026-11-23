@@ -2,7 +2,7 @@
 title: ACNH 3.0.3 · R69–R72 图标历史原始来源逐源证据恢复
 aliases: [R69–R72 SHA source recovery, Original Icon Manifest Ledger]
 tags: [ACNH, 3.0.3, Model, SHA256, provenance, R69, R72, BNTX, PNG]
-status: ci-pending
+status: ci-verified-and-merged
 ---
 # R69–R72 · 原生图标来源与 SHA 去重验收
 
@@ -18,6 +18,14 @@ status: ci-pending
 
 报告位置：`assets/evidence/rom-completeness/native-layout-batches/`。来源路径位于 `e10617820db06889e1638499478da0de_NCA/1/Model/` 内；本次仅解析已提交的小型 JSON，不读取原始 ROM 字节。旧报告中与 Git Tree 匹配的原始 SHA/大小是**历史处理证据**，不应说成此次重新读取了全部 5,445 个原始字节流。
 
+## 实际验收完成 · 2026-11-23
+
+- [PR #57](https://github.com/969981/ACNH_Resources/pull/57) 已合并，且[PR 真实核验 #45176321178](https://github.com/969981/ACNH_Resources/actions/runs/45176321178)和[主分支持久化 #45177061879](https://github.com/969981/ACNH_Resources/actions/runs/45177061879)均成功。
+- **5,445 条真实提交的历史源身份执行行 → 623 条与既有账本重叠，去重净增 4,822 个原始路径。**
+- 权威主分支统计：**16,091 / 103,400** 已纳入逐源证据，**87,309** 尚未纳入证据账本；原始来源证据覆盖率约 **15.56%**，不是完整解包/图片/语义覆盖率。
+- Model 已纳入由 **7,368 提升至 12,190 / 60,166**，未纳入 **47,976**。BDLI **44 / 36,708** 不变；Sound **2,842 / 2,848** 不变。
+- 历史 Model 图标单 PNG 证据保守记录为 `partial`，`native_runtime_parity_verified=false`，没有新运行时 Native 绑定成功声明。
+
 ## 新增验证器与分层统计
 
 `Scripts/acnh303_r69_r72_source_recovery.py` 逐文件执行以下门禁：
@@ -32,7 +40,7 @@ status: ci-pending
 
 ## 验收与权威数字
 
-**提交此实现本身不会改变权威来源数量。** 待 GitHub Actions 成功下载并交叉验证全部既有 Release、加入 5,445 个历史尝试记录并计算新账本之后，再以主分支 `UnPack/_meta/history_sha_merge/coverage.json`、`source_ledger.jsonl.gz` 为准。PR 运行仅产生 Artifact，不能自动写回主分支。新产生的已覆盖与未纳入数必须同时更新；若有路径 SHA/大小冲突，保留之前的 11,269/92,131，不得部分发布。
+**目前已经通过真实 CI、合并并完成主分支持久化验收。** 继续以主分支 `UnPack/_meta/history_sha_merge/coverage.json`、`source_ledger.jsonl.gz` 为准。PR 运行仅产生 Artifact，主分支工作流经过验收后才回写。本轮无 SHA/大小冲突，旧版 11,269/92,131 已保留为前序阶段快照。
 
 ## 未覆盖部分
 
