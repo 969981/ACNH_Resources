@@ -17,7 +17,15 @@ status: implementation
 - **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
 - 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
 
-## 两条独立的新增验收轴 · Model L3 与 BDLI Native（2026-11-23）
+## 最新未入账真实资源分片 · 16 Model + 48 BDLI（2026-11-23）
+
+- [PR #63](https://github.com/969981/ACNH_Resources/pull/63) 以真实 Git Tree − 旧 SHA 账本选择两个不重叠 SHA 分片，实际稀疏读取 **16 Model + 48 BDLI** 原始字节 SHA256 和 Git blob；[CI #45183489223](https://github.com/969981/ACNH_Resources/actions/runs/45183489223) 和[主分支 #45183797953](https://github.com/969981/ACNH_Resources/actions/runs/45183797953) 均验证成功。
+- Model **16/16** 实际转换并重新校验 **4 GLB + 12 PNG**，输出哈希/几何或像素检查通过；来源状态均记 `partial`，不可自动提升整份 BFRES / FSKA / FMAA。
+- BDLI **48/48** 静态解析和区段字节校验，合计 **1,092 LBLI 区段（非空 1,033）**，但没有现场游戏 Native 消费者日志，`NOT_CAPTURED`。
+- [PR #64](https://github.com/969981/ACNH_Resources/pull/64) 修复并发重建时 `coverage.json` 的 rebase 冲突，[主分支持久化 #45184623253](https://github.com/969981/ACNH_Resources/actions/runs/45184623253) 成功。权威身份覆盖 **39,381 / 103,400**，仍缺 **64,019**；Model **35,427 / 60,166**，仍缺 **24,739**；BDLI **92 / 36,708**，仍缺 **36,616**。
+- 以上来源身份、真实媒体 L3 与 Native 游戏语义是三条**分别验收、不能相加**的轴。详见 [[22-Unrepresented-Model-BDLI-Real-Source-Shards]]。
+
+## 历史阶段 · 早期 Model L3 与 BDLI Native（2026-11-23）
 
 - **Model 真正 L3（新运行重解码）**：[PR #61](https://github.com/969981/ACNH_Resources/pull/61) / [CI #45180483511](https://github.com/969981/ACNH_Resources/actions/runs/45180483511) 对 4 个源于 R19 Release 的原始 Model 重新读字节、SHA/Git blob 校验，实际调用 `wmdlt` 重新导出 **4/4 个有效 GLB 几何模型**，4 个新 GLB 输出各自 SHA 与 mesh/primitive 通过验证。详见 [[19-Real-BFRES-GLB-R19-Replay]]。这些是已纳入身份的复验，不增加新的原始源身份，不能推断 FSKA/FMAA/原版 GPU 等价。
 - **BDLI Native 消费者**：[PR #62](https://github.com/969981/ACNH_Resources/pull/62) / [CI #45181279917](https://github.com/969981/ACNH_Resources/actions/runs/45181279917) 读取真实 3,118 字节 CNzh `STR_CategoryName.bdli.zs`、验证原始 Git SHA 与 **224 个 LBLI 区段**，并提供 GDB 真实游戏会话只读候选观测脚本。没有现场 Native 取证，`NOT_CAPTURED` 保持不变。详见 [[20-BDLI-Native-Consumer-Capture-Gate]]。
