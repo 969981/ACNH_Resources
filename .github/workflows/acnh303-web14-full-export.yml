@@ -62,6 +62,9 @@ jobs:
           assert counts['item']==11178 and counts['normal_villagers']==417
           assert counts['special_npcs']==74 and counts['item_kind']==189
           assert counts['recipes']==924 and counts['item_raw107']==11178
+          assert counts['item_remake_linked_ids']==821
+          assert counts['item_remake_raw_unique_keys']==(
+              counts['item_remake_linked_ids']+counts['item_remake_orphan_raw_keys'])
           assert m['locale_item_rows']==11178*14
           assert m['locale_npc_rows']==491*14
           assert not m['pickup_gameplay_verified']
@@ -80,6 +83,18 @@ jobs:
           assert all(x['personality'] is None and x['can_adopt'] is None for x in residents)
           assert all(x['variations'] is None for x in items)
           assert all(x['max_stack'] is None for x in items if x['stack_rule']['kind_raw_s16']==-1)
+          # Page performance gate: core + one locale, never load 51MB archive at startup.
+          ic=json.loads((base/'items_core_v2.json').read_text('utf8'))
+          vc=json.loads((base/'villagers_core_v2.json').read_text('utf8'))
+          assert len(ic)==11178 and len(vc)==417
+          assert all('names' not in x and 'name_evidence' not in x for x in ic)
+          for locale in m['locales']:
+              for prefix,src,key in (('item',ic,'id'),('villager',vc,'Label')):
+                  f=base/f'{prefix}_names_{locale}_v2.json'
+                  names=json.loads(f.read_text('utf8'))
+                  assert len(names)==len(src)
+                  assert len({x[key] for x in names})==len(names)
+                  assert all('status' in x and 'name' in x for x in names)
           assert m['item_locale_missing_names']>0
           for name,asset in m['artifacts'].items():
               original=base/name
