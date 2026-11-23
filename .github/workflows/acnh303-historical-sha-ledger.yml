@@ -51,11 +51,21 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
 
-      - name: Download exact four published per-source release deltas
+      - name: Download actual R27-R36 and R41-R44 published per-source Release deltas
         shell: bash
         run: |
           set -euo pipefail
           cat > releases.tsv <<'EOF'
+          27 acnh303-r27-real-unmeasured40-20261015
+          28 acnh303-r28-layout-bars-model-bnsh-20261015
+          29 acnh303-r29-80-real-media-bnsh-20261015
+          30 acnh303-r30-48-real-media-bnsh-20261015
+          31 acnh303-r31-40-real-media-bnsh-20261015
+          32 acnh303-r32-88-real-media-bnsh-20261015
+          33 acnh303-r33-240-real-media-bnsh-20261015
+          34 acnh303-r34-388-real-media-bnsh-20261015
+          35 acnh303-r35-320-real-media-bars-20261015
+          36 acnh303-r36-320-real-media-bars-20261015
           41 acnh303-r41-480-real-media-bars-20261102
           42 acnh303-r42-960-media-native-20261102
           43 acnh303-r43-1408-bars-l3-complete-20261102
@@ -101,7 +111,7 @@ jobs:
           d=Path('UnPack/_meta/history_sha_merge')
           r=json.loads((d/'coverage.json').read_text('utf8'))
           assert r['original_git_tree_sources']==103400
-          assert r['import_stats']['input_type_rows']['release_R41_R44']==5408
+          assert r['import_stats']['input_type_rows']['release_R27_R44']==7196
           assert r['import_stats']['input_type_rows']['r51_real_source_ci']==16
           assert r['imported_unique_original_sources']<=103400
           assert r['not_in_imported_per_source_evidence']==103400-r['imported_unique_original_sources']
@@ -148,7 +158,7 @@ jobs:
             echo "No changes to historical SHA evidence ledger"
             exit 0
           fi
-          git commit -m "data(acnh303): audited R41-R44 release and R51 historical SHA ledger"
+          git commit -m "data(acnh303): audited R27-R44 release and R51 historical SHA ledger"
           git fetch origin 3.0.3_Unpack
           git rebase origin/3.0.3_Unpack
           git push origin HEAD:3.0.3_Unpack
