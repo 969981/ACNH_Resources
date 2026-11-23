@@ -149,9 +149,9 @@ class HistoricalLedgerTests(unittest.TestCase):
                 path = directory / filename
                 with gzip.open(path, "wt", encoding="utf8") as writer:
                     for row in rows:
-                        writer.write(json.dumps(row) + "\\n")
+                        writer.write(json.dumps(row) + "\n")
                 sums.append(hashlib.sha256(path.read_bytes()).hexdigest() + "  " + filename)
-            (directory / "SHA256SUMS.txt").write_text("\\n".join(sums) + "\\n")
+            (directory / "SHA256SUMS.txt").write_text("\n".join(sums) + "\n")
             expected = {row["source_path"]: "a" * 40 for row in media + paired}
             attempts, evidence = read_r19_baseline(directory, expected)
             self.assertEqual(evidence["media_source_rows"], 3558)
@@ -163,9 +163,9 @@ class HistoricalLedgerTests(unittest.TestCase):
             path = directory / "bars_source_manifest.jsonl.gz"
             with gzip.open(path, "wt", encoding="utf8") as writer:
                 for row in paired:
-                    writer.write(json.dumps(row) + "\\n")
+                    writer.write(json.dumps(row) + "\n")
             sums[-1] = hashlib.sha256(path.read_bytes()).hexdigest() + "  bars_source_manifest.jsonl.gz"
-            (directory / "SHA256SUMS.txt").write_text("\\n".join(sums) + "\\n")
+            (directory / "SHA256SUMS.txt").write_text("\n".join(sums) + "\n")
             with self.assertRaisesRegex(ValueError, "dual-track original source sha mismatch"):
                 read_r19_baseline(directory, expected)
 
