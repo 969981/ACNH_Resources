@@ -2,11 +2,17 @@
 title: ACNH 3.0.3 · R83/R84 原始 BCSV 字节与 Git Blob 双重验收
 aliases: [R83 R84 Original BCSV SHA Recovery]
 tags: [ACNH, 3.0.3, R83, R84, BCSV, original, Git, sha256, provenance]
-status: ci-pending
+status: ci-verified-and-merged
 ---
 # R83/R84 · 5 份原始 BCSV 的真实身份恢复
 
 关联 [[13-Historical-SHA-Ledger-R41-R90]]、[[14-Model-BDLI-Real-Original-Wave]]、[[ACNH303_R84_RUNTIME_ITEM_RESTRICTIONS_EVIDENCE]]。
+
+## 真实 CI 验收结果 · 2026-11-23
+
+- [PR #59](https://github.com/969981/ACNH_Resources/pull/59) 已合并，[PR 验收 #45178684825](https://github.com/969981/ACNH_Resources/actions/runs/45178684825) 真实核验两个 Actions Artifact 的原始 BCSV 字节、Git blob SHA 和原始 SHA256；五份来源无哈希冲突，净增 **5**。
+- 此阶段来源身份从 **16,091 → 16,096**，缺位从 **87,309 → 87,304**；BCSV 已有来源 **16 / 234**，其中新加入五份 `raw_extracted`。
+- 后续 PR #60 的历史 Model 图标恢复已使主分支总体来源覆盖提升到 **39,317 / 103,400**；请以最新 `coverage.json` 为准，勿将本 PR 阶段快照误作当前总数。
 
 ## 来源和边界
 
