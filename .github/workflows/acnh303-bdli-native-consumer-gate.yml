@@ -1,0 +1,69 @@
+name: ACNH 3.0.3 | BDLI original source versus Native consumer evidence gate
+
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_bdli_native_consumer_gate.py'
+      - 'Scripts/acnh303_bdli_gdb_observer.py'
+      - 'Scripts/test_acnh303_bdli_native_consumer_gate.py'
+      - 'docs/20-BDLI-Native-Consumer-Capture-Gate.md'
+      - '.github/workflows/acnh303-bdli-native-consumer-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actual-original-static-bdli-then-native-not-captured:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_CategoryName.bdli.zs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original BDLI/section parser dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Anti-fabrication and capture-negative tests
+        run: |
+          python -m compileall -q Scripts/acnh303_bdli_native_consumer_gate.py Scripts/acnh303_bdli_gdb_observer.py
+          python -m unittest discover -s Scripts -p 'test_acnh303_bdli_native_consumer_gate.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_bdli.py' -v
+      - name: Rehash real original BDLI and verify actual LBLI sections
+        run: |
+          python Scripts/acnh303_bdli_native_consumer_gate.py \
+            --root . \
+            --source BDLI/String/CNzh/STR_CategoryName.bdli.zs \
+            --out audit/bdli_native_consumer_source_and_missing_runtime.json
+      - name: Native must remain NOT_CAPTURED without game GDB session
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('audit/bdli_native_consumer_source_and_missing_runtime.json').read_text())
+          proof=r['source_proof']
+          assert proof['source_bytes_and_git_blob_verified_now'] is True
+          assert len(proof['source_sha256'])==64
+          assert proof['LBLI_section_count'] > 0
+          assert len(proof['LBLI_sections']) == proof['LBLI_section_count']
+          assert r['runtime_observation']['status']=='NOT_CAPTURED'
+          assert r['native_status']=='NOT_CAPTURED'
+          assert r['actual_nintendo_native_consumer_verified'] is False
+          assert r['native_runtime_parity_verified'] is False
+          print('True BDLI static original byte/sections validated; real Nintendo Native consumer: NOT_CAPTURED')
+          PY
+      - name: Preserve independently inspectable source-to-Native gap evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-bdli-native-source-gap-${{ github.run_id }}
+          path: audit/bdli_native_consumer_source_and_missing_runtime.json
+          retention-days: 30
+          if-no-files-found: warn
