@@ -10,6 +10,7 @@ status: active
 
 **39,317 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。64,083 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
 
+- **独立媒体/Native 验收**：R19 的 4 个既有原始 Model 已在 [CI #45180483511](https://github.com/969981/ACNH_Resources/actions/runs/45180483511) 中重新读取、实际 `wmdlt` 转换、得到并校验 4/4 个真实 GLB；[CI #45181279917](https://github.com/969981/ACNH_Resources/actions/runs/45181279917) 从原始 CNzh BDLI 验证 224 个 LBLI 区段，**Native runtime 仍 NOT_CAPTURED**。两项都不把现有源身份重复加 1。详见 [[19-Real-BFRES-GLB-R19-Replay]]、[[20-BDLI-Native-Consumer-Capture-Gate]]。
 - **最新新增 R50–R62**：53 份原版图标逐源 JSON 共 **26,277** 行，经过[PR #60](https://github.com/969981/ACNH_Resources/pull/60) 和 [CI #45179415194](https://github.com/969981/ACNH_Resources/actions/runs/45179415194) 真实验证，**3,056** 条与旧账本重复，净增 **23,221**；[主分支发布 #45179663567](https://github.com/969981/ACNH_Resources/actions/runs/45179663567) 已完成。Model 已纳入 **35,411 / 60,166**。这属于历史原生 BRTI/PNG 证据，状态为 `partial`，没有新 GLB/Nintendo UI runtime 等价主张；详见 [[18-R50-R62-Item-Native-PNG-Source-SHA]]。
 - **R83–R84 真正原始 BCSV 字节**：2 + 3 份原始文件对照原仓 Git blob、SHA256、真实 Actions Artifact，合并后净增 **5**；本阶段 BCSV 源身份已有 **16 / 234**。详见 [[17-R83-R84-Original-BCSV-Byte-Proof]]。
 - R69–R72 已提交的 30 份原版图标逐源 JSON：5,445 条真实历史尝试记录，623 条已在原账本，按 PATH + SHA-256 + size 去重净增 **4,822**；Model 已纳入 **12,190 / 60,166**。真实 CI [#45176321178](https://github.com/969981/ACNH_Resources/actions/runs/45176321178) 与主分支持久化 [#45177061879](https://github.com/969981/ACNH_Resources/actions/runs/45177061879) 完成。原 PNG 单图记录为 `partial`，不代表 Native UI 绑定成功。详见 [[15-R69-R72-Image-Source-SHA-Recovery]]。
