@@ -9,6 +9,9 @@ on:
       - 'Scripts/test_acnh303_priority_model_bdli.py'
       - 'Scripts/acnh303_r69_r72_source_recovery.py'
       - 'Scripts/test_acnh303_r69_r72_source_recovery.py'
+      - 'Scripts/acnh303_r83_r84_source_recovery.py'
+      - 'Scripts/test_acnh303_r83_r84_source_recovery.py'
+      - 'docs/17-R83-R84-Original-BCSV-Byte-Proof.md'
       - 'docs/15-R69-R72-Image-Source-SHA-Recovery.md'
       - 'docs/13-Historical-SHA-Ledger-R41-R90.md'
       - '.github/workflows/acnh303-historical-sha-ledger.yml'
@@ -48,6 +51,11 @@ jobs:
             /UnPack/_meta/basic_last_manifest.json
             /UnPack/_meta/history_sha_merge/
             /assets/evidence/rom-completeness/native-layout-batches/
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/SpNpcParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
 
       - uses: actions/setup-python@v5
         with:
@@ -59,6 +67,7 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_r69_r72_source_recovery.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_r83_r84_source_recovery.py' -v
 
       - name: Recover R8 independent first-8 original BARS with published SHA256SUMS
         shell: bash
@@ -153,6 +162,38 @@ jobs:
             echo "R51_EVIDENCE=$persistent" >> "$GITHUB_ENV"
           fi
 
+      - name: Rehash authentic R83 and R84 original BCSV Actions artifacts against checked-out Git blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="UnPack/_meta/history_sha_merge/_inputs/r83_r84_original_bcsv.json"
+          if [[ -s "$report" ]]; then
+            python Scripts/acnh303_r83_r84_source_recovery.py verify-persisted \
+              --root . --report "$report"
+            echo "Existing byte-verified immutable R83/R84 report is current; authentic Artifacts may expire"
+          else
+            mkdir -p history-inputs/r83-original-bcsv history-inputs/r84-original-bcsv
+            gh run view 41470502711 -R "$GH_REPO" --json status,conclusion \
+              --jq 'select(.status=="completed" and .conclusion=="success") | .conclusion' |
+              grep -qx success
+            gh run view 41547199937 -R "$GH_REPO" --json status,conclusion \
+              --jq 'select(.status=="completed" and .conclusion=="success") | .conclusion' |
+              grep -qx success
+            gh run download 41470502711 -R "$GH_REPO" \
+              -n ACNH303_R83_Unmodified_Original_NPC_BCSV_And_Decoded_CSV \
+              -D history-inputs/r83-original-bcsv
+            gh run download 41547199937 -R "$GH_REPO" \
+              -n ACNH303_R84_ItemParam107_SourceRemake_Images_SQLite \
+              -D history-inputs/r84-original-bcsv
+            python Scripts/acnh303_r83_r84_source_recovery.py recover \
+              --root . \
+              --r83 history-inputs/r83-original-bcsv \
+              --r84 history-inputs/r84-original-bcsv \
+              --report "$report"
+            python Scripts/acnh303_r83_r84_source_recovery.py verify-persisted \
+              --root . --report "$report"
+          fi
+
       - name: Merge source PATH and SHA-256, preserve exact attempt histories
         run: |
           python Scripts/acnh303_history_sha_merge.py \
@@ -160,6 +201,7 @@ jobs:
             --r51-artifact "$R51_EVIDENCE" \
             --r8-bars-dir history-inputs/r8-bars \
             --r69-r72-dir assets/evidence/rom-completeness/native-layout-batches \
+            --r83-r84-report UnPack/_meta/history_sha_merge/_inputs/r83_r84_original_bcsv.json \
             --batches UnPack/_meta/batches \
             --basic-last UnPack/_meta/basic_last_manifest.json \
             --out UnPack/_meta/history_sha_merge \
@@ -177,6 +219,11 @@ jobs:
           assert r['original_git_tree_sources']==103400
           assert r['import_stats']['input_type_rows']['release_R8_BARS']==8
           assert r['import_stats']['input_type_rows']['committed_R69_R72_original_icon_sources']==5445
+          assert r['import_stats']['input_type_rows']['real_R83_R84_original_BCSV']==5
+          bcsv=r['source_provenance']['R83-R84-original-BCSV']
+          assert bcsv['source_count']==5
+          assert bcsv['native_runtime_evidence_captured'] is False
+          assert bcsv['source_sha256_and_git_blob_checked'] is True
           icon=r['source_provenance']['R69-R72-original-layout']
           assert icon['by_family']=={'ClosetIcon':5441,'FtrIcon':1,'GardeningIcon':3}
           assert icon['original_source_bytes_rehashed_in_current_ci'] is False
