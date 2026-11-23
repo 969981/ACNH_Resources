@@ -17,7 +17,14 @@ status: implementation
 - **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
 - 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
 
-## 最新主分支来源证据快照 · R69–R72 已补证（2026-11-23）
+## 最新验收快照 · R50–R62 及 R83–R84 已补证（2026-11-23）
+
+- [PR #59](https://github.com/969981/ACNH_Resources/pull/59)：真实下载 R83/R84 Artifacts，5 个 BCSV 原始字节、Git blob 和 SHA 复核，净增 5，阶段总量 16,096。
+- [PR #60](https://github.com/969981/ACNH_Resources/pull/60)：53 个历史原生图标批次共 26,277 条源记录、与之前来源去重净增 23,221；[CI #45179415194](https://github.com/969981/ACNH_Resources/actions/runs/45179415194) 与[主分支 #45179663567](https://github.com/969981/ACNH_Resources/actions/runs/45179663567) 均已通过。
+- 当前主分支来源身份 **39,317 / 103,400**，尚未纳入证据账本 **64,083**。Model **35,411 / 60,166**，尚缺 **24,755**；BDLI **44 / 36,708**，尚缺 **36,664**，**仍没有新增 BDLI Native 消费者证据**。
+- 历史原版 PNG 的一源一图像证据保守记 `partial`，不能假称完整 BFRES / GLB / FSKA / FMAA 或运行时纹理绑定已完成。详情见 [[17-R83-R84-Original-BCSV-Byte-Proof]]、[[18-R50-R62-Item-Native-PNG-Source-SHA]]。
+
+## 历史阶段快照 · R69–R72 已补证（2026-11-23）
 
 - [PR #57](https://github.com/969981/ACNH_Resources/pull/57) 经 [CI #45176321178](https://github.com/969981/ACNH_Resources/actions/runs/45176321178) 和[主分支发布 #45177061879](https://github.com/969981/ACNH_Resources/actions/runs/45177061879) 通过；30 份已提交 R69–R72 图标分片 JSON 含 5,445 条历史 Model 原始身份记录，去重后与此前 11,269 个路径重叠 623，**净增 4,822**。
 - 最新来源身份：**16,091 / 103,400** 已纳入逐源原始 SHA；**87,309** 目前未纳入，不等于失败。Model：**12,190 / 60,166**（仍缺 **47,976**）；BDLI：**44 / 36,708**（仍缺 **36,664**），本次 BDLI 未新增。
