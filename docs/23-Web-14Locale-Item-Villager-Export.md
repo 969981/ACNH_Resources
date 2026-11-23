@@ -52,12 +52,43 @@ status: ci-pending
 | `special_npc_db_v2.json` | 74 个特殊 NPC 参数行：单独保存、完整原始 hash、14 locale 结构，**未能直接匹配文本的原版名称为 NULL** |
 | `itemkind_db_v2.json` | 189 条原版类型规则、`MultiHoldMaxNum` 原始 s16、18 个已解码 ItemKind 静态操作 flags |
 | `recipe_db_v2.json` | 924 条原始 RecipeCraftParam 记录及全部原始 hashed 字段，不冒充已解明材料配方 |
-| `item_remake_db_v2.json` | 按原版 ID 分组的 ItemRemake 原始行、全部 hash 字段和原始行号，默认 Body/Fabric 业务意义待验证 |
+| `item_remake_db_v2.json` | 按原版 Hash ID 分组的 ItemRemake 全部原始行、原始 hash/行号及是否与 ItemParam 精确关联；R84 确认 **821 个真实物品 ID**关联，其他原始行继续留存、不能称为已关联物品 |
 | `item_raw107_full_v2.jsonl.gz` | 11,178 × 107 个原始 ItemParam 字段，逐行含原始 byte hex、行 SHA 和原始偏移，无损压缩、独立于网页列表，避免把 107 个原始 hash 列重复塞进每张 UI 卡片 |
 | `all_original_14locale_msbt_v2.jsonl.gz` | 可选 `--include-msbt-archive`，14 locale 原始 408,156 条 MSBT，保留 raw/plain、所有控制码相关字段 |
 | `web_export_manifest_v2.json` | 全部文件 SHA256、源数据库原始 SHA 与校验、精确/候选关联计数、Name 缺口、真假原版语义门禁 |
 
 所有现代 v2 文件都是独立新增文件，不应直接更名替换旧 `web_db_multi.json`。各功能前端应按 `id` 联表而不是 `id + recipe_id` 混合；`variations` 也是原生数组或 `null`，不再在 JSON 中嵌一个字符串。
+
+### 针对 Vue 首屏的轻量分片（推荐网站使用）
+
+本轮真实第一次导出发现研究用 `web_db_multi_v2.json` **51,556,420 B（约 51.6 MB）**，包含每条道具所有 14 locale 的完整文本来源证据；它适合离线研究、打包下载，**不适合网页首屏直接 fetch 全量**。
+
+更新脚本后同时输出：
+
+- `items_core_v2.json`：11,178 条道具的 ID、原始类、堆叠/静态操作标记、图片路径、价格与拾取的未知状态，**不重复装入 14 语言名称**；
+- `villagers_core_v2.json`：417 人的身份、生日、照片家族、已知原版参数；
+- `item_names_CNzh_v2.json` ... `item_names_USfr_v2.json`：14 个独立按 locale 的道具名称分片，每个 **11,178** 个 `{id,name,status}`；
+- `villager_names_CNzh_v2.json` ... `villager_names_USfr_v2.json`：14 个村民名称分片，每个 **417** 个 `{Label,name,status}`。
+
+网站应该先加载核心数组和当前选择语言的一个名称分片；只有切换语言时才按需获取对应文件，点击详情时再按 ID 查询已缓存的完整证据或后台 API，不要在卡片列表里直接渲染 107 个原始 hash 字段。
+
+Vue 数据加载参考（**仅示意，需要确认网站源仓库后再实际合并 UI**）：
+
+```ts
+const locale = 'CNzh'
+const base = '/data/acnh303/'
+const [items, names] = await Promise.all([
+  fetch(base + 'items_core_v2.json').then(r => r.json()),
+  fetch(base + `item_names_${locale}_v2.json`).then(r => r.json()),
+])
+const nameById = new Map(names.map((x: any) => [x.id, x.name]))
+const display = items.map((item: any) => ({
+  ...item,
+  displayName: nameById.get(item.id) ?? null,
+}))
+```
+
+此时 `max_stack=null`、`name=null` 都是“证据不足”，不等于堆叠 0 或不合法道具。旧站的 924 个 DIY 配方、旧变体字符串不应自动混入这个新源核心数组。
 
 ### 原版堆叠：至少 3 种不同情况
 
