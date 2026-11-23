@@ -16,6 +16,7 @@ status: active
 - [[02-Format-Catalog|文件格式、内容与转换]]
 - [[03-Unpack-Workflow|工具使用与批量解包]]
 - [[07-Incremental-Batches|增量分片和 SHA-256 验收]]
+- [[10-Open-Issues-Triage-2026-11-23|2026-11-23 · 24 个 Open Issue、依赖关系与验收优先级]]
 - [[08-Next-Wave-FMAA-AAL-BARS|四类扩容 / FMAA / AAL / BARS 新阶段]]
 - [[ACNH303_ROUND49_FMAA_RUNTIME_WRITE_AAL_CALL_RETURN|R49 FMAA ShaderParam 动态写入 / AAL BLR X8 取证]]
 - [[ACNH303_R50_ORIGINAL_ITEM_UI_MAPPING|R50 原版图片 ItemRemake ID / 其他 UI Layout 来源]]
