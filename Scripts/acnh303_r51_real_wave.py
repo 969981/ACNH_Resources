@@ -12,8 +12,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from acnh303_unified import NCA, digest, run_one, verify_one
-from acnh303_full_audit import git_blob_sha1, inventory_from_git
+from acnh303_unified import NCA, digest, run_one, verify_one, persist_ledger
+from acnh303_full_audit import git_blob_sha1, inventory_from_git, reconcile
 from acnh_formats import decompress, detect, parse_sarc
 from acnh303_bdli import parse_bdli
 from acnh303_bars_probe import inspect as bars_inspect
@@ -157,6 +157,14 @@ def run_pilot(root: Path, out: Path, *, strict: bool = True,
         categories[c]["sources"] += 1
         categories[c]["outputs"] += len(rec["outputs"])
         categories[c]["bytes"] += rec["source_bytes"]
+    rows_by_source = {row["source_path"]: row for row in results}
+    ledger = out / "_meta" / "unified" / "source_manifest.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    persist_ledger(ledger, rows_by_source)
+    coverage = reconcile(root, out, expected, rows_by_source, require_real_sources=True)
+    if (coverage["original_sources_byte_and_git_blob_verified"] != len(SAMPLES) or
+            coverage["problems_count"] != 0 or coverage["full_l0_record_coverage"]):
+        raise ValueError("pilot source corpus audit mismatch")
     report = {
         "schema": "acnh303-r51-original-source-pilot-v1",
         "game_version": "3.0.3",
@@ -167,6 +175,7 @@ def run_pilot(root: Path, out: Path, *, strict: bool = True,
         "distinct_output_paths": len(output_owners),
         "status_counts": dict(status),
         "categories": dict(sorted(categories.items())),
+        "git_tree_audit": {k: v for k, v in coverage.items() if k not in ("problems", "missing_source_examples", "unexpected_source_examples")},
         "rows": results,
         "native_gaps": native_gaps,
         "native_runtime_evidence_captured": False,
