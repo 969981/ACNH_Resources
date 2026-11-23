@@ -11,6 +11,9 @@ on:
       - 'Scripts/test_acnh303_r69_r72_source_recovery.py'
       - 'Scripts/acnh303_r83_r84_source_recovery.py'
       - 'Scripts/test_acnh303_r83_r84_source_recovery.py'
+      - 'Scripts/acnh303_r50_r62_icon_source_recovery.py'
+      - 'Scripts/test_acnh303_r50_r62_icon_source_recovery.py'
+      - 'docs/18-R50-R62-Item-Native-PNG-Source-SHA.md'
       - 'docs/17-R83-R84-Original-BCSV-Byte-Proof.md'
       - 'docs/15-R69-R72-Image-Source-SHA-Recovery.md'
       - 'docs/13-Historical-SHA-Ledger-R41-R90.md'
@@ -51,6 +54,7 @@ jobs:
             /UnPack/_meta/basic_last_manifest.json
             /UnPack/_meta/history_sha_merge/
             /assets/evidence/rom-completeness/native-layout-batches/
+            /assets/evidence/rom-items/batch-*.json
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/SpNpcParam.bcsv
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
@@ -68,6 +72,7 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_r69_r72_source_recovery.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_r83_r84_source_recovery.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_r50_r62_icon_source_recovery.py' -v
 
       - name: Recover R8 independent first-8 original BARS with published SHA256SUMS
         shell: bash
@@ -202,6 +207,7 @@ jobs:
             --r8-bars-dir history-inputs/r8-bars \
             --r69-r72-dir assets/evidence/rom-completeness/native-layout-batches \
             --r83-r84-report UnPack/_meta/history_sha_merge/_inputs/r83_r84_original_bcsv.json \
+            --r50-r62-dir assets/evidence/rom-items \
             --batches UnPack/_meta/batches \
             --basic-last UnPack/_meta/basic_last_manifest.json \
             --out UnPack/_meta/history_sha_merge \
@@ -220,6 +226,14 @@ jobs:
           assert r['import_stats']['input_type_rows']['release_R8_BARS']==8
           assert r['import_stats']['input_type_rows']['committed_R69_R72_original_icon_sources']==5445
           assert r['import_stats']['input_type_rows']['real_R83_R84_original_BCSV']==5
+          assert r['import_stats']['input_type_rows']['committed_R50_R62_native_icon_source_rows']==26277
+          icons=r['source_provenance']['R50-R62-native-item-PNG']
+          assert icons['original_reports']==53
+          assert icons['historical_per_source_rows']==26277
+          assert icons['original_source_bytes_rehashed_in_current_CI'] is False
+          assert icons['native_PNG_output_bytes_rehashed_in_current_CI'] is False
+          assert icons['full_BFRES_or_GLB_conversion_verified'] is False
+          assert icons['native_game_UI_semantics_verified'] is False
           bcsv=r['source_provenance']['R83-R84-original-BCSV']
           assert bcsv['source_count']==5
           assert bcsv['native_runtime_evidence_captured'] is False
