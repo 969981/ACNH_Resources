@@ -426,6 +426,8 @@ def read_early_releases(directory: Path, expected: dict[str, str],
                 raise ValueError(f"R{number}: duplicate source track {name} {kind}")
             kind_rows[name][kind] = (row, size)
 
+        if len(kind_rows) != expected_bars + expected_bdli:
+            raise ValueError(f"R{number}: unexpected unmatched source track or duplicate path")
         bars = {name: tracks for name, tracks in kind_rows.items() if BARS_BWAV in tracks}
         bdli = {name: tracks for name, tracks in kind_rows.items() if EARLY_BDLI in tracks}
         if len(bars) != expected_bars or len(bdli) != expected_bdli:
@@ -452,7 +454,8 @@ def read_early_releases(directory: Path, expected: dict[str, str],
             for member in amta.get("members", []):
                 if member.get("status") == "lossless_amta_extracted":
                     checked_sha(member["amta_sha256"], "AMTA member")
-            status = normalize_status(pcm.get("status", "no_output"), wav, layer="release")
+            status = ("failed" if pcm.get("status") == "parse_failed" else
+                      normalize_status(pcm.get("status", "no_output"), wav, layer="release"))
             attempts.append({
                 "source_path": name, "source_sha256": pcm["source_sha256"],
                 "source_bytes": nbytes, "source_git_blob_sha": None,
