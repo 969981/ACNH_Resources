@@ -398,6 +398,7 @@ def build(db: sqlite3.Connection, originals: dict, original_proof: dict,
         })
     remake_data=[
         {"item_id":ident,"rows":records,
+         "item_id_linked_to_ItemParam":ident in originals,
          "body_fabric_runtime_variant_semantics_verified":False}
         for ident,records in sorted(remake_by_id.items())
     ]
@@ -406,7 +407,9 @@ def build(db: sqlite3.Connection, originals: dict, original_proof: dict,
         "tables":{
             "item":len(items),"normal_villagers":len(npcs),"special_npcs":len(specials),
             "item_kind":len(categories),"recipes":len(recipe_data),
-            "item_remake_linked_ids":len(remake_data),
+            "item_remake_raw_unique_keys":len(remake_data),
+            "item_remake_linked_ids":sum(x["item_id_linked_to_ItemParam"] for x in remake_data),
+            "item_remake_orphan_raw_keys":sum(not x["item_id_linked_to_ItemParam"] for x in remake_data),
             "item_raw107":len(raw_rows),
         },
         "locale_item_rows":sum(len(v) for v in locale_item.values()),
@@ -435,6 +438,41 @@ def build(db: sqlite3.Connection, originals: dict, original_proof: dict,
     }
     extras={"raw107":raw_rows, "manifest":provenance, "legacy_recipes":old_recipe}
     return result,extras
+
+
+def frontend_shards(out:Path,items:list,npcs:list) -> dict:
+    """Small on-demand frontend files: one locale + base, not 51MB at startup."""
+    item_core_fields=(
+        "id","id_hex","label","ItemKind","original_kind","base_kind",
+        "base_kind_evidence","category","category_evidence","category_candidate",
+        "max_stack","stack_rule","kind_flags","kind_flag_evidence",
+        "can_pick_up","pickup_status","price","price_evidence",
+        "image_path","closet_image_path","image_selection_evidence",
+        "remake_original_row_count",
+    )
+    npc_core_fields=(
+        "Label","ResName","npc_type","source_index","birthday","birth_month",
+        "birth_day","unique_id","bromide_item_id","poster_item_id",
+        "npc_talk_type_raw","npc_color_raw","can_invite","can_adopt",
+        "personality","gender","species","native_images",
+    )
+    artifacts={}
+    for filename,rows,columns in (
+        ("items_core_v2.json",items,item_core_fields),
+        ("villagers_core_v2.json",npcs,npc_core_fields),
+    ):
+        compact=[{k:row[k] for k in columns} for row in rows]
+        artifacts[filename]={"rows":len(compact),"sha256":write_json(out/filename,compact)}
+    for locale in LOCALES:
+        for prefix,rows,key in (("item",items,"id"),("villager",npcs,"Label")):
+            filename=f"{prefix}_names_{locale}_v2.json"
+            compact=[{
+                key:row[key],
+                "name":row["names"][locale],
+                "status":row["name_evidence"][locale]["status"],
+            } for row in rows]
+            artifacts[filename]={"rows":len(compact),"sha256":write_json(out/filename,compact)}
+    return artifacts
 
 
 def export_archive(db:sqlite3.Connection, target:Path) -> tuple[int,str]:
@@ -485,6 +523,11 @@ def run(a) -> dict:
         artifacts={}
         for name,contents in result.items():
             artifacts[name]={"rows":len(contents),"sha256":write_json(out/name,contents)}
+        # The website loads core + one locale at a time; the 51MB item
+        # evidence archive remains downloadable for research, never a
+        # mandatory browser-first-load resource.
+        artifacts.update(frontend_shards(
+            out,result["web_db_multi_v2.json"],result["villager_db_multi_v2.json"]))
         # 107 original hash columns and exact raw byte slices are in a separate
         # *lossless* archive, not multiplied across every frontend item record.
         raw_path=out/"item_raw107_full_v2.jsonl.gz"
