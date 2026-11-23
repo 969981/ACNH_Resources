@@ -8,7 +8,7 @@ read/hash verified, never just 103,400 synthetic rows or optimistic counts.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 import csv
 import hashlib
 import json
@@ -63,10 +63,21 @@ def reconcile(root: Path, out: Path, expected: dict[str, str],
     verified_sources = 0
     verified_outputs = 0
     checked_records = 0
+    source_groups = defaultdict(lambda: {"original_sources": 0, "ledger_sources": 0,
+                                        "sha_verified_sources": 0, "verified_outputs": 0,
+                                        "status_counts": Counter()})
+    for source_name in expected:
+        source_groups[source_name.split("/", 1)[0]]["original_sources"] += 1
+    output_owners = {}
     for name in sorted(records):
         row = records[name]
-        statuses[row.get("status", "missing_status")] += 1
-        levels[row.get("evidence_level", "UNSPECIFIED")] += 1
+        status = row.get("status", "missing_status")
+        level = row.get("evidence_level", "UNSPECIFIED")
+        statuses[status] += 1
+        levels[level] += 1
+        group = source_groups[name.split("/", 1)[0]]
+        group["ledger_sources"] += 1
+        group["status_counts"][status] += 1
         if name not in expected:
             errors.append({"source": name, "kind": "not_in_original_git_tree"})
             continue
@@ -83,6 +94,7 @@ def reconcile(root: Path, out: Path, expected: dict[str, str],
                 errors.append({"source": name, "kind": "source_sha_git_blob_or_size_mismatch"})
             else:
                 verified_sources += 1
+                group["sha_verified_sources"] += 1
         elif require_real_sources:
             errors.append({"source": name, "kind": "original_source_not_checked_out"})
         else:
@@ -92,15 +104,34 @@ def reconcile(root: Path, out: Path, expected: dict[str, str],
             errors.append({"source": name, "kind": "false_converted_no_outputs"})
         if row.get("evidence_level") == "L3" and not row.get("outputs"):
             errors.append({"source": name, "kind": "false_l3_without_output"})
+        if status == "raw_extracted" and not row.get("outputs"):
+            errors.append({"source": name, "kind": "false_raw_extracted_without_outputs"})
+        if level == "L1" and status == "converted":
+            errors.append({"source": name, "kind": "false_l1_semantic_conversion"})
         for output in row.get("outputs", []):
             try:
-                if not clean_source(output["path"]).parts[0] == "1":
+                output_path = clean_source(output["path"])
+                if output_path.parts[0] != "1":
                     raise ValueError("unexpected output location outside UnPack/1")
+                folded_path = output_path.as_posix().casefold()
+                previous = output_owners.get(folded_path)
+                if previous is not None and previous != name:
+                    errors.append({"source": name, "kind": "cross_source_output_collision",
+                                   "output": output["path"], "previous_owner": previous})
+                output_owners[folded_path] = name
                 checked_output(out, output)
                 verified_outputs += 1
+                group["verified_outputs"] += 1
             except (ValueError, OSError, KeyError):
                 errors.append({"source": name, "kind": "output_missing_or_checksum_mismatch",
                                "output": output.get("path", "")})
+    by_category = {}
+    for category, group in sorted(source_groups.items()):
+        by_category[category] = {
+            **{k: v for k, v in group.items() if k != "status_counts"},
+            "missing_source_ledger_count": group["original_sources"] - group["ledger_sources"],
+            "status_counts": dict(group["status_counts"]),
+        }
     result = {
         "schema": "acnh303-full-source-git-audit-v1",
         "definition": "L0 Git inventory, L1 raw, L2 structure, L3 real media; never infer L4 native parity",
@@ -111,6 +142,7 @@ def reconcile(root: Path, out: Path, expected: dict[str, str],
         "unknown_ledger_source_paths": len(extra),
         "original_sources_byte_and_git_blob_verified": verified_sources,
         "verified_output_files": verified_outputs,
+        "by_category": by_category,
         "status_counts": dict(statuses),
         "evidence_level_counts": dict(levels),
         "problems_count": len(errors),
