@@ -10,7 +10,7 @@ from acnh303_history_sha_merge import (
     RELEASES, batch_attempts, deduplicate, normalize_status,
     release_sha, read_releases, aggregate, write_results, canonical,
     r51_attempts, read_r19_baseline, read_early_releases,
-    BARS_BWAV, BARS_AMTA, EARLY_BDLI, read_priority_wave,
+    BARS_BWAV, BARS_AMTA, EARLY_BDLI, read_priority_wave, read_r8_bars,
 )
 
 
@@ -238,6 +238,72 @@ class HistoricalLedgerTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 read_priority_wave(file, expected)
 
+
+    def test_r8_original_eight_bars_release_recovered_but_not_native(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            originals = []
+            expected = {}
+            for idx in range(8):
+                path = f"Sound/Resource/R8_Original_{idx}.bars"
+                expected[path] = "a" * 40
+                count = 6 if idx < 7 else 0
+                members = [
+                    {"status": "converted_pcm_wav",
+                     "source_member_sha256": "b" * 64,
+                     "output_sha256": "c" * 64,
+                     "output_size": 80, "validation": {"frames": 4}}
+                    for _ in range(count)
+                ]
+                originals.append({
+                    "source_path": path, "source_sha256": hashlib.sha256(path.encode()).hexdigest(),
+                    "original_bytes": 100 + idx, "members": members,
+                    "status": "partial" if count else "no_decodable_BWAV",
+                    "decoded_wav_count": count,
+                })
+            report = {"schema": "acnh303-BARS-BWAV-real-PCM-v1",
+                      "tested_bars_originals": 8,
+                      "counts": {"validated_pcm_wav": 42, "sources_with_pcm": 7},
+                      "records": originals}
+            target = folder / "bars_audio_report.json"
+            sums = folder / "SHA256SUMS.txt"
+
+            def write():
+                target.write_text(json.dumps(report), encoding="utf8")
+                sums.write_text(hashlib.sha256(target.read_bytes()).hexdigest()
+                                + "  bars_audio_report.json\n", encoding="utf8")
+
+            write()
+            attempts, provenance = read_r8_bars(folder, expected)
+            self.assertEqual(len(attempts), 8)
+            self.assertEqual(provenance["reported_valid_pcm_wav"], 42)
+            self.assertFalse(provenance["native_runtime_verified"])
+            self.assertEqual(sum(row["status"] == "partial" for row in attempts), 7)
+            self.assertEqual(attempts[-1]["status"], "no_output")
+            merged, _ = deduplicate(expected, attempts + [dict(attempts[0], source="committed-batch:prior")])
+            self.assertEqual(len(merged), 8)
+            self.assertEqual(len(merged[attempts[0]["source_path"]]["history"]), 2)
+
+            report["records"][0]["source_sha256"] = "invalid"
+            write()
+            with self.assertRaises(ValueError):
+                read_r8_bars(folder, expected)
+            report["records"][0]["source_sha256"] = hashlib.sha256(
+                originals[0]["source_path"].encode()).hexdigest()
+            report["records"][0]["members"][0]["output_sha256"] = "missing"
+            write()
+            with self.assertRaises(ValueError):
+                read_r8_bars(folder, expected)
+            report["records"][0]["members"][0]["output_sha256"] = "c" * 64
+            report["records"][1]["source_path"] = report["records"][0]["source_path"]
+            write()
+            with self.assertRaises(ValueError):
+                read_r8_bars(folder, expected)
+            report["records"][1]["source_path"] = "Sound/Resource/R8_Original_1.bars"
+            write()
+            target.write_bytes(target.read_bytes() + b"tamper")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                read_r8_bars(folder, expected)
 
     def test_r19_paired_pcm_amta_never_counts_twice(self):
         from acnh303_history_sha_merge import BARS_BWAV, BARS_AMTA
