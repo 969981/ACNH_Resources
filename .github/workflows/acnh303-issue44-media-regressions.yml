@@ -1,0 +1,38 @@
+name: ACNH 3.0.3 | Issue 44 media fail-closed regressions
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_media_l3.py'
+      - 'Scripts/acnh303_media_batch.py'
+      - 'Scripts/mirror_unpack.py'
+      - 'Scripts/test_acnh303_media_*.py'
+      - 'Scripts/test_mirror_unpack_failure_logs.py'
+      - '.github/workflows/acnh303-issue44-media-regressions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  media-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            /Scripts/
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install decoder test dependencies
+        run: python -m pip install -r Scripts/requirements-media.txt
+      - name: Static syntax check
+        run: python -m compileall -q Scripts
+      - name: Source-only fail-closed regression suite
+        run: |
+          python -m unittest discover -s Scripts -p 'test_acnh303_media_*.py' -v
+          python -m unittest discover -s Scripts -p 'test_mirror_unpack_failure_logs.py' -v

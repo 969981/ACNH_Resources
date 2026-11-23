@@ -149,6 +149,45 @@ def is_texture_only_switch_fres(data: bytes) -> bool:
             and b"FVTX" not in data and b"BNTX" in data)
 
 
+def classify_animation_only_fres_candidate(data: bytes) -> dict | None:
+    """Identify a meshless Switch FRES with *candidate* animation headers.
+
+    This is intentionally a conservative media-routing gate, not an FSKA/FMAA
+    parser. Magic occurrences are evidence locations, not decoded animations.
+    """
+    if len(data) < 0x100 or data[:4] != b"FRES":
+        return None
+    bom = struct.unpack_from("<H", data, 0x0C)[0]
+    version = struct.unpack_from("<I", data, 8)[0]
+    first_model = struct.unpack_from("<Q", data, 0x28)[0]
+    if (bom != 0xFEFF or (version >> 16) < 9 or first_model != 0
+            or any(x in data for x in (b"FMDL", b"FSHP", b"FVTX", b"BNTX"))):
+        return None
+
+    candidates = []
+    for magic in (b"FSKA", b"FMAA"):
+        start = 0
+        while True:
+            at = data.find(magic, start)
+            if at < 0:
+                break
+            # Offset and minimum bounded header evidence only.
+            if at % 0x10 == 0 and at + 0x20 <= len(data):
+                candidates.append({"magic": magic.decode("ascii"), "offset": at})
+            start = at + len(magic)
+    if not candidates:
+        return None
+    return {
+        "classification": "NON_GEOMETRY_ANIMATION_CANDIDATE",
+        "switch_fres_bom": hex(bom),
+        "fres_version": hex(version),
+        "first_model_pointer": first_model,
+        "candidate_magic_offsets": sorted(candidates, key=lambda x: x["offset"]),
+        "semantic_evidence": "HEADER_AND_BOUNDED_MAGIC_ONLY",
+        "limitations": "No verified animation dictionary, tracks, material binding, or game runtime parity",
+    }
+
+
 def extract_embedded_bntx(data: bytes):
     """Return bounds-checked, self-contained BNTX buffers inside a meshless FRES.
 
@@ -208,6 +247,13 @@ def find_leaf(data: bytes, name: str, depth: int = 0):
                    "origin_type": "texture_only_fres_bntx",
                    "embedded_bntx_offset": offset, "data": payload}
         return
+    if media == "bfres":
+        candidate = classify_animation_only_fres_candidate(data)
+        if candidate is not None:
+            yield {"source_member": name, "format": "bfres",
+                   "origin_type": "non_geometry_fres_animation_candidate",
+                   "native_evidence": candidate, "data": data}
+            return
     yield {"source_member": name, "format": media or kind, "data": data}
 
 
@@ -255,7 +301,12 @@ def main():
             kind = leaf["format"]
             record = {**leaf, "input_bytes": len(data), "input_sha256": hexdigest(data),
                       "status": "partial"}
-            if kind in binaries:
+            if leaf.get("origin_type") == "non_geometry_fres_animation_candidate":
+                # A material/skeletal-animation resource is not failed GLB geometry.
+                # Preserve original SHA and bounded native evidence, never fake a GLB.
+                record["status"] = "unsupported"
+                record["reason"] = "No mesh or texture target; native animation semantic decode remains unverified"
+            elif kind in binaries:
                 member = member_path(leaf["source_member"])
                 # Workstation path is only a temp staging file, not a Git artifact.
                 staging = workspace / ("leaf_%05d" % index + "." + kind)
@@ -264,15 +315,18 @@ def main():
                 leaf_name = "".join(ch if ch.isalnum() or ch in "_-" else "_" for ch in leaf_name)[:48]
                 outpath = dest / ("leaf_%05d-%s" % (index, leaf_name) + EXT[kind])
                 bin_name = binaries[kind]
+                record["converter_binary"] = bin_name
+                proc = None
                 try:
                     proc = subprocess.run(command(kind, bin_name, staging, outpath),
-                                          capture_output=True, text=True, timeout=180,
+                                          capture_output=True, timeout=180,
                                           check=False)
                     record["tool_exit_code"] = proc.returncode
-                    record["tool_stdout_tail"] = proc.stdout[-1500:]
-                    record["tool_stderr_tail"] = proc.stderr[-1500:]
+                    record["tool_stdout_tail"] = (proc.stdout or b"").decode("utf-8", "replace")[-1500:]
+                    record["tool_stderr_tail"] = (proc.stderr or b"").decode("utf-8", "replace")[-1500:]
                     if proc.returncode != 0:
-                        record["error"] = "external converter error"
+                        record["error_class"] = "tool_nonzero_exit"
+                        record["error"] = f"external converter error: nonzero exit code {proc.returncode}"
                     else:
                         # Multi-image BNTX exports leaf_N.img000.png,
                         # leaf_N.img001.png ... rather than the requested
@@ -282,6 +336,7 @@ def main():
                             outputs += sorted(dest.glob(outpath.stem + ".*.png"))
                         outputs = list(dict.fromkeys(outputs))
                         if not outputs:
+                            record["error_class"] = "tool_zero_exit_no_output"
                             record["error"] = "external converter returned success but no output file"
                         else:
                             validated = []
@@ -304,8 +359,28 @@ def main():
                                 record["output_bytes"] = validated[0]["size_bytes"]
                                 record["output_sha256"] = validated[0]["sha256"]
                 except (ValueError, OSError, subprocess.TimeoutExpired, wave.Error) as exc:
+                    record["error_class"] = (
+                        "tool_timeout" if isinstance(exc, subprocess.TimeoutExpired)
+                        else "tool_missing" if isinstance(exc, FileNotFoundError)
+                        else "output_validation_or_tool_error"
+                    )
                     record["error"] = f"{type(exc).__name__}: {exc}"
                 if record["status"] != "converted":
+                    # Keep complete exact converter stdout/stderr for reproducing
+                    # failures; concise tails and SHA/relative paths remain in JSON.
+                    if proc is not None:
+                        for stream_name in ("stdout", "stderr"):
+                            raw_log = getattr(proc, stream_name) or b""
+                            if isinstance(raw_log, str):
+                                raw_log = raw_log.encode("utf-8")
+                            log_path = dest / "_tool_logs" / f"leaf_{index:05d}.{stream_name}.log"
+                            log_path.parent.mkdir(parents=True, exist_ok=True)
+                            log_path.write_bytes(raw_log)
+                            record[f"tool_{stream_name}_log"] = {
+                                "path": log_path.relative_to(root).as_posix(),
+                                "size_bytes": len(raw_log),
+                                "sha256": hexdigest(raw_log),
+                            }
                     for generated in [outpath, *dest.glob(outpath.stem + ".*.png")]:
                         if generated.exists():
                             generated.unlink()
