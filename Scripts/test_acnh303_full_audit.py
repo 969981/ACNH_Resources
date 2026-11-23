@@ -94,5 +94,33 @@ class WholeTreeGateTests(unittest.TestCase):
                           [x["kind"] for x in report["problems"]])
 
 
+    def test_two_sources_cannot_share_one_output_path_even_if_sha_matches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._repo(root)
+            expected = inventory_from_git(root)
+            out = root / "UnPack"
+            shared = out / "1" / "same.json"
+            shared.parent.mkdir(parents=True)
+            shared.write_bytes(b"same")
+            item = {"path": "1/same.json", "sha256": hashlib.sha256(b"same").hexdigest(),
+                    "size_bytes": 4}
+            data = {
+                "Stage/house.byml": BYML,
+                "System/lp_resource.Nin_NX_NVN.szs": YAZ0,
+            }
+            rows = {
+                k: {"source_path": k, "source_sha256": hashlib.sha256(v).hexdigest(),
+                    "source_bytes": len(v), "status": "partial",
+                    "evidence_level": "L1", "outputs": [dict(item)]}
+                for k, v in data.items()
+            }
+            report = reconcile(root, out, expected, rows, require_real_sources=True)
+            self.assertEqual(report["original_sources_byte_and_git_blob_verified"], 2)
+            self.assertEqual(report["by_category"]["Stage"]["ledger_sources"], 1)
+            self.assertIn("cross_source_output_collision", [x["kind"] for x in report["problems"]])
+            self.assertFalse(report["strict_gate_pass"])
+
+
 if __name__ == "__main__":
     unittest.main()
