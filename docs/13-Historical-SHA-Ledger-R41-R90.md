@@ -8,13 +8,15 @@ status: active
 
 ## 当前真实已通过的逐源账本快照 · 2026-11-23
 
-**11,269 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。92,131 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
+**16,091 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。87,309 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
 
+- R69–R72 已提交的 30 份原版图标逐源 JSON：5,445 条真实历史尝试记录，623 条已在原账本，按 PATH + SHA-256 + size 去重净增 **4,822**；Model 已纳入 **12,190 / 60,166**。真实 CI [#45176321178](https://github.com/969981/ACNH_Resources/actions/runs/45176321178) 与主分支持久化 [#45177061879](https://github.com/969981/ACNH_Resources/actions/runs/45177061879) 完成。原 PNG 单图记录为 `partial`，不代表 Native UI 绑定成功。详见 [[15-R69-R72-Image-Source-SHA-Recovery]]。
+- R8 普通媒体累计 1,112 条已由 [PR #58](https://github.com/969981/ACNH_Resources/pull/58) 独立对账并合并：实际 Release SHA 校验、与 R19 及旧账本逐源身份 **1,112 / 1,112** 完全重叠，净增 **0**；详见 [[16-R8-R19-Cumulative-Media-Reconciliation]]。
 - R8 首批 BARS Release：8 个原始源（7 个有合格历史 WAV 记录、共 42 WAV），与历史账本去重净增 **7** 条；1 条源身份重叠，重试只保留历史证据。[R8 源恢复 PR #56](https://github.com/969981/ACNH_Resources/pull/56) / [主分支真实验收 #45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919)。R8 普通媒体累计 1,112 条来源尚未单独导入验证，不能直接相加。
 - 早期 R9/R10/R14/R16/R17/R18 Release：实际验证 340 个源身份（BARS 308 + BDLI 32），去重后对原账本**净增 336**。[CI #45140100607](https://github.com/969981/ACNH_Resources/actions/runs/45140100607)
 - Model/BDLI 静态优先抽样：实际检出并核对原始 Git blob / SHA 的 Model 12 + BDLI 12，入账后再增 24 条，**不计 L3 converted**。[CI #45141584240](https://github.com/969981/ACNH_Resources/actions/runs/45141584240) / [历史重算 #45141648523](https://github.com/969981/ACNH_Resources/actions/runs/45141648523)
-- 最新 Model 已纳入 7,368 / 60,166；BDLI 已纳入 44 / 36,708。R8 普通媒体累计逐源对账、R45–R90 专用原始文件日志仍需验证，不能使用旧汇总值补齐。
-- 下文若出现 10,902/92,498 或 11,238/92,162，属于**对应历史时刻的阶段快照**，请以主分支 `UnPack/_meta/history_sha_merge/coverage.json` 为当前权威数。
+- 最新 Model 已纳入 **12,190 / 60,166**，仍缺 **47,976**；BDLI **44 / 36,708**，仍缺 **36,664**；Sound **2,842 / 2,848**，仍缺 **6**。R8 普通媒体累计对账已闭合；R45–R90 其余专项原始文件日志仍需持续验证，不能使用旧汇总值补齐。
+- 下文若出现 10,902/92,498、11,238/92,162 或 11,269/92,131，属于**对应历史时刻的阶段快照**，请以主分支 `UnPack/_meta/history_sha_merge/coverage.json` 为当前权威数。
 
 
 > [!important] 证据不是完成率
