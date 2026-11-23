@@ -4,6 +4,7 @@ on:
     paths:
       - 'Scripts/acnh303_r51_real_wave.py'
       - 'Scripts/test_acnh303_r51_real_wave.py'
+      - 'Scripts/requirements-native.txt'
       - 'Scripts/acnh303_full_audit.py'
       - '.github/workflows/acnh303-r51-real-wave.yml'
       - 'docs/12-R51-Real-Wave-Gaps.md'
@@ -45,7 +46,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install parser requirements
-        run: python -m pip install -r Scripts/requirements-media.txt
+        run: python -m pip install -r Scripts/requirements-native.txt
       - name: Preflight and negative tests
         run: |
           python -m compileall -q Scripts
