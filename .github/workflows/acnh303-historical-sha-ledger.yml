@@ -65,11 +65,11 @@ jobs:
           18 acnh303-r18-bfres-native-20261014 bars_source_manifest.jsonl.gz
           EOF
           while read -r number tag manifest; do
-            mkdir -p "history-inputs/r\${number}"
-            gh release download "$tag" -R "$GH_REPO" -D "history-inputs/r\${number}" \
+            mkdir -p "history-inputs/r${number}"
+            gh release download "$tag" -R "$GH_REPO" -D "history-inputs/r${number}" \
               -p "$manifest" -p SHA256SUMS.txt
-            test -s "history-inputs/r\${number}/$manifest"
-            test -s "history-inputs/r\${number}/SHA256SUMS.txt"
+            test -s "history-inputs/r${number}/$manifest"
+            test -s "history-inputs/r${number}/SHA256SUMS.txt"
           done < early-releases.tsv
 
       - name: Fetch real R19 cumulative media and paired original BARS manifests
