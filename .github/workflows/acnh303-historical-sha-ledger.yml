@@ -51,6 +51,20 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
 
+      - name: Fetch real R19 cumulative media and paired original BARS manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p history-inputs/r19
+          gh release download acnh303-r19-animation-native-20261014 \
+            -R "$GH_REPO" -D history-inputs/r19 \
+            -p 'media_source_manifest.jsonl.gz' \
+            -p 'bars_source_manifest.jsonl.gz' \
+            -p 'SHA256SUMS.txt'
+          test -s history-inputs/r19/media_source_manifest.jsonl.gz
+          test -s history-inputs/r19/bars_source_manifest.jsonl.gz
+          test -s history-inputs/r19/SHA256SUMS.txt
+
       - name: Download actual R27-R36 and R41-R44 published per-source Release deltas
         shell: bash
         run: |
@@ -111,6 +125,7 @@ jobs:
           d=Path('UnPack/_meta/history_sha_merge')
           r=json.loads((d/'coverage.json').read_text('utf8'))
           assert r['original_git_tree_sources']==103400
+          assert r['import_stats']['input_type_rows']['release_R19_cumulative']==3638
           assert r['import_stats']['input_type_rows']['release_R27_R44']==7196
           assert r['import_stats']['input_type_rows']['r51_real_source_ci']==16
           assert r['imported_unique_original_sources']<=103400
@@ -158,7 +173,7 @@ jobs:
             echo "No changes to historical SHA evidence ledger"
             exit 0
           fi
-          git commit -m "data(acnh303): audited R27-R44 release and R51 historical SHA ledger"
+          git commit -m "data(acnh303): audited R19/R27-R44 release and R51 historical SHA ledger"
           git fetch origin 3.0.3_Unpack
           git rebase origin/3.0.3_Unpack
           git push origin HEAD:3.0.3_Unpack
