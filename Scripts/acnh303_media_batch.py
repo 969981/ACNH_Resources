@@ -24,6 +24,15 @@ def write_json(path: Path, obj):
     path.write_text(json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
 
 
+def find_media_decoder(root: Path) -> Path:
+    """Handle the canonical Scripts/ tree and older scripts/ checkout layout."""
+    for folder in ("Scripts", "scripts"):
+        script = root / folder / "acnh303_media_l3.py"
+        if script.is_file():
+            return script
+    raise FileNotFoundError("ACNH media decoder missing under Scripts/ or scripts/")
+
+
 def main():
     a = argparse.ArgumentParser(description=__doc__)
     a.add_argument("--root", type=Path, default=Path("."))
@@ -47,6 +56,7 @@ def main():
         a.error("media shard must explicitly select the correct source format suffix")
     expected_prefix = f"{NCA}/1/{group}/"
     target = TARGET_FORMAT[group]
+    media_decoder = find_media_decoder(root)
     results = []
     for num, path in enumerate(files, 1):
         source = (root / path).resolve()
@@ -56,7 +66,7 @@ def main():
         relative = path[len(f"{NCA}/1/"):]
         blob = source.read_bytes()
         digest = hashlib.sha256(blob).hexdigest()
-        cmd = [sys.executable, str(root / "scripts/acnh303_media_l3.py"),
+        cmd = [sys.executable, str(media_decoder),
                "--root", str(root), "--source", relative, "--out", str(args.out),
                "--tool-wmdlt", args.tool_wmdlt, "--tool-wimgt", args.tool_wimgt,
                "--tool-vgmstream", args.tool_vgmstream, "--require", target]
@@ -72,18 +82,23 @@ def main():
             model_textures = group == "Model" and any(
                 m.get("origin_type") == "texture_only_fres_bntx"
                 for m in meta["members"])
+            model_animation_candidate = group == "Model" and any(
+                m.get("origin_type") == "non_geometry_fres_animation_candidate"
+                for m in meta["members"])
             hits = [m for m in meta["members"]
                     if m["status"] == "converted" and (
                         m["format"] == target or
                         (model_textures and m["format"] == "bntx"
                          and m.get("origin_type") == "texture_only_fres_bntx"))]
             result["source_media_class"] = (
-                "texture_only_fres_bntx" if model_textures
+                "non_geometry_fres_animation_candidate" if model_animation_candidate
+                else "texture_only_fres_bntx" if model_textures
                 else "model_geometry_bfres" if group == "Model"
                 else "layout_bntx" if group == "Layout" else "sound_bwav")
             result["validated_outputs"] = [item for m in hits for item in m.get("outputs", [])]
             result["parser_errors"] = [
-                {"member": m["source_member"], "error": m["error"]}
+                {"member": m["source_member"], "error": m["error"],
+                 "error_class": m.get("error_class")}
                 for m in meta["members"] if "error" in m
             ]
             # This is **media conversion coverage**, NOT 'all leaf types converted'.
