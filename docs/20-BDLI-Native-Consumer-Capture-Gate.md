@@ -2,11 +2,18 @@
 title: ACNH 3.0.3 · BDLI Native 消费者取证门禁与 GDB 只读观测
 aliases: [BDLI Native Consumer Evidence Gate, LBLI Runtime Capture]
 tags: [ACNH, 3.0.3, BDLI, LBLI, Native, GDB, SHA256, provenance]
-status: ci-pending
+status: static-source-verified-native-not-captured
 ---
 # BDLI · 静态 LBLI 与原版消费者不能混同
 
 关联 [[12-R51-Real-Wave-Gaps]]、[[14-Model-BDLI-Real-Original-Wave]]、[[13-Historical-SHA-Ledger-R41-R90]]。
+
+## 本轮真实 CI 结果 · 2026-11-23
+
+- [PR #62](https://github.com/969981/ACNH_Resources/pull/62) 已合并，[Actions #45181279917](https://github.com/969981/ACNH_Resources/actions/runs/45181279917) 成功并发布原始源与 Native 缺口报告。
+- 实际读取 `BDLI/String/CNzh/STR_CategoryName.bdli.zs`：**3,118 原始字节**，压缩源 SHA-256 为 `77fd5c37b4d4a069b98343c2f08d31275da9e52dfc24cbe0941c967c24e1572e`；Git blob 验证通过。
+- 原版解压后有 **224 个 LBLI 区段**，严格校验 BDLI v2 目录/边界/区段 SHA。本轮现场没有真实游戏 GDB 会话，实际 CI 强制生成 `native_status=NOT_CAPTURED`、`native_runtime_parity_verified=false`。
+- 回归测试已阻止伪造 Native 结果、混合 Build/Session、错误 PC/RVA、缺失寄存器等。仍需真实游戏消费者链路才能升级。
 
 ## 真源现状
 
