@@ -160,6 +160,92 @@ def read_releases(root: Path, expected: dict[str, str]) -> tuple[list[dict], dic
     return attempts, assets
 
 
+R8_BARS_TAG = "acnh303-bars-first8-42wav-20261014"
+R8_BARS_SCHEMA = "acnh303-BARS-BWAV-real-PCM-v1"
+
+
+def read_r8_bars(directory: Path, expected: dict[str, str]) -> tuple[list[dict], dict]:
+    """Recover eight independent R8 BARS originals from the published report.
+
+    Validate the downloaded report with its release SHA256SUMS, source path,
+    original digest/size, native member hashes and PCM output evidence.
+    This remains a published historical claim, NOT a current ROM-byte rehash
+    or Native AAL/AMTA runtime verification.
+    """
+    source = directory / "bars_audio_report.json"
+    sums = directory / "SHA256SUMS.txt"
+    report_sha = release_sha(source, sums)
+    report = json.loads(source.read_text(encoding="utf8"))
+    rows = report.get("records")
+    if (report.get("schema") != R8_BARS_SCHEMA
+            or report.get("tested_bars_originals") != 8
+            or not isinstance(rows, list) or len(rows) != 8):
+        raise ValueError("R8 BARS original report schema/count differs from published 8")
+    attempts, seen = [], set()
+    wav_total = 0
+    sources_with_wav = 0
+    for raw in rows:
+        name = canonical(raw["source_path"])
+        if (name in seen or name not in expected
+                or not name.startswith("Sound/") or not name.endswith(".bars")):
+            raise ValueError("R8 BARS original path missing/duplicate/invalid: " + name)
+        seen.add(name)
+        digest = checked_sha(raw["source_sha256"])
+        size = checked_size(raw["original_bytes"])
+        if size == 0:
+            raise ValueError("R8 zero-byte original BARS: " + name)
+        members = raw.get("members")
+        if not isinstance(members, list):
+            raise ValueError("R8 BARS missing real member array: " + name)
+        wav = 0
+        for member in members:
+            if member.get("status") == "converted_pcm_wav":
+                checked_sha(member["source_member_sha256"], "R8 original BWAV member")
+                checked_sha(member["output_sha256"], "R8 output PCM WAV")
+                if (checked_size(member["output_size"]) < 45
+                        or member.get("validation", {}).get("frames", 0) <= 0):
+                    raise ValueError("R8 invalid original BWAV/PCM evidence: " + name)
+                wav += 1
+        if raw.get("decoded_wav_count", wav) != wav:
+            raise ValueError("R8 declared WAV count differs from member proof: " + name)
+        raw_status = raw.get("status", "no_decodable_BWAV")
+        if raw_status not in ("converted", "partial", "no_decodable_BWAV", "parse_failed"):
+            raise ValueError("R8 unknown original source status: " + str(raw_status))
+        if wav and raw_status not in ("converted", "partial"):
+            raise ValueError("R8 positive WAV output with failed source status: " + name)
+        if raw_status == "converted" and any(
+                m.get("status") != "converted_pcm_wav" for m in members):
+            raise ValueError("R8 fully converted claim with unconverted members: " + name)
+        if wav:
+            sources_with_wav += 1
+        wav_total += wav
+        attempts.append({
+            "source_path": name, "source_sha256": digest,
+            "source_bytes": size, "source_git_blob_sha": None,
+            "category": "Sound",
+            "status": "failed" if raw_status == "parse_failed" else
+                      normalize_status(raw_status, wav, layer="release"),
+            "raw_status": raw_status, "source": "historic-R8-published-BARS",
+            "source_proof": "release_sha256sums_verified_source_sha_claim",
+            "output_proof": "published_BWAV_PCM_member_hashes_not_rehashed_now",
+            "claimed_verified_media_count": wav,
+            "evidence_level": "L3_ATTEMPT" if wav else "L2_NATIVE_STRUCTURE",
+        })
+    counts = report.get("counts")
+    if (wav_total != 42 or sources_with_wav != 7
+            or not isinstance(counts, dict)
+            or counts.get("validated_pcm_wav") != 42
+            or counts.get("sources_with_pcm") != 7):
+        raise ValueError("R8 independent 8-BARS/42-WAV published census mismatch")
+    return attempts, {
+        "tag": R8_BARS_TAG, "report": source.name, "sha256": report_sha,
+        "original_bars": len(attempts), "sources_with_pcm": sources_with_wav,
+        "reported_valid_pcm_wav": wav_total,
+        "new_sources_after_global_dedup": "compute_only_from_merged_ledger",
+        "native_runtime_verified": False,
+    }
+
+
 R19_RELEASE_TAG = "acnh303-r19-animation-native-20261014"
 BARS_BWAV = "acnh303-BARS-BWAV-real-PCM-v1"
 BARS_AMTA = "acnh303-bars-amta-lossless-v1"
@@ -707,7 +793,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
         "categories": dict(sorted(categories.items())),
         "unavailable_releases_or_per_source_manifests": [
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
-            "R9/R10/R14/R16/R17/R18 original BARS and R9 BDLI evidence are imported from verified Releases; R8 and other early per-source manifests remain unverified.",
+            "R8 BARS first-8 original report is imported only when its authenticated Release is provided; R8 core media cumulative and other early records remain a separate provenance task.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -753,6 +839,7 @@ def main() -> int:
     a.add_argument("--root", type=Path, default=Path("."))
     a.add_argument("--release-dir", type=Path, required=True)
     a.add_argument("--r51-artifact", type=Path, required=True)
+    a.add_argument("--r8-bars-dir", type=Path, help="Authenticated R8 BARS report plus SHA256SUMS (only if supplied)")
     a.add_argument("--batches", type=Path, default=Path("UnPack/_meta/batches"))
     a.add_argument("--basic-last", type=Path, default=Path("UnPack/_meta/basic_last_manifest.json"))
     a.add_argument("--out", type=Path, default=Path("UnPack/_meta/history_sha_merge"))
@@ -771,6 +858,9 @@ def main() -> int:
     release, assets = read_releases(args.release_dir.resolve(), expected)
     r19, r19_asset = read_r19_baseline(args.release_dir.resolve() / "r19", expected)
     assets["R19-cumulative"] = r19_asset
+    r8, r8_asset = (read_r8_bars((root / args.r8_bars_dir).resolve(), expected)
+                    if args.r8_bars_dir else ([], {"status": "not_supplied"}))
+    assets["R8-BARS"] = r8_asset
     early, early_assets = read_early_releases(args.release_dir.resolve(), expected)
     assets.update(early_assets)
     batch = batch_attempts((root / args.batches).resolve(), expected)
@@ -778,9 +868,10 @@ def main() -> int:
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
     priority, priority_asset = read_priority_wave((root / args.priority_wave).resolve(), expected)
     assets["Priority-Model-BDLI"] = priority_asset
-    attempts = r19 + early + release + batch + r51 + basic + priority
+    attempts = r19 + r8 + early + release + batch + r51 + basic + priority
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
+                                 "release_R8_BARS": len(r8),
                                  "release_R9_R18_early": len(early),
                                  "release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
