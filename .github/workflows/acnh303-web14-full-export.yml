@@ -1,0 +1,109 @@
+name: ACNH 3.0.3 | Full 14-locale web items and villagers export
+
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_web14_export.py'
+      - 'Scripts/test_acnh303_web14_export.py'
+      - '.github/workflows/acnh303-web14-full-export.yml'
+      - 'docs/23-Web-14Locale-Item-Villager-Export.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export-authentic-web14:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout immutable original R82/R84/Recipe sources
+        uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-database/r82-acnh303-villager-provenance.sqlite3.zst
+            /assets/evidence/rom-database/r82-npc-original-provenance-report.json
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemParam.json
+            /UnPack/1/Bcsv/ItemRemake.csv
+            /UnPack/1/Bcsv/RecipeCraftParam.csv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact zstandard source archive decoder
+        run: python -m pip install zstandard
+      - name: Test SHA gates, original field provenance and tri-state rules
+        run: |
+          python -m compileall -q Scripts/acnh303_web14_export.py
+          python -m unittest discover -s Scripts -p 'test_acnh303_web14_export.py' -v
+      - name: Export full native 14-locale website databases and all raw MSBT
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_web14_export.py \
+            --root . --out artifacts/acnh303-web14 \
+            --include-msbt-archive
+      - name: Independently verify full website JSON, original 107 fields and NULL behavior
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,gzip,hashlib,json
+          from pathlib import Path
+          base=Path('artifacts/acnh303-web14')
+          m=json.loads((base/'web_export_manifest_v2.json').read_text('utf8'))
+          assert m['schema']=='acnh303-14-locale-web-native-export-v1'
+          assert len(m['locales'])==14 and len(set(m['locales']))==14
+          counts=m['tables']
+          assert counts['item']==11178 and counts['normal_villagers']==417
+          assert counts['special_npcs']==74 and counts['item_kind']==189
+          assert counts['recipes']==924 and counts['item_raw107']==11178
+          assert m['locale_item_rows']==11178*14
+          assert m['locale_npc_rows']==491*14
+          assert not m['pickup_gameplay_verified']
+          assert not m['all_107_item_field_meanings_verified']
+          assert not m['stack_negative_sentinel_resolved']
+          assert not m['villager_adoption_or_personality_mapped_verified']
+          data={n:json.loads((base/n).read_text('utf8')) for n in (
+            'web_db_multi_v2.json','villager_db_multi_v2.json',
+            'special_npc_db_v2.json','recipe_db_v2.json','itemkind_db_v2.json')}
+          items=data['web_db_multi_v2.json']
+          residents=data['villager_db_multi_v2.json']
+          assert len({x['id'] for x in items})==11178
+          assert len({x['ResName'] for x in residents})==417
+          assert all(len(x['names'])==14 for x in items+residents)
+          assert all(x['can_pick_up'] is None and x['pickup_status']=='RUNTIME_UNVERIFIED' for x in items)
+          assert all(x['personality'] is None and x['can_adopt'] is None for x in residents)
+          assert all(x['variations'] is None for x in items)
+          assert all(x['max_stack'] is None for x in items if x['stack_rule']['kind_raw_s16']==-1)
+          assert m['item_locale_missing_names']>0
+          for name,asset in m['artifacts'].items():
+              original=base/name
+              assert original.is_file()
+              assert hashlib.sha256(original.read_bytes()).hexdigest()==asset['sha256']
+          with gzip.open(base/'item_raw107_full_v2.jsonl.gz','rt',encoding='utf8') as f:
+              count=0
+              for line in f:
+                  raw=json.loads(line)
+                  assert len(raw['fields'])==len(raw['raw_field_hex'])==107
+                  count+=1
+              assert count==11178
+          with gzip.open(base/'all_original_14locale_msbt_v2.jsonl.gz','rt',encoding='utf8') as f:
+              assert sum(1 for _ in f)==408156
+          print('VERIFIED web14: 11178 items, 417 villagers, 74 special NPC, 189 kinds, 924 recipes')
+          print('Native 14 locales, 107 original fields each, raw 408156 MSBT preserved')
+          print('NULL unknown pickup, signed special max stack and Native character semantics preserved')
+          PY
+      - name: Upload portable JSON/CSV source-preserving export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-full-14locale-website-database-${{ github.run_id }}
+          path: |
+            artifacts/acnh303-web14/
+          retention-days: 30
+          if-no-files-found: warn
