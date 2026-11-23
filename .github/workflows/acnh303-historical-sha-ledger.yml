@@ -7,6 +7,9 @@ on:
       - 'Scripts/test_acnh303_history_sha_merge.py'
       - 'Scripts/acnh303_priority_model_bdli.py'
       - 'Scripts/test_acnh303_priority_model_bdli.py'
+      - 'Scripts/acnh303_r69_r72_source_recovery.py'
+      - 'Scripts/test_acnh303_r69_r72_source_recovery.py'
+      - 'docs/15-R69-R72-Image-Source-SHA-Recovery.md'
       - 'docs/13-Historical-SHA-Ledger-R41-R90.md'
       - '.github/workflows/acnh303-historical-sha-ledger.yml'
   push:
@@ -44,6 +47,7 @@ jobs:
             /UnPack/_meta/batches/
             /UnPack/_meta/basic_last_manifest.json
             /UnPack/_meta/history_sha_merge/
+            /assets/evidence/rom-completeness/native-layout-batches/
 
       - uses: actions/setup-python@v5
         with:
@@ -54,6 +58,7 @@ jobs:
           python -m compileall -q Scripts
           python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_r69_r72_source_recovery.py' -v
 
       - name: Recover R8 independent first-8 original BARS with published SHA256SUMS
         shell: bash
@@ -154,6 +159,7 @@ jobs:
             --root . --release-dir history-inputs \
             --r51-artifact "$R51_EVIDENCE" \
             --r8-bars-dir history-inputs/r8-bars \
+            --r69-r72-dir assets/evidence/rom-completeness/native-layout-batches \
             --batches UnPack/_meta/batches \
             --basic-last UnPack/_meta/basic_last_manifest.json \
             --out UnPack/_meta/history_sha_merge \
@@ -170,6 +176,12 @@ jobs:
           r=json.loads((d/'coverage.json').read_text('utf8'))
           assert r['original_git_tree_sources']==103400
           assert r['import_stats']['input_type_rows']['release_R8_BARS']==8
+          assert r['import_stats']['input_type_rows']['committed_R69_R72_original_icon_sources']==5445
+          icon=r['source_provenance']['R69-R72-original-layout']
+          assert icon['by_family']=={'ClosetIcon':5441,'FtrIcon':1,'GardeningIcon':3}
+          assert icon['original_source_bytes_rehashed_in_current_ci'] is False
+          assert icon['native_runtime_semantics_verified'] is False
+          assert icon['whole_model_conversion_verified'] is False
           assert r['source_provenance']['R8-BARS']['reported_valid_pcm_wav']==42
           assert r['source_provenance']['R8-BARS']['native_runtime_verified'] is False
           assert r['import_stats']['input_type_rows']['release_R19_cumulative']==3638
@@ -196,7 +208,8 @@ jobs:
           print('Historical statuses:',r['imported_source_status_counts'])
           print('Remaining unrepresented ORIGINALS:',r['not_in_imported_per_source_evidence'])
           print('R8 8 original BARS report imported with verified published hashes, deduplicated globally')
-          print('R8 cumulative core media and R45-R90 per-source evidence remain separately unverified')
+          print('R8 cumulative core media and other R45-R90 per-source evidence remain separately unverified')
+          print('R69-R72 committed original icon source SHA reports:',5445,'attempt records; net new is decided by global path/SHA dedup')
           PY
 
       - name: Upload inspectable SHA-based report, ledger and next queue
