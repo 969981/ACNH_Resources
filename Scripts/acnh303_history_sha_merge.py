@@ -387,7 +387,7 @@ EARLY_RELEASES = {
     14: ("acnh303-r14-unpack128-20261014", "bars_source_manifest.jsonl.gz", 16, 0),
     16: ("acnh303-r16-final-bwav-l3-expand-20261014", "bars_source_manifest.jsonl.gz", 36, 0),
     17: ("acnh303-r17-model-layout-bars-20261014", "bars_source_manifest.jsonl.gz", 60, 0),
-    18: ("acnh303-r18-bfres-native-20261014", "bars_source_manifest.jsonl.gz", 60, 0),
+    18: ("acnh303-r18-bfres-native-20261014", "bars_source_manifest.jsonl.gz", 100, 0),
 }
 EARLY_BDLI = "acnh303-bdli-lbli-extracted-v1"
 
