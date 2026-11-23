@@ -2,11 +2,18 @@
 title: ACNH 3.0.3 · R50–R62 原版道具图标源 SHA 逐源恢复
 aliases: [R50–R62 Native Item Icon Provenance]
 tags: [ACNH, 3.0.3, Model, R50, R62, BNTX, PNG, SHA256, provenance]
-status: ci-pending
+status: ci-verified-and-merged
 ---
 # R50–R62 · 26,277 条原版图标历史逐源证据
 
 关联 [[13-Historical-SHA-Ledger-R41-R90]]、[[14-Model-BDLI-Real-Original-Wave]]、[[ACNH303_R60_R62_ALL_ORIGINAL_PNG_SOURCES]]、[[15-R69-R72-Image-Source-SHA-Recovery]]。
+
+## 真实 CI 验收结果 · 2026-11-23
+
+- [PR #60](https://github.com/969981/ACNH_Resources/pull/60) 已合并、[PR 验收 #45179415194](https://github.com/969981/ACNH_Resources/actions/runs/45179415194) 与[主分支发布 #45179663567](https://github.com/969981/ACNH_Resources/actions/runs/45179663567) 均成功。
+- 53 份真实历史来源清单共 **26,277 条**互异原始路径：`new_original_rom_icon` 为 **25,500**、`existing_cdn_preserved_native_separately` 为 **775**、`existing_identical_png` 为 **2**。
+- 与旧 16,096 源全局去重，其中 **3,056** 已经存在，净增 **23,221**；权威最新账本 **39,317 / 103,400**，尚未纳入 **64,083**，原始身份覆盖率 **38.02%**。
+- Model 现有身份覆盖 **35,411 / 60,166**，尚缺 **24,755**。本轮不重新解码所有 PNG，`converted` 的整源统计不因历史单张 PNG 直接增加；保留 `full_BFRES_or_GLB_conversion_verified=false` 和 `native_game_UI_semantics_verified=false`。
 
 ## 来源
 
