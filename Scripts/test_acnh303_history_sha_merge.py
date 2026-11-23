@@ -9,7 +9,7 @@ import unittest
 from acnh303_history_sha_merge import (
     RELEASES, batch_attempts, deduplicate, normalize_status,
     release_sha, read_releases, aggregate, write_results, canonical,
-    r51_attempts,
+    r51_attempts, read_r19_baseline,
 )
 
 
@@ -120,6 +120,54 @@ class HistoricalLedgerTests(unittest.TestCase):
             self.assertEqual({x["source_path"] for x in q["candidates"]},
                              {"Model/b.zs", "Model/c.zs"})
             self.assertEqual(len(list(gzip.open(p / "source_ledger.jsonl.gz", "rt"))), 2)
+
+    def test_r19_paired_pcm_amta_never_counts_twice(self):
+        from acnh303_history_sha_merge import BARS_BWAV, BARS_AMTA
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            media = []
+            for n in range(3558):
+                name = f"Model/r19_{n:05d}.zs"
+                media.append({"source_path": name, "sha256": hashlib.sha256(name.encode()).hexdigest(),
+                              "source_bytes": 123, "status": "no_target_leaf",
+                              "validated_outputs": []})
+            paired = []
+            for n in range(80):
+                name = f"Sound/Resource/r19_{n:05d}.bars"
+                original = hashlib.sha256(name.encode()).hexdigest()
+                paired.extend([
+                    {"source_path": name, "source_type": BARS_BWAV,
+                     "source_sha256": original, "original_bytes": 123,
+                     "status": "partial", "members": []},
+                    {"source_path": name, "source_type": BARS_AMTA,
+                     "source_sha256": original, "source_bytes": 123,
+                     "status": "partial", "members": []},
+                ])
+            sums = []
+            for filename, rows in (("media_source_manifest.jsonl.gz", media),
+                                   ("bars_source_manifest.jsonl.gz", paired)):
+                path = directory / filename
+                with gzip.open(path, "wt", encoding="utf8") as writer:
+                    for row in rows:
+                        writer.write(json.dumps(row) + "\\n")
+                sums.append(hashlib.sha256(path.read_bytes()).hexdigest() + "  " + filename)
+            (directory / "SHA256SUMS.txt").write_text("\\n".join(sums) + "\\n")
+            expected = {row["source_path"]: "a" * 40 for row in media + paired}
+            attempts, evidence = read_r19_baseline(directory, expected)
+            self.assertEqual(evidence["media_source_rows"], 3558)
+            self.assertEqual(evidence["bars_track_rows"], 160)
+            self.assertEqual(len(attempts), 3638)
+            self.assertEqual(sum(x["category"] == "Sound" for x in attempts), 80)
+            record = paired[1]
+            record["source_sha256"] = "f" * 64
+            path = directory / "bars_source_manifest.jsonl.gz"
+            with gzip.open(path, "wt", encoding="utf8") as writer:
+                for row in paired:
+                    writer.write(json.dumps(row) + "\\n")
+            sums[-1] = hashlib.sha256(path.read_bytes()).hexdigest() + "  bars_source_manifest.jsonl.gz"
+            (directory / "SHA256SUMS.txt").write_text("\\n".join(sums) + "\\n")
+            with self.assertRaisesRegex(ValueError, "dual-track original source sha mismatch"):
+                read_r19_baseline(directory, expected)
 
     def test_path_traversal_and_uncertified_github_blob_rejected(self):
         for raw in ("../Model/a.zs", "Model/./a.zs", "Model//a.zs", "C:/bad"):
