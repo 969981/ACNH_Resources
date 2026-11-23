@@ -842,6 +842,7 @@ def main() -> int:
     a.add_argument("--r51-artifact", type=Path, required=True)
     a.add_argument("--r8-bars-dir", type=Path, help="Authenticated R8 BARS report plus SHA256SUMS (only if supplied)")
     a.add_argument("--r69-r72-dir", type=Path, help="Committed R69-R72 original icon JSON shard manifests")
+    a.add_argument("--r83-r84-report", type=Path, help="Verified original R83/R84 Git and Actions BCSV byte evidence")
     a.add_argument("--batches", type=Path, default=Path("UnPack/_meta/batches"))
     a.add_argument("--basic-last", type=Path, default=Path("UnPack/_meta/basic_last_manifest.json"))
     a.add_argument("--out", type=Path, default=Path("UnPack/_meta/history_sha_merge"))
@@ -875,7 +876,11 @@ def main() -> int:
         (root / args.r69_r72_dir).resolve(), expected)
         if args.r69_r72_dir else ([], {"status": "not_supplied"}))
     assets["R69-R72-original-layout"] = image_provenance
-    attempts = r19 + r8 + early + release + batch + r51 + basic + priority + image_wave
+    from acnh303_r83_r84_source_recovery import parse_report
+    bcsv_wave, bcsv_provenance = (parse_report((root / args.r83_r84_report).resolve(), expected)
+        if args.r83_r84_report else ([], {"status": "not_supplied"}))
+    assets["R83-R84-original-BCSV"] = bcsv_provenance
+    attempts = r19 + r8 + early + release + batch + r51 + basic + priority + image_wave + bcsv_wave
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
                                  "release_R8_BARS": len(r8),
@@ -884,7 +889,8 @@ def main() -> int:
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
                                  "committed_basic": len(basic),
                                  "priority_original_model_bdli": len(priority),
-                                 "committed_R69_R72_original_icon_sources": len(image_wave)}
+                                 "committed_R69_R72_original_icon_sources": len(image_wave),
+                                 "real_R83_R84_original_BCSV": len(bcsv_wave)}
     report = aggregate(expected, records, stats, assets)
     write_results((root / args.out).resolve(), expected, records, report,
                   shard=args.shard, shards=args.shards, limit=args.limit,
