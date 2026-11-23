@@ -70,7 +70,7 @@ status: ci-pending
 - `item_names_CNzh_v2.json` ... `item_names_USfr_v2.json`：14 个独立按 locale 的道具名称分片，每个 **11,178** 个 `{id,name,status}`；
 - `villager_names_CNzh_v2.json` ... `villager_names_USfr_v2.json`：14 个村民名称分片，每个 **417** 个 `{Label,name,status}`。
 
-网站应该先加载核心数组和当前选择语言的一个名称分片；只有切换语言时才按需获取对应文件，点击详情时再按 ID 查询已缓存的完整证据或后台 API，不要在卡片列表里直接渲染 107 个原始 hash 字段。
+网站应该先加载核心数组、189 条共享的 `itemkind_db_v2.json` 规则和当前选择语言的一个名称分片；只有切换语言时才按需获取对应文件，点击详情时再按 ID 查询已缓存的完整证据或后台 API，不要在卡片列表里直接渲染 107 个原始 hash 字段。前端 `items_core_v2.json` 不再为每个道具重复保存 18 个 ItemKind 静态 flags；它们来自共享分类表，并且**仅在精确 ItemKind 关联时**才可以用于 UI 静态标签。村民缩略图核心库只保留每个图片家族的真实候选路径集合；有多个候选时不假定其中一个就是原版 UI 最终选择。
 
 Vue 数据加载参考（**仅示意，需要确认网站源仓库后再实际合并 UI**）：
 
