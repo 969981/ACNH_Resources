@@ -8,6 +8,27 @@ status: in-progress
 > [!warning] 严格证据边界
 > R51 工作流用 **GitHub 稀疏检出原始 3.0.3 文件**，核验源文件 Git blob SHA-1、实际原始字节 SHA-256，以及所有实际输出 SHA-256。它**不是** 103,400 源全量字节解码，也没有 GDB/NS 运行时验证。下面是验收方法与已提交的 CI 执行说明，实际结果以 Actions artifact 为准。
 
+## 真实 CI 实测结果（2026-11-23）
+
+- [GitHub Actions #45135260516](https://github.com/969981/ACNH_Resources/actions/runs/45135260516) **Success**，artifact `acnh303-r51-actual-source-pilot` 含原始来源的 SHA/转换账本及结构化缺口 JSON。
+- **16/16 原始源**真实读取，Git blob SHA-1 + 源文件 SHA-256 与 Git Tree 一致；**42 个输出文件**均按实际 bytes / SHA-256 复核，0 个跨来源输出重名冲突，`problems_count=0`。
+- 状态：**3 converted（BCSV L2）**、**11 raw_extracted（L1 原始成员）**、**2 partial（EventFlow 静态头/结构）**、**0 failed**；本轮没有 GLB/PNG/WAV 的新增 L3 转换主张。
+- 原版完整 Git Tree：**103,400**；本轮账本新增 **16**，其余 **103,384** 是 *本轮样本外*，不是指历史 R41–R90 全部尚未尝试。
+- `strict_gate_pass=false` 与 `native_runtime_evidence_captured=false` 是符合预期的真实结果。
+
+| 分类 | 真源数 | 已校验输出数 | 原始压缩/源字节 |
+|---|---:|---:|---:|
+| BCSV | 3 | 6 | 20,468 |
+| BDLI | 3 | 3 | 7,333 |
+| EventFlow | 2 | 2 | 1,944 |
+| Message | 2 | 10 | 80,959 |
+| Model | 2 | 2 | 48,150 |
+| Layout | 2 | 17 | 35,320 |
+| Sound | 2 | 2 | 7,108 |
+| **合计** | **16** | **42** | **201,282** |
+
+上述输出数是**真实落盘并校验 SHA 的文件数**，不是 42 个完全解读的游戏内容或媒体。
+
 ## 研究输入与目标
 
 本轮精确锁定 16 个真实 RomFS 文件；不接受自动追加未知来源，也不将历史来源计入本轮新增：
