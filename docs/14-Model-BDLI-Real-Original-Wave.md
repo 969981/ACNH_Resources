@@ -17,6 +17,14 @@ status: implementation
 - **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
 - 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
 
+## 最新主分支来源证据快照 · R69–R72 已补证（2026-11-23）
+
+- [PR #57](https://github.com/969981/ACNH_Resources/pull/57) 经 [CI #45176321178](https://github.com/969981/ACNH_Resources/actions/runs/45176321178) 和[主分支发布 #45177061879](https://github.com/969981/ACNH_Resources/actions/runs/45177061879) 通过；30 份已提交 R69–R72 图标分片 JSON 含 5,445 条历史 Model 原始身份记录，去重后与此前 11,269 个路径重叠 623，**净增 4,822**。
+- 最新来源身份：**16,091 / 103,400** 已纳入逐源原始 SHA；**87,309** 目前未纳入，不等于失败。Model：**12,190 / 60,166**（仍缺 **47,976**）；BDLI：**44 / 36,708**（仍缺 **36,664**），本次 BDLI 未新增。
+- 单个历史源具有经过 PNG CRC/SHA 和像素解码的证据，保守归类为 `partial`。本轮**没有新 Model 完整 BFRES 转换证据，也没有 BDLI Native 字符串消费者验证**。参见 [[15-R69-R72-Image-Source-SHA-Recovery]]。
+- [PR #58](https://github.com/969981/ACNH_Resources/pull/58) / [CI #45176742114](https://github.com/969981/ACNH_Resources/actions/runs/45176742114)：R8 普通媒体 1,112 条与 R19 及旧账本逐源完全一致，净增 **0**；参见 [[16-R8-R19-Cumulative-Media-Reconciliation]]。
+- 以下旧段落的 11,262 或 11,269 是对应历史验收快照，而不是最新主分支数字。
+
 ## 后续验收快照 · R8 BARS 已补证（2026-11-23）
 
 - [PR #56](https://github.com/969981/ACNH_Resources/pull/56) 已合并；[主分支 CI #45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919) 真实下载 R8 独立 BARS Release，8 个真实历史身份输入，经源 SHA 去重净增 7，新的权威账本 **11,269 / 103,400**，本次未纳入 **92,131**。
