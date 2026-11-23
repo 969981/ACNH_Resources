@@ -87,7 +87,12 @@ jobs:
           ic=json.loads((base/'items_core_v2.json').read_text('utf8'))
           vc=json.loads((base/'villagers_core_v2.json').read_text('utf8'))
           assert len(ic)==11178 and len(vc)==417
-          assert all('names' not in x and 'name_evidence' not in x for x in ic)
+          assert (base/'items_core_v2.json').stat().st_size < 8*1024*1024
+          assert (base/'villagers_core_v2.json').stat().st_size < 1024*1024
+          assert all('names' not in x and 'name_evidence' not in x and 'kind_flags' not in x for x in ic)
+          assert all(x['can_pick_up'] is None for x in ic)
+          assert all(x['image_selection_runtime_verified'] is False for x in vc)
+          assert all('image_candidates' in x for x in vc)
           for locale in m['locales']:
               for prefix,src,key in (('item',ic,'id'),('villager',vc,'Label')):
                   f=base/f'{prefix}_names_{locale}_v2.json'
