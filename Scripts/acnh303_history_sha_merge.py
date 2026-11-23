@@ -378,6 +378,125 @@ def basic_attempts(path: Path, expected: dict[str, str]) -> list[dict]:
     return result
 
 
+
+# Published, per-original SHA evidence. R8 has no located durable release.
+# R11-R13/R15 are represented by later cumulative media baselines, not invented deltas.
+EARLY_RELEASES = {
+    9: ("acnh303-r9-bars-amta5-bdli-sections-20261014", "source_manifest.jsonl.gz", 32, 32),
+    10: ("acnh303-r10-bars-layout-bwav-native-20261014", "bars_sources.jsonl.gz", 64, 0),
+    14: ("acnh303-r14-unpack128-20261014", "bars_source_manifest.jsonl.gz", 16, 0),
+    16: ("acnh303-r16-final-bwav-l3-expand-20261014", "bars_source_manifest.jsonl.gz", 36, 0),
+    17: ("acnh303-r17-model-layout-bars-20261014", "bars_source_manifest.jsonl.gz", 60, 0),
+    18: ("acnh303-r18-bfres-native-20261014", "bars_source_manifest.jsonl.gz", 60, 0),
+}
+EARLY_BDLI = "acnh303-bdli-lbli-extracted-v1"
+
+
+def read_early_releases(directory: Path, expected: dict[str, str],
+                        rounds: dict | None = None) -> tuple[list[dict], dict]:
+    """Recover exact R9-R18 SHA-backed release sources; never count both BARS tracks.
+
+    All source SHA fields are claims from authentic published Release manifests,
+    *not* a fresh rehash of original NCA bytes. BDLI LBLI raw sections are L2 only.
+    """
+    rounds = EARLY_RELEASES if rounds is None else rounds
+    attempts, assets = [], {}
+    previous_bars = set()
+    for number, (tag, asset, expected_bars, expected_bdli) in sorted(rounds.items()):
+        folder = directory / f"r{number}"
+        target = folder / asset
+        checksum = release_sha(target, folder / "SHA256SUMS.txt")
+        kind_rows = defaultdict(dict)
+        for row in each_gz_row(target, max_rows=expected_bars * 2 + expected_bdli + 1):
+            kind = row.get("source_type")
+            if kind not in (BARS_BWAV, BARS_AMTA) and not (number == 9 and kind == EARLY_BDLI):
+                raise ValueError(f"R{number}: unexpected source track {kind!r}")
+            name = canonical(row["source_path"])
+            if name not in expected:
+                raise ValueError(f"R{number}: original missing from Git tree: {name}")
+            if kind == EARLY_BDLI and not name.startswith("BDLI/"):
+                raise ValueError("BDLI provenance differs from original source category")
+            if kind in (BARS_BWAV, BARS_AMTA) and not (
+                    name.startswith("Sound/") and name.endswith(".bars")):
+                raise ValueError("BARS provenance differs from original source category")
+            checked_sha(row["source_sha256"])
+            size = checked_size(row["original_bytes"] if kind == BARS_BWAV
+                                else row["source_bytes"])
+            if kind in kind_rows[name]:
+                raise ValueError(f"R{number}: duplicate source track {name} {kind}")
+            kind_rows[name][kind] = (row, size)
+
+        bars = {name: tracks for name, tracks in kind_rows.items() if BARS_BWAV in tracks}
+        bdli = {name: tracks for name, tracks in kind_rows.items() if EARLY_BDLI in tracks}
+        if len(bars) != expected_bars or len(bdli) != expected_bdli:
+            raise ValueError(f"R{number}: source count mismatch: BARS={len(bars)} BDLI={len(bdli)}")
+        for name, tracks in sorted(bars.items()):
+            if set(tracks) != {BARS_BWAV, BARS_AMTA}:
+                raise ValueError(f"R{number}: unmatched BARS/AMTA tracks: {name}")
+            if name in previous_bars:
+                raise ValueError(f"R{number}: repeated BARS source in earlier round: {name}")
+            previous_bars.add(name)
+            (pcm, nbytes), (amta, abytes) = tracks[BARS_BWAV], tracks[BARS_AMTA]
+            if nbytes != abytes or pcm["source_sha256"] != amta["source_sha256"]:
+                raise ValueError(f"R{number}: paired BARS source identity mismatch: {name}")
+            if not isinstance(pcm.get("members", []), list) or not isinstance(amta.get("members", []), list):
+                raise ValueError(f"R{number}: invalid BARS members: {name}")
+            wav = 0
+            for member in pcm.get("members", []):
+                if member.get("status") == "converted_pcm_wav":
+                    checked_sha(member["source_member_sha256"], "PCM member")
+                    checked_sha(member["output_sha256"], "PCM output")
+                    if member.get("validation", {}).get("frames", 0) <= 0 or member.get("output_size", 0) < 45:
+                        raise ValueError(f"R{number}: invalid recorded WAV: {name}")
+                    wav += 1
+            for member in amta.get("members", []):
+                if member.get("status") == "lossless_amta_extracted":
+                    checked_sha(member["amta_sha256"], "AMTA member")
+            status = normalize_status(pcm.get("status", "no_output"), wav, layer="release")
+            attempts.append({
+                "source_path": name, "source_sha256": pcm["source_sha256"],
+                "source_bytes": nbytes, "source_git_blob_sha": None,
+                "category": "Sound", "status": status, "raw_status": pcm.get("status", ""),
+                "source": f"historic-R{number}-published-BARS-paired",
+                "source_proof": "release_sha256sums_verified_original_identity_paired",
+                "output_proof": "published_wav_member_hashes_recorded_not_rehashed_now",
+                "claimed_verified_media_count": wav,
+                "evidence_level": "L3_ATTEMPT" if wav else "L2_NATIVE_STRUCTURE",
+            })
+        for name, tracks in sorted(bdli.items()):
+            if set(tracks) != {EARLY_BDLI}:
+                raise ValueError(f"R{number}: unexpected BDLI tracks: {name}")
+            row, nbytes = tracks[EARLY_BDLI]
+            sections = row.get("sections", [])
+            if not isinstance(sections, list):
+                raise ValueError("BDLI sections must be an array")
+            extracted = 0
+            for section in sections:
+                if section.get("status") == "raw_extracted":
+                    checked_sha(section["sha256"], "LBLI source section")
+                    if checked_size(section["bytes"]) == 0:
+                        raise ValueError(f"R{number}: zero-byte extracted LBLI: {name}")
+                    extracted += 1
+            if row.get("raw_sections_written", 0) != extracted:
+                raise ValueError(f"R{number}: BDLI raw section counts conflict: {name}")
+            status = ("raw_extracted" if extracted else
+                      "failed" if row.get("status") == "failed" else "no_output")
+            attempts.append({
+                "source_path": name, "source_sha256": row["source_sha256"],
+                "source_bytes": nbytes, "source_git_blob_sha": None,
+                "category": "BDLI", "status": status, "raw_status": row.get("status", ""),
+                "source": f"historic-R{number}-published-BDLI",
+                "source_proof": "release_sha256sums_verified_original_identity",
+                "output_proof": "published_lossless_lbli_section_hashes_not_rehashed_now",
+                "claimed_verified_media_count": 0,
+                "evidence_level": "L2_NATIVE_STRUCTURE",
+            })
+        assets[f"R{number}-early"] = {"tag": tag, "manifest": asset,
+                                     "sha256": checksum,
+                                     "original_bars": expected_bars, "original_bdli": expected_bdli}
+    return attempts, assets
+
+
 def deduplicate(expected: dict[str, str], attempts: list[dict]) -> tuple[dict, dict]:
     """Never let later failed retry hide a previous verified conversion."""
     records = {}
@@ -500,7 +619,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
         "categories": dict(sorted(categories.items())),
         "unavailable_releases_or_per_source_manifests": [
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
-            "R19 cumulative media/BARS is imported from independently authenticated Release; even this does not cover earlier BARS R8-R18 or all earlier non-media categories.",
+            "R9/R10/R14/R16/R17/R18 original BARS and R9 BDLI evidence are imported from verified Releases; R8 and other early per-source manifests remain unverified.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -563,12 +682,15 @@ def main() -> int:
     release, assets = read_releases(args.release_dir.resolve(), expected)
     r19, r19_asset = read_r19_baseline(args.release_dir.resolve() / "r19", expected)
     assets["R19-cumulative"] = r19_asset
+    early, early_assets = read_early_releases(args.release_dir.resolve(), expected)
+    assets.update(early_assets)
     batch = batch_attempts((root / args.batches).resolve(), expected)
     r51 = r51_attempts((root / args.r51_artifact).resolve(), expected)
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
-    attempts = r19 + release + batch + r51 + basic
+    attempts = r19 + early + release + batch + r51 + basic
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
+                                 "release_R9_R18_early": len(early),
                                  "release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
                                  "committed_basic": len(basic)}
