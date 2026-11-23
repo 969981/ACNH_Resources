@@ -17,6 +17,12 @@ status: implementation
 - **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
 - 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
 
+## 两条独立的新增验收轴 · Model L3 与 BDLI Native（2026-11-23）
+
+- **Model 真正 L3（新运行重解码）**：[PR #61](https://github.com/969981/ACNH_Resources/pull/61) / [CI #45180483511](https://github.com/969981/ACNH_Resources/actions/runs/45180483511) 对 4 个源于 R19 Release 的原始 Model 重新读字节、SHA/Git blob 校验，实际调用 `wmdlt` 重新导出 **4/4 个有效 GLB 几何模型**，4 个新 GLB 输出各自 SHA 与 mesh/primitive 通过验证。详见 [[19-Real-BFRES-GLB-R19-Replay]]。这些是已纳入身份的复验，不增加新的原始源身份，不能推断 FSKA/FMAA/原版 GPU 等价。
+- **BDLI Native 消费者**：[PR #62](https://github.com/969981/ACNH_Resources/pull/62) / [CI #45181279917](https://github.com/969981/ACNH_Resources/actions/runs/45181279917) 读取真实 3,118 字节 CNzh `STR_CategoryName.bdli.zs`、验证原始 Git SHA 与 **224 个 LBLI 区段**，并提供 GDB 真实游戏会话只读候选观测脚本。没有现场 Native 取证，`NOT_CAPTURED` 保持不变。详见 [[20-BDLI-Native-Consumer-Capture-Gate]]。
+- 两项均为独立于 **39,317 / 103,400 来源身份证据**的验收轴，不能互相累计。
+
 ## 最新验收快照 · R50–R62 及 R83–R84 已补证（2026-11-23）
 
 - [PR #59](https://github.com/969981/ACNH_Resources/pull/59)：真实下载 R83/R84 Artifacts，5 个 BCSV 原始字节、Git blob 和 SHA 复核，净增 5，阶段总量 16,096。
