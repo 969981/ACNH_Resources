@@ -6,7 +6,7 @@ status: in-progress
 # Open Issue triage — 2026-11-23
 
 > [!important] Scope and evidence
-> The default branch is \`3.0.3_Unpack\`, whereas some Issue evidence refers to historical \`3.0.3\` or \`feat/acnh303-round*\` branches. A published action run, Release, header parser, or token occurrence is **not proof** that all native gameplay/runtime semantics have been reproduced. This document is a static 2026-11-23 triage, **not** an assertion that all tests have been rerun today.
+> The default branch is `3.0.3_Unpack`, whereas some Issue evidence refers to historical `3.0.3` or `feat/acnh303-round*` branches. A published action run, Release, header parser, or token occurrence is **not proof** that all native gameplay/runtime semantics have been reproduced. This document is a static 2026-11-23 triage, **not** an assertion that all tests have been rerun today.
 >
 > At review: **24 open Issues** and Draft PR [#48](https://github.com/969981/ACNH_Resources/pull/48). No Issue in this checklist should be closed merely because an overlapping script or previous study exists.
 
@@ -14,12 +14,12 @@ status: in-progress
 
 Related: [#44](https://github.com/969981/ACNH_Resources/issues/44), [#4](https://github.com/969981/ACNH_Resources/issues/4), [#9](https://github.com/969981/ACNH_Resources/issues/9), [#15](https://github.com/969981/ACNH_Resources/issues/15).
 
-1. Route Switch FRES v9 with bounded animation magic candidates and **no first FMDL model pointer / mesh / BNTX** to \`non_geometry_fres_animation_candidate\`, never to synthetic GLB conversion. Candidate hits are not a verified animation dictionary or runtime behavior.
-2. Distinguish external decoder nonzero exit, exit 0 with no output, timeout/missing executable, and post-conversion validation failure; preserve original member/source SHA and exact stderr/stdout log bytes with their SHA. Temporary-stage failures are copied to \`UnPack/_meta/media-tool-logs/\` before deleting the workspace.
-3. Fix the \`Scripts/\` vs \`scripts/\` path mismatch in \`acnh303_media_batch.py\` on case-sensitive Linux filesystems.
+1. Route Switch FRES v9 with bounded animation magic candidates and **no first FMDL model pointer / mesh / BNTX** to `non_geometry_fres_animation_candidate`, never to synthetic GLB conversion. Candidate hits are not a verified animation dictionary or runtime behavior.
+2. Distinguish external decoder nonzero exit, exit 0 with no output, timeout/missing executable, and post-conversion validation failure; preserve original member/source SHA and exact stderr/stdout log bytes with their SHA. Temporary-stage failures are copied to `UnPack/_meta/media-tool-logs/` before deleting the workspace.
+3. Fix the `Scripts/` vs `scripts/` path mismatch in `acnh303_media_batch.py` on case-sensitive Linux filesystems.
 4. Add pure synthetic negative/positive regression fixtures (the original NCA is read-only), strict log provenance tests, and PR-triggered CI.
 
-**Validation still needed:** confirm PR CI outcome; run a separate **real original-source** regression on \`Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs\` with SHA \`3284939356d4d1a086307b0586e7f4e8995971f7c642190fc84da331767cb97f\`; check emitted manifest and no fake GLB. Historical R45 FMAA A/B curve evidence exists but this PR does not establish live-game playback or ShaderParam bindings. Do **not** close #44 solely on these static/synthetic safeguards.
+**Validation still needed:** confirm PR CI outcome; run a separate **real original-source** regression on `Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs` with SHA `3284939356d4d1a086307b0586e7f4e8995971f7c642190fc84da331767cb97f`; check emitted manifest and no fake GLB. Historical R45 FMAA A/B curve evidence exists but this PR does not establish live-game playback or ShaderParam bindings. Do **not** close #44 solely on these static/synthetic safeguards.
 
 ## All 24 open Issues
 
@@ -65,13 +65,13 @@ Triage priority below is a **new proposed work order**, not a claim that GitHub 
 
 New regression workflow: [acnh303-issue44-media-regressions.yml](../.github/workflows/acnh303-issue44-media-regressions.yml).
 
-Run locally (Python 3.11+, dependencies from \`Scripts/requirements-media.txt\`):
+Run locally (Python 3.11+, dependencies from `Scripts/requirements-media.txt`):
 
-\`\`\`bash
+```bash
 python -m compileall -q Scripts
 python -m unittest discover -s Scripts -p 'test_acnh303_media_*.py' -v
 python -m unittest discover -s Scripts -p 'test_mirror_unpack_failure_logs.py' -v
-\`\`\`
+```
 
 Synthetic regressions **do not substitute** real ACNH 3.0.3 source SHA-verification, live GDB capture, external audio FileOpen/Read/Close, actual GPU binding, or the full 103,400-source audit.
 
