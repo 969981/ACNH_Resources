@@ -99,6 +99,23 @@ status: active
 - 状态 `history` 保留每轮源记录、失败、原始状态和证据等级；不会用最高等级覆盖原始历史。
 - 生成按 24 个原始目录的已尝试/已转换/部分/L1/失败/未导入对照；另按完整 Git Tree SHA 分片生成可选下一批，优先不在导入证据中的来源以及失败/无媒体输出的来源，避免重复测试可证实的成功文件。
 
+## 2026-11-23 · R8 首批八个 BARS 独立来源恢复（等待新 CI 验收）
+
+追回之前遗漏的独立 [R8 BARS Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)：
+`bars_audio_report.json` 和 `SHA256SUMS.txt`。
+**不要与 [R8 普通媒体累计 Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-l3-layout-ui2d-bwav-round8-20261014) 混淆。**
+前者记录最初 8 个独立 BARS 原始归档，历史宣称 7 个归档含 42 个可用 WAV，另 1 个未成功解码。
+后者的 `media_source_manifest.jsonl.gz` 是 **1,112 个普通媒体源的累计清单**，必须与 R19 的累计清单再核对，绝不能直接增记 1,112 个新来源。
+
+- 实现 `read_r8_bars()`：校验真实 Release `SHA256SUMS.txt`、8 个原始路径、SHA-256、字节数、WAV 成员与输出哈希、42 WAV/7 个含有效 WAV 的 BARS 统计。
+- `historic-R8-published-BARS` 是独立历史来源；若同一路径在后续记录再次出现，仍按 SHA/size 去重，保留两次来源历史而不增加原始路径数。
+- 原始 SHA 来自发布的真实报告，**不是在本次 CI 重新读取 8 份原始文件字节**。WAV 同样是历史哈希，未重新解码；不得升级为 AMTA/AAL Native 运行时等价。
+- GitHub Actions 新增实际 Release 下载与强制校验；本轮新增源身份输入 **预期为 8**，不是预先承诺净新增 8。
+- 待 CI 下载、逐源账本去重及 `coverage.json` 重新计算成功后，才更新 11,262 / 92,138 的基线数字；R45–R90 专项证据仍不可仅按摘要增记。
+
+本地已经下载到 `history-inputs/r8-bars/` 后，请在现有合并命令追加：
+`--r8-bars-dir history-inputs/r8-bars`。
+
 ## CI 和结果文件
 
 [GitHub Actions · R41–R90 historical SHA merge](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-historical-sha-ledger.yml)
