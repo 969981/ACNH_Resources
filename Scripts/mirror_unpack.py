@@ -177,6 +177,32 @@ def output_filename(source: Path, leaf: Path, total_for_extension: int) -> str:
     return name + extension
 
 
+def retain_media_failure_logs(root: Path, produced_dir: Path, out: Path,
+                              rel: Path, manifest: dict) -> list[dict]:
+    """Copy verified failed-tool logs out of the disposable decoder workspace."""
+    retained = []
+    log_root = (produced_dir / "_tool_logs").resolve()
+    for member in manifest.get("members", []):
+        if not member.get("error"):
+            continue
+        for stream in ("stdout", "stderr"):
+            entry = member.get(f"tool_{stream}_log")
+            if not entry:
+                continue
+            path = (root / entry["path"]).resolve()
+            if (not path.is_relative_to(log_root) or not path.is_file()
+                    or path.is_symlink() or path.stat().st_size != entry["size_bytes"]
+                    or digest(path) != entry["sha256"]):
+                raise RuntimeError("untrusted/mismatched converter log: " + entry["path"])
+            destination = (out / "_meta" / "media-tool-logs" / rel.parent
+                           / (rel.name + ".converted")
+                           / (entry["sha256"][:12] + "-" + path.name))
+            retained.append({"member": member["source_member"],
+                             "stream": stream,
+                             **copy_verified(path, destination)})
+    return retained
+
+
 def run_media(root: Path, rom: Path, out: Path, args) -> None:
     if not args.file:
         raise ValueError("media requires --file relative to RomFS/1")
@@ -217,9 +243,16 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
                 if digest(src) != item["sha256"]:
                     raise RuntimeError("conversion manifest checksum mismatch: " + leaf)
                 candidates.append(src)
+        failure_logs = retain_media_failure_logs(root, produced_dir, out, rel, manifest)
         if not candidates:
             actual_errors = [m.get("error", "") for m in manifest.get("members", []) if m.get("error")]
             if actual_errors:
+                record(out / "_meta", {
+                    "command": "media", "source": rel.as_posix(),
+                    "source_sha256": manifest["source_sha256"],
+                    "status": "failed", "tool_logs": failure_logs,
+                    "errors": actual_errors,
+                })
                 raise RuntimeError("verified decoder produced errors: " + "; ".join(actual_errors)[-1000:])
             record(out / "_meta", {
                 "command": "media", "source": rel.as_posix(),
@@ -242,6 +275,7 @@ def run_media(root: Path, rom: Path, out: Path, args) -> None:
             "command": "media", "source": rel.as_posix(),
             "source_sha256": manifest["source_sha256"], "produced": outputs,
             "status": manifest.get("status"), "count": len(outputs),
+            "tool_logs": failure_logs,
         })
         print(f"Committed {len(outputs)} verified media outputs to {out / '1' / rel.parent}")
 
