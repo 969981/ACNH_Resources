@@ -2,9 +2,22 @@
 title: ACNH 3.0.3 · R19 原始 BFRES 到真实 GLB 的独立复验
 aliases: [R19 Real BFRES GLB Replay, Model L3 Pilot]
 tags: [ACNH, 3.0.3, Model, BFRES, GLB, R19, L3, SHA256]
-status: ci-pending
+status: ci-verified-and-merged
 ---
 # Model · 真正重新转换 BFRES→GLB 的小样本验收
+
+## 真实复验完成 · 2026-11-23
+
+[PR #61](https://github.com/969981/ACNH_Resources/pull/61) 已合并；[实际 BFRES→GLB Actions #45180483511](https://github.com/969981/ACNH_Resources/actions/runs/45180483511) 成功，Artifacts 内保存原始 SHA、转换 Manifest、真实输出 GLB 和复验报告。
+
+| R19 真实原始 Model | 原始 .zs bytes | 新生成 GLB bytes | mesh | primitive | GLB SHA-256 |
+|---|---:|---:|---:|---:|---|
+| `RoomMdlMyDesignOutside10` | 9,056 | 5,496 | 1 | 1 | `9f083a212423f99a6a3323d0ea0f199f186a8f9033d4269fa29c8c7fd445d0f5` |
+| `IdrDream01` | 9,706 | 7,296 | 2 | 2 | `23638e9f3502c3adb2575f1a82aa27887395258e9a75b69aa22ceb6b5c27d433` |
+| `IdrObjNameBoardArt0Tag02` | 10,935 | 3,664 | 1 | 1 | `d93d740b76fede31537f86358ebaaa545b060e430c9a8987435b4199dc226f98` |
+| `RoomMdlWindowWallArch4m` | 11,185 | 13,840 | 2 | 2 | `fa04eab74b6d57fda65acfef63f675f76533a0a4e76b6e96e3292803699b0342` |
+
+**4/4 原始源当轮真实读取，4/4 实际生成有几何的 glTF2 GLB，4/4 新输出重新哈希并验证，0 转换失败。** 原始 Model 的 Git blob SHA 和 R19 发布 SHA 均吻合；该独立复验不会给原始来源身份账本增加新的路径。完整骨骼动画、shader/GPU、游戏运行时仍为未验证。
 
 ## 与历史 PNG 来源恢复区别
 
