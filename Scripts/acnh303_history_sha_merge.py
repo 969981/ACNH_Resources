@@ -794,6 +794,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
         "unavailable_releases_or_per_source_manifests": [
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
             "R8 BARS first-8 original report is imported only when its authenticated Release is provided; R8 core media cumulative and other early records remain a separate provenance task.",
+            "R69-R72 icon source SHA and image reports are committed historical evidence; current CI does not rehash those original bytes or prove Native UI binding.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -840,6 +841,7 @@ def main() -> int:
     a.add_argument("--release-dir", type=Path, required=True)
     a.add_argument("--r51-artifact", type=Path, required=True)
     a.add_argument("--r8-bars-dir", type=Path, help="Authenticated R8 BARS report plus SHA256SUMS (only if supplied)")
+    a.add_argument("--r69-r72-dir", type=Path, help="Committed R69-R72 original icon JSON shard manifests")
     a.add_argument("--batches", type=Path, default=Path("UnPack/_meta/batches"))
     a.add_argument("--basic-last", type=Path, default=Path("UnPack/_meta/basic_last_manifest.json"))
     a.add_argument("--out", type=Path, default=Path("UnPack/_meta/history_sha_merge"))
@@ -868,7 +870,12 @@ def main() -> int:
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
     priority, priority_asset = read_priority_wave((root / args.priority_wave).resolve(), expected)
     assets["Priority-Model-BDLI"] = priority_asset
-    attempts = r19 + r8 + early + release + batch + r51 + basic + priority
+    from acnh303_r69_r72_source_recovery import read_committed_native_layout_batches
+    image_wave, image_provenance = (read_committed_native_layout_batches(
+        (root / args.r69_r72_dir).resolve(), expected)
+        if args.r69_r72_dir else ([], {"status": "not_supplied"}))
+    assets["R69-R72-original-layout"] = image_provenance
+    attempts = r19 + r8 + early + release + batch + r51 + basic + priority + image_wave
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
                                  "release_R8_BARS": len(r8),
@@ -876,7 +883,8 @@ def main() -> int:
                                  "release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
                                  "committed_basic": len(basic),
-                                 "priority_original_model_bdli": len(priority)}
+                                 "priority_original_model_bdli": len(priority),
+                                 "committed_R69_R72_original_icon_sources": len(image_wave)}
     report = aggregate(expected, records, stats, assets)
     write_results((root / args.out).resolve(), expected, records, report,
                   shard=args.shard, shards=args.shards, limit=args.limit,
