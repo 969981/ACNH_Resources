@@ -500,6 +500,91 @@ def read_early_releases(directory: Path, expected: dict[str, str],
     return attempts, assets
 
 
+
+PRIORITY_WAVE_SCHEMA = "acnh303-priority-original-model-bdli-v1"
+
+
+def read_priority_wave(path: Path, expected: dict[str, str]) -> tuple[list[dict], dict]:
+    """Import real CI source byte identities; do not upgrade static evidence to media."""
+    if not path.exists():
+        return [], {"status": "not_yet_published"}
+    report = json.loads(path.read_text("utf8"))
+    selected = report.get("selection", {})
+    rows = report.get("rows", [])
+    count = report.get("sample_count")
+    if (report.get("schema") != PRIORITY_WAVE_SCHEMA
+            or selected.get("schema") != PRIORITY_WAVE_SCHEMA
+            or report.get("game_version") != "3.0.3"
+            or report.get("original_git_tree_sources") != len(expected)
+            or report.get("exact_original_git_blob_verified") != count
+            or report.get("original_source_sha256_verified") != count
+            or type(report.get("producer_workflow_run_id")) is not int
+            or report["producer_workflow_run_id"] <= 0
+            or report.get("native_runtime_evidence_captured") is not False
+            or report.get("media_conversion_performed") is not False
+            or report.get("original_corpus_fully_checked") is not False
+            or type(count) is not int or not 1 <= count <= 48
+            or len(rows) != count or len(selected.get("sources", [])) != count):
+        raise ValueError("priority wave original-byte CI report is absent or fabricated")
+    known = {x["source_path"]: x["source_git_blob_sha1"] for x in selected["sources"]}
+    if len(known) != count:
+        raise ValueError("priority wave selection has duplicate originals")
+    identities, categories, attempts = set(), Counter(), []
+    for row in rows:
+        path_name = canonical(row["source_path"])
+        category = path_name.split("/", 1)[0]
+        if category not in ("Model", "BDLI"):
+            raise ValueError("priority wave attempted forbidden source category")
+        git_sha = row.get("source_git_blob_sha1")
+        if (path_name in identities or expected.get(path_name) != git_sha
+                or known.get(path_name) != git_sha
+                or row.get("original_byte_and_git_identity_verified") is not True
+                or row.get("native_runtime_parity_verified") is not False
+                or row.get("verified_media_outputs") != 0):
+            raise ValueError("priority wave original identity or static evidence invalid")
+        identities.add(path_name)
+        categories[category] += 1
+        status = row.get("status")
+        parser = row.get("parser_status")
+        level = row.get("evidence_level")
+        if status not in ("no_output", "failed") or parser not in (
+                "structure_verified", "probe_failed", "bounded_skip_large_source"):
+            raise ValueError("priority static result falsely claimed conversion")
+        if parser == "structure_verified":
+            p = row.get("static_probe", {})
+            if ((category == "BDLI" and
+                 (p.get("type") != "BDLI_LBLI_STRUCTURAL_ONLY"
+                  or p.get("semantic_level") != "L2_RAW_STRUCTURE_NOT_LOCALIZATION_SEMANTICS"))
+                    or (category == "Model" and
+                        (p.get("type") != "MODEL_LEAF_CLASSIFICATION"
+                         or p.get("leaf_count", 0) < 1))):
+                raise ValueError("priority structural status missing original static evidence")
+        attempts.append({
+            "source_path": path_name, "source_sha256": checked_sha(row["source_sha256"]),
+            "source_bytes": checked_size(row["source_bytes"]),
+            "source_git_blob_sha": git_sha, "category": category,
+            "status": status, "raw_status": parser,
+            "source": f"CI-priority-original-run-{report['producer_workflow_run_id']}",
+            "source_proof": "original_bytes_SHA256_and_Git_blob_verified_in_priority_CI",
+            "output_proof": "static_structure_only_no_L3_media_or_native_runtime",
+            "claimed_verified_media_count": 0,
+            "evidence_level": level,
+        })
+    expected_categories = selected.get("categories", {})
+    if (dict(categories) != {"BDLI": count // 2, "Model": count // 2}
+            or any(expected_categories[c]["selected"] != categories[c]
+                   for c in ("BDLI", "Model"))):
+        raise ValueError("priority Model/BDLI categories inconsistent with original selection")
+    return attempts, {
+        "status": "real_CI_report_source_SHA_and_Git_proof",
+        "producer_run_id": report["producer_workflow_run_id"],
+        "original_source_count": count,
+        "categories": dict(categories),
+        "media_conversion_performed": False,
+        "native_runtime_evidence_captured": False,
+    }
+
+
 def deduplicate(expected: dict[str, str], attempts: list[dict]) -> tuple[dict, dict]:
     """Never let later failed retry hide a previous verified conversion."""
     records = {}
@@ -671,6 +756,7 @@ def main() -> int:
     a.add_argument("--batches", type=Path, default=Path("UnPack/_meta/batches"))
     a.add_argument("--basic-last", type=Path, default=Path("UnPack/_meta/basic_last_manifest.json"))
     a.add_argument("--out", type=Path, default=Path("UnPack/_meta/history_sha_merge"))
+    a.add_argument("--priority-wave", type=Path, default=Path("UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json"))
     a.add_argument("--shard", type=int, default=0)
     a.add_argument("--shards", type=int, default=64)
     a.add_argument("--limit", type=int, default=24)
@@ -690,13 +776,16 @@ def main() -> int:
     batch = batch_attempts((root / args.batches).resolve(), expected)
     r51 = r51_attempts((root / args.r51_artifact).resolve(), expected)
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
-    attempts = r19 + early + release + batch + r51 + basic
+    priority, priority_asset = read_priority_wave((root / args.priority_wave).resolve(), expected)
+    assets["Priority-Model-BDLI"] = priority_asset
+    attempts = r19 + early + release + batch + r51 + basic + priority
     records, stats = deduplicate(expected, attempts)
     stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
                                  "release_R9_R18_early": len(early),
                                  "release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
-                                 "committed_basic": len(basic)}
+                                 "committed_basic": len(basic),
+                                 "priority_original_model_bdli": len(priority)}
     report = aggregate(expected, records, stats, assets)
     write_results((root / args.out).resolve(), expected, records, report,
                   shard=args.shard, shards=args.shards, limit=args.limit,
