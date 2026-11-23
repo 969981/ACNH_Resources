@@ -10,7 +10,7 @@ from acnh303_history_sha_merge import (
     RELEASES, batch_attempts, deduplicate, normalize_status,
     release_sha, read_releases, aggregate, write_results, canonical,
     r51_attempts, read_r19_baseline, read_early_releases,
-    BARS_BWAV, BARS_AMTA, EARLY_BDLI,
+    BARS_BWAV, BARS_AMTA, EARLY_BDLI, read_priority_wave,
 )
 
 
@@ -179,6 +179,64 @@ class HistoricalLedgerTests(unittest.TestCase):
             write()
             with self.assertRaisesRegex(ValueError, "BDLI raw section counts conflict"):
                 read_early_releases(home.parent, expected, rounds)
+
+
+
+    def test_real_priority_source_import_not_fake_L3_or_native(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            file = Path(tmp) / "priority_wave_model_bdli.json"
+            expected = {"Model/M.zs": "a" * 40, "BDLI/B.zs": "b" * 40}
+            def row(name, blob, static):
+                category = name.split("/", 1)[0]
+                return {
+                    "source_path": name, "source_git_blob_sha1": blob,
+                    "source_sha256": hashlib.sha256(name.encode()).hexdigest(),
+                    "source_bytes": 120, "category": category, "status": "no_output",
+                    "original_byte_and_git_identity_verified": True,
+                    "native_runtime_parity_verified": False, "verified_media_outputs": 0,
+                    "parser_status": "structure_verified",
+                    "evidence_level": "L2_NATIVE_STRUCTURE",
+                    "static_probe": static,
+                }
+            report = {
+                "schema": "acnh303-priority-original-model-bdli-v1",
+                "game_version": "3.0.3", "producer_workflow_run_id": 77,
+                "original_git_tree_sources": 2,
+                "selection": {
+                    "schema": "acnh303-priority-original-model-bdli-v1",
+                    "categories": {"BDLI": {"selected": 1}, "Model": {"selected": 1}},
+                    "sources": [{"source_path": k, "source_git_blob_sha1": v}
+                                for k, v in expected.items()],
+                },
+                "sample_count": 2, "exact_original_git_blob_verified": 2,
+                "original_source_sha256_verified": 2,
+                "native_runtime_evidence_captured": False,
+                "media_conversion_performed": False, "original_corpus_fully_checked": False,
+                "rows": [
+                    row("Model/M.zs", "a" * 40,
+                        {"type": "MODEL_LEAF_CLASSIFICATION", "leaf_count": 1}),
+                    row("BDLI/B.zs", "b" * 40,
+                        {"type": "BDLI_LBLI_STRUCTURAL_ONLY",
+                         "semantic_level": "L2_RAW_STRUCTURE_NOT_LOCALIZATION_SEMANTICS"}),
+                ],
+            }
+            def write():
+                file.write_text(json.dumps(report), encoding="utf8")
+            write()
+            inputs, metadata = read_priority_wave(file, expected)
+            self.assertEqual(len(inputs), 2)
+            self.assertTrue(all(x["claimed_verified_media_count"] == 0 for x in inputs))
+            self.assertTrue(all(x["status"] == "no_output" for x in inputs))
+            self.assertEqual(metadata["original_source_count"], 2)
+            report["rows"][0]["verified_media_outputs"] = 1
+            write()
+            with self.assertRaises(ValueError):
+                read_priority_wave(file, expected)
+            report["rows"][0]["verified_media_outputs"] = 0
+            report["native_runtime_evidence_captured"] = True
+            write()
+            with self.assertRaises(ValueError):
+                read_priority_wave(file, expected)
 
 
     def test_r19_paired_pcm_amta_never_counts_twice(self):
