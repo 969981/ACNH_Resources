@@ -2,7 +2,7 @@
 title: ACNH 3.0.3 · 尚未入账 Model / BDLI 原始字节分片与真实 L3 复验
 aliases: [Unrepresented Model BDLI Real Shards, ACNH303 R45 R90 Next Source Wave]
 tags: [ACNH, 3.0.3, Model, BDLI, BFRES, BNTX, GLB, SHA256, L3, Native, CI]
-status: ci-pending
+status: ci-verified-main-persisted
 ---
 # Model / BDLI · 原始缺口的真实分片处理
 
@@ -10,9 +10,19 @@ status: ci-pending
 
 ## 起点：原始身份证据不等于转换证据
 
-现有权威主分支数据：**39,317 / 103,400** 原始文件有逐源 SHA 证据；**64,083** 暂未纳入。Model 为 **35,411 / 60,166**（尚未纳入 **24,755**），BDLI 为 **44 / 36,708**（尚未纳入 **36,664**）。
+**执行前基线**：39,317 / 103,400 原始源有逐源 SHA 证据，64,083 尚未纳入；Model 35,411 / 60,166（缺 24,755），BDLI 44 / 36,708（缺 36,664）。上述数字是本轮开始前的历史快照，最新结果见上一节。
 
 这些是来源身份，而不是完整解包成功、GLB 转换成功或 Native 语义成功。R50–R62 的原版图标已有真实历史逐源 PNG，而不是还需要重复批量补证的全部模型。
+
+## 真实 Actions + 主分支去重验收结果（2026-11-23）
+
+- [PR #63](https://github.com/969981/ACNH_Resources/pull/63) 已合并，[PR 原始资源真实测试 #45183489223](https://github.com/969981/ACNH_Resources/actions/runs/45183489223) 与[默认分支真实执行 #45183797953](https://github.com/969981/ACNH_Resources/actions/runs/45183797953) 均成功。
+- 64 个从正式账本差集选出的**真实**原始路径，分别为 **16 Model + 48 BDLI**。原始文件总字节 **3,110,342**；全部重新读取，Git blob SHA1 与源 SHA256 校验通过，来源历史账本重复路径 **0**。
+- Model 的 16 个实际来源 **16/16** 产生有效新媒体，共 **4 个 GLB + 12 个 PNG**；每个输出按本轮实际字节重新计算 SHA256，GLB 几何 mesh/primitive/accessor 验收成功，PNG 实际像素/CRC 检查成功。状态保守为 `partial`，**没有声明整份 BFRES/动画/Native 全完成**。
+- BDLI 的 48 个实际来源 **48/48** 完成 Zstd→BDLI→LBLI 结构解析、原始字节/区段哈希验收；**1,092 个 LBLI 区段，其中 1,033 个非空区段**，只支持 L2 结构证据；`native_runtime_parity_verified=false`。
+- 原始报告经 GitHub Actions 的 SHA 账本合并器**全局去重**后净增 **64** 个来源身份；主分支自动发布最初因两次并发 Actions 的 `coverage.json` rebase 冲突失败，已由 [PR #64](https://github.com/969981/ACNH_Resources/pull/64) 增加并发输入门禁和有界发布重试，并经[成功持久化 Actions #45184623253](https://github.com/969981/ACNH_Resources/actions/runs/45184623253) 验收。
+- **最新权威原始源身份**：**39,381 / 103,400（38.09%）**，尚未纳入 **64,019**。Model **35,427 / 60,166**（仍缺 **24,739**），BDLI **92 / 36,708**（仍缺 **36,616**）。其他类别来源数量不因本轮改变。
+- 这 16 个 L3 有效媒体属于上述 16 个已有来源身份，不能在 64 条原始来源增量之外额外加 16；本轮并非对整个 ROM 的 L3 / Native 全量验收。
 
 ## 这轮真正执行什么
 
