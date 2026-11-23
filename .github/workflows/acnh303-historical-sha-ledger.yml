@@ -55,6 +55,17 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
 
+      - name: Recover R8 independent first-8 original BARS with published SHA256SUMS
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p history-inputs/r8-bars
+          gh release download acnh303-bars-first8-42wav-20261014 \
+            -R "$GH_REPO" -D history-inputs/r8-bars \
+            -p 'bars_audio_report.json' -p 'SHA256SUMS.txt'
+          test -s history-inputs/r8-bars/bars_audio_report.json
+          test -s history-inputs/r8-bars/SHA256SUMS.txt
+
       - name: Recover R9-R18 original-source BARS and BDLI Release manifests
         shell: bash
         run: |
@@ -142,6 +153,7 @@ jobs:
           python Scripts/acnh303_history_sha_merge.py \
             --root . --release-dir history-inputs \
             --r51-artifact "$R51_EVIDENCE" \
+            --r8-bars-dir history-inputs/r8-bars \
             --batches UnPack/_meta/batches \
             --basic-last UnPack/_meta/basic_last_manifest.json \
             --out UnPack/_meta/history_sha_merge \
@@ -157,6 +169,9 @@ jobs:
           d=Path('UnPack/_meta/history_sha_merge')
           r=json.loads((d/'coverage.json').read_text('utf8'))
           assert r['original_git_tree_sources']==103400
+          assert r['import_stats']['input_type_rows']['release_R8_BARS']==8
+          assert r['source_provenance']['R8-BARS']['reported_valid_pcm_wav']==42
+          assert r['source_provenance']['R8-BARS']['native_runtime_verified'] is False
           assert r['import_stats']['input_type_rows']['release_R19_cumulative']==3638
           assert r['import_stats']['input_type_rows']['release_R9_R18_early']==340
           assert r['import_stats']['input_type_rows']['priority_original_model_bdli'] in (0, 24)
@@ -180,7 +195,8 @@ jobs:
           print('SHA-ledger: source identities:',len(seen))
           print('Historical statuses:',r['imported_source_status_counts'])
           print('Remaining unrepresented ORIGINALS:',r['not_in_imported_per_source_evidence'])
-          print('Unverified history R45-R90 and unlocated R8: excluded from source-count claims')
+          print('R8 8 original BARS report imported with verified published hashes, deduplicated globally')
+          print('R8 cumulative core media and R45-R90 per-source evidence remain separately unverified')
           PY
 
       - name: Upload inspectable SHA-based report, ledger and next queue
