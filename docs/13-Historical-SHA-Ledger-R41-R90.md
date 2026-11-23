@@ -8,8 +8,9 @@ status: active
 
 ## 当前真实已通过的逐源账本快照 · 2026-11-23
 
-**39,317 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。64,083 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
+**39,381 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。64,019 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
 
+- **最新真实未入账分片**：[PR #63](https://github.com/969981/ACNH_Resources/pull/63) 实际处理 SHA 账本差集中的 **16 Model + 48 BDLI**，全部原始 Git blob + SHA256 实测，16 Model 新生成并重新验证 **4 GLB、12 PNG**；48 BDLI 静态解析 **1,092 LBLI 区段**（1,033 非空），**Native NOT_CAPTURED**。来源身份去重净增 **64**；主分支[成功发布 #45184623253](https://github.com/969981/ACNH_Resources/actions/runs/45184623253)。见 [[22-Unrepresented-Model-BDLI-Real-Source-Shards]]。并发 Git rebase 发布故障经 [PR #64](https://github.com/969981/ACNH_Resources/pull/64) 修复。
 - **独立媒体/Native 验收**：R19 的 4 个既有原始 Model 已在 [CI #45180483511](https://github.com/969981/ACNH_Resources/actions/runs/45180483511) 中重新读取、实际 `wmdlt` 转换、得到并校验 4/4 个真实 GLB；[CI #45181279917](https://github.com/969981/ACNH_Resources/actions/runs/45181279917) 从原始 CNzh BDLI 验证 224 个 LBLI 区段，**Native runtime 仍 NOT_CAPTURED**。两项都不把现有源身份重复加 1。详见 [[19-Real-BFRES-GLB-R19-Replay]]、[[20-BDLI-Native-Consumer-Capture-Gate]]。
 - **最新新增 R50–R62**：53 份原版图标逐源 JSON 共 **26,277** 行，经过[PR #60](https://github.com/969981/ACNH_Resources/pull/60) 和 [CI #45179415194](https://github.com/969981/ACNH_Resources/actions/runs/45179415194) 真实验证，**3,056** 条与旧账本重复，净增 **23,221**；[主分支发布 #45179663567](https://github.com/969981/ACNH_Resources/actions/runs/45179663567) 已完成。Model 已纳入 **35,411 / 60,166**。这属于历史原生 BRTI/PNG 证据，状态为 `partial`，没有新 GLB/Nintendo UI runtime 等价主张；详见 [[18-R50-R62-Item-Native-PNG-Source-SHA]]。
 - **R83–R84 真正原始 BCSV 字节**：2 + 3 份原始文件对照原仓 Git blob、SHA256、真实 Actions Artifact，合并后净增 **5**；本阶段 BCSV 源身份已有 **16 / 234**。详见 [[17-R83-R84-Original-BCSV-Byte-Proof]]。
@@ -18,8 +19,8 @@ status: active
 - R8 首批 BARS Release：8 个原始源（7 个有合格历史 WAV 记录、共 42 WAV），与历史账本去重净增 **7** 条；1 条源身份重叠，重试只保留历史证据。[R8 源恢复 PR #56](https://github.com/969981/ACNH_Resources/pull/56) / [主分支真实验收 #45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919)。R8 普通媒体累计 1,112 条来源尚未单独导入验证，不能直接相加。
 - 早期 R9/R10/R14/R16/R17/R18 Release：实际验证 340 个源身份（BARS 308 + BDLI 32），去重后对原账本**净增 336**。[CI #45140100607](https://github.com/969981/ACNH_Resources/actions/runs/45140100607)
 - Model/BDLI 静态优先抽样：实际检出并核对原始 Git blob / SHA 的 Model 12 + BDLI 12，入账后再增 24 条，**不计 L3 converted**。[CI #45141584240](https://github.com/969981/ACNH_Resources/actions/runs/45141584240) / [历史重算 #45141648523](https://github.com/969981/ACNH_Resources/actions/runs/45141648523)
-- 最新 Model 已纳入 **35,411 / 60,166**，仍缺 **24,755**；BDLI **44 / 36,708**，仍缺 **36,664**；Sound **2,842 / 2,848**，仍缺 **6**。R8 普通媒体累计对账已闭合；R45–R90 其余专项原始文件日志仍需持续验证，不能使用旧汇总值补齐。
-- 下文若出现 10,902/92,498、11,238/92,162、11,269/92,131 或 16,091/87,309，属于**对应历史时刻的阶段快照**，请以主分支 `UnPack/_meta/history_sha_merge/coverage.json` 为当前权威数。
+- 最新 Model 已纳入 **35,427 / 60,166**，仍缺 **24,739**；BDLI **92 / 36,708**，仍缺 **36,616**；Sound **2,842 / 2,848**，仍缺 **6**。R8 普通媒体累计对账已闭合；R45–R90 其余专项原始文件日志仍需持续验证，不能使用旧汇总值补齐。
+- 下文若出现 10,902/92,498、11,238/92,162、11,269/92,131 或 16,091/87,309、39,317/64,083，属于**对应历史时刻的阶段快照**，请以主分支 `UnPack/_meta/history_sha_merge/coverage.json` 为当前权威数。
 
 
 > [!important] 证据不是完成率
