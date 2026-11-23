@@ -1,0 +1,93 @@
+name: ACNH 3.0.3 | R51 real original 16-source wave
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r51_real_wave.py'
+      - 'Scripts/test_acnh303_r51_real_wave.py'
+      - 'Scripts/requirements-native.txt'
+      - 'Scripts/acnh303_full_audit.py'
+      - '.github/workflows/acnh303-r51-real-wave.yml'
+      - 'docs/12-R51-Real-Wave-Gaps.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-source-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Sparse clone actual 16 game resources (not synthetic)
+        uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/AITag.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/AmiiboData.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/CalendarEventJuneBrideReward.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_BestFriendNotice.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_CategoryName.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/BDLI/String/CNzh/STR_Common.bdli.zs
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/1PArbeitExplain5.bfevfl
+            /e10617820db06889e1638499478da0de_NCA/1/EventFlow/1PStart01MapEnable.bfevfl
+            /e10617820db06889e1638499478da0de_NCA/1/Message/Dialog_CNzh.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/Dialog_JPja.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/PltTreeCedarDecoAnim.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/AccessoryGlassBirthday0.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/Bell.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Layout/Addressee.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/AirportDemoAirplaneShadow.bars
+            /e10617820db06889e1638499478da0de_NCA/1/Sound/Resource/AmbientPlacement_Default.bars
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parser requirements
+        run: python -m pip install -r Scripts/requirements-native.txt
+      - name: Preflight and negative tests
+        run: |
+          python -m compileall -q Scripts
+          python -m unittest discover -s Scripts -p 'test_acnh303_r51_real_wave.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_recursive_archive.py' -v
+      - name: Execute R51 native static / output probe on real original files
+        run: |
+          python Scripts/acnh303_r51_real_wave.py --root . --out UnPack_R51 --report r51_real_wave.json
+      - name: Fail closed on provenance gaps or unsupported completion claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('r51_real_wave.json').read_text(encoding='utf8'))
+          assert report['sample_count'] == report['exact_original_git_blob_verified'] == 16
+          assert report['original_source_sha256_verified'] == 16
+          assert report['git_tree_audit']['git_original_sources'] == 103400
+          assert report['git_tree_audit']['original_sources_byte_and_git_blob_verified'] == 16
+          assert report['git_tree_audit']['source_paths_missing_from_ledger'] == 103384
+          assert report['git_tree_audit']['problems_count'] == 0
+          assert report['git_tree_audit']['strict_gate_pass'] is False
+          assert report['native_runtime_evidence_captured'] is False
+          assert len(report['native_gaps']) == 13
+          assert len({row['source_path'] for row in report['rows']}) == 16
+          assert sum(row['status']=='failed' for row in report['rows']) == 0
+          assert len({x['source'] for x in report['native_gaps']}) == 13
+          for row in report['rows']:
+              assert row['source_git_blob_sha1'] and row['source_sha256']
+          print('R51 16 original Git/SHA-verified sources; 103384 more not measured by this pilot')
+          print('Native runtime parity: NOT_CAPTURED')
+          PY
+      - name: Preserve immutable evidence bundle without pushing derived bulk data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r51-actual-source-pilot
+          path: |
+            r51_real_wave.json
+            UnPack_R51/_meta/unified/source_manifest.jsonl
+            UnPack_R51/_meta/recursive/**/*.json
+            UnPack_R51/_meta/basic_last_manifest.json
+          retention-days: 30
+          if-no-files-found: warn
