@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Merge genuine historical ACNH 3.0.3 source evidence without double-counting.
 
-Inputs are bounded, SHA-256 verified R41-R44 Release deltas, committed
+Inputs are bounded, SHA-256 verified R27-R36/R41-R44 Release deltas, committed
 incremental batch reports, and the R51 genuine-original CI artifact. R45-R90
 research descriptions without source-level digests are NOT imported as assets.
 
@@ -24,6 +24,16 @@ from acnh303_full_audit import inventory_from_git
 from acnh303_recursive_archive import NCA, clean_source, atomic_write
 
 RELEASES = {
+    27: ("acnh303-r27-real-unmeasured40-20261015", 40, {"Model": 16, "Layout": 12, "Sound": 12}),
+    28: ("acnh303-r28-layout-bars-model-bnsh-20261015", 224, {"Model": 128, "Layout": 48, "Sound": 48}),
+    29: ("acnh303-r29-80-real-media-bnsh-20261015", 80, {"Model": 32, "Layout": 24, "Sound": 24}),
+    30: ("acnh303-r30-48-real-media-bnsh-20261015", 48, {"Model": 24, "Layout": 12, "Sound": 12}),
+    31: ("acnh303-r31-40-real-media-bnsh-20261015", 40, {"Model": 16, "Layout": 12, "Sound": 12}),
+    32: ("acnh303-r32-88-real-media-bnsh-20261015", 88, {"Model": 40, "Layout": 24, "Sound": 24}),
+    33: ("acnh303-r33-240-real-media-bnsh-20261015", 240, {"Model": 80, "Layout": 80, "Sound": 80}),
+    34: ("acnh303-r34-388-real-media-bnsh-20261015", 388, {"Model": 80, "Layout": 148, "Sound": 160}),
+    35: ("acnh303-r35-320-real-media-bars-20261015", 320, {"Model": 160, "Sound": 160}),
+    36: ("acnh303-r36-320-real-media-bars-20261015", 320, {"Model": 160, "Sound": 160}),
     41: ("acnh303-r41-480-real-media-bars-20261102", 480, {"Model": 320, "Sound": 160}),
     42: ("acnh303-r42-960-media-native-20261102", 960, {"Model": 640, "Sound": 320}),
     43: ("acnh303-r43-1408-bars-l3-complete-20261102", 1408, {"Model": 1280, "Sound": 128}),
@@ -341,7 +351,7 @@ def deduplicate(expected: dict[str, str], attempts: list[dict]) -> tuple[dict, d
                 )}],
             }
     if duplicates_cross_round:
-        raise ValueError("R41-R44 release deltas unexpectedly overlap on original paths: "
+        raise ValueError("historical release deltas unexpectedly overlap on original paths: "
                          + ", ".join(duplicates_cross_round[:5]))
     exact_content_aliases = {
         digest: sorted(names) for digest, names in same_sha_content_aliases.items()
@@ -404,7 +414,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
         "categories": dict(sorted(categories.items())),
         "unavailable_releases_or_per_source_manifests": [
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
-            "R19, R27-R36 cumulative manifests not present in the checked-out branch; R41-R44 deltas cannot stand in for that baseline.",
+            "R19, R27-R36 cumulative manifests not present in the checked-out branch; R27-R44 deltas cannot stand in for that baseline.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -470,7 +480,7 @@ def main() -> int:
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
     attempts = release + batch + r51 + basic
     records, stats = deduplicate(expected, attempts)
-    stats["input_type_rows"] = {"release_R41_R44": len(release),
+    stats["input_type_rows"] = {"release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
                                  "committed_basic": len(basic)}
     report = aggregate(expected, records, stats, assets)
