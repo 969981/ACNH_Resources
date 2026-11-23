@@ -8,11 +8,12 @@ status: active
 
 ## 当前真实已通过的逐源账本快照 · 2026-11-23
 
-**11,262 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。92,138 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
+**11,269 / 103,400 个不同原始路径已经纳入具有 source SHA-256 的本次账本。92,131 个是“本次账本没有逐源证据”，不代表从未处理、不代表解包失败。**
 
+- R8 首批 BARS Release：8 个原始源（7 个有合格历史 WAV 记录、共 42 WAV），与历史账本去重净增 **7** 条；1 条源身份重叠，重试只保留历史证据。[R8 源恢复 PR #56](https://github.com/969981/ACNH_Resources/pull/56) / [主分支真实验收 #45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919)。R8 普通媒体累计 1,112 条来源尚未单独导入验证，不能直接相加。
 - 早期 R9/R10/R14/R16/R17/R18 Release：实际验证 340 个源身份（BARS 308 + BDLI 32），去重后对原账本**净增 336**。[CI #45140100607](https://github.com/969981/ACNH_Resources/actions/runs/45140100607)
 - Model/BDLI 静态优先抽样：实际检出并核对原始 Git blob / SHA 的 Model 12 + BDLI 12，入账后再增 24 条，**不计 L3 converted**。[CI #45141584240](https://github.com/969981/ACNH_Resources/actions/runs/45141584240) / [历史重算 #45141648523](https://github.com/969981/ACNH_Resources/actions/runs/45141648523)
-- 最新 Model 已纳入 7,368 / 60,166；BDLI 已纳入 44 / 36,708。R8 完整逐源 SHA、R45–R90 专用原始文件日志仍需验证，不能使用旧汇总值补齐。
+- 最新 Model 已纳入 7,368 / 60,166；BDLI 已纳入 44 / 36,708。R8 普通媒体累计逐源对账、R45–R90 专用原始文件日志仍需验证，不能使用旧汇总值补齐。
 - 下文若出现 10,902/92,498 或 11,238/92,162，属于**对应历史时刻的阶段快照**，请以主分支 `UnPack/_meta/history_sha_merge/coverage.json` 为当前权威数。
 
 
@@ -99,7 +100,7 @@ status: active
 - 状态 `history` 保留每轮源记录、失败、原始状态和证据等级；不会用最高等级覆盖原始历史。
 - 生成按 24 个原始目录的已尝试/已转换/部分/L1/失败/未导入对照；另按完整 Git Tree SHA 分片生成可选下一批，优先不在导入证据中的来源以及失败/无媒体输出的来源，避免重复测试可证实的成功文件。
 
-## 2026-11-23 · R8 首批八个 BARS 独立来源恢复（等待新 CI 验收）
+## 2026-11-23 · R8 首批八个 BARS 独立来源恢复（已由 CI 验收）
 
 追回之前遗漏的独立 [R8 BARS Release](https://github.com/969981/ACNH_Resources/releases/tag/acnh303-bars-first8-42wav-20261014)：
 `bars_audio_report.json` 和 `SHA256SUMS.txt`。
@@ -111,7 +112,7 @@ status: active
 - `historic-R8-published-BARS` 是独立历史来源；若同一路径在后续记录再次出现，仍按 SHA/size 去重，保留两次来源历史而不增加原始路径数。
 - 原始 SHA 来自发布的真实报告，**不是在本次 CI 重新读取 8 份原始文件字节**。WAV 同样是历史哈希，未重新解码；不得升级为 AMTA/AAL Native 运行时等价。
 - GitHub Actions 新增实际 Release 下载与强制校验；本轮新增源身份输入 **预期为 8**，不是预先承诺净新增 8。
-- 待 CI 下载、逐源账本去重及 `coverage.json` 重新计算成功后，才更新 11,262 / 92,138 的基线数字；R45–R90 专项证据仍不可仅按摘要增记。
+- 真实 CI [#45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919) 已下载 Release、核验报告 SHA 与源 SHA、执行回归并将账本提交到默认分支；8 行输入最终净增 **7 个不同原始路径**，更新为 **11,269 / 103,400**，尚未纳入当前账本 **92,131**。Sound：**2,842 / 2,848** 已纳入、仍缺 **6**；Model 与 BDLI 分别维持 7,368 和 44。未执行新 L3 解码或 Native 运行时验证；R45–R90 专项证据仍不可仅按摘要增记。
 
 本地已经下载到 `history-inputs/r8-bars/` 后，请在现有合并命令追加：
 `--r8-bars-dir history-inputs/r8-bars`。
