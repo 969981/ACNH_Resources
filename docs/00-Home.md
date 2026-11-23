@@ -19,6 +19,7 @@ status: active
 - [[10-Open-Issues-Triage-2026-11-23|2026-11-23 · 24 个 Open Issue、依赖关系与验收优先级]]
 - [[11-Unified-Unpack-Recursive-Audit-2026-11-23|U01/U02/U12 统一解包、递归归档、全源验收与真实 Cedar 回归]]
 - [[12-R51-Real-Wave-Gaps|R51 · 16 份原始资源实测与 24 类 Native 证据缺口]]
+- [[13-Historical-SHA-Ledger-R41-R90|R41–R90 历史原始源 SHA 去重、R41–R44 Release 及缺失证据]]
 - [[08-Next-Wave-FMAA-AAL-BARS|四类扩容 / FMAA / AAL / BARS 新阶段]]
 - [[ACNH303_ROUND49_FMAA_RUNTIME_WRITE_AAL_CALL_RETURN|R49 FMAA ShaderParam 动态写入 / AAL BLR X8 取证]]
 - [[ACNH303_R50_ORIGINAL_ITEM_UI_MAPPING|R50 原版图片 ItemRemake ID / 其他 UI Layout 来源]]
