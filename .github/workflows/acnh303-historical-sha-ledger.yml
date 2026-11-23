@@ -40,6 +40,7 @@ jobs:
             /Scripts/
             /UnPack/_meta/batches/
             /UnPack/_meta/basic_last_manifest.json
+            /UnPack/_meta/history_sha_merge/
 
       - uses: actions/setup-python@v5
         with:
@@ -97,13 +98,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh run view 45135434008 -R "$GH_REPO" --json status,conclusion \
-            --jq 'select(.status=="completed" and .conclusion=="success") | .conclusion' |
-            grep -qx success
-          gh run download 45135434008 -R "$GH_REPO" \
-            -n acnh303-r51-actual-source-pilot -D history-inputs/r51
-          test -s history-inputs/r51/r51_real_wave.json
-          echo "R51_EVIDENCE=history-inputs/r51/r51_real_wave.json" >> "$GITHUB_ENV"
+          persistent="UnPack/_meta/history_sha_merge/_inputs/r51_real_wave.json"
+          if [[ -s "$persistent" ]]; then
+            echo "Reusing previously checked-in R51 original-byte evidence (artifact can expire)"
+            echo "R51_EVIDENCE=$persistent" >> "$GITHUB_ENV"
+          else
+            gh run view 45135434008 -R "$GH_REPO" --json status,conclusion \
+              --jq 'select(.status=="completed" and .conclusion=="success") | .conclusion' |
+              grep -qx success
+            gh run download 45135434008 -R "$GH_REPO" \
+              -n acnh303-r51-actual-source-pilot -D history-inputs/r51
+            test -s history-inputs/r51/r51_real_wave.json
+            mkdir -p "$(dirname "$persistent")"
+            cp history-inputs/r51/r51_real_wave.json "$persistent"
+            echo "R51_EVIDENCE=$persistent" >> "$GITHUB_ENV"
+          fi
 
       - name: Merge source PATH and SHA-256, preserve exact attempt histories
         run: |
