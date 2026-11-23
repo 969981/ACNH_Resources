@@ -9,7 +9,8 @@ import unittest
 from acnh303_history_sha_merge import (
     RELEASES, batch_attempts, deduplicate, normalize_status,
     release_sha, read_releases, aggregate, write_results, canonical,
-    r51_attempts, read_r19_baseline,
+    r51_attempts, read_r19_baseline, read_early_releases,
+    BARS_BWAV, BARS_AMTA, EARLY_BDLI,
 )
 
 
@@ -120,6 +121,65 @@ class HistoricalLedgerTests(unittest.TestCase):
             self.assertEqual({x["source_path"] for x in q["candidates"]},
                              {"Model/b.zs", "Model/c.zs"})
             self.assertEqual(len(list(gzip.open(p / "source_ledger.jsonl.gz", "rt"))), 2)
+
+
+    def test_early_release_pairs_bars_and_limits_bdli_to_l2(self):
+        """R9 2-track audio counts once; verified LBLI is not semantic conversion."""
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp) / "r9"
+            home.mkdir()
+            sha_bars = "a" * 64
+            sha_bdli = "b" * 64
+            rows = [
+                {
+                    "source_type": BARS_BWAV, "source_path": "Sound/Resource/one.bars",
+                    "source_sha256": sha_bars, "original_bytes": 123, "status": "partial",
+                    "members": [{"status": "converted_pcm_wav",
+                                 "source_member_sha256": "c" * 64, "output_sha256": "d" * 64,
+                                 "output_size": 128, "validation": {"frames": 32}}],
+                },
+                {
+                    "source_type": BARS_AMTA, "source_path": "Sound/Resource/one.bars",
+                    "source_sha256": sha_bars, "source_bytes": 123,
+                    "members": [{"status": "lossless_amta_extracted", "amta_sha256": "e" * 64}],
+                },
+                {
+                    "source_type": EARLY_BDLI, "source_path": "BDLI/String/test.zs",
+                    "source_sha256": sha_bdli, "source_bytes": 62,
+                    "status": "lossless_sections_partial_semantics",
+                    "raw_sections_written": 1,
+                    "sections": [{"status": "raw_extracted", "sha256": "f" * 64, "bytes": 7}],
+                },
+            ]
+            original = home / "source_manifest.jsonl.gz"
+            def write():
+                with gzip.open(original, "wt", encoding="utf8") as stream:
+                    for row in rows:
+                        stream.write(json.dumps(row) + "\n")
+                (home / "SHA256SUMS.txt").write_text(
+                    hashlib.sha256(original.read_bytes()).hexdigest()
+                    + "  source_manifest.jsonl.gz\n", encoding="utf8")
+            write()
+            rounds = {9: ("fake-r9-tag", "source_manifest.jsonl.gz", 1, 1)}
+            expected = {"Sound/Resource/one.bars": "1" * 40,
+                        "BDLI/String/test.zs": "2" * 40}
+            recovered, assets = read_early_releases(home.parent, expected, rounds)
+            self.assertEqual(len(recovered), 2)
+            self.assertEqual(assets["R9-early"]["original_bdli"], 1)
+            ledger, _ = deduplicate(expected, recovered)
+            self.assertEqual(ledger["BDLI/String/test.zs"]["best_status"], "raw_extracted")
+            self.assertEqual(ledger["Sound/Resource/one.bars"]["best_status"], "partial")
+            self.assertEqual(ledger["BDLI/String/test.zs"]["historic_media_outputs_claimed"], 0)
+            rows[1]["source_sha256"] = "0" * 64
+            write()
+            with self.assertRaisesRegex(ValueError, "paired BARS source identity mismatch"):
+                read_early_releases(home.parent, expected, rounds)
+            rows[1]["source_sha256"] = sha_bars
+            rows[2]["raw_sections_written"] = 2
+            write()
+            with self.assertRaisesRegex(ValueError, "BDLI raw section counts conflict"):
+                read_early_releases(home.parent, expected, rounds)
+
 
     def test_r19_paired_pcm_amta_never_counts_twice(self):
         from acnh303_history_sha_merge import BARS_BWAV, BARS_AMTA

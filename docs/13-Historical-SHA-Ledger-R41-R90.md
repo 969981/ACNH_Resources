@@ -59,6 +59,27 @@ status: active
 > [!warning] 切勿误读 92,498
 > 这是**在当前已导入且验证的数据中没有逐源记录**的路径数量，而不是断言它们历史上从未执行或均无法解码。R8–R18、其他基础 L1/L2、R45–R90 的未收录逐源报告可能改变此数字。当前 CI 稀疏检出，不能据此声称已经重新读取 10,902 个原始 NCA 文件。R51 原始源 16/16 的实际读取验证独立成立。
 
+
+## 2026-11-23 · 早期 R9–R18 逐源证据恢复（待 CI 核验）
+
+找到六个已发布、具有 SHA256SUMS 校验的原始来源：
+
+| 批次 | 证据文件 | 预期原始身份 |
+|---|---|---:|
+| R9 | source_manifest.jsonl.gz，BARS PCM/AMTA 配对与 BDLI LBLI 报告 | BARS 32 + BDLI 32 |
+| R10 | bars_sources.jsonl.gz，PCM + AMTA 双轨 | BARS 64 |
+| R14 | bars_source_manifest.jsonl.gz | BARS 16 |
+| R16 | bars_source_manifest.jsonl.gz | BARS 36 |
+| R17 | bars_source_manifest.jsonl.gz | BARS 60 |
+| R18 | bars_source_manifest.jsonl.gz | BARS 100 |
+| **合计（导入前）** | 同一 BARS 的两个音频轨道只能算一个原始源 | **340** |
+
+新增 read_early_releases()：校验 Release 文件 SHA-256、原始 Git 路径、源 SHA-256/字节数，BARS/AMTA 成对一致、真实 WAV 成员哈希、BDLI LBLI 区段摘要。R9 BDLI 只能计入 L2 原始区段提取，不代表语言文本或 Native 语义完成；PCM 媒体成功也不能冒充原生播放参数验证。
+
+**340 是新导入前的身份行，不是净新增覆盖数。** R19、既有 Release、提交的 batch 与 R51 会再通过路径+源 SHA 去重；发现 SHA/size 冲突则失败。R8 原始 8 BARS 身份仍需追回；R11–R13、R15 没有单独恢复到符合逐源 SHA 要求的独立 Release，不能用旧汇总数字代替。R45–R90 继续从 Actions/历史提交追回可验证记录。
+
+**注意：上方 10,902 / 92,498 仍是 PR52 已通过的旧基线。** 新 CI 结果产生并提交 coverage.json 前，严禁预先更新这些统计。
+
 ## 新增实装
 
 - `Scripts/acnh303_history_sha_merge.py`：扫描**完整 Git Tree（103,400 个源）**，导入 Release、本地已提交 batch、Basic 和 R51 测试 JSON，按规范化路径 + 原始 SHA-256 + size 归并，不可用不同 SHA 混合。R19、R27–R36、R41–R44 Release 用各自 `SHA256SUMS.txt` **实际校验下载的 gzip**；源名还必须对应 Git Tree 真实源路径。
