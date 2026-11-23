@@ -1,0 +1,188 @@
+name: ACNH 3.0.3 | R41-R90 historical source SHA merge
+
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_history_sha_merge.py'
+      - 'Scripts/test_acnh303_history_sha_merge.py'
+      - 'docs/13-Historical-SHA-Ledger-R41-R90.md'
+      - '.github/workflows/acnh303-historical-sha-ledger.yml'
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - '.github/workflows/acnh303-historical-sha-ledger.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: acnh303-historical-sha-publication
+  cancel-in-progress: false
+
+jobs:
+  verify-dedup-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Sparse checkout parser and committed original source proof
+        uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          persist-credentials: true
+          sparse-checkout-cone-mode: false
+          lfs: false
+          sparse-checkout: |
+            /Scripts/
+            /UnPack/_meta/batches/
+            /UnPack/_meta/basic_last_manifest.json
+            /UnPack/_meta/history_sha_merge/
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run SHA-ledger unit and anti-fabrication tests
+        run: |
+          python -m compileall -q Scripts
+          python -m unittest discover -s Scripts -p 'test_acnh303_history_sha_merge.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_full_audit.py' -v
+
+      - name: Fetch real R19 cumulative media and paired original BARS manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p history-inputs/r19
+          gh release download acnh303-r19-animation-native-20261014 \
+            -R "$GH_REPO" -D history-inputs/r19 \
+            -p 'media_source_manifest.jsonl.gz' \
+            -p 'bars_source_manifest.jsonl.gz' \
+            -p 'SHA256SUMS.txt'
+          test -s history-inputs/r19/media_source_manifest.jsonl.gz
+          test -s history-inputs/r19/bars_source_manifest.jsonl.gz
+          test -s history-inputs/r19/SHA256SUMS.txt
+
+      - name: Download actual R27-R36 and R41-R44 published per-source Release deltas
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > releases.tsv <<'EOF'
+          27 acnh303-r27-real-unmeasured40-20261015
+          28 acnh303-r28-layout-bars-model-bnsh-20261015
+          29 acnh303-r29-80-real-media-bnsh-20261015
+          30 acnh303-r30-48-real-media-bnsh-20261015
+          31 acnh303-r31-40-real-media-bnsh-20261015
+          32 acnh303-r32-88-real-media-bnsh-20261015
+          33 acnh303-r33-240-real-media-bnsh-20261015
+          34 acnh303-r34-388-real-media-bnsh-20261015
+          35 acnh303-r35-320-real-media-bars-20261015
+          36 acnh303-r36-320-real-media-bars-20261015
+          41 acnh303-r41-480-real-media-bars-20261102
+          42 acnh303-r42-960-media-native-20261102
+          43 acnh303-r43-1408-bars-l3-complete-20261102
+          44 acnh303-r44-2560-model-fmaa-aal-20261102
+          EOF
+          while read -r number tag; do
+            dir="history-inputs/r${number}"
+            mkdir -p "$dir"
+            gh release download "$tag" -R "$GH_REPO" -D "$dir" \
+              -p 'source_delta.jsonl.gz' -p 'SHA256SUMS.txt'
+            test -s "$dir/source_delta.jsonl.gz" && test -s "$dir/SHA256SUMS.txt"
+          done < releases.tsv
+
+      - name: Fetch exact R51 verified original-source workflow artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          persistent="UnPack/_meta/history_sha_merge/_inputs/r51_real_wave.json"
+          if [[ -s "$persistent" ]]; then
+            echo "Reusing previously checked-in R51 original-byte evidence (artifact can expire)"
+            echo "R51_EVIDENCE=$persistent" >> "$GITHUB_ENV"
+          else
+            gh run view 45135434008 -R "$GH_REPO" --json status,conclusion \
+              --jq 'select(.status=="completed" and .conclusion=="success") | .conclusion' |
+              grep -qx success
+            gh run download 45135434008 -R "$GH_REPO" \
+              -n acnh303-r51-actual-source-pilot -D history-inputs/r51
+            test -s history-inputs/r51/r51_real_wave.json
+            mkdir -p "$(dirname "$persistent")"
+            cp history-inputs/r51/r51_real_wave.json "$persistent"
+            echo "R51_EVIDENCE=$persistent" >> "$GITHUB_ENV"
+          fi
+
+      - name: Merge source PATH and SHA-256, preserve exact attempt histories
+        run: |
+          python Scripts/acnh303_history_sha_merge.py \
+            --root . --release-dir history-inputs \
+            --r51-artifact "$R51_EVIDENCE" \
+            --batches UnPack/_meta/batches \
+            --basic-last UnPack/_meta/basic_last_manifest.json \
+            --out UnPack/_meta/history_sha_merge \
+            --shard 0 --shards 64 --limit 24
+
+      - name: Verify authentic input counts, normalized ledger and never inflate status
+        shell: bash
+        run: |
+          python - <<'PY'
+          import gzip
+          import json
+          from pathlib import Path
+          d=Path('UnPack/_meta/history_sha_merge')
+          r=json.loads((d/'coverage.json').read_text('utf8'))
+          assert r['original_git_tree_sources']==103400
+          assert r['import_stats']['input_type_rows']['release_R19_cumulative']==3638
+          assert r['import_stats']['input_type_rows']['release_R27_R44']==7196
+          assert r['import_stats']['input_type_rows']['r51_real_source_ci']==16
+          assert r['imported_unique_original_sources']<=103400
+          assert r['not_in_imported_per_source_evidence']==103400-r['imported_unique_original_sources']
+          assert r['all_corpus_current_original_bytes_sha256_verified'] is False
+          assert r['native_runtime_parity_verified'] is False
+          seen=set()
+          with gzip.open(d/'source_ledger.jsonl.gz','rt',encoding='utf8') as source:
+              for line in source:
+                  row=json.loads(line)
+                  assert len(row['source_sha256'])==64
+                  assert row['source_path'] not in seen
+                  assert len(row['history'])>=1
+                  seen.add(row['source_path'])
+          assert len(seen)==r['imported_unique_original_sources']
+          assert sum(v['historically_attempted'] for v in r['categories'].values())==len(seen)
+          assert sum(v['not_in_imported_evidence'] for v in r['categories'].values())==r['not_in_imported_per_source_evidence']
+          print('SHA-ledger: source identities:',len(seen))
+          print('Historical statuses:',r['imported_source_status_counts'])
+          print('Remaining unrepresented ORIGINALS:',r['not_in_imported_per_source_evidence'])
+          print('Unverified history R45-R90: excluded from source-count claims')
+          PY
+
+      - name: Upload inspectable SHA-based report, ledger and next queue
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-historical-r41-r90-dedup-${{ github.run_id }}
+          path: |
+            UnPack/_meta/history_sha_merge/coverage.json
+            UnPack/_meta/history_sha_merge/source_ledger.jsonl.gz
+            UnPack/_meta/history_sha_merge/next_sources.json
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Persist verified historical-source ledger in default branch
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- UnPack/_meta/history_sha_merge
+          if git diff --cached --quiet; then
+            echo "No changes to historical SHA evidence ledger"
+            exit 0
+          fi
+          git commit -m "data(acnh303): audited R19/R27-R44 release and R51 historical SHA ledger"
+          git fetch origin 3.0.3_Unpack
+          git rebase origin/3.0.3_Unpack
+          git push origin HEAD:3.0.3_Unpack
