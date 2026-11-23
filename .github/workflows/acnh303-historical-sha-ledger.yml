@@ -13,6 +13,9 @@ on:
       - 'Scripts/test_acnh303_r83_r84_source_recovery.py'
       - 'Scripts/acnh303_r50_r62_icon_source_recovery.py'
       - 'Scripts/test_acnh303_r50_r62_icon_source_recovery.py'
+      - 'Scripts/acnh303_uncovered_model_bdli_wave.py'
+      - 'Scripts/acnh303_uncovered_wave_ledger.py'
+      - 'Scripts/test_acnh303_uncovered_model_bdli_wave.py'
       - 'docs/18-R50-R62-Item-Native-PNG-Source-SHA.md'
       - 'docs/17-R83-R84-Original-BCSV-Byte-Proof.md'
       - 'docs/15-R69-R72-Image-Source-SHA-Recovery.md'
@@ -23,6 +26,7 @@ on:
     paths:
       - '.github/workflows/acnh303-historical-sha-ledger.yml'
       - 'UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json'
+      - 'UnPack/_meta/history_sha_merge/_inputs/unrepresented_real_shards/**'
   workflow_dispatch:
 
 permissions:
@@ -73,6 +77,7 @@ jobs:
           python -m unittest discover -s Scripts -p 'test_acnh303_r69_r72_source_recovery.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_r83_r84_source_recovery.py' -v
           python -m unittest discover -s Scripts -p 'test_acnh303_r50_r62_icon_source_recovery.py' -v
+          python -m unittest discover -s Scripts -p 'test_acnh303_uncovered_model_bdli_wave.py' -v
 
       - name: Recover R8 independent first-8 original BARS with published SHA256SUMS
         shell: bash
@@ -208,6 +213,7 @@ jobs:
             --r69-r72-dir assets/evidence/rom-completeness/native-layout-batches \
             --r83-r84-report UnPack/_meta/history_sha_merge/_inputs/r83_r84_original_bcsv.json \
             --r50-r62-dir assets/evidence/rom-items \
+            --uncovered-wave-dir UnPack/_meta/history_sha_merge/_inputs/unrepresented_real_shards \
             --batches UnPack/_meta/batches \
             --basic-last UnPack/_meta/basic_last_manifest.json \
             --out UnPack/_meta/history_sha_merge \
@@ -227,6 +233,15 @@ jobs:
           assert r['import_stats']['input_type_rows']['committed_R69_R72_original_icon_sources']==5445
           assert r['import_stats']['input_type_rows']['real_R83_R84_original_BCSV']==5
           assert r['import_stats']['input_type_rows']['committed_R50_R62_native_icon_source_rows']==26277
+          new=r['source_provenance']['Unrepresented-Model-BDLI-Real-Shards']
+          assert new['native_runtime_evidence_captured'] is False if 'native_runtime_evidence_captured' in new else new['status']=='no_committed_CI_shard_reports'
+          assert r['import_stats']['input_type_rows']['new_real_unrepresented_model_bdli_shard_rows']==new.get('verified_original_attempts',0)
+          if new.get('verified_original_attempts',0):
+              assert new['verified_original_attempts']%32==0
+              assert new['fresh_l3_media_files_claimed_from_real_CI']>=1
+              assert new['static_bdli_sources_verified_in_real_CI']>=1
+              assert new['original_source_bytes_rehashed_during_this_import'] is False
+              assert new['whole_model_conversion_verified'] is False
           icons=r['source_provenance']['R50-R62-native-item-PNG']
           assert icons['original_reports']==53
           assert icons['historical_per_source_rows']==26277
