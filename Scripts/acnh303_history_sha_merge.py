@@ -160,6 +160,92 @@ def read_releases(root: Path, expected: dict[str, str]) -> tuple[list[dict], dic
     return attempts, assets
 
 
+R19_RELEASE_TAG = "acnh303-r19-animation-native-20261014"
+BARS_BWAV = "acnh303-BARS-BWAV-real-PCM-v1"
+BARS_AMTA = "acnh303-bars-amta-lossless-v1"
+
+
+def read_r19_baseline(directory: Path, expected: dict[str, str]) -> tuple[list[dict], dict]:
+    """Import exact cumulative R19 (not its summary count), pair BARS PCM+AMTA."""
+    paths = {
+        "media": directory / "media_source_manifest.jsonl.gz",
+        "bars": directory / "bars_source_manifest.jsonl.gz",
+    }
+    sums = directory / "SHA256SUMS.txt"
+    if not sums.is_file() or any(not p.is_file() for p in paths.values()):
+        raise FileNotFoundError("R19 original cumulative source manifests absent")
+    files = {kind: release_sha(path, sums) for kind, path in paths.items()}
+    media = list(each_gz_row(paths["media"], max_rows=3559))
+    bars = list(each_gz_row(paths["bars"], max_rows=161))
+    if len(media) != 3558 or len(bars) != 160:
+        raise ValueError("R19 media/BARS authenticated cumulative source count changed")
+    attempts = []
+    seen = set()
+    for raw in media:
+        name = canonical(raw["source_path"])
+        if name in seen or name not in expected or name.split("/", 1)[0] not in (
+                "Model", "Layout", "Sound"):
+            raise ValueError("R19 cumulative media has repeated or invalid original source")
+        seen.add(name)
+        output_count = len(raw.get("validated_outputs", []))
+        status = normalize_status(raw.get("status", "unknown"), output_count, layer="release")
+        attempts.append({
+            "source_path": name, "source_sha256": checked_sha(raw["sha256"]),
+            "source_bytes": checked_size(raw["source_bytes"]),
+            "source_git_blob_sha": None, "category": name.split("/", 1)[0],
+            "status": status, "raw_status": raw.get("status", "unknown"),
+            "source": "release-R19-cumulative-media",
+            "source_proof": "release_sha256sums_verified_published_cumulative",
+            "output_proof": "historic_validated_media_output_count_not_rehashed_now",
+            "claimed_verified_media_count": output_count,
+            "evidence_level": "L3_ATTEMPT",
+        })
+    paired = defaultdict(dict)
+    for raw in bars:
+        name = canonical(raw["source_path"])
+        kind = raw.get("source_type")
+        if name not in expected or not name.startswith("Sound/") or kind not in (
+                BARS_BWAV, BARS_AMTA) or kind in paired[name]:
+            raise ValueError("R19 original BARS source/type not unique or invalid")
+        paired[name][kind] = raw
+    if len(paired) != 80 or any(set(v) != {BARS_BWAV, BARS_AMTA}
+                                for v in paired.values()):
+        raise ValueError("R19 BARS 80 paired source identities changed")
+    for name, pair in sorted(paired.items()):
+        pcm, amta = pair[BARS_BWAV], pair[BARS_AMTA]
+        if pcm["source_sha256"] != amta["source_sha256"]:
+            raise ValueError("R19 BARS dual-track original source sha mismatch")
+        size = checked_size(pcm["original_bytes"])
+        if size != checked_size(amta["source_bytes"]):
+            raise ValueError("R19 BARS source size disagreement")
+        members = pcm.get("members", [])
+        if not isinstance(members, list):
+            raise ValueError("R19 BARS PCM member status invalid")
+        wav_count = sum(member.get("status") == "converted_pcm_wav" for member in members)
+        if name in seen:
+            raise ValueError("R19 BARS source duplicated in media cumulative")
+        seen.add(name)
+        attempts.append({
+            "source_path": name, "source_sha256": checked_sha(pcm["source_sha256"]),
+            "source_bytes": size,
+            "source_git_blob_sha": None, "category": "Sound",
+            "status": normalize_status(pcm.get("status", "unknown"), wav_count,
+                                       layer="release"),
+            "raw_status": pcm.get("status", "unknown"),
+            "source": "release-R19-cumulative-BARS-paired",
+            "source_proof": "release_sha256sums_verified_pcm_and_amta_matched_sha",
+            "output_proof": "historical_pcm_count_not_rehashed_now",
+            "claimed_verified_media_count": wav_count,
+            "evidence_level": "L3_ATTEMPT",
+        })
+    if len(attempts) != 3638:
+        raise ValueError("R19 3558 media+80 BARS original count drift")
+    return attempts, {"tag": R19_RELEASE_TAG, "media_source_rows": len(media),
+                       "bars_track_rows": len(bars),
+                       "unique_original_sources": len(attempts),
+                       "asset_sha256s": files}
+
+
 def normalize_status(status: str, output_count: int, *, layer: str) -> str:
     if status == "failed" or status == "decode_failed":
         return "failed"
@@ -414,7 +500,7 @@ def aggregate(expected: dict[str, str], records: dict, stats: dict, assets: dict
         "categories": dict(sorted(categories.items())),
         "unavailable_releases_or_per_source_manifests": [
             "R45-R90 per-original-source SHA manifests not available as authenticated Releases in this import; historical specialty static research is NOT counted as a new source attempt.",
-            "R19, R27-R36 cumulative manifests not present in the checked-out branch; R27-R44 deltas cannot stand in for that baseline.",
+            "R19 cumulative media/BARS is imported from independently authenticated Release; even this does not cover earlier BARS R8-R18 or all earlier non-media categories.",
         ],
         "caveat": "not_in_imported_per_source_evidence includes historical runs absent from supplied source manifests; it is NOT guaranteed never-attempted since project inception.",
     }
@@ -475,12 +561,15 @@ def main() -> int:
     if len(expected) != 103400:
         raise ValueError(f"original RomFS count mismatch: {len(expected)} != 103400")
     release, assets = read_releases(args.release_dir.resolve(), expected)
+    r19, r19_asset = read_r19_baseline(args.release_dir.resolve() / "r19", expected)
+    assets["R19-cumulative"] = r19_asset
     batch = batch_attempts((root / args.batches).resolve(), expected)
     r51 = r51_attempts((root / args.r51_artifact).resolve(), expected)
     basic = basic_attempts((root / args.basic_last).resolve(), expected)
-    attempts = release + batch + r51 + basic
+    attempts = r19 + release + batch + r51 + basic
     records, stats = deduplicate(expected, attempts)
-    stats["input_type_rows"] = {"release_R27_R44": len(release),
+    stats["input_type_rows"] = {"release_R19_cumulative": len(r19),
+                                 "release_R27_R44": len(release),
                                  "committed_batch": len(batch), "r51_real_source_ci": len(r51),
                                  "committed_basic": len(basic)}
     report = aggregate(expected, records, stats, assets)
