@@ -17,6 +17,12 @@ status: implementation
 - **Model：7,368 / 60,166** 已有本次证据，**52,798** 仍未纳入；**BDLI：44 / 36,708** 已有本次证据，**36,664** 仍未纳入。此处“未纳入”均不等于“历史从未被处理”。
 - 真实逐源证据位置：`UnPack/_meta/history_sha_merge/_inputs/priority_wave_model_bdli.json`；合并账本：`UnPack/_meta/history_sha_merge/coverage.json` 与 `source_ledger.jsonl.gz`。
 
+## 后续验收快照 · R8 BARS 已补证（2026-11-23）
+
+- [PR #56](https://github.com/969981/ACNH_Resources/pull/56) 已合并；[主分支 CI #45169778919](https://github.com/969981/ACNH_Resources/actions/runs/45169778919) 真实下载 R8 独立 BARS Release，8 个真实历史身份输入，经源 SHA 去重净增 7，新的权威账本 **11,269 / 103,400**，本次未纳入 **92,131**。
+- R8 仅改变 Sound 原始来源覆盖：**2,842 / 2,848**；Model **7,368 / 60,166**、BDLI **44 / 36,708** 不变。这是逐源账本，不是 L3/Native 覆盖。
+- R8 普通媒体累计 1,112 条另行与 R19 去重，R45–R90 专项研究的逐源哈希证据仍待追溯。
+
 ## 前序基线（2026-11-23，R9–R18 合并后、优先波验收前）
 
 - 原始完整 Git Tree：**103,400**，SHA 来源账本已纳入 **11,238** 个不同原始路径；其余 **92,162** 只是**本次账本中无逐源证据**，不可定义成历史从未运行。
