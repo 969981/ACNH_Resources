@@ -855,7 +855,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
             if x==b"\x00":break
         if not b or b[-1]!=0:raise ValueError("unterminated name")
         names.append({"rva":hex(rva),"bytes":b.hex(),"name":bytes(b[:-1]).decode("ascii")})
-    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc,0x01c04e38,0x01bc1880,0x01bc1730,0x01bfb6b4,0x01c05a7c,0x01b9c210,0x01b9cbc0,0x01b9cd50,0x01b9d0e0,0x01b9d2d0,0x01b970f0,0x01b9735c,0x01b977e0,0x01bea9c8)}
+    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc,0x01c04e38,0x01bc1880,0x01bc1730,0x01bfb6b4,0x01c05a7c,0x01b9c210,0x01b9cbc0,0x01b9cd50,0x01b9d0e0,0x01b9d2d0,0x01b970f0,0x01b9735c,0x01b977e0,0x01bea9c8,0x01bf8800,0x01bfb6b4,0x01bfac9c)}
     hits=[]
     for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
         if w&0x7c000000!=0x14000000:continue
@@ -904,6 +904,41 @@ def export_choice_writers(elf,es,elfbase,code_start,code,raw,cs,out):
         if re.match(r"(?:str|stur|stp) ",ins) and re.search(r"#0x(?:218|21c)\]",ins):
             hits.append({"site_va":r["va"],"window":rows[max(0,n-8):n+9]})
     (out/"choice_writer_windows.json").write_text(json.dumps({"range_rva":[hex(lo),hex(hi)],"rows":rows,"candidate_writes":hits,"scope":"syntactic candidates; object provenance and CFG require review","runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
+
+def export_message_archive_tables(elf,es,elfbase,raw,rel,out):
+    """Require original NSO/ELF agreement and exact RELR targets for message tables."""
+    import struct
+    def matched(a,n):
+        b=raw(a,n)
+        if len(b)!=n or get_bytes_va(elf,es,a+elfbase,n)!=b:
+            raise ValueError("message table byte mismatch "+hex(a))
+        return b
+    def cstring(a):
+        b=bytearray()
+        for i in range(256):
+            x=matched(a+i,1)
+            b.extend(x)
+            if x==b"\x00":
+                return {"rva":hex(a),"bytes":b.hex(),"text":bytes(b[:-1]).decode("ascii")}
+        raise ValueError("message table string not terminated")
+    def pointer_string(slot,expected):
+        b=matched(slot,8)
+        rr=rel.get(slot,{})
+        if rr.get("type")!="RELR" or rr.get("addend")!=expected:
+            raise ValueError("message table relocation mismatch "+hex(slot))
+        return {"slot_rva":hex(slot),"slot_bytes":b.hex(),"relocation":rr,**cstring(expected)}
+    targets=[0x3fb5ef9,0x3fc5523,0x3f67d23,0x3fc552c,0x3f97002,0x3f8fb02,0x3fc551c,0x3f7c917,0x3f7aad9,0x3f67d1e,0x3fc5116,0x3ff4ddb]
+    categories=[{"id":i,**pointer_string(0x493d1a8+i*16,a)} for i,a in enumerate(targets)]
+    languages=[{"id":i,**pointer_string(0x4812310+i*8,0x48122b0+i*6)} for i in range(16)]
+    mapping=list(struct.unpack("<9I",matched(0x4077ba8,36)))
+    schemas=[1,2,2]+mapping
+    # 01B970F0 explicitly overrides archive category 10 to schema1.
+    schemas[10]=1
+    result={"runtime_verified":False,"archive_categories":categories,"language_suffixes":languages,
+        "archive_schema_mapping_raw_3_to_11":mapping,"archive_schema_mapping_effective":schemas,
+        "result_label_format":cstring(0x3f5bf91),"archive_path_format":cstring(0x3f87568),
+        "unknown_language_fallback":cstring(0x3f7ebb1)}
+    (out/"message_archive_tables.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
 
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
@@ -1123,6 +1158,21 @@ def main(root,out):
                                 "index_min":1,"index_max":count,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x01bf8800 and a==0x1af958c:
+                    signature=bytes.fromhex("5f150071 48030054 eb2b01f0 6b1d0e91 8c000010 6d696a38 8c090d8b 80011fd6")
+                    first=0x1af9570;table=0x4078387
+                    table_bytes=raw(table,6)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==6
+                        and get_bytes_va(elf,es,table+elfbase,6)==table_bytes):
+                        candidate=[0x1af9590+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":5,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
@@ -1151,6 +1201,7 @@ def main(root,out):
     export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out)
     export_dialogue_scheduler_windows(elf,es,elfbase,code_start,code,raw,cs,out)
     export_choice_writers(elf,es,elfbase,code_start,code,raw,cs,out)
+    export_message_archive_tables(elf,es,elfbase,raw,rel,out)
     if any(r["rows"]==0 for r in manifest["functions"]): raise SystemExit("one or more anchors lack byte-matched evidence; inspect artifact")
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True)
