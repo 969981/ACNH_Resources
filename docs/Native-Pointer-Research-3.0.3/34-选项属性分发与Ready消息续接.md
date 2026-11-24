@@ -56,3 +56,26 @@ R100：归档类别表12个指针槽从RVA493D1A8起stride10；目标分别3FB5E
 
 ## 5. 下一轮验收
 commit 0b4062e76b0ac8033b60dd3b7577ba57851ebca4 新增Ready剩余6项跳转表、12类消息归档名、16项语言后缀、9个类别schema原始映射、结果格式字面值提取。CI Run 45351601376 待验收。结构化证据 dialogue_controller_evidence.json 已更新。runtime_verified=false、production_eligible=false，旧ChatId/TextSpeed/IsChatEnded以及EventFlow完成通知仍待确认。
+
+## 6. 同轮追加：Ready CFG、消息续接标签及语言归档表全部验收
+[Run 45351601376](https://github.com/969981/ACNH_Resources/actions/runs/45351601376) success；[artifact 14899794443](https://github.com/969981/ACNH_Resources/actions/runs/45351601376/artifacts/14899794443) 实际下载 ZIP SHA256 9957ceb3501835ae9d594ccc61fc906aa9221c3f01ff704087ea22a7adea3974 一致。770 anchors/99660 rows/275 gaps（含重叠）。本轮证据覆盖前文待CI项。
+01BF8800 1334/0，跳转表RVA4078387 bytes 000204130608。实际读取源schema 1..6减1，表索引0..5；对应目标01BF9590/9598/95A0/95DC/95A8/95B0。schema1/2/3/5/6读B+94/9A/9D/A0/A1（即属性+8/E/11/14/15），值>10回退0；枚举9→参数1，10→2，其他→0，随后M.currentSeq.vcall208(该参数)。
+RVA3F5BF91 bytes 2530336400 = "%03d"，已通过NSO/ELF匹配。01BFAD5C把选项标识格式化为三位最小宽度十进制标签（不是截断为3位）。结合01BF8800的B+2560→B+24F0→006F50A0，可证实该标识在有效结果路径上用于后续消息标签查找。01BF95FC..9640同样将新消息的属性schema1之u16（B+90）或者0写B+254C，设置B+2548=1，格式化至B+2560。仍需关联实际ATR1样本才能赋予业务字段正式名称。
+01BF96BC 418dfe97 BL01B9CBC0 已处在完整Ready CFG内。01BF969C mov x3,x20（B+8C）；01BF96A4 ldr x8,[x19,#20]；01BF96A8 ldr x0,[x8,#10]；01BF96B0 x1=B+2480；01BF96B8 x2=B+24D8。真实参数为(Q,资源名对象,已复制消息描述符,属性结构)。schema1/2/3分别读B+92/98/9C；mode非0且<=23才调用，置B+AC=1，生成器返回false则01BF96C4清B+AC。原版全text直接B/BL扫描只找到此一直接调用点，不据此排除间接调用。
+message_archive_tables.json 认证12类归档名称及16个语言后缀的RELR槽和原始字符串；路径格式"Message/%s_%s.sarc.zs"，无效语言后缀为空字符串。
+|归档类别ID|名称|基础schema|
+|---:|---|---:|
+|0|TalkNNpc|1|
+|1|TalkSNpc|2|
+|2|TalkFtr|2|
+|3|TalkObj|3|
+|4|TalkSys|3|
+|5|String|4|
+|6|Dialog|5|
+|7|LayoutMsg|4|
+|8|System|4|
+|9|Mail|4|
+|10|Test|1|
+|11|Tutorials|3|
+类别3..11原表[3,3,4,5,4,4,4,4,3]，其中类别10由前置分支强制1。未匹配归档类别12→默认schema4。另有STR_Select_Talk、CmnSubWin覆盖6，以及两个NookMilage名称覆盖7。
+语言ID 0..15精确顺序：JPja, USen, USes, USfr, USpt, EUen, EUes, EUfr, EUde, EUit, EUpt, EUnl, EUru, KRko, CNzh, TWzh。R75实际14种String归档清单对应除ID4/10以外14项；USpt/EUpt为原版可识别后缀，不能据此声称3.0.3含这两个归档。14种清单未解码ATR1，后续优先取TalkNNpc的实际文件样本、属性ID与目标标签对账。旧Heap映射、NPC EventFlow终止以及实机仍待验收。
