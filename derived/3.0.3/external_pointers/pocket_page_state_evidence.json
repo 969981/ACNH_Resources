@@ -592,12 +592,12 @@
     }
   },
   "latest_verified_export": {
-    "run": 45336377939,
-    "artifact": 14894312027,
-    "sha256": "9aaec1859756e290698e0b3cc856c75e7cdda13495801552a93963d67e9848b4",
-    "entries": 458,
-    "rows": 56237,
-    "gaps": 175
+    "run": 45337380633,
+    "artifact": 14894148965,
+    "sha256": "bb18dd3919a9fd0973a2f4473db9b8e8df390e91ac2073852258eef057aebbfe",
+    "entries": 497,
+    "rows": 65521,
+    "gaps": 192
   },
   "lifecycle_scan": {
     "run": 45334089129,
@@ -694,8 +694,12 @@
         "page_offset": "0x308",
         "idle_request_va": "0x02fa3db0",
         "idle_predicate_va": "0x02fa2de4",
-        "wait_icon_state_id": 6
-      }
+        "wait_icon_state_id": 6,
+        "request_producer_va": "0x02fa35ac",
+        "request_write_va": "0x02fa35c8"
+      },
+      "appear_request_va": "0x02fa3588",
+      "direct_idle_reset_va": "0x02fa35d0"
     },
     "select_talk": {
       "registration_va": "0x02fad0b0",
@@ -709,8 +713,12 @@
         "completion_vcall_slot": "0x50",
         "idle_request_va": "0x02fadd90",
         "idle_predicate_va": "0x02fac390",
-        "page_offset": "0x210"
-      }
+        "page_offset": "0x210",
+        "request_producer_va": "0x02facf00",
+        "request_write_va": "0x02facf1c"
+      },
+      "appear_request_va": "0x02facedc",
+      "direct_idle_reset_va": "0x02facf24"
     },
     "name_rvas": [
       "0x3f8dd64",
@@ -767,6 +775,58 @@
     },
     "legacy_is_chat_ended_alias": null,
     "legacy_chat_id_alias": null,
-    "legacy_text_speed_alias": null
+    "legacy_text_speed_alias": null,
+    "shared_page_predicates": {
+      "table_count_offset": "0x3f0",
+      "table_pointer_offset": "0x3f8",
+      "child_pointer_offset": "0x1b0",
+      "slots": {
+        "0x128": {
+          "va": "0x02bf0c18",
+          "child_slot": "0x30"
+        },
+        "0x258": {
+          "va": "0x02bf0c48",
+          "child_slot": "0x30"
+        },
+        "0x140": {
+          "va": "0x02bf0ca8",
+          "child_slot": "0x50"
+        },
+        "0x148": {
+          "va": "0x02bf0cd4",
+          "child_slot": "0x58"
+        },
+        "0x150": {
+          "va": "0x02bf0d00",
+          "child_slot": "0x60"
+        }
+      },
+      "concrete_child_type": null
+    },
+    "parent_message_window": {
+      "root_offset": "0x48",
+      "vtable_rva": "0x49e9420",
+      "current_sequence_offset": "0x210",
+      "idle_predicate_va": "0x02fa88f0",
+      "close_request_va": "0x02fa97a0",
+      "upper_consumer": {
+        "va": "0x01d53060",
+        "c_blob": "04c4e108dd6f74c2a0ef0cdc93922feb3e01d243",
+        "caller_va": "0x01d52c00",
+        "caller_c_blob": "ac8719a343afb845eee0aae8ca51bbad7909bb58",
+        "returns": [
+          0,
+          1,
+          2
+        ],
+        "pure_chat_ended": false,
+        "original_instruction_verified": false
+      },
+      "current_page_consumer": {
+        "va": "0x033862f0",
+        "c_blob": "862452b0e100d46281814370d97b1a118972409b"
+      }
+    }
   }
 }
