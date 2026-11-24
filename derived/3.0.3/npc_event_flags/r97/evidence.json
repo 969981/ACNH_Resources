@@ -1,0 +1,220 @@
+{
+  "schema": "acnh303-r97-static-evidence-v1",
+  "layout": {
+    "light_memory_base": 12164,
+    "stride": 344,
+    "count": 160,
+    "identity_check_offsets": [
+      0,
+      28
+    ],
+    "flags_offset": 56,
+    "flags_count": 256,
+    "tail_offset": 312,
+    "tail_size": 32,
+    "end_exclusive": 67204,
+    "tail_raw_fields": [
+      {
+        "offset": 312,
+        "width": 4,
+        "name": "date_raw"
+      },
+      {
+        "offset": 316,
+        "width": 2,
+        "name": "unknown_13c"
+      },
+      {
+        "offset": 320,
+        "width": 2,
+        "name": "unknown_140"
+      },
+      {
+        "offset": 332,
+        "width": 2,
+        "name": "unknown_14c"
+      },
+      {
+        "offset": 334,
+        "width": 1,
+        "name": "unknown_14e"
+      },
+      {
+        "offset": 335,
+        "width": 1,
+        "name": "unknown_14f"
+      },
+      {
+        "offset": 336,
+        "width": 4,
+        "name": "unknown_150"
+      },
+      {
+        "offset": 340,
+        "width": 2,
+        "name": "unknown_154"
+      },
+      {
+        "offset": 342,
+        "width": 1,
+        "name": "unknown_156"
+      }
+    ]
+  },
+  "anchors": [
+    [
+      "89/027a896c",
+      "full to light: same 256 byte flags and identity, tail conversion",
+      [
+        "memcpy(param_1 + 7,param_2 + 0xe,0x100)",
+        "0x158",
+        "0x13a",
+        "0x154"
+      ]
+    ],
+    [
+      "63/027b6388",
+      "light to full: same 256 byte flags",
+      [
+        "memcpy(param_1 + 7,param_2 + 0xe,0x100)",
+        "0x5f0",
+        "0x13a"
+      ]
+    ],
+    [
+      "d7/0270d700",
+      "native descriptor construction at light base; next structure at end",
+      [
+        "param_1[2] + 0x2f84",
+        "param_1[2] + 0x10684",
+        "FUN_0270dd90"
+      ]
+    ],
+    [
+      "dd/0270dd90",
+      "160 light descriptors, 0x158 backing stride; state +0x38",
+      [
+        "0xa0",
+        "param_3 + 0x158",
+        "plVar5[2] = 0x38"
+      ]
+    ],
+    [
+      "0f/026b0f90",
+      "occupied light identity and actual state read",
+      [
+        "piVar2[7] != 0 && *piVar2 != 0",
+        "InducementAtMovingDay",
+        "0x158",
+        "0x38"
+      ]
+    ],
+    [
+      "37/026b3780",
+      "first empty light slot, random replacement if all occupied",
+      [
+        "piVar4[7] == 0 || *piVar4 == 0",
+        "0xa0",
+        "(ulong)uVar2 * 0xa0 >> 0x20"
+      ]
+    ],
+    [
+      "18/026b1890",
+      "resident copy of light identity/flags; full save flags copy",
+      [
+        "0x2f84",
+        "0x158",
+        "memcpy(param_1 + 0x1267c,param_2 + 0x1267c,0x200)"
+      ]
+    ],
+    [
+      "5a/021f5aa0",
+      "photo item lookup via NmlNpcParam BromideItemID",
+      [
+        "0x71bf253b",
+        "FUN_006bd550",
+        "FUN_0277d4ac"
+      ]
+    ],
+    [
+      "76/026b7690",
+      "native item history path compares resident-specific photo ID, then sets skip count for full/light recipient",
+      [
+        "FUN_021f5aa0",
+        "FUN_0277d7b4(auStack_88,param_2)",
+        "BromideRewardSkipCount",
+        "FUN_02747170(pbVar8 + 0x38,&local_98,10)",
+        "0x2f84"
+      ]
+    ],
+    [
+      "87/027a87a4",
+      "light memory countdown",
+      [
+        "BromideRewardSkipCount",
+        "FUN_027475c0",
+        "0xffffffff"
+      ]
+    ],
+    [
+      "5d/027b5d00",
+      "full memory countdown",
+      [
+        "BromideRewardSkipCount",
+        "FUN_027475c0",
+        "0xffffffff"
+      ]
+    ],
+    [
+      "a9/026aa970",
+      "resident date update loops over light slots",
+      [
+        "FUN_027a87a4",
+        "0xa0",
+        "0x158"
+      ]
+    ],
+    [
+      "41/011841f0",
+      "actor names and two query identifiers, not a registration proof",
+      [
+        "EventFlowQueryDummy",
+        "EventFlowQueryCheckErrorType",
+        "MainNpc"
+      ]
+    ],
+    [
+      "76/021d7650",
+      "unsigned intermediate and level protection",
+      [
+        "uVar3 = uVar3 + param_3",
+        "if (uVar8 < uVar2)",
+        "UNK_04179ca0"
+      ]
+    ],
+    [
+      "71/02747170",
+      "signed lower clamp and max clamp",
+      [
+        "if (-1 < (int)param_3)",
+        "if ((int)uVar10 <= (int)param_3)"
+      ]
+    ]
+  ],
+  "photo": {
+    "item_lookup": "FUN_021f5aa0",
+    "item_hash": "71BF253B",
+    "history_write": "FUN_026b7690",
+    "skip_counter": 10,
+    "selection_probability": null,
+    "selection_eligibility": null,
+    "note": "history path matches resident photo item; counter set when matching player memory found; direction of gifting and universal eligibility are not proved by this function"
+  },
+  "unknown_field_names": [
+    "5140E4B4",
+    "5F77B61A",
+    "BED25A86",
+    "8D401DF7"
+  ],
+  "real_save_fixture_verified": false
+}
