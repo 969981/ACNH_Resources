@@ -1096,6 +1096,33 @@ def main(root,out):
                                 "table_bytes":table_bytes.hex(),"index_min":3,"index_max":6,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                choice_attribute_switches={
+                    (0x01b9cd50,0x1a9cda4):(0x1a9cd70,0x4077c8c,23,1,0x1a9cda8,
+                        "28040051 f30302aa e01700f9 1f590071 48020054 49008052 38008052 e92700b9 c92e01f0 29313291 8a000010 2b696838 4a090b8b 40011fd6"),
+                    (0x01b9d2d0,0x1a9d32c):(0x1a9d2f4,0x4077ca4,22,2,0x1a9d330,
+                        "4a040051 5f550071 e30302a9 e11f00f9 e84700b9 28300054 cb2e01d0 6b913291 ec000010 6d796a78 8c090d8b 94008052 68008052 49008052 80011fd6"),
+                    (0x01b9735c,0x1a97394):(0x1a9736c,0x4077b6b,7,1,0x1a97398,
+                        "08050051 1f190071 08040054 092f0190 29ad2d91 ca000010 2b696838 4a090b8b e30302aa e20301aa 40011fd6"),
+                    (0x01b97400,0x1a97444):(0x1a97424,0x4077b72,6,1,0x1a97448,
+                        "29050051 3f150071 a8020054 0a2f0190 4ac92d91 8b000010 4c696938 6b090c8b 60011fd6"),
+                }
+                if (gh,a) in choice_attribute_switches:
+                    first,table,count,width,target_base,signature_hex=choice_attribute_switches[(gh,a)]
+                    signature=bytes.fromhex(signature_hex)
+                    table_bytes=raw(table,count*width)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==count*width
+                        and get_bytes_va(elf,es,table+elfbase,count*width)==table_bytes):
+                        candidate=[target_base+4*int.from_bytes(table_bytes[i*width:(i+1)*width],"little")
+                                   for i in range(count)]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"entry_width":width,
+                                "index_min":1,"index_max":count,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
