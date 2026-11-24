@@ -88,6 +88,18 @@ def main(root,out):
             elif "PTR_DAT_04bb2230" in line and ("0xd80" in s or "0xd88" in s):
                 kind=ui_mentions
             if kind is not None:kind.append({"file":str(p.relative_to(root)),"line":i+1,"context":"\n".join(ls[max(0,i-2):i+3])})
+    # Lifecycle evidence is pinned to existing decompiled source and exact layout arithmetic.
+    lifecycle={}
+    for name,p,anchors in [
+        ("create","aa/0261aa48",["malloc(0xea908)","FUN_0261ab30(pvVar4)","DAT_055588d0 = pvVar4","0xea8e8"]),
+        ("construct","ab/0261ab30",["memset(param_1 + 0x1d2fc,0,0xd01)","PTR_LAB_04a86fa0"]),
+        ("unregister","a8/0261a890",["DAT_055576c8 == param_1","DAT_055588d0 = 0","FUN_0261b7f0","FUN_0261b994"])]:
+        p=srcroot/(p+".c");b=p.read_bytes();assert all(x.encode() in b for x in anchors)
+        lifecycle[name]={"source":str(p.relative_to(root)),"sha256":db.digest(b),"anchors":anchors}
+    begin=0x1d2fc*8;stop=begin+0xd01
+    assert begin<=0xe98e0 and 0xe99e0+256<=stop
+    lifecycle["initial_zero_range"]={"start":hex(begin),"end_exclusive":hex(stop),"both_bitmaps_covered":True}
+    db.write(out/"r112_diy_lifecycle.json",lifecycle)
     # Explicit direct C evidence for record conversion; preserve exact 8-byte records
     # and avoid assigning final replacement names from Kind alone.
     item=db.BCSV(root,"ItemParam");recipe=db.BCSV(root,"RecipeCraftParam")
@@ -108,7 +120,7 @@ def main(root,out):
     web["r112_filter_registration"]={k:gh(v) for k,v in cb.items()}
     web["limitations"].append("Registered callback does not prove actual UI evaluation; live bitmap state remains unknown")
     db.write(out/"gift_web_sidecar_r112.json",web)
-    report={"recipe_product_field":"Item u16","recipe_product_matches":924,"ui_root_ghidra":gh(ui_root),"ui_root_main_offset":hex(ui_root),"filter_parameter_offset":"0xD80","callbacks":{k:{"entry":v["entry"],"instructions":len(v["instructions"]),"calls":v["calls"],"gaps":v["gaps"],"known_predicate_edges":v["known_predicate_edges"]} for k,v in graphs.items()},"indirect_consumer_candidates":len(consumer),"root_assignment_candidates":len(root_mentions),"bitmap_source_mentions":len(bitmap_mentions),"ui_source_mentions":len(ui_mentions),"runtime_verified":False}
+    report={"recipe_product_field":"Item u16","recipe_product_matches":924,"ui_root_ghidra":gh(ui_root),"ui_root_main_offset":hex(ui_root),"filter_parameter_offset":"0xD80","callbacks":{k:{"entry":v["entry"],"instructions":len(v["instructions"]),"calls":v["calls"],"gaps":v["gaps"],"known_predicate_edges":v["known_predicate_edges"]} for k,v in graphs.items()},"indirect_consumer_candidates":len(consumer),"diy_lifecycle":lifecycle,"root_assignment_candidates":len(root_mentions),"bitmap_source_mentions":len(bitmap_mentions),"ui_source_mentions":len(ui_mentions),"runtime_verified":False}
     for n,o in [("r112_report.json",report),("r112_callback_cfg.json",graphs),("r112_callback_consumers.json",consumer),("r112_diy_root_assignments.json",root_mentions),("r112_bitmap_mentions.json",bitmap_mentions),("r112_ui_source_mentions.json",ui_mentions),("r112_recipe_product.json",records)]:db.write(out/n,o)
     print("R112 REPORT",json.dumps(report,ensure_ascii=False),flush=True)
     print("R112 ROOT ASSIGNMENTS",json.dumps(root_mentions,ensure_ascii=False),flush=True)
