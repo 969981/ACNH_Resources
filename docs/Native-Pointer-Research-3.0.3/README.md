@@ -22,6 +22,8 @@ updated: 2026-11-24
 
 8. [[08-保存管理器生命周期与Friendship静态验收]] · [GitHub 阅读](08-保存管理器生命周期与Friendship静态验收.md)
 
+9. [[09-保存后端析构与玩家Payload]] · [GitHub 阅读](09-保存后端析构与玩家Payload.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
@@ -32,6 +34,9 @@ updated: 2026-11-24
 - [R100 保存根与生命周期结构化证据](../../derived/3.0.3/external_pointers/save_root_r100_evidence.json)
 - [R100 实际 SQLite 构建产物](https://github.com/969981/ACNH_Resources/actions/runs/45308001227/artifacts/14881442847)
 - [ELF 审计 CI 45313390861](https://github.com/969981/ACNH_Resources/actions/runs/45313390861)
+- [Build ID 指针数据库 JSON](../../derived/3.0.3/external_pointers/build_id_pointer_index.json)
+- [保存后端 ELF CI](https://github.com/969981/ACNH_Resources/actions/runs/45320066579)
+- [离线快照比对工具](../../Scripts/acnh303_save_snapshot_compare.py)
 - [Ghidra 导出进度](../../derived/3.0.3/ghidra12.2/progress.json)
 
 原始合订版提到的独立 ZIP、Evidence/external-pointer-audit.json、trace_native.py、heap_to_main.py、NativeRootTrace.java 未在本次同步中取得原文件，故仅保留其来源、设计和命令说明；不宣称已提交或重新执行。已有仓库脚本与上述本地附带脚本是不同交付物。
@@ -46,9 +51,9 @@ updated: 2026-11-24
 |P0|0x59E6A60 注销|清零指令已定位|核对析构路径|
 |P0|玩家坐标|已恢复消费者|逐跳确认五级链及 XYZ|
 |P0|R100 关联|真实 SQLite 通过完整性检查；确认保存根及其他 6 条 RELR|扩展 ELF 指令引用与后端虚表定位|
-|P0|GSavePlayer 根|共享全局根 RELR 已确认；双分支访问器和背包消费者已恢复|验证后端虚调用目标、持久化载荷与固定 Heap 对应|
+|P0|GSavePlayer 根|双后端 getter 原始指令及背包、铃钱、里数、仓库描述符已恢复|真实载荷、持久化偏移与固定 Heap 对照|
 |P0|GSaveNpc 根|共享全局根 RELR 已确认；B+0xa8 描述符到十条 NPC 原生载荷已恢复|实机载荷及保存文件对照|
-|P0|保存管理器根|RVA 0x5474040 BSS 已确认；注册/初始化/条件注销及主体首虚函数目标已恢复|原始 ELF 逐行核对、后端 +0x38 虚函数目标|
+|P0|保存管理器根|RVA 0x5474040 BSS 已确认；注册/初始化/条件注销及主体首虚函数目标已恢复|两种 +0x38 与主体析构入口原字已核对；继续真实快照验收|
 |P0|Friendship +0x46|原始字段索引 10 + Native 0x3c = 0x46 静态确认|实际载荷与存档值对照|
 |P1|游戏时间|时间计算逻辑已恢复|时间对象根与生命周期|
 |P1|碰撞相关对象|状态选择逻辑已恢复|调用链与对象布局|
@@ -56,7 +61,7 @@ updated: 2026-11-24
 |P1|聊天对象|118 条读取候选|缓冲区字段和长度|
 |P1|生物生成率|待研究|参数加载器与原生消费者|
 |P1|3.0.2 → 3.0.3|缺双版本 ELF 证据|身份校验、CFG 与语义对照|
-|P2|Build ID 指针数据库|证据字段已设计|证据分级、版本门禁、运行时复验|
+|P2|Build ID 指针数据库|已生成 Build ID JSON 注册表和 SQLite 构建工具|真实快照与版本迁移复验|
 
 ## 验收规则
 
