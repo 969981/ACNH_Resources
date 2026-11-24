@@ -1,0 +1,51 @@
+name: ACNH 3.0.3 R107 lifecycle audit
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r107*'
+      - 'derived/3.0.3/npc_event_flags/r107_lifecycle_audit/**'
+      - '.github/workflows/acnh303-r107-lifecycle.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r107:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r107_lifecycle_audit.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r107_lifecycle_audit/
+            /derived/3.0.3/ghidra12.2/c/c9/028bc93c.c
+            /derived/3.0.3/ghidra12.2/c/ca/028bca04.c
+            /derived/3.0.3/ghidra12.2/c/2f/00822f90.c
+            /derived/3.0.3/ghidra12.2/c/86/01d986d8.c
+            /derived/3.0.3/ghidra12.2/c/1b/01de1b80.c
+            /derived/3.0.3/ghidra12.2/c/17/021a17a0.c
+            /derived/3.0.3/ghidra12.2/c/f9/0219f990.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - name: Fetch authenticated R105 evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14883517767/zip > r105.zip
+      - run: python Scripts/acnh303_r107_lifecycle_audit.py --root . --artifact r105.zip --out artifacts/r107
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r107-lifecycle
+          path: artifacts/r107/
+          if-no-files-found: error
