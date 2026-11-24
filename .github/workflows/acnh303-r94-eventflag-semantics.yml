@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 R94 bilingual EventFlags semantics and Native xrefs
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r94_eventflag_semantics.py'
+      - 'derived/3.0.3/npc_event_flags/**'
+      - '.github/workflows/acnh303-r94-eventflag-semantics.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-semantics-and-xrefs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r94_eventflag_semantics.py
+            /derived/3.0.3/npc_event_flags/
+            /derived/3.0.3/ghidra12.2/c/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check 371 exact source translations, CRC names and Native key literals
+        run: python Scripts/acnh303_r94_eventflag_semantics.py --root . --out artifacts/acnh303-r94-eventflags --scan-ghidra
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r94-eventflag-semantic-dictionary
+          path: artifacts/acnh303-r94-eventflags/
+          if-no-files-found: error
+          retention-days: 90
