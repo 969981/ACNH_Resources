@@ -1,0 +1,55 @@
+name: ACNH 3.0.3 R124 interface registry
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r124*'
+      - 'derived/3.0.3/npc_event_flags/r124_interface_registry/**'
+      - '.github/workflows/acnh303-r124-interface-registry.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r124:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r124_interface_registry.py
+            /Scripts/acnh303_r123_cloud_interface.py
+            /Scripts/acnh303_r122_backend_abi.py
+            /Scripts/acnh303_r120_native_save.py
+            /Scripts/acnh303_r119_save_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r124_interface_registry/
+            /derived/3.0.3/ghidra12.2/c/18/01d41828.c
+            /derived/3.0.3/ghidra12.2/c/05/01d805dc.c
+            /derived/3.0.3/ghidra12.2/c/49/01c84918.c
+            /derived/3.0.3/ghidra12.2/c/2c/01c82cb0.c
+            /derived/3.0.3/ghidra12.2/c/8b/02818bc0.c
+            /derived/3.0.3/ghidra12.2/c/a9/027ea950.c
+            /derived/3.0.3/ghidra12.2/c/13/02691310.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4 unicorn==2.1.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14895241375/zip > r123.zip
+      - run: python Scripts/acnh303_r124_interface_registry.py --r123 r123.zip --out artifacts/r124
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r124-interface-registry
+          path: artifacts/r124/
+          if-no-files-found: warn
