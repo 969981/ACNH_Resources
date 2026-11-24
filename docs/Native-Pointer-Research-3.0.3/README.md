@@ -119,6 +119,8 @@ updated: 2026-11-24
 
 37. [[37-ItemLayer接口绑定与工作快照验收]] · [GitHub 阅读](37-ItemLayer接口绑定与工作快照验收.md)
 
+36. [[36-机场EventFlow消息关联与显式退出]] · [GitHub 阅读](36-机场EventFlow消息关联与显式退出.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
