@@ -3,7 +3,7 @@
 import argparse,hashlib,json,struct,re
 from pathlib import Path
 from unicorn import UC_HOOK_CODE
-from unicorn.arm64_const import UC_ARM64_REG_X0,UC_ARM64_REG_X1,UC_ARM64_REG_X30,UC_ARM64_REG_PC
+from unicorn.arm64_const import UC_ARM64_REG_X0,UC_ARM64_REG_X1,UC_ARM64_REG_X19,UC_ARM64_REG_W8,UC_ARM64_REG_X30,UC_ARM64_REG_PC
 import acnh303_r100_nso_decode as dec
 from acnh303_r120_native_save import load_archive,direct_scan,S,hx,vm,invoke,BUF,STOP
 from acnh303_r124_interface_registry import window
@@ -54,6 +54,48 @@ def dispatch_tests(mapped,relocs):
                 assert bytes(u.mem_read(ctx,len(before)))==before
                 rows.append({"selector":sel,"variant":variant,"source":src,"modeled_callback":bool(trace),"target":hx(targets[variant]),"full_buffer_equal":True})
     return rows
+def completion_tests(mapped):
+    u=vm(mapped,0x5000);g=0x5574040;ensure(u,g);mgr=BUF+0x1000;trace=[]
+    def transition(uc,addr,size,user):
+        trace.append((uc.reg_read(UC_ARM64_REG_X0),uc.reg_read(UC_ARM64_REG_X1)))
+        uc.reg_write(UC_ARM64_REG_PC,uc.reg_read(UC_ARM64_REG_X30))
+    u.hook_add(UC_HOOK_CODE,transition,begin=0x3ebb160,end=0x3ebb160)
+    rows=[]
+    for active in (0,1,255):
+        for done in (0,1,255):
+            for present in (0,1):
+                for kind in (0,1,2,3,0xffffffff):
+                    p64(u,g,mgr if present else 0)
+                    data=bytearray([0xa5])*0x310;data[0xb8]=active;data[0xc4]=done
+                    m=bytearray([0x5a])*0x600;struct.pack_into("<I",m,0x520,kind)
+                    u.mem_write(BUF,bytes(data));u.mem_write(mgr,bytes(m));trace.clear()
+                    invoke(u,0x283d1cc,BUF,count=100)
+                    expected=[] if active and not done else [(BUF+0x220,3)]
+                    cleared=bool(active and done and present)
+                    if cleared:struct.pack_into("<I",m,0x520,0)
+                    assert trace==expected
+                    assert bytes(u.mem_read(BUF,len(data)))==data
+                    assert bytes(u.mem_read(mgr,len(m)))==m
+                    rows.append({"active":active,"done":done,"manager_present":present,"kind":kind,"cleared_type":cleared,"transition":bool(trace)})
+    return rows
+def worker_dispatch(mapped,raw,relocs):
+    # The factory reads GOT and adds 0x10 for the VTable address point.
+    base=get_target(relocs,0x4bc1018,0)+0x10
+    assert base==0x4a43400
+    entries=[{"slot":i*8,"target":hx(get_target(relocs,base,i*8))} for i in range(4)]
+    assert entries[3]["target"]=="01C7A8E0"
+    # Original unsigned-byte jump table for task type 1..6.
+    table=raw(0x4178725-S,6)
+    u=vm(mapped,0x1000);rows=[]
+    for i,b in enumerate(table):
+        target=0x1c7a950+b*4
+        u.reg_write(UC_ARM64_REG_W8,i)
+        u.emu_start(0x1c7a938,target,count=10)
+        assert u.reg_read(UC_ARM64_REG_PC)==target
+        rows.append({"task_type":i+1,"table_byte":b,"target":hx(target)})
+    assert rows[1]["target"]=="01C7AA8C"
+    return {"vtable":hx(base),"entries":entries,"jump_table":"04178725","jump_table_bytes":table.hex(),"dispatch_cases":rows,"type2_hash_call":"01C7AA90"}
+
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--r132",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args()
     prior,=load_archive(a.r132,"61eb0cae201b26e0c01d4e7e25236dfbd6108df9086043a25cc6bd9f5f4937d6",["report.json"])
@@ -92,6 +134,8 @@ def main():
     write("manager_field_candidates.json",fields)
     rr=register_tests(mapped,relocs);write("registration_tests.json",rr)
     dd=dispatch_tests(mapped,relocs);write("variant_dispatch_tests.json",dd)
-    report={"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"worker_incoming_relocations":len(incoming),"manager_field_candidates":len(fields),"variant_table_slots":len(tables),"registration_cases":len(rr),"variant_dispatch_cases":len(dd),"modeled_variant_calls":sum(x["modeled_callback"] for x in dd),"total_cases":len(rr)+len(dd),"full_worker_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
+    completion=completion_tests(mapped);write("completion_tests.json",completion)
+    worker=worker_dispatch(mapped,raw,relocs);write("worker_dispatch.json",worker)
+    report={"completion_cases":len(completion),"worker_type_dispatch_cases":len(worker["dispatch_cases"]),"worker_vtable_verified":True,"type2_hash_branch_verified":True,"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"worker_incoming_relocations":len(incoming),"manager_field_candidates":len(fields),"variant_table_slots":len(tables),"registration_cases":len(rr),"variant_dispatch_cases":len(dd),"modeled_variant_calls":sum(x["modeled_callback"] for x in dd),"total_cases":len(rr)+len(dd)+len(completion)+len(worker["dispatch_cases"]),"full_worker_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
     write("report.json",report);print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
