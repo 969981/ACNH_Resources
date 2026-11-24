@@ -129,6 +129,8 @@ updated: 2026-11-24
 
 40. [[40-ItemLayer变体工厂与构造标志闭合]] · [GitHub 阅读](40-ItemLayer变体工厂与构造标志闭合.md)
 
+38. [[38-原版Query别名与消息动作完成条件]] · [GitHub 阅读](38-原版Query别名与消息动作完成条件.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
