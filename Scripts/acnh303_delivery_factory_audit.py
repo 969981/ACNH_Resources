@@ -175,12 +175,46 @@ def main(root,out):
         if b is not None:
             s=b.split(bytes([0]),1)[0]
             parameter_literals.append({"va":hex(a+BASE),"bytes":s.hex(),"text":s.decode("utf-8",errors="replace")})
+    # Reconcile names from actual exported EventFlow graph events and actor declarations.
+    action_names={};bad=[];graph_count=0
+    def add_name(n,p):
+        if isinstance(n,str) and n.startswith("EventFlowAction"):
+            action_names.setdefault(n,set()).add(p)
+    for p in sorted((root/"UnPack/1/EventFlow").rglob("*.json")):
+        relpath=p.relative_to(root).as_posix()
+        try:j=json.loads(p.read_text(encoding="utf-8"))
+        except (ValueError,UnicodeError) as e:
+            bad.append({"path":relpath,"error":str(e)});continue
+        g=j.get("graph") if isinstance(j,dict) else None
+        if not isinstance(g,dict):continue
+        graph_count+=1
+        for e in g.get("events",[]):
+            if isinstance(e,dict):add_name(e.get("action"),relpath)
+        for a in g.get("actors",[]):
+            if isinstance(a,dict):
+                for n in a.get("actions",[]):add_name(n,relpath)
+    action_name_matches=[]
+    for rec in factory_records:
+        candidates=[{"name":n,"source_count":len(ps),"sources":sorted(ps)[:12]}
+                    for n,ps in sorted(action_names.items()) if murmur3(n)==int(rec["hash_word"],16)]
+        action_name_matches.append({"record_va":rec["record_va"],"hash":rec["hash_word"],
+                                    "candidates":candidates,"runtime_verified":False})
+    callback_records=[]
+    for gh in range(0x04b06740,0x04b06af0,0x10):
+        a=gh-BASE;b=matched(a,16);rr=rel.get(a,{})
+        if b is not None:
+            callback_records.append({"record_va":hex(gh),"raw_16":b.hex(),
+                "callback_va":hex(rr["addend"]+BASE) if rr.get("type") in ("RELR",1027) and isinstance(rr.get("addend"),int) else None,
+                "companion_u64":hex(int.from_bytes(b[8:],"little")),
+                "companion_relocated":a+8 in rel})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
             "field_store_candidates":stores,"hash_candidates":hashes,
             "factory_records":factory_records,"parameter_literals":parameter_literals,"slot_field_candidates":slot_field_candidates,
-            "factory_binding_verified":False,"runtime_verified":False}
+            "factory_binding_verified":False,"runtime_verified":False,
+            "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
+            "action_name_matches":action_name_matches,"callback_records":callback_records}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
