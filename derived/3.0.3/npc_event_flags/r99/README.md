@@ -14,3 +14,9 @@ FUN_020d9e80 读取轻量 +0x14c/+0x154/+0x156 或完整 +0x5b4/+0x5bc/+0x5be；
 ```powershell
 python Scripts/acnh303_r99_relocation.py --root . --out artifacts/acnh303-r99
 ```
+
+## 初轮原版 ELF 实测结果
+
+7568 条 section relocation（6556 ABS64、30 GLOB_DAT、982 JUMP_SLOT）；工厂六个地址位于 PT_LOAD 零初始化范围，无对应 section relocation，4 个地址引用候选，0 个窄模式 STR 写入候选。五个失败原因槽位 raw word 指向 021c37a8/021c37bc/021c38d0/021c39e4/021c3a3c，对应字符串依次为 AlreadyInduced、SameNpcLiving、SameNpcMoveIn、VillagerMax、SellPlaceNothing。四个独立 C export 已验证；首个槽位缺独立导出。后两个 SameNpc 函数分别要求找到的十居民槽位 != 或 == 上下文 +0x30 的迁入索引；VillagerMax 对十项 u16 做 OR 后检查最高位；SellPlaceNothing 比较 InducedNpcNum >= 上下文 +0x38 可用数量。FUN_021c2ea8 在十名居民中检查 MoveInCompletion，并累加 FUN_026644b0 的十项判定，不将此处当作线上最终权限。
+
+新增 original NSO 核对：独立校验原始 main SHA、解压三个段并校验 header digest，解析 MOD0 动态表及 RELA、JMPREL、RELR，交叉确认原版五项槽位与重建 ELF；生成 init_array 原始记录和本地运行时字节指纹。未取得真实 GDB 快照或存档实例。
