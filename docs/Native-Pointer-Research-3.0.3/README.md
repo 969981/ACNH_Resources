@@ -113,6 +113,8 @@ updated: 2026-11-24
 
 35. [[35-FieldSystem与原生物品网格数据所有权]] · [GitHub 阅读](35-FieldSystem与原生物品网格数据所有权.md)
 
+35. [[35-原版MSBT属性审计与特殊NPC资源]] · [GitHub 阅读](35-原版MSBT属性审计与特殊NPC资源.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
