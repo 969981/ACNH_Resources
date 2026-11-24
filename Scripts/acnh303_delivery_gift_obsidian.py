@@ -10,6 +10,24 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02fac174: ("SelectTalkSeq start and result sentinel reset", 0x4000),
+    0x02facd58: ("SelectTalkSeq callback descriptor 0", 0x4000),
+    0x02facd5c: ("SelectTalkSeq callback descriptor 1", 0x4000),
+    0x02facd60: ("SelectTalkSeq callback descriptor 2", 0x4000),
+    0x02faceb8: ("SelectTalkSeq callback descriptor 3", 0x4000),
+    0x02fac4b4: ("Select page callback 0", 0x4000),
+    0x02fac524: ("Select page callback 1", 0x4000),
+    0x02fac594: ("Select page callback 2", 0x4000),
+    0x02fac604: ("Select page callback 3", 0x4000),
+    0x02fac674: ("Select page callback 4", 0x4000),
+    0x02fac6e4: ("Select page callback 5", 0x4000),
+    0x02fac754: ("Select page callback 6", 0x4000),
+    0x02fae02c: ("SelectTalkSeq vtable 268", 0x4000),
+    0x02fae060: ("SelectTalkSeq vtable 270", 0x4000),
+    0x01bea4e8: ("Choice text worker prepare", 0x4000),
+    0x01bea9c8: ("Choice text worker progression", 0x4000),
+    0x01c05a98: ("Choice object vtable 40", 0x4000),
+    0x01c05ae4: ("Choice object vtable 60", 0x4000),
     0x0138d104: ("Group zero candidate handler relocation target; static audit only", 0x30),
     0x0138d100: ("Group zero candidate handler relocation target; static audit only", 0x4),
     0x0138cf74: ("Group zero candidate handler relocation target; static audit only", 0x90),
@@ -825,6 +843,22 @@ def export_dialogue_scheduler_windows(elf,es,elfbase,code_start,code,raw,cs,out)
             hits.append({"load_va":hex(a+BASE),"window":rows})
     (out/"dialogue_scheduler_windows.json").write_text(json.dumps({"scope":"authenticated linear instructions and syntactic +560/+30 candidates, not type-bound CFG","scheduler_window":sched,"candidate_windows":hits,"runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
 
+def export_choice_writers(elf,es,elfbase,code_start,code,raw,cs,out):
+    """Byte-matched syntactic stores and branch targets, not whole-program type recovery."""
+    lo,hi=0x2eac000,0x2eae100
+    b=raw(lo,hi-lo)
+    if len(b)!=hi-lo or get_bytes_va(elf,es,lo+elfbase,len(b))!=b:
+        raise ValueError("SelectTalkSeq linear window mismatch")
+    rows=[{"va":hex(i.address+BASE),"bytes":i.bytes.hex(),"instruction":i.mnemonic+" "+i.op_str}
+          for i in cs.disasm(b,lo)]
+    import re
+    hits=[]
+    for n,r in enumerate(rows):
+        ins=r["instruction"]
+        if re.match(r"(?:str|stur|stp) ",ins) and re.search(r"#0x(?:218|21c)\]",ins):
+            hits.append({"site_va":r["va"],"window":rows[max(0,n-8):n+9]})
+    (out/"choice_writer_windows.json").write_text(json.dumps({"range_rva":[hex(lo),hex(hi)],"rows":rows,"candidate_writes":hits,"scope":"syntactic candidates; object provenance and CFG require review","runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
+
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
     es=parse_elf(elf); code_start,code=mapped[0]; code_end=code_start+len(code)
@@ -1003,6 +1037,7 @@ def main(root,out):
     scan_ui_lifecycle(elf,es,elfbase,code_start,code,raw,cs,out)
     export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out)
     export_dialogue_scheduler_windows(elf,es,elfbase,code_start,code,raw,cs,out)
+    export_choice_writers(elf,es,elfbase,code_start,code,raw,cs,out)
     if any(r["rows"]==0 for r in manifest["functions"]): raise SystemExit("one or more anchors lack byte-matched evidence; inspect artifact")
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True)
