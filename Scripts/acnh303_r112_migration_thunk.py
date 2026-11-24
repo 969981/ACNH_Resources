@@ -97,7 +97,7 @@ def run(root,paths,out):
     assert any(i["va"]=="01D5D774" and i["args"]=="x10, [x20, #0x20]" for i in switch["01D5D73C"])
     copy={t:win(int(t,16),int(t,16)+0x30) for _,t in e["backend"]["copy_virtual_slots"]}
     rollback=load("r111","rollback_callbacks.json")
-    assert target(rollback["rollback_0x10"][-1])==0x273e2d0
+    assert target(rollback["rollback_0x10"][-1])==0x283e2d0
     assert target(rollback["rollback_0x20"][-1])==0x3ebb160
     out.mkdir(parents=True,exist_ok=True)
     def write(n,x):(out/n).write_text(json.dumps(x,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")

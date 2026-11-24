@@ -36,10 +36,12 @@ C构造原文锚点：026F9460 lines 541–551,615,687,1326–1405；026FD710 li
 01D59094与01D5D73C共有条件[object+AA0]!=3，成功后+AB7=1；后一处还注册00822F90参数3（04BB4FD0），不是00822C10。01D94D3C之后+12C=1并调用026EEC4C。R100登记入口候选01D58FF4..01D597C4及01D5D6A0..01D5D7E8，第三处无相邻可靠登记入口（搜索范围01D93310..01D96840）。新增CFG验证及prologue候选扫描，不把近邻地址视为已证owner。
 
 ## cRollback后续
-01DE6B08尾B 0273E2D0；01DE6B24尾B 03EBB160，后续处理仍待恢复。原始原因名、5140E4B4、LifeSupport前E98、NewAchievement、GDB未取得。
+01DE6B08尾B 0283E2D0；01DE6B24尾B 03EBB160，后续处理仍待恢复。原始原因名、5140E4B4、LifeSupport前E98、NewAchievement、GDB未取得。
 ## 复现
 ```powershell
 python -m pip install capstone==5.0.6 lz4==4.4.4
 python Scripts/acnh303_r112_migration_thunk.py --root . --r111 r111.zip --r105 r105.zip --r109 r109.zip --r100 r100.zip --out artifacts/r112
 ```
 四个artifact由CI按SHA256下载，结合认证原版NSO及源blob。新CI待验收。
+
+地址空间勘误：原始分支操作数 RVA 0x0273E2D0，对应 Ghidra VA 0x0283E2D0。修复 CI 断言，保留原始机器码不变。
