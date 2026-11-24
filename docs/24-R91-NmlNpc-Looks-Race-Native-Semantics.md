@@ -83,3 +83,9 @@ py Scripts/acnh303_r91_nmlnpc_semantics.py --root . --out artifacts/acnh303-r91
 - [较早版本 NmlNpcParam 字段解码（仅用于辅助字段名比对）](https://wuffs.org/acnh/bcsv_140/html/NmlNpcParam.html)
 - [CRCPedia BCSV 字段参考](https://alexislours.github.io/crcpedia/)
 - 仓库既有 `docs/23-Web-14Locale-Item-Villager-Export.md`、R82 与 R83 的来源证据
+
+## 关联研究 · 2026-11-24
+
+[[00-Home|知识库主页]] · [[00-Research-Index|研究总索引]] · [[26-R94-NPC-EventFlags-Hash-Dictionary|Hash 字典]] · [[27-R94-NPC-EventFlags-Native-Consumers|Native 消费者]] · [[28-R95-NPC-EventFlags-Research-Queue|R95 待办]]
+
+R94 的 17 个字段中 13 个原名经 CRC32 匹配，1 个原名未知但静态重置行为已定位，3 个未解；本次是文档整理，不增加 L4 或实际存档读取覆盖。

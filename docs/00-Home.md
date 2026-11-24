@@ -11,6 +11,13 @@ status: active
 > [!warning] 状态说明
 > 原始 NCA 提取文件全部只读。已有部分真实解析结果，但 **103,400 个 RomFS 文件不等于 103,400 个完成语义解码的文件**。没有真实输出的文件不会伪造 JSON/PNG/WAV。
 
+## 研究总索引与 NPC 状态
+
+- [[00-Research-Index|全部研究文档 · 按主题导航]]
+- [[26-R94-NPC-EventFlags-Hash-Dictionary|R94 · 原版 17 个 Hash 字典]]
+- [[27-R94-NPC-EventFlags-Native-Consumers|R94 · Native 消费者与条件重置]]
+- [[28-R95-NPC-EventFlags-Research-Queue|R95 · 后续研究队列]]
+
 ## 导航
 - [[01-Source-Tree|原始目录结构与索引]]
 - [[02-Format-Catalog|文件格式、内容与转换]]

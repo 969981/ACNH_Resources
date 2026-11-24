@@ -70,3 +70,9 @@ tags: [status, audit]
 - [R47 compatibility #41382005954](https://github.com/969981/ACNH_Resources/actions/runs/41382005954)：**success**，修复缺少真实 R39 ELF 派生依据导致的 R46 回归失败；R44 大型旧累计 source_delta 数据未迁移，因此两项依赖旧数据的完整覆盖回归未执行。
 
 Native FMAA SubBind、真实 Uniform 写回、GPU 纹理移动，以及 AAL FileOpen/Read/Close + handle/buffer/file SHA 对照，目前均为 **NOT_CAPTURED / UNVERIFIED**。此阶段**未新增 RomFS 语义 L4 完成数**，也未增加媒体转换产物计数。
+
+## 关联研究 · 2026-11-24
+
+[[00-Home|知识库主页]] · [[00-Research-Index|研究总索引]] · [[26-R94-NPC-EventFlags-Hash-Dictionary|Hash 字典]] · [[27-R94-NPC-EventFlags-Native-Consumers|Native 消费者]] · [[28-R95-NPC-EventFlags-Research-Queue|R95 待办]]
+
+R94 的 17 个字段中 13 个原名经 CRC32 匹配，1 个原名未知但静态重置行为已定位，3 个未解；本次是文档整理，不增加 L4 或实际存档读取覆盖。
