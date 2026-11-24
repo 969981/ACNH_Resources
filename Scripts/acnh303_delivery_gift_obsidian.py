@@ -10,6 +10,17 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x0386c920: ("UI manager recursive component enumeration", 0x1800),
+    0x03869e50: ("Component visitor dispatch and child recursion", 0x1800),
+    0x02fa432c: ("Talk sequence base-type acceptance predicate", 0x1800),
+    0x03868244: ("UI component base initializer and gate reset", 0x1800),
+    0x03869a90: ("UI component lifecycle gate predicate", 0x1800),
+    0x0386a590: ("UI component factory registry destructor", 0x1800),
+    0x0386c560: ("UI factory active-list registration", 0x1800),
+    0x0386d660: ("UI factory active-list removal", 0x1800),
+    0x03385c50: ("UI global update dispatcher candidate", 0x1800),
+    0x03386198: ("UI global lifecycle finalizer candidate", 0x1800),
+    0x033b9fcc: ("Independent UI object lifecycle handler", 0x1800),
     0x02db12ec: ("Pocket context menu constructor or relocation target", 0x754),
     0x02db1a40: ("Pocket context menu constructor or relocation target", 0xc0),
     0x02db1b00: ("Pocket context menu constructor or relocation target", 0x258),
