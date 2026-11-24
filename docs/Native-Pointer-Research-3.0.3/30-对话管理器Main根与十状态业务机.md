@@ -71,3 +71,16 @@ tags: [ACNH, ELF, MessageWindow, dialogue, FSM]
 
 ## 7. 下一步与边界
 commit ee0bf415bad62c631986900b358f71d25505e4d8新增19入口、47项跳转表认证和全text直接B/BL候选扩展。旧IsChatEnded、ChatId、TextSpeed、0x7000差异、NPC EventFlow完成均未闭合。继续核验manager构造/析构原指令、10状态注册、Out/Idle/Choice回调、47项映射。runtime_verified=false、production_eligible=false。
+
+
+## 8. R30 同轮追加验收（更新前文待CI项）
+[Run 45344104593](https://github.com/969981/ACNH_Resources/actions/runs/45344104593) success，[artifact 14897427117](https://github.com/969981/ACNH_Resources/actions/runs/45344104593/artifacts/14897427117) 实际下载ZIP SHA256 d3f8dbb5d337cc0de3d2b6bd4b63ea41269ba4333ff3fd603d2fed19d9e8ea61，与GitHub digest相同。615 anchors / 79770 rows / 224 gaps（含重叠）。下列证据覆盖前文相应“机器码待CI”状态。
+- 01BDFF98 402/0：01BE0024/38申请89A0；01BE007C ADRP x8,523E000；01BE0084 150106f9 str x21,[x8,#C00]发布注册对象；01BE0088 BL01BF7564；01BE02A4 140506f9 str x20,[x8,#C08]发布根；01BE0338 ADD X0,X20,#8，01BE0340 BL01BF83AC。
+- 01BDFDE4 84/0：01BDFE18 1f0106f9清注册槽；01BDFE98 bf0606f9清全局根。01BF7564 559/0：01BF7894/78AC申请40h，01BF78BC X1=B，01BF78D0 BL01C03904，01BF78D8 751200f9 str x21,[x19,#20]发布C，即R+28；01BF793C BL01BFC554，01BF7944写B+28，即R+30。
+- 01C03904 120/0：01C03988写C+8；01C039B8/9CC申请3CF8；01C039F0写子对象+22D8；01C03A6C写C+10；01C03AC8 stp x0,xzr,[x19,#18] 同时写C+18和初始化C+20。结合01C03BB0原始证据，静态动态链构造与销毁均已验收。
+- 01BF83AC 264/0：01BF83C4 ADD X20,X0,#40；01BF83CC MOV W1,#10；01BF83E0 BL03EBAC90；01BF8784写owner+48当前状态；注册的10条记录及回调地址已取得机器码。名字仍为C字符串证据，需额外提取原始rodata逐字节对账。
+- 01B97520 164/0：47项table bytes = 000406080a0c0e101416181b1e212326292d3032343a3c3e43484a4c4f525456595b5e6166696c6f72757c858a8c91。使用受限静态常量求值按认证target追踪MOV/MOVK/B/STR/STUR/STRH/STP/RET，验证每条路径全部22字节被赋值，47/47与前述C预测相符，共411条路径指令（包含共享尾部重复）。复现脚本 Scripts/acnh303_verify_dialogue_style_mapping.py。无实机执行或任意代码调用。
+- 上层Out entry 01BFA838 43/1、Out update 01BFA8E4 67/3。二者从B+20取C，从C+20取M，分别01BFA884/01BFA980调用M+F8（父状态==3），01BFA890..A8/01BFA98C..A4排除父窗口current/pending中任一为5，且间接状态P(C+18)+8==0才发布C+28..37参数并尾调用M+B0（01BFA8E0/01BFA9EC）。此为上层业务Out驱动UI关闭的强静态证据，而非直接结束整个NPC EventFlow。Out update中C+28==0时另有01BFA9CC尾调用01BF7FFC或01BFA940切上层状态8分支；C+28==2时继续等待路径。01BF7FFC 86/0，于01BF8120调用03EBB160(&B+40,0)，01BF812C调用01C04E38。仍需追踪其真实外层调用和完成通知。
+- 01BFABD0 51/0：在非零间接状态下检查当前子序列current/pending是否包含5，且P(P(T+2D8)+1B0).vcall60成功，调用子对象+30(0)并于01BFAC6C向T生产槽请求3。此处的5属于子序列状态域，不能将它当作父cChoice生产者。01BFAC9C 330/0，待更细语义分析。NPC EventFlow完成、旧Heap字段和实时频率仍不宣称闭合。
+
+结构化证据 [dialogue_controller_evidence.json](../../derived/3.0.3/external_pointers/dialogue_controller_evidence.json) 与父窗口证据索引已经同步本轮最新产物。
