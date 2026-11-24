@@ -1,0 +1,43 @@
+name: ACNH 3.0.3 | R89 indexed Ghidra query and UI xrefs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [docs/acnh303-json-database-provenance]
+    paths:
+      - Scripts/acnh303_r89_ghidra_xref_audit.py
+      - .github/workflows/acnh303-r89-ghidra-xrefs.yml
+
+permissions:
+  contents: read
+
+jobs:
+  xref:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Sparse checkout original Ghidra SQLite shards
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r89_ghidra_xref_audit.py
+            /tools/ghidra/acnh_ghidra_pack.py
+            /derived/3.0.3/ghidra12.2/sqlite/
+            /derived/3.0.3/ghidra12.2/ndjson/batch-00000000/export-summary.json
+      - name: Verify packed SQLite byte-for-byte
+        run: |
+          python3 tools/ghidra/acnh_ghidra_pack.py join             derived/3.0.3/ghidra12.2/sqlite/acnh303_ghidra.sqlite.manifest.json             "${RUNNER_TEMP}/acnh303_ghidra.sqlite"
+      - name: Query indexed function and symbol XREFs
+        run: |
+          python3 -m py_compile Scripts/acnh303_r89_ghidra_xref_audit.py
+          python3 Scripts/acnh303_r89_ghidra_xref_audit.py             --db "${RUNNER_TEMP}/acnh303_ghidra.sqlite"             --repo-root . --out r89-output
+      - name: Publish compact native xref evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r89-ghidra-verified-xrefs
+          path: r89-output/
+          if-no-files-found: error
+          retention-days: 30

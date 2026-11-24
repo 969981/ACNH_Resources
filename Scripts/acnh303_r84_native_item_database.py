@@ -9,7 +9,9 @@ from collections import defaultdict
 from pathlib import Path
 import zstandard
 NCA="e10617820db06889e1638499478da0de_NCA/1"
-ID="hash_54706054"
+ID="hash_54706054"  # ItemParam.UniqueID (item identity)
+REMAKE_ITEM_ID="hash_FD9AF1E1"  # ItemRemake.ItemUniqueID u16, *not* ItemRemake.UniqueID
+REMAKE_RECORD_ID="hash_54706054"  # ItemRemake.UniqueID u16 (remake row identity)
 def sha(b):return hashlib.sha256(b).hexdigest()
 def csvout(p,h,rows):
     with p.open("w",encoding="utf-8-sig",newline="") as f:
@@ -40,7 +42,13 @@ def main(root,out,baseline):
     rm=defaultdict(list)
     with (dec/"ItemRemake.csv").open(encoding="utf-8-sig",newline="") as f:
         for r in csv.DictReader(f):
-            if r[ID].isdigit():rm[int(r[ID])].append(int(r["_row_index"]))
+            # Prior R84 incorrectly joined ItemRemake.UniqueID (remake row ID) to
+            # ItemParam.UniqueID (item ID). The original 3.0.3 field hash
+            # CRC32("ItemUniqueID u16") is FD9AF1E1; remap only on that FK.
+            if REMAKE_ITEM_ID not in r or REMAKE_RECORD_ID not in r:
+                raise ValueError("ItemRemake foreign-key/source-ID hash missing")
+            if r[REMAKE_ITEM_ID].isdigit():
+                rm[int(r[REMAKE_ITEM_ID])].append(int(r["_row_index"]))
     cmd=["git","-C",str(root),"ls-tree","-r","-z","--name-only","HEAD","--",f"{NCA}/Model","assets/images/items"]
     native_paths=set(x.decode("utf-8") for x in subprocess.check_output(cmd).split(b"\0") if x)
     asset_variants=defaultdict(list)
@@ -115,6 +123,9 @@ def main(root,out,baseline):
     report={"version":"3.0.3","round":"R84","item_count":len(rows),"original_field_count":len(fields),
         "id_byte_verified_rows":len(rows),"original_bcsv_sha256":native_sha,"original_csv_sha256":sha(src),
         "remake_native_id_joined":sum(bool(rm.get(i)) for i in rows),
+        "remake_join_field":"ItemRemake.ItemUniqueID u16 (hash_FD9AF1E1)",
+        "remake_unique_record_field":"ItemRemake.UniqueID u16 (hash_54706054)",
+        "old_r84_remake_821_count_obsolete":True,
         "model_paths_present":sum(x[2] for x in assets),"icon_source_paths_present":sum(x[4] for x in assets),
         "committed_png_paths_present":sum(x[6] for x in assets),
         "original_BNTX_texture_content_verified":0,"native_runtime_restrictions_verified":0,
