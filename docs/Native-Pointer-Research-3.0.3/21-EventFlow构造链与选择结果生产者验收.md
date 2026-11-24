@@ -116,3 +116,33 @@ f23509f54b9ee5f8012aadeec958734e47053d7a 扩展factory audit：抽取七项16字
 5ffd7c3f4c49d4d6fd701a1afbb9fcb569bcef90 扩大03176698 budget至0x700，并针对真实字节签名认证十项跳转表：03176B14 sub w8,w8,#0x64；03176B18 cmp w8,#9；03176B1C b.hi；03176B20/24形成table RVA040840E2；03176B28/2C/30/34形成目标并BR。表项仍需新CI实际读出及验收。当前尚未计入第1节统计。
 
 正式生产派送代码、正式Build ID数据库保持不变；Field持久物品生产者、Host/Client事务、运行时高亮索引尚未闭合。
+
+## 6. 新增CI实测验收（覆盖第5节待验收状态）
+
+[Run 45331523831 / artifact 14891762787](https://github.com/969981/ACNH_Resources/actions/runs/45331523831/artifacts/14891762787)，head 5ffd7c3f4c49d4d6fd701a1afbb9fcb569bcef90，success；实算ZIP SHA256 5b3ea6f0eb1c65cd4bc561c4e9d99bc541daf7536a566360bbb4467232e168de，与artifact digest一致；202入口/锚点，27098条匹配记录，78条gap（全产物包含并行研究入口，非本专项独立函数数）。
+
+03176698 从328行、8 gap增至440行、0 gap。03176B34跳转表实际字节 00 4D 4D 4D 4D 00 0B 0B 4D 3A，十项VA依次03176B38、03176C6C、03176C6C、03176C6C、03176C6C、03176B38、03176B64、03176B64、03176C6C、03176C20。原始字节签名及表内容在ELF/NSO均匹配。至此四个生产者均无当前有界CFG gap；BLR目标、真实运行时分支和类型仍不等于全部已闭合。
+
+### 6.1 七项工厂记录真实16字节
+
+|record VA|hash word|raw16|constructor VA|
+|---|---|---|---|
+|0497B8F0|2E485D5F|5f5d482e00000000f889000100000000|011089F8|
+|0497BB20|36406CCC|cc6c403600000000b4a8000100000000|0110A8B4|
+|0497D480|881A7311|11731a88000000006422020100000000|01122264|
+|0497DA20|9B9E46C6|c6469e9b00000000cc73020100000000|011273CC|
+|0497EC30|D47C0E73|730e7cd400000000b07f030100000000|01137FB0|
+|0497F400|EE6C2097|97206cee0000000044f5030100000000|0113F544|
+|0497D220|80F8F65E|5ef6f880000000002001020100000000|01120120|
+
+原始记录+4为0，+8为RELR原始RVA。实际读取 artifact parameter_literals 中的原始bytes，再本地按首NUL切分（该次CI脚本字符串截断错误不影响原始字节；aceb061修复后另有CI）。真实VA 04061E16=DeleteType，0405C256=DeleteNum，0407EBB1首字节0；040B0302=ItemUniqueId，0407C0DE=IsPriorityFewItems。
+
+### 6.2 00D982B0 原生 Action 名称闭合
+
+读取原版资源 [SNPC_seo](../../UnPack/1/EventFlow/SNPC_seo.json) blob f721531e6cb8f9c0ee2b2d1749f5b6ca1283ea2d index58、[SNPC_rcm_24_MaterialGiveProcess](../../UnPack/1/EventFlow/SNPC_rcm_24_MaterialGiveProcess.json) blob e47c3b5cde5dcf91eae91afefdd08842e0c776cc index15/16/19、[SNPC_pyn_02_EasterDay](../../UnPack/1/EventFlow/SNPC_pyn_02_EasterDay.json) blob b120933f5aa0928dc6cb85a33cacb99e6533fb0a index252/256/257，action均为EventFlowActionDeleteTargetItem，三个参数与构造字面量完全吻合。独立本地Murmur3 x86_32 seed0计算完整名称得到 D47C0E73，与原始记录0497EC30一致。01137FB0构造可达0113808C写入049546A0，+58指向00D982B0。因此原生业务名称具有强静态绑定证据，非仅从扣减语义猜测。运行时注册发布/实际对象仍未验证。ItemUniqueId、DeleteNum、IsPriorityFewItems存在明确字面量，但参数解码存储字段具体映射仍需完整注册消费者证明。
+
+### 6.3 1C514写入搜索结果
+
+短窗口派生存储扫描仅3条候选：02CF56FC strb w10,[x9,#0x18]推导offset1C510；02CFF98C同指令推导1C508；03186B44 stp xzr,xzr,[x8]推导1C504（覆盖1C504..1C513）。三者均不能证明动态1C514写入。构造器03186B4C的派生基址跨越此扫描窗口未命中；已有独立C及机器码初始化证据。需要扩展跨基本块地址来源追踪，特别是01C514相邻字段打包写入、回调记录伴随值及输入事件分发。不能将扫描无命中解释为字段从不被更新。
+
+本轮仅研究/CI/docs提交，生产派送及正式指针数据库不变。
