@@ -20,3 +20,17 @@ tags: [ACNH, ARM64, save, R124]
 27 个取消登记用例与 50 个提交拒绝用例；原始注册、提交、队列、取消登记和回调窗口；连续 RELR slots 与全 text 直接调用扫描。CI 前不宣称通过。
 
 `python Scripts/acnh303_r124_interface_registry.py --r123 r123.zip --out artifacts/r124`
+
+## 最终验收与纠正
+Run 45339353316 首轮 77 项通过；Run 45339487686 第二轮 107 项通过。Artifact 14894893781 ZIP SHA256 90500c630a80a4cdd75f18b77358a3b9196298049bf7289ad14d3344817b5afa，已下载逐项读取及计算一致。R124 首轮 41 个槽的 04A59800 为扫描上限，不是首个非 RELR。第二轮扩展扫描得到 04A596B8..04A59970 连续 88 槽，04A59978 为首个非 RELR；物理连续重定位不代表单一 C++ VTable 的逻辑边界。
+
+## 原版注册/提交指令
+01D41ABC ADD X8,X19,#0x478；01D41AC0 LDR X9,[X25]；01D41AC4 ADD X9,X9,#8；01D41AD0 ADD X11,X9,X10,LSL#3；01D41AD4 CMP W10,#0x17；01D41AD8 CSEL X10,X11,X9,LO；01D41ADC LDR X10,[X10]；01D41AE0 CBNZ X10,01D41AF4；01D41AF0 STR X8,[X9,X10,LSL#3]；01D41B00 STRB W22,[X19,#0x489]；01D41B04 STR X8,[X19,#0x478]。类型越界回退 slot0，已有对象不覆盖。
+01D8075C BLR X8 (vtable+0x50)；01D80770 BLR X8 (+0x58)；01D80780 LDR W2,[X19,#8]；01D80790 BL 01C84918；01D8079C STRH W8,[X19,#0x12]。01C84918 直接 BL 4 处：01D5E1A8/01D6350C/01D80790/01DC79AC。01D805DC 另有 01D5E6A0 BL 和 01D63560 B。
+01C831F4 C blob e558aa2b79618faaafeca92d800ce4253199db2e 包含 AppStreamingBroadcast 字符串（传 006BD550），初始化相同 23 槽、busy+0xC0、+0x1A8=100，并注册两个回调 01C833F0/01C83C40。该字符串是模块命名强证据，具体类原名和网络实际发送仍需核验。01D807CC (d309c80843d67ed4a27c4770ef9bae4aa85b73de) 以 kind 一致为前置，按对象+0x10 flag 判断请求长度 <= capacity 或 == capacity，写+0xC。01D80838 (2aa20b574328dea29a6231fc0008687bbc839a70) kind匹配时调用 +0x60 取 pointer；01D8086C (0d44f843e5473c671f89cd748ebedf778bdb421b) success bit 和 kind匹配时调用+0x80，写+0x15=1。均为源码级补充，未执行完整接收事务。
+
+## 01D505F8 完成回调
+原版 01D505F8 SUB W8,W2,#0x37,LSL#12；01D505FC CMP W8,#0xAD0；不等直接返回。长度正确则读取 context[0]；slot<8 时从 04BB4F78 经两级指针取 store，在 +0x431FC0 OR 1<<slot，store+0..+0x1F 写四个全一 u64；最后无论 slot<8 与否均 context[1]=1。30 项仿真（slot 0..8/255 × 三种相邻长度）全部通过；10 项 completion，8 项 mask update。context completion 不等同于 descriptor+0x38 Ready，后者读取者尚未定位。17 PC-relative 候选均为 registry pointer 槽候选，未证明 Ready 的直接读者；其中存在寄存器重定义假阳性。下一轮应改为以 descriptor base/传入对象为中心的间接 def-use。
+
+## 证据边界
+原版模拟只使用合成内存，不实际联网、读取/写入玩家存档或调用 SDK。107项测试不包含队列成功路径。独立与内嵌 Personal 完整同步、CloudIsland 磁盘映射及真实样本仍为未验证。
