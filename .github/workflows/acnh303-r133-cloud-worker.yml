@@ -1,0 +1,58 @@
+name: ACNH 3.0.3 R133 cloud worker
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r133*'
+      - 'derived/3.0.3/npc_event_flags/r133_cloud_worker/**'
+      - '.github/workflows/acnh303-r133-cloud-worker.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r133:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r133_cloud_worker.py
+            /Scripts/acnh303_r124_interface_registry.py
+            /Scripts/acnh303_r123_cloud_interface.py
+            /Scripts/acnh303_r122_backend_abi.py
+            /Scripts/acnh303_r120_native_save.py
+            /Scripts/acnh303_r119_save_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r133_cloud_worker/
+            /derived/3.0.3/ghidra12.2/c/b8/0270b80c.c
+            /derived/3.0.3/ghidra12.2/c/b8/0270b828.c
+            /derived/3.0.3/ghidra12.2/c/b8/0270b844.c
+            /derived/3.0.3/ghidra12.2/c/c8/01c7c808.c
+            /derived/3.0.3/ghidra12.2/c/9e/01c79ed0.c
+            /derived/3.0.3/ghidra12.2/c/c9/01c7c980.c
+            /derived/3.0.3/ghidra12.2/c/cf/01c7cf1c.c
+            /derived/3.0.3/ghidra12.2/c/0a/01c70ab0.c
+            /derived/3.0.3/ghidra12.2/c/9a/01c79a24.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4 unicorn==2.1.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14900229318/zip > r132.zip
+      - run: python Scripts/acnh303_r133_cloud_worker.py --r132 r132.zip --out artifacts/r133
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r133-cloud-worker
+          path: artifacts/r133/
+          if-no-files-found: warn
