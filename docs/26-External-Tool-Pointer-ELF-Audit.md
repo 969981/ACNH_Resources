@@ -138,3 +138,10 @@ CI 工作流只读原版 ELF，产出 JSON artifact；源码收集与静态验�
 - SysBot: Bot/ACNHMobileSpawner/OffsetHelper.cs、UnsafeOffsets.cs、Bot/Helpers/Static/OffsetUtil.cs、Bot/CrossBot.cs、Bot/Helpers/DodoPositionHelper.cs、Bot/Helpers/Static/JoiningVillagerHelper.cs、Bot/Helpers/VisitorListHelper.cs、Bot/Helpers/VillagerHelper.cs。
 - Poker: ACNHPokerCore/Utilities/Utilities.cs:19–284、3777–3866；Main.cs；Dodo/teleport.cs；Custom/Chat.cs；Villager/Friendship.cs。
 - 本文收录上述集中定义及相关消费者；未穷举所有内联常数、配置覆盖及外部 DLL 的内存布局。
+
+## 后续研究（2026-11-24）
+
+- [Native 指针研究知识库 / Obsidian MOC](Native-Pointer-Research-3.0.3/README.md)
+- [完整研究合订版](28-ACNH-3.0.3-Native-Pointer-Research.md)
+
+后续新增 Ghidra C 交叉核对、根槽引用逐行索引、Main 反汇编与伪代码，以及 Heap→Main、R100 关联和动态根验收方案。原有历史审计结论保留；最新证据状态以知识库台账为准。GSavePlayer、GSaveNpc 与保存管理器动态根、完整实机链、Friendship 原生字段访问和双版本迁移仍待验证。
