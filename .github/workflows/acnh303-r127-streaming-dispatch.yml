@@ -1,0 +1,57 @@
+name: ACNH 3.0.3 R127 streaming dispatch
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r127*'
+      - 'derived/3.0.3/npc_event_flags/r127_streaming_dispatch/**'
+      - '.github/workflows/acnh303-r127-streaming-dispatch.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r127:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r127_streaming_dispatch.py
+            /Scripts/acnh303_r124_interface_registry.py
+            /Scripts/acnh303_r123_cloud_interface.py
+            /Scripts/acnh303_r122_backend_abi.py
+            /Scripts/acnh303_r120_native_save.py
+            /Scripts/acnh303_r119_save_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r127_streaming_dispatch/
+            /derived/3.0.3/ghidra12.2/c/59/002b5994.c
+            /derived/3.0.3/ghidra12.2/c/59/002b59e4.c
+            /derived/3.0.3/ghidra12.2/c/6a/002b6a20.c
+            /derived/3.0.3/ghidra12.2/c/ce/002ace50.c
+            /derived/3.0.3/ghidra12.2/c/6d/002b6d6c.c
+            /derived/3.0.3/ghidra12.2/c/56/002b56b4.c
+            /derived/3.0.3/ghidra12.2/c/ed/002aed20.c
+            /derived/3.0.3/ghidra12.2/c/aa/002aaa28.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4 unicorn==2.1.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14896577058/zip > r126.zip
+      - run: python Scripts/acnh303_r127_streaming_dispatch.py --r126 r126.zip --out artifacts/r127
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r127-streaming-dispatch
+          path: artifacts/r127/
+          if-no-files-found: warn
