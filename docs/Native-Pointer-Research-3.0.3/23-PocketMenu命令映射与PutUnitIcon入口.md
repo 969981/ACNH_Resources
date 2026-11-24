@@ -165,3 +165,18 @@ status: byte-matched-partial
 ## 6. 复现与未闭合事项
 
 已提交完整42回调CFG导出；新增Scripts/acnh303_pocket_command_reconcile.py严格解析已认证初始化器、校验C表、与CSV和回调记录生成JSON；接入CI。新增03455B14/034552D0及相关回调导出待实际验收。优先补齐CSV菜单值→当前命令记录+168的转换、PutUnitIcon原生成功和失败路径的实际只读快照、Field持久化事务的独立证据。未改变生产派送和正式Build ID数据库。
+
+## 7. 最终 CI 实际验收补录
+
+[CI 45334281686](https://github.com/969981/ACNH_Resources/actions/runs/45334281686) head b408c7781047b71ceedbc124d916f11a8745f905 成功；实际下载 [artifact 14892769250](https://github.com/969981/ACNH_Resources/actions/runs/45334281686/artifacts/14892769250)，SHA256 16931959a716e6d5bcc5c72845f579a6f25f58a3cb0ac6c9284eef471fdf1bbd，与Actions公布值一致。manifest包含351个入口或锚点、47293条匹配指令记录、140条gap，记录可能重叠，不能解释为全部独立函数。CommandReconciliation/command_reconciliation.json实际读取结果：59/59初始化记录与C吻合、42个回调、66条CSV、25条command数值关联，initializer_matches_C=true，runtime_verified=false。
+
+|入口|rows|gap|备注|
+|---|---:|---:|---|
+|03455B14|209|0|state3与state8分支已核对|
+|034552D0|164|0|state1与state8分支已核对|
+|03454DB0|328|0|条件检查|
+|022B2214|367|0|共享请求处理|
+|022B27D0|492|存在|越界目标待处理|
+|022AD160|1721|1|间接跳转待核|
+
+03455B14与034552D0本体此前待验收的状态现提升为原始指令静态已验证。未证明CSV→Native命令的转换，也未证明Field持久化或实机事务。
