@@ -1042,12 +1042,12 @@
   },
   "eventflow_end_verified": false,
   "latest_verified_export": {
-    "run": 45348333058,
-    "artifact": 14899082049,
-    "sha256": "b885f8884a02d7660f21dd87c833f0d870c0636418c2e66fa19eea742b946765",
-    "entries": 724,
-    "rows": 92454,
-    "gaps": 270
+    "run": 45350667508,
+    "artifact": 14899827903,
+    "sha256": "6fdaf7c70fe0bf8d49dfa4611095ac0174dcf353bb4f38f03ac647b7864ce739",
+    "entries": 749,
+    "rows": 96158,
+    "gaps": 274
   },
   "choice_records": {
     "base": "Q=P(C+0x10)",
@@ -1252,7 +1252,7 @@
     "static_event_to_result_chain_verified": true,
     "physical_button_to_event_verified": false,
     "identifier_producers": {
-      "grade": "Ghidra C; original instruction verification pending",
+      "grade": "original instruction provenance verified at three record writes; full mode dispatch tables pending",
       "dispatcher": {
         "va": "0x01b9cbc0",
         "c_blob": "8cb346b1bda59be81a2f72a287479270ab42eb89",
@@ -1282,7 +1282,9 @@
           21,
           22
         ],
-        "mask": "0x8a9554"
+        "mask": "0x8a9554",
+        "rows": 100,
+        "gaps": 0
       },
       "sequential": {
         "va": "0x01b9cd50",
@@ -1299,6 +1301,15 @@
           "9": 6,
           "10": 6,
           "23": 7
+        },
+        "rows": 213,
+        "gaps": 1,
+        "write_sites": {
+          "load_u16": "0x01b9cf80",
+          "schema_compare": "0x01b9cf7c",
+          "select": "0x01b9cf94",
+          "store": "0x01b9cfd0",
+          "store_bytes": "590300b9"
         }
       },
       "pooled": {
@@ -1310,7 +1321,25 @@
           1,
           26
         ],
-        "unique_label_selection": true
+        "unique_label_selection": true,
+        "rows": 396,
+        "gaps": 1,
+        "write_sites": [
+          {
+            "load_u16": "0x01b9d524",
+            "schema_compare": "0x01b9d520",
+            "select": "0x01b9d530",
+            "store": "0x01b9d570",
+            "store_bytes": "9b0300b9"
+          },
+          {
+            "load_u16": "0x01b9d828",
+            "schema_compare": "0x01b9d820",
+            "select": "0x01b9d838",
+            "store": "0x01b9d874",
+            "store_bytes": "980200b9"
+          }
+        ]
       },
       "label_formats": [
         "%03d_%c",
@@ -1329,7 +1358,15 @@
         "0x174": "flags"
       },
       "semantic_name": null,
-      "legacy_chat_id_equivalence": false
+      "legacy_chat_id_equivalence": false,
+      "pool_builder_evidence": {
+        "rows": 124,
+        "gaps": 0
+      },
+      "schema_one_reader_evidence": {
+        "rows": 171,
+        "gaps": 0
+      }
     }
   },
   "message_resource_registry": {
@@ -1383,7 +1420,7 @@
     "main_root_rva": "0x59f83f0",
     "relr_alias_rva": "0x4ab2718",
     "archive_manager_offset": "0x408",
-    "archive_list_owner": "P(P(Main+0x59f83f0)+0x408)+8 (pointer load at +8)",
+    "archive_list_owner": "L=P(P(P(Main+0x59f83f0)+0x408)+0x8)",
     "resource_lookup_va": "0x03d53db0",
     "label_lookup_va": "0x038f40b0",
     "label_hash_multiplier": 1170,
@@ -1396,21 +1433,32 @@
     "archive_missing_category": 12,
     "text_retrieval_va": "0x006f50a0",
     "text_archive_lookup_va": "0x03d4cd40",
-    "construction_verified": false
+    "construction_verified": false,
+    "label_lookup_evidence": {
+      "rows": 65,
+      "gaps": 0
+    }
   },
   "text_worker": {
     "prepare_resource_va": "0x01bea210",
     "prepare_object_va": "0x01bea4e8",
     "update_va": "0x01bea9c8",
-    "rows": 617,
-    "gaps": 1,
+    "rows": 806,
+    "gaps": 0,
     "switch": {
       "site_va": "0x01beadc8",
       "table_rva": "0x4078271",
       "target_base_rva": "0x1aeadcc",
       "min_state": 3,
       "max_state": 6,
-      "verified": false
+      "verified": true,
+      "table_bytes": "0036a4a8",
+      "targets_va": [
+        "0x01beadcc",
+        "0x01beaea4",
+        "0x01beb05c",
+        "0x01beb06c"
+      ]
     },
     "state_offset": "0xc",
     "completion_state": 13,
@@ -1428,7 +1476,7 @@
     "resource_unregister_va": "0x01bc1880",
     "resource_handle_offset": "0x398",
     "resource_handle_active_offset": "0x39c",
-    "state_description_grade": "C-derived except explicitly exported instruction sites",
+    "state_description_grade": "complete byte-matched CFG for update; state roles interpreted from C, state10 external consumer pending",
     "states": [
       {
         "id": 1,
@@ -1489,6 +1537,6 @@
       "helper_va": "0x01ba8e98",
       "is_text_speed": false
     },
-    "next_export_commit": "cb03c5098a528e0d5f56bc05f23cccdafe0f93d2"
+    "next_export_commit": "df22d334b06b6bd2b3c8662e108c9bc94aaaff3c"
   }
 }
