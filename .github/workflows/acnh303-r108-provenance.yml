@@ -1,0 +1,42 @@
+name: ACNH 3.0.3 R108 stage provenance
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r108*'
+      - 'derived/3.0.3/npc_event_flags/r108_stage_provenance/**'
+      - '.github/workflows/acnh303-r108-provenance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r108:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r108_stage_provenance.py
+            /derived/3.0.3/npc_event_flags/r108_stage_provenance/
+            /derived/3.0.3/ghidra12.2/c/b1/0259b18c.c
+            /derived/3.0.3/ghidra12.2/c/d1/025fd104.c
+            /derived/3.0.3/ghidra12.2/c/ac/0259aca4.c
+            /derived/3.0.3/ghidra12.2/c/cd/025fcd8c.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch authenticated source artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/969981/ACNH_Resources/actions/artifacts/14883517767/zip > r105.zip
+          gh api repos/969981/ACNH_Resources/actions/artifacts/14881442847/zip > r100.zip
+      - run: python Scripts/acnh303_r108_stage_provenance.py --root . --cfg r105.zip --reloc r100.zip --out artifacts/r108
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r108-stage-provenance
+          path: artifacts/r108/
+          if-no-files-found: error
