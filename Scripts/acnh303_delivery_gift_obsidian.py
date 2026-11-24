@@ -10,6 +10,18 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x00fbadac: ("Canonical GeneralChoice query vtable +30 actual callback", 0x2000),
+    0x00fc9a38: ("Canonical CheckSubflowResult query vtable +30 actual callback", 0x2000),
+    0x00fbada4: ("GeneralChoice vtable +20", 0x2000),
+    0x00fbad40: ("GeneralChoice vtable +10", 0x2000),
+    0x00fbad44: ("GeneralChoice vtable +18", 0x2000),
+    0x00fc9a30: ("CheckSubflowResult vtable +20", 0x2000),
+    0x00fc99b4: ("CheckSubflowResult vtable +10", 0x2000),
+    0x00fc99c4: ("CheckSubflowResult vtable +18", 0x2000),
+    0x00ada450: ("OpenMessageWindow vtable +60", 0x2000),
+    0x00ad94b0: ("OpenMessageWindow vtable +68", 0x2000),
+    0x00ada68c: ("OpenMessageWindow vtable +70", 0x2000),
+    0x00ad94a8: ("OpenMessageWindow vtable +50", 0x2000),
     0x012d45b0: ("ItemLayer variant selection and construction; read-only static audit", 0x54c),
     0x0273f0a0: ("ItemLayer variant selection and construction; read-only static audit", 0x400),
     0x01184700: ("Query wrapper canonical name and dispatch", 0x4000),
