@@ -63,6 +63,8 @@ updated: 2026-11-24
 
 22. [[22-EventFlow名称对账与PocketMenu命令分发]] · [GitHub 阅读](22-EventFlow名称对账与PocketMenu命令分发.md)
 
+23. [[23-PocketMenu外层状态请求与事件生命周期]] · [GitHub 阅读](23-PocketMenu外层状态请求与事件生命周期.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
