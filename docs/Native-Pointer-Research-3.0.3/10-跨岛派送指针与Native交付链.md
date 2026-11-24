@@ -314,3 +314,46 @@ flowchart LR
 |返航|session inactive、home identity、重新解析 owner|
 
 验收分别记录 S1/D1/E2/R2、Build ID、原始地址空间、函数/行号、原始指令或 blob、捕获 SHA、重复验证次数。至少跨三次启动/不同岛及 Host/Client，数据缺失明确标 UNVERIFIED，不默认继承旧版本。
+
+## 13. 本轮继续研究：Inventory 消费者与 Native 背包变更链实读
+
+> 直接读取资源仓库固定 ref 的 Ghidra C 导出（D1）；不是重新反汇编 ELF。以下函数以 Ghidra VA 表示，RVA = VA - 0x100000。未调用任何原生函数。
+
+|VA|Main RVA|C 导出及 blob SHA|观察|
+|---|---|---|---|
+|026EED64|0x25EED64|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/ed/026eed64.c) 85ea09ba9893bafde5fa65c4c895040c318b8a9d|普通后端；identity 非零、八项 active 映射|
+|026EEC4C|0x25EEC4C|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/ec/026eec4c.c) 3774b3e30066f15c9b893713bf5fad4675d88c3c|按 bit0 分流，replacement identity、wrapper|
+|026759E0|0x25759E0|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/59/026759e0.c) 93fe5fd02cb738c5a8edaddd11abbfc059bbcae7|逻辑索引到真实 pocket slot，catalog 检查|
+|007E2520|0x6E2520|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/25/007e2520.c) 357ef9e5575b4c2400ee3b37f0e49fff91679779|UpgradePocket30/40 消费者，20/30/40 循环|
+|02674A80|0x2574A80|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/4a/02674a80.c) ea1cfce75255f9ead9bdcc2376a30e62234f9fb2|背包变更 wrapper，前置校验、guard、更新回调|
+|027FA2DC|0x26FA2DC|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/a2/027fa2dc.c) 1a6105d70ef8756ae884f28b1665a49f23bf5601|分区变更路径、两组 item 检查、绑定字节更新|
+|0277D6C4|0x267D6C4|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/d6/0277d6c4.c) 5b75dfb5c3b94f70bf9d26e18fb4935646fb1a47|依 item+3 的低两位和后续 bits 派生 catalog ID|
+|01B01270|0x1A01270|[C](https://github.com/969981/ACNH_Resources/blob/fb58d34153d5ad67289476e9f54b08231ed75e9a/derived/3.0.3/ghidra12.2/c/12/01b01270.c) 0b713a153c7998c1ef4682fe65829a91836e64d1|处理 item metadata 的条件路径，非已证 DropItem|
+
+### 13.1 逻辑索引不是固定 20 分界
+
+FUN_026759E0 先读取 I+0x158 的 count 并 clamp 20；逻辑索引小于该 count 时取 I+0xB8+index*8，否则减去实际 count，再对 I+0xA0 的 count clamp 20 后访问 I+index*8。无效索引返回 DAT_05586008 对应的默认地址；原生函数还带 guard、ItemID 派生及 catalog 有效性判断。不能简单用固定 20 分界或只看低 16 位断言所有槽有效。
+
+```cpp
+// 只读快照归纳；未复制原函数的 guard callback 和 catalog 语义。
+n0 = min(u32(I+0x158),20);
+n1 = min(u32(I+0xA0),20);
+if (logical_index < n0)
+    candidate = I+0xB8+8*logical_index;
+else if (logical_index-n0 < n1)
+    candidate = I+8*(logical_index-n0);
+else
+    candidate = INVALID;
+```
+
+### 13.2 背包变更不是一次裸 8B store
+
+FUN_02674A80 调 FUN_026EEC4C 获得 player；根据 catalog 检查进入前置处理 FUN_02649BF0，读取旧绑定字节，调用 descriptor guard，再进入 FUN_027FA2DC；后者调用各分区的 item 检查、FUN_0277B494 并更新绑定字节。成功后 wrapper 根据参数分支调用 FUN_02674040 或 FUN_02673DE0，并统一调用 FUN_02674420。
+
+Native 两分区的绑定字节候选分别在 I+0x15C 和 I+0xA4，紧接 count；FUN_027FA2DC 成功后将对应字节置 0xFF。它们属于背包元数据，不是 UI 光标地址。现有 C# 直接替换 8B item 的行为与 Native 的完整 guard、绑定及更新流程不同。
+
+### 13.3 对 DropItem 的意义和边界
+
+FUN_007E2520 的一条实际调用路径按 UpgradePocket30/40 循环，先调用 FUN_026759E0 读取，再经 FUN_01B01270 条件处理并两次调用 FUN_02674A80；说明 reader 和 writer wrapper 是实际消费者共享的保存数据路径。但该函数同时处理 storage，因此不能称为丢弃处理器。FUN_02674A80 是通用背包变更候选，不是已确认的世界 DropItem 或网络发送函数。下一轮只读 XREF 应寻找正常 UI 丢弃 handler 与这条变更路径的共同调用点，继续确认 Field placement 与同步消费者。不得把任意调用该 wrapper 当成正常交付。
+
+本轮增量完成：逻辑 index/count/绑定字节和通用变更 wrapper 的源码级交叉确认。仍未取得原始 ELF 本轮 opcode、真实玩家快照、原生 DropItem handler 或网络同步闭环。证据等级 D1，不提升 runtime_verified。
