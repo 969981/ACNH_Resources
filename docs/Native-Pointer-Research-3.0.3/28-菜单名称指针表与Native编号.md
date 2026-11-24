@@ -4,7 +4,7 @@ version: 3.0.3
 updated: 2026-11-24
 tags: [ACNH, Native, PocketMenu, BCSV, ELF]
 runtime_verified: false
-status: byte-matched-partial
+status: static-name-map-verified
 ---
 # 菜单名称指针表与 Native 编号
 
@@ -35,7 +35,7 @@ pool VA04A34A98，table VA04A34D80；slots 04A34D80..04A34F88共66个；R100实�
 
 ## 4. 66项资源编号对照
 
-CSV blob f0a408702901d29aac0e53cc4e146554677e72c9。地址列按连续名称计算，并与已实查RELR目标逐项一致；索引0..49已实际读取原始字符串；后16项必须等待完整字节验收。
+CSV blob f0a408702901d29aac0e53cc4e146554677e72c9。地址列按连续名称计算，并与已实查RELR目标逐项一致；索引0..49已实际读取原始字符串；后16项在下文最终CI补录中已全部验收。
 
 |Native index|pointer VA|name VA|name|CRC32|CSV 54706054|证据|
 |---:|---|---|---|---|---:|---|
@@ -89,25 +89,31 @@ CSV blob f0a408702901d29aac0e53cc4e146554677e72c9。地址列按连续名称计�
 |47|04A34EF8|04A34C83|SplitTurnip|D02EB8F8|21|原始字符串已核对|
 |48|04A34F00|04A34C8F|BuryOne|3D5262E6|85|原始字符串已核对|
 |49|04A34F08|04A34C97|ToStorage|C6D74B15|18|原始字符串已核对|
-|50|04A34F10|04A34CA1|3Minutes|9CDA27B6|63|RELR+长度布局吻合，待字节验收|
-|51|04A34F18|04A34CAA|5Minutes|5AB52E31|64|RELR+长度布局吻合，待字节验收|
-|52|04A34F20|04A34CB3|10Minutes|A8343F03|65|RELR+长度布局吻合，待字节验收|
-|53|04A34F28|04A34CBD|15Minutes|E0D43167|66|RELR+长度布局吻合，待字节验收|
-|54|04A34F30|04A34CC7|OpenBottle|25DD6329|80|RELR+长度布局吻合，待字节验收|
-|55|04A34F38|04A34CD2|EntryFavorite|7A63E990|78|RELR+长度布局吻合，待字节验收|
-|56|04A34F40|04A34CE0|ReleaseFavorite|B34B4FD3|79|RELR+长度布局吻合，待字节验收|
-|57|04A34F48|04A34CF0|TakeMoneyAll|AC68A996|67|RELR+长度布局吻合，待字节验收|
-|58|04A34F50|04A34CFD|TakeMoney10000|2DF80919|68|RELR+长度布局吻合，待字节验收|
-|59|04A34F58|04A34D0C|TakeMoney1000|F58CE4E9|69|RELR+长度布局吻合，待字节验收|
-|60|04A34F60|04A34D1A|TakeMoney100|8C4ACE41|70|RELR+长度布局吻合，待字节验收|
-|61|04A34F68|04A34D27|TakeOffMannequineCorde|1A120088|110|RELR+长度布局吻合，待字节验收|
-|62|04A34F70|04A34D3E|CallTidyingService|93304365|112|RELR+长度布局吻合，待字节验收|
-|63|04A34F78|04A34D51|Invalid|3424431C|1|RELR+长度布局吻合，待字节验收|
-|64|04A34F80|04A34D59|PurchaseBoxSell|CE89D6B8|89|RELR+长度布局吻合，待字节验收|
-|65|04A34F88|04A34D69|PurchaseBoxCancel|09F8165B|90|RELR+长度布局吻合，待字节验收|
+|50|04A34F10|04A34CA1|3Minutes|9CDA27B6|63|原始字符串及RELR已核对|
+|51|04A34F18|04A34CAA|5Minutes|5AB52E31|64|原始字符串及RELR已核对|
+|52|04A34F20|04A34CB3|10Minutes|A8343F03|65|原始字符串及RELR已核对|
+|53|04A34F28|04A34CBD|15Minutes|E0D43167|66|原始字符串及RELR已核对|
+|54|04A34F30|04A34CC7|OpenBottle|25DD6329|80|原始字符串及RELR已核对|
+|55|04A34F38|04A34CD2|EntryFavorite|7A63E990|78|原始字符串及RELR已核对|
+|56|04A34F40|04A34CE0|ReleaseFavorite|B34B4FD3|79|原始字符串及RELR已核对|
+|57|04A34F48|04A34CF0|TakeMoneyAll|AC68A996|67|原始字符串及RELR已核对|
+|58|04A34F50|04A34CFD|TakeMoney10000|2DF80919|68|原始字符串及RELR已核对|
+|59|04A34F58|04A34D0C|TakeMoney1000|F58CE4E9|69|原始字符串及RELR已核对|
+|60|04A34F60|04A34D1A|TakeMoney100|8C4ACE41|70|原始字符串及RELR已核对|
+|61|04A34F68|04A34D27|TakeOffMannequineCorde|1A120088|110|原始字符串及RELR已核对|
+|62|04A34F70|04A34D3E|CallTidyingService|93304365|112|原始字符串及RELR已核对|
+|63|04A34F78|04A34D51|Invalid|3424431C|1|原始字符串及RELR已核对|
+|64|04A34F80|04A34D59|PurchaseBoxSell|CE89D6B8|89|原始字符串及RELR已核对|
+|65|04A34F88|04A34D69|PurchaseBoxCancel|09F8165B|90|原始字符串及RELR已核对|
 
 PutUnitIcon位于实际槽04A34E70，RELR目标04A34BD6，原始字符串PutUnitIcon，CRC32 AF123BB3，Native index30，CSV字段10，消息0110。结合0317F838命令常量30、0317D490 command30→index10、0317513C→03455B14 state3的已验收证据，纠正原先CSV字段10直接当业务命令的假设。不同编号空间，不需要假定10→30通用算术转换。资源目录运行时实际内容和所有业务回调语义仍需独立验证。
 
 ## 5. 复现与边界
 
 75c87e00ede142592a128e9bb69165779f8db1b1新增完整pool及66项指针双镜像、RELR、字符串与CSV名称对账；4aa7b64bd25675c977f74f3cfbaba57e66190a66扩大名称查询CFG。新的CI尚未计入已验收结果。Field持久化与Host/Client真实事务无实机证据；不修改生产派送和正式Build ID数据库。
+
+## 6. 完整名称指针表最终验收
+
+[CI 45342318984 / artifact 14897201743](https://github.com/969981/ACNH_Resources/actions/runs/45342318984/artifacts/14897201743)，head 75c87e00ede142592a128e9bb69165779f8db1b1，success；实际下载复算ZIP SHA256 292e3996ffc53c40597165938095445f37be0cc1995d9b28d1c4e48c8d4acbf0，与公布摘要一致。530入口/锚点、67806条匹配指令记录、199 gap（可重叠）。Build ID ff1d1c05670db6021c85b624a710b96300000000000000000000000000000000。
+
+实读FactoryAudit/factory_audit.json中的menu_name_index_records，66条实际记录，66个不同名称CRC32，66/66与CSV行索引一致，menu_name_order_matches_csv=true。此前50/66的结论现提升为完整原版静态名称映射验收。PutUnitIcon记录 raw=d64b930400000000，slot VA04A34E70，name VA04A34BD6，CRC32 af123bb3，index30，CSV行30，字段54706054=10，message_id=0110。验证范围仅为当前原版Build ID与CSV，不代表运行时每次均已加载目录、所有候选均可用或事务已经持久化。全部66项名称映射已确认，后续应独立核查具体物品可用性和Field事务，不重复追索不存在证据的10→30算术转换。
