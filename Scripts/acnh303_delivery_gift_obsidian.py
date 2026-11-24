@@ -10,6 +10,17 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x0138d104: ("Group zero candidate handler relocation target; static audit only", 0x30),
+    0x0138d100: ("Group zero candidate handler relocation target; static audit only", 0x4),
+    0x0138cf74: ("Group zero candidate handler relocation target; static audit only", 0x90),
+    0x022c0370: ("Group zero candidate handler relocation target; static audit only", 0x300),
+    0x022c543c: ("Group zero candidate handler relocation target; static audit only", 0x1b14),
+    0x022c6f50: ("Group zero candidate handler relocation target; static audit only", 0x9f0),
+    0x022c7940: ("Group zero candidate handler relocation target; static audit only", 0x1408),
+    0x022c8d48: ("Group zero candidate handler relocation target; static audit only", 0x408),
+    0x022c9150: ("Group zero candidate handler relocation target; static audit only", 0x98),
+    0x022c91e8: ("Group zero candidate handler relocation target; static audit only", 0x2cc),
+    0x022c94b4: ("Group zero candidate handler relocation target; static audit only", 0x600),
     0x01c04e38: ("Conversation reset seven records and seven choice components", 0x4000),
     0x03d7dd80: ("Display object property refresh", 0x4000),
     0x01bc1880: ("Message resource handle unregister", 0x4000),
