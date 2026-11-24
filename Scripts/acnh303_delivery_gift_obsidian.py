@@ -10,6 +10,25 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02fa9a70: ("MessageWindow state0 update", 0x2000),
+    0x02fa9a80: ("MessageWindow state1 entry", 0x2000),
+    0x02fa9bec: ("MessageWindow state1 update", 0x2000),
+    0x02fa9bf0: ("MessageWindow state2 entry", 0x2000),
+    0x02fa9de0: ("MessageWindow state2 update", 0x2000),
+    0x02fa9e84: ("MessageWindow state3 entry", 0x2000),
+    0x02fa9e88: ("MessageWindow state3 update", 0x2000),
+    0x02fa9e8c: ("MessageWindow state4 entry", 0x2000),
+    0x02fa9ea4: ("MessageWindow state4 update", 0x2000),
+    0x02fa9f28: ("MessageWindow state5 entry", 0x2000),
+    0x02fa9f2c: ("MessageWindow state5 update", 0x2000),
+    0x0386bc30: ("Registry prepare update and request consumption scheduler", 0x2000),
+    0x0386be70: ("Registry subsequent lifecycle phase", 0x2000),
+    0x0386bff0: ("Registry subsequent lifecycle phase", 0x2000),
+    0x0386a980: ("Registry active factory preparation", 0x2000),
+    0x0386cf04: ("Registry visitor slot20", 0x2000),
+    0x0386cf08: ("Registry visitor slot48", 0x2000),
+    0x0386cf0c: ("Registry visitor slot50", 0x2000),
+    0x01d53240: ("Upper descriptor dispatch consumer", 0x2000),
     0x02fa88bc: ("MessageWindow +E0", 0x4000),
     0x02fa88f0: ("MessageWindow +E8 idle", 0x4000),
     0x02fa8910: ("MessageWindow +F0", 0x4000),
@@ -605,7 +624,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
     """Validate literal state-name bytes and direct call candidates; no runtime inference."""
     import struct
     names=[]
-    for rva in (0x3f8dd64,0x3fe3b76,0x3f87a5a,0x4000077,0x3fb6384,0x3fc671a,0x3f63925):
+    for rva in (0x3f8dd64,0x3fe3b76,0x3f87a5a,0x4000077,0x3fb6384,0x3fc671a,0x3f63925,0x3fc6988):
         b=bytearray()
         for i in range(128):
             x=raw(rva+i,1)
