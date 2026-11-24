@@ -9,6 +9,7 @@ on:
       - 'Scripts/acnh303_r112_gift_callbacks.py'
       - 'Scripts/acnh303_r113_gift_semantics.py'
       - 'Scripts/acnh303_r114_ui_filter.py'
+      - 'Scripts/acnh303_r115_interaction_enum.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -55,6 +56,8 @@ jobs:
         run: python Scripts/acnh303_r113_gift_semantics.py --root . --out artifacts/acnh303-r108
       - name: R114 actual UI consumer and enum cache audit
         run: python Scripts/acnh303_r114_ui_filter.py --root . --out artifacts/acnh303-r108
+      - name: R115 interaction enum and cache lifetime audit
+        run: python Scripts/acnh303_r115_interaction_enum.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
