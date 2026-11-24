@@ -10,6 +10,31 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01b9cbc0: ("Choice generation mode dispatcher", 0x3000),
+    0x01b9cd50: ("Sequential choice record ID and text-label publication", 0x3000),
+    0x01b9d0e0: ("Available MSBT choice labels bitmap", 0x3000),
+    0x01b9d2d0: ("Choice record generation from available labels", 0x3000),
+    0x01b970f0: ("Message attribute schema classification", 0x3000),
+    0x01b9735c: ("Message attribute schema dispatch", 0x3000),
+    0x01b97400: ("Message attribute auxiliary enum", 0x3000),
+    0x01b977e0: ("Schema one MSBT attribute extraction", 0x3000),
+    0x01b97a90: ("Schema two attribute extraction", 0x3000),
+    0x01b97d40: ("Schema three attribute extraction", 0x3000),
+    0x01b97ff0: ("Schema five attribute extraction", 0x3000),
+    0x01b982a0: ("Schema six attribute extraction", 0x3000),
+    0x01b98550: ("Schema seven attribute extraction", 0x3000),
+    0x01b9be60: ("Choice record text payload materialization", 0x3000),
+    0x03d53db0: ("MSBT archive resource lookup", 0x3000),
+    0x038f40b0: ("MSBT label hash lookup", 0x3000),
+    0x006f50a0: ("Message name and label text retrieval", 0x3000),
+    0x03d4cd40: ("Message text archive lookup", 0x3000),
+    0x01bea210: ("Worker resource-name and label preparation", 0x3000),
+    0x01ba8e98: ("Worker bounded processing counter", 0x3000),
+    0x01c08808: ("Text worker processing stage three", 0x3000),
+    0x01b96f60: ("Worker secondary output processing", 0x3000),
+    0x01b957f0: ("Worker auxiliary completion check", 0x3000),
+    0x03b0db80: ("Message attribute label presence predicate", 0x3000),
+    0x03b0d9a0: ("Message text label lookup", 0x3000),
     0x02fac174: ("SelectTalkSeq start and result sentinel reset", 0x4000),
     0x02facd58: ("SelectTalkSeq callback descriptor 0", 0x4000),
     0x02facd5c: ("SelectTalkSeq callback descriptor 1", 0x4000),
@@ -809,7 +834,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
             if x==b"\x00":break
         if not b or b[-1]!=0:raise ValueError("unterminated name")
         names.append({"rva":hex(rva),"bytes":b.hex(),"name":bytes(b[:-1]).decode("ascii")})
-    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc,0x01c04e38,0x01bc1880,0x01bc1730,0x01bfb6b4,0x01c05a7c,0x01b9c210)}
+    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc,0x01c04e38,0x01bc1880,0x01bc1730,0x01bfb6b4,0x01c05a7c,0x01b9c210,0x01b9cbc0,0x01b9cd50,0x01b9d0e0,0x01b9d2d0,0x01b970f0,0x01b9735c,0x01b977e0,0x01bea9c8)}
     hits=[]
     for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
         if w&0x7c000000!=0x14000000:continue
@@ -1032,6 +1057,22 @@ def main(root,out):
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":count-1,
                                 "mode_min":mode_min,"mode_max":mode_min+count-1,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x01bea9c8 and a==0x1aeadc8:
+                    # Worker state 3..6, bounded four-entry byte dispatch.
+                    signature=bytes.fromhex("090d0051 3f0d0071 08180054 682c01d0 08c50991 8a000010 0b696938 4a090b8b 40011fd6")
+                    first=0x1aeada8;table=0x4078271
+                    table_bytes=raw(table,4)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==4
+                        and get_bytes_va(elf,es,table+elfbase,4)==table_bytes):
+                        candidate=[0x1aeadcc+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":3,"index_max":6,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
