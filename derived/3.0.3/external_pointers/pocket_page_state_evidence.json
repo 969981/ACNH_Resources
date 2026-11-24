@@ -592,12 +592,12 @@
     }
   },
   "latest_verified_export": {
-    "run": 45337380633,
-    "artifact": 14894148965,
-    "sha256": "bb18dd3919a9fd0973a2f4473db9b8e8df390e91ac2073852258eef057aebbfe",
-    "entries": 497,
-    "rows": 65521,
-    "gaps": 192
+    "run": 45338921467,
+    "artifact": 14894483118,
+    "sha256": "1144b88cf2b4851e8ab23d9d99843036712e8089385a2e0bcafbb7b46d1f5d33",
+    "entries": 530,
+    "rows": 67806,
+    "gaps": 199
   },
   "lifecycle_scan": {
     "run": 45334089129,
@@ -663,7 +663,42 @@
     "writer_va": "0x03868e44",
     "clear_va": "0x038690a8",
     "prepare_direct_call_va": "0x0386bd38",
-    "update_direct_call_va": "0x0386bdf4"
+    "update_direct_call_va": "0x0386bdf4",
+    "scheduler": {
+      "entry_va": "0x0386bc30",
+      "linear_window_verified": true,
+      "artifact": 14894483118,
+      "active_factory_list_offset": "0x508",
+      "active_component_list_offset": "0x58",
+      "steps": [
+        {
+          "site": "0x0386bc94",
+          "target": "0x0386a980"
+        },
+        {
+          "site": "0x0386bd38",
+          "target": "0x03868db0"
+        },
+        {
+          "site": "0x0386bd70",
+          "slot": "0x28",
+          "target_if_registered_type": "0x02c0e1a8"
+        },
+        {
+          "site": "0x0386bdf4",
+          "target": "0x03868ae0"
+        },
+        {
+          "site": "0x0386be4c",
+          "slot": "0x30",
+          "target_if_registered_type": "0x02c0e1b8"
+        }
+      ],
+      "callback_object_offset": "0x560",
+      "within_pass_order_verified": true,
+      "whole_cfg_verified": false,
+      "actual_frequency": null
+    }
   },
   "factory_registration": {
     "constructor_va": "0x0386a3a0",
@@ -821,11 +856,88 @@
           2
         ],
         "pure_chat_ended": false,
-        "original_instruction_verified": false
+        "original_instruction_verified": true,
+        "call_va": "0x01d531e8",
+        "caller_site_va": "0x01d52ec0"
       },
       "current_page_consumer": {
         "va": "0x033862f0",
         "c_blob": "862452b0e100d46281814370d97b1a118972409b"
+      },
+      "idle_predicate": {
+        "va": "0x02fa88f0",
+        "rows": 8,
+        "gaps": 0,
+        "condition": "u32(self+0x1f0)==0xffffffff && u32(self+0x1f4)==0xffffffff && u32(self+0x1b0)<2",
+        "reads_child_sequences": false
+      },
+      "other_predicates": {
+        "f0": {
+          "va": "0x02fa8910",
+          "condition": "u32(self+0x1b0)<2"
+        },
+        "f8": {
+          "va": "0x02fa8920",
+          "condition": "u32(self+0x1b0)==3"
+        }
+      },
+      "close_request_write_va": "0x02fa97bc",
+      "direct_idle_reset": {
+        "va": "0x02fa97c4",
+        "transition_va": "0x02fa97dc",
+        "clear_va": "0x02fa97e4",
+        "unconditional": true
+      },
+      "state_registration": {
+        "va": "0x02fa97f4",
+        "rows": 159,
+        "gaps": 0,
+        "count": 6,
+        "states": [
+          {
+            "id": 0,
+            "name": "cInit",
+            "name_rva": "0x3f8dd64",
+            "entry_va": null,
+            "update_va": "0x02fa9a70"
+          },
+          {
+            "id": 1,
+            "name": "cIdle",
+            "name_rva": "0x3fe3b76",
+            "entry_va": "0x02fa9a80",
+            "update_va": "0x02fa9bec"
+          },
+          {
+            "id": 2,
+            "name": "cAppear",
+            "name_rva": "0x3f87a5a",
+            "entry_va": "0x02fa9bf0",
+            "update_va": "0x02fa9de0"
+          },
+          {
+            "id": 3,
+            "name": "cPlay",
+            "name_rva": "0x4000077",
+            "entry_va": "0x02fa9e84",
+            "update_va": "0x02fa9e88"
+          },
+          {
+            "id": 4,
+            "name": "cDisappear",
+            "name_rva": "0x3fb6384",
+            "entry_va": "0x02fa9e8c",
+            "update_va": "0x02fa9ea4"
+          },
+          {
+            "id": 5,
+            "name": null,
+            "name_rva": "0x3fc6988",
+            "entry_va": "0x02fa9f28",
+            "update_va": "0x02fa9f2c"
+          }
+        ],
+        "callback_cfg_verified": false
       }
     }
   }
