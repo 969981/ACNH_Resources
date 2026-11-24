@@ -10,6 +10,18 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x00ad8904: ("OpenMessageWindow Action vtable +40 entry", 0x4000),
+    0x00ad8e80: ("OpenMessageWindow Action vtable +48 update", 0x4000),
+    0x00ad8794: ("OpenMessageWindow native message business Ready publication", 0x4000),
+    0x00ad8430: ("EventFlow MessageID resource and label split", 0x4000),
+    0x00ada684: ("OpenMessageWindow vtable +38 completion predicate", 0x4000),
+    0x00ad948c: ("OpenMessageWindow vtable +20 initialization", 0x4000),
+    0x00b2cb98: ("MessageSuspend vtable +40", 0x4000),
+    0x00d4bba0: ("MessageUnlockNext vtable +40", 0x4000),
+    0x00d4b978: ("MessageLockNext vtable +58", 0x4000),
+    0x00ce21f8: ("SetSubflowResult vtable +58", 0x4000),
+    0x01c01ff0: ("Message descriptor initialization", 0x4000),
+    0x01be5840: ("Message resource name normalization", 0x4000),
     0x0070fb10: ("EventFlow Query hash lookup and virtual return", 0x4000),
     0x0070f160: ("EventFlowReceptor constructor", 0x4000),
     0x0070f340: ("EventFlowReceptor destructor", 0x4000),
