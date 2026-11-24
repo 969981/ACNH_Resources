@@ -10,6 +10,34 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02c0cef8: ("Shared UI +1D0 dispatch", 0x1800),
+    0x02bb9508: ("Shared UI +1D8 predicate", 0x1800),
+    0x02bb9510: ("Shared UI +1F0 predicate", 0x1800),
+    0x02bb9518: ("Shared UI +1F8", 0x1800),
+    0x02bb9520: ("Shared UI +200 query", 0x1800),
+    0x02bb94e0: ("Shared UI +150", 0x1800),
+    0x02bb94e4: ("Shared UI +158", 0x1800),
+    0x02bb94e8: ("Shared UI +160", 0x1800),
+    0x02bb94ec: ("Shared UI +170", 0x1800),
+    0x02bb94f0: ("Shared UI +180", 0x1800),
+    0x02bb94f4: ("Shared UI +188", 0x1800),
+    0x02bb94f8: ("Shared UI +190", 0x1800),
+    0x02bb94fc: ("Shared UI +198", 0x1800),
+    0x02bb9500: ("Shared UI +1A8", 0x1800),
+    0x02bb9504: ("Shared UI +1B0", 0x1800),
+    0x03186cec: ("Pocket +E0 predicate", 0x1800),
+    0x03186cfc: ("Pocket +E8 predicate", 0x1800),
+    0x03186d1c: ("Pocket +F0 predicate", 0x1800),
+    0x03186d74: ("Pocket +F8 predicate", 0x1800),
+    0x0318948c: ("Pocket +168", 0x1800),
+    0x03189490: ("Pocket +178", 0x1800),
+    0x03189694: ("Pocket request cleanup direct callee", 0x1800),
+    0x02fa3660: ("Talk native state registration", 0x1800),
+    0x02fad0b0: ("SelectTalk native state registration", 0x1800),
+    0x0386b2b0: ("UI lifecycle tail target", 0x1800),
+    0x03ebb268: ("Generic FSM update", 0x1800),
+    0x03390900: ("Shared UI manager callback", 0x1800),
+    0x0386b170: ("UI registration lifecycle", 0x1800),
     0x03174518: ("PocketMenu command callback or mapping", 0x80),
     0x03174598: ("PocketMenu command callback or mapping", 0x88),
     0x03174620: ("PocketMenu command callback or mapping", 0x2c),
@@ -330,6 +358,55 @@ def annotation(i, target):
     if m in ("cmp","cmn","tst"): return "比较/测试并更新条件标志"
     if m in ("add","sub","adds","subs","mov","movk","movz","and","orr","eor","lsl","lsr","asr","ubfx","sxtw","uxtw","csel"): return "寄存器计算/选择："+i.op_str
     return "指令原样保留；人工业务注释待补"
+def scan_ui_lifecycle(elf, es, elfbase, code_start, code, raw, cs, out):
+    """Whole text instruction-pattern scan. Candidate windows, not type-bound call proof."""
+    import struct
+    import collections
+    counts=collections.Counter()
+    hits=[]
+    def word(off):
+        return struct.unpack_from("<I",code,off)[0]
+    def emit(kind,off,detail):
+        counts[kind]+=1
+        start=max(0,off-32)
+        end=min(len(code),off+48)
+        a=code_start+start
+        b=code[start:end]
+        if get_bytes_va(elf,es,a+elfbase,len(b))!=b or raw(a,len(b))!=b:
+            counts["byte_mismatch"]+=1
+            return
+        hits.append({"kind":kind,"site_va":hex(code_start+off+BASE),"detail":detail,
+                     "window":[{"va":hex(i.address+BASE),"bytes":i.bytes.hex(),
+                                "instruction":i.mnemonic+" "+i.op_str} for i in cs.disasm(b,a)]})
+    for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
+        off=idx*4
+        # LDR Xt,[Xn,#1E8] followed by BR/BLR Xt. No type claim.
+        if w&0xffc00000==0xf9400000 and (w>>10)&0xfff==0x3d:
+            rt=w&31
+            for delta in range(4,21,4):
+                if off+delta+4>len(code):break
+                q=word(off+delta)
+                if (q&0xfffffc1f) in (0xd61f0000,0xd63f0000) and (q>>5)&31==rt:
+                    emit("slot_1e8_branch",off,{"branch_va":hex(code_start+off+delta+BASE),"register":rt})
+                    break
+        # ORR Wd,Wn,#20h/#40h bracketed by LDRH and STRH same base+offset.
+        if w&0xfffffc00 in (0x321b0000,0x321a0000):
+            rn=(w>>5)&31; rd=w&31
+            for d1 in range(4,25,4):
+                if off<d1:break
+                a=word(off-d1)
+                if a&0xffc00000!=0x79400000 or a&31!=rn:continue
+                for d2 in range(4,25,4):
+                    if off+d2+4>len(code):break
+                    b=word(off+d2)
+                    if b&0xffc00000==0x79000000 and b&31==rd and a&0x003fffe0==b&0x003fffe0:
+                        emit("halfword_mask_20_40",off,{"mask":32 if w&0xfffffc00==0x321b0000 else 64,
+                            "base_register":(a>>5)&31,"offset":((a>>10)&0xfff)*2})
+                        break
+                else:continue
+                break
+    (out/"ui_lifecycle_candidates.json").write_text(json.dumps({"scope":"whole decoded text; bounded same-register syntactic candidates, not exhaustive dataflow or runtime proof","counts":dict(counts),"hits":hits},ensure_ascii=False,indent=2),encoding="utf-8")
+
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
     es=parse_elf(elf); code_start,code=mapped[0]; code_end=code_start+len(code)
@@ -459,6 +536,7 @@ def main(root,out):
         manifest["functions"].append({"key":key,"role":role,"rows":len(rows),"gaps":len(gaps),"entry_is_interior_anchor":"interior anchor" in role})
     (out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8")
     (out/"README.md").write_text("# ACNH 3.0.3 authenticated instruction index\n\n"+"\n".join(f'- [[Functions/{r["key"]}]] — {r["role"]}：{r["rows"]} instructions, {r["gaps"]} gaps' for r in manifest["functions"])+"\n",encoding="utf-8")
+    scan_ui_lifecycle(elf,es,elfbase,code_start,code,raw,cs,out)
     if any(r["rows"]==0 for r in manifest["functions"]): raise SystemExit("one or more anchors lack byte-matched evidence; inspect artifact")
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True)
