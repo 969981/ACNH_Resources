@@ -1,0 +1,41 @@
+name: ACNH 3.0.3 R105 GrowUp mode CFG
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r105*'
+      - 'derived/3.0.3/npc_event_flags/r105_growup_modes/**'
+      - '.github/workflows/acnh303-r105-growup.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r105:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r105*
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r105_growup_modes/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - run: python Scripts/acnh303_r105_lifesupport_decode.py --selftest
+      - run: python Scripts/acnh303_r105_growup_cfg.py --root . --out artifacts/r105
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r105-growup
+          path: artifacts/r105/
+          if-no-files-found: error
