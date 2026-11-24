@@ -1,0 +1,56 @@
+name: ACNH 3.0.3 R114 SaveProc worker
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r114*'
+      - 'derived/3.0.3/npc_event_flags/r114_saveproc_worker/**'
+      - '.github/workflows/acnh303-r114-worker.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r114:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r114_saveproc_worker.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r114_saveproc_worker/
+            /derived/3.0.3/ghidra12.2/c/d4/0283d4c4.c
+            /derived/3.0.3/ghidra12.2/c/f0/028bf09c.c
+            /derived/3.0.3/ghidra12.2/c/eb/028beba8.c
+            /derived/3.0.3/ghidra12.2/c/ed/028bed14.c
+            /derived/3.0.3/ghidra12.2/c/c6/0283c6a8.c
+            /derived/3.0.3/ghidra12.2/c/c2/0283c2a8.c
+            /derived/3.0.3/ghidra12.2/c/55/026f55b4.c
+            /derived/3.0.3/ghidra12.2/c/57/026f5738.c
+            /derived/3.0.3/ghidra12.2/c/5a/026f5a40.c
+            /derived/3.0.3/ghidra12.2/c/56/026f569c.c
+            /derived/3.0.3/ghidra12.2/c/58/026f5820.c
+            /derived/3.0.3/ghidra12.2/c/5b/026f5b28.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - name: Fetch authenticated R113 evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14890603844/zip > r113.zip
+      - run: python Scripts/acnh303_r114_saveproc_worker.py --root . --prior r113.zip --out artifacts/r114
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r114-saveproc-worker
+          path: artifacts/r114/
+          if-no-files-found: error
