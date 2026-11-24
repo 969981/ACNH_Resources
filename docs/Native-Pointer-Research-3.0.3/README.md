@@ -20,6 +20,8 @@ updated: 2026-11-24
 
 7. [[07-保存管理器与玩家村民动态根]] · [GitHub 阅读](07-保存管理器与玩家村民动态根.md)
 
+8. [[08-保存管理器生命周期与Friendship静态验收]] · [GitHub 阅读](08-保存管理器生命周期与Friendship静态验收.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
@@ -27,6 +29,8 @@ updated: 2026-11-24
 - [候选地址数据库](../../derived/3.0.3/external_pointers/candidates.json)
 - [ELF 审计脚本](../../Scripts/acnh303_external_pointer_audit.py)
 - [R100 重定位索引脚本](../../Scripts/acnh303_r100_relocation_index.py)
+- [R100 保存根与生命周期结构化证据](../../derived/3.0.3/external_pointers/save_root_r100_evidence.json)
+- [R100 实际 SQLite 构建产物](https://github.com/969981/ACNH_Resources/actions/runs/45308001227/artifacts/14881442847)
 - [ELF 审计 CI 45313390861](https://github.com/969981/ACNH_Resources/actions/runs/45313390861)
 - [Ghidra 导出进度](../../derived/3.0.3/ghidra12.2/progress.json)
 
@@ -41,11 +45,11 @@ updated: 2026-11-24
 |P0|0x59E6A60 构造|四类子对象分配|补全子对象类型与生命周期|
 |P0|0x59E6A60 注销|清零指令已定位|核对析构路径|
 |P0|玩家坐标|已恢复消费者|逐跳确认五级链及 XYZ|
-|P0|R100 关联|已有索引脚本及关联方案|取得真实 SQLite 后执行 join|
-|P0|GSavePlayer 根|已恢复双分支访问器和背包消费者|验证间接根、虚调用目标与固定 Heap 对应|
-|P0|GSaveNpc 根|共享根候选及两种关系描述符访问已恢复|验证序列化载荷与动态根|
-|P0|保存管理器根|DAT_05574040 / RVA 0x5474040 静态候选|真实 ELF 段、重定位、初始化/注销、虚表目标|
-|P0|Friendship +0x46|Native 通用 u8 访问链已恢复，+0x46 未证明|解析字段元数据、验证实际偏移|
+|P0|R100 关联|真实 SQLite 通过完整性检查；确认保存根及其他 6 条 RELR|扩展 ELF 指令引用与后端虚表定位|
+|P0|GSavePlayer 根|共享全局根 RELR 已确认；双分支访问器和背包消费者已恢复|验证后端虚调用目标、持久化载荷与固定 Heap 对应|
+|P0|GSaveNpc 根|共享全局根 RELR 已确认；B+0xa8 描述符到十条 NPC 原生载荷已恢复|实机载荷及保存文件对照|
+|P0|保存管理器根|RVA 0x5474040 BSS 已确认；注册/初始化/条件注销及主体首虚函数目标已恢复|原始 ELF 逐行核对、后端 +0x38 虚函数目标|
+|P0|Friendship +0x46|原始字段索引 10 + Native 0x3c = 0x46 静态确认|实际载荷与存档值对照|
 |P1|游戏时间|时间计算逻辑已恢复|时间对象根与生命周期|
 |P1|碰撞相关对象|状态选择逻辑已恢复|调用链与对象布局|
 |P1|12 条原字不匹配 Main 地址|原始指令已对账|真实 3.0.2 ELF 双版本匹配|
