@@ -22,3 +22,9 @@ tags: [ACNH, ARM64, save, R120]
 `python Scripts/acnh303_r120_native_save.py --r117 r117.zip --r119 r119.zip --out artifacts/r120`
 
 输出 main_native_hash_emulation.json、cloud_size_emulation.json、direct_refs.json、writer_dispatch_window.json、report.json。仅用合成样本，不写回游戏存档。CI 前不宣称仿真通过，真实 GDB 与实际存档继续标为未验证。
+
+## 云岛 worker 的同步与独立 Personal 快照证据
+
+R117 原版 BL 显示 0283CBA8 -> 026F5738 (锁/同步进入) -> 02700EE8 (三个已启用后端的 VTable+0x28 Getter) -> selector 间接调用 -> 026F5820 (锁/同步退出)。0283CCBC 调用 02700CCC (VTable+0x18 Getter)、026F55B4/026F569C、026F5A40/026F5B28 及 026F66E0。026F66E0 的反编译源明确从 T+0x60..0x98 的八个 Personal 对象分别 memcpy(P(O+0x18), P(O+0x10), 0x74A40)，并做通用记录复制与锁保护。这是八个独立 Personal 的双缓冲同步证据，不是 Main+0x5B3D50 与外部 Personal 一致的证明。两个 Getter 调用的返回值未被对应 C 源使用；不能据此声称完成磁盘写入。
+
+源码 Blob 锚点：02700EE8 a10734b44812b19be3e00050c3d0327ee542b045；02700CCC 53c3050431c22c75dd01849406c9633c432a15ad；026F5738 7535c698d10d9298ac819f8cf4526821cad8fc17；026F5820 52308a34c2f7f804d8a2e78a40a68d7663012fe0；026F66E0 385d8e246fb61826880218a3fd5935ad59cde769。以上为源码证据，非新增机器码验收结果。
