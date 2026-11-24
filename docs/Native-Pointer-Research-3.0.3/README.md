@@ -127,6 +127,8 @@ updated: 2026-11-24
 
 39. [[39-ItemLayer接口复制与第三类对象工厂]] · [GitHub 阅读](39-ItemLayer接口复制与第三类对象工厂.md)
 
+40. [[40-ItemLayer变体工厂与构造标志闭合]] · [GitHub 阅读](40-ItemLayer变体工厂与构造标志闭合.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
