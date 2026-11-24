@@ -1,0 +1,47 @@
+name: ACNH 3.0.3 R121 native save validators
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r121*'
+      - 'derived/3.0.3/npc_event_flags/r121_save_validator/**'
+      - '.github/workflows/acnh303-r121-save-validator.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r121:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r121_save_validator.py
+            /Scripts/acnh303_r120_native_save.py
+            /Scripts/acnh303_r119_save_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4 unicorn==2.1.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/969981/ACNH_Resources/actions/artifacts/14892968176/zip > r119.zip
+          gh api repos/969981/ACNH_Resources/actions/artifacts/14893694030/zip > r120.zip
+      - run: python Scripts/acnh303_r121_save_validator.py --r119 r119.zip --r120 r120.zip --out artifacts/r121
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r121-save-validator
+          path: artifacts/r121/
+          if-no-files-found: warn
