@@ -1,0 +1,60 @@
+name: ACNH 3.0.3 R126 streaming state
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r126*'
+      - 'derived/3.0.3/npc_event_flags/r126_streaming_state/**'
+      - '.github/workflows/acnh303-r126-streaming-state.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r126:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r126_streaming_state.py
+            /Scripts/acnh303_r124_interface_registry.py
+            /Scripts/acnh303_r123_cloud_interface.py
+            /Scripts/acnh303_r122_backend_abi.py
+            /Scripts/acnh303_r120_native_save.py
+            /Scripts/acnh303_r119_save_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r126_streaming_state/
+            /derived/3.0.3/ghidra12.2/c/74/002b7440.c
+            /derived/3.0.3/ghidra12.2/c/6e/002b6e98.c
+            /derived/3.0.3/ghidra12.2/c/75/002b7558.c
+            /derived/3.0.3/ghidra12.2/c/70/002b7008.c
+            /derived/3.0.3/ghidra12.2/c/58/002b5888.c
+            /derived/3.0.3/ghidra12.2/c/6d/002b6d6c.c
+            /derived/3.0.3/ghidra12.2/c/57/002b5764.c
+            /derived/3.0.3/ghidra12.2/c/aa/002aaa28.c
+            /derived/3.0.3/ghidra12.2/c/4c/01c84c50.c
+            /derived/3.0.3/ghidra12.2/c/73/002b73bc.c
+            /derived/3.0.3/ghidra12.2/c/4d/002a4dc0.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4 unicorn==2.1.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14895919623/zip > r125.zip
+      - run: python Scripts/acnh303_r126_streaming_state.py --r125 r125.zip --out artifacts/r126
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-r126-streaming-state
+          path: artifacts/r126/
+          if-no-files-found: warn
