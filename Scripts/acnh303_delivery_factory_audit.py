@@ -173,7 +173,7 @@ def main(root,out):
     for a in (0x3f61e16,0x3f5c256,0x3f7ebb1,0x3fb0302,0x3f7c0de):
         b=matched(a,96)
         if b is not None:
-            s=b.split(b"\\0",1)[0]
+            s=b.split(bytes([0]),1)[0]
             parameter_literals.append({"va":hex(a+BASE),"bytes":s.hex(),"text":s.decode("utf-8",errors="replace")})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
