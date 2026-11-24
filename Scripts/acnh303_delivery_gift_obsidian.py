@@ -10,6 +10,17 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x0070fb10: ("EventFlow Query hash lookup and virtual return", 0x4000),
+    0x0070f160: ("EventFlowReceptor constructor", 0x4000),
+    0x0070f340: ("EventFlowReceptor destructor", 0x4000),
+    0x0068d1f0: ("EventFlow runtime record reschedule loop", 0x4000),
+    0x0068d480: ("EventFlow event kind dispatcher, query result and node generation", 0x4000),
+    0x0068f970: ("EventFlow action descriptor lookup", 0x4000),
+    0x0068fa40: ("EventFlow query descriptor lookup", 0x4000),
+    0x010f5d80: ("Action wrapper BindInfo setup", 0x4000),
+    0x01184470: ("Query wrapper BindInfo setup", 0x4000),
+    0x011828b0: ("Action and query wrapper construction", 0x4000),
+    0x0068a804: ("EventFlow invocation context construction", 0x4000),
     0x01259024: ("Eight layer snapshot refresh; read-only static audit", 0x320),
     0x010f5bb0: ("EventFlow system actor and ExitFlowchart string registration", 0x3000),
     0x010f62f0: ("EventFlow action invocation and explicit exit flag producer", 0x3000),
@@ -970,6 +981,59 @@ def export_message_archive_tables(elf,es,elfbase,raw,rel,out):
         "unknown_language_fallback":cstring(0x3f7ebb1)}
     (out/"message_archive_tables.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
 
+def export_dialogue_event_factories(root,elf,es,elfbase,mapped,raw,rel,entries,out):
+    """Hash plus relocated code pointer candidates, not proof of live table membership."""
+    from acnh303_r95_native_eventflags import murmur3
+    import struct
+    names=["EventFlowActionOpenMessageWindow","EventFlowActionMessageSuspend",
+           "EventFlowActionMessageLockNext","EventFlowActionMessageUnlockNext",
+           "EventFlowActionExitFlowchart","EventFlowActionSetSubflowResult"]
+    names += ["EventFlowQueryGeneralTalkChoice"+str(i) for i in range(2,8)]
+    names += ["EventFlowQuerySubflowResultChoice"+str(i) for i in range(2,5)]
+    corpus={}
+    for p in sorted((root/"UnPack/1/EventFlow").glob("*.json")):
+        try:g=json.loads(p.read_text("utf-8")).get("graph",{})
+        except (ValueError,UnicodeError):continue
+        if not isinstance(g,dict):continue
+        for a in g.get("actors",[]):
+            for n in a.get("actions",[])+a.get("queries",[]):
+                if isinstance(n,str):corpus.setdefault(murmur3(n),set()).add(n)
+    start,code=mapped[0];end=start+len(code)
+    def matched(a,n):
+        try:b=raw(a,n)
+        except ValueError:return None
+        return b if len(b)==n and get_bytes_va(elf,es,a+elfbase,n)==b else None
+    result=[]
+    for name in names:
+        h=murmur3(name)
+        needle=struct.pack("<I",h)
+        records=[]
+        for va,data in mapped[1:]:
+            pos=-1
+            while True:
+                pos=data.find(needle,pos+1)
+                if pos<0:break
+                a=va+pos
+                if a%8:continue
+                b=matched(a,16)
+                rr=rel.get(a+8,{})
+                target=rr.get("addend")
+                if not b or b[4:8]!=bytes(4) or rr.get("type") not in ("RELR",1027) or rr.get("symbol")!=0 or not isinstance(target,int) or not start<=target<end:continue
+                records.append({"record_rva":hex(a),"record_va":hex(a+BASE),"bytes":b.hex(),
+                    "constructor_va":hex(target+BASE),"relocation":rr})
+                entries.setdefault(target+BASE,("EventFlow factory candidate "+name,0x1800))
+        result.append({"name":name,"hash":f"{h:08x}","corpus_names":sorted(corpus.get(h,set())),
+                       "records":records,"runtime_membership_verified":False})
+    globals=[]
+    for gh in (0x04c8ded8,0x04c8dee0,0x04c8dee8,0x04c8def0,0x04c8def8,0x04c8df68):
+        a=gh-BASE
+        globals.append({"va":hex(gh),"rva":hex(a),
+            "aliases":[hex(slot+BASE) for slot,r in rel.items() if r.get("addend")==a and r.get("type") in ("RELR",1027) and r.get("symbol")==0],
+            "file_bytes":(matched(a,8) or b"").hex()})
+    (out/"dialogue_event_factories.json").write_text(json.dumps({"names":result,"global_fields":globals,
+        "grade":"matched 16-byte records with relocated executable pointer; table membership and runtime binding pending",
+        "runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
+
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
     es=parse_elf(elf); code_start,code=mapped[0]; code_end=code_start+len(code)
@@ -984,6 +1048,7 @@ def main(root,out):
     manifest={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),"nso_build_id":nso[0x40:0x60].hex(),"ghidra_base":hex(BASE),"runtime_verified":False,"functions":[]}
     # Determine ELF address mapping using its load segments; never silently accept byte differences.
     elfbase=min(s["vaddr"] for s in es)&~0xfff
+    export_dialogue_event_factories(root,elf,es,elfbase,mapped,raw,rel,entries,out)
     for gh,(role,budget) in sorted(entries.items()):
         entry=gh-BASE; todo=[entry]; rows={}; gaps=[]; calls=[]; edges=[]; authenticated_switches=[]
         while todo:
