@@ -16,7 +16,7 @@ ENTRIES = {
     0x01ab38c0: ("Context menu resource initialization or candidate list generator", 0x350),
     0x01ab3ca4: ("Context menu resource initialization or candidate list generator", 0xc),
     0x01ab3dd0: ("Context menu resource initialization or candidate list generator", 0xd1c),
-    0x01ab4d40: ("Context menu resource initialization or candidate list generator", 0x200),
+    0x01ab4d40: ("Context menu resource initialization or candidate list generator", 0x6c0),
     0x0317e7e0: ("Context menu resource initialization or candidate list generator", 0x3294),
     0x031821a0: ("Context menu resource initialization or candidate list generator", 0x6c),
     0x03182b0c: ("Context menu resource initialization or candidate list generator", 0x78),
