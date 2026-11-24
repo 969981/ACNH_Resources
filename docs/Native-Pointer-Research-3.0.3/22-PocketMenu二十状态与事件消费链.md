@@ -104,3 +104,60 @@ x8=self+1C4FC，故+1e=1C51A。最后判断 current state==3；实际状态注�
 ## 5. 本轮新导出
 
 commit a5fdfc8e3a1d1a627a4e279c014df5ee61ef7ada 新增46个原版入口，含33个独立状态回调和注册/资源/包装函数；Run 45332618441 首次查询仍in_progress。不能将已注册地址当成已恢复原始CFG。完整回调、1C518/51A消费者、1C514运行时writer尚待新产物验证。无实机证据，不更改正式指针映射。
+
+
+## 6. 同轮追加原始 CFG 验收
+
+[Run 45332618441](https://github.com/969981/ACNH_Resources/actions/runs/45332618441) success, head a5fdfc8e3a1d1a627a4e279c014df5ee61ef7ada；实际下载 [artifact 14891729127](https://github.com/969981/ACNH_Resources/actions/runs/45332618441/artifacts/14891729127)，本地 SHA256 a9b44e5a16415425aaa56b2bab75d157884d5ed998b6b4ad2d59470bc610c358 与 digest 一致。266 anchors/35969 rows/99 gaps。全部33个独立状态回调已有原始指令；状态注册03189918为441 rows/0 gap。完整逐行证据见 Functions/FUN_<VA>.md/json。0 gap为有界CFG，不等于所有间接调用已验证。
+
+### 6.1 owner 绑定及实际分发
+
+02C0C3F4 的 02C0C404 01a00691 add x1,x0,#1a8；02C0C40C 08f140f9 ldr x8,[x8,#1e0]；02C0C410 00013fd6 blr x8。结合 R100 PocketMenu VTable +1E0→03189918，证实注册参数2就是 owner+1A8，而非无关状态机。
+
+02C0C720 从 owner+1D8 获取 stride40h record，02C0C7AC 调record+0（entry），02C0C7F4 080540f9 ldr x8,[x8,#8]；02C0C7F8 00013fd6 blr x8（update）。03197DCC/03197DF8/03197E24 各11条/1个间接尾转移缺口；分别取record+10/+20/+30的二元组 (target,adjustment)，以 record+8 为 owner，在 adjustment低bit=0时直接 BR；登记值为0，故此次静态配置为直接成员回调。第三个回调在全部20条记录中为NULL。
+
+### 6.2 cPlay update：操作索引非初始化 writer闭合
+
+0318B3F0 715 rows/1 gap（尾跳转0318BA4C）。02C0C720更新派发与03189918状态3绑定。
+
+|VA|bytes|instruction|语义|
+|---|---|---|---|
+|0318B414|08704091|add x8,x0,#1c,lsl#12|owner+1C000|
+|0318B41C|17a11391|add x23,x8,#4e8|owner+1C4E8|
+|0318B420|e8664079|ldrh w8,[x23,#32]|event bits 1C51A|
+|0318B424|88021037|tbnz w8,#2,0318B474|mask4|
+|0318B474|f6c2c039|ldrsb w22,[x23,#30]|event index 1C518|
+|0318B478|df060031|cmn w22,#1|invalid FF guard|
+|0318B48C|d51e0012|and w21,w22,#FF|u8 index|
+|0318B964|f5b20039|strb w21,[x23,#2c]|publish action index 1C514|
+|0318B9F4|48062837|tbnz w8,#5,0318BABC|mask20h|
+|0318BABC|e8c24039|ldrb w8,[x23,#30]|event index|
+|0318BAC4|e8b20039|strb w8,[x23,#2c]|publish action index|
+|0318B9F8|a8113037|tbnz w8,#6,0318BC2C|mask40h|
+|0318BC48|e8c24039|ldrb w8,[x23,#30]|event index|
+|0318BC4C|e8b20039|strb w8,[x23,#2c]|publish action index|
+|0318BD20|f6b2c039|ldrsb w22,[x23,#2c]|consume action index|
+|0318BD30|349cd397|bl #2572e00|capacity check|
+|0318BD54|53b0d397|bl #2577ea0|logical item access|
+
+mask4 publication additionally depends on mode+1C4FC and intervening UI conditions; no claim every mask4 event publishes. Mask20 branch writes action index then conditionally publishes request10; mask40 branch conditionally publishes request3 then writes action index. Request storage is owner+1F0+4*U8(owner+200), when old request is -1. Request consumer and physical key meanings remain to verify. mask8 path searches 40 components, then reads event index and capacity; mask10 handled by cDrag update. Masks20/40 producer not found in current eight original page callbacks; do not assign button names.
+
+### 6.3 event reset and focus restoration
+
+R100 PocketMenu+1E8→03190CEC; 6 rows/0 gap. This callback independently resets event cache. Its invocation cadence not proven.
+
+|VA|bytes|instruction|
+|---|---|---|
+|03190CEC|08704091|add x8,x0,#1c,lsl#12|
+|03190CF0|e91f8052|mov w9,#FF|
+|03190CF4|08611491|add x8,x8,#518|
+|03190CF8|09010039|strb w9,[x8]|
+|03190CFC|1f050079|strh wzr,[x8,#2]|
+
+Thus 1C518=FF, 1C51A=0. Not a per-frame claim. cIdle entry0318A260 at0318A3DC c8d20d39 clears valid old action index after earlier component processing (x22=owner+1C1A0; +374=1C514). cPlay entry0318AA80 (603/0): x21=owner+1C4FC; 0318B090 a862c039 reads 1C514, 0318B098 a9664039 reads 1C515, 0318B09C 3401881a selects old action index unless invalid; after component dispatch, 0318B154 a8620039 writes FF to 1C514. 0318B228 a9660039 writes resolved focus index to1C515 (with invalid FF fallback0). This provides additional evidence1C515 is a focus selection/cache independent of latched action index.
+
+### 6.4 drag-specific event consumer
+
+cDrag entry0318C870 (114/1) 0318C890 d402c239 reads 1C518 signed (x22=owner+1C498,+80), validates against capacity and reads item. cDrag update0318CA40 1582/0: 0318CA64 1ac11291 add x26,x8,#4B0; 0318CA68 48d74079 ldrh w8,[x26,#6A]→1C51A; 0318CA6C 68102036 tests bit4; 0318CA74 57a3c139 reads signed 1C518. Then resolves component by page+590/630 or special button offsets. This is a type-bound event consumer distinct from cPlay. The separate placement/drag substate calls at0318CC58 etc pass owner+1C438, not outer owner+1A8, do not mix the state domains.
+
+Conclusion: static event→action index dataflow accepted; current focus candidate strengthened through entry restoration. No live trace, legacy heap alias or physical-key mapping proven. Remaining: masks20/40 producers, event reset actual caller and timing, outer pending state consumer, live validation of focus and latch. No production write changes.
