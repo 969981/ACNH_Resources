@@ -65,6 +65,8 @@ updated: 2026-11-24
 
 23. [[23-PocketMenu外层状态请求与事件生命周期]] · [GitHub 阅读](23-PocketMenu外层状态请求与事件生命周期.md)
 
+23. [[23-PocketMenu命令映射与PutUnitIcon入口]] · [GitHub 阅读](23-PocketMenu命令映射与PutUnitIcon入口.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
