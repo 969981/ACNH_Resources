@@ -57,6 +57,8 @@ updated: 2026-11-24
 
 21. [[21-EventFlow构造链与选择结果生产者验收]] · [GitHub 阅读](21-EventFlow构造链与选择结果生产者验收.md)
 
+21. [[21-PocketMenu专用页面回调与共享状态机]] · [GitHub 阅读](21-PocketMenu专用页面回调与共享状态机.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
