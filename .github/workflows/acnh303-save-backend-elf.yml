@@ -4,6 +4,7 @@ on:
     paths:
       - 'Scripts/acnh303_save_backend_elf.py'
       - 'Scripts/acnh303_save_snapshot_compare.py'
+      - 'derived/3.0.3/external_pointers/build_id_pointer_index.json'
       - '.github/workflows/acnh303-save-backend-elf.yml'
   workflow_dispatch:
 permissions:
@@ -21,6 +22,7 @@ jobs:
           sparse-checkout: |
             /Scripts/acnh303_save_backend_elf.py
             /Scripts/acnh303_save_snapshot_compare.py
+            /derived/3.0.3/external_pointers/build_id_pointer_index.json
             /e10617820db06889e1638499478da0de_NCA/0/main.elf
       - uses: actions/setup-python@v5
         with:
@@ -28,6 +30,7 @@ jobs:
       - run: python -m pip install capstone==5.0.6
       - run: python -m py_compile Scripts/acnh303_save_backend_elf.py
       - run: python Scripts/acnh303_save_backend_elf.py --elf e10617820db06889e1638499478da0de_NCA/0/main.elf --out artifacts/save-backend-elf
+      - run: python Scripts/acnh303_save_snapshot_compare.py --selftest --build-db artifacts/save-backend-elf/build_id_pointer_index.sqlite3
       - uses: actions/upload-artifact@v4
         with:
           name: acnh303-save-backend-elf
