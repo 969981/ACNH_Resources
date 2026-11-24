@@ -3,7 +3,7 @@
 import argparse,hashlib,json,struct,random
 from pathlib import Path
 from unicorn import UC_HOOK_CODE
-from unicorn.arm64_const import UC_ARM64_REG_X0
+from unicorn.arm64_const import UC_ARM64_REG_X0, UC_ARM64_REG_X1, UC_ARM64_REG_X2, UC_ARM64_REG_X30, UC_ARM64_REG_PC
 import acnh303_r100_nso_decode as dec
 from acnh303_r120_native_save import vm,invoke,load_archive,direct_scan,BUF,S,hx
 from acnh303_r124_interface_registry import window
@@ -32,6 +32,16 @@ def reset(mapped):
     # an SDK-dependent completion query. A code hook rejects that call.
     def deny(uc,addr,size,user):raise AssertionError("unexpected completion query")
     u.hook_add(UC_HOOK_CODE,deny,begin=0x2a5c40,end=0x2a5c40)
+    memset_calls=[]
+    def modeled_memset(uc,addr,size,user):
+        dst=uc.reg_read(UC_ARM64_REG_X0)
+        val=uc.reg_read(UC_ARM64_REG_X1)
+        length=uc.reg_read(UC_ARM64_REG_X2)
+        assert (dst,val,length)==(BUF+0x94,0xff,0x20)
+        uc.mem_write(dst,bytes([val])*length)
+        memset_calls.append((dst,val,length))
+        uc.reg_write(UC_ARM64_REG_PC,uc.reg_read(UC_ARM64_REG_X30))
+    u.hook_add(UC_HOOK_CODE,modeled_memset,begin=0x4004450,end=0x4004450)
     for state in range(14):
         for counter in [0,1,99,100,101,255]:
             data=bytearray(rng.randbytes(0x140))
@@ -49,7 +59,8 @@ def reset(mapped):
             invoke(u,0x2b6d6c,BUF,count=2000)
             actual=bytes(u.mem_read(BUF,len(data)))
             assert actual==expected,(state,counter,[(i,a,b) for i,(a,b) in enumerate(zip(actual,expected)) if a!=b])
-            rows.append({"state":state,"counter":counter,"selected_type_absent":True,"next_state":transition,"full_buffer_equal":True})
+            rows.append({"modeled_external_memset":transition!=state,"state":state,"counter":counter,"selected_type_absent":True,"next_state":transition,"full_buffer_equal":True})
+    assert len(memset_calls)==7
     return rows
 def identity(mapped):
     u=vm(mapped,0x1000);rows=[]
@@ -86,6 +97,6 @@ def main():
     m=membership(mapped);write("membership_tests.json",m)
     r=reset(mapped);write("local_reset_tests.json",r)
     i=identity(mapped);write("identity_tests.json",i)
-    report={"membership_cases":len(m),"local_reset_cases":len(r),"identity_cases":len(i),"total_cases":len(m)+len(r)+len(i),"reset_transition_counts":{str(k):sum(x["next_state"]==k and x["state"]!=k for x in r) for k in (6,12)},"native_windows":len(wins),"window_instructions":sum(map(len,wins.values())),"sdk_completion_executed":False,"network_executed":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
+    report={"membership_cases":len(m),"local_reset_cases":len(r),"identity_cases":len(i),"total_cases":len(m)+len(r)+len(i),"reset_transition_counts":{str(k):sum(x["next_state"]==k and x["state"]!=k for x in r) for k in (6,12)},"native_windows":len(wins),"window_instructions":sum(map(len,wins.values())),"modeled_external_memset_calls":7,"sdk_completion_executed":False,"network_executed":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
     write("report.json",report);print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
