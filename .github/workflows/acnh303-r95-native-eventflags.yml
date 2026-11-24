@@ -1,0 +1,36 @@
+name: ACNH 3.0.3 R95 Native EventFlags mechanisms and scoped EventFlow xrefs
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r95_native_eventflags.py'
+      - 'derived/3.0.3/npc_event_flags/r95/**'
+      - '.github/workflows/acnh303-r95-native-eventflags.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r95-native-and-flow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r95_native_eventflags.py
+            /derived/3.0.3/npc_event_flags/
+            /derived/3.0.3/ghidra12.2/c/
+            /UnPack/1/EventFlow/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact source anchors and scan all Ghidra C and EventFlow
+        run: python Scripts/acnh303_r95_native_eventflags.py --root . --out artifacts/acnh303-r95
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r95-native-eventflags-and-flow
+          path: artifacts/acnh303-r95/
+          if-no-files-found: error
+          retention-days: 90
