@@ -55,6 +55,8 @@ updated: 2026-11-24
 
 20. [[20-七组跳转表与背包索引证据]] · [GitHub 阅读](20-七组跳转表与背包索引证据.md)
 
+21. [[21-EventFlow构造链与选择结果生产者验收]] · [GitHub 阅读](21-EventFlow构造链与选择结果生产者验收.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
