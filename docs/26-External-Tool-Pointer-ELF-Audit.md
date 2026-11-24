@@ -4,7 +4,7 @@
 
 本轮固定三个源码快照：[SysBot main](https://github.com/969981/SysBot.ACNHOrders/tree/11b61e8868752ba8fbd990837f90dd72104d1045)、[SysBot lowintent](https://github.com/969981/SysBot.ACNHOrders/tree/84edb50709e0f5b791e6596a75bd25796793d368)、[Poker main](https://github.com/969981/ACNHPokerCore/tree/85e50a1ad182c926b2ebd51c00abc612e0a859d5)。Poker Main.cs:40 声明 R25 for v3.0.2；SysBot 两分支 OffsetHelper.cs 的地址定义一致。共同来源不是独立运行时证据。3.0.3 不允许直接套用旧版写入位置。
 
-目标 ELF: UnPack/0/main.elf，79,000,340 bytes，SHA256 145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664，ELF64 LE AArch64 ET_DYN。原 NSO SHA256: 68c7fbeda353f8e4a283eac6a9b99e713e72a327048214bf6a4e7214616b87c1。Ghidra R100 已使用 0x100000 slide。main RVA 对应 Ghidra 地址 = RVA + 0x100000（此工程）；heap 相对地址不能如此转换。运行时 main/heap 基址必须实际获取。完整候选表见 [JSON](../derived/3.0.3/external_pointers/candidates.json)。本轮尚未取得实机指针解析证据。
+目标 ELF: e10617820db06889e1638499478da0de_NCA/0/main.elf，79,000,340 bytes，SHA256 145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664，ELF64 LE AArch64 ET_DYN。原 NSO SHA256: 68c7fbeda353f8e4a283eac6a9b99e713e72a327048214bf6a4e7214616b87c1。Ghidra R100 已使用 0x100000 slide。main RVA 对应 Ghidra 地址 = RVA + 0x100000（此工程）；heap 相对地址不能如此转换。运行时 main/heap 基址必须实际获取。完整候选表见 [JSON](../derived/3.0.3/external_pointers/candidates.json)。本轮尚未取得实机指针解析证据。
 
 ## 1. 动态指针与消费者
 
@@ -131,7 +131,7 @@ python -m pip install capstone==5.0.6
 python Scripts/acnh303_external_pointer_audit.py --root . --out /tmp/acnh-pointer-audit.json
 ```
 
-CI 工作流只读原版 ELF，产出 JSON artifact；源码收集与静态验证结果分开。此文提交时尚未获得新的 ELF 扫描执行结果，不能将候选当作验证通过。实机阶段应仅使用读操作获取 Build ID/main/heap、检查每级指针映射与长度、跨场景重启复验，记录真实内存字节及对应函数。禁止自动启用历史写入地址。
+CI 工作流只读原版 ELF，产出 JSON artifact；源码收集与静态验证结果分开。首次 CI 45313263276 因 UnPack/0/main.elf SHA256 与认证值不符而拒绝扫描。已改用 R96/R100 同一 canonical ExeFS 路径，并单独记录镜像实际 SHA256；未放宽认证门禁。此文提交时尚未获得新的 ELF 扫描执行结果，不能将候选当作验证通过。实机阶段应仅使用读操作获取 Build ID/main/heap、检查每级指针映射与长度、跨场景重启复验，记录真实内存字节及对应函数。禁止自动启用历史写入地址。
 
 ## 6. 源码索引
 

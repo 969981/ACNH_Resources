@@ -9,9 +9,12 @@ def hx(x): return hex(x) if x is not None else None
 def sx(x,b): return x-(1<<b) if x&(1<<(b-1)) else x
 def main(root,out):
     reg=json.loads((root/'derived/3.0.3/external_pointers/candidates.json').read_text())
-    p=root/'UnPack/0/main.elf'
+    p=root/'e10617820db06889e1638499478da0de_NCA/0/main.elf'
+    mirror=root/'UnPack/0/main.elf'
+    mirror_sha=hashlib.sha256(mirror.read_bytes()).hexdigest() if mirror.is_file() else None
+    print(json.dumps({'canonical_path':str(p),'mirror_sha256':mirror_sha,'mirror_matches_expected':mirror_sha==reg['target_elf_sha256']}))
     b=p.read_bytes()
-    if hashlib.sha256(b).hexdigest()!=reg['target_elf_sha256']: raise ValueError('ELF digest mismatch')
+    if hashlib.sha256(b).hexdigest()!=reg['target_elf_sha256']: raise ValueError('canonical ELF digest mismatch: '+hashlib.sha256(b).hexdigest())
     if b[:6]!=b'\x7fELF\x02\x01' or struct.unpack_from('<HH',b,16)!=(3,183): raise ValueError('not AArch64 ET_DYN')
     phoff=struct.unpack_from('<Q',b,32)[0]
     ents,n=struct.unpack_from('<HH',b,54)
@@ -84,7 +87,7 @@ def main(root,out):
                     for x in written:tracked.pop(rr(i,x),None)
                 except Exception:break
                 tracked.update(new)
-    report=dict(elf_sha256=reg['target_elf_sha256'],segments=seg,roots=roots,main_sites=sites,
+    report=dict(elf_sha256=reg['target_elf_sha256'],elf_path=str(p),mirror_sha256=mirror_sha,mirror_matches_expected=mirror_sha==reg['target_elf_sha256'],segments=seg,roots=roots,main_sites=sites,
         references=[dict(site_rva=hx(a),site_ghidra=hx(a+reg['ghidra_slide']),target_rva=hx(t),kind=k,instruction=i) for a,t,k,i in sorted(refs)],
         heap_candidates=reg['heap_candidates'],runtime_verified=False,scope='bounded direct address formation; no pointer object or function identity proven')
     out.parent.mkdir(parents=True,exist_ok=True)
