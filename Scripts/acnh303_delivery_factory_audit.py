@@ -60,7 +60,7 @@ def main(root,out):
     def reg(i,r):
         n=i.reg_name(r)
         return "x"+n[1:] if n.startswith("w") and n[1:].isdigit() else n
-    refs={};direct=[];stores=[]
+    refs={};direct=[];stores=[];slot_field_candidates=[]
     def emit(i,addr,kind):
         k=(i.address,addr,kind)
         refs[k]={**row(i),"operand_va":hex(addr+BASE),"kind":kind,"nearest_export":owner(i.address)}
@@ -79,6 +79,38 @@ def main(root,out):
                 stores.append({**row(i),"nearest_export":owner(pc),
                     "context":[row(q) for q in cs.disasm(code[max(0,4*off-48):4*off+20],max(start,pc-48))],
                     "object_identity_verified":False})
+        # Within a single short basic-block window, track address expressions
+        # relative to an unknown base register. No object identity is assumed.
+        if (w&0xffc00000)==0x91400000 and ((w>>10)&0xfff)==0x1c:
+            anchor=next(cs.disasm(code[4*off:4*off+4],pc),None)
+            derived={}
+            if anchor:
+                for i in cs.disasm(code[4*off:4*off+128],pc):
+                    m=i.mnemonic;o=i.operands;pending={}
+                    if m.startswith("b.") or m in ("b","bl","blr","br","ret","cbz","cbnz","tbz","tbnz"):break
+                    if m=="add" and len(o)==3 and o[1].type==ARM64_OP_REG and o[2].type==ARM64_OP_IMM:
+                        n=reg(i,o[1].reg);v=derived.get(n)
+                        if i.address==pc:v=(n,0)
+                        if v is not None:pending[reg(i,o[0].reg)]=(v[0],v[1]+(o[2].imm<<o[2].shift.value))
+                    elif m=="mov" and len(o)==2 and o[1].type==ARM64_OP_REG:
+                        v=derived.get(reg(i,o[1].reg))
+                        if v is not None:pending[reg(i,o[0].reg)]=v
+                    elif m in ("str","strb","strh","stur","sturb","sturh","stp") and not i.writeback:
+                        for o1 in o:
+                            if o1.type!=ARM64_OP_MEM or o1.mem.index:continue
+                            v=derived.get(reg(i,o1.mem.base))
+                            if v is None:continue
+                            displacement=v[1]+o1.mem.disp
+                            # Include overlapping writes; actual source width requires inspection.
+                            if 0x1c504<=displacement<=0x1c517:
+                                slot_field_candidates.append({**row(i),"anchor_va":hex(pc+BASE),
+                                  "base_register":v[0],"derived_offset":hex(displacement),
+                                  "nearest_export":owner(i.address),"object_identity_verified":False})
+                    try:
+                        _,writes=i.regs_access()
+                        for rr in writes:derived.pop(reg(i,rr),None)
+                    except Exception:break
+                    derived.update(pending)
         if adr_page(w,pc) not in pages:continue
         tracked={}
         for i in cs.disasm(code[4*off:4*off+96],pc):
@@ -130,10 +162,24 @@ def main(root,out):
                             near.append({"slot_va":hex(s+BASE),"target_va":hex(t+BASE)})
                     hashes.append({"name":name,"algorithm_candidate":algo,"hash":f"{value&0xffffffff:08x}",
                                    "word_va":hex(a+BASE),"neighbor_code_relocations":near,"binding_verified":False})
+    factory_records=[]
+    for gh in (0x497b8f0,0x497bb20,0x497d480,0x497da20,0x497ec30,0x497f400,0x497d220):
+        a=gh-BASE;b=matched(a,16);rr=rel.get(a+8,{})
+        if b is not None:
+            factory_records.append({"record_va":hex(gh),"raw_16":b.hex(),
+               "hash_word":f"{int.from_bytes(b[:4],'little'):08x}",
+               "constructor_relocation_target_va":hex(rr["addend"]+BASE) if isinstance(rr.get("addend"),int) else None})
+    parameter_literals=[]
+    for a in (0x3f61e16,0x3f5c256,0x3f7ebb1,0x3fb0302,0x3f7c0de):
+        b=matched(a,96)
+        if b is not None:
+            s=b.split(b"\\0",1)[0]
+            parameter_literals.append({"va":hex(a+BASE),"bytes":s.hex(),"text":s.decode("utf-8",errors="replace")})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
             "field_store_candidates":stores,"hash_candidates":hashes,
+            "factory_records":factory_records,"parameter_literals":parameter_literals,"slot_field_candidates":slot_field_candidates,
             "factory_binding_verified":False,"runtime_verified":False}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
