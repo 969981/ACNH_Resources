@@ -10,6 +10,14 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x010f5bb0: ("EventFlow system actor and ExitFlowchart string registration", 0x3000),
+    0x010f62f0: ("EventFlow action invocation and explicit exit flag producer", 0x3000),
+    0x010f6690: ("EventFlow explicit exit flag consumer and action completion predicate", 0x3000),
+    0x0070f4f0: ("EventFlow action name hash dispatch and active action object", 0x3000),
+    0x010f6294: ("EventFlow action record cleanup", 0x3000),
+    0x0068a870: ("EventFlow action completion callback path A", 0x3000),
+    0x0068a838: ("EventFlow action completion callback path B", 0x3000),
+    0x006bd550: ("EventFlow action name hash", 0x3000),
     0x012caf84: ("ItemLayer interface relocation target; read-only static audit", 0xc),
     0x012caf90: ("ItemLayer interface relocation target; read-only static audit", 0x10),
     0x012c8008: ("ItemLayer interface relocation target; read-only static audit", 0x10),
