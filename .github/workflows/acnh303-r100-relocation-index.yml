@@ -1,0 +1,46 @@
+name: ACNH 3.0.3 R100 full original relocation index
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r100*'
+      - 'Scripts/ghidra/R100ImportRelr.java'
+      - 'derived/3.0.3/npc_event_flags/r100/**'
+      - '.github/workflows/acnh303-r100-relocation-index.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r100:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r100_relocation_index.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/
+            /derived/3.0.3/ghidra12.2/c/
+            /derived/3.0.3/ghidra12.2/ndjson/batch-00000000/export-summary.json
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /UnPack/1/EventFlow/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - name: Build complete relocation index and source evidence
+        run: python Scripts/acnh303_r100_relocation_index.py --root . --out artifacts/acnh303-r100
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r100-full-relocation-index
+          path: artifacts/acnh303-r100/
+          if-no-files-found: error
+          retention-days: 90
