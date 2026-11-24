@@ -166,3 +166,70 @@ R100 049A6908 的首槽实际重定位到 014BDA70；[014BDA70](../../derived/3.
 已扩展 bounded CFG 导出器覆盖包装器3个目标、状态切换、下游消费者、两个析构和页面链。已将原有 direct XREF scanner 的 selftest 和实际 NSO/ELF text 匹配扫描加入 delivery CI；新 run 是否成功须查结果，不能因提交即声称验收。扫描仅覆盖直接 B/BL 候选，间接分支不在覆盖范围。
 
 下一阶段：真实包装器指令；根的发布与注销；PocketMenu 选择状态写入者及菜单值10映射；场景消费者实际目标；按正常本地操作观察 Inventory/Field/会话快照。未经运行时验证的条目不进入正式 Build ID 指针数据库。生产派送代码保持不变。
+
+## 7. 同轮新增 CI 实际验收（覆盖前文待运行状态）
+
+[Run 45328302691](https://github.com/969981/ACNH_Resources/actions/runs/45328302691) 对提交 e6f1edd5c3efe141fc31ddb96a4a16d5ba2c1dfa 已成功完成 CFG export、direct XREF selftest 和全 text 扫描。[Artifact 14889974070](https://github.com/969981/ACNH_Resources/actions/runs/45328302691/artifacts/14889974070) 实际下载、ZIP SHA256 0b2659dd4b55a14dfbef1f22d5481c3f838b562b8d3bab857f958bd0231e1ee2，与 GitHub digest 一致。Build ID、ELF、NSO SHA 与第1节完全一致。73入口/锚点、11635指令记录、29 gap。
+
+|VA|行数|gap|
+|---|---:|---|
+|03458394|11|BR 间接分支|
+|034583C0|11|BR 间接分支|
+|034583EC|11|BR 间接分支|
+|03EBB160|66|间接分支|
+|03455E58|176|外部尾转移03EBB160|
+|014BB000|130|0|
+|016B43B4|366|0|
+
+零 CFG gap 不表示所有 BLR 目标已解析。
+
+### 7.1 包装器原始指令与成员函数调用编码
+
+|VA|bytes|instruction|
+|---|---|---|
+|03458394|012441a9|ldp x1, x9, [x0, #0x10]|
+|03458398|28014092|and x8, x9, #1|
+|0345839C|0a0101aa|orr x10, x8, x1|
+|034583A0|ea0000b4|cbz x10, #0x33583bc|
+|034583A4|0a0440f9|ldr x10, [x0, #8]|
+|034583A8|4005898b|add x0, x10, x9, asr #1|
+|034583AC|680000b4|cbz x8, #0x33583b8|
+|034583B0|080040f9|ldr x8, [x0]|
+|034583B4|016961f8|ldr x1, [x8, x1]|
+|034583B8|20001fd6|br x1|
+|034583BC|c0035fd6|ret|
+
+034583C0 使用 [record+0x20] 与 [record+0x28]；034583EC 使用 [record+0x30] 与 [record+0x38]，后者目标寄存器为X2。三者同型：取 ptr/编码调整字段 adj；若 ptr=0 且 adj bit0=0 则返回；否则取 adjusted_this=record.owner+(signed adj >>1)，当 bit0=1 时将 ptr 解释为相对 adjusted_this 虚表的字节偏移，否则 ptr 为直接函数地址。BR 到目标。原始 C++ 名称及业务事件阶段不强行命名。PutUnitIcon 注册记录中两对伴随调整字段均为0，对应直接回调形式；第三对初始化0。完整逐行表在 CI artifact Functions/*.json/md。
+
+### 7.2 全 text B/BL 候选扫描
+
+DirectXrefs/direct_xrefs.json 记录 text RVA 0x0、大小66088432 bytes、16522108 个对齐字。ELF/NSO text 逐块相等校验成功。8个目标计数如下：
+
+|目标 Ghidra VA|B/BL 候选数|
+|---|---:|
+|02613AC0|1|
+|02628C90|12|
+|026776A0|11|
+|0262C5E8|2|
+|0262E304|2|
+|03190D10|1|
+|030DED60|10|
+|03454A44|10|
+
+026776A0 的11处全部为 BL immediate 候选：
+
+|Site VA|Main RVA|原始4B bytes|
+|---|---|---|
+|00C04FBC|00B04FBC|b9c96994|
+|00C31E14|00B31E14|23166994|
+|00D9806C|00C9806C|8d7d6394|
+|00D98510|00C98510|647c6394|
+|00D9866C|00C9866C|0d7c6394|
+|00D98810|00C98810|a47b6394|
+|00DA95E8|00CA95E8|2e386394|
+|00DD7E40|00CD7E40|187e6294|
+|02613C54|02513C54|938e0194|
+|026292FC|025292FC|e9380194|
+|02629610|02529610|24380194|
+
+此前3个C表达式仅覆盖最后3处。其余8处需函数边界、实际可达 CFG、调用参数寄存器和业务上下文验证；扫描结果不应自动认作8个独立函数或 DropItem 入口。线性字扫描不覆盖间接 XREF，不能排除代码段内嵌数据误判。这里不将扫描命中提升到正式 Build ID 指针数据库。
