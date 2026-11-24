@@ -10,6 +10,17 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01a59500: ("Context menu resource initialization or candidate list generator", 0xee8),
+    0x01a5a3e8: ("Context menu resource initialization or candidate list generator", 0x3fc8),
+    0x01a60310: ("Context menu resource initialization or candidate list generator", 0x110),
+    0x01ab38c0: ("Context menu resource initialization or candidate list generator", 0x350),
+    0x01ab3ca4: ("Context menu resource initialization or candidate list generator", 0xc),
+    0x01ab3dd0: ("Context menu resource initialization or candidate list generator", 0xd1c),
+    0x01ab4d40: ("Context menu resource initialization or candidate list generator", 0x200),
+    0x0317e7e0: ("Context menu resource initialization or candidate list generator", 0x3294),
+    0x031821a0: ("Context menu resource initialization or candidate list generator", 0x6c),
+    0x03182b0c: ("Context menu resource initialization or candidate list generator", 0x78),
+    0x03182ef0: ("Context menu resource initialization or candidate list generator", 0xf8),
     0x02fa3588: ("TalkSeq VTable +1B8 request producer", 0x1800),
     0x02fa35ac: ("TalkSeq VTable +1C0 request producer", 0x1800),
     0x02fa35d0: ("TalkSeq VTable +1C8 request producer", 0x1800),
