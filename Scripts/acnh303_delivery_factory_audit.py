@@ -289,6 +289,14 @@ def main(root,out):
             a=va+pos
             if matched(a,17)==b"ItemUIContextMenu":
                 menu_strings.append({"va":hex(a+BASE),"context":data[max(0,pos-16):pos+40].hex()})
+    # Preserve original table bytes without assuming record semantics.
+    menu_name_table_words=[]
+    for a in range(0x4934a98,0x4934a98+66*8,8):
+        b=matched(a,8)
+        if b is not None:
+            lo,hi=struct.unpack("<II",b)
+            menu_name_table_words.append({"va":hex(a+BASE),"raw":b.hex(),
+                "lo":hex(lo),"hi":hex(hi),"relocation":rel.get(a)})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -297,7 +305,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
