@@ -297,6 +297,35 @@ def main(root,out):
             lo,hi=struct.unpack("<II",b)
             menu_name_table_words.append({"va":hex(a+BASE),"raw":b.hex(),
                 "lo":hex(lo),"hi":hex(hi),"relocation":rel.get(a)})
+    # The observed LDR at 01AB4F48 and 01AB52C4 adds 0x2e8
+    # to the string-pool base plus index*8. Validate the actual pointer slots.
+    import csv
+    pool_start=0x4934a98
+    table_start=pool_start+0x2e8
+    pool=matched(pool_start,0x2e8)
+    assert pool is not None
+    with (root/"UnPack/1/Bcsv/ItemUIContextMenu.csv").open(encoding="utf-8-sig",newline="") as h:
+        menus=list(csv.DictReader(h))
+    assert len(menus)==66
+    menu_name_index_records=[]
+    for i in range(66):
+        a=table_start+8*i
+        b=matched(a,8);rr=rel.get(a,{})
+        assert b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0
+        t=rr["addend"]
+        assert pool_start<=t<table_start
+        assert int.from_bytes(b,"little")==t
+        offset=t-pool_start
+        end=pool.index(bytes([0]),offset)
+        name=pool[offset:end].decode("ascii")
+        matches=[m for m in menus if m["hash_87BF00E8"]==name]
+        assert len(matches)==1
+        m=matches[0]
+        menu_name_index_records.append({"index":i,"slot_va":hex(a+BASE),"raw":b.hex(),
+            "string_va":hex(t+BASE),"name":name,"crc32":f"{zlib.crc32(name.encode())&0xffffffff:08x}",
+            "csv_row":int(m["_row_index"]),"csv_field_54706054":int(m["hash_54706054"]),
+            "message_id":m["hash_026F0892"]})
+    assert len({q["name"] for q in menu_name_index_records})==66
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -305,7 +334,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
