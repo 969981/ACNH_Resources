@@ -1010,6 +1010,30 @@ def main(root,out):
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":46,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                # Group-zero handler switches: require the observed full bounds/dispatch signature.
+                group0_switches={
+                    (0x022c543c,0x21c54b0):(0x21c5488,0x407a4cc,27,0x21c54b4,7,
+                        "4b1d0051 7f690071 e8920054 acf500b0 8c311391 cd000010 8e796b78 ad090e8b f40300aa 081d0012 a0011fd6"),
+                    (0x022c6f50,0x21c6f9c):(0x21c6f7c,0x407a502,6,0x21c6fa0,8,
+                        "08210051 1f150071 e8340054 a9f50090 29091491 8a000010 2b796878 4a090b8b 40011fd6"),
+                    (0x022c7940,0x21c7b78):(0x21c7b58,0x407a50e,35,0x21c7b7c,1,
+                        "08050051 1f890071 68580054 89f500f0 29391491 8a000010 2b796878 4a090b8b 40011fd6")}
+                if (gh,a) in group0_switches:
+                    first,table,count,base,mode_min,sig=group0_switches[(gh,a)]
+                    signature=bytes.fromhex(sig)
+                    table_bytes=raw(table,2*count)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==2*count
+                        and get_bytes_va(elf,es,table+elfbase,2*count)==table_bytes):
+                        candidate=[base+int.from_bytes(table_bytes[k:k+2],"little")*4 for k in range(0,2*count,2)]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":count-1,
+                                "mode_min":mode_min,"mode_max":mode_min+count-1,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
