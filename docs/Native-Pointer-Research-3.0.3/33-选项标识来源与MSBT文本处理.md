@@ -69,3 +69,16 @@ W=Q+22F0+i*3B8。01BEA210（blob 55fb38568848414b3ee2ab319083c2b7ddfdb7f6）从�
 
 ## 5. 下一步
 新增25个导出入口，含属性6种解析分支、选项生成、标签哈希、文本Worker处理函数及全text直接B/BL候选。后续对生成器的真实u32 store逐项认证；复核归档类别与16语言后缀表；将属性语义与原版资源样本关联；追踪01B9CBC0实际调用者/业务结果消费者，恢复状态10退出者及NPC EventFlow最终通知。旧ChatId/TextSpeed/IsChatEnded和0x7000差异仍未验证，production_eligible=false，实机待执行。
+
+
+## 6. 同轮追加验收
+[Run 45350667508](https://github.com/969981/ACNH_Resources/actions/runs/45350667508) success，[artifact 14899827903](https://github.com/969981/ACNH_Resources/actions/runs/45350667508/artifacts/14899827903) 实际下载 SHA256 6fdaf7c70fe0bf8d49dfa4611095ac0174dcf353bb4f38f03ac647b7864ce739 一致。749 anchors / 96158 rows / 274 gaps（含重叠）。
+01BEA9C8 806/0，switch RVA4078271 bytes 0036a4a8，状态3/4/5/6分别到VA01BEADCC/01BEAEA4/01BEB05C/01BEB06C。01BEB060 7f1600b9清W+14，01BEB064 2800c0f2设置高32位1，01BEB068 68c200f8将0x100000006写W+C。01BEB61C 9958ff97调用01BC1880，01BEB624 680e00b9写终态13。完整update CFG闭合不意味着状态10外部生产者/消费者闭合。
+01B9CBC0 100/0，01B9D0E0 124/0，01B9CD50 213/1，01B9D2D0 396/1，01B970F0 155/0，01B9735C 18/1，01B977E0 171/0，01B97400 58/1，01B9BE60 236/0，038F40B0 65/0，03D53DB0 54/0，006F50A0 121/0，01BA8E98 155/0。
+|写入路径|schema比较|u16读取|选择指令|实际store|
+|---|---|---|---|---|
+|顺序|01B9CF7C cmp w8,#1|01B9CF80 ldrh w9,[sp,#3c]|01B9CF94 csel w25,w9,wzr,eq|01B9CFD0 590300b9 str w25,[x26]|
+|池内记录|01B9D520 cmp w8,#1|01B9D524 ldrh w9,[sp,#8c]|01B9D530 csel w27,w9,wzr,eq|01B9D570 9b0300b9 str w27,[x28]|
+|保留末项|01B9D820 cmp w8,#1|01B9D828 ldrh w9,[sp,#8c]|01B9D838 csel w24,w9,wzr,eq|01B9D874 980200b9 str w24,[x20]|
+三个路径均明确为属性schema1的u16零扩展、否则0。每次先写FFFFFFFF并调用记录+8.vcall38，再写实际标识及其他字段。具体属性业务名仍未验证。
+新增commit df22d334b06b6bd2b3c8662e108c9bc94aaaff3c 对四个剩余有界跳转表追加双源认证：01B9CD50 mode1..23 byte表RVA4077C8C；01B9D2D0 mode1..22 halfword表RVA4077CA4；01B9735C schema1..7 byte表RVA4077B6B；01B97400 schema1..6 byte表RVA4077B72。待独立CI验收，不宣称已展开。
