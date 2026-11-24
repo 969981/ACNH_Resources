@@ -1,0 +1,41 @@
+name: ACNH 3.0.3 R104 gift price and conditional model
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r104*'
+      - 'derived/3.0.3/npc_event_flags/r104/**'
+      - '.github/workflows/acnh303-r104-gift-price.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /derived/3.0.3/ghidra12.2/c/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            /UnPack/1/Bcsv/NmlNpcParam.csv
+            /UnPack/1/EventFlow/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - name: Verify gift model and original native CFGs
+        run: python Scripts/acnh303_r104_native_gift.py --root . --out artifacts/acnh303-r104
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r104-gift-price
+          path: artifacts/acnh303-r104/
+          if-no-files-found: error
+          retention-days: 90
