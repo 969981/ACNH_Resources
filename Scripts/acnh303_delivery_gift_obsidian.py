@@ -10,6 +10,21 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01108934: ("SystemDeletePlayerItem hash neighbor candidate", 0xc4),
+    0x011089f8: ("SystemDeletePlayerItem constructor candidate", 0x13c),
+    0x01108b34: ("SystemDeletePlayerItem adjacent factory candidate", 0x200),
+    0x0110a8b4: ("Relocation-backed constructor candidate", 0x200),
+    0x01122264: ("Relocation-backed constructor candidate", 0x200),
+    0x01127484: ("Callback table store interior anchor", 0x100),
+    0x011273cc: ("Relocation-backed constructor candidate", 0x200),
+    0x01137fb0: ("Relocation-backed constructor candidate", 0x200),
+    0x0113f544: ("Relocation-backed constructor candidate", 0x200),
+    0x0112005c: ("UIItemSelectWindowHandling hash neighbor candidate", 0xc4),
+    0x011201b0: ("UIItemSelectWindowHandling adjacent factory candidate", 0x200),
+    0x03175840: ("Shared result writer relocation-backed candidate", 0x800),
+    0x03176698: ("Shared result writer relocation-backed candidate", 0x600),
+    0x03177480: ("Shared result writer relocation-backed candidate", 0x470),
+    0x03178514: ("Shared result writer relocation-backed candidate", 0x600),
     0x02675b70: ("Default item record replacement wrapper", 0x200),
     0x026788f0: ("Item match slot lookup", 0x400),
     0x02674700: ("General slot record mutation and binding", 0x400),
