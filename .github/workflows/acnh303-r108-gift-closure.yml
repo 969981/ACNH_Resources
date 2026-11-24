@@ -21,6 +21,7 @@ on:
       - 'Scripts/acnh303_r124_kind_bits.py'
       - 'Scripts/acnh303_r125_dish_cache.py'
       - 'Scripts/acnh303_r126_dish_dispatch.py'
+      - 'Scripts/acnh303_r127_dish_preference.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -92,6 +93,8 @@ jobs:
         run: python Scripts/acnh303_r125_dish_cache.py --root . --out artifacts/acnh303-r108
       - name: R126 inline dish enum and conditional friendship dispatch
         run: python Scripts/acnh303_r126_dish_dispatch.py --root . --out artifacts/acnh303-r108
+      - name: R127 ToDish enum and native preference evidence
+        run: python Scripts/acnh303_r127_dish_preference.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
