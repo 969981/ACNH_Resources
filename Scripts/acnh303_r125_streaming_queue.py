@@ -60,8 +60,7 @@ def receive(mapped,relocs):
     # Wrapper branches on a separate global state pointer. Initialize both dereferences.
     mapped_page(u,0x537d558)
     p64(u,0x537d558,BUF+0x6000)
-    p64(u,BUF+0x6000,BUF+0x7000)
-    p64(u,BUF+0x7010,BUF+0x8000)
+    p64(u,BUF+0x6010,BUF+0x8000)
     rows=[]
     for i,(cv,slot,flag,cap) in enumerate(CLOUD):
         u.mem_write(manager,bytes(0x1000));p64(u,manager+0x10,table)
