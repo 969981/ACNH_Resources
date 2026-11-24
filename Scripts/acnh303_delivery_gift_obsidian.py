@@ -10,6 +10,15 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x0338409c: ("UI root allocation and publication", 0x200),
+    0x03384180: ("UI root constructor", 0x1500),
+    0x03383900: ("UI root cleanup", 0x800),
+    0x03384038: ("UI registration deleting wrapper", 0x100),
+    0x0338852c: ("MessageWindow creation", 0x400),
+    0x02fa8cc4: ("MessageWindow child sequence initialization", 0x2000),
+    0x01c03bb0: ("Global MessageWindow consumer", 0x200),
+    0x02fa87d4: ("MessageWindow destructor candidate", 0x100),
+    0x02fa8824: ("MessageWindow deleting candidate", 0x100),
     0x03458394: ("Placement wrapper slot 0 interior anchor", 0x100),
     0x034583c0: ("Placement wrapper slot 8 interior anchor", 0x100),
     0x034583ec: ("Placement wrapper slot 16 interior anchor", 0x100),
