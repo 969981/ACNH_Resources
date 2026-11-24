@@ -19,7 +19,7 @@ def guards(mapped):
     rows=[]
     for old in [0,1,2,3,0xffffffff]:
         data=bytearray([0xa5])*0x310;struct.pack_into("<I",data,0x288,old)
-        u.mem_write(BUF,data)
+        u.mem_write(BUF,bytes(data))
         invoke(u,0x283cba8,BUF,count=1000)
         assert u.reg_read(UC_ARM64_REG_X0)==0
         struct.pack_into("<I",data,0x288,2)
