@@ -125,6 +125,8 @@ updated: 2026-11-24
 
 37. [[37-EventFlow动作工厂与消息业务桥接]] · [GitHub 阅读](37-EventFlow动作工厂与消息业务桥接.md)
 
+39. [[39-ItemLayer接口复制与第三类对象工厂]] · [GitHub 阅读](39-ItemLayer接口复制与第三类对象工厂.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
