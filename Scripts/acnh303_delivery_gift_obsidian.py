@@ -10,6 +10,8 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x012d45b0: ("ItemLayer variant selection and construction; read-only static audit", 0x54c),
+    0x0273f0a0: ("ItemLayer variant selection and construction; read-only static audit", 0x400),
     0x01184700: ("Query wrapper canonical name and dispatch", 0x4000),
     0x011848c0: ("BindInfo QueryBindData native loader", 0x4000),
     0x010f6790: ("BindInfo ActionBindData native loader", 0x4000),
