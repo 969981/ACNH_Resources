@@ -3,10 +3,11 @@
 import argparse,hashlib,json,struct,random
 from pathlib import Path
 import acnh303_r100_nso_decode as dec
-from acnh303_r120_native_save import load_archive,direct_scan,S,hx,vm,invoke,BUF
+from acnh303_r120_native_save import load_archive,direct_scan,S,hx,vm,invoke,BUF,STACK
 from acnh303_r124_interface_registry import window
 from acnh303_r122_backend_abi import p64,q64,get_target
-from unicorn.arm64_const import UC_ARM64_REG_X0,UC_ARM64_REG_X2
+from unicorn.arm64_const import UC_ARM64_REG_X0,UC_ARM64_REG_X2,UC_ARM64_REG_X19,UC_ARM64_REG_X22,UC_ARM64_REG_X29,UC_ARM64_REG_SP,UC_ARM64_REG_PC
+from acnh303_r119_save_dispatch import hash32
 BASE=Path("derived/3.0.3/npc_event_flags/r132_cloud_job")
 def descriptor_tests(mapped,relocs):
     u=vm(mapped,0x5000);rows=[]
@@ -21,8 +22,8 @@ def descriptor_tests(mapped,relocs):
                 u.mem_write(BUF,bytes(data))
                 invoke(u,entry,root,arg,count=100)
                 if i and src:
-                    struct.pack_into("<Q",data,dst-BUF,src)
-                    struct.pack_into("<Q",data,dst-BUF+8,n)
+                    struct.pack_into("<Q",data,desc-BUF,src)
+                    struct.pack_into("<Q",data,desc-BUF+8,n)
                 assert bytes(u.mem_read(BUF,len(data)))==data,(i,src,fill)
                 rows.append({"selector":i,"source":src,"fill":fill,"size":n,"changed":bool(i and src)})
     return rows
@@ -58,6 +59,32 @@ def guards(mapped):
                 assert bytes(u.mem_read(BUF+0x2000,len(req)))==req
                 rows.append({"active":active,"done":done,"kind":kind,"unchanged":True})
     return rows
+def hash_tests(mapped):
+    u=vm(mapped,0x180000);rows=[]
+    rng=random.Random(132);fp=STACK+0x1f800;sp=fp-0x340
+    def run(lo,hi):
+        u.emu_start(lo,hi,count=100000000,timeout=120000000)
+        assert u.reg_read(UC_ARM64_REG_PC)==hi
+    for n in [0,1,2,3,4,5,7,8,31,32,33,255,256,257,0xa2458,0xc6788,0x14c618]:
+        payload=rng.randbytes(n)
+        src=BUF+0x1000
+        u.mem_write(BUF,bytes(0x200))
+        if n:u.mem_write(src,payload)
+        u.mem_write(BUF+0x10,struct.pack("<QQQQ",src,n,src,n))
+        u.reg_write(UC_ARM64_REG_X19,BUF);u.reg_write(UC_ARM64_REG_X22,BUF)
+        u.reg_write(UC_ARM64_REG_X29,fp);u.reg_write(UC_ARM64_REG_SP,sp)
+        run(0x1c79f5c,0x1c79f7c)
+        run(0x1c79fc0,0x1c7a0c8)
+        h1=struct.unpack("<I",u.mem_read(fp-0x40,4))[0]
+        expect=hash32(payload,0x36170e33)
+        assert h1==expect,(n,h1,expect)
+        run(0x1c7a274,0x1c7a3a8)
+        h2=struct.unpack("<I",u.mem_read(sp+0x22c,4))[0]
+        assert h2==expect,(n,h2,expect)
+        assert bytes(u.mem_read(src,n))==payload if n else True
+        rows.append({"length":n,"seed":"36170E33","first":h1,"second":h2,"reference":expect})
+    return rows
+
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--r131",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args()
     prior,=load_archive(a.r131,"fbedb62dccd7fcd9423cd4f14ab1ba6a91c9dd8b9a1e38481ad022955479b17c",["report.json"])
@@ -82,6 +109,7 @@ def main():
     d=descriptor_tests(mapped,relocs);write("descriptor_tests.json",d)
     c=copy_tests(mapped);write("copy_tests.json",c)
     g=guards(mapped);write("submit_guard_tests.json",g)
-    report={"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"relocated_slots":len(tables),"descriptor_cases":len(d),"descriptor_copy_cases":len(c),"submit_guard_cases":len(g),"total_cases":len(d)+len(c)+len(g),"hash_candidate_native_executed":False,"full_job_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
+    h=hash_tests(mapped);write("hash_slice_tests.json",h)
+    report={"hash_slice_cases":len(h)*2,"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"relocated_slots":len(tables),"descriptor_cases":len(d),"descriptor_copy_cases":len(c),"submit_guard_cases":len(g),"total_cases":len(d)+len(c)+len(g),"hash_candidate_native_executed":True,"hash_full_function_executed":False,"full_job_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
     write("report.json",report);print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
