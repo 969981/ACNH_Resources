@@ -10,6 +10,13 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01d3e72c: ("Online state registration", 0x500),
+    0x01d3fc60: ("Online global static init", 0x3000),
+    0x0266a0c0: ("Item and index association predicate", 0x300),
+    0x02672e00: ("Pocket capacity reader", 0x400),
+    0x02677ea0: ("Pocket logical slot reader", 0x400),
+    0x03195e80: ("PocketMenu forty-slot filter mask", 0x400),
+    0x03201990: ("SelectCursor runtime consumer", 0x300),
     0x03190d10: ("PocketMenu hint consumer", 0x3000),
     0x030ded60: ("UI hint string copy", 0x300),
     0x030deeec: ("UI KeyIcon resource update", 0x1000),
