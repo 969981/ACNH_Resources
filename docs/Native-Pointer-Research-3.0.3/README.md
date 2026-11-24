@@ -39,6 +39,8 @@ updated: 2026-11-24
 
 16. [[16-Online状态机与UI组件根交叉验证]] · [GitHub 阅读](16-Online状态机与UI组件根交叉验证.md)
 
+17. [[17-UI根重定位与消息窗口生命周期]] · [GitHub 阅读](17-UI根重定位与消息窗口生命周期.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
