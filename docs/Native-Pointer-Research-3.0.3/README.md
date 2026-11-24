@@ -53,6 +53,8 @@ updated: 2026-11-24
 
 20. [[20-背包查找删除语义与EventFlow工厂审计]] · [GitHub 阅读](20-背包查找删除语义与EventFlow工厂审计.md)
 
+20. [[20-七组跳转表与背包索引证据]] · [GitHub 阅读](20-七组跳转表与背包索引证据.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
