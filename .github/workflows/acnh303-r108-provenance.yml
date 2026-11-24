@@ -25,6 +25,7 @@ jobs:
             /derived/3.0.3/ghidra12.2/c/d1/025fd104.c
             /derived/3.0.3/ghidra12.2/c/ac/0259aca4.c
             /derived/3.0.3/ghidra12.2/c/cd/025fcd8c.c
+            /derived/3.0.3/ghidra12.2/c/82/00db8278.c
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -34,7 +35,8 @@ jobs:
         run: |
           gh api repos/969981/ACNH_Resources/actions/artifacts/14883517767/zip > r105.zip
           gh api repos/969981/ACNH_Resources/actions/artifacts/14881442847/zip > r100.zip
-      - run: python Scripts/acnh303_r108_stage_provenance.py --root . --cfg r105.zip --reloc r100.zip --out artifacts/r108
+          gh api repos/969981/ACNH_Resources/actions/artifacts/14885312877/zip > r107.zip
+      - run: python Scripts/acnh303_r108_stage_provenance.py --root . --cfg r105.zip --reloc r100.zip --r107 r107.zip --out artifacts/r108
       - uses: actions/upload-artifact@v4
         with:
           name: acnh303-r108-stage-provenance

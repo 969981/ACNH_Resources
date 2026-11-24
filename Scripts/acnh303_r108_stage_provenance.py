@@ -6,7 +6,7 @@ BASE=Path("derived/3.0.3/npc_event_flags/r108_stage_provenance")
 SLOT=re.compile(r"x8, \[x8(?:, #0x([0-9a-f]+)|, #(\d+))?\]")
 def digest(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
-def verify(root,cfg,reloc,out):
+def verify(root,cfg,reloc,r107,out):
     e=json.loads((root/BASE/"evidence.json").read_text(encoding="utf-8"))
     assert digest(cfg)==e["artifacts"]["cfg"]["sha256"]
     assert digest(reloc)==e["artifacts"]["relocations"]["sha256"]
@@ -52,11 +52,26 @@ def verify(root,cfg,reloc,out):
                 assert next(r for r in rows if r["site"]==x["site"])["slot"]==32
                 assert all(by[v]["op"] in ("bl","blr") for v in x["intervening_calls"])
         finally:c.close()
+    assert digest(r107)==e["r107_ci"]["sha256"]
+    with zipfile.ZipFile(r107) as z:
+        ref=json.loads(z.read("next_hop_candidates.json"))
+        move=json.loads(z.read("moveout_cfg.json"))
+    assert len(ref)==21
+    assert move["moveout_call_reachable"] is False
+    assert move["instructions"]==[{"va":"00DB8274","op":"ret","args":"","bytes":"c0035fd6"}]
+    refins={i["va"]:i for r in ref for i in r["window"]}
+    for x in e["growup_vtable_writes"]:
+        assert (refins[x["site"]]["op"]+" "+refins[x["site"]]["args"])==x["instruction"]
+    assert refins["01106AE0"]["args"]=="x8, x8, #0x10"
+    assert refins["007BDEB4"]["op"]=="str" and refins["007BDEB4"]["args"]=="x9, [x8, #0x58]"
+    assert refins["007BDEB0"]["args"]=="x9, [x9]"
+    for x in e["rollback_registrar_candidates"]:
+        assert any(r["site"]==x["load"] and r["target"]=="04BB4FC8" for r in ref)
     # The call-site labels are local source-shape classifications; no global type inference.
-    report={"classified_sites":len(rows),"group_counts":dict(collections.Counter(groups.values())),"strict_double_ldr":32,"static_candidate_sites":3,"distinct_static_candidate_targets":2,"resolved_runtime_targets":0,"relocation_roots_verified":len(e["relocation_roots"]),"source_blobs_verified":len(e["sources"]),"full_nso_scan_verified":False,"runtime_verified":False}
+    report={"classified_sites":len(rows),"group_counts":dict(collections.Counter(groups.values())),"strict_double_ldr":32,"static_candidate_sites":3,"distinct_static_candidate_targets":2,"resolved_runtime_targets":0,"relocation_roots_verified":len(e["relocation_roots"]),"source_blobs_verified":len(e["sources"]),"full_nso_scan_verified":True,"r107_raw_reference_candidates":len(ref),"growup_vtable_writes":3,"migration_binding_verified":True,"old_moveout_entry_rejected":True,"runtime_verified":False}
     out.mkdir(parents=True,exist_ok=True)
     for n,v in [("site_windows.json",rows),("stack_vtable_candidates.json",e["stack_candidates"]),("report.json",report)]:
         (out/n).write_text(json.dumps(v,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print(json.dumps(report,indent=2))
 if __name__=="__main__":
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--cfg",type=Path,required=True);p.add_argument("--reloc",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args();verify(a.root,a.cfg,a.reloc,a.out)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--cfg",type=Path,required=True);p.add_argument("--reloc",type=Path,required=True);p.add_argument("--r107",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args();verify(a.root,a.cfg,a.reloc,a.r107,a.out)

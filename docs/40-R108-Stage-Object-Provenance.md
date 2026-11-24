@@ -44,3 +44,21 @@ python Scripts/acnh303_r108_stage_provenance.py --root . --cfg github-actions-ar
 ```
 
 新增 CI 对原始 artifact、15个 relocation根/槽、4个C blob、局部窗口及分类进行复验。独立于尚未通过的 R107 完整扫描；新增CI尚待验收。
+
+## R108 补充验收：R107 全量扫描成功
+
+[修复后 R107 CI](https://github.com/969981/ACNH_Resources/actions/runs/45315655078/job/138181755071) 已通过；实际下载 [artifact 14885312877](https://github.com/969981/ACNH_Resources/actions/runs/45315655078/artifacts/14885312877)，ZIP SHA256=0b5dfcb5be2f9a81e8fd9692d43faab0d8e3d65eeaaa67f2303d4cc20bda6aa8。21条原始候选（含重复），11个原版重定位槽验证成功。前文“待验收”状态由本节更新。
+
+### GrowUp VTable 写入
+00DB2854、00DB2870 均将 04955BF8 写入 [X0]。01106AD8 ADRP + 01106ADC ADD 得表头04955BE8，01106AE0 加0x10，01106AE4 STR X8,[X0]，01106AF0 将 [X0+0xB0] 清零。后者为构造候选；函数入口、分配尺寸和类名仍需确认。前两处可能属于销毁/重建，不能直接叫构造函数。
+
+### 迁移绑定
+007BAE24/28 加载055B2618并在007BAE2C非空跳转，初始化检查；007BDEAC加载04BC38F0，007BDEB0读取055B2618，007BDEB4 STR X9,[X8,#0x58] 将迁移对象绑定到来自前置对象+0xF98的对象。实际间接调用仍待追踪。
+
+### 搬离函数边界纠正
+00DB8274 的真实机器码 c0035fd6=RET，有界CFG仅1条指令，不能归属00DB85A8。原始C导出00DB8278.c包含有效player index<8、0x48 stride记录检查、构造单条记录local_a0及 FUN_0281CB30(local_a0)，随后写任务对象+0x160等字段。实际BL所在机器码函数归属仍需要以00DB8278为入口再验证。
+
+### Rollback 注册候选
+04BB4FC8 的原始引用出现于00CE9A08、01C72778、01D56958、01D952DC。第一处同时将0和回调写入目标对象+0x28/+0x20；后三处附近选择8/9、1/2、6。仅局部参数生成证据，尚未验证完整参数传递及原始枚举名。
+
+R108复现命令更新：在原命令后附加 --r107 github-actions-artifact-14885312877.zip。新增CI将直接验证三个实际VTable写入、迁移绑定和错误入口拒绝。
