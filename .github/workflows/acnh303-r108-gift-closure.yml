@@ -15,6 +15,7 @@ on:
       - 'Scripts/acnh303_r118_unpack_tool.py'
       - 'Scripts/acnh303_r119_outfit_defaults.py'
       - 'Scripts/acnh303_r120_gift_instance.py'
+      - 'Scripts/acnh303_r121_gift_analysis.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -73,6 +74,8 @@ jobs:
         run: python Scripts/acnh303_r119_outfit_defaults.py --root . --out artifacts/acnh303-r108
       - name: R120 integrated eight-byte gift callback model
         run: python Scripts/acnh303_r120_gift_instance.py --root . --out artifacts/acnh303-r108
+      - name: R121 outfit converter and resident gift analysis
+        run: python Scripts/acnh303_r121_gift_analysis.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
