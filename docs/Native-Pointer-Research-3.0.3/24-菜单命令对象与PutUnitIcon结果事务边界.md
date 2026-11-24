@@ -12,7 +12,7 @@ runtime_verified: false
 
 ## 1. 证据
 
-重新读取上一章原始指令产物 [14892769250](https://github.com/969981/ACNH_Resources/actions/runs/45334281686/artifacts/14892769250)，实算 ZIP SHA256 16931959a716e6d5bcc5c72845f579a6f25f58a3cb0ac6c9284eef471fdf1bbd。R100 relocation SQLite 实查原始REL R记录；地址均为Ghidra VA，Main RVA=VA-0x100000。重新读取 0317D994、02C26914、02DB12EC、02DB1A40、02DB1B00、022B1EC4、03EBB268 C导出。以下构造/消费者数据为静态证据，未做实机。
+重新读取上一章原始指令产物 [14892769250](https://github.com/969981/ACNH_Resources/actions/runs/45334281686/artifacts/14892769250)，实算 ZIP SHA256 16931959a716e6d5bcc5c72845f579a6f25f58a3cb0ac6c9284eef471fdf1bbd。R100 relocation SQLite 实查原始RELR记录；地址均为Ghidra VA，Main RVA=VA-0x100000。重新读取 0317D994、02C26914、02DB12EC、02DB1A40、02DB1B00、022B1EC4、03EBB268 C导出。以下构造/消费者数据为静态证据，未做实机。
 
 ## 2. 菜单对象所属关系
 
@@ -96,3 +96,39 @@ selection==FF时走独立分支；否则index=(u32)(field_26D8+(int8_t)~field_26
 ## 6. 结论与后续
 
 已确认菜单对象分配、构造、销毁、回调发布和命令消费，七条命令初值构造取得C证据。尚未证明实际菜单命令+168非零写入、CSV值10到Native命令30转换，以及Field持久化和Host/Client成功事务。下一轮继续依据02DB系列原始CFG及同类消费者核验，不把业务回调成功等同在线交付或存档持久化。保持生产派送与正式Build ID指针库不变。
+
+## 7. 本轮 CI 实际验收
+
+[Run 45335114245](https://github.com/969981/ACNH_Resources/actions/runs/45335114245) head 47dbbbc82d7fd05c6f03499bbe841a9bc3593c1a，success；实际下载 [artifact 14893641679](https://github.com/969981/ACNH_Resources/actions/runs/45335114245/artifacts/14893641679)，实算SHA256 bf5c0753715473285ba5f2b29cfecd94a0e6020c872fd1b5a16da2c8137ebedc，匹配公布digest。389入口/锚点，49577条匹配指令记录，160 gap（含并行研究，记录可重叠）。02C26914 97/0；02DB12EC 469/0；02DB1A40 48/1；02DB1B00 25/2；02DB1FB8 174/0；02DB2270 190/0；02DB2608 159/0；022B1EC4 212/0。
+
+七条记录+168初始化的原始指令验收：
+|索引|对象相对偏移|VA|bytes|
+|---:|---|---|---|
+|0|3A0|02DB14B0|7fd201f9|
+|1|8D8|02DB1584|7f6e04f9|
+|2|E10|02DB1658|7f0a07f9|
+|3|1348|02DB173C|7fa609f9|
+|4|1880|02DB1820|7f420cf9|
+|5|1DB8|02DB1904|7fde0ef9|
+|6|22F0|02DB19E8|7f7a11f9|
+均STR XZR,[X19,#offset]，覆盖命令及邻接字段。02DB13C8 mov w2,#2488，02DB1A1C str xzr,[x19,#26d8]。02C269B8/BCC的分配尺寸0x26E8再次核对（malloc路径实际VA02C269CC，虚分配路径VA02C269B8）。
+
+02DB2270 从布局对象+438取0x20记录数组并写四组成员对：
+|注册ADR位置|成员回调VA|发布STP位置|
+|---|---|---|
+|02DB2300|02DB1E74|02DB2330/2334|
+|02DB23B4|02DB1E78|02DB23E4/23E8|
+|02DB2470|02DB1E7C|02DB24A0/24A4|
+|02DB2520|02DB1F88|02DB2550/2554|
+
+02DB2608实际六状态注册（调用03EBAC90 W1=6、六次03EBAF40）。状态名需原始字面量，暂以索引表示：
+|state|entry VA|update VA|
+|---:|---|---|
+|0|none|02DB2884|
+|1|02DB2890|02DB2E94|
+|2|02DB2EA0|02DB2F70|
+|3|02DB3A68|02DB3A80|
+|4|02DB3E94|02DB3EA8|
+|5|02DB3D6C|02DB3E48|
+
+上述ADR及STP真实字节见Functions/FUN_02DB2608.json。不能把此菜单子FSM的state3混同PutUnitIcon。bcc8d79772b84bcbf97e40a01d2bb4204db43ebd 已扩展这些成员及输入回调的原始指令导出，run 45335380086 最新查询仍在执行；尚未计入上述验收。正式生产代码和Build ID数据库保持不变。
