@@ -10,6 +10,42 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x03868db0: ("Component gate164 computation and propagation", 0x2000),
+    0x03868ae0: ("Gate164 guarded recursive component update", 0x2000),
+    0x03868eb8: ("Component lifecycle finalization and gate clear", 0x2000),
+    0x03868800: ("Recursive component lifecycle finalizer", 0x2000),
+    0x0386a3a0: ("Factory global registration constructor", 0x2000),
+    0x02c0bfcc: ("Shared UI factory allocation", 0x2000),
+    0x0339a994: ("Named factory allocation and registration", 0x2000),
+    0x0346ac8c: ("Videogame factory allocation", 0x2000),
+    0x03869260: ("Component lifecycle registration", 0x2000),
+    0x038694bc: ("Component lifecycle activation", 0x2000),
+    0x0386b090: ("Factory active component registration", 0x2000),
+    0x0386c6f0: ("Registry visitor traversal", 0x2000),
+    0x0386c7f0: ("Registry predicate traversal", 0x2000),
+    0x02fa396c: ("Talk state0 update", 0x2000),
+    0x02fa3970: ("Talk state1 entry", 0x2000),
+    0x02fa3b30: ("Talk state1 update", 0x2000),
+    0x02fa3b34: ("Talk state2 entry", 0x2000),
+    0x02fa3b70: ("Talk state2 update", 0x2000),
+    0x02fa3c20: ("Talk state3 entry", 0x2000),
+    0x02fa3c70: ("Talk state3 update", 0x2000),
+    0x02fa3ca4: ("Talk state4 entry", 0x2000),
+    0x02fa3d68: ("Talk state4 update", 0x2000),
+    0x02fa3dc0: ("Talk state5 entry", 0x2000),
+    0x02fa3e78: ("Talk state5 update", 0x2000),
+    0x02fa3ec4: ("Talk state6 entry", 0x2000),
+    0x02fa3f7c: ("Talk state6 update", 0x2000),
+    0x02fa40f0: ("Talk state6 exit", 0x2000),
+    0x02fad2d8: ("SelectTalk state0 update", 0x2000),
+    0x02fad2e0: ("SelectTalk state1 entry", 0x2000),
+    0x02fad6c8: ("SelectTalk state1 update", 0x2000),
+    0x02fad6cc: ("SelectTalk state2 entry", 0x2000),
+    0x02fad710: ("SelectTalk state2 update", 0x2000),
+    0x02fadc84: ("SelectTalk state3 entry", 0x2000),
+    0x02fadc9c: ("SelectTalk state3 update", 0x2000),
+    0x02fadd30: ("SelectTalk state4 entry", 0x2000),
+    0x02fadd44: ("SelectTalk state4 update", 0x2000),
     0x01af59b0: ("Menu descriptor and resource lookup audit", 0x1d0),
     0x01af5800: ("Menu descriptor and resource lookup audit", 0x1b0),
     0x03181d14: ("Menu descriptor and resource lookup audit", 0x1000),
@@ -493,6 +529,35 @@ def scan_ui_lifecycle(elf, es, elfbase, code_start, code, raw, cs, out):
                 break
     (out/"ui_lifecycle_candidates.json").write_text(json.dumps({"scope":"whole decoded text; bounded same-register syntactic candidates, not exhaustive dataflow or runtime proof","counts":dict(counts),"hits":hits},ensure_ascii=False,indent=2),encoding="utf-8")
 
+def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
+    """Validate literal state-name bytes and direct call candidates; no runtime inference."""
+    import struct
+    names=[]
+    for rva in (0x3f8dd64,0x3fe3b76,0x3f87a5a,0x4000077,0x3fb6384,0x3fc671a,0x3f63925):
+        b=bytearray()
+        for i in range(128):
+            x=raw(rva+i,1)
+            if len(x)!=1 or get_bytes_va(elf,es,rva+i+elfbase,1)!=x:
+                raise ValueError("state-name byte mismatch: "+hex(rva+i))
+            b.extend(x)
+            if x==b"\x00":break
+        if not b or b[-1]!=0:raise ValueError("unterminated name")
+        names.append({"rva":hex(rva),"bytes":b.hex(),"name":bytes(b[:-1]).decode("ascii")})
+    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920)}
+    hits=[]
+    for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
+        if w&0x7c000000!=0x14000000:continue
+        off=idx*4; imm=w&0x3ffffff
+        if imm&0x2000000:imm-=0x4000000
+        dest=code_start+off+imm*4
+        if dest not in targets:continue
+        lo=max(0,off-32);hi=min(len(code),off+32);a=code_start+lo;b=code[lo:hi]
+        if raw(a,len(b))!=b or get_bytes_va(elf,es,a+elfbase,len(b))!=b:
+            raise ValueError("xref window mismatch")
+        hits.append({"site_va":hex(code_start+off+BASE),"target_va":hex(dest+BASE),
+            "window":[{"va":hex(i.address+BASE),"bytes":i.bytes.hex(),"instruction":i.mnemonic+" "+i.op_str} for i in cs.disasm(b,a)]})
+    (out/"ui_gate_talk_evidence.json").write_text(json.dumps({"names":names,"direct_branch_candidates":hits,"runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
+
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
     es=parse_elf(elf); code_start,code=mapped[0]; code_end=code_start+len(code)
@@ -623,6 +688,7 @@ def main(root,out):
     (out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8")
     (out/"README.md").write_text("# ACNH 3.0.3 authenticated instruction index\n\n"+"\n".join(f'- [[Functions/{r["key"]}]] — {r["role"]}：{r["rows"]} instructions, {r["gaps"]} gaps' for r in manifest["functions"])+"\n",encoding="utf-8")
     scan_ui_lifecycle(elf,es,elfbase,code_start,code,raw,cs,out)
+    export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out)
     if any(r["rows"]==0 for r in manifest["functions"]): raise SystemExit("one or more anchors lack byte-matched evidence; inspect artifact")
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True)
