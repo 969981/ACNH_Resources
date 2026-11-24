@@ -1,0 +1,53 @@
+name: ACNH 3.0.3 R109 constructor dispatch
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r109*'
+      - 'derived/3.0.3/npc_event_flags/r109_constructor_dispatch/**'
+      - '.github/workflows/acnh303-r109-constructor.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r109:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r109_constructor_dispatch.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r109_constructor_dispatch/
+            /derived/3.0.3/ghidra12.2/c/b1/0259b18c.c
+            /derived/3.0.3/ghidra12.2/c/d1/025fd104.c
+            /derived/3.0.3/ghidra12.2/c/ab/0259abc8.c
+            /derived/3.0.3/ghidra12.2/c/cc/025fcc34.c
+            /derived/3.0.3/ghidra12.2/c/82/00db8278.c
+            /derived/3.0.3/ghidra12.2/c/e1/026ee1b0.c
+            /derived/3.0.3/ghidra12.2/c/e2/026ee288.c
+            /derived/3.0.3/ghidra12.2/c/d5/0264d510.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - name: Fetch authenticated source CFG
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14883517767/zip > r105.zip
+      - run: python Scripts/acnh303_r109_constructor_dispatch.py --root . --prior r105.zip --out artifacts/r109
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r109-constructor-dispatch
+          path: artifacts/r109/
+          if-no-files-found: error
