@@ -402,6 +402,23 @@ def main(root,out):
         b=matched(a,8);rr=rel.get(a,{})
         if b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0:
             request_group0_vtable.append({"slot_va":hex(a+BASE),"target_va":hex(rr["addend"]+BASE),"raw":b.hex()})
+    # Bounded original call windows; nearest export is not a function boundary.
+    itemlayer_constructor_windows=[]
+    for hit in direct:
+        if int(hit["target_va"],16) not in (0x12ca2c4,0x12c7220,0x12cf530,0x12e4640):continue
+        a=int(hit["site_va"],16)-BASE
+        start_window=max(start,a-0x180)
+        b=matched(start_window,a+0x40-start_window)
+        if b is not None:
+            itemlayer_constructor_windows.append({**hit,"context":[row(i) for i in cs.disasm(b,start_window)]})
+    itemlayer_interface_slots=[]
+    for va in (0x498c470,0x498c160,0x498c8e8):
+        for offset in (0,8,16):
+            a=va-BASE+offset
+            rr=rel.get(a,{})
+            b=matched(a,8)
+            if b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0:
+                itemlayer_interface_slots.append({"slot_va":hex(a+BASE),"target_va":hex(rr["addend"]+BASE),"raw":b.hex()})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -410,7 +427,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"field_system_root_refs":field_system_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_dispatch_offset_words":request_dispatch_offset_words,"request_group0_vtable":request_group0_vtable,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"field_system_root_refs":field_system_root_refs,"itemlayer_constructor_windows":itemlayer_constructor_windows,"itemlayer_interface_slots":itemlayer_interface_slots,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_dispatch_offset_words":request_dispatch_offset_words,"request_group0_vtable":request_group0_vtable,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
