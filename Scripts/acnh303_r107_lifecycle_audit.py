@@ -7,7 +7,7 @@ from acnh303_round11_elf_xref import adrp_target,adr_target,add_imm
 import acnh303_r100_nso_decode as dec
 BASE=Path("derived/3.0.3/npc_event_flags/r107_lifecycle_audit")
 SLIDE=0x100000
-SLOT=re.compile(r"x8, \\[x8(?:, #0x([0-9a-f]+)|, #(\\d+))?\\]")
+SLOT=re.compile(r"x8, \[x8(?:, #0x([0-9a-f]+)|, #(\d+))?\]")
 def run(root,artifact,out):
     e=json.loads((root/BASE/"evidence.json").read_text(encoding="utf-8"))
     assert hashlib.sha256(artifact.read_bytes()).hexdigest()==e["prior"]["r105_sha256"]
