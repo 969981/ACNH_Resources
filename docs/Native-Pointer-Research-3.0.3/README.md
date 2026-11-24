@@ -111,6 +111,8 @@ updated: 2026-11-24
 
 34. [[34-选项属性分发与Ready消息续接]] · [GitHub 阅读](34-选项属性分发与Ready消息续接.md)
 
+35. [[35-FieldSystem与原生物品网格数据所有权]] · [GitHub 阅读](35-FieldSystem与原生物品网格数据所有权.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
