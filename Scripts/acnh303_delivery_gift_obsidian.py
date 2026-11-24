@@ -328,6 +328,25 @@ def main(root,out):
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":4,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x03188724 and a==0x03088750:
+                    # Input event mode 0..3. Verify complete dispatch window and table bytes.
+                    signature=bytes.fromhex("2a1040b95f0d0071c8020054eb7f00906b790591ec0000106d696a388c090d8b0870409108f113914900805280011fd6")
+                    first=0x03088724
+                    table=0x0408415e
+                    base=0x03088754
+                    table_bytes=raw(table,4)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==4
+                        and get_bytes_va(elf,es,table+elfbase,4)==table_bytes):
+                        candidate=[base+v*4 for v in table_bytes]
+                        if all(base<=v<=0x03088784 and entry<=v<entry+budget
+                               and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
