@@ -1,0 +1,39 @@
+name: ACNH 3.0.3 R98 friendship and caller audit
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r98*'
+      - 'derived/3.0.3/npc_event_flags/r98/**'
+      - '.github/workflows/acnh303-r98-friendship-callers.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r98:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r98_friendship_callers.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/ghidra12.2/c/
+            /derived/3.0.3/ghidra12.2/ndjson/batch-00000000/export-summary.json
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python Scripts/acnh303_r98_friendship_callers.py --selftest
+      - run: python Scripts/acnh303_r98_friendship_callers.py --root . --out artifacts/acnh303-r98
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r98-friendship-callers
+          path: artifacts/acnh303-r98/
+          if-no-files-found: error
+          retention-days: 90
