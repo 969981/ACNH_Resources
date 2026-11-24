@@ -21,4 +21,24 @@ Main 16 个内部数据区各自单比特变更，验证外层 validator 是否�
 
 `python Scripts/acnh303_r121_save_validator.py --r119 r119.zip --r120 r120.zip --out artifacts/r121`
 
-输出 native_validator_tests.json、native_generator_tests.json、caller_windows.json、cloud_consumer_window.json、report.json。仅合成数据，不修改或上传真实存档。CI 前不宣称通过。
+输出 native_validator_tests.json、native_generator_tests.json、caller_windows.json、cloud_consumer_window.json、report.json。仅合成数据，不修改或上传真实存档。CI 已通过（下节记录实际结果）。
+
+## 专项 CI 实际结果
+
+Run 45337094992；Artifact 14894760051 已下载，SHA256 50debc5d7eb5f208372bcb93b5ff489f675cb4ee3ed71fdef6eafa33ae3554ec 与登记一致。七个 validator 正常 7/7、空指针 7/7、外层损坏 20/20 到达原版错误处理入口、Main 内嵌单比特修改 16/16 仍返回 1。合计 50 项 validator 测试。Profile 三个内块生成器、Profile/MvOption/Wherearen 三个外层生成器均输出完整缓冲区一致；只覆盖生成器，不宣称条件清零调度已执行。
+
+## 云岛四个 BL 的三个完整包装函数
+
+原版 192 条连续指令窗口揭示 026EF2CC 的真实 AArch64 ABI：X0=Manager，X8=间接结构返回地址（不是反编译所示 X0=out/X1=Manager）。结果结构 +0x00 pointer、+0x08 size、+0x10 valid byte；调用方栈上从 SP+8 开始。
+
+|entry|BL|ret|语义|
+|---|---|---|---|
+|01D5042C|01D50448|01D50464|有效时返回 pointer，否则 0|
+|01D50468|01D50484|01D504A4|有效时返回 pointer，否则 0|
+|01D504A8|01D504E0/01D50508|01D50528|有效时返回 size，否则 0|
+
+第三个包装函数以 P(P(0x537D558)+0x10)+0x3E4 的 u32 值是否等于 1 分支，但两个分支均调用同一选择器并返回 size。尚未证明该状态的业务名；四个 BL 均是访问接口而不是磁盘 I/O。绝对 VA 0x5574040 对应 Ghidra 坐标；NSO module-relative 需要减 0x100000。
+
+## 两个 Main 内嵌生成调用点
+
+028355C0 和 028359E4 都读取 Main backend VTable+0x20，BLR 返回指针，保存到 X19。随后独立生成前两段 Hash，ADD X8,X19,#0x5B3,LSL#12; ADD X0,X8,#0xD50; BL 0278EF80。第二路径 02835A50 RET；第一路径继续进行 02705554 调度。确认两条路径使用相同 Main 内嵌布局，不能据此推断独立 Personal 已同步。Main backend Getter +0x20 的具体字段及两个完整函数入口仍需原版重定位和 CFG 证据。
