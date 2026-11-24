@@ -68,7 +68,7 @@ def main(root,out):
     for off,(w,) in enumerate(struct.iter_unpack("<I",code)):
         pc=start+4*off
         t=branch(w,pc)
-        if t is not None and 0x1298700<=t<0x12ab000:
+        if t is not None and 0x1298700<=t<0x12ac400:
             request_init_inbound.append({"site_va":hex(pc+BASE),"target_va":hex(t+BASE),"bytes":struct.pack("<I",w).hex(),"nearest_export":owner(pc)})
         if t in targets:
             direct.append(dict(site_va=hex(pc+BASE),target_va=hex(t+BASE),
@@ -341,7 +341,7 @@ def main(root,out):
                         "target_va":hex(target+BASE),"raw":b.hex(),"type":rr["type"]})
     # Preserve bounded original code around all 76 call sites and the enclosing
     # omitted-export region. Linear disassembly is not a function boundary claim.
-    lo,hi=0x1298700,0x12ab000
+    lo,hi=0x1298700,0x12ac400
     region=matched(lo,hi-lo)
     assert region is not None
     request_init_region=[row(i) for i in cs.disasm(region,lo)]
@@ -358,6 +358,16 @@ def main(root,out):
         b=matched(a-0x100,0x110)
         if b is not None:
             request_init_windows.append({**hit,"context":[row(i) for i in cs.disasm(b,a-0x100)]})
+    request_dispatch_offset_words=[]
+    for a in range(0x4075390,0x40753e0,8):
+        b=matched(a,8)
+        if b is not None:
+            request_dispatch_offset_words.append({"va":hex(a+BASE),"raw":b.hex(),"u64":int.from_bytes(b,"little")})
+    request_group0_vtable=[]
+    for a in range(0x497ea18,0x497ea80,8):
+        b=matched(a,8);rr=rel.get(a,{})
+        if b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0:
+            request_group0_vtable.append({"slot_va":hex(a+BASE),"target_va":hex(rr["addend"]+BASE),"raw":b.hex()})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -366,7 +376,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_dispatch_offset_words":request_dispatch_offset_words,"request_group0_vtable":request_group0_vtable,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
