@@ -10,6 +10,8 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x012cf488: ("ItemLayer third type factory lifecycle; static audit", 0xa0),
+    0x012db97c: ("ItemLayer third type factory lifecycle; static audit", 0xa8),
     0x00ad8904: ("OpenMessageWindow Action vtable +40 entry", 0x4000),
     0x00ad8e80: ("OpenMessageWindow Action vtable +48 update", 0x4000),
     0x00ad8794: ("OpenMessageWindow native message business Ready publication", 0x4000),
@@ -33,7 +35,7 @@ ENTRIES = {
     0x01184470: ("Query wrapper BindInfo setup", 0x4000),
     0x011828b0: ("Action and query wrapper construction", 0x4000),
     0x0068a804: ("EventFlow invocation context construction", 0x4000),
-    0x01259024: ("Eight layer snapshot refresh; read-only static audit", 0x320),
+    0x01259024: ("Eight layer snapshot refresh; read-only static audit", 0x340),
     0x010f5bb0: ("EventFlow system actor and ExitFlowchart string registration", 0x3000),
     0x010f62f0: ("EventFlow action invocation and explicit exit flag producer", 0x3000),
     0x010f6690: ("EventFlow explicit exit flag consumer and action completion predicate", 0x3000),
