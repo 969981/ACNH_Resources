@@ -10,6 +10,12 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01184700: ("Query wrapper canonical name and dispatch", 0x4000),
+    0x011848c0: ("BindInfo QueryBindData native loader", 0x4000),
+    0x010f6790: ("BindInfo ActionBindData native loader", 0x4000),
+    0x010f6e30: ("BindInfo alias tree insertion", 0x4000),
+    0x00ad94ac: ("OpenMessageWindow alternate invocation", 0x4000),
+    0x00ad9498: ("OpenMessageWindow path predicate", 0x4000),
     0x012cf488: ("ItemLayer third type factory lifecycle; static audit", 0xa0),
     0x012db97c: ("ItemLayer third type factory lifecycle; static audit", 0xa8),
     0x00ad8904: ("OpenMessageWindow Action vtable +40 entry", 0x4000),
@@ -1004,6 +1010,7 @@ def export_dialogue_event_factories(root,elf,es,elfbase,mapped,raw,rel,entries,o
            "EventFlowActionExitFlowchart","EventFlowActionSetSubflowResult"]
     names += ["EventFlowQueryGeneralTalkChoice"+str(i) for i in range(2,8)]
     names += ["EventFlowQuerySubflowResultChoice"+str(i) for i in range(2,5)]
+    names += ["EventFlowQueryGeneralChoice","EventFlowQueryCheckSubflowResult"]
     corpus={}
     for p in sorted((root/"UnPack/1/EventFlow").glob("*.json")):
         try:g=json.loads(p.read_text("utf-8")).get("graph",{})
@@ -1297,6 +1304,24 @@ def main(root,out):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":count-1,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x0068d480 and a==0x58d550:
+                    # Event type 0..4; table base initialized before loop.
+                    prologue=bytes.fromhex("ced501f0 ce111391")
+                    signature=bytes.fromhex("a8224039 1f110071 08feff54 89000010 ca696838 29090a8b 20011fd6")
+                    table=0x40484c4
+                    tb=raw(table,5)
+                    if (raw(0x58d4d0,len(prologue))==prologue
+                        and get_bytes_va(elf,es,0x58d4d0+elfbase,len(prologue))==prologue
+                        and raw(0x58d538,len(signature))==signature
+                        and get_bytes_va(elf,es,0x58d538+elfbase,len(signature))==signature
+                        and len(tb)==5 and get_bytes_va(elf,es,table+elfbase,5)==tb):
+                        candidate=[0x58d554+4*v for v in tb]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":tb.hex(),"index_min":0,"index_max":4,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
