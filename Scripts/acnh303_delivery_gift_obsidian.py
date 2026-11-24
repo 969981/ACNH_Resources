@@ -10,6 +10,16 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x012e4640: ("ItemLayer work heap and snapshot lifecycle static audit", 0x4c0),
+    0x012e4b00: ("ItemLayer work heap and snapshot lifecycle static audit", 0x278),
+    0x012e6150: ("ItemLayer work heap and snapshot lifecycle static audit", 0x258),
+    0x012ca2c4: ("ItemLayer work heap and snapshot lifecycle static audit", 0x490),
+    0x012c7220: ("ItemLayer work heap and snapshot lifecycle static audit", 0x540),
+    0x012cf530: ("ItemLayer work heap and snapshot lifecycle static audit", 0x920),
+    0x01548d80: ("ItemLayer work heap and snapshot lifecycle static audit", 0x300),
+    0x0154880c: ("ItemLayer work heap and snapshot lifecycle static audit", 0x574),
+    0x012e16c0: ("ItemLayer work heap and snapshot lifecycle static audit", 0x180),
+    0x012e9810: ("ItemLayer work heap and snapshot lifecycle static audit", 0x180),
     0x013628b8: ("FieldSystem lifecycle and constructor; static audit", 0xdc),
     0x01362994: ("FieldSystem lifecycle and constructor; static audit", 0x5a0),
     0x01362770: ("FieldSystem lifecycle and constructor; static audit", 0x148),
@@ -1177,6 +1187,21 @@ def main(root,out):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":5,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x022c0670 and a==0x21c14ac:
+                    first,table,count,base=0x21c1488,0x407a4b2,6,0x21c14b0
+                    signature=bytes.fromhex("087d0553 08050051 1f150071 48150054 c9f500b0 29c91291 8a000010 2b696838 4a090b8b 40011fd6")
+                    table_bytes=raw(table,count)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==count
+                        and get_bytes_va(elf,es,table+elfbase,count)==table_bytes):
+                        candidate=[base+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":count-1,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
