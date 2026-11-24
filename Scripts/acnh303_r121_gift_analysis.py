@@ -52,7 +52,7 @@ def main(root,out):
     assert bl_target(int.from_bytes(raw(0x1a7b098-S,4),"little"),0x1a7b098-S)==0x1a8cdd0-S
     for a,m,o in [(0x1a7b024,"cmp","w10, w24"),(0x1a7b090,"mov","w0, w25"),(0x1a7b094,"mov","x1, xzr"),(0x1a7b09c,"cmp","w0, #0xa2"),(0x1b0814c,"mov","w8, #0x9c4"),(0x1b08150,"str","x8, [x0]"),(0x1b08180,"mov","w8, #0x839"),(0x1b08184,"str","x8, [x0]")]:check(a,m,o)
     for a in (0x1b08154,0x1b08188):assert bl_target(int.from_bytes(raw(a-S,4),"little"),a-S)==0x277d4ac-S
-    f=root/"derived/3.0.3/ghidra12.2/c/cd/01a8cdd0.c";b=f.read_bytes()
+    source_path=root/"derived/3.0.3/ghidra12.2/c/cd/01a8cdd0.c";b=source_path.read_bytes()
     anchors=["PTR_s_STowelN_04bbe238 + lVar19 * 8 + 0x760","lVar19 != 0xa2","crc32b"]
     assert all(x.encode() in b for x in anchors)
     table=load("r119_outfit_tables.json");assert len(table)==1 and len(table[0]["keys"])==162
@@ -92,7 +92,7 @@ def main(root,out):
     web["limitations"].append("R121 preference overlap is not actual affinity; reward calculations require explicit native price and event-route assumptions")
     db.write(out/"gift_web_sidecar_r121.json",web)
     report={"outfit_native_mapping":len(outfits),"outfit_enum_count":162,"converter":"0x01A8CDD0","table":"0x049C0770","default_initial_records":{"2500":"c409000000000000","2105":"3908000000000000"},"default_post_normalization_runtime_verified":False,"style_pairs":sum(x["pair_count"] for x in groups),"style_groups":groups,"conditional_reward_cases":len(cases),"runtime_verified":False}
-    for n,o in [("r121_report.json",report),("r121_conditional_reward_cases.json",cases),("r121_converter_window.json",[row(i) for i in ins(0x1a8cdd0,0x500)]),("r121_c_evidence.json",{"file":str(f.relative_to(root)),"sha256":db.digest(b),"anchors":anchors})]:db.write(out/n,o)
+    for n,o in [("r121_report.json",report),("r121_conditional_reward_cases.json",cases),("r121_converter_window.json",[row(i) for i in ins(0x1a8cdd0,0x500)]),("r121_c_evidence.json",{"file":str(source_path.relative_to(root)),"sha256":db.digest(b),"anchors":anchors})]:db.write(out/n,o)
     print("R121 REPORT",json.dumps(report,ensure_ascii=False),flush=True)
 
 if __name__=="__main__":
