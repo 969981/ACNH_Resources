@@ -1,0 +1,54 @@
+name: ACNH 3.0.3 R118 save hash
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r118*'
+      - 'derived/3.0.3/npc_event_flags/r118_save_hash/**'
+      - '.github/workflows/acnh303-r118-save-hash.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r118:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r118_save_hash.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r118_save_hash/
+            /derived/3.0.3/ghidra12.2/c/02/02840270.c
+            /derived/3.0.3/ghidra12.2/c/03/028403e0.c
+            /derived/3.0.3/ghidra12.2/c/05/02840524.c
+            /derived/3.0.3/ghidra12.2/c/06/02840630.c
+            /derived/3.0.3/ghidra12.2/c/07/0284073c.c
+            /derived/3.0.3/ghidra12.2/c/08/02840848.c
+            /derived/3.0.3/ghidra12.2/c/09/02840954.c
+            /derived/3.0.3/ghidra12.2/c/69/006f6900.c
+            /derived/3.0.3/ghidra12.2/c/29/028c29b0.c
+            /derived/3.0.3/ghidra12.2/c/20/028420c0.c
+            /derived/3.0.3/ghidra12.2/c/22/028f2210.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14893000801/zip > r117.zip
+      - run: python Scripts/acnh303_r118_save_hash.py --root . --prior r117.zip --out artifacts/r118
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r118-save-hash
+          path: artifacts/r118/
+          if-no-files-found: error
