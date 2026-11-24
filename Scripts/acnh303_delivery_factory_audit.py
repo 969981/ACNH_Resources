@@ -411,6 +411,23 @@ def main(root,out):
         b=matched(start_window,a+0x40-start_window)
         if b is not None:
             itemlayer_constructor_windows.append({**hit,"context":[row(i) for i in cs.disasm(b,start_window)]})
+    # Preserve a larger bounded region for the unresolved third-type factory.
+    # Linear disassembly and inbound direct branches are not a function-boundary proof.
+    itemlayer_extended_region=[]
+    itemlayer_extended_inbound=[]
+    lo,hi=0x11d3c00,0x11d4b00
+    region=matched(lo,hi-lo)
+    assert region is not None
+    for a in range(lo,hi,4):
+        b=region[a-lo:a-lo+4]
+        i=next(cs.disasm(b,a),None)
+        itemlayer_extended_region.append(row(i) if i else {"va":hex(a+BASE),"raw":b.hex(),"instruction":"undecoded"})
+    for off,(w,) in enumerate(struct.iter_unpack("<I",code)):
+        pc=start+4*off
+        t=branch(w,pc)
+        if t is not None and lo<=t<hi:
+            itemlayer_extended_inbound.append({"site_va":hex(pc+BASE),"target_va":hex(t+BASE),
+                "bytes":struct.pack("<I",w).hex(),"nearest_export":owner(pc)})
     itemlayer_interface_slots=[]
     for va in (0x498c470,0x498c160,0x498c8e8):
         for offset in (0,8,16):
@@ -427,7 +444,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"field_system_root_refs":field_system_root_refs,"itemlayer_constructor_windows":itemlayer_constructor_windows,"itemlayer_interface_slots":itemlayer_interface_slots,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_dispatch_offset_words":request_dispatch_offset_words,"request_group0_vtable":request_group0_vtable,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"field_system_root_refs":field_system_root_refs,"itemlayer_constructor_windows":itemlayer_constructor_windows,"itemlayer_interface_slots":itemlayer_interface_slots,"itemlayer_extended_region":itemlayer_extended_region,"itemlayer_extended_inbound":itemlayer_extended_inbound,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_dispatch_offset_words":request_dispatch_offset_words,"request_group0_vtable":request_group0_vtable,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
