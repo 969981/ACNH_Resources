@@ -1,0 +1,55 @@
+name: ACNH 3.0.3 R110 save backend
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r110*'
+      - 'derived/3.0.3/npc_event_flags/r110_save_backend/**'
+      - '.github/workflows/acnh303-r110-save-backend.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r110:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r110_save_backend.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r110_save_backend/
+            /derived/3.0.3/ghidra12.2/c/50/026f5030.c
+            /derived/3.0.3/ghidra12.2/c/ed/026eed64.c
+            /derived/3.0.3/ghidra12.2/c/ec/026eec4c.c
+            /derived/3.0.3/ghidra12.2/c/eb/026eeb9c.c
+            /derived/3.0.3/ghidra12.2/c/eb/026eebf4.c
+            /derived/3.0.3/ghidra12.2/c/e2/026ee288.c
+            /derived/3.0.3/ghidra12.2/c/c8/01c9c834.c
+            /derived/3.0.3/ghidra12.2/c/c9/01c9c910.c
+            /derived/3.0.3/ghidra12.2/c/cc/01c9cc70.c
+            /derived/3.0.3/ghidra12.2/c/57/01de57a8.c
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - name: Fetch authenticated R109 evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14886157356/zip > r109.zip
+      - run: python Scripts/acnh303_r110_save_backend.py --root . --prior r109.zip --out artifacts/r110
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r110-save-backend
+          path: artifacts/r110/
+          if-no-files-found: error
