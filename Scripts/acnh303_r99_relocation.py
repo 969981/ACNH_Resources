@@ -35,11 +35,11 @@ class Image:
                 if off+fs>len(b) or fs>ms:raise ValueError("invalid segment")
                 self.loads.append({"vaddr":va,"file_offset":off,"filesz":fs,"memsz":ms,"flags":fl})
         if min(s["vaddr"] for s in self.loads)&~0xfff!=0:raise ValueError("unexpected load base")
-        if h[11]<64 or h[5]+h[11]*h[12]>len(b):raise ValueError("invalid section table")
-        for i in range(h[12]):
-            n,t,f,a,o,z,l,info,al,ent=struct.unpack_from("<IIQQQQIIQQ",b,h[5]+i*h[11])
+        if h[10]<64 or h[5]+h[10]*h[11]>len(b):raise ValueError("invalid section table")
+        for i in range(h[11]):
+            n,t,f,a,o,z,l,info,al,ent=struct.unpack_from("<IIQQQQIIQQ",b,h[5]+i*h[10])
             self.sections.append(dict(index=i,name_off=n,type=t,flags=f,va=a,off=o,size=z,link=l,entsize=ent))
-        st=self.sections[h[13]]
+        st=self.sections[h[12]]
         strings=b[st["off"]:st["off"]+st["size"]]
         for s in self.sections:
             x=s["name_off"];end=strings.find(b"\0",x)
