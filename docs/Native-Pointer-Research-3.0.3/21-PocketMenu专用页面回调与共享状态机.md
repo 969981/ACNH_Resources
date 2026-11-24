@@ -88,3 +88,47 @@ R100 SQLite 实际复查 alias 04AC8608→04A06AF0 (RELR,data)，address point=0
 ## 6. next acceptance
 
 New 18 anchors from original evidence incl 8 callback targets, page VTable targets/wrapper, shared tail; CI not yet verified. Preserve action index/association index/current state as distinct objects and keep historic cursor/chat/text-speed mapping null until source and snapshot proof. No production pointer updates; no live process or writes.
+
+
+## 7. 追加验收：八个回调实际机器码（同轮）
+
+[Run 45331535950](https://github.com/969981/ACNH_Resources/actions/runs/45331535950) success，head bd0857c72768db9ef3e7d915da99ff5bbd092c2e；实际下载 [artifact 14891717920](https://github.com/969981/ACNH_Resources/actions/runs/45331535950/artifacts/14891717920)，ZIP SHA256 bb89a81c3a81cb098d422b1f29173662dc2a70ab31286a6a4e057f37c6d44327 与 digest 一致。220 entries/28230 rows/87 gaps。八个回调原始指令均存在，共793条、3 gap。完整逐行机器码见 Functions/FUN_<VA>.md/json。
+
+|VA|rows/gaps|已证行为|
+|---|---|---|
+|03187B40|562/2|按事件对象指针匹配40槽，写1C515；无匹配写FF；状态8走特殊分支|
+|031884A8|1/0|RET|
+|031884B0|100/0|匹配物品/特殊组件并检查+2C3 bit0，写1C518、1C51A OR4；特殊分支额外条件|
+|03188640|1/0|RET|
+|03188650|25/0|匹配40槽，写1C518、1C51A OR8|
+|031886C0|25/0|匹配40槽则写1C518；无论匹配均1C51A OR10h|
+|03188724|16/1|参数+10的0..3枚举分支，表RVA0408415E，待闭合|
+|03188794|63/0|事件对象身份匹配，两个浮点输入阈值测试，1C51A OR100h/200h|
+
+### 7.1 1C515 真正的事件索引 writer
+
+03187B60 ldr x11,[x0,#210]；03187B64 mov x19,x0；03187B6C ldr x14,[x1,#8]；03187B90..BB8 按 page+590/630 遍历40个子组件，比较事件对象指针。原始字节：
+
+|VA|bytes|instruction|
+|---|---|---|
+|03187BBC|a8a29852|mov w8,#0xc515|
+|03187BC0|2800a072|movk w8,#1,lsl#16|
+|03187BC4|e91f8052|mov w9,#0xff|
+|03187BC8|696a2838|strb w9,[x19,x8]|
+|03187BD0|aea29852|mov w14,#0xc515|
+|03187BD4|2e00a072|movk w14,#1,lsl#16|
+|03187BD8|756a2e38|strb w21,[x19,x14]|
+
+由此确认 offset=1C515，不是1C514。最强的当前焦点/事件索引候选；在状态8与不匹配情况下特殊处理，其他路径以同一索引读取物品及展示内容。是否每次实际方向键移动都触发仍须运行时快照/事件消费者验证。
+
+### 7.2 1C518 事件槽和 1C51A 位图
+
+03188660 08611491 add x8,x8,#518；上游03188654 08704091 add x8,x0,#1c,lsl#12。匹配后031886A0 09010039 strb w9,[x8]，031886A4 09054079 ldrh w9,[x8,#2]，031886A8 29011d32 orr w9,w9,#8，031886AC 09050079 strh w9,[x8,#2]。031886C0 同类 OR10h，无匹配也置标志。031884B0 在常规匹配且子组件+2C3 bit0 成立时 OR4。03188794 通过 self+1C2C8 相关指针和事件+8 比较，读事件+14/+18 float（阈值字0x3F2B851F），最后写 [x8,#252] 即1C51A，置100h或200h。不能把标志位命名为具体按键，待输入来源证据。
+
+### 7.3 wrapper 真实分发
+
+03197A48 12rows/1gap；03197A50 ldp x2,x10,[x0,#10]，03197A60 add x0,x8,x10,asr#1，03197A64 检查低bit，若为1则经 vtable 加x2读取目标，03197A70 br x2。登记的八个记录+18=0，所以这一静态配置下为直接成员回调形式，owner 从记录+8取出。仍不代表实机事件已发生。
+
+033BA5E4 36rows/1gap，02C0CB68/B8 的尾分发目标，读取另一个对象+50状态/选择字段，再通过自身+8调用03EBB160(0)，不是 PocketMenu+1A8 的直接 caller。
+
+已另提交03188724 4项跳转表的原版双字节验证逻辑（commit b669614），新 CI 尚未核验；1C514 非初始化 writer 仍未闭合。下一阶段优先查1C518/1C51A 消费者与1C514 发布关系。以上是静态研究，不改变生产指针。
