@@ -378,18 +378,20 @@
       "complete_gap_free": false
     },
     "result_continuation": {
-      "grade": "original instruction verified; label format literal pending",
+      "grade": "original instructions, bounded Ready CFG and result label literal verified; no runtime",
       "result_format": {
         "site": "0x01bfad5c",
         "format_rva": "0x3f5bf91",
         "destination": "B+0x2560",
         "value_argument": "w2=ChoiceRecord.Identifier",
-        "not_format_if": "identifier==0xffffffff"
+        "not_format_if": "identifier==0xffffffff",
+        "literal": "%03d",
+        "bytes": "2530336400"
       },
       "ready_update": {
         "va": "0x01bf8800",
-        "rows": 1315,
-        "gaps": 1,
+        "rows": 1334,
+        "gaps": 0,
         "copy_sites": [
           [
             "0x01bf8904",
@@ -451,10 +453,47 @@
         "label_argument": "B+0x24f0",
         "attribute_classifier_call": "0x01bf922c",
         "attribute_parser_call": "0x01bf923c",
-        "ready_switch_pending": {
+        "ready_switch": {
           "site": "0x01bf958c",
           "table_rva": "0x4078387",
-          "count": 6
+          "table_bytes": "000204130608",
+          "index_min": 0,
+          "index_max": 5,
+          "source_mode_min": 1,
+          "source_mode_max": 6,
+          "targets_va": [
+            "0x01bf9590",
+            "0x01bf9598",
+            "0x01bf95a0",
+            "0x01bf95dc",
+            "0x01bf95a8",
+            "0x01bf95b0"
+          ]
+        },
+        "fresh_attribute_result": {
+          "schema_offset": "0x8c",
+          "attribute_u16_offset": "0x90",
+          "schema_compare_va": "0x01bf961c",
+          "load_va": "0x01bf9608",
+          "select_va": "0x01bf962c",
+          "result_store_va": "0x01bf963c",
+          "result_state_store_va": "0x01bf9638",
+          "label_format_va": "0x01bf9640",
+          "destination": "B+0x2560"
+        },
+        "choice_generation_call": {
+          "site": "0x01bf96bc",
+          "target": "0x01b9cbc0",
+          "bytes": "418dfe97",
+          "args": [
+            "P(P(B+0x20)+0x10)",
+            "B+0x2480",
+            "B+0x24d8",
+            "B+0x8c"
+          ],
+          "guard": "schema 1/2/3 select mode byte B+0x92/0x98/0x9c; mode 1..23",
+          "sets_flag_offset": "0xac",
+          "clears_flag_if_false_site": "0x01bf96c4"
         }
       },
       "eventflow_end_verified": false
@@ -1124,12 +1163,12 @@
   },
   "eventflow_end_verified": false,
   "latest_verified_export": {
-    "run": 45350982470,
-    "artifact": 14900003050,
-    "sha256": "c459f716515ecbbabf607bd323f51988c0937c5be100407ebafb2fc1059ea9ce",
+    "run": 45351601376,
+    "artifact": 14899794443,
+    "sha256": "9957ceb3501835ae9d594ccc61fc906aa9221c3f01ff704087ea22a7adea3974",
     "entries": 770,
-    "rows": 99641,
-    "gaps": 276
+    "rows": 99660,
+    "gaps": 275
   },
   "choice_records": {
     "base": "Q=P(C+0x10)",
@@ -1372,7 +1411,7 @@
             "site_va": "0x01bf96bc",
             "target_va": "0x01b9cbc0",
             "caller_function": "01BF8800",
-            "caller_binding": "address range; Ready CFG switch pending"
+            "caller_binding": "authenticated complete Ready CFG; explicit arguments verified"
           }
         ]
       },
@@ -1623,10 +1662,229 @@
       "select_talk_present_count": 14,
       "msbt_attributes_decoded": false
     },
-    "table_export_pending": {
-      "commit": "0b4062e76b0ac8033b60dd3b7577ba57851ebca4",
-      "run": 45351601376
-    }
+    "table_export_verified": {
+      "run": 45351601376,
+      "artifact": 14899794443,
+      "file": "message_archive_tables.json"
+    },
+    "categories": [
+      {
+        "id": 0,
+        "name": "TalkNNpc",
+        "schema": 1,
+        "slot_rva": "0x493d1a8",
+        "name_rva": "0x3fb5ef9"
+      },
+      {
+        "id": 1,
+        "name": "TalkSNpc",
+        "schema": 2,
+        "slot_rva": "0x493d1b8",
+        "name_rva": "0x3fc5523"
+      },
+      {
+        "id": 2,
+        "name": "TalkFtr",
+        "schema": 2,
+        "slot_rva": "0x493d1c8",
+        "name_rva": "0x3f67d23"
+      },
+      {
+        "id": 3,
+        "name": "TalkObj",
+        "schema": 3,
+        "slot_rva": "0x493d1d8",
+        "name_rva": "0x3fc552c"
+      },
+      {
+        "id": 4,
+        "name": "TalkSys",
+        "schema": 3,
+        "slot_rva": "0x493d1e8",
+        "name_rva": "0x3f97002"
+      },
+      {
+        "id": 5,
+        "name": "String",
+        "schema": 4,
+        "slot_rva": "0x493d1f8",
+        "name_rva": "0x3f8fb02"
+      },
+      {
+        "id": 6,
+        "name": "Dialog",
+        "schema": 5,
+        "slot_rva": "0x493d208",
+        "name_rva": "0x3fc551c"
+      },
+      {
+        "id": 7,
+        "name": "LayoutMsg",
+        "schema": 4,
+        "slot_rva": "0x493d218",
+        "name_rva": "0x3f7c917"
+      },
+      {
+        "id": 8,
+        "name": "System",
+        "schema": 4,
+        "slot_rva": "0x493d228",
+        "name_rva": "0x3f7aad9"
+      },
+      {
+        "id": 9,
+        "name": "Mail",
+        "schema": 4,
+        "slot_rva": "0x493d238",
+        "name_rva": "0x3f67d1e"
+      },
+      {
+        "id": 10,
+        "name": "Test",
+        "schema": 1,
+        "slot_rva": "0x493d248",
+        "name_rva": "0x3fc5116"
+      },
+      {
+        "id": 11,
+        "name": "Tutorials",
+        "schema": 3,
+        "slot_rva": "0x493d258",
+        "name_rva": "0x3ff4ddb"
+      }
+    ],
+    "language_suffixes": [
+      {
+        "id": 0,
+        "suffix": "JPja",
+        "slot_rva": "0x4812310",
+        "string_rva": "0x48122b0",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 1,
+        "suffix": "USen",
+        "slot_rva": "0x4812318",
+        "string_rva": "0x48122b6",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 2,
+        "suffix": "USes",
+        "slot_rva": "0x4812320",
+        "string_rva": "0x48122bc",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 3,
+        "suffix": "USfr",
+        "slot_rva": "0x4812328",
+        "string_rva": "0x48122c2",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 4,
+        "suffix": "USpt",
+        "slot_rva": "0x4812330",
+        "string_rva": "0x48122c8",
+        "observed_r75_string_archive": false
+      },
+      {
+        "id": 5,
+        "suffix": "EUen",
+        "slot_rva": "0x4812338",
+        "string_rva": "0x48122ce",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 6,
+        "suffix": "EUes",
+        "slot_rva": "0x4812340",
+        "string_rva": "0x48122d4",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 7,
+        "suffix": "EUfr",
+        "slot_rva": "0x4812348",
+        "string_rva": "0x48122da",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 8,
+        "suffix": "EUde",
+        "slot_rva": "0x4812350",
+        "string_rva": "0x48122e0",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 9,
+        "suffix": "EUit",
+        "slot_rva": "0x4812358",
+        "string_rva": "0x48122e6",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 10,
+        "suffix": "EUpt",
+        "slot_rva": "0x4812360",
+        "string_rva": "0x48122ec",
+        "observed_r75_string_archive": false
+      },
+      {
+        "id": 11,
+        "suffix": "EUnl",
+        "slot_rva": "0x4812368",
+        "string_rva": "0x48122f2",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 12,
+        "suffix": "EUru",
+        "slot_rva": "0x4812370",
+        "string_rva": "0x48122f8",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 13,
+        "suffix": "KRko",
+        "slot_rva": "0x4812378",
+        "string_rva": "0x48122fe",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 14,
+        "suffix": "CNzh",
+        "slot_rva": "0x4812380",
+        "string_rva": "0x4812304",
+        "observed_r75_string_archive": true
+      },
+      {
+        "id": 15,
+        "suffix": "TWzh",
+        "slot_rva": "0x4812388",
+        "string_rva": "0x481230a",
+        "observed_r75_string_archive": true
+      }
+    ],
+    "raw_schema_mapping_3_to_11": [
+      3,
+      3,
+      4,
+      5,
+      4,
+      4,
+      4,
+      4,
+      3
+    ],
+    "schema_name_overrides": {
+      "STR_Select_Talk": 6,
+      "CmnSubWin": 6,
+      "NookMilage_Keyword_Modifier": 7,
+      "NookMilage_Keyword_Noun": 7
+    },
+    "unknown_language_fallback": ""
   },
   "text_worker": {
     "prepare_resource_va": "0x01bea210",
