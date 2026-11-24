@@ -69,6 +69,8 @@ updated: 2026-11-24
 
 24. [[24-菜单命令对象与PutUnitIcon结果事务边界]] · [GitHub 阅读](24-菜单命令对象与PutUnitIcon结果事务边界.md)
 
+24. [[24-双请求槽优先级与UI组件遍历]] · [GitHub 阅读](24-双请求槽优先级与UI组件遍历.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
