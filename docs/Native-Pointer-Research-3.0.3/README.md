@@ -91,6 +91,8 @@ updated: 2026-11-24
 
 29. [[29-PutUnitIcon物品资格与放置结果边界]] · [GitHub 阅读](29-PutUnitIcon物品资格与放置结果边界.md)
 
+30. [[30-放置请求记录与业务结果虚表]] · [GitHub 阅读](30-放置请求记录与业务结果虚表.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
