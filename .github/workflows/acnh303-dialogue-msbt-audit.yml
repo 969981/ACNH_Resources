@@ -1,0 +1,43 @@
+name: ACNH 3.0.3 | R35 native dialogue MSBT audit
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_dialogue_msbt_audit.py'
+      - '.github/workflows/acnh303-dialogue-msbt-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: acnh303-dialogue-msbt-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh_formats.py
+            /Scripts/acnh303_dialogue_msbt_audit.py
+            /e10617820db06889e1638499478da0de_NCA/1/Message/TalkNNpc_*.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/TalkSNpc_*.sarc.zs
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install zstandard
+      - run: python -m py_compile Scripts/acnh303_dialogue_msbt_audit.py
+      - run: python Scripts/acnh303_dialogue_msbt_audit.py --selftest
+      - name: Audit 28 original archives and cross-locale attribute records
+        run: python Scripts/acnh303_dialogue_msbt_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-dialogue-msbt-audit
+          path: artifacts/acnh303-dialogue-msbt/
+          retention-days: 90
+          if-no-files-found: error
