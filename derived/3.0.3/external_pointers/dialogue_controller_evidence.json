@@ -2315,7 +2315,7 @@
     }
   },
   "airport_eventflow": {
-    "grade": "direct raw BFEVFL v3 inspection, existing decoded graph statistics and independent R35 SQLite join; reproducible full audit pending",
+    "grade": "independent original BFEVFL parser CI accepted; graph structure and 1127 scalar parameters match committed decoder; R35 exact join accepted",
     "raw_directory_entries": 876,
     "flow_count": 10,
     "nodes": 1108,
@@ -2349,7 +2349,8 @@
           "member": "dod/SP_dod_41_MultiPlayInet.msbt",
           "unique": 21
         }
-      ]
+      ],
+      "action_references": 208
     },
     "out_of_scope": {
       "unique": 10,
@@ -2372,7 +2373,8 @@
           "4000",
           "4003"
         ]
-      }
+      },
+      "action_references": 24
     },
     "explicit_exit_nodes": [
       [
@@ -2458,6 +2460,35 @@
     "elf_run": 45357517998,
     "script_commit": "7ffabf4b7beb4907c287c0fef1ef0cc8bdf4f156",
     "runtime_verified": false,
-    "production_eligible": false
+    "production_eligible": false,
+    "audit_verified": {
+      "run": 45357509626,
+      "artifact": 14903625157,
+      "zip_sha256": "2d7e90611d6954c796e236f53fc450aec150321f4104e9d095a95e900ff509d9",
+      "scalar_params_exact": 1127,
+      "scalar_param_differences": 0,
+      "counts": {
+        "ActionEvent": 571,
+        "SwitchEvent": 259,
+        "SubFlowEvent": 266,
+        "ForkEvent": 6,
+        "JoinEvent": 6
+      },
+      "graph_structure_match": true
+    },
+    "external_subflows": [
+      {
+        "source": "SNPC_dod_20_Airport_InetHost",
+        "index": 72,
+        "target": "System_ServerRegistration",
+        "entrypoint": "UserRegist"
+      },
+      {
+        "source": "SNPC_dod_21_Airport_InetVisitor",
+        "index": 97,
+        "target": "System_ServerRegistration",
+        "entrypoint": "UserRegist"
+      }
+    ]
   }
 }
