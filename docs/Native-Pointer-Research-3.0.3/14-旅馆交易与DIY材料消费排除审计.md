@@ -134,3 +134,7 @@ python Scripts/acnh303_delivery_direct_xrefs.py --root . --out artifacts/deliver
 |P2|Build ID 数据库|真实字节与快照验收后才升级|
 
 未修改生产派送代码，未向已验证指针数据库填入新运行时地址。
+
+## 8. 后续定位结果
+
+见 [[15-PocketMenu与PutUnitIcon原生状态机]]。030DED60 是提示文本/按键图标处理候选；真实 cPocketMenu 构造链已确认，资源 PutUnitIcon 对应普通地面投放，Throw 为独立菜单操作。回调锚点本轮没有 C 文件，原始 ELF 尚待验收。
