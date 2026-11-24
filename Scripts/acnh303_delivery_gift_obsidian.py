@@ -10,6 +10,7 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01af5b80: ("Menu resource boolean field lookup", 0x300),
     0x03868db0: ("Component gate164 computation and propagation", 0x2000),
     0x03868ae0: ("Gate164 guarded recursive component update", 0x2000),
     0x03868eb8: ("Component lifecycle finalization and gate clear", 0x2000),
@@ -103,7 +104,7 @@ ENTRIES = {
     0x02db4080: ("Pocket context menu constructor or relocation target", 0x5c),
     0x02c26914: ("Pocket context menu constructor or relocation target", 0x200),
     0x0317d994: ("Pocket context menu constructor or relocation target", 0x400),
-    0x03188df0: ("Pocket context menu constructor or relocation target", 0x680),
+    0x03188df0: ("Pocket context menu constructor or relocation target", 0x900),
     0x022b1ec4: ("Pocket context menu constructor or relocation target", 0x350),
     0x02c0e370: ("Outer request transition and event reset caller", 0x1000),
     0x02c0e230: ("Adjacent UI lifecycle wrapper", 0x1000),
@@ -658,6 +659,21 @@ def main(root,out):
                         candidate=[base+v*4 for v in table_bytes]
                         if all(base<=v<=0x03088784 and entry<=v<entry+budget
                                and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x03188df0 and a==0x3089428:
+                    signature=bytes.fromhex("08110051 f7630039 1f0d0071 68030054 c97f00f0 29890591 8a000010 2b696838 4a090b8b 40011fd6")
+                    first=0x3089404;table=0x4084162
+                    table_bytes=raw(table,4)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==4
+                        and get_bytes_va(elf,es,table+elfbase,4)==table_bytes):
+                        candidate=[0x308942c+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
