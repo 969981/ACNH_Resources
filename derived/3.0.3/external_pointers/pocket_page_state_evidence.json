@@ -592,12 +592,12 @@
     }
   },
   "latest_verified_export": {
-    "run": 45335380086,
-    "artifact": 14893742711,
-    "sha256": "62e22278f391861c12d7da77a828de33346eab22374bdbb07faa7f5ad2b17900",
-    "entries": 415,
-    "rows": 52369,
-    "gaps": 164
+    "run": 45336377939,
+    "artifact": 14894312027,
+    "sha256": "9aaec1859756e290698e0b3cc856c75e7cdda13495801552a93963d67e9848b4",
+    "entries": 458,
+    "rows": 56237,
+    "gaps": 175
   },
   "lifecycle_scan": {
     "run": 45334089129,
@@ -658,8 +658,12 @@
     "pocket_update_va": "0x02c0c720",
     "finalizer_va": "0x03868eb8",
     "finalizer_c_blob": "930d70cff00411a06d435b92fa3abc58986dcd57",
-    "original_instruction_verification": false,
-    "cadence": null
+    "original_instruction_verification": true,
+    "cadence": null,
+    "writer_va": "0x03868e44",
+    "clear_va": "0x038690a8",
+    "prepare_direct_call_va": "0x0386bd38",
+    "update_direct_call_va": "0x0386bdf4"
   },
   "factory_registration": {
     "constructor_va": "0x0386a3a0",
@@ -671,20 +675,42 @@
     "mutex_offset": "0x540",
     "derived_factory_constructor_va": "0x02c0bfcc",
     "pocket_instance_binding": false,
-    "original_instruction_verification": false
+    "original_instruction_verification": true,
+    "publication_va": "0x0386a55c",
+    "count_write_va": "0x0386a574"
   },
   "dialogue_state_registration": {
     "talk": {
       "registration_va": "0x02fa3660",
       "count": 7,
       "rows": 195,
-      "gaps": 0
+      "gaps": 0,
+      "close": {
+        "state_id": 4,
+        "entry_va": "0x02fa3ca4",
+        "update_va": "0x02fa3d68",
+        "completion_vcall_slot": "0x140",
+        "page_getter_va": "0x02faedec",
+        "page_offset": "0x308",
+        "idle_request_va": "0x02fa3db0",
+        "idle_predicate_va": "0x02fa2de4",
+        "wait_icon_state_id": 6
+      }
     },
     "select_talk": {
       "registration_va": "0x02fad0b0",
       "count": 5,
       "rows": 138,
-      "gaps": 0
+      "gaps": 0,
+      "close": {
+        "state_id": 4,
+        "entry_va": "0x02fadd30",
+        "update_va": "0x02fadd44",
+        "completion_vcall_slot": "0x50",
+        "idle_request_va": "0x02fadd90",
+        "idle_predicate_va": "0x02fac390",
+        "page_offset": "0x210"
+      }
     },
     "name_rvas": [
       "0x3f8dd64",
@@ -695,7 +721,52 @@
       "0x3fc671a",
       "0x3f63925"
     ],
-    "names": null,
-    "runtime_verified": false
+    "names": [
+      {
+        "id": 0,
+        "name": "State::cInit",
+        "rva": "0x3f8dd64"
+      },
+      {
+        "id": 1,
+        "name": "State::cIdle",
+        "rva": "0x3fe3b76"
+      },
+      {
+        "id": 2,
+        "name": "State::cAppear",
+        "rva": "0x3f87a5a"
+      },
+      {
+        "id": 3,
+        "name": "State::cPlay",
+        "rva": "0x4000077"
+      },
+      {
+        "id": 4,
+        "name": "State::cDisappear",
+        "rva": "0x3fb6384"
+      },
+      {
+        "id": 5,
+        "name": "State::cNextIcon",
+        "rva": "0x3fc671a"
+      },
+      {
+        "id": 6,
+        "name": "State::cWaitIcon",
+        "rva": "0x3f63925"
+      }
+    ],
+    "runtime_verified": false,
+    "callback_evidence": {
+      "nonempty_distinct": 23,
+      "rows": 1209,
+      "gaps": 5,
+      "artifact": 14894312027
+    },
+    "legacy_is_chat_ended_alias": null,
+    "legacy_chat_id_alias": null,
+    "legacy_text_speed_alias": null
   }
 }
