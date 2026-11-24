@@ -20,3 +20,11 @@ tags: [ACNH, ARM64, save, R126]
 8448 项 membership、84 项 local reset（14状态×6计数）、768项 identity getter；原版函数执行并检查完整缓冲区。只执行离线本地分支，禁止进入 SDK completion query。7 个有界窗口不是完整 CFG 证明。真实联网、磁盘及样本未验证。
 
 `python Scripts/acnh303_r126_streaming_state.py --r125 r125-final.zip --out artifacts/r126`
+
+## ABI 及原版指令证据
+R125 指令窗口与本轮原版入口交叉确认：002B7440 X0 object、X1 source、W2 length、W3 kind、X8 sret（002B7450 MOV X19,X8；01C83A5C BL）。002B6E98 X0 object、X1 session argument、X2 destination、W3 length、W4 kind、X8 sret（01C84434 BL）。
+002B7534 STR X23,[X20,#0x80]；002B7538 STR W22,[X20,#0x90]；002B753C STR W8,[X20,#0x78]；002B7540 STRB W21,[X20,#0xB8]。002B6F94 STR X24,[X22,#0x88]；002B6F9C STR W23,[X22,#0x90]；002B6FA0 STR W8,[X22,#0x78]；002B6FA4 STRB W20,[X22,#0xB9]；002B6FA8 STR X21,[X22,#0xC8]。这些写入为静态指令证据，不表示这两个入口完整执行。
+直接 BL: 002B7440 1 处 01C83A5C；002B6E98 2 处 01C841C0/01C84434；002B6D6C 1 处 002B59CC；002B5888 3 处 002B5814/002B6D90/002B74A4；01C84C50 1 处 01C83A1C。002B5764 无直接 B/BL，不能断言无间接消费者。
+
+## 验收
+首轮 45342328180 已完成 8448 项 membership，reset 进入外部 memset import 04004450 后未映射读取。修复 805cd7b 只拦截已知 memset ABI (dst=object+0x94,value=FF,n=0x20)，7 次断言参数并模型化填充；其余原版指令执行。禁止调用 002A5C40 completion query。第二轮 45342467563 验收 9300/9300：membership 8448、reset 84、getter 768，完整测试对象逐字节一致；2->12 六次、5->6 一次，其余77次未改写。2->3 仅静态源码与指令证据，未执行。七个有界窗口797条指令。Artifact 14896577058，SHA256 16c2949936c94df3980c6c19924930f6af26b4c2cbcb2da7600f824686316450，已下载且容器重新计算一致。原版 NSO 执行不是实机执行，也未调用网络或完整下层 SDK；Cloud 磁盘、内容完整性和 Ready 读取链仍未闭合。
