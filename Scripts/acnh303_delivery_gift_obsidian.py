@@ -53,7 +53,7 @@ ENTRIES = {
     0x0112005c: ("UIItemSelectWindowHandling hash neighbor candidate", 0xc4),
     0x011201b0: ("UIItemSelectWindowHandling adjacent factory candidate", 0x200),
     0x03175840: ("Shared result writer relocation-backed candidate", 0x800),
-    0x03176698: ("Shared result writer relocation-backed candidate", 0x600),
+    0x03176698: ("Shared result writer relocation-backed candidate", 0x700),
     0x03177480: ("Shared result writer relocation-backed candidate", 0x470),
     0x03178514: ("Shared result writer relocation-backed candidate", 0x600),
     0x02675b70: ("Default item record replacement wrapper", 0x200),
@@ -272,6 +272,21 @@ def main(root,out):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x03176698 and a==0x3076b34:
+                    signature=bytes.fromhex("08910151 1f250071 880a0054 698000d0 29890391 8a000010 2b696838 4a090b8b 40011fd6")
+                    first=0x3076b14;table=0x40840e2
+                    table_bytes=raw(table,10)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==10
+                        and get_bytes_va(elf,es,table+elfbase,10)==table_bytes):
+                        candidate=[0x3076b38+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":9,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if gh==0x02fac460 and a in range(0x2eac4b0,0x2eac751,0x70):
