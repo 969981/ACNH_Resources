@@ -5,6 +5,7 @@ on:
     paths:
       - 'Scripts/acnh303_delivery_gift_obsidian.py'
       - 'Scripts/acnh303_delivery_direct_xrefs.py'
+      - 'Scripts/acnh303_delivery_factory_audit.py'
       - '.github/workflows/acnh303-delivery-gift-obsidian.yml'
   workflow_dispatch:
 permissions:
@@ -32,6 +33,8 @@ jobs:
       - run: python Scripts/acnh303_delivery_gift_obsidian.py --root . --out artifacts/acnh303-delivery-gift-obsidian
       - run: python Scripts/acnh303_delivery_direct_xrefs.py --selftest
       - run: python Scripts/acnh303_delivery_direct_xrefs.py --root . --out artifacts/acnh303-delivery-gift-obsidian/DirectXrefs
+      - run: python -m py_compile Scripts/acnh303_delivery_factory_audit.py
+      - run: python Scripts/acnh303_delivery_factory_audit.py --root . --out artifacts/acnh303-delivery-gift-obsidian/FactoryAudit
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
