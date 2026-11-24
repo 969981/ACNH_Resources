@@ -10,6 +10,13 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x012caf84: ("ItemLayer interface relocation target; read-only static audit", 0xc),
+    0x012caf90: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012c8008: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012c8018: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012d05a4: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012d05b4: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012ac290: ("ItemLayer interface relocation target; read-only static audit", 0x8),
     0x012e4640: ("ItemLayer work heap and snapshot lifecycle static audit", 0x4c0),
     0x012e4b00: ("ItemLayer work heap and snapshot lifecycle static audit", 0x278),
     0x012e6150: ("ItemLayer work heap and snapshot lifecycle static audit", 0x258),
