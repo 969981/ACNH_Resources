@@ -12,6 +12,7 @@ on:
       - 'Scripts/acnh303_r115_interaction_enum.py'
       - 'Scripts/acnh303_r116_moneybox.py'
       - 'Scripts/acnh303_r117_instance_predicate.py'
+      - 'Scripts/acnh303_r118_unpack_tool.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -64,6 +65,8 @@ jobs:
         run: python Scripts/acnh303_r116_moneybox.py --root . --out artifacts/acnh303-r108
       - name: R117 slot getter and remake descriptor predicate
         run: python Scripts/acnh303_r117_instance_predicate.py --root . --out artifacts/acnh303-r108
+      - name: R118 tool outfit mask and unpack normalization
+        run: python Scripts/acnh303_r118_unpack_tool.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
