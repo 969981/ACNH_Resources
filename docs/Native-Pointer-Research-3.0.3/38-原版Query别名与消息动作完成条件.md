@@ -45,3 +45,15 @@ GeneralTalkChoice2..7及NpcGeneralTalkChoice全部映射EventFlowQueryGeneralCho
 0068D480当前51/1。原始地址形成0068D4D0 ced501f0 adrp x14,#4048000；0068D4D4 ce111391 add x14,x14,#4c4。0068D538 a8224039 ldrb w8,[x21,#8]；0068D53C 1f110071 cmp w8,#4；0068D540 08feff54 b.hi default；0068D544 89000010 adr x9,#58d554；0068D548 ca696838 ldrb w10,[x14,x8]；0068D54C 29090a8b add x9,x9,x10,lsl#2；0068D550 20011fd6 br x9。
 新增commit 1c285629612ef0578d0a972fed63331b819c0af7 检查上述签名及RVA40484C4五项byte表双源一致，范围0..4，目标base58D554；同时新增两canonical名字扫描及Query alias loader/wrapper入口。CI [45379456038](https://github.com/969981/ACNH_Resources/actions/runs/45379456038) 进行中，尚未宣称跳转表展开或canonical构造已验收。
 runtime_verified=false，production_eligible=false。
+
+
+## 6. 同轮追加：规范Query工厂与事件调度器通过验收
+[Run 45379456038](https://github.com/969981/ACNH_Resources/actions/runs/45379456038) success，[artifact 14912957600](https://github.com/969981/ACNH_Resources/actions/runs/45379456038/artifacts/14912957600) ZIP实测SHA256 e02d6a93705a4a021cfed8d4110ac3fdc6ca45c633db86666fbacb35dbb7b91c，与GitHub digest一致。838 anchors/111131 rows/276 gaps。01184700 110/0，011848C0 421/0，010F6790 421/0，010F6E30 167/0。原版alias loader及wrapper均已导出。
+两规范名各找到一个hash+RELR记录（在原事件图名称语料中没有直接名称，绑定来自原版BYML）：
+|名称|hash|记录RVA|原始16B|构造VA|rows/gaps|size|VTable RVA|+30回调VA|
+|---|---|---|---|---|---|---|---|---|
+|GeneralChoice|7CB4E1B6|4881670|b6e1b47c00000000d0dc050100000000|0115DCD0|48/0|B0|486DC60|00FBADAC|
+|CheckSubflowResult|48CE8C2B|4880930|2b8cce4800000000a82a050100000000|01152AA8|66/0|E0|486E508|00FC9A38|
+GeneralChoice 0115DD78 091000b9写hash+10，0115DD84 080000f9写VTable；CheckSubflowResult 01152B68 080000f9写VTable，01152B84 0a1000b9写hash。R100重定位精确验证+30，前者目标00FBADAC、后者00FC9A38。运行时表成员及实际回调体仍未验收；GitHub C对应文件不存在。已提交commit 93d12ff59b6ad4deac0212da12b0d209d8ce8431 加入12个真实虚表入口，下一轮验收。
+0068D480 806/0，原始跳转表RVA40484C4 bytes 0004e31b22；0/1/2/3/4分别VA0068D554/0068D564/0068D8E0/0068D5C0/0068D5DC。Query路径0068D654 BL0068FA40查询描述符，0068D690 BLR实际回调；0068D698读取事件+0A case数，0068D6BC读取事件+18 case指针，0068D6D0 0ac15fb8 ldur w10,[x8,#-4]；0068D6D4 5f01006b cmp w10,w0；0068D6D8 a0000054 b.eq；0068D6DC步长8；0068D6EC 16014079 ldrh w22,[x8]读取匹配目标。再到0068D504写运行记录+14，0068D508写state2，0068D520更新generation。未匹配case进入终止路径。
+释放分支0068D818将记录state写1，0068D81C/820/824更新Owner+80空闲链头及+84活动数量；分配路径0068DB60/64/68增加活动数量。该计数含多个记录，不能把单节点释放等同全局事件退出。runtime_verified=false。
