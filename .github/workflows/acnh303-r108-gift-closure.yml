@@ -4,6 +4,7 @@ on:
     paths:
       - 'Scripts/acnh303_r108*.py'
       - 'Scripts/acnh303_r109_gift_dispatch.py'
+      - 'Scripts/acnh303_r110_gift_native.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -38,6 +39,8 @@ jobs:
       - name: R109 bounded CFG and instance-field audit
         if: ${{ always() && steps.base.outcome == 'success' && steps.followup.outcome == 'success' }}
         run: python Scripts/acnh303_r109_gift_dispatch.py --root . --out artifacts/acnh303-r108
+      - name: R110 bilingual Kind, style and targeted global audit
+        run: python Scripts/acnh303_r110_gift_native.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
