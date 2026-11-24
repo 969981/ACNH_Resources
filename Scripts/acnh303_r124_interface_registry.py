@@ -43,6 +43,26 @@ def registry_tests(mapped):
             assert bytes(u.mem_read(BUF,0x300))==before
             rows.append({"case":"queue_reject","kind":kind,"reason":reason,"result":0})
     return rows
+def callback_tests(mapped):
+    u=vm(mapped,0x440000)
+    ctx,holder,store=BUF,BUF+0x100,BUF+0x1000
+    p64(u,0x4bb4f78,holder)
+    p64(u,holder,store)
+    rows=[]
+    for slot in [0,1,2,3,4,5,6,7,8,255]:
+        for length in [0x37acf,0x37ad0,0x37ad1]:
+            u.mem_write(ctx,bytes([slot,0]))
+            u.mem_write(store,b"\x5a"*32)
+            u.mem_write(store+0x431fc0,struct.pack("<I",0x100))
+            u.reg_write(UC_ARM64_REG_X2,length)
+            invoke(u,0x1d505f8,ctx,0,count=100)
+            exact=length==0x37ad0
+            valid=exact and slot<8
+            assert u.mem_read(ctx+1,1)[0]==int(exact)
+            assert bytes(u.mem_read(store,32))==(b"\xff"*32 if valid else b"\x5a"*32)
+            assert struct.unpack("<I",u.mem_read(store+0x431fc0,4))[0]==(0x100|(1<<slot) if valid else 0x100)
+            rows.append({"slot":slot,"length":length,"completion":int(exact),"mask_updated":valid})
+    return rows
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",type=Path,default=Path("."))
@@ -67,7 +87,7 @@ def main():
     write("direct_refs.json",refs)
     # Restore neighboring vtable until first non-relocated slot, not a guessed type name.
     methods=[]
-    for addr in range(0x4a596b8,0x4a59800,8):
+    for addr in range(0x4a596b8,0x4a59c00,8):
         r=relocs.get(addr-S)
         if not r or r.get("type")!="RELR":break
         t=r["addend"]+S
@@ -83,7 +103,9 @@ def main():
     write("descriptor_pc_candidates.json",cand)
     tests=registry_tests(mapped)
     write("registry_native_tests.json",tests)
-    report={"interface_contiguous_relr_slots":len(methods),"first_non_relr":hx(0x4a596b8+8*len(methods)),"registry_unregistration_cases":sum(x["case"]=="unregister" for x in tests),"queue_rejection_cases":sum(x["case"]=="queue_reject" for x in tests),"pc_relative_candidates":len(cand),"native_windows":len(windows),"queue_acceptance_executed":False,"ready_consumer_verified":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
+    cb=callback_tests(mapped)
+    write("descriptor_callback_tests.json",cb)
+    report={"interface_contiguous_relr_slots":len(methods),"relr_run_end":hx(0x4a596b8+8*len(methods)),"relr_run_boundary_observed":0x4a596b8+8*len(methods)<0x4a59c00,"registry_unregistration_cases":sum(x["case"]=="unregister" for x in tests),"queue_rejection_cases":sum(x["case"]=="queue_reject" for x in tests),"pc_relative_candidates":len(cand),"native_windows":len(windows),"descriptor_callback_cases":len(cb),"queue_acceptance_executed":False,"ready_consumer_verified":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
     write("report.json",report)
     print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
