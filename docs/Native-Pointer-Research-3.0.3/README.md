@@ -59,6 +59,8 @@ updated: 2026-11-24
 
 21. [[21-PocketMenu专用页面回调与共享状态机]] · [GitHub 阅读](21-PocketMenu专用页面回调与共享状态机.md)
 
+22. [[22-PocketMenu二十状态与事件消费链]] · [GitHub 阅读](22-PocketMenu二十状态与事件消费链.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
