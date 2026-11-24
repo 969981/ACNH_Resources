@@ -51,3 +51,7 @@ R35 artifact14901455884 的实际SQLite只读打开，SHA256 2f305599420421bec30
 
 ## 4. 可复现工具
 Scripts/acnh303_airport_eventflow_audit.py commit 7ffabf4b7beb4907c287c0fef1ef0cc8bdf4f156；workflow commit 92ae815b3a80d7361f7d75ec35912254548d5d45；[CI 45357509626](https://github.com/969981/ACNH_Resources/actions/runs/45357509626) 已启动。新独立脚本对原版文件SHA、BFEVFL v3各表、边/入口/动作、已有图、标量参数、R35 SQLite hash及14语言join进行验收；导出完整图JSON与报告。以上人工/工具直接读取的证据不依赖尚未验收的CI。外部两处subflow与10个系统/对话框标签留作后续扩展。保持production_eligible=false，不修改生产指针表。
+
+
+## 5. 同轮追加：独立原版EventFlow审计通过
+[Run 45357509626](https://github.com/969981/ACNH_Resources/actions/runs/45357509626) success；[artifact 14903625157](https://github.com/969981/ACNH_Resources/actions/runs/45357509626/artifacts/14903625157) 实际下载，SHA256 2d7e90611d6954c796e236f53fc450aec150321f4104e9d095a95e900ff509d9 与GitHub digest完全一致。完整airport_eventflow_graphs.json及summary.json已读取。独立解析10份原版文件且源SHA与既有解码记录一致，所有图结构、动作/查询、入口和边一致，1127项标量参数精确匹配，差异0；非标量表示差异不在该项统计范围内。571 Action、259 Switch、266 SubFlow、6 Fork、6 Join=1108节点，92入口。232次OpenMessageWindow中208次为R35范围（160唯一ID，2240语言匹配），24次为范围外（10唯一ID）。264个范围内子图调用均解析entry，外部两处为InetHost index72与InetVisitor index97，均调用System_ServerRegistration:UserRegist，尚未纳入本次复核。Native ELF专项仍待验收。保留runtime_verified=false。
