@@ -1,0 +1,44 @@
+name: ACNH 3.0.3 R119 save dispatch
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r119*'
+      - 'derived/3.0.3/npc_event_flags/r119_save_dispatch/**'
+      - '.github/workflows/acnh303-r119-save-dispatch.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r119:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r119_save_dispatch.py
+            /derived/3.0.3/npc_event_flags/r119_save_dispatch/
+            /derived/3.0.3/ghidra12.2/c/3a/027b3ad0.c
+            /derived/3.0.3/ghidra12.2/c/ef/0278ef80.c
+            /derived/3.0.3/ghidra12.2/c/b2/028cb2a0.c
+            /derived/3.0.3/ghidra12.2/c/b6/028cb670.c
+            /derived/3.0.3/ghidra12.2/c/29/028c29b0.c
+            /derived/3.0.3/ghidra12.2/c/2d/02842d10.c
+            /derived/3.0.3/ghidra12.2/c/8a/00dc8abc.c
+            /derived/3.0.3/ghidra12.2/c/12/02701270.c
+            /derived/3.0.3/ghidra12.2/c/14/027014c0.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14893257893/zip > r118.zip
+      - run: python Scripts/acnh303_r119_save_dispatch.py --prior r118.zip --out artifacts/r119
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r119-save-dispatch
+          path: artifacts/r119/
+          if-no-files-found: error
