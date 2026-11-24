@@ -67,6 +67,8 @@ updated: 2026-11-24
 
 23. [[23-PocketMenu命令映射与PutUnitIcon入口]] · [GitHub 阅读](23-PocketMenu命令映射与PutUnitIcon入口.md)
 
+24. [[24-菜单命令对象与PutUnitIcon结果事务边界]] · [GitHub 阅读](24-菜单命令对象与PutUnitIcon结果事务边界.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
