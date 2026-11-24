@@ -109,6 +109,8 @@ updated: 2026-11-24
 
 33. [[33-选项标识来源与MSBT文本处理]] · [GitHub 阅读](33-选项标识来源与MSBT文本处理.md)
 
+34. [[34-选项属性分发与Ready消息续接]] · [GitHub 阅读](34-选项属性分发与Ready消息续接.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
