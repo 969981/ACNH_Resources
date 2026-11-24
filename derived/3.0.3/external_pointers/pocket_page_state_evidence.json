@@ -592,12 +592,12 @@
     }
   },
   "latest_verified_export": {
-    "run": 45338921467,
-    "artifact": 14894483118,
-    "sha256": "1144b88cf2b4851e8ab23d9d99843036712e8089385a2e0bcafbb7b46d1f5d33",
-    "entries": 530,
-    "rows": 67806,
-    "gaps": 199
+    "run": 45342402691,
+    "artifact": 14897290528,
+    "sha256": "b5efabf9a32f07a9b7552e09810576ff4b2024f4ddcf38442aabe8e1fab332f3",
+    "entries": 549,
+    "rows": 68751,
+    "gaps": 204
   },
   "lifecycle_scan": {
     "run": 45334089129,
@@ -697,7 +697,14 @@
       "callback_object_offset": "0x560",
       "within_pass_order_verified": true,
       "whole_cfg_verified": false,
-      "actual_frequency": null
+      "actual_frequency": null,
+      "cfg_evidence": {
+        "rows": 144,
+        "gaps": 1,
+        "tail_site": "0x0386be4c",
+        "tail_target_type_bound": "0x02c0e1b8",
+        "artifact": 14897290528
+      }
     }
   },
   "factory_registration": {
@@ -931,13 +938,97 @@
           },
           {
             "id": 5,
-            "name": null,
+            "name": "cChoice",
             "name_rva": "0x3fc6988",
             "entry_va": "0x02fa9f28",
-            "update_va": "0x02fa9f2c"
+            "update_va": "0x02fa9f2c",
+            "name_bytes": "53746174653a3a6343686f69636500"
           }
         ],
-        "callback_cfg_verified": false
+        "callback_cfg_verified": true,
+        "callback_evidence": {
+          "nonempty_distinct": 11,
+          "rows": 317,
+          "gaps": 3,
+          "artifact": 14897290528
+        }
+      },
+      "child_coordination": {
+        "idle_entry": {
+          "va": "0x02fa9a80",
+          "active_list_offset": "0x68",
+          "child_offsets": [
+            "0x210",
+            "0x230",
+            "0x238"
+          ],
+          "child_vcall_slot": "0xb8",
+          "detach_va": "0x03868c7c"
+        },
+        "appear_entry": {
+          "va": "0x02fa9bf0",
+          "child_offsets": [
+            "0x210",
+            "0x230"
+          ],
+          "attach_va": "0x038693c0",
+          "parent_gate_clear_sites": [
+            "0x02fa9ce0",
+            "0x02fa9da0"
+          ],
+          "identity_copy_va": "0x02fa9dc8"
+        },
+        "appear_update": {
+          "va": "0x02fa9de0",
+          "play_request_va": "0x02fa9e74"
+        },
+        "close_entry": {
+          "va": "0x02fa9e8c",
+          "child_vcall_slot": "0xb0",
+          "talk_target": "0x02c0cb68",
+          "talk_close_producer": "0x02fa35ac"
+        },
+        "close_update": {
+          "va": "0x02fa9ea4",
+          "rows": 33,
+          "gaps": 0,
+          "idle_request_va": "0x02fa9f18",
+          "condition": "current_seq_null || (child_pending_empty && child_vcall220_result_inactive_or_null && u32(child+0x1b0)<2)",
+          "requires_empty_parent_selected_slot": true
+        },
+        "choice_update": {
+          "va": "0x02fa9f2c",
+          "rows": 17,
+          "gaps": 0,
+          "child_offset": "0x230",
+          "condition": "child_pending_empty && child_current==1 && parent_selected_slot_empty",
+          "play_request_va": "0x02fa9f68",
+          "choice_producer_va": null
+        }
+      },
+      "current_sequence_selector": {
+        "va": "0x01c041a4",
+        "c_blob": "085f5993ee0181b288cfd0ee6db24b600ca49a65",
+        "controller_parent_pointer_offset": "0x20",
+        "input_descriptor_pointer_offset": "0x0",
+        "input_mode_offset": "0x8c",
+        "input_style_offsets": {
+          "1": "0x96",
+          "2": "0x9b",
+          "3": "0x9e"
+        },
+        "style_count": 47,
+        "mapper_va": "0x01b97520",
+        "mapper_c_blob": "c7fd172a38449b8c4b04ac4e4609080b6ecd2ad4",
+        "parent_mode_offset": "0x244",
+        "mapping": {
+          "0": "0x218",
+          "1": "0x220",
+          "2": "0x228"
+        },
+        "publication_offset": "0x210",
+        "original_instruction_verified": false,
+        "controller_main_root": null
       }
     }
   }
