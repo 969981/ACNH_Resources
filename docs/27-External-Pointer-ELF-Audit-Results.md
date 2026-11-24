@@ -102,3 +102,10 @@ RW 文件覆盖终点 0x4B57930，内存终点 0x5A06000。四个根槽在 BSS�
 - [ ] 建立版本/Build ID/ELF hash/地址域/源码 SHA/原始字节/函数与 xref/运行时状态数据库。区分 source_only、elf_mapped、word_match、xref_candidate、native_semantic_verified、runtime_verified 等证据层级，不将这些层级混为一谈。
 
 当前停止点：已完成真实 ELF 扫描结果解析、全部 Main 原字验收、四个根槽引用分类和若干局部 Native 入口分析。未恢复完整函数、原始类名、全部子链、3.0.2→3.0.3 替换地址或运行时验证。
+
+## 后续研究（2026-11-24）
+
+- [Native 指针研究知识库 / Obsidian MOC](Native-Pointer-Research-3.0.3/README.md)
+- [完整研究合订版](28-ACNH-3.0.3-Native-Pointer-Research.md)
+
+后续新增 Ghidra C 交叉核对、根槽引用逐行索引、Main 反汇编与伪代码，以及 Heap→Main、R100 关联和动态根验收方案。原有历史审计结论保留；最新证据状态以知识库台账为准。GSavePlayer、GSaveNpc 与保存管理器动态根、完整实机链、Friendship 原生字段访问和双版本迁移仍待验证。
