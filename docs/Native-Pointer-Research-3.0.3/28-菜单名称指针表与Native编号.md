@@ -117,3 +117,7 @@ PutUnitIcon位于实际槽04A34E70，RELR目标04A34BD6，原始字符串PutUnit
 [CI 45342318984 / artifact 14897201743](https://github.com/969981/ACNH_Resources/actions/runs/45342318984/artifacts/14897201743)，head 75c87e00ede142592a128e9bb69165779f8db1b1，success；实际下载复算ZIP SHA256 292e3996ffc53c40597165938095445f37be0cc1995d9b28d1c4e48c8d4acbf0，与公布摘要一致。530入口/锚点、67806条匹配指令记录、199 gap（可重叠）。Build ID ff1d1c05670db6021c85b624a710b96300000000000000000000000000000000。
 
 实读FactoryAudit/factory_audit.json中的menu_name_index_records，66条实际记录，66个不同名称CRC32，66/66与CSV行索引一致，menu_name_order_matches_csv=true。此前50/66的结论现提升为完整原版静态名称映射验收。PutUnitIcon记录 raw=d64b930400000000，slot VA04A34E70，name VA04A34BD6，CRC32 af123bb3，index30，CSV行30，字段54706054=10，message_id=0110。验证范围仅为当前原版Build ID与CSV，不代表运行时每次均已加载目录、所有候选均可用或事务已经持久化。全部66项名称映射已确认，后续应独立核查具体物品可用性和Field事务，不重复追索不存在证据的10→30算术转换。
+
+## 7. 名称查询 CFG 最终闭合
+
+[CI 45342402691 / artifact 14897290528](https://github.com/969981/ACNH_Resources/actions/runs/45342402691/artifacts/14897290528)，head 4aa7b64bd25675c977f74f3cfbaba57e66190a66，success；实下载复算SHA256 b5efabf9a32f07a9b7552e09810576ff4b2024f4ddcf38442aabe8e1fab332f3，与公布digest一致。549入口/锚点、68751匹配指令记录、204 gap（全产物记录可重叠）。01AB4D40 461条、0 gap；补齐的32条均属于名称hash记录的惰性初始化尾部。01AB53DC装载X8=0xFFFFFFFF00000000，01AB53E4形成记录区Main RVA05224F9C；01AB5400..5474连续STP填充+20..1F0，01AB5478调用保护变量提交函数，01AB547C返回初始化循环01AB4EFC。结合前段写入+0,+10,+200,+208，覆盖66条8字节(hash=0,index=-1)记录。名称表再次通过66/66原始指针、字符串及CSV顺序检查。此处零gap仅指当前有界静态CFG，不等于所有虚调用已解析或实机运行验证。
