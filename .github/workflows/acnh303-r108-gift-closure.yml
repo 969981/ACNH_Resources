@@ -5,6 +5,7 @@ on:
       - 'Scripts/acnh303_r108*.py'
       - 'Scripts/acnh303_r109_gift_dispatch.py'
       - 'Scripts/acnh303_r110_gift_*.py'
+      - 'Scripts/acnh303_r111_gift_closure.py'
       - 'derived/3.0.3/npc_event_flags/r108/**'
       - '.github/workflows/acnh303-r108-gift-closure.yml'
   workflow_dispatch:
@@ -43,6 +44,8 @@ jobs:
         run: python Scripts/acnh303_r109_gift_dispatch.py --root . --out artifacts/acnh303-r108
       - name: R110 bilingual Kind, style and targeted global audit
         run: python Scripts/acnh303_r110_gift_native.py --root . --out artifacts/acnh303-r108
+      - name: R111 recipe and filter dispatch evidence
+        run: python Scripts/acnh303_r111_gift_closure.py --root . --out artifacts/acnh303-r108
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
