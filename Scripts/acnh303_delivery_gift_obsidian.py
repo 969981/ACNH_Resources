@@ -183,7 +183,7 @@ def main(root,out):
     # Determine ELF address mapping using its load segments; never silently accept byte differences.
     elfbase=min(s["vaddr"] for s in es)&~0xfff
     for gh,(role,budget) in sorted(entries.items()):
-        entry=gh-BASE; todo=[entry]; rows={}; gaps=[]; calls=[]; edges=[]
+        entry=gh-BASE; todo=[entry]; rows={}; gaps=[]; calls=[]; edges=[]; authenticated_switches=[]
         while todo:
             a=todo.pop()
             if a in rows: continue
@@ -198,7 +198,27 @@ def main(root,out):
             target=o[-1].imm if o and o[-1].type==ARM64_OP_IMM else None
             rows[a]={"rva":hex(a),"va":hex(a+BASE),"bytes":b.hex(),"instruction":m+" "+i.op_str,"annotation":annotation(i,target)}
             if m=="ret": succ=[]
-            elif m=="br": succ=[];gaps.append({"rva":hex(a),"reason":"indirect_branch"})
+            elif m=="br":
+                succ=[]
+                if gh==0x00da8f70 and a==0x00ca929c:
+                    # Explicit bounded switch only. Check all instructions forming the table address,
+                    # upper bound and target; verify raw table bytes in both source images.
+                    signature=bytes.fromhex("1f0d0071 a8210054 099e0190 29d53391 aa000010 2b696838 4a090b8b b4a20a91 40011fd6")
+                    first=0xca927c
+                    table=0x4069cf5
+                    table_bytes=raw(table,4)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==4
+                        and get_bytes_va(elf,es,table+elfbase,4)==table_bytes):
+                        candidate=[0xca92a0+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
             else:
@@ -215,10 +235,10 @@ def main(root,out):
         for c in calls:
             t=int(c["target"],16) if c["target"] else None
             lines.append(f'- {c["site"]} → '+(f"[[FUN_{t:08X}]]" if t in entries else str(c["target"] or "未解析间接调用")))
-        lines+=["","## CFG 缺口","\x60\x60\x60json",json.dumps(gaps,ensure_ascii=False,indent=2),"\x60\x60\x60"]
+        lines+=["","## Authenticated switch targets",json.dumps(authenticated_switches,ensure_ascii=False),"","## CFG 缺口","\x60\x60\x60json",json.dumps(gaps,ensure_ascii=False,indent=2),"\x60\x60\x60"]
         if src.is_file():lines+=["","## Ghidra C 导出（非原始源码）","\x60\x60\x60c",src.read_text("utf-8",errors="replace"),"\x60\x60\x60"]
         p.write_text("\n".join(lines)+"\n",encoding="utf-8")
-        (graphdir/(key+".json")).write_text(json.dumps({"rows":[rows[a] for a in sorted(rows)],"edges":edges,"calls":calls,"gaps":gaps},ensure_ascii=False,indent=2),encoding="utf-8")
+        (graphdir/(key+".json")).write_text(json.dumps({"rows":[rows[a] for a in sorted(rows)],"edges":edges,"calls":calls,"gaps":gaps,"authenticated_switches":authenticated_switches},ensure_ascii=False,indent=2),encoding="utf-8")
         manifest["functions"].append({"key":key,"role":role,"rows":len(rows),"gaps":len(gaps),"entry_is_interior_anchor":"interior anchor" in role})
     (out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8")
     (out/"README.md").write_text("# ACNH 3.0.3 authenticated instruction index\n\n"+"\n".join(f'- [[Functions/{r["key"]}]] — {r["role"]}：{r["rows"]} instructions, {r["gaps"]} gaps' for r in manifest["functions"])+"\n",encoding="utf-8")
