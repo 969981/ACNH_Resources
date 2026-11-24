@@ -10,6 +10,23 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x03190d10: ("PocketMenu hint consumer", 0x3000),
+    0x030ded60: ("UI hint string copy", 0x300),
+    0x030deeec: ("UI KeyIcon resource update", 0x1000),
+    0x03387478: ("UI component owner initialization", 0x2000),
+    0x03387e08: ("PocketMenu allocation", 0x200),
+    0x03387c94: ("SelectCursor allocation", 0x200),
+    0x03200224: ("SelectCursor constructor", 0x1000),
+    0x031867b0: ("PocketMenu constructor", 0x1000),
+    0x03454a44: ("Placement state registration", 0x2000),
+    0x03456b90: ("Idle record cleanup", 0x200),
+    0x03457054: ("PutUnitIcon callback interior anchor", 0x800),
+    0x03457060: ("PutUnitIcon callback interior anchor", 0x800),
+    0x03457250: ("Interior PutUnitIcon callback interior anchor", 0x800),
+    0x03457260: ("Interior PutUnitIcon callback interior anchor", 0x800),
+    0x03ebac90: ("State table allocation", 0x800),
+    0x03ebaf40: ("State name registration", 0x800),
+    0x026776a0: ("Inventory slot consumption", 0x300),
     0x02703140: ("Mode3 owner", 0x4000),
     0x02704f78: ("Mode3 publication interior anchor", 0x800),
     0x02705178: ("Mode3 cleanup interior anchor", 0x800),
