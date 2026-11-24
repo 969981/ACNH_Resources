@@ -60,7 +60,7 @@ def main(root,out):
     def reg(i,r):
         n=i.reg_name(r)
         return "x"+n[1:] if n.startswith("w") and n[1:].isdigit() else n
-    refs={};direct=[];stores=[];slot_field_candidates=[]
+    refs={};direct=[];stores=[];slot_field_candidates=[];indexed_slot_candidates=[];callback_table_refs=[]
     def emit(i,addr,kind):
         k=(i.address,addr,kind)
         refs[k]={**row(i),"operand_va":hex(addr+BASE),"kind":kind,"nearest_export":owner(i.address)}
@@ -111,6 +111,46 @@ def main(root,out):
                         for rr in writes:derived.pop(reg(i,rr),None)
                     except Exception:break
                     derived.update(pending)
+        # MOVZ/MOVK materialized offsets can bypass immediate ADD scans.
+        if (w&0x7f800000)==0x52800000 and 0xc500<=((w>>5)&0xffff)<=0xc51f and ((w>>21)&3)==0:
+            known={}
+            for i in cs.disasm(code[4*off:4*off+128],pc):
+                m=i.mnemonic;o=i.operands;pending={}
+                if m.startswith("b.") or m in ("b","bl","blr","br","ret","cbz","cbnz","tbz","tbnz"):break
+                if m in ("mov","movz") and len(o)==2 and o[1].type==ARM64_OP_IMM:
+                    pending[reg(i,o[0].reg)]=o[1].imm
+                elif m=="movk" and len(o)==2 and o[1].type==ARM64_OP_IMM:
+                    n=reg(i,o[0].reg);v=known.get(n);shift=o[1].shift.value
+                    if v is not None:pending[n]=(v&~(0xffff<<shift))|(o[1].imm<<shift)
+                elif m.startswith(("str","stur","stp")):
+                    for op in o:
+                        if op.type!=ARM64_OP_MEM or not op.mem.index:continue
+                        v=known.get(reg(i,op.mem.index))
+                        if v is not None and 0x1c504<=v<=0x1c51f and not op.shift.value:
+                            indexed_slot_candidates.append({**row(i),"offset":hex(v),
+                              "anchor_va":hex(pc+BASE),"nearest_export":owner(i.address),"object_identity_verified":False})
+                try:
+                    _,writes=i.regs_access()
+                    for rr in writes:known.pop(reg(i,rr),None)
+                except Exception:break
+                known.update(pending)
+        # Table region direct materialization, not inferred from nearby virtual tables.
+        if adr_page(w,pc)==0x04a06000:
+            tracked_table={}
+            for i in cs.disasm(code[4*off:4*off+96],pc):
+                m=i.mnemonic;o=i.operands;pending={}
+                if m.startswith("b.") or m in ("b","bl","blr","br","ret","cbz","cbnz","tbz","tbnz"):break
+                if m in ("adr","adrp") and len(o)==2 and o[1].type==ARM64_OP_IMM:pending[reg(i,o[0].reg)]=o[1].imm
+                elif m=="add" and len(o)==3 and o[1].type==ARM64_OP_REG and o[2].type==ARM64_OP_IMM:
+                    v=tracked_table.get(reg(i,o[1].reg))
+                    if v is not None:
+                        v+=o[2].imm<<o[2].shift.value;pending[reg(i,o[0].reg)]=v
+                        if 0x04a06728<=v<0x04a06af0:callback_table_refs.append({**row(i),"address_va":hex(v+BASE),"nearest_export":owner(i.address)})
+                try:
+                    _,writes=i.regs_access()
+                    for rr in writes:tracked_table.pop(reg(i,rr),None)
+                except Exception:break
+                tracked_table.update(pending)
         if adr_page(w,pc) not in pages:continue
         tracked={}
         for i in cs.disasm(code[4*off:4*off+96],pc):
@@ -214,7 +254,8 @@ def main(root,out):
             "factory_records":factory_records,"parameter_literals":parameter_literals,"slot_field_candidates":slot_field_candidates,
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
-            "action_name_matches":action_name_matches,"callback_records":callback_records}
+            "action_name_matches":action_name_matches,"callback_records":callback_records,
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
