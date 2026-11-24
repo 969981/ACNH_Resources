@@ -1163,12 +1163,12 @@
   },
   "eventflow_end_verified": false,
   "latest_verified_export": {
-    "run": 45373852854,
-    "artifact": 14910358270,
-    "sha256": "e40894ca4a996e61b3a0f720033cced0400cb44d14503e9e937c248c30814f1e",
-    "entries": 828,
-    "rows": 109057,
-    "gaps": 278
+    "run": 45379456038,
+    "artifact": 14912957600,
+    "sha256": "e02d6a93705a4a021cfed8d4110ac3fdc6ca45c633db86666fbacb35dbb7b91c",
+    "entries": 838,
+    "rows": 111131,
+    "gaps": 276
   },
   "choice_records": {
     "base": "Q=P(C+0x10)",
@@ -2468,16 +2468,41 @@
         "reentrancy_offset": "0x90",
         "pending_offset": "0x91",
         "dispatcher_va": "0x0068d480",
-        "dispatcher_rows": 51,
-        "dispatcher_gaps": 1,
+        "dispatcher_rows": 806,
+        "dispatcher_gaps": 0,
         "global_completion_verified": false,
-        "dispatcher_switch_pending": {
+        "dispatcher_switch": {
           "site_va": "0x0068d550",
           "table_rva": "0x40484c4",
-          "target_base_rva": "0x58d554",
-          "count": 5,
-          "export_commit": "1c285629612ef0578d0a972fed63331b819c0af7",
-          "run": 45379456038
+          "table_bytes": "0004e31b22",
+          "targets_va": [
+            "0x0068d554",
+            "0x0068d564",
+            "0x0068d8e0",
+            "0x0068d5c0",
+            "0x0068d5dc"
+          ]
+        },
+        "query_result_consumer": {
+          "lookup_va": "0x0068d654",
+          "call_va": "0x0068d690",
+          "case_value_load_va": "0x0068d6d0",
+          "case_compare_va": "0x0068d6d4",
+          "case_target_load_va": "0x0068d6ec",
+          "case_stride": 8,
+          "case_value_offset": 0,
+          "case_target_offset": 4,
+          "event_case_count_offset": "0xa",
+          "event_case_pointer_offset": "0x18",
+          "next_node_store_va": "0x0068d504",
+          "generation_update_va": "0x0068d520"
+        },
+        "record_recycle": {
+          "state_store_va": "0x0068d818",
+          "count_decrement_va": "0x0068d824",
+          "active_count_offset": "0x84",
+          "free_head_offset": "0x80",
+          "global_completion_verified": false
         }
       },
       "factory_audit": {
@@ -2677,7 +2702,39 @@
         "alias_replace_store_va": "0x0118465c",
         "wrapper_dispatch_va": "0x01184700",
         "query_virtual_call_va": "0x0070fcac",
-        "canonical_callback_verified": false
+        "canonical_callback_verified": false,
+        "loader_instruction_verified": true,
+        "wrapper_instruction_verified": true,
+        "canonical_factory_records": [
+          {
+            "name": "EventFlowQueryGeneralChoice",
+            "hash": "7cb4e1b6",
+            "record_rva": "0x4881670",
+            "record_bytes": "b6e1b47c00000000d0dc050100000000",
+            "constructor_va": "0x0115dcd0",
+            "rows": 48,
+            "gaps": 0,
+            "size": "0xb0",
+            "vtable_rva": "0x486dc60",
+            "vtable_store_va": "0x0115dd84",
+            "callback_va": "0x00fbadac"
+          },
+          {
+            "name": "EventFlowQueryCheckSubflowResult",
+            "hash": "48ce8c2b",
+            "record_rva": "0x4880930",
+            "record_bytes": "2b8cce4800000000a82a050100000000",
+            "constructor_va": "0x01152aa8",
+            "rows": 66,
+            "gaps": 0,
+            "size": "0xe0",
+            "vtable_rva": "0x486e508",
+            "vtable_store_va": "0x01152b68",
+            "callback_va": "0x00fc9a38"
+          }
+        ],
+        "canonical_vtable_binding_verified": true,
+        "next_export_commit": "93d12ff59b6ad4deac0212da12b0d209d8ce8431"
       }
     },
     "audit_run": 45357509626,
