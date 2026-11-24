@@ -69,7 +69,7 @@ def packed_label(value: str) -> str:
     n = int(value)
     if not 0 <= n < (1 << 64):
         raise ValueError(f"Invalid 8-byte race label: {value}")
-    return n.to_bytes(8, "little").split(b"\\x00", 1)[0].decode("ascii")
+    return n.to_bytes(8, "little").split(b"\x00", 1)[0].decode("ascii")
 
 
 def enumerate_fields(rows: list[dict], fields: list[str]) -> list[dict]:
@@ -78,7 +78,7 @@ def enumerate_fields(rows: list[dict], fields: list[str]) -> list[dict]:
         if not field.startswith("hash_"):
             continue
         counts = Counter(r[field] for r in rows)
-        numeric = all(re.fullmatch(r"-?\\d+", v) for v in counts)
+        numeric = all(re.fullmatch(r"-?\d+", v) for v in counts)
         result.append({
             "field_hash": field,
             "distinct_values": len(counts),
@@ -150,10 +150,10 @@ def build(root: Path) -> tuple[dict, dict, list[dict]]:
         if int.from_bytes(segment[looks_offset:looks_offset + 4], "little") != code:
             raise ValueError(f"Original raw NpcLooks bytes disagree at row {index}")
         name = row[RES_HASH]
-        decoded = segment[res_offset:res_offset + res_width].split(b"\\x00", 1)[0].decode("ascii")
+        decoded = segment[res_offset:res_offset + res_width].split(b"\x00", 1)[0].decode("ascii")
         if decoded != name:
             raise ValueError(f"Original raw ResName bytes disagree at row {index}")
-        match = re.fullmatch(r"NpcNml([A-Za-z]{3})\\d{2}", name)
+        match = re.fullmatch(r"NpcNml([A-Za-z]{3})\d{2}", name)
         if match is None:
             raise ValueError(f"Unrecognized original normal resident identity: {name}")
         race = match[1].lower()
@@ -227,7 +227,7 @@ def main() -> None:
         ("villager_native_static_semantics.json", rows),
     ):
         (args.out / name).write_text(
-            json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\\n",
+            json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8")
     print(json.dumps({k: summary[k] for k in
                       ("population", "looks_join_exact", "race_code_joins",
