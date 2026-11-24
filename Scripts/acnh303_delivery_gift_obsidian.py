@@ -10,6 +10,13 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01af59b0: ("Menu descriptor and resource lookup audit", 0x1d0),
+    0x01af5800: ("Menu descriptor and resource lookup audit", 0x1b0),
+    0x03181d14: ("Menu descriptor and resource lookup audit", 0x1000),
+    0x031832cc: ("Menu descriptor and resource lookup audit", 0x12c),
+    0x031833f8: ("Menu descriptor and resource lookup audit", 0x300),
+    0x03182fe8: ("Menu descriptor and resource lookup audit", 0x2e4),
+    0x0317d8e4: ("Menu descriptor and resource lookup audit", 0xb0),
     0x02db1e74: ("Context menu state or input callback", 0x4),
     0x02db1e78: ("Context menu state or input callback", 0x4),
     0x02db1e7c: ("Context menu state or input callback", 0x10c),
@@ -60,7 +67,7 @@ ENTRIES = {
     0x02db4080: ("Pocket context menu constructor or relocation target", 0x5c),
     0x02c26914: ("Pocket context menu constructor or relocation target", 0x200),
     0x0317d994: ("Pocket context menu constructor or relocation target", 0x400),
-    0x03188df0: ("Pocket context menu constructor or relocation target", 0x500),
+    0x03188df0: ("Pocket context menu constructor or relocation target", 0x680),
     0x022b1ec4: ("Pocket context menu constructor or relocation target", 0x350),
     0x02c0e370: ("Outer request transition and event reset caller", 0x1000),
     0x02c0e230: ("Adjacent UI lifecycle wrapper", 0x1000),
