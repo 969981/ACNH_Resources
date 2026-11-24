@@ -98,70 +98,80 @@
         "name": "cState_Idle",
         "entry_va": "0x01bf87cc",
         "update_va": "0x01bf87d0",
-        "exit_va": "0x01bf87d4"
+        "exit_va": "0x01bf87d4",
+        "name_rva": "0x3f6d1a5"
       },
       {
         "id": 1,
         "name": "cState_Ready",
         "entry_va": "0x01bf87d8",
         "update_va": "0x01bf8800",
-        "exit_va": "0x01bf9cd8"
+        "exit_va": "0x01bf9cd8",
+        "name_rva": "0x3fabb3a"
       },
       {
         "id": 2,
         "name": "cState_In",
         "entry_va": "0x01bf9cdc",
         "update_va": "0x01bf9d74",
-        "exit_va": "0x01bf9f30"
+        "exit_va": "0x01bf9f30",
+        "name_rva": "0x3f776e0"
       },
       {
         "id": 3,
         "name": "cState_Play",
         "entry_va": "0x01bf9f74",
         "update_va": "0x01bf9fb0",
-        "exit_va": "0x01bfa300"
+        "exit_va": "0x01bfa300",
+        "name_rva": "0x3fb0e14"
       },
       {
         "id": 4,
         "name": "cState_Fermata",
         "entry_va": "0x01bfa30c",
         "update_va": "0x01bfa310",
-        "exit_va": "0x01bfa394"
+        "exit_va": "0x01bfa394",
+        "name_rva": "0x3fe4c66"
       },
       {
         "id": 5,
         "name": "cState_Pause",
         "entry_va": "0x01bfa398",
         "update_va": "0x01bfa4a4",
-        "exit_va": "0x01bfa834"
+        "exit_va": "0x01bfa834",
+        "name_rva": "0x3ff9e3a"
       },
       {
         "id": 6,
         "name": "cState_Out",
         "entry_va": "0x01bfa838",
         "update_va": "0x01bfa8e4",
-        "exit_va": "0x01bfa9f0"
+        "exit_va": "0x01bfa9f0",
+        "name_rva": "0x3ff4de5"
       },
       {
         "id": 7,
         "name": "cState_Stand",
         "entry_va": "0x01bfaa0c",
         "update_va": "0x01bfaa48",
-        "exit_va": "0x01bfab5c"
+        "exit_va": "0x01bfab5c",
+        "name_rva": "0x3fc5534"
       },
       {
         "id": 8,
         "name": "cState_Suspend",
         "entry_va": "0x01bfab98",
         "update_va": "0x01bfab9c",
-        "exit_va": "0x01bfabcc"
+        "exit_va": "0x01bfabcc",
+        "name_rva": "0x3fbb622"
       },
       {
         "id": 9,
         "name": "cState_Choice",
         "entry_va": "0x01bfabd0",
         "update_va": "0x01bfac9c",
-        "exit_va": "0x01bfb1c4"
+        "exit_va": "0x01bfb1c4",
+        "name_rva": "0x3fa1281"
       }
     ],
     "machine_code_verified": true,
@@ -195,7 +205,28 @@
       "gaps": 0,
       "change_to_idle_va": "0x01bf8120",
       "next_controller_call_va": "0x01bf812c",
-      "next_controller_call_target_va": "0x01c04e38"
+      "next_controller_call_target_va": "0x01c04e38",
+      "post_reset": {
+        "controller_reset_va": "0x01c04e38",
+        "c_blob": "aeb1236284d460c297ea33f2789864d885504670",
+        "original_instruction_verified": false,
+        "owner_idle_transition_site": "0x01bf8120",
+        "controller_call_site": "0x01bf812c",
+        "post_reset_pointer_field": "B+0x38",
+        "post_reset_clear_sites": [
+          "0x01bf8134",
+          "0x01bf8138",
+          "0x01bf8148"
+        ],
+        "resource_unregister": {
+          "site": "0x01bf8114",
+          "target": "0x01bc1880",
+          "handle_pointer": "P(B+8)+8",
+          "guard": "u8(P(B+8)+0xc)!=0",
+          "registry": "R+0x2990",
+          "c_blob": "278187755b08c9d10287973746040553f9a034d7"
+        }
+      }
     }
   },
   "style_mapping": {
@@ -862,11 +893,94 @@
   },
   "eventflow_end_verified": false,
   "latest_verified_export": {
-    "run": 45344104593,
-    "artifact": 14897427117,
-    "sha256": "d3f8dbb5d337cc0de3d2b6bd4b63ea41269ba4333ff3fd603d2fed19d9e8ea61",
-    "entries": 615,
-    "rows": 79770,
-    "gaps": 224
+    "run": 45344827377,
+    "artifact": 14897068539,
+    "sha256": "d516b3cd68980a1e8e7c477cead08e68d63d05f6ab40a912748103dc10f13c4d",
+    "entries": 656,
+    "rows": 82667,
+    "gaps": 232
+  },
+  "choice_records": {
+    "base": "Q=P(C+0x10)",
+    "allocation_size": "0x3cf8",
+    "vtable_address_point_rva": "0x493ee18",
+    "record_start_offset": "0x8",
+    "record_stride": "0x180",
+    "record_capacity": 7,
+    "record_identifier_offset": "0x0",
+    "record_identifier_semantics": null,
+    "record_reset_sentinel": "0xffffffff",
+    "record_count_candidate_offset": "0xa88",
+    "constructor": {
+      "va": "0x01b9c210",
+      "c_blob": "8840a703d97ffdc8e775d35309362e30be8d6691",
+      "original_instruction_verified": false
+    },
+    "controller_slots": {
+      "0x10": "0x01c056a0",
+      "0x18": "0x01c057f8",
+      "0x28": "0x01c05a7c"
+    },
+    "update": {
+      "va": "0x01bfac9c",
+      "rows": 330,
+      "gaps": 0,
+      "index_call_site": "0x01bfacf0",
+      "index_guard": "signed index>=0 && signed index<signed u32(Q+0xa88) && index<7; fallback 0",
+      "record_address_site": "0x01bfad10",
+      "id_load_site": "0x01bfad24",
+      "owner_result_offset": "0x254c",
+      "owner_result_write_site": "0x01bfad3c",
+      "result_flag_offset": "0x2548",
+      "result_flag_write_site": "0x01bfad44",
+      "counter_offset": "0xb0",
+      "counter_threshold": 15,
+      "counter_is_frames": false,
+      "out_transition_site": "0x01bfb198",
+      "continuation_call_site": "0x01bfb1a4",
+      "continuation_va": "0x01bfb6b4",
+      "continuation_c_blob": "c17a63f2eba610bdf3415f4a654a0004e41bb706",
+      "continuation_targets": [
+        1,
+        6,
+        7
+      ],
+      "continuation_instruction_verified": false
+    },
+    "ui_cleanup": {
+      "page_chain": "P(P(M+0x230)+0x210)",
+      "component_offsets": [
+        "0x578",
+        "0x580",
+        "0x588",
+        "0x590",
+        "0x598",
+        "0x5a0",
+        "0x5a8"
+      ],
+      "display_object": "P(P(P(page+component_offset)+0x2e0))",
+      "refresh_va": "0x03d7dd80",
+      "refresh_c_blob": "d360c274b50f564f3acc746ef2de04c41dd04e9e",
+      "original_instruction_verified": false
+    }
+  },
+  "message_resource_registry": {
+    "base": "R+0x2990",
+    "constructor_va": "0x01bc1250",
+    "constructor_c_blob": "d95cbfa530c540572e2b9f6a549c1f4b74051565",
+    "list_sentinel_offset": "0x48",
+    "list_count_offset": "0x58",
+    "node_adjustment_offset": "0x5c",
+    "mutex_offset": "0x20",
+    "record_key_offset": "0x10",
+    "handle_unregister_va": "0x01bc1880",
+    "handle_unregister_c_blob": "278187755b08c9d10287973746040553f9a034d7",
+    "handle_binding_va": "0x01bae480",
+    "handle_binding_c_blob": "4d0320cb13a40fc6bba6f595572face991fa9a5c",
+    "entry_lookup_va": "0x01bc1730",
+    "descriptor_lookup_va": "0x01bc0860",
+    "descriptor_insert_va": "0x01bc09d8",
+    "legacy_chat_id_equivalence": false,
+    "original_instruction_verified": false
   }
 }
