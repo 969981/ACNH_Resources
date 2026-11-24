@@ -22,3 +22,10 @@ R96 的 28 条无直接线索记录，扫描原始 ELF 的 CRC32/Murmur3 seed0 �
 ```powershell
 python Scripts/acnh303_r97_native_dispatch.py --root . --out artifacts/acnh303-r97
 ```
+
+## Native 分发机制（R97 补充）
+
+- FUN_011848c0 解析 QueryBindData，FUN_010f6790 解析 ActionBindData，各分配 0xd8 字节别名节点并经 FUN_010f6e30 写入映射；原版 BindInfo 包含 50 Action、77 Query 别名。
+- FUN_01184700 -> FUN_0070fb10：对 query 名称计算 FUN_006bd550(name,0)，读取 dispatcher+0x2d8 数量、+0x2e0 有序对象指针表，对象 +0x10 hash，二分查找后调用对象 vtable+0x30。不是假定名称出现在 ELF 静态字符串表中。
+- NpcInviteCheck 全名 Murmur3=0x7D83E6A3；IsCollaboNpc 全名=0xBB045A73；CheckNpcFavorLevel 全名=0xF762C39C。两个邀请 query 不在资源别名表内；真实 callback 指针需实际运行时对象或注册构造证据验证。
+- 本地只读观察可在确认 Build ID 后以 ELF module base + (Ghidra VA - 0x100000) 定位 dispatcher，观察传入 x0 对象与 x1 名称对象；记录 hash、对象表匹配、vtable+0x30 目标，不修改任何游戏状态。不得将通用 dispatcher 当成具体 Query 的 callback 地址。
