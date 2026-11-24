@@ -1,0 +1,107 @@
+name: ACNH 3.0.3 R108 gift native closure
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r108*.py'
+      - 'Scripts/acnh303_r109_gift_dispatch.py'
+      - 'Scripts/acnh303_r110_gift_*.py'
+      - 'Scripts/acnh303_r111_gift_closure.py'
+      - 'Scripts/acnh303_r112_gift_callbacks.py'
+      - 'Scripts/acnh303_r113_gift_semantics.py'
+      - 'Scripts/acnh303_r114_ui_filter.py'
+      - 'Scripts/acnh303_r115_interaction_enum.py'
+      - 'Scripts/acnh303_r116_moneybox.py'
+      - 'Scripts/acnh303_r117_instance_predicate.py'
+      - 'Scripts/acnh303_r118_unpack_tool.py'
+      - 'Scripts/acnh303_r119_outfit_defaults.py'
+      - 'Scripts/acnh303_r120_gift_instance.py'
+      - 'Scripts/acnh303_r121_gift_analysis.py'
+      - 'Scripts/acnh303_r122_price_friendship.py'
+      - 'Scripts/acnh303_r123_birthday_dispatch.py'
+      - 'Scripts/acnh303_r124_kind_bits.py'
+      - 'Scripts/acnh303_r125_dish_cache.py'
+      - 'Scripts/acnh303_r126_dish_dispatch.py'
+      - 'Scripts/acnh303_r127_dish_preference.py'
+      - 'Scripts/acnh303_r128_preference.py'
+      - 'derived/3.0.3/npc_event_flags/r108/**'
+      - '.github/workflows/acnh303-r108-gift-closure.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /derived/3.0.3/ghidra12.2/c/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/
+            /UnPack/1/Bcsv/
+            /UnPack/1/EventFlow/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - name: R110 offline leaf tests
+        run: python Scripts/acnh303_r110_gift_predicate.py
+      - id: base
+        run: python Scripts/acnh303_r108_gift_closure.py --root . --out artifacts/acnh303-r108
+      - id: followup
+        run: python Scripts/acnh303_r108_native_followup.py --root . --out artifacts/acnh303-r108
+      - run: python Scripts/acnh303_r108_enum_tables.py --root . --out artifacts/acnh303-r108
+      - name: R109 bounded CFG and instance-field audit
+        if: ${{ always() && steps.base.outcome == 'success' && steps.followup.outcome == 'success' }}
+        run: python Scripts/acnh303_r109_gift_dispatch.py --root . --out artifacts/acnh303-r108
+      - name: R110 bilingual Kind, style and targeted global audit
+        run: python Scripts/acnh303_r110_gift_native.py --root . --out artifacts/acnh303-r108
+      - name: R111 recipe and filter dispatch evidence
+        run: python Scripts/acnh303_r111_gift_closure.py --root . --out artifacts/acnh303-r108
+      - name: R112 callback CFG and DIY root evidence
+        run: python Scripts/acnh303_r112_gift_callbacks.py --root . --out artifacts/acnh303-r108
+      - name: R113 gift wrapper and DIY state separation
+        run: python Scripts/acnh303_r113_gift_semantics.py --root . --out artifacts/acnh303-r108
+      - name: R114 actual UI consumer and enum cache audit
+        run: python Scripts/acnh303_r114_ui_filter.py --root . --out artifacts/acnh303-r108
+      - name: R115 interaction enum and cache lifetime audit
+        run: python Scripts/acnh303_r115_interaction_enum.py --root . --out artifacts/acnh303-r108
+      - name: R116 interaction converter and MoneyBox semantics
+        run: python Scripts/acnh303_r116_moneybox.py --root . --out artifacts/acnh303-r108
+      - name: R117 slot getter and remake descriptor predicate
+        run: python Scripts/acnh303_r117_instance_predicate.py --root . --out artifacts/acnh303-r108
+      - name: R118 tool outfit mask and unpack normalization
+        run: python Scripts/acnh303_r118_unpack_tool.py --root . --out artifacts/acnh303-r108
+      - name: R119 outfit mapping and fallback initializer audit
+        run: python Scripts/acnh303_r119_outfit_defaults.py --root . --out artifacts/acnh303-r108
+      - name: R120 integrated eight-byte gift callback model
+        run: python Scripts/acnh303_r120_gift_instance.py --root . --out artifacts/acnh303-r108
+      - name: R121 outfit converter and resident gift analysis
+        run: python Scripts/acnh303_r121_gift_analysis.py --root . --out artifacts/acnh303-r108
+      - name: R122 native price and friendship event routes
+        run: python Scripts/acnh303_r122_price_friendship.py --root . --out artifacts/acnh303-r108
+      - name: R123 birthday reward and category dispatch audit
+        run: python Scripts/acnh303_r123_birthday_dispatch.py --root . --out artifacts/acnh303-r108
+      - name: R124 kind bit accessors and wrapping query audit
+        run: python Scripts/acnh303_r124_kind_bits.py --root . --out artifacts/acnh303-r108
+      - name: R125 dish cache writer and wrapping vtable audit
+        run: python Scripts/acnh303_r125_dish_cache.py --root . --out artifacts/acnh303-r108
+      - name: R126 inline dish enum and conditional friendship dispatch
+        run: python Scripts/acnh303_r126_dish_dispatch.py --root . --out artifacts/acnh303-r108
+      - name: R127 ToDish enum and native preference evidence
+        run: python Scripts/acnh303_r127_dish_preference.py --root . --out artifacts/acnh303-r108
+      - name: R128 native color and tag rank preference audit
+        run: python Scripts/acnh303_r128_preference.py --root . --out artifacts/acnh303-r108
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: acnh303-r108-gift-closure
+          path: artifacts/acnh303-r108/
+          if-no-files-found: error
+          retention-days: 90
