@@ -93,6 +93,19 @@ def main():
     def write(n,v):(a.out/n).write_text(json.dumps(v,indent=2)+"\n")
     refs=direct_scan(mapped,{0x1d5042c,0x1d50468,0x1d504a8,0x26e7190,0x272cbe0,0x26f9460,0x26fd710,0x2705554,0x2840270,0x28403e0})
     write("direct_refs.json",refs)
+    wrapper_targets={0x1d5042c-S,0x1d50468-S,0x1d504a8-S}
+    wrapper_relocs={hx(t+S):[] for t in sorted(wrapper_targets)}
+    for slot,r in relocs.items():
+        if r.get("type")=="RELR" and r.get("addend") in wrapper_targets:
+            wrapper_relocs[hx(r["addend"]+S)].append(hx(slot+S))
+    write("cloud_wrapper_relocations.json",wrapper_relocs)
+    cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
+    constructor_windows=[]
+    for ref in refs["026E7190"]:
+        site=int(ref["site"],16)
+        lo=site-0x60
+        constructor_windows.append({"site":ref["site"],"instructions":[{"va":hx(i.address),"bytes":i.bytes.hex(),"op":i.mnemonic,"args":i.op_str} for i in cs.disasm(raw(lo-S,0xc4),lo)]})
+    write("embedded_constructor_windows.json",constructor_windows)
     # Source anchors support alias relationships; do not treat this as a runtime snapshot.
     write("embedded_personal_aliases.json",e["embedded"])
     u=vm(mapped,0x8000)
@@ -103,7 +116,7 @@ def main():
     assert next(r for r in mainrows if r["slot"]==0x20)["field"]==0x18
     sr=selector(u,relocs)
     write("cloud_selector_tests.json",sr)
-    report={"getter_slots":len(gr),"simple_getters_executed":sum(r["executed"] for r in gr),"main_ordinary_slots":mainrows,"cloud_selector_cases":len(sr),"cloud_wrapper_direct_refs":{k:len(v) for k,v in refs.items() if k in ["01D5042C","01D50468","01D504A8"]},"embedded_personal_aliases_source_backed":8,"external_personal_sync_verified":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
+    report={"getter_slots":len(gr),"simple_getters_executed":sum(r["executed"] for r in gr),"main_ordinary_slots":mainrows,"cloud_selector_cases":len(sr),"cloud_wrapper_direct_refs":{k:len(v) for k,v in refs.items() if k in ["01D5042C","01D50468","01D504A8"]},"cloud_wrapper_relocation_refs":{k:len(v) for k,v in wrapper_relocs.items()},"embedded_constructor_call_windows":len(constructor_windows),"embedded_personal_aliases_source_backed":8,"external_personal_sync_verified":False,"cloud_disk_mapping_verified":False,"runtime_verified":False,"real_save_samples":0}
     write("report.json",report)
     print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
