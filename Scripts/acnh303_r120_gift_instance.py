@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """R120 source-backed, read-only 8-byte item gift callback model; not a live NPC transaction."""
-import argparse,collections,json,struct
+import argparse,collections,json,struct,sqlite3
 from pathlib import Path
 
 def lookup_id(raw,normal,special):
@@ -107,7 +107,7 @@ def main(root,out):
     old=load("r119_report.json")
     assert old["tool_type_items"]==old["tool_descriptor_candidates"]==69 and old["tool_descriptor_nonzero_fabric_count"]==0
     native={x["item_id"]:x for x in load("r110_items.json")}
-    perms={x["item_id"]:x for x in load("r113_permissions.json")} if (out/"r113_permissions.json").exists() else {x["id"]:x["r113_permissions"] for x in load("gift_web_sidecar_r119.json")["items"]}
+    perms={x["item_id"]:x for x in load("r113_static_permissions.json")}
     inter={x["item_id"]:x for x in load("r115_interaction_items.json")}
     remake={x["item_id"]:x for x in load("r117_remake_items.json")}
     outfit={x["item_id"]:x for x in load("r119_outfit_items.json")}
@@ -173,6 +173,16 @@ def main(root,out):
     init=[row(i) for i in ins(0x1b08134,0x8c)]
     report={"items":len(items),"synthetic_matrix_cases":len(items)*6,"matrix":dict(counts),"flag_cases":6*256*2,"flag_results":dict(flag_counts),"default_records_conditional_only":True,"outfit_writer_verified":True,"outfit_converter_call_candidates":calls,"runtime_verified":False}
     for n,o in [("r120_report.json",report),("r120_gift_model_data.json",data),("r120_synthetic_baseline.json",baseline),("r120_examples.json",examples),("r120_outfit_writer.json",[row(i) for i in writer]),("r120_default_guard_blocks.json",init)]:db.write(out/n,o)
+    con=sqlite3.connect(out/"r105/acnh303_gift_research.sqlite3")
+    con.execute("CREATE TABLE IF NOT EXISTS r120_synthetic_callback(item_id INTEGER NOT NULL,mode TEXT NOT NULL,synthetic_zero_tail_result INTEGER,actual_gift_success INTEGER,PRIMARY KEY(item_id,mode))")
+    con.executemany("INSERT OR REPLACE INTO r120_synthetic_callback VALUES(?,?,?,NULL)",[(x["item_id"],x["mode"],x["result"]) for x in baseline])
+    con.commit();assert con.execute("SELECT COUNT(*) FROM r120_synthetic_callback").fetchone()[0]==22356;assert con.execute("PRAGMA integrity_check").fetchone()[0]=="ok";con.close()
+    web=load("gift_web_sidecar_r119.json")
+    byid={x["item_id"]:x for x in items};results={(x["item_id"],x["mode"]):x["result"] for x in baseline}
+    for x in web["items"]:
+        ident=x["id"];x["r120_model_input"]=byid[ident];x["r120_synthetic_zero_tail"]={"ordinary":results[(ident,"ordinary")],"birthday":results[(ident,"birthday")],"actual_gift_success":None}
+    web["limitations"].append("R120 callback results are synthetic zero-tail instance predictions under original loaded resources; not live UI eligibility or gift completion")
+    db.write(out/"gift_web_sidecar_r120.json",web)
     print("R120 REPORT",json.dumps(report,ensure_ascii=False),flush=True)
     for i in init:print("R120 DEFAULT",json.dumps(i),flush=True)
     for i in writer:
