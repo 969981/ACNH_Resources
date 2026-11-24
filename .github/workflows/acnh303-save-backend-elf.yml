@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 save backend ELF evidence
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_save_backend_elf.py'
+      - 'Scripts/acnh303_save_snapshot_compare.py'
+      - '.github/workflows/acnh303-save-backend-elf.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_save_backend_elf.py
+            /Scripts/acnh303_save_snapshot_compare.py
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6
+      - run: python -m py_compile Scripts/acnh303_save_backend_elf.py
+      - run: python Scripts/acnh303_save_backend_elf.py --elf e10617820db06889e1638499478da0de_NCA/0/main.elf --out artifacts/save-backend-elf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-save-backend-elf
+          path: artifacts/save-backend-elf/
+          if-no-files-found: error
