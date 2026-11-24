@@ -1,0 +1,40 @@
+name: ACNH 3.0.3 R105 Native gift research database
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r105*'
+      - 'derived/3.0.3/npc_event_flags/r105/**'
+      - '.github/workflows/acnh303-r105-gift-db.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /derived/3.0.3/ghidra12.2/c/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/
+            /UnPack/1/Bcsv/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - run: python Scripts/acnh303_r104_gift_model.py --selftest
+      - name: Build original gift research database and evidence
+        run: python Scripts/acnh303_r105_gift_db.py --root . --out artifacts/acnh303-r105
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r105-gift-db
+          path: artifacts/acnh303-r105/
+          if-no-files-found: error
+          retention-days: 90
