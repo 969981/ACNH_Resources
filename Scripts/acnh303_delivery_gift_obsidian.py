@@ -10,6 +10,16 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02675b70: ("Default item record replacement wrapper", 0x200),
+    0x026788f0: ("Item match slot lookup", 0x400),
+    0x02674700: ("General slot record mutation and binding", 0x400),
+    0x027f9664: ("Pocket upgrade capacity flags", 0x200),
+    0x0277d7b4: ("Item matching predicate", 0x300),
+    0x031956f8: ("PocketMenu slot clear and presentation map", 0x300),
+    0x0319536c: ("PocketMenu quantity adjustment and clear", 0x500),
+    0x03195900: ("PocketMenu slot insertion and presentation map", 0x200),
+    0x031742d0: ("PocketMenu action slot consumer", 0x400),
+    0x0070fcd0: ("EventFlow category factory dispatcher", 0x600),
     0x00da8f70: ("Relocation-backed candidate for remaining caller", 0x850),
     0x00c04ee0: ("Relocation-backed slot consumer", 0x200),
     0x00c31ae0: ("Relocation-backed associated slot consumer", 0x380),
