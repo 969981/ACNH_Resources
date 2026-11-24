@@ -60,7 +60,7 @@ def main(root,out):
     def reg(i,r):
         n=i.reg_name(r)
         return "x"+n[1:] if n.startswith("w") and n[1:].isdigit() else n
-    refs={};direct=[];stores=[];slot_field_candidates=[];indexed_slot_candidates=[];callback_table_refs=[]
+    refs={};direct=[];stores=[];menu_root_refs=[];slot_field_candidates=[];indexed_slot_candidates=[];callback_table_refs=[]
     def emit(i,addr,kind):
         k=(i.address,addr,kind)
         refs[k]={**row(i),"operand_va":hex(addr+BASE),"kind":kind,"nearest_export":owner(i.address)}
@@ -151,6 +151,39 @@ def main(root,out):
                     for rr in writes:tracked_table.pop(reg(i,rr),None)
                 except Exception:break
                 tracked_table.update(pending)
+        # Resource root slot and its authenticated GOT alias, not the loaded object.
+        if adr_page(w,pc) in (0x522a000,0x4ac0000):
+            root_regs={}
+            for i in cs.disasm(code[4*off:4*off+128],pc):
+                m=i.mnemonic;o=i.operands;pending={}
+                if m.startswith("b.") or m in ("b","bl","blr","br","ret","cbz","cbnz","tbz","tbnz"):break
+                if m in ("adr","adrp") and len(o)==2 and o[1].type==ARM64_OP_IMM:
+                    pending[reg(i,o[0].reg)]=o[1].imm
+                elif m=="add" and len(o)==3 and o[1].type==ARM64_OP_REG and o[2].type==ARM64_OP_IMM:
+                    v=root_regs.get(reg(i,o[1].reg))
+                    if v is not None:
+                        v+=o[2].imm<<o[2].shift.value;pending[reg(i,o[0].reg)]=v
+                        if v==0x522a7e0:menu_root_refs.append({**row(i),"kind":"root_address","nearest_export":owner(i.address)})
+                elif m in ("ldr","str","ldur","stur","stp") and not i.writeback:
+                    for op in o:
+                        if op.type!=ARM64_OP_MEM or op.mem.index:continue
+                        v=root_regs.get(reg(i,op.mem.base))
+                        if v is None:continue
+                        a=v+op.mem.disp
+                        if a in (0x522a7e0,0x4ac04a0):
+                            menu_root_refs.append({**row(i),"kind":m,"operand_va":hex(a+BASE),
+                               "nearest_export":owner(i.address),
+                               "context":[row(q) for q in cs.disasm(code[max(0,i.address-start-32):i.address-start+36],max(start,i.address-32))]})
+                            if a==0x4ac04a0 and m=="ldr" and rel.get(a,{}).get("addend")==0x522a7e0:
+                                pending[reg(i,o[0].reg)]=0x522a7e0
+                elif m=="mov" and len(o)==2 and o[1].type==ARM64_OP_REG:
+                    v=root_regs.get(reg(i,o[1].reg))
+                    if v is not None:pending[reg(i,o[0].reg)]=v
+                try:
+                    _,writes=i.regs_access()
+                    for rr in writes:root_regs.pop(reg(i,rr),None)
+                except Exception:break
+                root_regs.update(pending)
         if adr_page(w,pc) not in pages:continue
         tracked={}
         for i in cs.disasm(code[4*off:4*off+96],pc):
@@ -247,6 +280,15 @@ def main(root,out):
                 "callback_va":hex(rr["addend"]+BASE) if rr.get("type") in ("RELR",1027) and isinstance(rr.get("addend"),int) else None,
                 "companion_u64":hex(int.from_bytes(b[8:],"little")),
                 "companion_relocated":a+8 in rel})
+    menu_strings=[]
+    for va,data in mapped[1:]:
+        pos=-1
+        while True:
+            pos=data.find(b"ItemUIContextMenu",pos+1)
+            if pos<0:break
+            a=va+pos
+            if matched(a,17)==b"ItemUIContextMenu":
+                menu_strings.append({"va":hex(a+BASE),"context":data[max(0,pos-16):pos+40].hex()})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -255,7 +297,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
