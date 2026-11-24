@@ -10,6 +10,12 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x0277e688: ("Placement eligibility or notification consumer", 0xf4),
+    0x01b04850: ("Placement eligibility or notification consumer", 0x260),
+    0x014bda70: ("Placement eligibility or notification consumer", 0x200),
+    0x01fa5530: ("Placement eligibility or notification consumer", 0x350),
+    0x01fb20f0: ("Placement eligibility or notification consumer", 0x8c0),
+    0x01fb29b0: ("Placement eligibility or notification consumer", 0x394),
     0x02fa9a70: ("MessageWindow state0 update", 0x2000),
     0x02fa9a80: ("MessageWindow state1 entry", 0x2000),
     0x02fa9bec: ("MessageWindow state1 update", 0x2000),
@@ -786,6 +792,21 @@ def main(root,out):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x0317e7e0 and a==0x30808d8:
+                    signature=bytes.fromhex("08050051 1f610071 e88b0054 29800090 29890491 8a000010 2b796878 4a090b8b 40011fd6")
+                    first=0x30808b8;table=0x4084122
+                    table_bytes=raw(table,50)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==50
+                        and get_bytes_va(elf,es,table+elfbase,50)==table_bytes):
+                        candidate=[0x30808dc+int.from_bytes(table_bytes[k:k+2],"little")*4 for k in range(0,50,2)]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":24,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
