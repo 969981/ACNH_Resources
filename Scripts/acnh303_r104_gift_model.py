@@ -6,6 +6,23 @@ from fractions import Fraction
 def level(f):
     if not isinstance(f,int) or not 0<=f<=255:raise ValueError("friendship 0..255")
     return 1+sum(f>=n for n in (30,60,100,150,200))
+def ordinary_price(base_price,quantity=1,solo=False,special_divide_by_5=False):
+    if not isinstance(base_price,int) or not isinstance(quantity,int) or not 0<=base_price<=0x7fffffff or quantity<1:raise ValueError("invalid original Price or effective quantity")
+    value=base_price*(1 if solo else quantity)
+    if value>0x7fffffff:raise ValueError("outside signed ordinary price model")
+    return value//5 if special_divide_by_5 else value
+def price_query_case(price,border):
+    if not isinstance(price,int) or not isinstance(border,int):raise ValueError("integer Native Price and Border")
+    return 0 if price>=border else 1
+def present_entry(price,pocket_space):
+    # Explicitly assumes NNPC_Select_Present #34/#43 has been reached.
+    if price_query_case(price,1000)==1:return "no_reward"
+    if pocket_space:return "Trade" if price_query_case(price,3000)==0 else "Low_Trade"
+    return "Root_OverFlow_case0" if price_query_case(price,3000)==0 else "Root_OverFlow_case1"
+def color_style_match(npc_colors,item_colors,npc_styles,item_styles):
+    # Only proven direct comparisons; extra tag/group rules not inferred.
+    if any(len(x)!=2 for x in (npc_colors,item_colors,npc_styles,item_styles)):raise ValueError("requires two original enum values in each pair")
+    return bool(set(npc_colors)&set(item_colors) or set(npc_styles)&set(item_styles))
 def photo_roll(f):
     level(f)
     return Fraction((f+24)//25,100) if f>=150 else Fraction(0)
@@ -43,6 +60,10 @@ def integrate(catalog,profiles):
     return catalog
 def selftest():
     assert [level(x) for x in (0,29,30,59,60,99,100,149,150,199,200,255)]==[1,1,2,2,3,3,4,4,5,5,6,6]
+    assert ordinary_price(400,3)==1200 and ordinary_price(400,3,True)==400
+    assert price_query_case(999,1000)==1 and price_query_case(1000,1000)==0
+    assert present_entry(2999,True)=="Low_Trade" and present_entry(3000,False)=="Root_OverFlow_case0"
+    assert color_style_match((1,2),(3,2),(1,2),(3,4)) and not color_style_match((1,2),(3,4),(1,2),(3,4))
     assert model(200,0,0,0,"Trade")["conditional_direct_photo_roll"]==0.068
     assert model(149,1,0,0,"Trade")["conditional_direct_photo_roll"]==0.051
     assert model(255,0,0,1,"Trade")["conditional_direct_photo_roll"]==0

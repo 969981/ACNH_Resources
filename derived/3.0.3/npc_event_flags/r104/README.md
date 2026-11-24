@@ -13,3 +13,12 @@ python Scripts/acnh303_r104_gift_model.py --catalog villager_encyclopedia_417.js
 python -m pip install lz4==4.4.4 capstone==5.0.6
 python Scripts/acnh303_r104_native_gift.py --root . --out artifacts/acnh303-r104
 ```
+
+
+## 第一轮原版实测及后续验收
+
+价格 wrapper 8 条、consumer 161 条、服装喜好 796 条可达指令，无未解析 BR 或超出边界。价格 010BF3A8 读上下文 D5C；有单件标记且 01AF0020 支持数量时，010BF3C4 调用 01AF2BC0 将临时 Item 数量设为1。010BF3CC 调用 01AED730，010BF3D4/3D8 为 signed >= Border，外层 010BF170 CSET EQ 得 case0=价格足够。已验证普通价格函数直接使用 Price，而非调用四分之一价格函数。1000/3000/8000 都是同一计算口径；特殊物品 /5 及数量取值仍需真实 Item 数据。模型新增 ordinary_price、price_query_case、present_entry 和直接 color_style_match。
+
+EF16C0 读取 NPC A54F92FD/E2EFE82D（0..50 tag 候选）、34EB5DC3/265EF22D（Color1/Color2 已知 u8）、5EF86F1F/195815CF（0..6 style 候选）。01AE3210/01AE3BC0 是物品两色读取；01AE0CF0 和 enum 表用于另外两项比较。EF2164/2174/2184/2194 与 EF21A4/21B4/21C4/21D4 八条 B.EQ 全部指向 EF22D4 return0。即两组2x2任一匹配即可成功，并非必须颜色和风格同时匹配。若直接比较均失败，007B0EA4 检查两个 NPC tag 候选，另有 0..2 enum 与组别比较，之后按原始 Tops (870F1E29) 检查 51 个标签的特定组共同匹配。完整标签名称、枚举和 item 字段仍未全部证明；不能把直接不匹配判为不喜欢。实际服装筛选还受上游可装备条件约束。
+
+配送相关 BL 2、照片生成 BL 2、照片历史 BL 4、奖励模式 BL 3；Type2/Sub2 没有直接 SkipCount 门禁。204 条待恢复名称本轮没有新 C 字符串命中；ReleaseVersionFile Murmur3=3CB80E57，无注册记录或原始 NUL 字符串，仍未知。六项 Action allocation 候选均找到同一对象 register 的 VTable store 以及完整返回 epilogue，第二轮逐项验证 mov x0,reg -> ret 无后续 x0 覆盖；不把运行时分发当成已验证。R92 与 R103 两份 CI artifact 本地实际 join 417/417，保留 5838 名称。模型测试覆盖 1024 组边界；真实存档/Ghidra GUI/GDB 未验收。
