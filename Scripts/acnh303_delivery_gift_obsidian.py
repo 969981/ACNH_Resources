@@ -10,6 +10,45 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01c04e38: ("Conversation reset seven records and seven choice components", 0x4000),
+    0x03d7dd80: ("Display object property refresh", 0x4000),
+    0x01bc1880: ("Message resource handle unregister", 0x4000),
+    0x01bc1730: ("Message resource handle register or lookup", 0x4000),
+    0x01bc1250: ("Message resource registry construction", 0x4000),
+    0x01bae480: ("Message resource descriptor binding", 0x4000),
+    0x01bc0860: ("Resource descriptor lookup", 0x4000),
+    0x01bc09d8: ("Resource descriptor insertion", 0x4000),
+    0x01b9c210: ("Seven choice record base constructor", 0x4000),
+    0x01bfb6b4: ("Upper choice continuation and state selection", 0x4000),
+    0x01bfd8a4: ("Choice continuation context consumer", 0x4000),
+    0x01c056a0: ("Choice controller vtable +10", 0x4000),
+    0x01c057f8: ("Choice controller vtable +18", 0x4000),
+    0x01c05a7c: ("Choice controller vtable +28", 0x4000),
+    0x01c05808: ("Choice controller vtable +20", 0x4000),
+    0x01be5d00: ("Message resource category consumer", 0x4000),
+    0x01be14b0: ("Message resource descriptor parse", 0x4000),
+    0x01bdf2bc: ("Message text processing", 0x4000),
+    0x01bf87d8: ("Upper Ready entry", 0x4000),
+    0x01bf8800: ("Upper Ready update", 0x4000),
+    0x01bf9cd8: ("Upper Ready exit", 0x4000),
+    0x01bf9cdc: ("Upper In entry", 0x4000),
+    0x01bf9d74: ("Upper In update", 0x4000),
+    0x01bf9f30: ("Upper In exit", 0x4000),
+    0x01bf9f74: ("Upper Play entry", 0x4000),
+    0x01bf9fb0: ("Upper Play update", 0x4000),
+    0x01bfa300: ("Upper Play exit", 0x4000),
+    0x01bfa30c: ("Upper Fermata entry", 0x4000),
+    0x01bfa310: ("Upper Fermata update", 0x4000),
+    0x01bfa394: ("Upper Fermata exit", 0x4000),
+    0x01bfa398: ("Upper Pause entry", 0x4000),
+    0x01bfa4a4: ("Upper Pause update", 0x4000),
+    0x01bfa834: ("Upper Pause exit", 0x4000),
+    0x01bfaa0c: ("Upper Stand entry", 0x4000),
+    0x01bfaa48: ("Upper Stand update", 0x4000),
+    0x01bfab5c: ("Upper Stand exit", 0x4000),
+    0x01bfab98: ("Upper Suspend entry", 0x4000),
+    0x01bfab9c: ("Upper Suspend update", 0x4000),
+    0x01bfabcc: ("Upper Suspend exit", 0x4000),
     0x01394338: ("Request record lifecycle or registered state callback", 0x30c),
     0x01394644: ("Request record lifecycle or registered state callback", 0x4),
     0x01394648: ("Request record lifecycle or registered state callback", 0x4),
@@ -731,7 +770,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
     """Validate literal state-name bytes and direct call candidates; no runtime inference."""
     import struct
     names=[]
-    for rva in (0x3f8dd64,0x3fe3b76,0x3f87a5a,0x4000077,0x3fb6384,0x3fc671a,0x3f63925,0x3fc6988):
+    for rva in (0x3f8dd64,0x3fe3b76,0x3f87a5a,0x4000077,0x3fb6384,0x3fc671a,0x3f63925,0x3fc6988,0x3f6d1a5,0x3fabb3a,0x3f776e0,0x3fb0e14,0x3fe4c66,0x3ff9e3a,0x3ff4de5,0x3fc5534,0x3fbb622,0x3fa1281):
         b=bytearray()
         for i in range(128):
             x=raw(rva+i,1)
@@ -741,7 +780,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
             if x==b"\x00":break
         if not b or b[-1]!=0:raise ValueError("unterminated name")
         names.append({"rva":hex(rva),"bytes":b.hex(),"name":bytes(b[:-1]).decode("ascii")})
-    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc)}
+    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc,0x01c04e38,0x01bc1880,0x01bc1730,0x01bfb6b4,0x01c05a7c,0x01b9c210)}
     hits=[]
     for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
         if w&0x7c000000!=0x14000000:continue
