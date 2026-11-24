@@ -89,6 +89,10 @@ def main(root,out):
         heap_candidates=reg['heap_candidates'],runtime_verified=False,scope='bounded direct address formation; no pointer object or function identity proven')
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(report,indent=2)+'\n')
+    for row in roots:
+        print(json.dumps({k:row[k] for k in ('name','rva','ghidra_va','storage','raw_le','segment')}))
+    for row in sites:
+        print(json.dumps({k:row[k] for k in ('source','name','rva','storage','raw_le','expected_word_match')}))
     print(json.dumps(dict(roots=len(roots),main_sites=len(sites),matched=sum(x['expected_word_match'] is True for x in sites),mismatched=sum(x['expected_word_match'] is False for x in sites),references=len(refs),runtime_verified=False)))
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,default=Path('.'));p.add_argument('--out',type=Path,required=True);a=p.parse_args();main(a.root,a.out)

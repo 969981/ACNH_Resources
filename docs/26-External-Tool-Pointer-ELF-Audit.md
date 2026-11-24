@@ -37,8 +37,9 @@ Poker Utilities.cs:1062–1205、1327 的 peek/poke 与 peekMain/pokeMain 是不
 | player_start | 0xB2783C78 | SysBot |
 | player_id | 0xB278FDB0 | SysBot |
 | player_profile | 0xB27964A8 | SysBot |
-| town_name | 0xB278FCF8 | both default |
-| player_name | 0xB278FD14 | SysBot |
+| town_name_poker | 0xB278FCF8 | Poker default |
+| town_name_sysbot | 0xB278FCFC | SysBot getTownNameAddress |
+| player_name | 0xB278FD18 | SysBot |
 | manpu | 0xB27CE40C | both reaction |
 | home_storage | 0xB27BB81C | Poker |
 | recycling | 0xB19C40D0 | Poker |
@@ -83,7 +84,7 @@ Poker Utilities.cs:1062–1205、1327 的 peek/poke 与 peekMain/pokeMain 是不
 | swim_speed | 0xBFB6104 | Poker |
 | dive_speed | 0xBFB6254 | Poker |
 
-玩家 i 基址 = inventory + i*0x131F70（i=0..7）。SysBot OffsetUtil.cs:17–30 扫描非零名字并按人数-1选择玩家，不保证空洞槽正确；空玩家集合还需防止无符号下溢。Poker OverrideAddresses :3806 将初始 town name 的减法改为加法，值得单独修复/验证。地图 FieldItemStart = VillagerAddress-0x10+0x22F3F0 = mapZero；7×6 acre，32×32 tile，若 Item.SIZE=8，则 FieldSize=0x54000；缓冲 6×32×32×8=0xC000。两层基址分别 mapZero+0xC000、mapZero+0x78000。Poker NewMapSize=0x6C000，不等同于 SysBot FieldSize，需核对外圈布局，不能盲拷贝。
+玩家 i 基址 = inventory + i*0x131F70（i=0..7）。SysBot OffsetUtil.cs:17–30 扫描非零名字并按人数-1选择玩家，不保证空洞槽正确；空玩家集合还需防止无符号下溢。SysBot 岛名计算为 inventory-0x2BA5C，Poker 默认 inventory-0x2BA60，实际相差 4 bytes；字段边界必须实机对读。Poker OverrideAddresses :3806 将初始 town name 的减法改为加法，值得单独修复/验证。地图 FieldItemStart = VillagerAddress-0x10+0x22F3F0 = mapZero；7×6 acre，32×32 tile，若 Item.SIZE=8，则 FieldSize=0x54000；缓冲 6×32×32×8=0xC000。两层基址分别 mapZero+0xC000、mapZero+0x78000。Poker NewMapSize=0x6C000，不等同于 SysBot FieldSize，需核对外圈布局，不能盲拷贝。
 
 ## 3. 村民、好感度与现有 R95–R104 的连接
 
