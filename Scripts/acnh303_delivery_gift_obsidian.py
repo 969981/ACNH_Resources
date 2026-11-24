@@ -10,6 +10,39 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02fa88bc: ("MessageWindow +E0", 0x4000),
+    0x02fa88f0: ("MessageWindow +E8 idle", 0x4000),
+    0x02fa8910: ("MessageWindow +F0", 0x4000),
+    0x02fa8920: ("MessageWindow +F8", 0x4000),
+    0x02fa977c: ("MessageWindow +1B8", 0x4000),
+    0x02fa97a0: ("MessageWindow +1C0", 0x4000),
+    0x02fa97c4: ("MessageWindow +1C8", 0x4000),
+    0x02fa97f4: ("MessageWindow state registration", 0x4000),
+    0x02faa13c: ("MessageWindow +218", 0x4000),
+    0x02faa168: ("MessageWindow +220", 0x4000),
+    0x02faa194: ("MessageWindow +228", 0x4000),
+    0x02faa418: ("MessageWindow +240", 0x4000),
+    0x02faa4a0: ("MessageWindow +248", 0x4000),
+    0x02faa244: ("MessageWindow +250", 0x4000),
+    0x02faa248: ("MessageWindow +258", 0x4000),
+    0x02faa4f8: ("MessageWindow +260", 0x4000),
+    0x01d53060: ("Upper MessageWindow predicate consumer", 0x4000),
+    0x01d52c00: ("Caller of upper UI predicate", 0x4000),
+    0x033862f0: ("UI current sequence page consumer", 0x4000),
+    0x01be0874: ("Upper MessageWindow acquisition", 0x4000),
+    0x02fa32f4: ("TalkSeq +130", 0x4000),
+    0x02fae82c: ("TalkSeq +208", 0x4000),
+    0x02fae8fc: ("TalkSeq +210", 0x4000),
+    0x02faf4fc: ("TalkSeq +238", 0x4000),
+    0x02faf60c: ("TalkSeq +240", 0x4000),
+    0x02faf9f8: ("TalkSeq +248", 0x4000),
+    0x02facf70: ("SelectTalkSeq +168", 0x4000),
+    0x02fad000: ("SelectTalkSeq +178", 0x4000),
+    0x02fabb18: ("Select page +1B0", 0x4000),
+    0x02fa2848: ("Talk page +C8 resource initialization", 0x4000),
+    0x02fab618: ("Select page +C8 resource initialization", 0x4000),
+    0x02fab9f0: ("Select page +D8", 0x4000),
+    0x0386c170: ("Registry destructor", 0x4000),
     0x01a59500: ("Context menu resource initialization or candidate list generator", 0xee8),
     0x01a5a3e8: ("Context menu resource initialization or candidate list generator", 0x3fc8),
     0x01a60310: ("Context menu resource initialization or candidate list generator", 0x110),
@@ -597,6 +630,25 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
             "window":[{"va":hex(i.address+BASE),"bytes":i.bytes.hex(),"instruction":i.mnemonic+" "+i.op_str} for i in cs.disasm(b,a)]})
     (out/"ui_gate_talk_evidence.json").write_text(json.dumps({"names":names,"direct_branch_candidates":hits,"runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
 
+def export_dialogue_scheduler_windows(elf,es,elfbase,code_start,code,raw,cs,out):
+    """Authenticated linear windows; type and control flow require manual verification."""
+    import struct
+    def window(a,n):
+        b=raw(a,n)
+        if len(b)!=n or get_bytes_va(elf,es,a+elfbase,n)!=b:
+            raise ValueError("scheduler window mismatch "+hex(a))
+        return [{"va":hex(i.address+BASE),"bytes":i.bytes.hex(),"instruction":i.mnemonic+" "+i.op_str} for i in cs.disasm(b,a)]
+    sched=window(0x376b800,0x800)
+    hits=[]
+    for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
+        if w&0xffc00000!=0xf9400000 or ((w>>10)&0xfff)!=0xac:continue
+        a=code_start+idx*4
+        lo=max(code_start,a-32);hi=min(code_start+len(code),a+96)
+        rows=window(lo,hi-lo)
+        if any("#0x30]" in r["instruction"] for r in rows) and any(r["instruction"].startswith(("blr ","br ")) for r in rows):
+            hits.append({"load_va":hex(a+BASE),"window":rows})
+    (out/"dialogue_scheduler_windows.json").write_text(json.dumps({"scope":"authenticated linear instructions and syntactic +560/+30 candidates, not type-bound CFG","scheduler_window":sched,"candidate_windows":hits,"runtime_verified":False},ensure_ascii=False,indent=2),encoding="utf-8")
+
 def main(root,out):
     elf,nso,mapped,segments,raw,tags,rel=dec.decode(root)
     es=parse_elf(elf); code_start,code=mapped[0]; code_end=code_start+len(code)
@@ -743,6 +795,7 @@ def main(root,out):
     (out/"README.md").write_text("# ACNH 3.0.3 authenticated instruction index\n\n"+"\n".join(f'- [[Functions/{r["key"]}]] — {r["role"]}：{r["rows"]} instructions, {r["gaps"]} gaps' for r in manifest["functions"])+"\n",encoding="utf-8")
     scan_ui_lifecycle(elf,es,elfbase,code_start,code,raw,cs,out)
     export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out)
+    export_dialogue_scheduler_windows(elf,es,elfbase,code_start,code,raw,cs,out)
     if any(r["rows"]==0 for r in manifest["functions"]): raise SystemExit("one or more anchors lack byte-matched evidence; inspect artifact")
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True)
