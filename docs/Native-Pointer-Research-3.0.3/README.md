@@ -121,6 +121,8 @@ updated: 2026-11-24
 
 36. [[36-机场EventFlow消息关联与显式退出]] · [GitHub 阅读](36-机场EventFlow消息关联与显式退出.md)
 
+38. [[38-ItemLayer接口返回对象与构造调用者]] · [GitHub 阅读](38-ItemLayer接口返回对象与构造调用者.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
