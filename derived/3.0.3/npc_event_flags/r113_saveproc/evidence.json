@@ -1,0 +1,584 @@
+{
+  "schema": "acnh303-r113-saveproc-v1",
+  "base_commit": "ea31ef22295ea73b7819439f5f29cccd1c359de9",
+  "artifact": {
+    "id": 14891550048,
+    "sha256": "026a49bf18313e847365c388a442c732fdf1f5a6e6150810518f33fd661b2a07",
+    "run": 45329001905,
+    "job": 138225333594
+  },
+  "r112_fix": "0f40da3df7a46fe88277e7ab3d5964794bac3652",
+  "address_correction": {
+    "site": "01DE6B08",
+    "rva": "0273E2D0",
+    "ghidra_va": "0283E2D0"
+  },
+  "callers": [
+    {
+      "site": "01D59094",
+      "entry": "01D58FF4",
+      "instructions": 500,
+      "return": "0x1d597c0",
+      "external": [],
+      "direct": 19,
+      "indirect": 13
+    },
+    {
+      "site": "01D5D73C",
+      "entry": "01D5D6A0",
+      "instructions": 82,
+      "return": null,
+      "external": [
+        "0x40038c0"
+      ],
+      "tail": "01D5D7E4",
+      "direct": 3,
+      "indirect": 0
+    },
+    {
+      "site": "01D94D3C",
+      "entry": "01D94C54",
+      "instructions": 170,
+      "return": "0x1d94ef8",
+      "external": [],
+      "direct": 14,
+      "indirect": 3
+    }
+  ],
+  "copy_methods": [
+    {
+      "entry": "02723410",
+      "slot": "04A8A048",
+      "bytes": [
+        "00d28152",
+        "6013a072",
+        "c0035fd6"
+      ],
+      "return_size": 10161808
+    },
+    {
+      "entry": "0272341C",
+      "slot": "04A8A050",
+      "bytes": [
+        "00800091",
+        "c0035fd6"
+      ],
+      "return_offset": 32
+    },
+    {
+      "entry": "02725FD0",
+      "slot": "04A8A7B8",
+      "bytes": [
+        "00888752",
+        "600ba072",
+        "c0035fd6"
+      ],
+      "return_size": 5979200
+    },
+    {
+      "entry": "02725FDC",
+      "slot": "04A8A7C0",
+      "bytes": [
+        "00800091",
+        "c0035fd6"
+      ],
+      "return_offset": 32
+    }
+  ],
+  "saveproc": {
+    "entry": "0283E2D0",
+    "root": "055A1B78",
+    "allocation_size": 784,
+    "constructor": "0283C6A8",
+    "allocator": "0283C5D0",
+    "queue_root": "055A0FF0",
+    "queue_stride": 56,
+    "request_offset": 16,
+    "task_offset": 24,
+    "task_vptr": "04A91C20",
+    "task_callback": "0283CB14",
+    "worker": "0283D4C4",
+    "secondary_task_offset": 64,
+    "secondary_request_offset": 96,
+    "secondary_callback": "0283CB2C",
+    "secondary_submit": "0283E518",
+    "synchronous_submit": "0283D404",
+    "validator": "0283C2A8",
+    "dispatch_slots": [
+      [
+        "04A922A0",
+        "028BDFF0"
+      ],
+      [
+        "04A922A8",
+        "028BE5E4"
+      ],
+      [
+        "04A922B0",
+        "028BE5E8"
+      ],
+      [
+        "04A922B8",
+        "028BE5EC"
+      ],
+      [
+        "04A922C0",
+        "028BE5F0"
+      ]
+    ],
+    "cloud_states": [
+      [
+        "CloudIslandProcess::cIdle",
+        "0283CEA0",
+        "0283CEC0",
+        "0283CF14"
+      ],
+      [
+        "CloudIslandProcess::cPreSave",
+        "0283CF18",
+        "0283D010",
+        "0283D09C"
+      ],
+      [
+        "CloudIslandProcess::cSave",
+        "0283D0A0",
+        "0283D1CC",
+        "0283D200"
+      ],
+      [
+        "CloudIslandProcess::cPostSave",
+        "0283D204",
+        "0283D2B0",
+        "0283D31C"
+      ],
+      [
+        "CloudIslandProcess::cLoad",
+        "0283D320",
+        "0283D3D0",
+        "0283D400"
+      ]
+    ]
+  },
+  "state_transition": {
+    "entry": "03EBB160",
+    "current": 8,
+    "counter": 12,
+    "previous": 16,
+    "previous_counter": 20,
+    "pending": 24,
+    "changed": 33,
+    "count": 40,
+    "table": 48,
+    "stride": 64,
+    "old_callback_vslot": 16,
+    "new_callback_vslot": 0,
+    "rollback_argument": 0
+  },
+  "reason3": {
+    "entry": "00822F90",
+    "registration_owner": "01D5D6A0",
+    "parameter_store": "01D5D770",
+    "callback_store": "01D5D774",
+    "label": "SequenceSubProcessor",
+    "parameter": 3,
+    "original_enum": null,
+    "not_00822C10": true
+  },
+  "sources": [
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/e2/0283e2d0.c",
+      "blob": "686a289a3aa82483517291e8bc6f4cfedd1d443e",
+      "anchors": [
+        {
+          "line": 14,
+          "contains": "nn::os::WaitLightEvent"
+        },
+        {
+          "line": 18,
+          "contains": "(*param_2 & 0x1180) == 0x80"
+        },
+        {
+          "line": 19,
+          "contains": "*param_2 | 0x80000"
+        },
+        {
+          "line": 21,
+          "contains": "FUN_0283c2a8(param_2)"
+        },
+        {
+          "line": 23,
+          "contains": "*(ulong **)(param_1 + 0x10) = param_2"
+        },
+        {
+          "line": 39,
+          "contains": "* 0x38"
+        },
+        {
+          "line": 43,
+          "contains": "param_1 + 0x18"
+        },
+        {
+          "line": 45,
+          "contains": "\"SaveProc\""
+        },
+        {
+          "line": 55,
+          "contains": "0x54) | 1"
+        },
+        {
+          "line": 60,
+          "contains": "nn::os::SignalLightEvent"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/c2/0283c2a8.c",
+      "blob": "5a3039172f6234ae99f56652c834cd07be000197",
+      "anchors": [
+        {
+          "line": 17,
+          "contains": "(uVar4 & 0x818f) != 0"
+        },
+        {
+          "line": 20,
+          "contains": "(uVar4 & 0x70) == 0"
+        },
+        {
+          "line": 25,
+          "contains": "FUN_026f5430"
+        },
+        {
+          "line": 63,
+          "contains": "FUN_026f5518"
+        },
+        {
+          "line": 29,
+          "contains": "(uVar4 >> 4 & 7) - 1"
+        },
+        {
+          "line": 41,
+          "contains": "PTR_FUN_04a922a0"
+        },
+        {
+          "line": 48,
+          "contains": "0x54) | 2"
+        },
+        {
+          "line": 53,
+          "contains": "0x54) | 1"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/c5/0283c5d0.c",
+      "blob": "5f6c68fea90345fac923346b5e8435c2083e1dcc",
+      "anchors": [
+        {
+          "line": 15,
+          "contains": "malloc(0x310)"
+        },
+        {
+          "line": 37,
+          "contains": "FUN_0283c6a8(pvVar3)"
+        },
+        {
+          "line": 38,
+          "contains": "DAT_055a1b78 = pvVar3"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/c6/0283c6a8.c",
+      "blob": "0bd3f13f40abb0c2b1907d014d5f96108ef59bae",
+      "anchors": [
+        {
+          "line": 22,
+          "contains": "param_1[5] = FUN_0283cb14"
+        },
+        {
+          "line": 30,
+          "contains": "param_1[10] = FUN_0283cb2c"
+        },
+        {
+          "line": 27,
+          "contains": "param_1[3] = &PTR_LAB_04a91c20"
+        },
+        {
+          "line": 32,
+          "contains": "param_1[8] = &PTR_LAB_04a91c20"
+        },
+        {
+          "line": 124,
+          "contains": "CloudIslandProcess::cIdle"
+        },
+        {
+          "line": 136,
+          "contains": "CloudIslandProcess::cPreSave"
+        },
+        {
+          "line": 148,
+          "contains": "CloudIslandProcess::cSave"
+        },
+        {
+          "line": 160,
+          "contains": "CloudIslandProcess::cPostSave"
+        },
+        {
+          "line": 176,
+          "contains": "CloudIslandProcess::cLoad"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/cb/0283cb14.c",
+      "blob": "c75bbd07665e31981883b612b493db99961dd31a",
+      "anchors": [
+        {
+          "line": 5,
+          "contains": "FUN_0283d4c4();"
+        },
+        {
+          "line": 6,
+          "contains": "return 1;"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/cb/0283cb2c.c",
+      "blob": "68e0d892f4512a4c55079dc85a3568d458fd053c",
+      "anchors": [
+        {
+          "line": 7,
+          "contains": "param_1 + 0x60"
+        },
+        {
+          "line": 8,
+          "contains": "+ 0x28"
+        },
+        {
+          "line": 9,
+          "contains": "+ 0x30"
+        },
+        {
+          "line": 10,
+          "contains": "+ 0x38"
+        },
+        {
+          "line": 12,
+          "contains": "+ 0x40"
+        },
+        {
+          "line": 14,
+          "contains": "nn::os::SignalLightEvent"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/d4/0283d4c4.c",
+      "blob": "fc9566173ad72c24c385ccad89a9b4b2da06b9fc",
+      "anchors": [
+        {
+          "line": 50,
+          "contains": "param_1[2]"
+        },
+        {
+          "line": 87,
+          "contains": "PTR_FUN_04a91770"
+        },
+        {
+          "line": 131,
+          "contains": "PTR_FUN_04a922a0"
+        },
+        {
+          "line": 137,
+          "contains": "0x54) | 2"
+        },
+        {
+          "line": 147,
+          "contains": "0x2835978"
+        },
+        {
+          "line": 198,
+          "contains": "0x28361b0"
+        },
+        {
+          "line": 263,
+          "contains": "s_MovingMark_040882de"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/d4/0283d404.c",
+      "blob": "87ce54730591e4ed2679550f3985c1a8c37fe895",
+      "anchors": [
+        {
+          "line": 15,
+          "contains": "FUN_0283c2a8(param_2)"
+        },
+        {
+          "line": 18,
+          "contains": "FUN_0283d4c4(param_1)"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/e5/0283e518.c",
+      "blob": "9e2692dc8f1c0769cb8dfaee85b9bc95e0d197f2",
+      "anchors": [
+        {
+          "line": 13,
+          "contains": "param_1 + 0x60"
+        },
+        {
+          "line": 37,
+          "contains": "param_1 + 0x40"
+        },
+        {
+          "line": 39,
+          "contains": "\"SaveProc\""
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/b1/03ebb160.c",
+      "blob": "ec3b9e269c410a0194b572c3fc3e666073990839",
+      "anchors": [
+        {
+          "line": 12,
+          "contains": "param_1 + 8"
+        },
+        {
+          "line": 18,
+          "contains": "param_1 + 0x18"
+        },
+        {
+          "line": 22,
+          "contains": "param_1 + 0x28"
+        },
+        {
+          "line": 25,
+          "contains": "param_1 + 0x30"
+        },
+        {
+          "line": 39,
+          "contains": "lVar6 + 0x10"
+        },
+        {
+          "line": 44,
+          "contains": "*(uint *)(param_1 + 8) = param_2"
+        },
+        {
+          "line": 16,
+          "contains": "param_1 + 0x21"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/2f/00822f90.c",
+      "blob": "d26086e67e9ec9b90890f0926bfe5bee99c826ac",
+      "anchors": [
+        {
+          "line": 16,
+          "contains": "param_1 == 5"
+        },
+        {
+          "line": 19,
+          "contains": "param_1 == 6"
+        },
+        {
+          "line": 22,
+          "contains": "iStack_321d4 != 7"
+        },
+        {
+          "line": 22,
+          "contains": "iStack_321d4 != 8"
+        },
+        {
+          "line": 22,
+          "contains": "iStack_321d4 != 9"
+        },
+        {
+          "line": 41,
+          "contains": "FUN_01384940(&uStack_321dc)"
+        },
+        {
+          "line": 60,
+          "contains": "iStack_321d4 == 4"
+        },
+        {
+          "line": 63,
+          "contains": "iStack_321d4 == 7"
+        },
+        {
+          "line": 76,
+          "contains": "FUN_015531d0"
+        },
+        {
+          "line": 81,
+          "contains": "FUN_014b4dd0"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/49/01384940.c",
+      "blob": "5c0b0c7d745445dce0c14ea828392a08cc2996ff",
+      "anchors": [
+        {
+          "line": 42,
+          "contains": "iVar9 + 1U != 0x39"
+        },
+        {
+          "line": 44,
+          "contains": "FUN_0131e120"
+        },
+        {
+          "line": 142,
+          "contains": "FUN_01259024"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/df/028bdff0.c",
+      "blob": "8be934e21bfe4570d28d940e542b43b30a3bbb31",
+      "anchors": [
+        {
+          "line": 28,
+          "contains": "DAT_05574040"
+        },
+        {
+          "line": 157,
+          "contains": "0x1e"
+        },
+        {
+          "line": 91,
+          "contains": "FUN_02705554"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/fa/01d4fa90.c",
+      "blob": "31e37b4f8b19651c0bd3fdb1249fbbc8ef1b353c",
+      "anchors": [
+        {
+          "line": 86,
+          "contains": "FUN_0283e2d0(lVar9,param_1)"
+        }
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/a6/01dba640.c",
+      "blob": "78d600a721ce839bfbfb56e331789c9b69f725a0",
+      "anchors": [
+        {
+          "line": 481,
+          "contains": "*(undefined8 *)(param_1 + 0x40) = 0x210"
+        },
+        {
+          "line": 488,
+          "contains": "FUN_0283e2d0(uVar16"
+        }
+      ]
+    }
+  ],
+  "runtime_verified": false
+}
