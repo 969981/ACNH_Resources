@@ -32,6 +32,8 @@ updated: 2026-11-24
 
 14. [[14-旅馆交易与DIY材料消费排除审计]] · [GitHub 阅读](14-旅馆交易与DIY材料消费排除审计.md)
 
+15. [[15-PocketMenu与PutUnitIcon原生状态机]] · [GitHub 阅读](15-PocketMenu与PutUnitIcon原生状态机.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
