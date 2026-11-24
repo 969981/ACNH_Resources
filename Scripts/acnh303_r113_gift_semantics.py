@@ -74,7 +74,7 @@ def main(root,out):
     special=list(struct.unpack("<4I",raw(0x4101d00-S,16)))
     item=db.BCSV(root,"ItemParam");kind=db.BCSV(root,"ItemKind");recipe=db.BCSV(root,"RecipeCraftParam")
     assert db.crc("CanGift u8")==0x06012035 and db.crc("CanNpcPresent u8")==0x0732bb98 and db.crc("CanNpcBirthdayPresent u8")==0x2c1b3b5b
-    assert recipe.cols["FFE9B35B"]==28 and recipe.cols["3CCCA419"]==70
+    assert recipe.cols["FFE9B35B"]==24 and recipe.cols["3CCCA419"]==70
     # classification cache writer hashes two English names: DIY=0, Cooking=1.
     # Preserve unknown source values, do not silently treat unknown as proven DIY.
     class_map={db.crc("DIY"):0,db.crc("Cooking"):1}
