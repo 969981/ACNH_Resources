@@ -10,6 +10,21 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x03455b14: ("PutUnitIcon state initialization", 0x344),
+    0x034552d0: ("PutFtr state initialization", 0x290),
+    0x03454db0: ("Placement condition check", 0x520),
+    0x022b2214: ("Shared request resolver", 0x5bc),
+    0x022b27d0: ("Shared request predicate", 0x7b0),
+    0x022ad160: ("Shared request fallback", 0x5000),
+    0x03172680: ("Five-state callback", 0x180),
+    0x03172800: ("Five-state callback", 0x160),
+    0x03172960: ("Five-state callback", 0x10),
+    0x03172970: ("Five-state callback", 0x5d4),
+    0x03172f44: ("Five-state callback", 0x24),
+    0x03172f68: ("Five-state callback", 0x18),
+    0x03172f80: ("Five-state callback", 0x51c),
+    0x0317349c: ("Five-state callback", 0x14),
+    0x031734b0: ("Five-state callback", 0x218),
     0x02c0cef8: ("Shared UI +1D0 dispatch", 0x1800),
     0x02bb9508: ("Shared UI +1D8 predicate", 0x1800),
     0x02bb9510: ("Shared UI +1F0 predicate", 0x1800),
