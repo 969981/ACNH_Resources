@@ -58,6 +58,7 @@ def main(root,out):
     for name,p,need in [
         ("copy","0d/03190d10",["PTR_DAT_04bb2230 + 0x28","local_560 = *(code **)(lVar17 + 0xd80)","uVar23 = *(undefined8 *)(lVar17 + 0xd88)","FUN_03195e80(param_1,&local_560)"]),
         ("evaluate","5e/03195e80",["param_1 + 0x1c4f0","FUN_02672e00","FUN_02677ea0","FUN_0266a0c0","(*(code *)*param_2)(&local_48)","local_48 == -2","uVar7 == 0x28","*puVar2 = *puVar2 | 1L"]),
+        ("display","40/03194070",["param_1 + 0x1c4f0","local_a8 = 7","plVar24[3] + 0x1c0","bVar5 = false"]),
         ("slot","7e/02677ea0",["0x194b0","0x57e58","0x158","0xb8","0xa0","0x14"]),
         ("selected","a0/0266a0c0",["0x1a88","0x1a80","FUN_0277d7b4","FUN_028169a0"]),
         ("guard","b5/01aeb510",["uVar9 != 0x49","-0x6f43f7ab","param_1 + 0xe"])]:
@@ -119,10 +120,10 @@ def main(root,out):
     for ident in sorted(set(previous["lookup_tables"]["normal"]+previous["lookup_tables"]["special"]+[0x1180,0x306,0x3a19,0x1225,0x839,0x9c4])):
         rows=[i for i in range(item.n) if item.val(i,"54706054")==ident]
         lookup.append({"id":ident,"matches":len(rows),"kind":kind.string(km[item.val(rows[0],"5270EB75")],"87BF00E8") if len(rows)==1 else None})
-    report={"filter_consumer_c_verified":True,"filter_mask_offset":"0x1C4F0","slot_count":40,"enum_cache":"0x05326D48","enum_candidate_count":len(candidates),"best_enum_candidates":[{k:v for k,v in x.items() if k!="names"} for x in candidates[:12]],"enum_cache_ref_candidates":len(refs),"permission_differences":diff,"lookup_item_identities":lookup,"copy_direct_call_windows":len(windows["copy_direct_calls"]),"actual_runtime_verified":False}
+    report={"filter_consumer_c_verified":True,"filter_display_reader_c_verified":True,"filter_mask_offset":"0x1C4F0","slot_count":40,"enum_cache":"0x05326D48","enum_candidate_count":len(candidates),"best_enum_candidates":[{k:v for k,v in x.items() if k!="names"} for x in candidates[:12]],"enum_cache_ref_candidates":len(refs),"permission_differences":diff,"lookup_item_identities":lookup,"copy_direct_call_windows":len(windows["copy_direct_calls"]),"actual_runtime_verified":False}
     for n,o in [("r114_report.json",report),("r114_c_evidence.json",evidence),("r114_machine_windows.json",windows),("r114_enum_candidates.json",candidates),("r114_enum_cache_refs.json",refs)]:db.write(out/n,o)
     web=json.loads((out/"gift_web_sidecar_r113.json").read_text("utf8"))
-    web["r114_filter_consumer"]={"source":"03190D10","evaluator":"03195E80","mask_offset":"0x1C4F0","slot_count":40,"runtime_verified":False}
+    web["r114_filter_consumer"]={"source":"03190D10","evaluator":"03195E80","display_reader":"03194070","mask_offset":"0x1C4F0","slot_count":40,"runtime_verified":False}
     web["limitations"].append("Slot mark model is C-derived; actual screen state and live input callbacks not verified")
     db.write(out/"gift_web_sidecar_r114.json",web)
     print("R114 REPORT",json.dumps(report,ensure_ascii=False),flush=True)
