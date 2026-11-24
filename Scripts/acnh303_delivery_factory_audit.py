@@ -61,13 +61,15 @@ def main(root,out):
     def reg(i,r):
         n=i.reg_name(r)
         return "x"+n[1:] if n.startswith("w") and n[1:].isdigit() else n
-    refs={};direct=[];stores=[];menu_root_refs=[];slot_field_candidates=[];indexed_slot_candidates=[];callback_table_refs=[]
+    request_init_inbound=[];refs={};direct=[];stores=[];menu_root_refs=[];slot_field_candidates=[];indexed_slot_candidates=[];callback_table_refs=[]
     def emit(i,addr,kind):
         k=(i.address,addr,kind)
         refs[k]={**row(i),"operand_va":hex(addr+BASE),"kind":kind,"nearest_export":owner(i.address)}
     for off,(w,) in enumerate(struct.iter_unpack("<I",code)):
         pc=start+4*off
         t=branch(w,pc)
+        if t is not None and 0x1298700<=t<0x12ab000:
+            request_init_inbound.append({"site_va":hex(pc+BASE),"target_va":hex(t+BASE),"bytes":struct.pack("<I",w).hex(),"nearest_export":owner(pc)})
         if t in targets:
             direct.append(dict(site_va=hex(pc+BASE),target_va=hex(t+BASE),
                                bytes=struct.pack("<I",w).hex(),nearest_export=owner(pc)))
@@ -337,6 +339,25 @@ def main(root,out):
                 if b is not None:
                     request_lifecycle_relocations.append({"slot_va":hex(a+BASE),
                         "target_va":hex(target+BASE),"raw":b.hex(),"type":rr["type"]})
+    # Preserve bounded original code around all 76 call sites and the enclosing
+    # omitted-export region. Linear disassembly is not a function boundary claim.
+    lo,hi=0x1298700,0x12ab000
+    region=matched(lo,hi-lo)
+    assert region is not None
+    request_init_region=[row(i) for i in cs.disasm(region,lo)]
+    # Decode individually if Capstone stopped on embedded data.
+    if len(request_init_region)!=(hi-lo)//4:
+        request_init_region=[]
+        for a in range(lo,hi,4):
+            i=next(cs.disasm(region[a-lo:a-lo+4],a),None)
+            request_init_region.append(row(i) if i else {"va":hex(a+BASE),"bytes":region[a-lo:a-lo+4].hex(),"instruction":"undecoded"})
+    request_init_windows=[]
+    for hit in direct:
+        if int(hit["target_va"],16) not in (0x1394338,0x1393c20):continue
+        a=int(hit["site_va"],16)-BASE
+        b=matched(a-0x100,0x110)
+        if b is not None:
+            request_init_windows.append({**hit,"context":[row(i) for i in cs.disasm(b,a-0x100)]})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -345,7 +366,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_init_region":request_init_region,"request_init_inbound":request_init_inbound,"request_init_windows":request_init_windows,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
