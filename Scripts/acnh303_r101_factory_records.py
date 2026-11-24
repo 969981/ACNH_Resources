@@ -58,9 +58,10 @@ def main(root,out):
                 for k in range(19):tracked.pop("x"+str(k),None)
                 continue
             if m in ("adr","adrp") and len(o)==2 and o[1].type==ARM64_OP_IMM:pending[reg(i,o[0].reg)]=o[1].imm
-            elif m=="add" and len(o)==3 and o[1].type==ARM64_OP_REG and o[2].type==ARM64_OP_IMM:
+            elif m=="add" and len(o)==3 and o[1].type==ARM64_OP_REG:
                 v=tracked.get(reg(i,o[1].reg))
-                if v is not None:pending[reg(i,o[0].reg)]=v+(o[2].imm<<o[2].shift.value)
+                w=o[2].imm if o[2].type==ARM64_OP_IMM else tracked.get(reg(i,o[2].reg)) if o[2].type==ARM64_OP_REG else None
+                if v is not None and w is not None:pending[reg(i,o[0].reg)]=v+(w<<o[2].shift.value)
             elif m=="mov" and len(o)==2:
                 v=o[1].imm if o[1].type==ARM64_OP_IMM else tracked.get(reg(i,o[1].reg)) if o[1].type==ARM64_OP_REG else None
                 if v is not None:pending[reg(i,o[0].reg)]=v
@@ -82,7 +83,7 @@ def main(root,out):
                         if m.startswith("st"):
                             value=tracked.get(reg(i,o[k].reg))
                             stores.append({**row(i),"dest":h(dest),"dest_ghidra":gh(dest),"base_reg":reg(i,x.mem.base),
-                                "offset":x.mem.disp+k*width,"width":width,"value":h(value),"value_ghidra":gh(value) if value is not None and im.region(value,1)!="unmapped" else None})
+                                "offset":x.mem.disp+k*width,"width":width,"value":h(value),"value_ghidra":gh(value) if width==8 and value is not None and im.region(value,1)!="unmapped" else None})
             try:
                 _,wr=i.regs_access()
                 for rr in wr:tracked.pop(reg(i,rr),None)
@@ -115,7 +116,8 @@ def main(root,out):
         # Record callback machine code and direct calls, never infer actual gameplay from them.
         for vt in vtables:
             for cb in vt["dispatch_candidates"]:
-                v=int(cb["target"],16);cb["instructions"]=[row(i) for i in insns(v,0x180)];cb["trace"]=trace(v,0x180)
+                v=int(cb["target"],16);length=4 if insns(v,4)[0].mnemonic=="ret" else 0x380 if kind=="query" else 0x180
+                cb["instructions"]=[row(i) for i in insns(v,length)];cb["trace"]=trace(v,length)
         results[name]={"hash":f"{hashval:08X}","kind":kind,"record_va":h(a),"record_ghidra":gh(a),"raw_record":raw(a,16).hex(),
             "constructor_va":h(ctor),"constructor_ghidra":gh(ctor),"constructor_export":export(ctor),
             "record_run_start":h(lo),"record_run_end_exclusive":h(hi),"record_run_count":(hi-lo)//16,
@@ -132,6 +134,41 @@ def main(root,out):
         i=instructions[a];assert i.mnemonic.startswith("st")
         matches=[s for s in tr["stores"] if s["va"]==h(a) and s["dest"]==h(d)]
         writes.append({"instruction":row(i),"expected_target":gh(d),"trace_matches":matches})
+    # The writer specifies exact arrays, not the neighboring overrun candidates.
+    def store_value(site,dest):
+        found=[x for x in tr["stores"] if x["va"]==h(site) and x["dest"]==h(dest) and x["value"] is not None]
+        assert len(found)==1,(site,dest,found)
+        return int(found[0]["value"],16)
+    registry={};categories={}
+    for kind,sites,dests in [("action",(0x6bb6c4,0x6bb6e8,0x6bb784,0x6bb788),(0x4b8ded8,0x4b8dee0,0x4b8dfd8,0x4b8dfe0)),("query",(0x6bb798,0x6bb7a4,0x6bb838,0x6bb83c),(0x4b8dee8,0x4b8def0,0x4b8dfe8,0x4b8dff0))]:
+        count,start,cat_count,counts_ptr=[store_value(a,d) for a,d in zip(sites,dests)]
+        assert (count,cat_count)==((1255,7) if kind=="action" else (959,7))
+        cat_base=0x4b8def8 if kind=="action" else 0x4b8df68
+        cats=[]
+        for k in range(cat_count):
+            nrows=[x for x in tr["stores"] if x["dest"]==h(cat_base+16*k) and x["value"] is not None]
+            prows=[x for x in tr["stores"] if x["dest"]==h(cat_base+16*k+8) and x["value"] is not None]
+            assert nrows and prows,(kind,k)
+            n=int(nrows[-1]["value"],16);p=int(prows[-1]["value"],16)
+            inds=list(struct.unpack("<"+"I"*n,raw(p,4*n)))
+            assert all(v<count for v in inds)
+            cats.append({"category":k,"count":n,"index_array_rva":h(p),"indices":inds})
+        categories[kind]={"count":count,"start_rva":h(start),"category_counts_raw":list(struct.unpack("<7I",raw(counts_ptr,28))),"categories":cats}
+        entries=[]
+        for idx in range(count):
+            a=start+idx*16
+            assert valid(a),(kind,idx)
+            v=ptr(a+8);nxt=ptr(a+24) if idx+1<count else None
+            size=min(0x300,nxt-v) if nxt is not None and nxt>v else 0x180
+            trace_result=trace(v,size)
+            cands=[]
+            for st in trace_result["stores"]:
+                if st["offset"]!=0 or st["width"]!=8 or st["base_reg"]!="x0" or not st["value"]:continue
+                vt=int(st["value"],16);dispatch=[0x30] if kind=="query" else [0x40,0x58]
+                if im.exec(ptr(vt)) and all(im.exec(ptr(vt+d)) for d in dispatch):
+                    cands.append({"vtable_ghidra":gh(vt),"store":st["ghidra_va"],"dispatch_slots":{hex(d):gh(ptr(vt+d)) for d in dispatch}})
+            entries.append({"index":idx,"hash":f"{u(a,4):08X}","record_rva":h(a),"constructor_ghidra":gh(v),"categories":[c["category"] for c in cats if idx in c["indices"]],"vtable_candidates":cands})
+        registry[kind]=entries
     # Full contiguous code-pointer groups and conservative ABI header classification.
     execslots=sorted(a for a in relocs if im.exec(ptr(a)))
     groups=[];group=[]
@@ -159,11 +196,13 @@ def main(root,out):
                 a=va+pos;pos+=1
                 if a%8==0 and valid(a):hits.append({"record_va":h(a),"pointer":h(ptr(a+8))})
         states.append({"key":key,"murmur3":f"{val:08X}","factory_pattern_matches":hits,"scope_dataflow_verified":False})
+    r96.write(out/"factory_registry_2214.json",registry)
+    r96.write(out/"factory_categories.json",categories)
     r96.write(out/"factory_records.json",results)
     r96.write(out/"writer_review.json",{"instructions":[row(i) for i in instructions.values()],"prologue_candidates":prologues,"writes":writes,"trace":tr,"function_boundary_verified":False})
     r96.write(out/"pointer_run_classification.json",groups)
     r96.write(out/"remaining_28.json",states)
-    report={"source_sha":dec.SOURCE_SHA,"records_verified":len(results),"record_summary":{k:{x:v[x] for x in ("record_va","constructor_ghidra","record_run_start","record_run_end_exclusive","record_run_count")} | {"vtable_candidates":[{"vtable":t["vtable_ghidra"],"store":t["store"]["ghidra_va"],"dispatch":[{q:c[q] for q in ("offset","target_ghidra","export")} for c in t["dispatch_candidates"]]} for t in v["vtable_store_candidates"]]} for k,v in results.items()},
+    report={"source_sha":dec.SOURCE_SHA,"records_verified":len(results),"factory_registry_counts":{k:len(v) for k,v in registry.items()},"registry_with_vtable_candidates":{k:sum(bool(x["vtable_candidates"]) for x in v) for k,v in registry.items()},"category_record_counts":{k:[x["count"] for x in v["categories"]] for k,v in categories.items()},"record_summary":{k:{x:v[x] for x in ("record_va","constructor_ghidra","record_run_start","record_run_end_exclusive","record_run_count")} | {"vtable_candidates":[{"vtable":t["vtable_ghidra"],"store":t["store"]["ghidra_va"],"dispatch":[{q:c[q] for q in ("offset","target_ghidra","export")} for c in t["dispatch_candidates"]]} for t in v["vtable_store_candidates"]]} for k,v in results.items()},
         "writer_instructions":8,"writer_trace_confirmed":sum(bool(w["trace_matches"]) for w in writes),
         "writer_store_details":[{"site":w["instruction"]["ghidra_va"],"target":w["expected_target"],"value_candidates":[s["value_ghidra"] or s["value"] for s in w["trace_matches"]]} for w in writes],
         "pointer_runs":len(groups),"classification":dict(collections.Counter(g["classification"] for g in groups)),
