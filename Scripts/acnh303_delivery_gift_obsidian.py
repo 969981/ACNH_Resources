@@ -10,6 +10,18 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02c0e370: ("Outer request transition and event reset caller", 0x1000),
+    0x02c0e230: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e318: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e1a8: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e1b8: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e20c: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e220: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e448: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e450: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0e458: ("Adjacent UI lifecycle wrapper", 0x1000),
+    0x02c0dfe4: ("Adjacent UI lifecycle constructor", 0x1000),
+    0x02c0e0a0: ("Adjacent UI lifecycle constructor", 0x1000),
     0x03455b14: ("PutUnitIcon state initialization", 0x344),
     0x034552d0: ("PutFtr state initialization", 0x290),
     0x03454db0: ("Placement condition check", 0x520),
