@@ -37,6 +37,38 @@ def metadata(mapped):
                 assert bytes(u.mem_read(dst,len(expected)))==expected,(tag,equal,cat)
                 rows.append({"tag":tag,"equal_record":equal,"classification":cat,"stop":hx(end),"classification_written":end==0x1c74920,"full_buffer_equal":True})
     return rows
+def metadata_full(mapped):
+    u=vm(mapped,0x160000);src=BUF+0x1000;dst=BUF+0x800;rows=[]
+    for a,b in [(BUF,BUF+0x100),(BUF+0x100,BUF+0x200),(BUF+0x200,src)]:p64(u,a,b)
+    for g in [0x537d558,0x537f040,0x5358908]:ensure(u,g)
+    session=BUF+0x80000;owner=session+0x100;handle=session+0x700;other=session+0x800;gate=session+0x1000;flag=session+0x4000
+    p64(u,0x537d558,session);p64(u,0x537f040,other);p64(u,0x5358908,gate);p64(u,gate+0x2070,flag)
+    trace=[]
+    def tail(uc,addr,size,user):
+        trace.append(uc.reg_read(UC_ARM64_REG_X0));uc.reg_write(UC_ARM64_REG_PC,uc.reg_read(UC_ARM64_REG_X30))
+    u.hook_add(UC_HOOK_CODE,tail,begin=0x1d4de8c,end=0x1d4de8c)
+    record=bytes(range(1,21))
+    for tag in [0,1,2,0xffffffff]:
+        for equal in [True,False]:
+            for cat in [0,1,2,3,4,128,255]:
+                normalized=cat if cat<=3 else 2
+                for oldcat in [normalized,0xa5]:
+                    for scenario in range(5):
+                        p64(u,session,owner);p64(u,session+0x10,handle if scenario else 0)
+                        u.mem_write(owner+0x508,struct.pack("<I",4 if scenario==1 else 0))
+                        u.mem_write(other+8,struct.pack("<I",1 if scenario in (3,4) else 0))
+                        u.mem_write(flag,bytes([int(scenario==4)]))
+                        before=bytearray([0xa5])*0x80;before[0xc:0x20]=record if equal else bytes(20)
+                        struct.pack_into("<II",before,0x2c,tag,oldcat)
+                        u.mem_write(dst,bytes(before));u.mem_write(src+0x48d9c,record+bytes([cat]));trace.clear()
+                        invoke(u,0x1c7487c,BUF,dst,count=1000)
+                        expected=bytearray(before);expected[0xc:0x20]=record;struct.pack_into("<II",expected,0x2c,0,normalized)
+                        assert bytes(u.mem_read(dst,len(expected)))==expected
+                        changed=bool(tag or not equal or oldcat!=normalized)
+                        assert trace==([handle] if changed and scenario in (1,4) else []),(tag,equal,cat,oldcat,scenario,trace)
+                        rows.append({"tag":tag,"equal_record":equal,"category":cat,"old_category":oldcat,"scenario":scenario,"tail_called":bool(trace),"full_buffer_equal":True})
+    return rows
+
 def lineage(mapped,relocs):
     u=vm(mapped,0x180000);gq=0x5351408;gc=0x5351250
     for g in [gq,gc]:ensure(u,g)
@@ -77,6 +109,9 @@ def lineage(mapped,relocs):
                 invoke(u,entry,0,worker+8,count=100)
                 w=bytes(u.mem_read(worker,0x800))
                 assert struct.unpack_from("<QQQQ",w,0x10)==(src,n,0,0)
+                u.reg_write(UC_ARM64_REG_X19,worker);u.reg_write(UC_ARM64_REG_SP,STACK+0x1e000)
+                run(u,0x1c7aa98,0x1c7ad6c,100)
+                assert bytes(u.mem_read(STACK+0x1e000,16))==struct.pack("<QQ",src,n)
                 # Execute both original independent hash slices with these actual copied input pairs.
                 fp=STACK+0x1f800;sp=fp-0x340
                 for reg,v in [(UC_ARM64_REG_X19,worker),(UC_ARM64_REG_X22,worker),(UC_ARM64_REG_X29,fp),(UC_ARM64_REG_SP,sp)]:u.reg_write(reg,v)
@@ -86,7 +121,7 @@ def lineage(mapped,relocs):
                 h2=struct.unpack("<I",u.mem_read(sp+0x22c,4))[0]
                 assert h1==hash32(payload,0x36170e33) and h2==hash32(b"",0x36170e33)
                 assert bytes(u.mem_read(src,n))==payload
-                rows.append({"selector":sel,"length":n,"optional_context":optional,"context_scalar":kind,"request_pairs":[[src,n],[0,0]],"worker_pairs":[[src,n],[0,0]],"first_hash":h1,"second_hash":h2,"input_unchanged":True})
+                rows.append({"selector":sel,"length":n,"optional_context":optional,"context_scalar":kind,"request_pairs":[[src,n],[0,0]],"worker_pairs":[[src,n],[0,0]],"first_hash":h1,"second_hash":h2,"input_unchanged":True,"post_hash_second_pointer_branch":"01C7AD6C"})
     return rows
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--r133",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args()
@@ -100,7 +135,8 @@ def main():
     wins={hx(lo):window(raw,lo,hi) for lo,hi in [(0x1c7487c,0x1c749b4),(0x283d0a0,0x283d1cc),(0x1c7d0f0,0x1c7d22c),(0x1c7aa8c,0x1c7aac4),(0x1c7b1b0,0x1c7b800)]}
     write("native_windows.json",wins)
     m=metadata(mapped);write("metadata_tests.json",m)
+    mf=metadata_full(mapped);write("metadata_full_tests.json",mf)
     l=lineage(mapped,relocs);write("lineage_tests.json",l)
-    report={"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"metadata_cases":len(m),"lineage_cases":len(l),"hash_slice_checks":len(l)*2,"total_cases":len(m)+len(l),"full_metadata_handler_executed":False,"full_job_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
+    report={"source_anchors":len(e["sources"]),"native_window_instructions":sum(map(len,wins.values())),"metadata_cases":len(m),"metadata_full_cases":len(mf),"modeled_metadata_tail_calls":sum(x["tail_called"] for x in mf),"lineage_cases":len(l),"hash_slice_checks":len(l)*2,"total_cases":len(m)+len(mf)+len(l),"full_metadata_handler_executed":True,"metadata_external_tail_modeled":True,"full_job_executed":False,"cloud_disk_mapping_verified":False,"real_save_samples":0}
     write("report.json",report);print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
