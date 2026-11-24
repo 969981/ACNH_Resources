@@ -16,7 +16,8 @@ ALIASES={0x04bb72c0:0x0493f880,0x04bb74a0:0x04941510,
          0x04bb8708:0x04954620,0x04bb8710:0x04954690,
          0x04bb87e0:0x049552c8,0x04bb8b00:0x04957e80}
 TARGETS=(0x02675b70,0x026788f0,0x02674700,0x031956f8,0x0319536c,0x03195900,
-         0x00c04ee0,0x00c31ae0,0x00d97e30,0x00d982b0,0x00da8f70,0x00dd7a70)
+         0x00c04ee0,0x00c31ae0,0x00d97e30,0x00d982b0,0x00da8f70,0x00dd7a70,
+         0x01394338,0x01393c20,0x013964cc,0x01395654,0x0138f8c0,0x0138ef70)
 NAMES=("EventFlowActionSystemDeletePlayerItem","SystemDeletePlayerItem",
        "EventFlowActionUIItemSelectWindowHandling","UIItemSelectWindowHandling")
 def sx(v,b):
@@ -326,6 +327,16 @@ def main(root,out):
             "csv_row":int(m["_row_index"]),"csv_field_54706054":int(m["hash_54706054"]),
             "message_id":m["hash_026F0892"]})
     assert len({q["name"] for q in menu_name_index_records})==66
+    # Independent relocation check for the record address point and init references.
+    request_lifecycle_relocations=[]
+    for a,rr in sorted(rel.items()):
+        target=rr.get("addend")
+        if (0x4893d10<=a<0x4893e10 or target in (0x1294338,0x1293c20)):
+            if rr.get("type") in ("RELR",1027) and rr.get("symbol")==0:
+                b=matched(a,8)
+                if b is not None:
+                    request_lifecycle_relocations.append({"slot_va":hex(a+BASE),
+                        "target_va":hex(target+BASE),"raw":b.hex(),"type":rr["type"]})
     report={"elf_sha256":hashlib.sha256(elf).hexdigest(),"nso_sha256":hashlib.sha256(nso).hexdigest(),
             "build_id":nso[0x40:0x60].hex(),"text_words":len(code)//4,
             "alias_references":list(refs.values()),"direct_branches":direct,
@@ -334,7 +345,7 @@ def main(root,out):
             "factory_binding_verified":False,"runtime_verified":False,
             "action_corpus":{"graphs":graph_count,"distinct_names":len(action_names),"parse_errors":bad},
             "action_name_matches":action_name_matches,"callback_records":callback_records,
-            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
+            "indexed_slot_candidates":indexed_slot_candidates,"callback_table_refs":callback_table_refs,"menu_root_refs":menu_root_refs,"menu_strings":menu_strings,"menu_name_table_words":menu_name_table_words,"request_lifecycle_relocations":request_lifecycle_relocations,"menu_name_index_records":menu_name_index_records,"menu_name_order_matches_csv":all(q["index"]==q["csv_row"] for q in menu_name_index_records)}
     out.mkdir(parents=True,exist_ok=True)
     (out/"factory_audit.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     lines=["# Factory and selection-field candidate audit","",
