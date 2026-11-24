@@ -27,7 +27,8 @@ def run(root,prior,out):
         r=relocs[v-S];assert r["type"]=="RELR" and r["addend"]==a-S
         assert win(a,8)==g["instructions"]
         assert g["return_pointer_offset"]==field[g["slot_offset"]]
-    targets={int(a,16)-S:a for a in e["writers"]+[e["hash_function"],"028C29B0","028CB2A0"]}
+    writers=[f"{int(a,16):08X}" for a in e["writers"]]
+    targets={int(a,16)-S:f"{int(a,16):08X}" for a in writers+[e["hash_function"],"028C29B0","028CB2A0"]}
     calls={a:[] for a in targets.values()}
     base,text=mapped[0];assert segments[0]["type"]=="text"
     for i,(w,) in enumerate(struct.iter_unpack("<I",text[:len(text)//4*4])):
@@ -67,13 +68,14 @@ def run(root,prior,out):
         for r in f["checksum_regions"]:
             if r["length"] is not None:
                 assert r["start"]+r["length"]<=f["write_size"]
-        f["caller_sites"]=calls[f["save_handler"]]
-        f["relocation_references"]=slots[f["save_handler"]]
+        key=f"{int(f['save_handler'],16):08X}"
+        f["caller_sites"]=calls[key]
+        f["relocation_references"]=slots[key]
     out.mkdir(parents=True,exist_ok=True)
     def write(n,x):(out/n).write_text(json.dumps(x,indent=2,ensure_ascii=False)+"\n")
     write("savefile_index.json",e["files"]);write("writer_direct_refs.json",calls);write("writer_relr_refs.json",slots)
     write("checksum_validator_windows.json",windows);write("hash_function_window.json",win(0x6f6900,0x140))
-    write("report.json",{"getter_slots_verified":32,"source_blobs":len(e["sources"]),"ordinary_validators":7,"hash_regions_source_backed":9,"main_symbolic_length_pending":1,"profile_conditional_regions":3,"writer_direct_refs":{a:len(calls[a]) for a in e["writers"]},"writer_relr_refs":{a:len(slots[a]) for a in e["writers"]},"synthetic_hash_vectors":vectors,"cloud_disk_mapping_verified":False,"runtime_verified":False})
+    write("report.json",{"getter_slots_verified":32,"source_blobs":len(e["sources"]),"ordinary_validators":7,"hash_regions_source_backed":9,"main_symbolic_length_pending":1,"profile_conditional_regions":3,"writer_direct_refs":{a:len(calls[a]) for a in writers},"writer_relr_refs":{a:len(slots[a]) for a in writers},"synthetic_hash_vectors":vectors,"cloud_disk_mapping_verified":False,"runtime_verified":False})
     print((out/"report.json").read_text())
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--prior",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args();run(a.root.resolve(),a.prior,a.out.resolve())
