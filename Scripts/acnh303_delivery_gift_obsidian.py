@@ -218,6 +218,27 @@ def main(root,out):
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":3,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x02fac460 and a in range(0x2eac4b0,0x2eac751,0x70):
+                    # Seven 5-entry u8 tables, observed in the byte-matched CI artifact.
+                    # Match the full bound check, table base, ADR, LDRB, scaled ADD and BR.
+                    offsets=("e117","f517","0918","1d18","3118","4518","5918")
+                    k=(a-0x2eac4b0)//0x70
+                    signature=bytes.fromhex("e90f40b93f110071e8020054aa8e00b04a"+offsets[k]+"918b0000104c6969386b090c8b60011fd6")
+                    first=a-32
+                    table=0x40815f8+5*k
+                    table_bytes=raw(table,5)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==5
+                        and get_bytes_va(elf,es,table+elfbase,5)==table_bytes):
+                        candidate=[a+4+v*4 for v in table_bytes]
+                        if all(a+4<=v<a+0x44 and entry<=v<entry+budget
+                               and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":4,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
             elif m=="b": succ=[target]
             elif m.startswith("b.") or m in ("cbz","cbnz","tbz","tbnz"):succ=[a+4,target]
