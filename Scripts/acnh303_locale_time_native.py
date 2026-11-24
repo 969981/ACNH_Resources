@@ -13,6 +13,8 @@ ROOTS={
  "language_alias":0x04bb4eb8,"clock_root":0x04da6480,
  "clock_registration":0x04da6478,"clock_alias":0x04bb32e8,
  "language_sdk_import":0x04be00b0,
+ "ui_owner_alias":0x04bb2230,"player_table_alias":0x04bb4fb8,
+ "player_accessor_alias":0x04bb4f78,"online_machine":0x0536c708,
 }
 TABLES={"locale_matrix":(0x0419b5db,66),"locale_fallback":(0x0419b620,20),
         "group_pairs":(0x04058440,32),"sdk_language_table":(0x0410da5c,18*8)}
