@@ -1,0 +1,36 @@
+name: ACNH 3.0.3 locale and time native evidence
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_locale_time_native.py'
+      - '.github/workflows/acnh303-locale-time-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - run: python -m py_compile Scripts/acnh303_locale_time_native.py
+      - run: python Scripts/acnh303_locale_time_native.py --root . --out artifacts/acnh303-locale-time
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: acnh303-locale-time-native
+          path: artifacts/acnh303-locale-time/
+          if-no-files-found: error
