@@ -10,6 +10,10 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x013628b8: ("FieldSystem lifecycle and constructor; static audit", 0xdc),
+    0x01362994: ("FieldSystem lifecycle and constructor; static audit", 0x5a0),
+    0x01362770: ("FieldSystem lifecycle and constructor; static audit", 0x148),
+    0x01273930: ("FieldSystem lifecycle and constructor; static audit", 0x1000),
     0x022c04e0: ("Scene item grid read/write or message dispatch; static audit", 0x190),
     0x022c0670: ("Scene item grid read/write or message dispatch; static audit", 0x1420),
     0x022c2b40: ("Scene item grid read/write or message dispatch; static audit", 0x190),
@@ -1093,6 +1097,8 @@ def main(root,out):
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 # Group-zero handler switches: require the observed full bounds/dispatch signature.
                 group0_switches={
+                    (0x022c0670,0x21c06d8):(0x21c06b0,0x407a46c,35,0x21c06dc,1,
+                        "08050051 1f890071 08310054 c9f500d0 29b11191 ca000010 2b796878 4a090b8b f50301aa f30300aa 40011fd6"),
                     (0x022c543c,0x21c54b0):(0x21c5488,0x407a4cc,27,0x21c54b4,7,
                         "4b1d0051 7f690071 e8920054 acf500b0 8c311391 cd000010 8e796b78 ad090e8b f40300aa 081d0012 a0011fd6"),
                     (0x022c6f50,0x21c6f9c):(0x21c6f7c,0x407a502,6,0x21c6fa0,8,
