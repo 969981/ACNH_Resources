@@ -10,6 +10,7 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01259024: ("Eight layer snapshot refresh; read-only static audit", 0x320),
     0x010f5bb0: ("EventFlow system actor and ExitFlowchart string registration", 0x3000),
     0x010f62f0: ("EventFlow action invocation and explicit exit flag producer", 0x3000),
     0x010f6690: ("EventFlow explicit exit flag consumer and action completion predicate", 0x3000),
@@ -19,11 +20,11 @@ ENTRIES = {
     0x0068a838: ("EventFlow action completion callback path B", 0x3000),
     0x006bd550: ("EventFlow action name hash", 0x3000),
     0x012caf84: ("ItemLayer interface relocation target; read-only static audit", 0xc),
-    0x012caf90: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012caf90: ("ItemLayer interface relocation target; read-only static audit", 0x180),
     0x012c8008: ("ItemLayer interface relocation target; read-only static audit", 0x10),
-    0x012c8018: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012c8018: ("ItemLayer interface relocation target; read-only static audit", 0x180),
     0x012d05a4: ("ItemLayer interface relocation target; read-only static audit", 0x10),
-    0x012d05b4: ("ItemLayer interface relocation target; read-only static audit", 0x10),
+    0x012d05b4: ("ItemLayer interface relocation target; read-only static audit", 0x180),
     0x012ac290: ("ItemLayer interface relocation target; read-only static audit", 0x8),
     0x012e4640: ("ItemLayer work heap and snapshot lifecycle static audit", 0x4c0),
     0x012e4b00: ("ItemLayer work heap and snapshot lifecycle static audit", 0x278),
