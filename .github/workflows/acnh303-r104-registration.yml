@@ -1,0 +1,43 @@
+name: ACNH 3.0.3 R104 lifecycle registration
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r104*'
+      - 'derived/3.0.3/npc_event_flags/r104_lifecycle_registration/**'
+      - '.github/workflows/acnh303-r104-registration.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r104:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r104*
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /derived/3.0.3/npc_event_flags/r104_lifecycle_registration/
+            /derived/3.0.3/ghidra12.2/c/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /UnPack/1/Bcsv/EventFlagsLifeSupportAchievementParam.csv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install capstone==5.0.6 lz4==4.4.4
+      - run: python Scripts/acnh303_r104_lifesupport_compare.py --selftest
+      - run: python Scripts/acnh303_r104_registration.py --root . --out artifacts/r104
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r104-registration
+          path: artifacts/r104/
+          if-no-files-found: error
