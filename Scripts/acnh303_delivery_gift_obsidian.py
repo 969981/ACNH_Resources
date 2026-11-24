@@ -10,6 +10,13 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02581a1c: ("Placement request object constructor or relocation-backed virtual target", 0xe4),
+    0x02581b00: ("Placement request object constructor or relocation-backed virtual target", 0x900),
+    0x024f9b6c: ("Placement request object constructor or relocation-backed virtual target", 0x8e0),
+    0x01393924: ("Placement request object constructor or relocation-backed virtual target", 0x84),
+    0x013939a8: ("Placement request object constructor or relocation-backed virtual target", 0x60),
+    0x01393a08: ("Placement request object constructor or relocation-backed virtual target", 0x218),
+    0x022b9a74: ("Placement request object constructor or relocation-backed virtual target", 0xc00),
     0x01391074: ("Placement request record construction or dispatch audit", 0x114),
     0x01393c20: ("Placement request record construction or dispatch audit", 0x260),
     0x01394080: ("Placement request record construction or dispatch audit", 0x1f4),
