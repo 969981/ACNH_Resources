@@ -18,7 +18,7 @@ def main(root,out):
         for va,b in mapped[1:]:
             if a is not None and va<=a<va+len(b):
                 i=a-va;k=b.find(b"\0",i,min(i+128,len(b)))
-                if k>=i:return b[i:k].decode("ascii")
+                if k>=i:return b[i:k].decode("utf8")
         return None
     def ins(a,n):return list(cs.disasm(raw(a-S,n),a-S))
     def row(i):return {"ghidra":gh(i.address),"op":i.mnemonic+" "+i.op_str,"bytes":i.bytes.hex()}
