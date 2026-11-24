@@ -10,6 +10,16 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01c041a4: ("Conversation controller selects parent MessageWindow current sequence", 0x4000),
+    0x01b97520: ("Conversation style selector 0..46 mapping", 0x4000),
+    0x01c043c8: ("Conversation controller selected sequence presentation consumer", 0x4000),
+    0x01c027a0: ("Conversation controller initialization", 0x4000),
+    0x03868c7c: ("Active child component removal", 0x4000),
+    0x038693c0: ("Active child component insertion", 0x4000),
+    0x03869720: ("Child activation propagation", 0x4000),
+    0x03869930: ("Child deactivation propagation", 0x4000),
+    0x0386aeb4: ("Factory active component removal", 0x4000),
+    0x0386abe0: ("Factory active component insertion", 0x4000),
     0x0277e688: ("Placement eligibility or notification consumer", 0xf4),
     0x01b04850: ("Placement eligibility or notification consumer", 0x260),
     0x014bda70: ("Placement eligibility or notification consumer", 0x200),
