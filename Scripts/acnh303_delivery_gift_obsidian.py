@@ -10,6 +10,25 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x01bdff98: ("Message and conversation manager allocation and root publication", 0x2000),
+    0x01bdfde4: ("Message manager root destructor", 0x800),
+    0x01bf7564: ("Message manager child allocations and controller publication", 0x3000),
+    0x01c03904: ("Conversation controller 0x40 construction", 0x1000),
+    0x01bf83ac: ("Upper conversation ten-state registration", 0x1000),
+    0x01bfc554: ("Secondary message controller 0x5ab8 construction", 0x4000),
+    0x01bf7e20: ("Embedded conversation owner destruction", 0x1000),
+    0x01bf7ffc: ("Upper conversation state reset", 0x1000),
+    0x01ba83f4: ("Message owner active context publication", 0x1000),
+    0x01bf828c: ("Message active context cleanup", 0x1000),
+    0x01bf87cc: ("Upper conversation state Idle entry anchor", 0x1000),
+    0x01bf87d0: ("Upper conversation state Idle update anchor", 0x1000),
+    0x01bf87d4: ("Upper conversation state Idle exit anchor", 0x1000),
+    0x01bfa838: ("Upper conversation state Out entry anchor", 0x1000),
+    0x01bfa8e4: ("Upper conversation state Out update anchor", 0x1000),
+    0x01bfa9f0: ("Upper conversation state Out exit anchor", 0x1000),
+    0x01bfabd0: ("Upper conversation state Choice entry anchor", 0x1000),
+    0x01bfac9c: ("Upper conversation state Choice update anchor", 0x1000),
+    0x01bfb1c4: ("Upper conversation state Choice exit anchor", 0x1000),
     0x02581a1c: ("Placement request object constructor or relocation-backed virtual target", 0xe4),
     0x02581b00: ("Placement request object constructor or relocation-backed virtual target", 0x900),
     0x024f9b6c: ("Placement request object constructor or relocation-backed virtual target", 0x8e0),
@@ -681,7 +700,7 @@ def export_ui_gate_and_talk(elf,es,elfbase,code_start,code,raw,cs,out):
             if x==b"\x00":break
         if not b or b[-1]!=0:raise ValueError("unterminated name")
         names.append({"rva":hex(rva),"bytes":b.hex(),"name":bytes(b[:-1]).decode("ascii")})
-    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920)}
+    targets={v-BASE for v in (0x03868db0,0x03868ae0,0x03868eb8,0x03868800,0x0386a3a0,0x02c0e1b8,0x0386c920,0x01b97520,0x01c041a4,0x01c043c8,0x01c027a0,0x01c03bb0,0x01c03904,0x01be0874,0x01bdff98,0x01bf7564,0x01bf83ac,0x01bf7ffc)}
     hits=[]
     for idx,(w,) in enumerate(struct.iter_unpack("<I",code[:len(code)//4*4])):
         if w&0x7c000000!=0x14000000:continue
@@ -848,6 +867,22 @@ def main(root,out):
                             succ=candidate
                             authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
                                 "table_bytes":table_bytes.hex(),"index_min":0,"index_max":24,
+                                "targets_va":[hex(v+BASE) for v in succ],
+                                "status":"matched_bounded_switch_targets_not_runtime_verified"})
+                if gh==0x01b97520 and a==0x1a97548:
+                    # Unsigned bound 0..46, ADRP+ADD table, ADR base, LDRB, scaled ADD, BR.
+                    signature=bytes.fromhex("1fb90071 e8000054 092f0190 29e12d91 8a000010 2b696838 4a090b8b 40011fd6")
+                    first=0x1a9752c;table=0x4077b78
+                    table_bytes=raw(table,47)
+                    if (raw(first,len(signature))==signature
+                        and get_bytes_va(elf,es,first+elfbase,len(signature))==signature
+                        and len(table_bytes)==47
+                        and get_bytes_va(elf,es,table+elfbase,47)==table_bytes):
+                        candidate=[0x1a9754c+v*4 for v in table_bytes]
+                        if all(entry<=v<entry+budget and code_start<=v<code_end for v in candidate):
+                            succ=candidate
+                            authenticated_switches.append({"site_va":hex(a+BASE),"table_rva":hex(table),
+                                "table_bytes":table_bytes.hex(),"index_min":0,"index_max":46,
                                 "targets_va":[hex(v+BASE) for v in succ],
                                 "status":"matched_bounded_switch_targets_not_runtime_verified"})
                 if not succ:gaps.append({"rva":hex(a),"reason":"indirect_branch"})
