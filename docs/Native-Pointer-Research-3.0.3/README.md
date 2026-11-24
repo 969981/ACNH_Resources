@@ -85,6 +85,8 @@ updated: 2026-11-24
 
 28. [[28-父窗口空闲谓词与UI调度顺序]] · [GitHub 阅读](28-父窗口空闲谓词与UI调度顺序.md)
 
+28. [[28-菜单名称指针表与Native编号]] · [GitHub 阅读](28-菜单名称指针表与Native编号.md)
+
 ## 上游证据及可复现工具
 
 - [外部工具指针原始审计](../26-External-Tool-Pointer-ELF-Audit.md)
