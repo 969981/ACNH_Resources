@@ -10,6 +10,21 @@ from acnh303_round11_elf_xref import parse_elf, get_bytes_va
 BASE = 0x100000
 # Ghidra VA, bounded reachability budget (not claimed function size).
 ENTRIES = {
+    0x02db1e74: ("Context menu state or input callback", 0x4),
+    0x02db1e78: ("Context menu state or input callback", 0x4),
+    0x02db1e7c: ("Context menu state or input callback", 0x10c),
+    0x02db1f88: ("Context menu state or input callback", 0x8fc),
+    0x02db2884: ("Context menu state or input callback", 0xc),
+    0x02db2890: ("Context menu state or input callback", 0x604),
+    0x02db2e94: ("Context menu state or input callback", 0xc),
+    0x02db2ea0: ("Context menu state or input callback", 0xd0),
+    0x02db2f70: ("Context menu state or input callback", 0xaf8),
+    0x02db3a68: ("Context menu state or input callback", 0x18),
+    0x02db3a80: ("Context menu state or input callback", 0x2ec),
+    0x02db3d6c: ("Context menu state or input callback", 0xdc),
+    0x02db3e48: ("Context menu state or input callback", 0x4c),
+    0x02db3e94: ("Context menu state or input callback", 0x14),
+    0x02db3ea8: ("Context menu state or input callback", 0x5c),
     0x0386c920: ("UI manager recursive component enumeration", 0x1800),
     0x03869e50: ("Component visitor dispatch and child recursion", 0x1800),
     0x02fa432c: ("Talk sequence base-type acceptance predicate", 0x1800),
