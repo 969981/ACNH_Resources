@@ -23,6 +23,7 @@ updated: 2026-11-24
 8. [[08-保存管理器生命周期与Friendship静态验收]] · [GitHub 阅读](08-保存管理器生命周期与Friendship静态验收.md)
 
 9. [[09-保存后端析构与玩家Payload]] · [GitHub 阅读](09-保存后端析构与玩家Payload.md)
+10. [[10-跨岛派送指针与Native交付链]] · [GitHub 阅读](10-跨岛派送指针与Native交付链.md)
 
 ## 上游证据及可复现工具
 
