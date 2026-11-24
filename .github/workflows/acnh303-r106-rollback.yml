@@ -1,0 +1,42 @@
+name: ACNH 3.0.3 R106 rollback evidence
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r106*'
+      - 'derived/3.0.3/npc_event_flags/r106_rollback/**'
+      - 'derived/3.0.3/npc_event_flags/semantics/field_semantics.json'
+      - '.github/workflows/acnh303-r106-rollback.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-r106:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r106_rollback.py
+            /derived/3.0.3/npc_event_flags/r106_rollback/
+            /derived/3.0.3/npc_event_flags/semantics/field_semantics.json
+            /derived/3.0.3/ghidra12.2/c/1c/02851ce8.c
+            /derived/3.0.3/ghidra12.2/c/1b/02851b88.c
+            /derived/3.0.3/ghidra12.2/c/74/00ad7410.c
+            /derived/3.0.3/ghidra12.2/c/1b/02741b30.c
+            /derived/3.0.3/ghidra12.2/c/27/02752790.c
+            /derived/3.0.3/ghidra12.2/c/cb/028bcb18.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch authenticated R105 evidence ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/969981/ACNH_Resources/actions/artifacts/14883517767/zip > r105.zip
+      - run: python Scripts/acnh303_r106_rollback.py --root . --artifact r105.zip --out artifacts/r106/report.json --search
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r106-rollback
+          path: artifacts/r106/
