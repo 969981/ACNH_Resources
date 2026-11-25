@@ -1,5 +1,7 @@
 # ACNH 3.0.3 — 原生家具空间、放置与交互属性
 
+返回 [知识库首页](README.md) · [专题索引](Furniture/Furniture-Spatial.md) · [研究路线](Research/Research-Roadmap.md)。
+
 ## 原始来源及实际验收
 research 分支，PR #126（仍为 Draft）。专项 CI 45567811019 全部通过，artifact 15000592353。原始六份 BCSV 文件按 Git blob 校验，ItemParam SHA256 9f31230158ab9ace881fe6e5c64579e206f5318646d8d77d8ac7c197abed3609。SQLite 72396800 bytes SHA256 131b1f36cd0f113dfb12723141d2e592e917ce57c12d4d0214f12453b6c17522，独立 integrity_check=ok，foreign_key_check=[]。11张表，item_space 视图，11178 item，28 size，189 kind，185 action，33534 action_candidate，11178 item_placement_candidate，15 placement_enum_candidate，62167 asset（23699 非Layout Model/38468辅助路径候选），18561 item_asset；9457个道具有精确名称 Model 路径，2个有辅助路径候选。路径存在不等于实际加载。没有改变商品订单、旧版堆叠或派送逻辑。
 
