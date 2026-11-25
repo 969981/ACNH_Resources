@@ -1,0 +1,149 @@
+name: ACNH303 global BCSV field dictionary
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_global_bcsv_dictionary.py'
+      - 'Scripts/test_acnh303_global_bcsv_dictionary.py'
+      - 'Scripts/acnh303_global_bcsv_type_profile.py'
+      - 'Scripts/test_acnh303_global_bcsv_type_profile.py'
+      - 'Scripts/acnh303_global_bcsv_unknown_search.py'
+      - 'Scripts/acnh303_global_bcsv_enum_import.py'
+      - 'Scripts/acnh303_global_bcsv_native_reader.py'
+      - 'Scripts/acnh303_global_bcsv_lifecycle.py'
+      - 'Scripts/acnh303_global_bcsv_cache.py'
+      - 'Scripts/acnh303_global_bcsv_cache_xrefs.py'
+      - 'Scripts/acnh303_global_bcsv_pcode.py'
+      - 'Scripts/acnh303_global_bcsv_ssa.py'
+      - 'Scripts/acnh303_global_bcsv_pcode_batches.py'
+      - 'Scripts/acnh303_global_bcsv_interprocedural.py'
+      - 'Scripts/test_acnh303_global_bcsv_ssa.py'
+      - 'tools/ghidra/ExportBCSVHighPcode.java'
+      - 'Scripts/test_acnh303_global_bcsv_native_reader.py'
+      - 'derived/3.0.3/global_bcsv_dictionary/**'
+      - '.github/workflows/acnh303-global-bcsv-dictionary.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          sparse-checkout: |
+            Scripts
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+            e10617820db06889e1638499478da0de_NCA/0/main.elf
+            e10617820db06889e1638499478da0de_NCA/0/main
+            derived/3.0.3/ghidra12.2/c/8f/01d38ff0.c
+            UnPack/1/Bcsv
+            assets/evidence/rom-database/r82-npc-bcsv-field-dictionary.csv
+            assets/evidence/rom-database/r74-original-item-npc-stack-schema.json
+            assets/evidence/rom-database/r84/r84-field-hash-dictionary.csv
+            derived/3.0.3/npc_event_flags/semantics/field_semantics.json
+            derived/3.0.3/global_bcsv_dictionary
+          sparse-checkout-cone-mode: false
+      - name: Install pinned disassembler
+        run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - name: Unit tests and full original audit
+        run: |
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_dictionary.py -v
+          python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global-bcsv
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_type_profile.py -v
+          python Scripts/acnh303_global_bcsv_type_profile.py --root . --dictionary artifacts/global-bcsv --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_unknown_search.py --root . --dictionary artifacts/global-bcsv --out artifacts/global-bcsv --cache /tmp/acnh-external-corpus
+          python Scripts/acnh303_global_bcsv_enum_import.py --root . --out artifacts/global-bcsv --cache /tmp/acnh-external-corpus
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_native_reader.py -v
+          python Scripts/acnh303_global_bcsv_native_reader.py --root . --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_lifecycle.py --root . --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_cache.py --root . --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_cache_xrefs.py --root . --out artifacts/global-bcsv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNH303-global-bcsv-dictionary
+          path: artifacts/global-bcsv/
+          if-no-files-found: error
+
+  ghidra-pcode:
+    needs: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GHIDRA_URL: https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip
+      GHIDRA_SHA256: 2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /tools/ghidra/
+            /derived/3.0.3/ghidra12.2/project/
+      - uses: actions/download-artifact@v4
+        with:
+          name: ACNH303-global-bcsv-dictionary
+          path: artifacts/global-bcsv
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: actions/cache@v4
+        id: ghidra-cache
+        with:
+          path: ${{ runner.temp }}/ghidra_12.2_PUBLIC
+          key: ghidra-12.2-20261016-sha256-2c2cd776-v1
+      - name: Restore pinned Ghidra and authenticated project
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -x "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" ]; then
+            curl --fail --location --retry 4 -o "$RUNNER_TEMP/ghidra_12.2.zip" "$GHIDRA_URL"
+            echo "$GHIDRA_SHA256  $RUNNER_TEMP/ghidra_12.2.zip" | sha256sum --check
+            unzip -q "$RUNNER_TEMP/ghidra_12.2.zip" -d "$RUNNER_TEMP"
+          fi
+          mkdir -p "$RUNNER_TEMP/acnh-project" artifacts/pcode
+          python tools/ghidra/acnh_ghidra_pack.py join derived/3.0.3/ghidra12.2/project/ghidra_project.tar.manifest.json "$RUNNER_TEMP/ghidra_project.tar"
+          tar -xf "$RUNNER_TEMP/ghidra_project.tar" -C "$RUNNER_TEMP/acnh-project"
+          rm "$RUNNER_TEMP/ghidra_project.tar"
+      - name: Unit tests and first 400-function SSA acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_ssa.py -v
+          mkdir -p artifacts/first-dictionary
+          cp artifacts/global-bcsv/*.json artifacts/first-dictionary/
+          cp artifacts/global-bcsv/dictionary.sqlite3 artifacts/first-dictionary/
+          python Scripts/acnh303_global_bcsv_pcode.py seed --dictionary artifacts/global-bcsv --pcode artifacts/pcode/seeds.tsv
+          "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" "$RUNNER_TEMP/acnh-project" ACNH303 -process main.elf -noanalysis -readOnly -max-cpu 2 -scriptPath "$PWD/tools/ghidra" -postScript ExportBCSVHighPcode.java "$PWD/artifacts/pcode" "$PWD/artifacts/pcode/seeds.tsv" 400 25 -log "$PWD/artifacts/pcode/ghidra.log" -scriptlog "$PWD/artifacts/pcode/script.log"
+          test -s artifacts/pcode/summary.json
+          cat artifacts/pcode/summary.json
+          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/first-dictionary --pcode artifacts/pcode
+          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/first-dictionary --pcode artifacts/pcode
+          python -c 'import json; from pathlib import Path; s=json.loads(Path("artifacts/pcode/ssa_summary.json").read_text()); assert s["functions_analyzed"]==400, s'
+      - name: Complete selected functions only after SSA acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/pcode-tail artifacts/pcode-full
+          REMAINING=$(python -c 'import json; s=json.load(open("artifacts/pcode/summary.json")); print(s["selected_functions"]-s["attempted"])')
+          test "$REMAINING" -gt 0
+          "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" "$RUNNER_TEMP/acnh-project" ACNH303 -process main.elf -noanalysis -readOnly -max-cpu 2 -scriptPath "$PWD/tools/ghidra" -postScript ExportBCSVHighPcode.java "$PWD/artifacts/pcode-tail" "$PWD/artifacts/pcode/seeds.tsv" "$REMAINING" 25 400 -log "$PWD/artifacts/pcode-tail/ghidra.log" -scriptlog "$PWD/artifacts/pcode-tail/script.log"
+          python Scripts/acnh303_global_bcsv_pcode_batches.py artifacts/pcode artifacts/pcode-tail artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_interprocedural.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-native-high-pcode
+          path: |
+            artifacts/pcode/
+            artifacts/pcode-tail/summary.json
+            artifacts/pcode-tail/*.log
+            artifacts/pcode-full/
+            artifacts/global-bcsv/dictionary.sqlite3
+          if-no-files-found: warn
