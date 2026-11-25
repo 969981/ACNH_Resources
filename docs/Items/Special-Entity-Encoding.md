@@ -18,3 +18,9 @@
 Scripts/item_entity/SpecialEntityCodec.py、audit_special_entity.py、test_special_entity.py；research/catalog/special-entity/：money.csv、plant_identity.csv、bottle_domain.csv（仅可解析并有静态命中时）、summary.json。所有完整默认构造与运行时验证计数仍为0。
 
 [CI](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-special-entity.yml)。
+
+## 020FDD30 运行时限制表生产者（第二轮已验收）
+
+两指针重定位目标分别为 Ghidra VA 053E6E93、053E6EB8（RVA 052E6E93、052E6EB8），不在原版NSO文件映射段。FUN_020FDD30 初始化35个上界字节与35个u32掩码，读取 NmlNpcParam.UniqueID 54706054、ResName 48EF0398、Label 2F1B930D；FUN_020FC100 根据3字符前缀表与数字后缀解码，按类别累计max与位图。前缀数组由原版 PTR_DAT_04BB9E38 +0xB0 的35个重定位指针读取，实际35种，与417个NPC Label完全匹配。静态重建417项域并全部通过写读对账。原生缓存可受运行时数据影响，仍未捕获内存。归档 bottle_npc_mapping.csv、bottle_domain.csv，未声称每位村民与任意配方的组合均实际有效。
+
+Money 108项全部 MultiHoldMaxNum=-1，01AF0020正常分支在<2时返回false，金额直接Price。场景身份350项Grow=2终点、151项空/缺失、39项其他Grow分支，96项终点关联默认遗传表。完整默认实体仍未恢复。CI [生产者数据发布](https://github.com/969981/ACNH_Resources/actions/runs/45634987830)，[18项回归](https://github.com/969981/ACNH_Resources/actions/runs/45635019368)。
