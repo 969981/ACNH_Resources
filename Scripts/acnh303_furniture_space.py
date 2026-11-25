@@ -37,22 +37,27 @@ def native(root,labels):
     import acnh303_r100_nso_decode as dec
     from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
     elf,nso,mapped,segments,raw,tags,relocs=dec.decode(root);base=0x100000
-    names=[]
-    for i in range(28):
-        a=0x04a2c6c0-base+i*8;r=relocs.get(a)
-        check(r and r["type"] in ("RELR",1027) and r["symbol"]==0 and r["addend"] is not None,"Size enum relocation")
-        t=r["addend"];s=None
-        for v,b in mapped[1:]:
-            if v<=t<v+len(b):
-                off=t-v;end=b.find(b"\0",off,min(len(b),off+128))
-                if end>=0:s=b[off:end].decode("utf-8")
-        check(s in labels,"Unknown runtime size label "+str(s));names.append({"index":i,"name":s,"crc":crc(s),"pointerVA":hex(a+base),"stringVA":hex(t+base)})
-    check(len({x["name"] for x in names})==28,"Size enum coverage")
+    def strings(table,n):
+        rows=[]
+        for i in range(n):
+            a=table-base+i*8;r=relocs.get(a)
+            check(r and r["type"] in ("RELR",1027) and r["symbol"]==0 and r["addend"] is not None,"Enum relocation")
+            t=r["addend"];s=None
+            for v,b in mapped[1:]:
+                if v<=t<v+len(b):
+                    off=t-v;end=b.find(b"\0",off,min(len(b),off+128))
+                    if end>=0:s=b[off:end].decode("utf-8")
+            check(s is not None,"Unresolved enum")
+            rows.append({"index":i,"name":s,"crc":crc(s),"pointerVA":hex(a+base),"stringVA":hex(t+base)})
+        return rows
+    names=strings(0x04a2c6c0,28)
+    check({x["name"] for x in names}==labels,"Size enum coverage")
+    placement=strings(0x04a1e5c8,15)
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
     windows={}
     for a,n in [(0x01aa64a0,0x380),(0x01a8e060,0x500),(0x01a8da80,0x600),(0x01aee3b4,0x410),(0x01afb1a0,0x2a0),(0x01afb7fc,0x120),(0x01afb8e8,0x160)]:
         data=raw(a-base,n);windows[hex(a)]={"sha256":sha(data),"instructions":[{"va":hex(i.address+base),"bytes":i.bytes.hex(),"asm":i.mnemonic+" "+i.op_str} for i in cs.disasm(data,a-base)],"windowNotFunctionBoundary":True}
-    return {"nsoSha256":sha(nso),"enum":names,"windows":windows,"runtimeVerified":False}
+    return {"nsoSha256":sha(nso),"enum":names,"placementEnumCandidate":placement,"windows":windows,"runtimeVerified":False}
 SCHEMA="""
 PRAGMA foreign_keys=ON;
 CREATE TABLE source(name TEXT PRIMARY KEY,path TEXT,sha256 TEXT,git_blob TEXT,rows INTEGER,stride INTEGER);
@@ -60,6 +65,8 @@ CREATE TABLE size(id INTEGER PRIMARY KEY,label TEXT UNIQUE,crc INTEGER UNIQUE,so
 CREATE TABLE kind(id INTEGER PRIMARY KEY,label TEXT UNIQUE,source_row INTEGER UNIQUE,stack_raw_s16 INTEGER,can_ftr INTEGER,can_put INTEGER,can_set_item INTEGER,can_put_wall_floor INTEGER,raw_fields_json TEXT);
 CREATE TABLE action(family TEXT,label TEXT,crc INTEGER,source_id INTEGER,source_row INTEGER,raw_fields_json TEXT,PRIMARY KEY(family,crc));
 CREATE TABLE item(id INTEGER PRIMARY KEY,source_row INTEGER UNIQUE,label TEXT,model_name TEXT,raw_kind TEXT,base_kind_crc INTEGER NOT NULL,kind_id INTEGER REFERENCES kind(id),kind_status TEXT,size_id INTEGER NOT NULL REFERENCES size(id),size_crc INTEGER NOT NULL,remake_id INTEGER,raw_fields_json TEXT);
+CREATE TABLE placement_enum_candidate(idx INTEGER PRIMARY KEY,name TEXT,crc INTEGER UNIQUE);
+CREATE TABLE item_placement_candidate(item_id INTEGER PRIMARY KEY REFERENCES item(id),raw_crc INTEGER NOT NULL,enum_idx INTEGER REFERENCES placement_enum_candidate(idx));
 CREATE TABLE action_candidate(item_id INTEGER REFERENCES item(id),field_hash TEXT,family TEXT,crc INTEGER,PRIMARY KEY(item_id,field_hash,family),FOREIGN KEY(family,crc) REFERENCES action(family,crc));
 CREATE TABLE asset(path TEXT PRIMARY KEY,git_blob TEXT NOT NULL,category TEXT NOT NULL);
 CREATE TABLE item_asset(item_id INTEGER REFERENCES item(id),path TEXT REFERENCES asset(path),match_rule TEXT,PRIMARY KEY(item_id,path,match_rule));
@@ -118,11 +125,14 @@ def main(root,verified,out):
         else:continue
         candidate_paths.append((p,b,cat));asset_index[stem].append((p,cat))
     c.executemany("INSERT INTO asset VALUES(?,?,?)",candidate_paths)
+    placement={x["crc"]:x["index"] for x in nv["placementEnumCandidate"]}
+    c.executemany("INSERT INTO placement_enum_candidate VALUES(?,?,?)",[(x["index"],x["name"],x["crc"]) for x in nv["placementEnumCandidate"]])
     for i in range(it.n):
         ident=it.val(i,"54706054",2);label=it.text(i,"3FEBC642");model=it.text(i,"48EF0398");kind=it.text(i,"FC275E86")
         k=kind.removeprefix("Kind_");exact=kinds.get(k);kh=it.val(i,"5270EB75",4);kid=kind_crc.get(kh);check(kid is not None and (exact is None or exact==kid),"Kind CRC cross-check")
         h=it.val(i,"E06FB090",4);check(h in sizes,"Size CRC")
         c.execute("INSERT INTO item VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(ident,i,label,model,kind,kh,kid,"exact_label_and_crc" if exact is not None else "exact_native_kind_crc",sizes[h]["id"],h,it.val(i,"CB5EB33F",2),json.dumps(it.record(i),separators=(",",":"))))
+        ph=it.val(i,"9DCEA17E",4);c.execute("INSERT INTO item_placement_candidate VALUES(?,?,?)",(ident,ph,placement.get(ph)))
         c.execute("INSERT INTO space_runtime VALUES(?,?,?,?,?,?,?,?)",(ident,None,None,None,None,0,0,0))
         for fam,field in sorted(selected):
             v=it.val(i,field,4);c.execute("INSERT INTO action_candidate VALUES(?,?,?,?)",(ident,field,fam,v))
@@ -132,6 +142,8 @@ def main(root,verified,out):
     c.commit();check(c.execute("PRAGMA integrity_check").fetchone()[0]=="ok" and not c.execute("PRAGMA foreign_key_check").fetchall(),"SQLite integrity")
     counts={n:c.execute("SELECT count(*) FROM "+n).fetchone()[0] for n in ("source","size","kind","action","item","action_candidate","asset","item_asset","space_runtime")}
     report={"counts":counts,"kindStatuses":dict(c.execute("SELECT kind_status,count(*) FROM item GROUP BY kind_status")),"sizeDistribution":[dict(zip(("label","width","depth","plane","count"),r)) for r in c.execute("SELECT size_label,width_tiles,depth_or_height_tiles,plane,count(*) FROM item_space GROUP BY size_label ORDER BY count(*) DESC")],"actionFields":[{"family":f,"hash":h,"matchCount":coverage[f,h],"nonNone":nonempty[f,h]} for f,h in sorted(selected)],"sourceDirectories":dict(dirs),"assetCategories":dict(c.execute("SELECT category,count(*) FROM asset GROUP BY category")),"assetLinkCategories":dict(c.execute("SELECT a.category,count(DISTINCT i.item_id) FROM item_asset i JOIN asset a USING(path) GROUP BY a.category")),"samples":[dict(zip(("id","label","kind","size","width","depth","plane"),r)) for r in c.execute("SELECT id,label,raw_kind,size_label,width_tiles,depth_or_height_tiles,plane FROM item_space WHERE id IN (2,79,725,1499,1500,1501,2213,3410,3411,3412,6426,12766,12767,12773)")],"runtimeVerified":False}
+    report["placementEnum"]=nv["placementEnumCandidate"]
+    report["placementDistribution"]=dict(c.execute("SELECT coalesce(e.name,'unmatched'),count(*) FROM item_placement_candidate p LEFT JOIN placement_enum_candidate e ON e.idx=p.enum_idx GROUP BY e.name"))
     c.close();write(out/"audit.json",report);print(json.dumps(report,ensure_ascii=False))
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--verified",type=Path,required=True);p.add_argument("--out",type=Path,required=True);a=p.parse_args();main(a.root.resolve(),a.verified.resolve(),a.out)
