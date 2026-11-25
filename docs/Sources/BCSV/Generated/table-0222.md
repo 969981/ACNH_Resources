@@ -1,14 +1,16 @@
 # WherearenNpcGardenDistantViewParam.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [字段名称字典](../Field-Names.md)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/WherearenNpcGardenDistantViewParam.bcsv`
 SHA256：`f96cd6a145c8272671b00de06132a103b11d988c532cdfac6c5e6582c665d20b`
-状态：parsed
+记录数 6，行长 40，字段数 2。回填 2 个字段。
 
-行数 6，行长 40，数据起点 44。
+[原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcGardenDistantViewParam.csv) · [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcGardenDistantViewParam.csv) · [字段映射 JSON](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/schema/WherearenNpcGardenDistantViewParam.json)
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_54706054 | 4 | 2 | 未知，保留原值 |
-| hash_DCFB52E8 | 6 | 34 | 未知，保留原值 |
+候选名称及类型仅为签名匹配；CSV 单元格仍为未经业务加工的原始解析值。
+
+| Hash | 偏移 | 跨度 | 回填列名 | 类型候选 | 签名候选 | 证据状态 |
+| --- | ---: | ---: | --- | --- | --- | --- |
+| hash_54706054 | 4 | 2 | UniqueID | u16 | UniqueID u16 | candidate_name |
+| hash_DCFB52E8 | 6 | 34 | ResName | string32 | ResName string32 | candidate_name |

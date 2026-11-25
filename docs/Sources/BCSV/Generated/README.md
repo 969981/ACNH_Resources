@@ -1,242 +1,242 @@
 # BCSV 全量结构索引
 
-自动生成；结构验证不代表语义验证。
+名称为 CRC32 签名候选；原始值不变。
 
-| 表 | 行数 | 字段数 | 状态 |
-| --- | ---: | ---: | --- |
-| [AITag.bcsv](table-0000.md) | 51 | 4 | parsed |
-| [AmiiboData.bcsv](table-0001.md) | 581 | 10 | parsed |
-| [BgmPropertyControlParam.bcsv](table-0002.md) | 187 | 4 | parsed |
-| [BgmPropertyParam.bcsv](table-0003.md) | 58 | 2 | parsed |
-| [CalendarEventCountryParam.bcsv](table-0004.md) | 20 | 3 | parsed |
-| [CalendarEventHarvestFishExchange.bcsv](table-0005.md) | 32 | 9 | parsed |
-| [CalendarEventHarvestNeceaasryIngredient.bcsv](table-0006.md) | 23 | 17 | parsed |
-| [CalendarEventJuneBrideExchange.bcsv](table-0007.md) | 26 | 5 | parsed |
-| [CalendarEventJuneBrideReward.bcsv](table-0008.md) | 6 | 4 | parsed |
-| [CalendarEventParam.bcsv](table-0009.md) | 144 | 162 | parsed |
-| [CalendarEventRegionParam.bcsv](table-0010.md) | 76 | 12 | parsed |
-| [CharaMakeCheekTypeParam.bcsv](table-0011.md) | 3 | 4 | parsed |
-| [CharaMakeEyeColorParam.bcsv](table-0012.md) | 12 | 6 | parsed |
-| [CharaMakeEyeTypeParam.bcsv](table-0013.md) | 52 | 5 | parsed |
-| [CharaMakeHairColorParam.bcsv](table-0014.md) | 16 | 9 | parsed |
-| [CharaMakeHairStyleParam.bcsv](table-0015.md) | 48 | 43 | parsed |
-| [CharaMakeHalloweenMakePresetParam.bcsv](table-0016.md) | 13 | 3 | parsed |
-| [CharaMakeMouthTypeParam.bcsv](table-0017.md) | 4 | 4 | parsed |
-| [CharaMakeNoseTypeParam.bcsv](table-0018.md) | 3 | 4 | parsed |
-| [CharaMakeSkinColorParam.bcsv](table-0019.md) | 12 | 15 | parsed |
-| [ColEffectAttributeParam.bcsv](table-0020.md) | 24 | 2 | parsed |
-| [ColGroundAttributeParam.bcsv](table-0021.md) | 73 | 14 | parsed |
-| [ColSoundAttributeParam.bcsv](table-0022.md) | 23 | 2 | parsed |
-| [DIYTradeMaterialBasePriceParam.bcsv](table-0023.md) | 233 | 3 | parsed |
-| [DuckingParam.bcsv](table-0024.md) | 51 | 2 | parsed |
-| [EventFlagsAocParam.bcsv](table-0025.md) | 2 | 6 | parsed |
-| [EventFlagsHotelNpcMemoryParam.bcsv](table-0026.md) | 7 | 6 | parsed |
-| [EventFlagsHotelNpcTempParam.bcsv](table-0027.md) | 7 | 8 | parsed |
-| [EventFlagsHouseParam.bcsv](table-0028.md) | 10 | 7 | parsed |
-| [EventFlagsLandParam.bcsv](table-0029.md) | 513 | 10 | parsed |
-| [EventFlagsLandTempParam.bcsv](table-0030.md) | 101 | 10 | parsed |
-| [EventFlagsLifeSupportAchievementParam.bcsv](table-0031.md) | 99 | 21 | parsed |
-| [EventFlagsLifeSupportDailyParam.bcsv](table-0032.md) | 219 | 21 | parsed |
-| [EventFlagsNpcMemoryParam.bcsv](table-0033.md) | 167 | 10 | parsed |
-| [EventFlagsNpcSaveParam.bcsv](table-0034.md) | 65 | 7 | parsed |
-| [EventFlagsNpcTempParam.bcsv](table-0035.md) | 72 | 8 | parsed |
-| [EventFlagsPlayerActivityParam.bcsv](table-0036.md) | 67 | 8 | parsed |
-| [EventFlagsPlayerParam.bcsv](table-0037.md) | 1688 | 10 | parsed |
-| [EventFlagsPlayerTempParam.bcsv](table-0038.md) | 213 | 8 | parsed |
-| [EventFlagsPlayerVisitParam.bcsv](table-0039.md) | 98 | 6 | parsed |
-| [EventFlagsWherearenNpcMemoryParam.bcsv](table-0040.md) | 13 | 9 | parsed |
-| [EventFlagsWherearenPlayerParam.bcsv](table-0041.md) | 281 | 8 | parsed |
-| [EventPlazaFtrParam.bcsv](table-0042.md) | 35 | 5 | parsed |
-| [EventPlazaGround.bcsv](table-0043.md) | 2 | 2 | parsed |
-| [EventPlazaObjModelParam.bcsv](table-0044.md) | 27 | 10 | parsed |
-| [EventPlazaPlacementParam.bcsv](table-0045.md) | 131 | 23 | parsed |
-| [FadeOutDuckingParam.bcsv](table-0046.md) | 13 | 2 | parsed |
-| [FgFlowerHeredity.bcsv](table-0047.md) | 270 | 8 | parsed |
-| [FgMainParam.bcsv](table-0048.md) | 540 | 25 | parsed |
-| [FgRemakeFence.bcsv](table-0049.md) | 79 | 4 | parsed |
-| [FieldCreateParam.bcsv](table-0050.md) | 139 | 6 | parsed |
-| [FieldDistantViewParam.bcsv](table-0051.md) | 3 | 2 | parsed |
-| [FieldLandMakingActionParam.bcsv](table-0052.md) | 17 | 12 | parsed |
-| [FieldLandMakingError.bcsv](table-0053.md) | 18 | 7 | parsed |
-| [FieldLandMakingRoadKindParam.bcsv](table-0054.md) | 9 | 3 | parsed |
-| [FieldLandMakingUnitModelParam.bcsv](table-0055.md) | 246 | 42 | parsed |
-| [FieldMainFieldParam.bcsv](table-0056.md) | 96 | 6 | parsed |
-| [FieldOutsideParts.bcsv](table-0057.md) | 194 | 4 | parsed |
-| [FieldOutsideTemplate.bcsv](table-0058.md) | 36 | 27 | parsed |
-| [FishAppearRiverParam.bcsv](table-0059.md) | 100 | 41 | parsed |
-| [FishAppearSeaParam.bcsv](table-0060.md) | 76 | 41 | parsed |
-| [FishBeyQuestParam.bcsv](table-0061.md) | 24 | 4 | parsed |
-| [FishStatusParam.bcsv](table-0062.md) | 85 | 19 | parsed |
-| [GmoFootprintParam.bcsv](table-0063.md) | 14 | 4 | parsed |
-| [HotelThemeInfo.bcsv](table-0064.md) | 46 | 9 | parsed |
-| [HumanAnimParam.bcsv](table-0065.md) | 904 | 14 | parsed |
-| [IndoorIdrParam.bcsv](table-0066.md) | 30 | 5 | parsed |
-| [IndoorPhotoStudioItemParam.bcsv](table-0067.md) | 20 | 8 | parsed |
-| [InsectAppearParam.bcsv](table-0068.md) | 166 | 75 | parsed |
-| [InsectBattleParam.bcsv](table-0069.md) | 4 | 3 | parsed |
-| [InsectStatusParam.bcsv](table-0070.md) | 90 | 16 | parsed |
-| [ItemAct.bcsv](table-0071.md) | 82 | 9 | parsed |
-| [ItemClothGroup.bcsv](table-0072.md) | 1462 | 19 | parsed |
-| [ItemCloudislandPutRepresentativeParam.bcsv](table-0073.md) | 497 | 5 | parsed |
-| [ItemColor.bcsv](table-0074.md) | 15 | 3 | parsed |
-| [ItemFilter.bcsv](table-0075.md) | 22 | 19 | parsed |
-| [ItemFrom.bcsv](table-0076.md) | 318 | 6 | parsed |
-| [ItemKind.bcsv](table-0077.md) | 189 | 31 | parsed |
-| [ItemLoginBonus.bcsv](table-0078.md) | 12 | 3 | parsed |
-| [ItemMailAttachCategoryGroup.bcsv](table-0079.md) | 3 | 4 | parsed |
-| [ItemMenuIcon.bcsv](table-0080.md) | 618 | 4 | parsed |
-| [ItemNpcFtrActionParam.bcsv](table-0081.md) | 19 | 12 | parsed |
-| [ItemNpcOutfitInfo.bcsv](table-0082.md) | 21 | 8 | parsed |
-| [ItemNpcRoomReplaceCategory.bcsv](table-0083.md) | 21 | 10 | parsed |
-| [ItemNpcTopsForm.bcsv](table-0084.md) | 35 | 31 | parsed |
-| [ItemNpcWherearenFtrActionParam.bcsv](table-0085.md) | 84 | 12 | parsed |
-| [ItemOutfitCategory.bcsv](table-0086.md) | 117 | 14 | parsed |
-| [ItemOutfitHangerInfo.bcsv](table-0087.md) | 14 | 5 | parsed |
-| [ItemOutfitInfo.bcsv](table-0088.md) | 162 | 17 | parsed |
-| [ItemParam.bcsv](table-0089.md) | 11178 | 107 | parsed |
-| [ItemPlayerInitialOutfitBoyAWParam.bcsv](table-0090.md) | 8 | 9 | parsed |
-| [ItemPlayerInitialOutfitBoySSParam.bcsv](table-0091.md) | 8 | 9 | parsed |
-| [ItemPlayerInitialOutfitGirlAWParam.bcsv](table-0092.md) | 8 | 9 | parsed |
-| [ItemPlayerInitialOutfitGirlSSParam.bcsv](table-0093.md) | 8 | 9 | parsed |
-| [ItemPlayerTopsForm.bcsv](table-0094.md) | 107 | 11 | parsed |
-| [ItemRemake.bcsv](table-0095.md) | 1306 | 58 | parsed |
-| [ItemRemakeCommonPattern.bcsv](table-0096.md) | 220 | 7 | parsed |
-| [ItemRemakeCommonPatternCategory.bcsv](table-0097.md) | 12 | 3 | parsed |
-| [ItemSeasonalityParam.bcsv](table-0098.md) | 5 | 9 | parsed |
-| [ItemShareTexture.bcsv](table-0099.md) | 2 | 2 | parsed |
-| [ItemSize.bcsv](table-0100.md) | 28 | 8 | parsed |
-| [ItemStrSort.bcsv](table-0101.md) | 11178 | 15 | parsed |
-| [ItemUIContextMenu.bcsv](table-0102.md) | 66 | 6 | parsed |
-| [ItemUIFurnitureCategory.bcsv](table-0103.md) | 256 | 4 | parsed |
-| [ItemUnitIcon.bcsv](table-0104.md) | 218 | 8 | parsed |
-| [JuneBrideWallFloor.bcsv](table-0105.md) | 36 | 5 | parsed |
-| [KappeiTourInfoParam.bcsv](table-0106.md) | 11 | 12 | parsed |
-| [LifeTips.bcsv](table-0107.md) | 240 | 8 | parsed |
-| [LocalizeNameConvertParam.bcsv](table-0108.md) | 22 | 19 | parsed |
-| [MannequinCoodinate.bcsv](table-0109.md) | 120 | 11 | parsed |
-| [MaterialType.bcsv](table-0110.md) | 6 | 3 | parsed |
-| [MemoriesEventInfoLand.bcsv](table-0111.md) | 76 | 12 | parsed |
-| [MemoriesEventInfoPlayer.bcsv](table-0112.md) | 117 | 12 | parsed |
-| [MemoriesValueInfoPlayer.bcsv](table-0113.md) | 25 | 3 | parsed |
-| [MessageCardBoardDesignParam.bcsv](table-0114.md) | 7 | 13 | parsed |
-| [MessageCardColorParam.bcsv](table-0115.md) | 299 | 2 | parsed |
-| [MessageCardDesignParam.bcsv](table-0116.md) | 76 | 21 | parsed |
-| [MessageCardSelectDesign.bcsv](table-0117.md) | 202 | 13 | parsed |
-| [MessageCardSelectDesignSp.bcsv](table-0118.md) | 80 | 13 | parsed |
-| [MessageCardSelectPresent.bcsv](table-0119.md) | 125 | 5 | parsed |
-| [MessageCardSelectPresentSp.bcsv](table-0120.md) | 19 | 5 | parsed |
-| [MuseumArtDonateInfo.bcsv](table-0121.md) | 43 | 5 | parsed |
-| [MuseumCafeSpInfoParam.bcsv](table-0122.md) | 63 | 8 | parsed |
-| [MuseumCafeSpLabelParam.bcsv](table-0123.md) | 80 | 4 | parsed |
-| [MuseumFossilDonateInfo.bcsv](table-0124.md) | 73 | 5 | parsed |
-| [MuseumNPCLayoutInfo.bcsv](table-0125.md) | 109 | 7 | parsed |
-| [MuseumNPCSilhouette.bcsv](table-0126.md) | 17 | 6 | parsed |
-| [MuseumNPCSpotTalk.bcsv](table-0127.md) | 10 | 5 | parsed |
-| [MuseumNameboardInfo.bcsv](table-0128.md) | 120 | 13 | parsed |
-| [MuseumStampRackInfo.bcsv](table-0129.md) | 32 | 13 | parsed |
-| [MuseumWatchPoint.bcsv](table-0130.md) | 112 | 14 | parsed |
-| [MysteryTourFieldParam.bcsv](table-0131.md) | 46 | 2 | parsed |
-| [MysteryTourFishParam.bcsv](table-0132.md) | 3 | 2 | parsed |
-| [MysteryTourInsectParam.bcsv](table-0133.md) | 13 | 2 | parsed |
-| [MysteryTourItemParam.bcsv](table-0134.md) | 46 | 1 | parsed |
-| [MysteryTourParam.bcsv](table-0135.md) | 41 | 16 | parsed |
-| [NmlNpcParam.bcsv](table-0136.md) | 417 | 41 | parsed |
-| [NmlNpcRaceParam.bcsv](table-0137.md) | 110 | 18 | parsed |
-| [NpcCastLabelData.bcsv](table-0138.md) | 35 | 4 | parsed |
-| [NpcCastScheduleData.bcsv](table-0139.md) | 35 | 11 | parsed |
-| [NpcEquipRule.bcsv](table-0140.md) | 26 | 21 | parsed |
-| [NpcInterest.bcsv](table-0141.md) | 21 | 27 | parsed |
-| [NpcLife.bcsv](table-0142.md) | 52 | 40 | parsed |
-| [NpcLooksParam.bcsv](table-0143.md) | 8 | 35 | parsed |
-| [NpcMoveRoomTemplate.bcsv](table-0144.md) | 28 | 6 | parsed |
-| [NpcMsgBullfestParam.bcsv](table-0145.md) | 840 | 30 | parsed |
-| [NpcSpClothSetParam.bcsv](table-0146.md) | 65 | 10 | parsed |
-| [NpcSpModelScale.bcsv](table-0147.md) | 13 | 19 | parsed |
-| [NpcSpServiceMotionRandom.bcsv](table-0148.md) | 130 | 8 | parsed |
-| [NpcSpServiceMotionWork.bcsv](table-0149.md) | 20 | 18 | parsed |
-| [NpcSpServiceMotionWorkSp.bcsv](table-0150.md) | 8 | 7 | parsed |
-| [PlayerStateParam.bcsv](table-0151.md) | 329 | 42 | parsed |
-| [RadioCM.bcsv](table-0152.md) | 19 | 7 | parsed |
-| [RadioJingle.bcsv](table-0153.md) | 24 | 7 | parsed |
-| [RecipeCraftParam.bcsv](table-0154.md) | 924 | 28 | parsed |
-| [ReleaseVersionParam.bcsv](table-0155.md) | 20 | 4 | parsed |
-| [RoomArchParam.bcsv](table-0156.md) | 9 | 2 | parsed |
-| [RoomCeilingParam.bcsv](table-0157.md) | 6 | 2 | parsed |
-| [RoomCurtainParam.bcsv](table-0158.md) | 4 | 3 | parsed |
-| [RoomCurtainTexParam.bcsv](table-0159.md) | 18 | 3 | parsed |
-| [RoomFloorParam.bcsv](table-0160.md) | 216 | 14 | parsed |
-| [RoomLandingParam.bcsv](table-0161.md) | 7 | 6 | parsed |
-| [RoomWallParam.bcsv](table-0162.md) | 313 | 15 | parsed |
-| [RoomWindowParam.bcsv](table-0163.md) | 24 | 5 | parsed |
-| [SceneChangeFadeOutDuckingParam.bcsv](table-0164.md) | 10 | 2 | parsed |
-| [SeafoodAppearParam.bcsv](table-0165.md) | 82 | 41 | parsed |
-| [SeafoodShadowInfoParam.bcsv](table-0166.md) | 5 | 3 | parsed |
-| [SeafoodStatusParam.bcsv](table-0167.md) | 42 | 11 | parsed |
-| [SeasonCalendar.bcsv](table-0168.md) | 53 | 20 | parsed |
-| [ShopItemRouteFlags.bcsv](table-0169.md) | 41 | 5 | parsed |
-| [SoundAmbientPlacementParam.bcsv](table-0170.md) | 24 | 5 | parsed |
-| [SoundAttributeForGround.bcsv](table-0171.md) | 19 | 2 | parsed |
-| [SoundAttributeForPlacement.bcsv](table-0172.md) | 12 | 2 | parsed |
-| [SoundAudioMusic.bcsv](table-0173.md) | 110 | 6 | parsed |
-| [SoundHaniwaOfDrum.bcsv](table-0174.md) | 17 | 7 | parsed |
-| [SoundHaniwaOfDrums.bcsv](table-0175.md) | 5 | 4 | parsed |
-| [SoundHaniwaOfMelody.bcsv](table-0176.md) | 14 | 6 | parsed |
-| [SoundInstruments.bcsv](table-0177.md) | 35 | 5 | parsed |
-| [SoundMaterialType.bcsv](table-0178.md) | 3 | 3 | parsed |
-| [SpNpcParam.bcsv](table-0179.md) | 74 | 31 | parsed |
-| [StructureBridgeParam.bcsv](table-0180.md) | 54 | 4 | parsed |
-| [StructureBridgeTypeParam.bcsv](table-0181.md) | 9 | 5 | parsed |
-| [StructureDoorParam.bcsv](table-0182.md) | 41 | 36 | parsed |
-| [StructureFacilityModel.bcsv](table-0183.md) | 24 | 19 | parsed |
-| [StructureHouseDoorParam.bcsv](table-0184.md) | 253 | 11 | parsed |
-| [StructureHouseRoofParam.bcsv](table-0185.md) | 238 | 8 | parsed |
-| [StructureHouseShapeParam.bcsv](table-0186.md) | 18 | 9 | parsed |
-| [StructureHouseWallParam.bcsv](table-0187.md) | 221 | 9 | parsed |
-| [StructureInfoParam.bcsv](table-0188.md) | 39 | 7 | parsed |
-| [StructureSlopeParam.bcsv](table-0189.md) | 9 | 4 | parsed |
-| [StructureWherearenFacility.bcsv](table-0190.md) | 6 | 13 | parsed |
-| [StructureWherearenFacilityAccessory.bcsv](table-0191.md) | 46 | 6 | parsed |
-| [StructureWherearenFacilityDoor.bcsv](table-0192.md) | 51 | 5 | parsed |
-| [StructureWherearenFacilityRoof.bcsv](table-0193.md) | 51 | 5 | parsed |
-| [StructureWherearenFacilityWall.bcsv](table-0194.md) | 51 | 6 | parsed |
-| [TVProgram.bcsv](table-0195.md) | 23 | 57 | parsed |
-| [TVProgramFriday.bcsv](table-0196.md) | 77 | 3 | parsed |
-| [TVProgramMonday.bcsv](table-0197.md) | 80 | 3 | parsed |
-| [TVProgramSaturday.bcsv](table-0198.md) | 66 | 3 | parsed |
-| [TVProgramSunday.bcsv](table-0199.md) | 69 | 3 | parsed |
-| [TVProgramThursday.bcsv](table-0200.md) | 79 | 3 | parsed |
-| [TVProgramTuesday.bcsv](table-0201.md) | 75 | 3 | parsed |
-| [TVProgramWednesday.bcsv](table-0202.md) | 79 | 3 | parsed |
-| [VMMultistepNPC.bcsv](table-0203.md) | 3 | 2 | parsed |
-| [VMSharedNPC.bcsv](table-0204.md) | 10 | 3 | parsed |
-| [WeatherPatternParam.bcsv](table-0205.md) | 43 | 2 | parsed |
-| [WherearenCatalogOpen.bcsv](table-0206.md) | 251 | 3 | parsed |
-| [WherearenFacility.bcsv](table-0207.md) | 5 | 9 | parsed |
-| [WherearenFacilityActionSet.bcsv](table-0208.md) | 3 | 59 | parsed |
-| [WherearenFacilityActionTypeParam.bcsv](table-0209.md) | 61 | 16 | parsed |
-| [WherearenFacilityRoom.bcsv](table-0210.md) | 11 | 16 | parsed |
-| [WherearenFieldMainIslandAreaParam.bcsv](table-0211.md) | 9 | 1 | parsed |
-| [WherearenFieldMainIslandObjectParam.bcsv](table-0212.md) | 6 | 4 | parsed |
-| [WherearenFieldMainIslandPlacementParam.bcsv](table-0213.md) | 83 | 21 | parsed |
-| [WherearenItemKind.bcsv](table-0214.md) | 11178 | 44 | parsed |
-| [WherearenNpcEquipRule.bcsv](table-0215.md) | 10 | 14 | parsed |
-| [WherearenNpcFieldActionParam.bcsv](table-0216.md) | 81 | 15 | parsed |
-| [WherearenNpcFieldEquipRule.bcsv](table-0217.md) | 5 | 14 | parsed |
-| [WherearenNpcFieldMovePatternParam.bcsv](table-0218.md) | 3 | 10 | parsed |
-| [WherearenNpcFieldPointListParam.bcsv](table-0219.md) | 60 | 6 | parsed |
-| [WherearenNpcFieldSetParam.bcsv](table-0220.md) | 16 | 12 | parsed |
-| [WherearenNpcFieldSpotParam.bcsv](table-0221.md) | 12 | 5 | parsed |
-| [WherearenNpcGardenDistantViewParam.bcsv](table-0222.md) | 6 | 2 | parsed |
-| [WherearenNpcGardenEnvMapParam.bcsv](table-0223.md) | 4 | 2 | parsed |
-| [WherearenNpcGardenParam.bcsv](table-0224.md) | 48 | 30 | parsed |
-| [WherearenNpcRequestRelation.bcsv](table-0225.md) | 480 | 21 | parsed |
-| [WherearenPlannerGrade.bcsv](table-0226.md) | 7 | 9 | parsed |
-| [WherearenPlannerRank.bcsv](table-0227.md) | 17 | 4 | parsed |
-| [WherearenRequest.bcsv](table-0228.md) | 480 | 20 | parsed |
-| [WherearenRewardCoef.bcsv](table-0229.md) | 7 | 3 | parsed |
-| [WherearenRoll.bcsv](table-0230.md) | 21 | 32 | parsed |
-| [WherearenRollSet.bcsv](table-0231.md) | 11 | 16 | parsed |
-| [WherearenSNpcFamily.bcsv](table-0232.md) | 6 | 5 | parsed |
-| [WherearenWorkCoordinate.bcsv](table-0233.md) | 111 | 3 | parsed |
+[全量字段 Hash 字典](Field-Hashes.md) · [跨表引用候选](References.md) · [字段名称字典](../Field-Names.md)
 
-[全量字段 Hash 字典](Field-Hashes.md) · [跨表引用候选](References.md)
+| 表 | 行数 | 字段数 | 回填字段 | 原始 CSV | 名称 CSV |
+| --- | ---: | ---: | ---: | --- | --- |
+| [AITag](table-0000.md) | 51 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/AITag.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/AITag.csv) |
+| [AmiiboData](table-0001.md) | 581 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/AmiiboData.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/AmiiboData.csv) |
+| [BgmPropertyControlParam](table-0002.md) | 187 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/BgmPropertyControlParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/BgmPropertyControlParam.csv) |
+| [BgmPropertyParam](table-0003.md) | 58 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/BgmPropertyParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/BgmPropertyParam.csv) |
+| [CalendarEventCountryParam](table-0004.md) | 20 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventCountryParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventCountryParam.csv) |
+| [CalendarEventHarvestFishExchange](table-0005.md) | 32 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventHarvestFishExchange.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventHarvestFishExchange.csv) |
+| [CalendarEventHarvestNeceaasryIngredient](table-0006.md) | 23 | 17 | 17 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventHarvestNeceaasryIngredient.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventHarvestNeceaasryIngredient.csv) |
+| [CalendarEventJuneBrideExchange](table-0007.md) | 26 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventJuneBrideExchange.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventJuneBrideExchange.csv) |
+| [CalendarEventJuneBrideReward](table-0008.md) | 6 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventJuneBrideReward.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventJuneBrideReward.csv) |
+| [CalendarEventParam](table-0009.md) | 144 | 162 | 162 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventParam.csv) |
+| [CalendarEventRegionParam](table-0010.md) | 76 | 12 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CalendarEventRegionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CalendarEventRegionParam.csv) |
+| [CharaMakeCheekTypeParam](table-0011.md) | 3 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeCheekTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeCheekTypeParam.csv) |
+| [CharaMakeEyeColorParam](table-0012.md) | 12 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeEyeColorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeEyeColorParam.csv) |
+| [CharaMakeEyeTypeParam](table-0013.md) | 52 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeEyeTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeEyeTypeParam.csv) |
+| [CharaMakeHairColorParam](table-0014.md) | 16 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeHairColorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeHairColorParam.csv) |
+| [CharaMakeHairStyleParam](table-0015.md) | 48 | 43 | 43 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeHairStyleParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeHairStyleParam.csv) |
+| [CharaMakeHalloweenMakePresetParam](table-0016.md) | 13 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeHalloweenMakePresetParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeHalloweenMakePresetParam.csv) |
+| [CharaMakeMouthTypeParam](table-0017.md) | 4 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeMouthTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeMouthTypeParam.csv) |
+| [CharaMakeNoseTypeParam](table-0018.md) | 3 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeNoseTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeNoseTypeParam.csv) |
+| [CharaMakeSkinColorParam](table-0019.md) | 12 | 15 | 15 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/CharaMakeSkinColorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/CharaMakeSkinColorParam.csv) |
+| [ColEffectAttributeParam](table-0020.md) | 24 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ColEffectAttributeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ColEffectAttributeParam.csv) |
+| [ColGroundAttributeParam](table-0021.md) | 73 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ColGroundAttributeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ColGroundAttributeParam.csv) |
+| [ColSoundAttributeParam](table-0022.md) | 23 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ColSoundAttributeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ColSoundAttributeParam.csv) |
+| [DIYTradeMaterialBasePriceParam](table-0023.md) | 233 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/DIYTradeMaterialBasePriceParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/DIYTradeMaterialBasePriceParam.csv) |
+| [DuckingParam](table-0024.md) | 51 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/DuckingParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/DuckingParam.csv) |
+| [EventFlagsAocParam](table-0025.md) | 2 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsAocParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsAocParam.csv) |
+| [EventFlagsHotelNpcMemoryParam](table-0026.md) | 7 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsHotelNpcMemoryParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsHotelNpcMemoryParam.csv) |
+| [EventFlagsHotelNpcTempParam](table-0027.md) | 7 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsHotelNpcTempParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsHotelNpcTempParam.csv) |
+| [EventFlagsHouseParam](table-0028.md) | 10 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsHouseParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsHouseParam.csv) |
+| [EventFlagsLandParam](table-0029.md) | 513 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsLandParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsLandParam.csv) |
+| [EventFlagsLandTempParam](table-0030.md) | 101 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsLandTempParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsLandTempParam.csv) |
+| [EventFlagsLifeSupportAchievementParam](table-0031.md) | 99 | 21 | 21 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsLifeSupportAchievementParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsLifeSupportAchievementParam.csv) |
+| [EventFlagsLifeSupportDailyParam](table-0032.md) | 219 | 21 | 20 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsLifeSupportDailyParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsLifeSupportDailyParam.csv) |
+| [EventFlagsNpcMemoryParam](table-0033.md) | 167 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsNpcMemoryParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsNpcMemoryParam.csv) |
+| [EventFlagsNpcSaveParam](table-0034.md) | 65 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsNpcSaveParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsNpcSaveParam.csv) |
+| [EventFlagsNpcTempParam](table-0035.md) | 72 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsNpcTempParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsNpcTempParam.csv) |
+| [EventFlagsPlayerActivityParam](table-0036.md) | 67 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsPlayerActivityParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsPlayerActivityParam.csv) |
+| [EventFlagsPlayerParam](table-0037.md) | 1688 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsPlayerParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsPlayerParam.csv) |
+| [EventFlagsPlayerTempParam](table-0038.md) | 213 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsPlayerTempParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsPlayerTempParam.csv) |
+| [EventFlagsPlayerVisitParam](table-0039.md) | 98 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsPlayerVisitParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsPlayerVisitParam.csv) |
+| [EventFlagsWherearenNpcMemoryParam](table-0040.md) | 13 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsWherearenNpcMemoryParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsWherearenNpcMemoryParam.csv) |
+| [EventFlagsWherearenPlayerParam](table-0041.md) | 281 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventFlagsWherearenPlayerParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventFlagsWherearenPlayerParam.csv) |
+| [EventPlazaFtrParam](table-0042.md) | 35 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventPlazaFtrParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventPlazaFtrParam.csv) |
+| [EventPlazaGround](table-0043.md) | 2 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventPlazaGround.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventPlazaGround.csv) |
+| [EventPlazaObjModelParam](table-0044.md) | 27 | 10 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventPlazaObjModelParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventPlazaObjModelParam.csv) |
+| [EventPlazaPlacementParam](table-0045.md) | 131 | 23 | 22 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/EventPlazaPlacementParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/EventPlazaPlacementParam.csv) |
+| [FadeOutDuckingParam](table-0046.md) | 13 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FadeOutDuckingParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FadeOutDuckingParam.csv) |
+| [FgFlowerHeredity](table-0047.md) | 270 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FgFlowerHeredity.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FgFlowerHeredity.csv) |
+| [FgMainParam](table-0048.md) | 540 | 25 | 25 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FgMainParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FgMainParam.csv) |
+| [FgRemakeFence](table-0049.md) | 79 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FgRemakeFence.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FgRemakeFence.csv) |
+| [FieldCreateParam](table-0050.md) | 139 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldCreateParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldCreateParam.csv) |
+| [FieldDistantViewParam](table-0051.md) | 3 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldDistantViewParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldDistantViewParam.csv) |
+| [FieldLandMakingActionParam](table-0052.md) | 17 | 12 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldLandMakingActionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldLandMakingActionParam.csv) |
+| [FieldLandMakingError](table-0053.md) | 18 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldLandMakingError.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldLandMakingError.csv) |
+| [FieldLandMakingRoadKindParam](table-0054.md) | 9 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldLandMakingRoadKindParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldLandMakingRoadKindParam.csv) |
+| [FieldLandMakingUnitModelParam](table-0055.md) | 246 | 42 | 42 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldLandMakingUnitModelParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldLandMakingUnitModelParam.csv) |
+| [FieldMainFieldParam](table-0056.md) | 96 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldMainFieldParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldMainFieldParam.csv) |
+| [FieldOutsideParts](table-0057.md) | 194 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldOutsideParts.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldOutsideParts.csv) |
+| [FieldOutsideTemplate](table-0058.md) | 36 | 27 | 27 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FieldOutsideTemplate.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FieldOutsideTemplate.csv) |
+| [FishAppearRiverParam](table-0059.md) | 100 | 41 | 41 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FishAppearRiverParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FishAppearRiverParam.csv) |
+| [FishAppearSeaParam](table-0060.md) | 76 | 41 | 41 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FishAppearSeaParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FishAppearSeaParam.csv) |
+| [FishBeyQuestParam](table-0061.md) | 24 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FishBeyQuestParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FishBeyQuestParam.csv) |
+| [FishStatusParam](table-0062.md) | 85 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/FishStatusParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/FishStatusParam.csv) |
+| [GmoFootprintParam](table-0063.md) | 14 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/GmoFootprintParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/GmoFootprintParam.csv) |
+| [HotelThemeInfo](table-0064.md) | 46 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/HotelThemeInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/HotelThemeInfo.csv) |
+| [HumanAnimParam](table-0065.md) | 904 | 14 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/HumanAnimParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/HumanAnimParam.csv) |
+| [IndoorIdrParam](table-0066.md) | 30 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/IndoorIdrParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/IndoorIdrParam.csv) |
+| [IndoorPhotoStudioItemParam](table-0067.md) | 20 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/IndoorPhotoStudioItemParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/IndoorPhotoStudioItemParam.csv) |
+| [InsectAppearParam](table-0068.md) | 166 | 75 | 75 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/InsectAppearParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/InsectAppearParam.csv) |
+| [InsectBattleParam](table-0069.md) | 4 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/InsectBattleParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/InsectBattleParam.csv) |
+| [InsectStatusParam](table-0070.md) | 90 | 16 | 16 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/InsectStatusParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/InsectStatusParam.csv) |
+| [ItemAct](table-0071.md) | 82 | 9 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemAct.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemAct.csv) |
+| [ItemClothGroup](table-0072.md) | 1462 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemClothGroup.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemClothGroup.csv) |
+| [ItemCloudislandPutRepresentativeParam](table-0073.md) | 497 | 5 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemCloudislandPutRepresentativeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemCloudislandPutRepresentativeParam.csv) |
+| [ItemColor](table-0074.md) | 15 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemColor.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemColor.csv) |
+| [ItemFilter](table-0075.md) | 22 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemFilter.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemFilter.csv) |
+| [ItemFrom](table-0076.md) | 318 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemFrom.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemFrom.csv) |
+| [ItemKind](table-0077.md) | 189 | 31 | 31 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemKind.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemKind.csv) |
+| [ItemLoginBonus](table-0078.md) | 12 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemLoginBonus.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemLoginBonus.csv) |
+| [ItemMailAttachCategoryGroup](table-0079.md) | 3 | 4 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemMailAttachCategoryGroup.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemMailAttachCategoryGroup.csv) |
+| [ItemMenuIcon](table-0080.md) | 618 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemMenuIcon.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemMenuIcon.csv) |
+| [ItemNpcFtrActionParam](table-0081.md) | 19 | 12 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemNpcFtrActionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemNpcFtrActionParam.csv) |
+| [ItemNpcOutfitInfo](table-0082.md) | 21 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemNpcOutfitInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemNpcOutfitInfo.csv) |
+| [ItemNpcRoomReplaceCategory](table-0083.md) | 21 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemNpcRoomReplaceCategory.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemNpcRoomReplaceCategory.csv) |
+| [ItemNpcTopsForm](table-0084.md) | 35 | 31 | 31 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemNpcTopsForm.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemNpcTopsForm.csv) |
+| [ItemNpcWherearenFtrActionParam](table-0085.md) | 84 | 12 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemNpcWherearenFtrActionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemNpcWherearenFtrActionParam.csv) |
+| [ItemOutfitCategory](table-0086.md) | 117 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemOutfitCategory.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemOutfitCategory.csv) |
+| [ItemOutfitHangerInfo](table-0087.md) | 14 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemOutfitHangerInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemOutfitHangerInfo.csv) |
+| [ItemOutfitInfo](table-0088.md) | 162 | 17 | 17 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemOutfitInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemOutfitInfo.csv) |
+| [ItemParam](table-0089.md) | 11178 | 107 | 107 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemParam.csv) |
+| [ItemPlayerInitialOutfitBoyAWParam](table-0090.md) | 8 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemPlayerInitialOutfitBoyAWParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemPlayerInitialOutfitBoyAWParam.csv) |
+| [ItemPlayerInitialOutfitBoySSParam](table-0091.md) | 8 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemPlayerInitialOutfitBoySSParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemPlayerInitialOutfitBoySSParam.csv) |
+| [ItemPlayerInitialOutfitGirlAWParam](table-0092.md) | 8 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemPlayerInitialOutfitGirlAWParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemPlayerInitialOutfitGirlAWParam.csv) |
+| [ItemPlayerInitialOutfitGirlSSParam](table-0093.md) | 8 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemPlayerInitialOutfitGirlSSParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemPlayerInitialOutfitGirlSSParam.csv) |
+| [ItemPlayerTopsForm](table-0094.md) | 107 | 11 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemPlayerTopsForm.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemPlayerTopsForm.csv) |
+| [ItemRemake](table-0095.md) | 1306 | 58 | 57 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemRemake.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemRemake.csv) |
+| [ItemRemakeCommonPattern](table-0096.md) | 220 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemRemakeCommonPattern.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemRemakeCommonPattern.csv) |
+| [ItemRemakeCommonPatternCategory](table-0097.md) | 12 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemRemakeCommonPatternCategory.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemRemakeCommonPatternCategory.csv) |
+| [ItemSeasonalityParam](table-0098.md) | 5 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemSeasonalityParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemSeasonalityParam.csv) |
+| [ItemShareTexture](table-0099.md) | 2 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemShareTexture.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemShareTexture.csv) |
+| [ItemSize](table-0100.md) | 28 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemSize.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemSize.csv) |
+| [ItemStrSort](table-0101.md) | 11178 | 15 | 15 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemStrSort.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemStrSort.csv) |
+| [ItemUIContextMenu](table-0102.md) | 66 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemUIContextMenu.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemUIContextMenu.csv) |
+| [ItemUIFurnitureCategory](table-0103.md) | 256 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemUIFurnitureCategory.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemUIFurnitureCategory.csv) |
+| [ItemUnitIcon](table-0104.md) | 218 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemUnitIcon.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemUnitIcon.csv) |
+| [JuneBrideWallFloor](table-0105.md) | 36 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/JuneBrideWallFloor.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/JuneBrideWallFloor.csv) |
+| [KappeiTourInfoParam](table-0106.md) | 11 | 12 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/KappeiTourInfoParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/KappeiTourInfoParam.csv) |
+| [LifeTips](table-0107.md) | 240 | 8 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/LifeTips.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/LifeTips.csv) |
+| [LocalizeNameConvertParam](table-0108.md) | 22 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/LocalizeNameConvertParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/LocalizeNameConvertParam.csv) |
+| [MannequinCoodinate](table-0109.md) | 120 | 11 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MannequinCoodinate.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MannequinCoodinate.csv) |
+| [MaterialType](table-0110.md) | 6 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MaterialType.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MaterialType.csv) |
+| [MemoriesEventInfoLand](table-0111.md) | 76 | 12 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MemoriesEventInfoLand.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MemoriesEventInfoLand.csv) |
+| [MemoriesEventInfoPlayer](table-0112.md) | 117 | 12 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MemoriesEventInfoPlayer.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MemoriesEventInfoPlayer.csv) |
+| [MemoriesValueInfoPlayer](table-0113.md) | 25 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MemoriesValueInfoPlayer.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MemoriesValueInfoPlayer.csv) |
+| [MessageCardBoardDesignParam](table-0114.md) | 7 | 13 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardBoardDesignParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardBoardDesignParam.csv) |
+| [MessageCardColorParam](table-0115.md) | 299 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardColorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardColorParam.csv) |
+| [MessageCardDesignParam](table-0116.md) | 76 | 21 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardDesignParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardDesignParam.csv) |
+| [MessageCardSelectDesign](table-0117.md) | 202 | 13 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardSelectDesign.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardSelectDesign.csv) |
+| [MessageCardSelectDesignSp](table-0118.md) | 80 | 13 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardSelectDesignSp.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardSelectDesignSp.csv) |
+| [MessageCardSelectPresent](table-0119.md) | 125 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardSelectPresent.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardSelectPresent.csv) |
+| [MessageCardSelectPresentSp](table-0120.md) | 19 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MessageCardSelectPresentSp.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MessageCardSelectPresentSp.csv) |
+| [MuseumArtDonateInfo](table-0121.md) | 43 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumArtDonateInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumArtDonateInfo.csv) |
+| [MuseumCafeSpInfoParam](table-0122.md) | 63 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumCafeSpInfoParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumCafeSpInfoParam.csv) |
+| [MuseumCafeSpLabelParam](table-0123.md) | 80 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumCafeSpLabelParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumCafeSpLabelParam.csv) |
+| [MuseumFossilDonateInfo](table-0124.md) | 73 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumFossilDonateInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumFossilDonateInfo.csv) |
+| [MuseumNPCLayoutInfo](table-0125.md) | 109 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumNPCLayoutInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumNPCLayoutInfo.csv) |
+| [MuseumNPCSilhouette](table-0126.md) | 17 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumNPCSilhouette.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumNPCSilhouette.csv) |
+| [MuseumNPCSpotTalk](table-0127.md) | 10 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumNPCSpotTalk.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumNPCSpotTalk.csv) |
+| [MuseumNameboardInfo](table-0128.md) | 120 | 13 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumNameboardInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumNameboardInfo.csv) |
+| [MuseumStampRackInfo](table-0129.md) | 32 | 13 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumStampRackInfo.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumStampRackInfo.csv) |
+| [MuseumWatchPoint](table-0130.md) | 112 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumWatchPoint.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumWatchPoint.csv) |
+| [MysteryTourFieldParam](table-0131.md) | 46 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MysteryTourFieldParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MysteryTourFieldParam.csv) |
+| [MysteryTourFishParam](table-0132.md) | 3 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MysteryTourFishParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MysteryTourFishParam.csv) |
+| [MysteryTourInsectParam](table-0133.md) | 13 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MysteryTourInsectParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MysteryTourInsectParam.csv) |
+| [MysteryTourItemParam](table-0134.md) | 46 | 1 | 1 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MysteryTourItemParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MysteryTourItemParam.csv) |
+| [MysteryTourParam](table-0135.md) | 41 | 16 | 16 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MysteryTourParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MysteryTourParam.csv) |
+| [NmlNpcParam](table-0136.md) | 417 | 41 | 39 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NmlNpcParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NmlNpcParam.csv) |
+| [NmlNpcRaceParam](table-0137.md) | 110 | 18 | 18 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NmlNpcRaceParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NmlNpcRaceParam.csv) |
+| [NpcCastLabelData](table-0138.md) | 35 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcCastLabelData.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcCastLabelData.csv) |
+| [NpcCastScheduleData](table-0139.md) | 35 | 11 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcCastScheduleData.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcCastScheduleData.csv) |
+| [NpcEquipRule](table-0140.md) | 26 | 21 | 21 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcEquipRule.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcEquipRule.csv) |
+| [NpcInterest](table-0141.md) | 21 | 27 | 27 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcInterest.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcInterest.csv) |
+| [NpcLife](table-0142.md) | 52 | 40 | 40 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcLife.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcLife.csv) |
+| [NpcLooksParam](table-0143.md) | 8 | 35 | 35 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcLooksParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcLooksParam.csv) |
+| [NpcMoveRoomTemplate](table-0144.md) | 28 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcMoveRoomTemplate.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcMoveRoomTemplate.csv) |
+| [NpcMsgBullfestParam](table-0145.md) | 840 | 30 | 30 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcMsgBullfestParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcMsgBullfestParam.csv) |
+| [NpcSpClothSetParam](table-0146.md) | 65 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcSpClothSetParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcSpClothSetParam.csv) |
+| [NpcSpModelScale](table-0147.md) | 13 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcSpModelScale.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcSpModelScale.csv) |
+| [NpcSpServiceMotionRandom](table-0148.md) | 130 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcSpServiceMotionRandom.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcSpServiceMotionRandom.csv) |
+| [NpcSpServiceMotionWork](table-0149.md) | 20 | 18 | 18 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcSpServiceMotionWork.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcSpServiceMotionWork.csv) |
+| [NpcSpServiceMotionWorkSp](table-0150.md) | 8 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/NpcSpServiceMotionWorkSp.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/NpcSpServiceMotionWorkSp.csv) |
+| [PlayerStateParam](table-0151.md) | 329 | 42 | 35 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/PlayerStateParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/PlayerStateParam.csv) |
+| [RadioCM](table-0152.md) | 19 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RadioCM.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RadioCM.csv) |
+| [RadioJingle](table-0153.md) | 24 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RadioJingle.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RadioJingle.csv) |
+| [RecipeCraftParam](table-0154.md) | 924 | 28 | 26 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RecipeCraftParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RecipeCraftParam.csv) |
+| [ReleaseVersionParam](table-0155.md) | 20 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ReleaseVersionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ReleaseVersionParam.csv) |
+| [RoomArchParam](table-0156.md) | 9 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomArchParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomArchParam.csv) |
+| [RoomCeilingParam](table-0157.md) | 6 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomCeilingParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomCeilingParam.csv) |
+| [RoomCurtainParam](table-0158.md) | 4 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomCurtainParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomCurtainParam.csv) |
+| [RoomCurtainTexParam](table-0159.md) | 18 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomCurtainTexParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomCurtainTexParam.csv) |
+| [RoomFloorParam](table-0160.md) | 216 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomFloorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomFloorParam.csv) |
+| [RoomLandingParam](table-0161.md) | 7 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomLandingParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomLandingParam.csv) |
+| [RoomWallParam](table-0162.md) | 313 | 15 | 15 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomWallParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomWallParam.csv) |
+| [RoomWindowParam](table-0163.md) | 24 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/RoomWindowParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/RoomWindowParam.csv) |
+| [SceneChangeFadeOutDuckingParam](table-0164.md) | 10 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SceneChangeFadeOutDuckingParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SceneChangeFadeOutDuckingParam.csv) |
+| [SeafoodAppearParam](table-0165.md) | 82 | 41 | 41 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SeafoodAppearParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SeafoodAppearParam.csv) |
+| [SeafoodShadowInfoParam](table-0166.md) | 5 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SeafoodShadowInfoParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SeafoodShadowInfoParam.csv) |
+| [SeafoodStatusParam](table-0167.md) | 42 | 11 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SeafoodStatusParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SeafoodStatusParam.csv) |
+| [SeasonCalendar](table-0168.md) | 53 | 20 | 20 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SeasonCalendar.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SeasonCalendar.csv) |
+| [ShopItemRouteFlags](table-0169.md) | 41 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ShopItemRouteFlags.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ShopItemRouteFlags.csv) |
+| [SoundAmbientPlacementParam](table-0170.md) | 24 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundAmbientPlacementParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundAmbientPlacementParam.csv) |
+| [SoundAttributeForGround](table-0171.md) | 19 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundAttributeForGround.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundAttributeForGround.csv) |
+| [SoundAttributeForPlacement](table-0172.md) | 12 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundAttributeForPlacement.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundAttributeForPlacement.csv) |
+| [SoundAudioMusic](table-0173.md) | 110 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundAudioMusic.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundAudioMusic.csv) |
+| [SoundHaniwaOfDrum](table-0174.md) | 17 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundHaniwaOfDrum.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundHaniwaOfDrum.csv) |
+| [SoundHaniwaOfDrums](table-0175.md) | 5 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundHaniwaOfDrums.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundHaniwaOfDrums.csv) |
+| [SoundHaniwaOfMelody](table-0176.md) | 14 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundHaniwaOfMelody.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundHaniwaOfMelody.csv) |
+| [SoundInstruments](table-0177.md) | 35 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundInstruments.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundInstruments.csv) |
+| [SoundMaterialType](table-0178.md) | 3 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SoundMaterialType.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SoundMaterialType.csv) |
+| [SpNpcParam](table-0179.md) | 74 | 31 | 29 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/SpNpcParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/SpNpcParam.csv) |
+| [StructureBridgeParam](table-0180.md) | 54 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureBridgeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureBridgeParam.csv) |
+| [StructureBridgeTypeParam](table-0181.md) | 9 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureBridgeTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureBridgeTypeParam.csv) |
+| [StructureDoorParam](table-0182.md) | 41 | 36 | 36 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureDoorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureDoorParam.csv) |
+| [StructureFacilityModel](table-0183.md) | 24 | 19 | 19 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureFacilityModel.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureFacilityModel.csv) |
+| [StructureHouseDoorParam](table-0184.md) | 253 | 11 | 11 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureHouseDoorParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureHouseDoorParam.csv) |
+| [StructureHouseRoofParam](table-0185.md) | 238 | 8 | 8 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureHouseRoofParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureHouseRoofParam.csv) |
+| [StructureHouseShapeParam](table-0186.md) | 18 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureHouseShapeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureHouseShapeParam.csv) |
+| [StructureHouseWallParam](table-0187.md) | 221 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureHouseWallParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureHouseWallParam.csv) |
+| [StructureInfoParam](table-0188.md) | 39 | 7 | 7 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureInfoParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureInfoParam.csv) |
+| [StructureSlopeParam](table-0189.md) | 9 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureSlopeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureSlopeParam.csv) |
+| [StructureWherearenFacility](table-0190.md) | 6 | 13 | 13 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureWherearenFacility.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureWherearenFacility.csv) |
+| [StructureWherearenFacilityAccessory](table-0191.md) | 46 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureWherearenFacilityAccessory.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureWherearenFacilityAccessory.csv) |
+| [StructureWherearenFacilityDoor](table-0192.md) | 51 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureWherearenFacilityDoor.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureWherearenFacilityDoor.csv) |
+| [StructureWherearenFacilityRoof](table-0193.md) | 51 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureWherearenFacilityRoof.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureWherearenFacilityRoof.csv) |
+| [StructureWherearenFacilityWall](table-0194.md) | 51 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/StructureWherearenFacilityWall.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/StructureWherearenFacilityWall.csv) |
+| [TVProgram](table-0195.md) | 23 | 57 | 57 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgram.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgram.csv) |
+| [TVProgramFriday](table-0196.md) | 77 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramFriday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramFriday.csv) |
+| [TVProgramMonday](table-0197.md) | 80 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramMonday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramMonday.csv) |
+| [TVProgramSaturday](table-0198.md) | 66 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramSaturday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramSaturday.csv) |
+| [TVProgramSunday](table-0199.md) | 69 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramSunday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramSunday.csv) |
+| [TVProgramThursday](table-0200.md) | 79 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramThursday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramThursday.csv) |
+| [TVProgramTuesday](table-0201.md) | 75 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramTuesday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramTuesday.csv) |
+| [TVProgramWednesday](table-0202.md) | 79 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/TVProgramWednesday.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/TVProgramWednesday.csv) |
+| [VMMultistepNPC](table-0203.md) | 3 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/VMMultistepNPC.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/VMMultistepNPC.csv) |
+| [VMSharedNPC](table-0204.md) | 10 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/VMSharedNPC.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/VMSharedNPC.csv) |
+| [WeatherPatternParam](table-0205.md) | 43 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WeatherPatternParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WeatherPatternParam.csv) |
+| [WherearenCatalogOpen](table-0206.md) | 251 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenCatalogOpen.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenCatalogOpen.csv) |
+| [WherearenFacility](table-0207.md) | 5 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFacility.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFacility.csv) |
+| [WherearenFacilityActionSet](table-0208.md) | 3 | 59 | 59 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFacilityActionSet.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFacilityActionSet.csv) |
+| [WherearenFacilityActionTypeParam](table-0209.md) | 61 | 16 | 15 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFacilityActionTypeParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFacilityActionTypeParam.csv) |
+| [WherearenFacilityRoom](table-0210.md) | 11 | 16 | 16 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFacilityRoom.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFacilityRoom.csv) |
+| [WherearenFieldMainIslandAreaParam](table-0211.md) | 9 | 1 | 1 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFieldMainIslandAreaParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFieldMainIslandAreaParam.csv) |
+| [WherearenFieldMainIslandObjectParam](table-0212.md) | 6 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFieldMainIslandObjectParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFieldMainIslandObjectParam.csv) |
+| [WherearenFieldMainIslandPlacementParam](table-0213.md) | 83 | 21 | 20 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenFieldMainIslandPlacementParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenFieldMainIslandPlacementParam.csv) |
+| [WherearenItemKind](table-0214.md) | 11178 | 44 | 44 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenItemKind.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenItemKind.csv) |
+| [WherearenNpcEquipRule](table-0215.md) | 10 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcEquipRule.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcEquipRule.csv) |
+| [WherearenNpcFieldActionParam](table-0216.md) | 81 | 15 | 15 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldActionParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldActionParam.csv) |
+| [WherearenNpcFieldEquipRule](table-0217.md) | 5 | 14 | 14 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldEquipRule.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldEquipRule.csv) |
+| [WherearenNpcFieldMovePatternParam](table-0218.md) | 3 | 10 | 10 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldMovePatternParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldMovePatternParam.csv) |
+| [WherearenNpcFieldPointListParam](table-0219.md) | 60 | 6 | 6 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldPointListParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldPointListParam.csv) |
+| [WherearenNpcFieldSetParam](table-0220.md) | 16 | 12 | 12 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldSetParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldSetParam.csv) |
+| [WherearenNpcFieldSpotParam](table-0221.md) | 12 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldSpotParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldSpotParam.csv) |
+| [WherearenNpcGardenDistantViewParam](table-0222.md) | 6 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcGardenDistantViewParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcGardenDistantViewParam.csv) |
+| [WherearenNpcGardenEnvMapParam](table-0223.md) | 4 | 2 | 2 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcGardenEnvMapParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcGardenEnvMapParam.csv) |
+| [WherearenNpcGardenParam](table-0224.md) | 48 | 30 | 30 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcGardenParam.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcGardenParam.csv) |
+| [WherearenNpcRequestRelation](table-0225.md) | 480 | 21 | 21 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcRequestRelation.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcRequestRelation.csv) |
+| [WherearenPlannerGrade](table-0226.md) | 7 | 9 | 9 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenPlannerGrade.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenPlannerGrade.csv) |
+| [WherearenPlannerRank](table-0227.md) | 17 | 4 | 4 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenPlannerRank.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenPlannerRank.csv) |
+| [WherearenRequest](table-0228.md) | 480 | 20 | 20 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenRequest.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenRequest.csv) |
+| [WherearenRewardCoef](table-0229.md) | 7 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenRewardCoef.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenRewardCoef.csv) |
+| [WherearenRoll](table-0230.md) | 21 | 32 | 31 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenRoll.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenRoll.csv) |
+| [WherearenRollSet](table-0231.md) | 11 | 16 | 16 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenRollSet.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenRollSet.csv) |
+| [WherearenSNpcFamily](table-0232.md) | 6 | 5 | 5 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenSNpcFamily.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenSNpcFamily.csv) |
+| [WherearenWorkCoordinate](table-0233.md) | 111 | 3 | 3 | [原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenWorkCoordinate.csv) | [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenWorkCoordinate.csv) |

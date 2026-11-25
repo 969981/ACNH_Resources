@@ -1,26 +1,28 @@
 # WherearenNpcFieldEquipRule.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [字段名称字典](../Field-Names.md)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/WherearenNpcFieldEquipRule.bcsv`
 SHA256：`b82c962d24dc2ba1d0c04ad074f8d00a2a3cb6169d21ba32918b154e6e4309a6`
-状态：parsed
+记录数 5，行长 36，字段数 14。回填 14 个字段。
 
-行数 5，行长 36，数据起点 140。
+[原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/WherearenNpcFieldEquipRule.csv) · [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/WherearenNpcFieldEquipRule.csv) · [字段映射 JSON](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/schema/WherearenNpcFieldEquipRule.json)
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_1F401B52 | 4 | 4 | 未知，保留原值 |
-| hash_E765B554 | 8 | 4 | 未知，保留原值 |
-| hash_CBBE9D2D | 12 | 4 | 未知，保留原值 |
-| hash_79BE959D | 16 | 4 | 未知，保留原值 |
-| hash_A3DC7C4C | 20 | 4 | 未知，保留原值 |
-| hash_54706054 | 24 | 2 | 未知，保留原值 |
-| hash_F9CF603A | 26 | 1 | 未知，保留原值 |
-| hash_2C2A379E | 27 | 1 | 未知，保留原值 |
-| hash_FF299FC4 | 28 | 1 | 未知，保留原值 |
-| hash_7C60D6DB | 29 | 1 | 未知，保留原值 |
-| hash_744B3452 | 30 | 1 | 未知，保留原值 |
-| hash_A073AA81 | 31 | 1 | 未知，保留原值 |
-| hash_74275E7A | 32 | 1 | 未知，保留原值 |
-| hash_CC198281 | 33 | 3 | 未知，保留原值 |
+候选名称及类型仅为签名匹配；CSV 单元格仍为未经业务加工的原始解析值。
+
+| Hash | 偏移 | 跨度 | 回填列名 | 类型候选 | 签名候选 | 证据状态 |
+| --- | ---: | ---: | --- | --- | --- | --- |
+| hash_1F401B52 | 4 | 4 | PurposeScore | s32 | PurposeScore s32 | candidate_name |
+| hash_E765B554 | 8 | 4 | PurposeTag | u32 | PurposeTag u32 | candidate_name |
+| hash_CBBE9D2D | 12 | 4 | ScoreMultiplier | f32 | ScoreMultiplier f32 | candidate_name |
+| hash_79BE959D | 16 | 4 | SeasonScore | s32 | SeasonScore s32 | candidate_name |
+| hash_A3DC7C4C | 20 | 4 | TasteScore | s32 | TasteScore s32 | candidate_name |
+| hash_54706054 | 24 | 2 | UniqueID | u16 | UniqueID u16 | candidate_name |
+| hash_F9CF603A | 26 | 1 | CapFrequencyWear | u8 | CapFrequencyWear u8 | candidate_name |
+| hash_2C2A379E | 27 | 1 | CapPurposeLimit | u8 | CapPurposeLimit u8 | candidate_name |
+| hash_FF299FC4 | 28 | 1 | ClothesFrequencyWear | u8 | ClothesFrequencyWear u8 | candidate_name |
+| hash_7C60D6DB | 29 | 1 | ClothesPurposeLimit | u8 | ClothesPurposeLimit u8 | candidate_name |
+| hash_744B3452 | 30 | 1 | GlassesFrequencyWear | u8 | GlassesFrequencyWear u8 | candidate_name |
+| hash_A073AA81 | 31 | 1 | GlassesPurposeLimit | u8 | GlassesPurposeLimit u8 | candidate_name |
+| hash_74275E7A | 32 | 1 | MaskFrequencyWear | u8 | MaskFrequencyWear u8 | candidate_name |
+| hash_CC198281 | 33 | 3 | MaskPurposeLimit | u8 | MaskPurposeLimit u8 | candidate_name |

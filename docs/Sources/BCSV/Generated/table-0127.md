@@ -1,17 +1,19 @@
 # MuseumNPCSpotTalk.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [字段名称字典](../Field-Names.md)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/MuseumNPCSpotTalk.bcsv`
 SHA256：`6e54b5e55bae7472c35a152575d57e5a89df2c3261a02d2aece31dcead6b18f2`
-状态：parsed
+记录数 10，行长 104，字段数 5。回填 5 个字段。
 
-行数 10，行长 104，数据起点 68。
+[原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/MuseumNPCSpotTalk.csv) · [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/MuseumNPCSpotTalk.csv) · [字段映射 JSON](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/schema/MuseumNPCSpotTalk.json)
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_BE776E71 | 4 | 4 | 未知，保留原值 |
-| hash_54706054 | 8 | 2 | 未知，保留原值 |
-| hash_8E768BD8 | 10 | 25 | 未知，保留原值 |
-| hash_9D9B3598 | 35 | 4 | 未知，保留原值 |
-| hash_B10B6BC8 | 39 | 65 | 未知，保留原值 |
+候选名称及类型仅为签名匹配；CSV 单元格仍为未经业务加工的原始解析值。
+
+| Hash | 偏移 | 跨度 | 回填列名 | 类型候选 | 签名候选 | 证据状态 |
+| --- | ---: | ---: | --- | --- | --- | --- |
+| hash_BE776E71 | 4 | 4 | StageName | hshCstringRef | StageName.hshCstringRef | candidate_name |
+| hash_54706054 | 8 | 2 | UniqueID | u16 | UniqueID u16 | candidate_name |
+| hash_8E768BD8 | 10 | 25 | SpotTalkKey | string25 | SpotTalkKey string25 | candidate_name |
+| hash_9D9B3598 | 35 | 4 | SpotTalkLabelKey | string4 | SpotTalkLabelKey string4 | candidate_name |
+| hash_B10B6BC8 | 39 | 65 | SpotTalkName | string65 | SpotTalkName string65 | candidate_name |
