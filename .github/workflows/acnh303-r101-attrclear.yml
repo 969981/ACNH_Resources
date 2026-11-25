@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 R101 AttrClear lifecycle
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_r101*'
+      - 'derived/3.0.3/npc_event_flags/r101_attrclear/**'
+      - 'derived/3.0.3/npc_event_flags/semantics/field_semantics.json'
+      - '.github/workflows/acnh303-r101-attrclear.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-r101:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_r101_attrclear_lifecycle.py
+            /derived/3.0.3/npc_event_flags/r101_attrclear/
+            /derived/3.0.3/npc_event_flags/semantics/field_semantics.json
+            /derived/3.0.3/ghidra12.2/c/
+            /UnPack/1/Bcsv/EventFlagsLandParam.csv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python Scripts/acnh303_r101_attrclear_lifecycle.py --root . --out artifacts/r101/report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-r101-attrclear
+          path: artifacts/r101/
+          if-no-files-found: error

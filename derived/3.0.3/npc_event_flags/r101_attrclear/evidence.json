@@ -1,0 +1,343 @@
+{
+  "schema": "acnh303-r101-attrclear-lifecycle-v1",
+  "base_commit": "52c2a8de6fb17b7b39d6ded4dfde00679979591e",
+  "ci": {
+    "r100": {
+      "run": 45307860374,
+      "job": 138155985298,
+      "conclusion": "success",
+      "elf_unique_identifiers": 47085,
+      "exact_elf_identifier_candidates": 0
+    },
+    "r98": {
+      "run": 45306351947,
+      "job": 138151030289,
+      "artifact": 14881016869,
+      "conclusion": "success"
+    }
+  },
+  "enum": {
+    "u8_hash": "5140E4B4",
+    "bare_name_crc32": "221C60CB",
+    "enum_hash": "FDB1F290",
+    "original_name": null,
+    "historical_source": {
+      "repo": "Treeki/CylindricalEarth",
+      "commit": "bb09c0ee71a4aa6011de088b88ea55fdee0bf6e9",
+      "path": "specs_200.py",
+      "blob": "d7596cc0002e892519985480b778973907247eca",
+      "enum_id": "enum_6375519ed254_5b8e07b717c6"
+    },
+    "land_source": {
+      "path": "UnPack/1/Bcsv/EventFlagsLandParam.csv",
+      "blob": "a6bd78a0300851e3a273aff67bec394c72b33ec0",
+      "rows": 513
+    },
+    "labels": [
+      {
+        "value": 0,
+        "label": "None",
+        "description_ja": "クリアしない",
+        "label_crc32": "DFA2AFF1",
+        "land_303_rows": 407
+      },
+      {
+        "value": 1,
+        "label": "Pre",
+        "description_ja": "日またぎ成長処理前（経過日数が0以外）",
+        "label_crc32": "B32C7901",
+        "land_303_rows": 101
+      },
+      {
+        "value": 2,
+        "label": "Start",
+        "description_ja": "起動時、日またぎ成長処理前",
+        "label_crc32": "5EB87A8B",
+        "land_303_rows": 1
+      },
+      {
+        "value": 3,
+        "label": "All",
+        "description_ja": "すべての成長処理（おすそわけ人数変更時を含む）",
+        "label_crc32": "0355373D",
+        "land_303_rows": 0
+      },
+      {
+        "value": 4,
+        "label": "Plus",
+        "description_ja": "日が進んだときの日またぎ成長処理前（経過日数がプラス時）",
+        "label_crc32": "30C04FCF",
+        "land_303_rows": 4
+      }
+    ]
+  },
+  "reconstructed": {
+    "5F77B61A": "AttrClearCulling",
+    "BED25A86": "AttrClearMoving",
+    "8D401DF7": "AttrClearStageChange"
+  },
+  "original_header_attested": false,
+  "lifecycle": {
+    "culling": {
+      "temp_mode": 1,
+      "memory_mode": 0,
+      "caller": "01ea4530",
+      "guard": "valid resident index and active record and bit2 of object+0x69c; player mask selects memory update",
+      "full": "027b6490",
+      "light": "027a8ad0",
+      "special_npc_temp": "021ca0d0",
+      "exact_game_culling_trigger_verified": false
+    },
+    "stage_change": {
+      "temp_mode": 2,
+      "memory_mode": 1,
+      "temp_caller": "02199cf0",
+      "memory_caller": "027ea3e0",
+      "full": "027b6820",
+      "light": "027a8e60",
+      "exact_scene_trigger_verified": false
+    },
+    "moving": {
+      "memory_rows_selected": 11,
+      "player_rows_selected": 1196,
+      "full_slots_per_resident": 8,
+      "light_slots_per_resident": 160,
+      "nonzero_identity_required": true,
+      "reset_memory": "027478c0",
+      "reset_u16": "0274f840",
+      "parallel_clear": "027a5750",
+      "resident_explicit_memory_key_count": 10,
+      "resident_explicit_save_key_count": 16,
+      "extra_explicit_reset_keys_overlap_with_attr": true,
+      "full_player_transfer_chain_verified": false
+    }
+  },
+  "calendar_mode_1_sites": [
+    {
+      "ghidra_va": "0x00db2c7c",
+      "preceding_word": "0x52800020"
+    },
+    {
+      "ghidra_va": "0x00db2c98",
+      "preceding_word": "0x52800020"
+    }
+  ],
+  "calendar_mode1_immediate_arg": 1,
+  "calendar_mode1_game_event_verified": false,
+  "anchors": [
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/45/01ea4530.c",
+      "blob": "7f426526370c6d8c9c83df86b8e9621d4e6b2aab",
+      "needles": [
+        "0x69c) >> 2 & 1",
+        "FUN_02198d70(&DAT_053fe348 + lVar5,1)",
+        "FUN_020ec6c4(uVar1,local_5c,0)",
+        "FUN_021ca0d0(lVar5,1)"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/a3/027ea3e0.c",
+      "blob": "78adf726ddc308ae27d7254a74191184f9626334",
+      "needles": [
+        "FUN_020ec6c4(iVar8,local_78,1)",
+        "iVar8 == 10",
+        "0x13230"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/9c/02199cf0.c",
+      "blob": "caa101dce7959e8d8147c37a97a24e2788bc2f01",
+      "needles": [
+        "FUN_02198d70(param_1,2)",
+        "HasAcquaintanceship"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/c6/020ec6c4.c",
+      "blob": "6005a07b2a6da19d7eaeeb1d0673f31cbc1fe0d0",
+      "needles": [
+        "FUN_027a8ad0",
+        "FUN_027a8e60",
+        "FUN_027b6490",
+        "FUN_027b6820",
+        "FUN_01db1df0"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/ca/020eca68.c",
+      "blob": "9b9e636256a8608b052970d64325a4c1177c29bd",
+      "needles": [
+        "FUN_027a8ad0",
+        "FUN_027a8e60",
+        "FUN_027b6490",
+        "FUN_027b6820"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/8a/027a8ad0.c",
+      "blob": "fba5b1ee03817130446980c8d600ff6249863860",
+      "needles": [
+        "0x5f77b61a",
+        "FUN_02747170(param_1 + 0x38"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/64/027b6490.c",
+      "blob": "310f9b1ad3d1f6fc6ab31d13cfa2fe29868d5bc5",
+      "needles": [
+        "0x5f77b61a",
+        "FUN_02747170(param_1 + 0x38"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/8e/027a8e60.c",
+      "blob": "13c919de9a1900a81b7a411bb85d7111730233d6",
+      "needles": [
+        "-0x72bfe209",
+        "FUN_02747170(param_1 + 0x38"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/68/027b6820.c",
+      "blob": "0593981751360413ae5b74b3b3ef919da00f2551",
+      "needles": [
+        "-0x72bfe209",
+        "FUN_02747170(param_1 + 0x38"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/8d/02198d70.c",
+      "blob": "017bd69eced8f7b215ffd7732d8fdaf283973786",
+      "needles": [
+        "0x5f77b61a",
+        "-0x72bfe209",
+        "0x797f5754",
+        "param_1 + 0x818"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/a0/021ca0d0.c",
+      "blob": "91f7156698c4aab853d96151ef7faa1b6efd0eba",
+      "needles": [
+        "0x5f77b61a",
+        "-0x72bfe209"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/78/027478c0.c",
+      "blob": "3120cb230989e3b23500eab945582b90e946a80b",
+      "needles": [
+        "-0x412da57a",
+        "0xd55938bd",
+        "FUN_02747170"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/f8/0274f840.c",
+      "blob": "d6e1cb8dc34eadb25e7f18e4df18ccca129c2c17",
+      "needles": [
+        "-0x412da57a",
+        "0x4c24f1cf",
+        "0x800"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/57/027a5750.c",
+      "blob": "886a181dd7e1b3fa7c934bc267adbdaac54d8cc3",
+      "needles": [
+        "-0x412da57a",
+        "*puVar17 = 0",
+        "*puVar18 = 0"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/0d/02690d60.c",
+      "blob": "2e299ebb78a55c40ca1f4ed6fae0220e36b24311",
+      "needles": [
+        "FUN_027478c0",
+        "FUN_02747c50",
+        "0x2fbc",
+        "0x158",
+        "0x1267c"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/11/026b1100.c",
+      "blob": "650a2c9c5525a7778901140932808b7680d3d067",
+      "needles": [
+        "FUN_027478c0",
+        "FUN_027b6388",
+        "0x2f84",
+        "0xa0"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/a7/0281a7b0.c",
+      "blob": "22834dba8dfa6c5a7b6b72a52b05a9539d8c37bd",
+      "needles": [
+        "FUN_027478c0",
+        "SameLand",
+        "FUN_027a896c"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/7c/02747c50.c",
+      "blob": "52b27823d107b83bb0a510297cbab4a0ecc85db5",
+      "needles": [
+        "ContinuousTalkDays",
+        "PastCountFromLastVisitPlayerHouse",
+        "FUN_02747170"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/9f/027e9ff0.c",
+      "blob": "921a299ddbf7fa530a267f2f48e9d76dfac38787",
+      "needles": [
+        "MoveInCompletion",
+        "FUN_026b1100",
+        "FUN_02690d60"
+      ]
+    },
+    {
+      "path": "derived/3.0.3/ghidra12.2/c/84/027e8410.c",
+      "blob": "33a86264514af32ab65b72f085580e1c62299359",
+      "needles": [
+        "MoveInCompletion",
+        "FUN_026b1100",
+        "FUN_02690d60"
+      ]
+    }
+  ],
+  "other_games": {
+    "repo": "SunakazeKun/pyjmap",
+    "commit": "6972da9ee63ae2eaa3fe9edf25f5ee4c7000ea83",
+    "source_files": [
+      {
+        "path": "pyjmap/lookup_supermariogalaxy.txt",
+        "blob": "987d30dfea0dbd0e44af96edbc39f1e93f4bbec4",
+        "identifier_count": 1428
+      },
+      {
+        "path": "pyjmap/lookup_luigismansion.txt",
+        "blob": "ee4da648aaeeab145e5934612ea8e7fa45eae7ca",
+        "identifier_count": 133
+      },
+      {
+        "path": "pyjmap/lookup_donkeykongjunglebeat.txt",
+        "blob": "69f0d2f7d5606f3cd0dc1c47d7d5e1d67154c06d",
+        "identifier_count": 77
+      },
+      {
+        "path": "pyjmap/lookup_supermariosunshine.txt",
+        "blob": "7867bfc12b990787c52bd72fc5f9397f63abfb28",
+        "identifier_count": 3
+      }
+    ],
+    "unique_identifiers": 1566,
+    "unique_tokens": 1003,
+    "signature_checks": 599292,
+    "crc_hits": [],
+    "hash_algorithm_separate": "JMap rolling hash *31 (or old game-specific algorithm), only vocabulary used"
+  },
+  "runtime_verified": false
+}
