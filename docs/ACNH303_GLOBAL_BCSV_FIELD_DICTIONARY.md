@@ -38,3 +38,6 @@ HASH-007A CI 45558944032 PASS：16,522,108 ARM64 words；228/234 文件名 Gette
 
 ## HASH-007B.3–5 cache 地址及槽投票
 HASH-007B CI 45559272839 PASS: 1242 lifecycle windows、6771 global refs、136 flag/fill candidates、22/50 unknown windows overlapping lifecycle refs；8F30AA9F call 0x358ea00 -> 0x1c38ff0, slot14。原版 Ghidra C 01d38ff0（Ghidra slide +0x100000）确认该函数缓存32个 signed offset 槽，未查找 -1、未匹配 -2，描述符步进8字节。该 helper 所属表仍未证明，不能仅凭调用哈希归属认定其 Reader。新增原始 NSO RELA/JMPREL/RELR 解码、重定位指针解析、成对/向量 store 候选、连续全1填充识别及全部 6074 hash site 局部 read-slot 投票。每表保留零命中、冲突与候选，禁止按字段 ordinal 自动填充。实际 Ghidra anchor 地址须通过 NSO relocation 检查；结果待 CI。
+
+## HASH-007B.7 全 ELF 缓存反向索引
+HASH-007B.3–5 CI 45559675173 PASS：380793 原始 NSO relocation，373225 已解析指针，225/234 cache 候选，2511 slot 候选，143 unanimous、2 conflict、2366 unmapped；390 FindField call /46 targets；Ghidra 01d38ff0 指针重定位到 ELF flag 0x526b900、cache 0x526b904、32 slots（表归属未证实）。新扫描遍历整个 executable segment，以 cache range 与原生 relocation alias 页预筛选 ADR/ADRP，逐条输出读/写/地址形成/重定位指针/indexed-base 记录；Ghidra C Git tree 的最近 entry 仅作为 owner 候选，不能代替函数体或 CFG；查找同一 owner bucket 内未观察到已知 hash materialization 的 read-side 候选。仅在 helper 唯一 cache base 和表/slot 均一致时增加 FindField 参数投票，冲突不覆盖。SQLite 反向索引含多个表归属；不能证明所有读者，尚不支持跨块 reaching definition、任意 literal pointer、所有 indexed loads 或间接调用。无 hash materialization 仅表示当前检测模式未观察到。待新 CI。

@@ -35,7 +35,7 @@ def cache_candidates(refs,field_count):
         if end>base and not any(i in filled for i in range(end,end+4)):
             out.append({"flag":flag,"base":base,"slot_count":(end-base)//4,"full_schema_count":end-base==4*field_count})
     return out
-def scan(md,elf,segs,reloc,va,size):
+def scan(md,elf,segs,reloc,va,size,address_events=None):
     raw=get_bytes_va(elf,segs,va,size)
     if raw is None:return [],[],[]
     ins=list(md.disasm(raw,va));regs={"zero":0};refs=[];calls=[]
@@ -63,8 +63,12 @@ def scan(md,elf,segs,reloc,va,size):
             if ".16b" in i.op_str or ".2d" in i.op_str:result=(1<<128)-1
         if not i.writeback:
             for oi,o in enumerate(ops):
-                if o.type!=ARM64_OP_MEM or o.mem.index:continue
+                if o.type!=ARM64_OP_MEM:continue
                 base=regs.get(reg(i.reg_name(o.mem.base)))
+                if o.mem.index:
+                    if address_events is not None and base is not None:
+                        address_events.append({'va':i.address,'address':base+o.mem.disp,'kind':'indexed_base','asm':m+' '+i.op_str})
+                    continue
                 if base is None:continue
                 address=base+o.mem.disp
                 load=m.startswith(("ldr","ldp","ldur","ldar"));store=m.startswith(("str","stp","stur","stlr"))
@@ -82,6 +86,7 @@ def scan(md,elf,segs,reloc,va,size):
                         refs.append(x)
                     if load and n==8 and addr in reloc and writable(reloc[addr],1):
                         pending[reg(name(ops[k]))]=reloc[addr]
+                        if address_events is not None:address_events.append({'va':i.address,'address':reloc[addr],'kind':'relocated_pointer','pointer_slot':addr,'asm':m+' '+i.op_str})
         if m=="bl" and ops and ops[0].type==ARM64_OP_IMM:
             calls.append({"va":i.address,"target":ops[0].imm,"args":{f"x{k}":regs[f"x{k}"] for k in range(3) if f"x{k}" in regs}})
         try:_,writes=i.regs_access()
@@ -92,6 +97,8 @@ def scan(md,elf,segs,reloc,va,size):
         if result is not None and dest and dest!="zero":
             n=32 if name(ops[0]).startswith("w") else 128 if name(ops[0]).startswith("v") else 64
             regs[dest]=result&((1<<n)-1)
+            if address_events is not None and m in ('adr','adrp','add','sub'):
+                address_events.append({'va':i.address,'address':regs[dest],'kind':'address_formation','asm':m+' '+i.op_str})
         regs.update(pending)
         if m in ("bl","blr"):
             for k in range(19):regs.pop(f"x{k}",None)
