@@ -1,6 +1,6 @@
 # String 归档内 133 项 MSBT 用途
 
-返回 [专题](README.md) · [业务映射](Business-Mapping.md)。CNzh 条数来自历史实读；中文用途依据文件名和已知样本，实际消费者待验证。[14语言完整 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/message-catalog/string-member-map.csv)。
+返回 [专题](README.md) · [全部归档 MSBT 中文目录](Members/README.md) · [业务映射](Business-Mapping.md)。CNzh 条数来自历史实读；中文用途依据文件名和已知样本，实际消费者待验证。[14语言完整 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/message-catalog/string-member-map.csv)。
 
 | MSBT 内部路径 | CNzh 条数 | 中文用途 | 数据关联 |
 | --- | ---: | --- | --- |
