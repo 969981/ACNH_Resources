@@ -24,3 +24,7 @@ version: "3.0.3"
 本专题先覆盖九张物品相关核心表。其他 BCSV 可使用通用解析器导出原始字段，不自动推测语义。
 
 [实际 CI 运行及产物](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) 已通过九张核心表的结构与提取验收；详见 [工具手册](Toolkit.md)。
+
+## 全量目录研究
+
+`uv run --script Scripts/bcsv/catalog.py --verify-git` 扫描全目录，生成 inventory.json、field-hashes.json、reference-candidates.json、summary.json 与自动 Markdown docs。引用是 CRC32 值域候选，不是已确认外键。详见 [全量字典研究](Full-Catalog.md)。

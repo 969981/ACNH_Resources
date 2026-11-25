@@ -1,0 +1,24 @@
+name: ACNH full BCSV catalog
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/bcsv/catalog.py','Scripts/bcsv/test_catalog.py','.github/workflows/acnh303-bcsv-catalog.yml']
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p 'test_*.py'
+      - run: uv run --script Scripts/bcsv/catalog.py --verify-git
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-full-bcsv-catalog
+          path: out/bcsv-catalog

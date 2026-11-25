@@ -1,0 +1,44 @@
+name: ACNH Park UBER key and material matching
+on:
+  pull_request:
+    branches: [3.0.3]
+    paths:
+      - 'Scripts/acnh303_park_uber_keys.py'
+      - '.github/workflows/acnh303-park-uber-keys.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_park_uber_keys.py
+            /e10617820db06889e1638499478da0de_NCA/1/Shader/Park_UBER_All.Nin_NX_NVN.szs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybed.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrLampJapan.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBearS.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrIceTableL.Nin_NX_NVN.zs
+      - uses: actions/checkout@v4
+        with:
+          repository: 969981/ACNH_Resources
+          ref: b17b413c7344b85f46beb620f636ac98d6e988ba
+          path: verified-tools
+          filter: blob:none
+          sparse-checkout: Scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install zstandard==0.25.0
+      - run: PYTHONPATH="$PWD/verified-tools/Scripts" python Scripts/acnh303_park_uber_keys.py --out result
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: park-uber-key-audit
+          path: result/
+          if-no-files-found: warn

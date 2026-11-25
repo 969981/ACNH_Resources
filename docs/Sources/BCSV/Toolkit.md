@@ -31,3 +31,7 @@ uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p
 ## 实际 CI 验收（2026-11-25）
 
 [Actions #45569451957](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) 对 research 提交 `82b7c5ce5afc83ec63312157dd3be0f12afd6d42` 实际执行成功。uv 安装、6 项解析器单元测试、九张核心表的固定 Git blob 与结构校验、CSV/JSONL/schema 导出、产物上传均成功。产物 `acnh303-bcsv-core-export`（2,638,784 字节）。九张表登记行数合计 13,298；其中 ItemParam 11,178 行通过形状与来源校验，原生 UI 分类表 256 行/60 组断言通过。尚未下载产物逐字段独立复核；不代表未知字段语义、跨表关联或物品业务规则已验证。
+
+## 全量目录研究
+
+`uv run --script Scripts/bcsv/catalog.py --verify-git` 扫描全目录，生成 inventory.json、field-hashes.json、reference-candidates.json、summary.json 与自动 Markdown docs。引用是 CRC32 值域候选，不是已确认外键。详见 [全量字典研究](Full-Catalog.md)。

@@ -1,0 +1,46 @@
+name: Native item classification audit
+on:
+  push:
+    branches: [research]
+    paths:
+      - 'research/item-classification/**'
+      - '.github/workflows/native-item-classification.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /research/item-classification/
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemSize.bcsv
+      - uses: actions/checkout@v4
+        with:
+          repository: kwsch/NHSE
+          ref: cb0745415945776f73375bf0a434a8babf059307
+          path: upstream-nhse
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /NHSE.Core/Structures/Item/ItemKind.cs
+            /NHSE.Core/Resources/byte/item_kind.bin
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit all native item IDs
+        run: |
+          python -m py_compile research/item-classification/audit_native_kind.py
+          python research/item-classification/audit_native_kind.py --bcsv e10617820db06889e1638499478da0de_NCA/1/Bcsv --nhse upstream-nhse --out out
+          cat out/classification_audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acnh303-native-item-classification-audit
+          path: out/
+          if-no-files-found: warn
