@@ -59,7 +59,7 @@ def parse_material(data,p):
         slots.append({"index":i,"sampler":k,"texture":t,"textureNamePointer":u64(data,u64(data,p+0x30)+8*i),
          "samplerOffset":q,"wrapRaw":[u,v,w],"compareRaw":cmp,"borderRaw":border,"anisotropyRaw":aniso,
          "filterFlags":flags,"minLod":mn,"maxLod":mx,"lodBias":bias,"rawHex":raw.hex()})
-    a=assignment(data,u64(data,p+0x28))
+    a=assignment(data,u64(data,p+0x20))
     # Shader assignment values are material sampler names; unused aliases remain explicit.
     if a:
         for x in a["samplerAssigns"]:
