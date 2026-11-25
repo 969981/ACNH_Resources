@@ -4,6 +4,7 @@ on:
     branches: [3.0.3_Unpack]
     paths:
       - 'Scripts/acnh303_remake_special.py'
+      - 'Scripts/acnh303_remake_special_db.py'
       - '.github/workflows/acnh303-remake-special.yml'
   workflow_dispatch:
 permissions:
@@ -19,6 +20,7 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /Scripts/acnh303_remake_special.py
+            /Scripts/acnh303_remake_special_db.py
             /Scripts/acnh303_remake_model_binding.py
             /Scripts/acnh303_remake_fmat_bindings.py
             /Scripts/acnh303_round47_cedar_fmat.py
@@ -51,6 +53,7 @@ jobs:
           python Scripts/acnh303_remake_special.py --root . --out result --prepare
           git sparse-checkout add --stdin < result/paths.txt
           python Scripts/acnh303_remake_special.py --root . --out result
+          python Scripts/acnh303_remake_special_db.py --input result --out result/remake-special.sqlite3
       - uses: actions/upload-artifact@v4
         if: always()
         with:
