@@ -21,3 +21,7 @@ tags: [acnh, guide]
 已提供共享 app.json：使用 Markdown 链接、相对路径、新链接自动更新。个人 workspace、缓存和插件安装不提交。图谱和反向链接使用 Obsidian 核心功能即可。
 
 模板：[专题研究模板](Templates/Research-Note.md)。
+
+## 首页与索引维护约束
+
+每个新专题必须从 [首页](README.md) 或一个首页可达的 MOC 进入，并在正文提供上级入口；跨主题通过相对链接连接。新增非生成 Markdown 时同步 [全部文档索引](Research/Document-Index.md)，234 张表统一通过生成索引管理。CI 通过仅更新对应工作流状态，不自动升级业务证据；[研究路线](Research/Research-Roadmap.md) 统一维护当前结论和未验证事项。旧专题原始结论保留，追加可追溯的验收更新，不移动历史路径。
