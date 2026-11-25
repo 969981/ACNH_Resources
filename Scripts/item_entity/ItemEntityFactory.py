@@ -70,6 +70,8 @@ class ItemEntityFactory:
             if v is None:unknown.append(name)
             return v is True
         if seed.entity_type=="field":
+            if seed.item_id in (0xeb7e,0xeb7c,0xeb7d):
+                return Plan(seed,(),("field_explicitly_excluded_by_0124C150",),(),"blocked_field_exception")
             if ctx.field_gene_byte is None:unknown.append("field_kind_and_native_heredity_context")
             else:patches.append(Patch(4,1,0xff,uint(ctx.field_gene_byte,8),"0124C150 conditional field gene byte"))
             return Plan(seed,tuple(patches),tuple(unknown),(),"partial_field_model")
