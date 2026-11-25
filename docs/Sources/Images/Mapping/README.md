@@ -34,3 +34,7 @@ CSV/JSON：[机器可读映射](https://github.com/969981/ACNH_Resources/tree/re
 | variant_candidates_with_historical_png | 13135 |
 | material_slots | 11985 |
 | generated_detail_pages | 375 |
+
+## 补充关联
+
+[剩余道具、改造及 NPC 图片关联](Residual.md)：第二轮 3,242 道具及 4,039 改造候选；保留未关联项和原始证据。
