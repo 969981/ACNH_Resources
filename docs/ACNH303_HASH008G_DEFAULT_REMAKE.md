@@ -1,5 +1,7 @@
 # HASH-008G — AD0C787A default ReBody variant dataflow
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 ## Accepted baseline
 
 HASH-008F CI [45568225032](https://github.com/969981/ACNH_Resources/actions/runs/45568225032), job 139048179541 PASS. Exact original forward/backref join 8/8, 36 ordinary recipes with body_count=2,fabric_count=0, flag=0. Five original predicate B/BL edges, all BL immediately followed by TBZ W0,#0; body_count 408 edges, fabric_count 142, recipe_index 15.
