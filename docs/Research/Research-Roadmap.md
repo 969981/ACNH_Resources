@@ -48,3 +48,7 @@ updated: 2026-11-25
 ## 图片素材
 
 [图片素材源文件与格式](../Sources/Images/README.md)：原始路径、容器格式、BNTX 元数据、图标与材质区分；新增全量路径清点及抽样解析 CI，像素与运行时选择待验证。
+
+### 原始图片素材验收
+
+61,646 个候选源文件；11 个实际容器样本通过，[清点 CI](https://github.com/969981/ACNH_Resources/actions/runs/45613881319)。[BNTX/BRTI 字典](../Sources/Images/BNTX-BRTI.md) 已编写；[全量分类与关系候选](../Sources/Images/Source-Catalog.md) 由 CI 生成。像素、运行时图标选择、UI 消费者及浏览器仍待验证。
