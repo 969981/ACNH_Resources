@@ -6,6 +6,10 @@ import struct
 
 DOMAIN=15000
 EMPTY_ID=0xfffe
+# Original NSO/ELF CI 45574865001; mode3 selector defaults from 01B16D90.
+MODE1_TABLE=tuple(range(7699,7715))+(13793,)
+MODE3_TABLE=(0,14042,14043,14044)
+def initial_mode3_mapping(v):return {12:1,13:2,14:3}.get(v,0)
 
 @dataclass(frozen=True)
 class Item:
@@ -22,7 +26,7 @@ class Item:
 class MissingNativeRule(Exception): pass
 
 def normalized_id(item, mode1_table=None, mode3_table=None, mode3_mapping=None):
-    """0277D6C4: require original lookup tables for table-backed branches."""
+    """0277D6C4: explicit providers permit runtime overrides."""
     if item.id in (0x16a1,0x3100):return item.id
     kind=item.byte3&3
     v=(item.byte3>>2)&15
@@ -80,6 +84,10 @@ def self_test():
     assert normalized_id(Item(1,0,3|(10<<2)),mode3_mapping=lambda _:0)==0x306
     assert normalized_id(Item(1,0,1),mode1_table=list(range(17)))==0
     assert normalized_id(Item(1,0,63),mode1_table=list(range(17)))==16
+    assert normalized_id(Item(1,0,1),MODE1_TABLE)==7699
+    assert normalized_id(Item(1,0,63),MODE1_TABLE)==13793
+    assert normalized_id(Item(1,0,3|(12<<2)),MODE1_TABLE,MODE3_TABLE,initial_mode3_mapping)==14042
+    assert normalized_id(Item(1,0,3|(14<<2)),MODE1_TABLE,MODE3_TABLE,initial_mode3_mapping)==14044
     try:normalized_id(Item(1,0,1))
     except MissingNativeRule:pass
     else:raise AssertionError("unresolved native table silently guessed")
