@@ -54,7 +54,10 @@ def run(root,historical,out):
         return [dict(index=i,slot_va=hex(gh+8*i),target_rva=hex(v) if v is not None else None,label=string(v)) for i in range(n) for v in [ptr(gh-SLIDE+i*8)]]
     enum=table(0x04a32ac8,6);other=table(0x04a32a60,6)
     expected={"None","Ftr","Tool","Smartphone","Fence","SettingLadder"}
-    need({r["label"] for r in enum}==expected,"ItemRemakeType original pointer names")
+    print(json.dumps({"table_04a32ac8":enum,"table_04a32a60":other},ensure_ascii=False),flush=True)
+    if {r["label"] for r in enum}!=expected and {r["label"] for r in other}==expected:
+        enum,other=other,enum
+    need({r["label"] for r in enum}==expected,"Neither native pointer table matches ItemRemakeType names")
     enum_map={crc32(r["label"]):r["index"] for r in enum}
     sources={}
     for name in ("ItemKind","ItemParam","ItemOutfitInfo"):
