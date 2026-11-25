@@ -11,6 +11,8 @@ version: "3.0.3"
 
 ## 专题导航
 
+- [TextureDecoderParityAudit 原版纹理解码差分](Texture-Decoder-Parity-Audit.md) — 逐通道误差、颜色转换假设、多解码器、642 张缺口反查
+
 - [ZS 原始文件与道具、村民图片映射字典](Image-File-Mapping.md) · [375 份全量映射明细](Mapping/README.md)
 
 - [道具、家具及服装原版图片提取](Item-Extraction.md) — 原始路径、历史导出代码、32,145 个源验收、复现命令
