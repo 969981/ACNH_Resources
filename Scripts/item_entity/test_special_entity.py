@@ -23,4 +23,14 @@ class SpecialTests(unittest.TestCase):
         self.assertEqual(plant_identity(4,rows),(3,(4,1,2,3),"terminal_grow2"))
         self.assertEqual(plant_identity(5,rows)[0],0xfffe)
         self.assertEqual(plant_identity(6,rows)[2],"cycle")
+    def test_factory_explicit(self):
+        from ItemEntityFactory import ItemEntityFactory
+        b=bytearray(256);b[1]=128
+        e=ItemEntityFactory.construct_bottle_explicit(0x16a1,system=0,additional=7,recipe=15,category=0,group=2,limits=[2]*35,masks=[7]*35,recipe_bitmap=bytes(b))
+        self.assertEqual(e.to_bytes().hex(),"a11600070f000200")
+        with self.assertRaises(ValueError):
+            ItemEntityFactory.construct_bottle_explicit(0x16a1,system=0,additional=7,recipe=15,category=0,group=2,limits=[2]*35,masks=[7]*35,recipe_bitmap=bytes(256))
+        c=ItemEntityFactory.construct_container_explicit(2579,system=0,additional=0,original_word=0,child_id=296,transfer_type=0,child_valid=True)
+        self.assertEqual(c.low,296)
+        self.assertEqual(ItemEntityFactory.money_value(ItemEntity(2105),price=100,max_count=-1,stack_gate=False,kind_index=0x86),100)
 if __name__=="__main__":unittest.main()
