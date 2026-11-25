@@ -18,3 +18,5 @@ tags: [acnh, items, moc]
 ## 物品实体
 
 [ItemEntityCodec — 8 字节实体与机器人兼容](Item-Entity-Codec.md)
+
+[原生款式实体编码研究](Native-Variant-Encoding.md)。
