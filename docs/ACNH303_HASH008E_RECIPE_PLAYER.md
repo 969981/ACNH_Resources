@@ -1,5 +1,7 @@
 # HASH-008E — PlayerStateParam residual slots and Turkey Day DIY family
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 Original RecipeCraftParam CSV from archived commit `acabc03099dff264184465c7fd9c3b298dd1fcda` was read in full (924 rows): AD0C787A=1 iff SelectCalendarEventSeason=HarvestFestival (8/924). All eight InvalidCard=1, EFA5DDA4=0, BoardColorID=50, serial IDs 6200–6207. Crosschecked public item/recipe IDs and names (not yet native ItemParam binary JOIN):
 
 | Recipe ID | Item ID | Serial | Simplified Chinese | Model name (external) |
