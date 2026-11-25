@@ -14,3 +14,5 @@ item.csv、category.csv、item_locale.csv、category_locale_candidate.csv、colo
 复现：`uv run --script Scripts/bcsv/build_item_catalog.py --historical historical`，历史解析器固定 f09e15460d02790060a374b2ad6ba569ba9b97ed。 [工作流](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-item-catalog.yml)。
 
 [商品数据目录](https://github.com/969981/ACNH_Resources/tree/research/research/catalog)。
+
+相关：[商品专题](README.md) · [原版改造款式](Native-Variants.md) · [MSBT 专题](../Sources/Message/README.md)。[商品 catalog CI #45571966606](https://github.com/969981/ACNH_Resources/actions/runs/45571966606) 工作流成功。
