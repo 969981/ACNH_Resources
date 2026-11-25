@@ -32,3 +32,7 @@
 `uv run --no-project --python 3.12 python Scripts/item_entity/build_policy.py --poker poker`
 
 poker为固定提交工作树。CI生成 research/catalog/item-entity/item_policy.csv、summary.json。实际运行结果以[工作流](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-item-entity.yml)为准。所有runtime_verified/dispatch_verified仍为0。
+
+## 初始化层
+
+[ItemEntityFactory：原生条件初始化](Item-Entity-Factory.md)。保留未知默认值，不将全零实体当作原版构造结果。
