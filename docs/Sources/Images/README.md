@@ -97,3 +97,5 @@ CI #45613881319 成功：61,646 个图片相关候选文件；FtrIcon 25,794、C
 - [特殊道具原生资源选择、共享改造图标与模型渲染输入](Native-Resource-Selection.md)：53 项菜单资源闭合、共享 RemakeID 图标反例、10 个模型渲染输入。
 
 - [图片素材管理与上游项目对照](Asset-Management.md)
+
+- [ImagePackCompatibilityAudit 全量图片对账](Image-Pack-Compatibility-Audit.md)
