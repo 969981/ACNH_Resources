@@ -1,0 +1,24 @@
+name: ACNH BCSV toolkit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/bcsv/**', '.github/workflows/acnh303-bcsv-toolkit.yml']
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p 'test_*.py'
+      - run: uv run --script Scripts/bcsv/extract.py --verify-303
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-bcsv-core-export
+          path: out/bcsv
