@@ -99,3 +99,6 @@
 
 - [BNTX/BRTI 原生纹理字典](../Sources/Images/BNTX-BRTI.md)
 - [全量素材分类字典（生成）](../Sources/Images/Source-Catalog.md)
+
+- [道具、家具及服装原版图片提取](../Sources/Images/Item-Extraction.md)
+- [村民原版图片提取](../Sources/Images/Villager-Extraction.md)
