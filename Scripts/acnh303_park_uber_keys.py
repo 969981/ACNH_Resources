@@ -49,10 +49,10 @@ def model(b,p,name):
             q=arr+i*40;name1=b.str(b.u64(q));check(name0==name1,"Option identity")
             choices=b.dic(b.u64(q+8));cnt=b.u8(q+24);default=b.u8(q+25);ko=b.u8(q+29);idx=b.u8(q+30);shift=b.u8(q+31);mask=b.u32(q+32)
             check(cnt==len(choices) and default<cnt and shift<32,"Choice count/default "+name0)
-            values=[b.u32(b.u64(q+16)+j*4) for j in range(cnt)]
+            valueptr=b.u64(q+16);values=[b.u32(valueptr+j*4) for j in range(cnt)] if valueptr else None
             word=idx if kind=="static" else sk+idx-ko
             check(0<=word<k and mask and mask>>shift>=cnt-1,"Key field "+name0)
-            options.append(dict(kind=kind,name=name0,offset=q,choices=choices,values=values,default=default,word=word,rawWord=idx,keyOffset=ko,shift=shift,mask=mask))
+            options.append(dict(kind=kind,name=name0,offset=q,choices=choices,choiceValueArrayOffset=valueptr,values=values,default=default,word=word,rawWord=idx,keyOffset=ko,shift=shift,mask=mask))
     # Disjoint masks must hold if options occupy one shared key tuple.
     masks=[0]*k
     for o in options:
@@ -98,6 +98,38 @@ def match(m,provided):
         choices=sorted({o["choices"][(p["key"][o["word"]]&o["mask"])>>o["shift"]] for p in candidates})
         if len(choices)>1:varying[o["name"]]=choices
     return {"providedMatches":len(wanted),"invalidChoices":invalid,"unknownOptions":unknown,"missingOptions":missing,"varyingMissingOptions":varying,"candidates":[p["index"] for p in candidates],"defaultAssumptionCandidates":default,"runtimeSelectionVerified":False}
+def geometry(f,parsed):
+    result=[]
+    for model0 in parsed["models"]:
+        p=model0["model_header_offset"];arr=f.u64(p+0x28);n=f.u16(p+0x6a)
+        keys=f.dic(f.u64(p+0x30));check(len(keys)==n,"Shape dict count")
+        for i in range(n):
+            q=arr+i*0x60
+            check(f.get(q,4)==b"FSHP" and f.u16(q+0x50)==i,"Shape identity")
+            name=f.str(f.u64(q+8));check(name==keys[i],"Shape dict identity")
+            mat=f.u16(q+0x52);weight=f.u8(q+0x5a)
+            check(mat<len(model0["materials"]) and weight<=8,"Shape material/weight")
+            result.append({"name":name,"modelIndex":model0["model_index"],"material":model0["materials"][mat]["name"],"materialIndex":mat,"shapeIndex":i,"vertexSkinCount":weight,"shapeOffset":q})
+    return result
+def select_pass(m,match,weight,pass_name):
+    o={o["name"]:o for o in m["options"]}
+    wanted={"gsys_weight":str(weight),"gsys_assign_type":pass_name,"gsys_index_stream_format":"0","system_id":"0"}
+    return [i for i in match["candidates"] if all((m["programs"][i]["key"][o[k]["word"]]&o[k]["mask"])>>o[k]["shift"]==o[k]["choices"].index(v) for k,v in wanted.items())]
+def stages(b,m,prog,out):
+    bb=Bin(b.get(m["bnshOffset"],b.u32(m["bnshOffset"]+28)))
+    p=prog["binaryProgramOffset"];rows=[]
+    for j,name in enumerate(("vertex","hull","domain","geometry","fragment","compute")):
+        q=bb.u64(p+8+j*8)
+        if not q:continue
+        cp,bp=bb.u64(q+8),bb.u64(q+16);bs,cs=bb.u32(q+24),bb.u32(q+28)
+        check(cp and bp and bs and cs,"Stage data extent")
+        code=bb.get(bp,bs);control=bb.get(cp,cs)
+        key=sha(code);dst=out/"gpu-code";dst.mkdir(exist_ok=True)
+        for data,ext in ((code,".bin"),(control,".control.bin")):
+            fn=dst/(sha(data)+ext)
+            if not fn.exists():fn.write_bytes(data)
+        rows.append({"stage":name,"stageRecordOffset":q,"byteCodeOffset":bp,"byteCodeSize":bs,"byteCodeSha256":key,"controlOffset":cp,"controlSize":cs,"controlSha256":sha(control),"first64Hex":code[:64].hex()})
+    return rows
 def main(root,out):
     raw=(root/SRC/"Shader/Park_UBER_All.Nin_NX_NVN.szs").read_bytes()
     check(hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()==EXPECTED,"Original shader SHA")
@@ -112,15 +144,22 @@ def main(root,out):
         path=root/SRC/("Model/"+stem+".Nin_NX_NVN.zs");original=path.read_bytes()
         leaves=[x["data"] for x in find_leaf(original,stem) if x["data"].startswith(b"FRES")];check(len(leaves)==1,"Model FRES")
         f=Bin(leaves[0])
-        for mat in parse_fres(f.b)["materials"]:
+        parsed=parse_fres(f.b);shapes=geometry(f,parsed)
+        for mat in parsed["materials"]:
             p=mat["header_offset"];a=parse_material(f.b,p);s=a["shaderAssign"]
             if not s:continue
             opts=material_options(f,p);m=next((m for m in models if m["name"]==s["shaderModel"]),None)
             r={"asset":stem,"sourceSha256":sha(original),"material":mat["name"],"shaderModel":s["shaderModel"],"options":opts,"shaderAssign":s}
             r["match"]=match(m,opts) if m else {"status":"unknown_shader_model"}
+            r["shapes"]=[x for x in shapes if x["material"]==mat["name"] and x["modelIndex"]==mat["model_array_index"]]
+            r["materialPassCandidates"]=[]
+            if m:
+                for weight in sorted({x["vertexSkinCount"] for x in r["shapes"]}):
+                    ids=select_pass(m,r["match"],weight,"gsys_assign_material")
+                    r["materialPassCandidates"].append({"vertexSkinCount":weight,"programs":[{"index":i,"variation":m["programs"][i]["variation"],"samplerLocations":m["programs"][i]["samplerLocations"],"stages":stages(b,m,m["programs"][i],out)} for i in ids],"condition":"FSHP vertexSkinCount equals gsys_weight; requested material pass, runtime producer not yet verified"})
             results.append(r)
     write(out/"matches.json",results)
-    summary={"fshaSha256":sha(b.b),"models":[{k:v for k,v in m.items() if k not in ("options","programs","samplers")}|{"programCount":len(m["programs"])} for m in models],"materials":[{"asset":r["asset"],"material":r["material"],"shaderModel":r["shaderModel"],"providedMatches":r["match"].get("providedMatches"),"candidateCount":len(r["match"].get("candidates",[])),"defaultCandidates":r["match"].get("defaultAssumptionCandidates"),"invalid":r["match"].get("invalidChoices"),"varyingMissing":r["match"].get("varyingMissingOptions")} for r in results],"runtimeSelectionVerified":False}
+    summary={"fshaSha256":sha(b.b),"models":[{k:v for k,v in m.items() if k not in ("options","programs","samplers")}|{"programCount":len(m["programs"])} for m in models],"materials":[{"asset":r["asset"],"material":r["material"],"shaderModel":r["shaderModel"],"providedMatches":r["match"].get("providedMatches"),"candidateCount":len(r["match"].get("candidates",[])),"defaultCandidates":r["match"].get("defaultAssumptionCandidates"),"invalid":r["match"].get("invalidChoices"),"varyingMissing":r["match"].get("varyingMissingOptions"),"shapeWeights":[x["vertexSkinCount"] for x in r["shapes"]],"materialPassPrograms":[{"weight":x["vertexSkinCount"],"programs":[p["index"] for p in x["programs"]]} for x in r["materialPassCandidates"]]} for r in results],"runtimeSelectionVerified":False}
     write(out/"audit.json",summary);print(json.dumps(summary,ensure_ascii=False))
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True);a=p.parse_args();main(a.root.resolve(),a.out)
