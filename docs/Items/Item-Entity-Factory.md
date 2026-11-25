@@ -28,3 +28,7 @@ research/catalog/item-factory/：initialization_policy.csv（11178物品）、fi
 `uv run --no-project --python 3.12 --with lz4==4.3.3 --with capstone==5.0.3 python Scripts/item_entity/audit_factory.py --historical historical`
 
 [CI](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-item-factory.yml)。
+
+## 特殊实体专项
+
+[容器、Money、MessageBottle 和植物身份转换](Special-Entity-Encoding.md)。新增显式上下文构造接口，不把静态预览当作默认实体。
