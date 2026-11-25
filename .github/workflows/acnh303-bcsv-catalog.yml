@@ -22,3 +22,37 @@ jobs:
         with:
           name: acnh303-full-bcsv-catalog
           path: out/bcsv-catalog
+  publish:
+    needs: scan
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: |
+            docs
+            research/bcsv-catalog
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-full-bcsv-catalog
+          path: /tmp/bcsv-catalog
+      - name: Publish generated documentation and machine-readable dictionary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA" || { echo "Research advanced; refusing to publish stale catalog"; exit 1; }
+          test -f /tmp/bcsv-catalog/summary.json
+          test -f /tmp/bcsv-catalog/docs/README.md
+          python -c 'import json; d=json.load(open("/tmp/bcsv-catalog/summary.json")); assert d["files"] == d["parsed"] and d["unsupported"] == 0'
+          mkdir -p docs/Sources/BCSV/Generated research/bcsv-catalog
+          cp /tmp/bcsv-catalog/docs/*.md docs/Sources/BCSV/Generated/
+          cp /tmp/bcsv-catalog/*.json research/bcsv-catalog/
+          git add docs/Sources/BCSV/Generated research/bcsv-catalog
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(bcsv): publish generated full catalog and reference candidates"
+          git push origin HEAD:research

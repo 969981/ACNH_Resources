@@ -30,3 +30,7 @@ updated: 2026-11-25
 在 Obsidian 中选择「打开文件夹作为仓库」，打开本地 ACNH_Resources/docs。使用标准相对 Markdown 链接，可在 GitHub 网页和 Obsidian 双向跳转。无需安装社区插件。
 
 原始 NCA 文件位于 docs 外部，知识笔记中的原始文件证据使用 GitHub 固定提交链接，避免 Vault 外部链接无法打开。
+ 
+## 全量数据字典
+
+[BCSV 全量目录与字段字典](Sources/BCSV/Full-Catalog.md)：234 张表、2,075 个字段 Hash、50 个引用候选。

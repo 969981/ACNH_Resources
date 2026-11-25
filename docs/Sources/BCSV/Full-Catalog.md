@@ -19,4 +19,10 @@ uv run --script Scripts/bcsv/catalog.py --verify-git
 - docs/：自动 Markdown 结构索引、逐表页面、全量 Hash 字典和引用候选，均有相对链接。
 - summary.json：文件、解析、失败、行、字段和候选数量。
 
-暂不自动推断数值 ID 外键、字符串外键或跨表业务语义。全量 CI 产物待实际验收。[CI](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-bcsv-catalog.yml)。
+暂不自动推断数值 ID 外键、字符串外键或跨表业务语义。首轮实际验收已完成。[CI](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-bcsv-catalog.yml)。
+
+## 首轮实际验收（2026-11-25）
+
+[Actions #45569991407](https://github.com/969981/ACNH_Resources/actions/runs/45569991407)：234/234 张原版 BCSV 结构解析通过，无不支持文件，58,349 条记录、2,898 个字段出现位置、2,075 个去重字段 Hash、50 个 CRC32 跨表引用候选。8 项测试通过。[完整产物](https://github.com/969981/ACNH_Resources/actions/runs/45569991407/artifacts/15002100441)（247,488 字节）。候选关系与未知字段仍需语义及消费者验证。
+
+自动发布目录：`docs/Sources/BCSV/Generated/`（逐表 Markdown）与 `research/bcsv-catalog/`（JSON 字典）；发布独立检查分支 tip，禁止覆盖并发研究。
