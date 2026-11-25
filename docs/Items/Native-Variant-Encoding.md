@@ -1,5 +1,7 @@
 # ReFabricMode 与家具实体写入证据
 
+返回 [商品专题](README.md) · [知识库首页](../README.md) · [款式数据库](Native-Variants.md)。
+
 固定原版 3.0.3 Ghidra C 提交 f09e15460d02790060a374b2ad6ba569ba9b97ed；本轮是静态反编译证据和 Python 模型对账，未执行游戏、未确认所有实体类别实际偏移。
 
 | 函数 | 已恢复行为 |
