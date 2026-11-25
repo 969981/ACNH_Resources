@@ -23,3 +23,9 @@ status: in-progress
 5. 未完成 L3/L4 时记录限制，不造空白结果。
 
 关联：[[../02-Format-Catalog|格式索引]] · [[../03-Unpack-Workflow|工具]] · [[../05-Progress|进度]]。
+
+## 关联研究 · 2026-11-24
+
+[[00-Home|知识库主页]] · [[00-Research-Index|研究总索引]] · [[26-R94-NPC-EventFlags-Hash-Dictionary|Hash 字典]] · [[27-R94-NPC-EventFlags-Native-Consumers|Native 消费者]] · [[28-R95-NPC-EventFlags-Research-Queue|R95 待办]]
+
+R94 的 17 个字段中 13 个原名经 CRC32 匹配，1 个原名未知但静态重置行为已定位，3 个未解；本次是文档整理，不增加 L4 或实际存档读取覆盖。

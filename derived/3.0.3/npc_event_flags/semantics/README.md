@@ -17,3 +17,10 @@ python Scripts/acnh303_r94_eventflag_semantics.py --root . --out artifacts/acnh3
 ```
 
 Actions 使用原版 R93 与完整 Ghidra 12.2 C 导出（约 59,997 函数），生成精确 quoted-key 证据；无匹配不代表 Native 不使用。脚本支持不带 --scan-ghidra 的快速生成，引用字段为 null。
+
+## Obsidian 知识库入口
+
+- [研究总索引](../../../../docs/00-Research-Index.md)
+- [原版 Hash 字典](../../../../docs/26-R94-NPC-EventFlags-Hash-Dictionary.md)
+- [Native 消费者与重置](../../../../docs/27-R94-NPC-EventFlags-Native-Consumers.md)
+- [R95 后续研究队列](../../../../docs/28-R95-NPC-EventFlags-Research-Queue.md)
