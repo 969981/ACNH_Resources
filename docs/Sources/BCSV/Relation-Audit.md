@@ -28,3 +28,5 @@ python Scripts/bcsv/relation_audit.py
 ## 首轮实际验收（2026-11-25）
 
 [CI #45574462546](https://github.com/969981/ACNH_Resources/actions/runs/45574462546) 成功；[完整 6 文件产物](https://github.com/969981/ACNH_Resources/actions/runs/45574462546/artifacts/15002224934)；[永久 CI 摘要](../../../research/bcsv-relations/ci-baseline.json)。234 表、58,349 行、2,898 字段位置通过 SHA 和字段结构对账。157 个残余码值中 85 项有同字段或关联目标证据，14 项只有全局字符串候选，58 项未解决。新增 46 个数值外键候选，450 个唯一键候选，394 个 0/1 值域候选；完整数值字段 1,979 个。新增原生函数语义确认 0，仍未回填 99 个候选。候选潜在覆盖 5,812/5,870（99.01%）。
+
+相关：[知识库首页](../../README.md) · [BCSV 专题](README.md) · [原生程序研究](../../Research/Native-Research.md)。
