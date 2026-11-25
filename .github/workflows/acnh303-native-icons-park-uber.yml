@@ -1,0 +1,124 @@
+name: ACNH native FtrIcon and Park UBER research
+on:
+  pull_request:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_ftricon_full.py'
+      - 'Scripts/acnh303_park_uber_probe.py'
+      - '.github/workflows/acnh303-native-icons-park-uber.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  icon-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/batch-*.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt
+      - run: python Scripts/acnh303_ftricon_full.py plan --out inventory
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory/
+          if-no-files-found: error
+  decode:
+    needs: icon-inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: Scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory
+      - name: Install verified pinned BNTX decoder
+        run: |
+          set -euo pipefail
+          u=https://github.com/quatric/nintoolbox/releases/download/nightly-20261028
+          curl -fLsS --retry 3 "$u/nintoolbox-linux-x86_64.tar.gz" -o /tmp/nintoolbox-linux-x86_64.tar.gz
+          curl -fLsS --retry 3 "$u/SHA256SUMS.txt" -o /tmp/SHA256SUMS.txt
+          (cd /tmp && grep 'nintoolbox-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -)
+          mkdir -p /tmp/nintoolbox
+          tar -xzf /tmp/nintoolbox-linux-x86_64.tar.gz -C /tmp/nintoolbox
+          find /tmp/nintoolbox -type f -name wimgt | head -n1 > /tmp/wimgt.path
+          test -s /tmp/wimgt.path
+          chmod +x "$(cat /tmp/wimgt.path)"
+      - run: |
+          python Scripts/acnh303_ftricon_full.py paths --inventory inventory/inventory.json --shard ${{ matrix.shard }} --out paths.txt
+          git sparse-checkout set --no-cone '/Scripts/' 
+          if [ -s paths.txt ]; then git sparse-checkout add --stdin < paths.txt; fi
+          python Scripts/acnh303_ftricon_full.py decode --inventory inventory/inventory.json --shard ${{ matrix.shard }} --out decoded --wimgt "$(cat /tmp/wimgt.path)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-decode-${{ matrix.shard }}
+          path: decoded/
+          if-no-files-found: error
+  aggregate:
+    needs: decode
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: Scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ftricon-decode-*
+          path: parts
+      - run: python Scripts/acnh303_ftricon_full.py aggregate --inventory inventory/inventory.json --parts parts/*/results.json --out result
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-full-index
+          path: result/
+          if-no-files-found: error
+  shader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Shader/Park_UBER_All.Nin_NX_NVN.szs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install zstandard==0.25.0
+      - run: python Scripts/acnh303_park_uber_probe.py --out result
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: park-uber-native-audit
+          path: result/
+          if-no-files-found: warn
