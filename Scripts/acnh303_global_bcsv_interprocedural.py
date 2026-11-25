@@ -6,7 +6,7 @@ import argparse,collections,json,sqlite3
 from pathlib import Path
 from acnh303_global_bcsv_dictionary import read,require
 from acnh303_global_bcsv_pcode import rows,SLIDE
-from acnh303_global_bcsv_ssa import SSA
+from acnh303_global_bcsv_ssa import SSA,call_target
 def run(src,pc):
     aliases={x["slot_va"]+SLIDE:x["target_va"]+SLIDE for x in read(src/"native_cache_relocation_aliases.json")}
     bodies={int(x["entry"],16)-SLIDE:x for x in rows(pc/"function_bodies.ndjson")}
@@ -26,7 +26,7 @@ def run(src,pc):
         for o in ops:
             if o["mnemonic"]=="CALLIND":indirect+=1;continue
             if o["mnemonic"]!="CALL" or not o["inputs"]:continue
-            t=ssa.constant(o["inputs"][0])
+            t=call_target(ssa,o["inputs"][0])
             target=t-SLIDE if t is not None else None
             if target not in bodies:continue
             e={"caller_va":entry,"callee_va":target,"call_site_va":int(o["site"],16)-SLIDE,"op_id":o["id"],"arg_count":len(o["inputs"])-1,"grade":"direct_high_pcode_call_exact_function_entry"}

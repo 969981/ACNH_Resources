@@ -18,6 +18,10 @@ def intval(n):return int(n["offset"],16)
 def isram(n):return n is not None and n.get("space")=="ram"
 def key(n):
     return (n.get("def"),n["space"],n["offset"],n["size"]) if n else None
+def call_target(ssa,n):
+    # CALL input 0 in Ghidra is a code address, not the contents of RAM.
+    if isram(n) and not n.get("def"):return intval(n)
+    return ssa.constant(n)
 class SSA:
     def __init__(self,ops,aliases):
         self.ops={o["id"]:o for o in ops};self.aliases=aliases
@@ -100,7 +104,7 @@ def analyze_function(f,index,aliases,scopes,fields,prior):
                     oid=add_origin(o,p-SLIDE,ms,"cache_load",out)
                     direct.append(origins[oid])
         if m=="CALL" and len(ins)>=4:
-            target=ssa.constant(ins[0]);slot=ssa.constant(ins[2]);hv=ssa.constant(ins[3])
+            target=call_target(ssa,ins[0]);slot=ssa.constant(ins[2]);hv=ssa.constant(ins[3])
             if target is not None and slot is not None and hv is not None and 0<=slot<=4096 and 0<=hv<=0xffffffff:
                 scope=scopes.get(target-SLIDE,[])
                 if len(scope)==1:
@@ -182,7 +186,7 @@ def analyze_function(f,index,aliases,scopes,fields,prior):
             if not n or n.get("def") in overflow:continue
             ids=field_values.get(n.get("def"),set())
             if ids:
-                usage.append({"entry_va":entry,"site_va":int(o["site"],16)-SLIDE,"op_id":o["id"],"mnemonic":o["mnemonic"],"operand":j,"field_load_ids":sorted(ids),"constant_operands":[{"operand":k,"value":v} for k,p in enumerate(o["inputs"]) if p and (v:=ssa.constant(p)) is not None],"call_target_va":(ssa.constant(o["inputs"][0])-SLIDE) if o["mnemonic"]=="CALL" and ssa.constant(o["inputs"][0]) is not None else None})
+                usage.append({"entry_va":entry,"site_va":int(o["site"],16)-SLIDE,"op_id":o["id"],"mnemonic":o["mnemonic"],"operand":j,"field_load_ids":sorted(ids),"constant_operands":[{"operand":k,"value":v} for k,p in enumerate(o["inputs"]) if p and (v:=ssa.constant(p)) is not None],"call_target_va":(call_target(ssa,o["inputs"][0])-SLIDE) if o["mnemonic"]=="CALL" and call_target(ssa,o["inputs"][0]) is not None else None})
     return direct,finder,field_load,usage,origins,dict(ssa.fail)
 def run(src,pc):
     slots=read(src/"native_cache_slot_votes.json");fields=read(src/"fields.json")
