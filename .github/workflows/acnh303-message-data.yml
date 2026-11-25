@@ -1,0 +1,79 @@
+name: ACNH full MSBT database
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/message/build_message_data.py','Scripts/message/test_message_data.py','.github/workflows/acnh303-message-data.yml']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/message
+            research/catalog
+            research/bcsv-data/decoded/locales
+            e10617820db06889e1638499478da0de_NCA/1/Message
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: Scripts
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/message -p test_message_data.py
+      - run: uv run --script Scripts/message/build_message_data.py --historical historical
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-full-msbt-data
+          path: out/message-data
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: research/message-data
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-full-msbt-data
+          path: /tmp/message-data
+      - name: Publish versioned CSV in lossless gzip containers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
+          for p in Scripts/message/build_message_data.py research/catalog/item_locale.csv research/catalog/category_locale_candidate.csv research/catalog/color_locale_candidate.csv research/bcsv-data/decoded/locales/Npc.csv e10617820db06889e1638499478da0de_NCA/1/Message research/message-data; do
+            test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "HEAD:$p")" || { echo "Changed input or destination: $p"; exit 1; }
+          done
+          mkdir -p research/message-data/entries
+          python - <<'PY'
+          import gzip,hashlib,json,shutil
+          from pathlib import Path
+          src=Path('/tmp/message-data');dst=Path('research/message-data')
+          manifest={}
+          for p in sorted(src.rglob('*.csv')):
+              rel=p.relative_to(src);q=dst/rel
+              if rel.parts[0]=='entries' or p.name in ('label.csv','control.csv','binding.csv'):
+                  q=q.with_suffix('.csv.gz')
+                  with p.open('rb') as f,q.open('wb') as target:
+                      with gzip.GzipFile(filename='',mode='wb',fileobj=target,mtime=0) as z:shutil.copyfileobj(f,z)
+                  with gzip.open(q,'rb') as z:assert hashlib.file_digest(z,'sha256').hexdigest()==hashlib.sha256(p.read_bytes()).hexdigest()
+              else:shutil.copyfile(p,q)
+              assert q.stat().st_size<95*1024*1024, str(q)
+              manifest[str(q.relative_to(dst))]={'csv_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'stored_sha256':hashlib.sha256(q.read_bytes()).hexdigest()}
+          shutil.copyfile(src/'summary.json',dst/'summary.json')
+          (dst/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          PY
+          git add research/message-data
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data(message): publish full MSBT entry, label, control and binding CSV"
+          git push origin HEAD:research

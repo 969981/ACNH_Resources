@@ -17,3 +17,7 @@ version: "3.0.3"
 | [BCSV 与文本映射](Business-Mapping.md) | 商品、分类、颜色、款式及村民 |
 
 历史 R76 已解析 1862 个 MSBT 成员，共 408156 条文本记录（不等于唯一商品或翻译完成）。[机器可读清单](https://github.com/969981/ACNH_Resources/tree/research/research/message-catalog/)。其他归档成员和实际运行时消费者仍待研究。
+
+## 全量文本数据库
+
+[MSBT 文本数据库及提取工具](Text-Database.md)：原始 TXT2 字节、标签、控制码、14 语言与业务关联。执行状态以 CI 为准。
