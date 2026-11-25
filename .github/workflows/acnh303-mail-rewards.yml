@@ -6,6 +6,7 @@ on:
       - 'Scripts/acnh303_mail_rewards.py'
       - 'Scripts/acnh303_mail_context.py'
       - 'Scripts/acnh303_mail_dual47.py'
+      - 'Scripts/acnh303_mail_type3.py'
       - 'research/mail-rewards/**'
       - '.github/workflows/acnh303-mail-rewards.yml'
   workflow_dispatch:
@@ -28,6 +29,7 @@ jobs:
             /Scripts/acnh303_mail_rewards.py
             /Scripts/acnh303_mail_context.py
             /Scripts/acnh303_mail_dual47.py
+            /Scripts/acnh303_mail_type3.py
             /research/hash008p-mail/native_enum_dictionary.json
             /research/hash008j/mail_category_dictionary.json
             /research/hash008o-mail/handler_evidence.json
@@ -43,6 +45,7 @@ jobs:
       - run: python Scripts/acnh303_mail_rewards.py --out artifacts/mail-rewards
       - run: python Scripts/acnh303_mail_context.py --out artifacts/mail-rewards
       - run: python Scripts/acnh303_mail_dual47.py --out artifacts/mail-rewards/dual47
+      - run: python Scripts/acnh303_mail_type3.py --out artifacts/mail-rewards
       - uses: actions/upload-artifact@v4
         if: always()
         with:
