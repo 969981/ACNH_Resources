@@ -13,7 +13,7 @@ updated: 2026-11-25
 
 | 专题 | 入口 | 状态 |
 | --- | --- | --- |
-| 原版资源与 BCSV | [BCSV 数据索引](Sources/BCSV-Index.md) | 基础来源已建立 |
+| 原版资源与 BCSV | [BCSV 数据索引](Sources/BCSV-Index.md) · [BCSV 专题](Sources/BCSV/README.md) | 九张核心表文档及 uv 工具 |
 | 商品与物品 | [物品分类](Items/Item-Classification.md) | NHSE 源码已确认，全量待验收 |
 | 商品与物品 | [原版 UI 家具分类](Items/Native-UI-Furniture-Category.md) | 256 条定义已读取 |
 | 网站 | [网页商品分类规划](Items/Web-Catalog-Taxonomy.md) | v0.1 待确认 |
