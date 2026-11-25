@@ -279,3 +279,7 @@ status: verified-table
 | 191 | `FieldWeedLight` | 外専用：ヒカリゴケ | 0x3C1965F3 |
 | 192 | `FieldWeed` | 外専用：雑草 | 0x3C1965F3 |
 | 194 | `FieldStone` | 外専用：岩 | 0x3C1965F3 |
+
+## 上级分组研究
+
+[60 项原生分类分组及 CRC32 恢复](Native-UI-Category-Groups.md)：256 行全部关联，57 个名称候选，3 个未知，实际消费者待确认。
