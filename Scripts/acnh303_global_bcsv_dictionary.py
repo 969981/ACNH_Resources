@@ -36,7 +36,7 @@ def descriptors(b):
     return rows,size,[{"ordinal":i,"hash":f"{h:08X}","offset":o,"width_hint":widths[o]} for i,(h,o) in enumerate(entries)]
 
 def split_signature(sig):
-    if sig.endswith(".hshCstringRef"): return sig.rsplit(".",1)
+    if sig.endswith(".hshCstringRef"): return tuple(sig.rsplit(".",1))
     name, sep, typ = sig.partition(" ")
     return name, typ if sep else None
 

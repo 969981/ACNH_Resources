@@ -19,3 +19,6 @@ python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global
 [Run 45557662193](https://github.com/969981/ACNH_Resources/actions/runs/45557662193) / [artifact 14996566115](https://github.com/969981/ACNH_Resources/actions/runs/45557662193/artifacts/14996566115)；234 表，58,349 行，2,898 字段出现，2,075 去重 hash，1,827 历史匹配（88.05%），248 未匹配。71 scoped_crc、2,538 historical_candidate、7 semantic_only、282 unresolved。5 个测试通过。此前 hshCstringRef 未单独识别类型，零 width mismatch 不代表该类已经验收。
 ## HASH-006 全库类型候选与原值剖面
 识别 name.hshCstringRef（候选 u32 存储宽度），与常规 name + type 签名区分；遍历原始字段全部记录，保存 signed/unsigned 数值范围、float finite/nonfinite、字符串 UTF-8/NUL 统计、原始值频次。宽度为候选，数据分布不能单独证明类型；无 NUL 的定长字符串不必然无效。独立导出 type_profiles、type_summary 和 unresolved_types，SQLite 扩展 field_type_profile。未确认类型及语义保持未知。HASH-007–009 和原版明文、实机验证独立推进。
+
+## HASH-008A 外部词典与独立搜索
+固定 HeavenTool commit 74e0f967f6305c4aa55b1e1726c0445e45593c36 的 6 份源文件 Git blob，CI 下载并重新哈希，不复制整套上游语料。只对首轮 248 个无历史签名的哈希搜索；区分外部 typed signature、无类型/值标签碰撞、已知类型提示及本地 ELF ASCII/编号词族 CRC32 候选。ELF 原始 SHA256 固定。未证明原始列头；候选保留全部碰撞和跨表出现位置。修复 HASH-006 split_signature 返回 tuple 的单测失败。候选列表和剩余队列归档为 CI artifact。

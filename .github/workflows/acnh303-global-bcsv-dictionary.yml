@@ -6,6 +6,7 @@ on:
       - 'Scripts/test_acnh303_global_bcsv_dictionary.py'
       - 'Scripts/acnh303_global_bcsv_type_profile.py'
       - 'Scripts/test_acnh303_global_bcsv_type_profile.py'
+      - 'Scripts/acnh303_global_bcsv_unknown_search.py'
       - 'derived/3.0.3/global_bcsv_dictionary/**'
       - '.github/workflows/acnh303-global-bcsv-dictionary.yml'
   workflow_dispatch:
@@ -22,6 +23,7 @@ jobs:
           sparse-checkout: |
             Scripts
             e10617820db06889e1638499478da0de_NCA/1/Bcsv
+            e10617820db06889e1638499478da0de_NCA/0/main.elf
             UnPack/1/Bcsv
             assets/evidence/rom-database/r82-npc-bcsv-field-dictionary.csv
             assets/evidence/rom-database/r74-original-item-npc-stack-schema.json
@@ -35,6 +37,7 @@ jobs:
           python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global-bcsv
           python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_type_profile.py -v
           python Scripts/acnh303_global_bcsv_type_profile.py --root . --dictionary artifacts/global-bcsv --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_unknown_search.py --root . --dictionary artifacts/global-bcsv --out artifacts/global-bcsv --cache /tmp/acnh-external-corpus
       - uses: actions/upload-artifact@v4
         with:
           name: ACNH303-global-bcsv-dictionary
