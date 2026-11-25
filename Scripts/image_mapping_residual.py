@@ -132,6 +132,66 @@ def main():
         if not opts:nr.append(dict(**base,npc_type="",npc_source_row="",npc_id="",npc_res_name="",name_CNzh="",rule="generic_not_individual" if state=="generic_icon" else "no_supported_candidate"))
     assert sum(nst.values())==29 and sum(istat.values())==3625 and sum(vstat.values())==4049
     write(O/"item-candidates.csv",il);write(O/"variant-candidates.csv",vl);write(O/"npc-candidates.csv",nr)
+    # Third pass: propagate only explicitly evidenced shared NPC groups and identical PNGs.
+    # Source groups are not single identity claims; all candidate rows retain the reason.
+    group=collections.defaultdict(dict)
+    def token(cat,brti):
+        if cat=="icon":return brti.lower()
+        if cat=="poster":brti=brti.removeprefix("Poster")
+        if cat=="bromide_item":brti=brti.removeprefix("Bromide").removesuffix("_Remake_0_0")
+        return re.sub(r"^Npc(Nml|Sp)","",brti).lower()
+    identmap={(n["npc_type"],n["source_row"]):n for n in npcs}
+    hashgroup=collections.defaultdict(dict)
+    for r in nr:
+        if r["npc_source_row"]:
+            k=(r["npc_type"],r["npc_source_row"])
+            group[token(r["category"],r["brti_name"])][k]=identmap[k]
+            hashgroup[r["png_sha256"]][k]=identmap[k]
+    for r in nrows:
+        if r["status"]=="exact_resname_or_unique_npc_key":
+            for n in byres.get(r["npc_res_name"],[]):
+                k=(n["npc_type"],n["source_row"])
+                group[token(r["category"],r["brti_name"])][k]=n
+                hashgroup[r["png_sha256"]][k]=n
+    lastnpc=[]; nlast=collections.Counter()
+    for r in nr:
+        if r["status"]!="unresolved":continue
+        t=token(r["category"],r["brti_name"])
+        opts={}
+        for k,n in group.get(t,{}).items():opts[(k,"same_native_group_with_cross_family_identity_evidence")]=n
+        for k,n in hashgroup.get(r["png_sha256"],{}).items():opts[(k,"identical_historical_PNG_SHA256_shared_image_candidate")]=n
+        if t=="rcmt":
+            # Explicit observed related resource names only, not a proved NPC identity.
+            for k,n in group.get("rcm",{}).items():opts[(k,"rcmt_rcm_resource_stem_candidate_only")]=n
+        nlast["candidate" if opts else "unresolved"]+=1
+        if not opts:lastnpc.append(r)
+        for (k,rule),n in sorted(opts.items()):
+            lastnpc.append(dict(r,npc_type=n["npc_type"],npc_source_row=n["source_row"],npc_id=n["npc_id"],npc_res_name=n["res_name"],name_CNzh=n["name_CNzh"],rule=rule,status="shared_group_candidate"))
+    assert sum(nlast.values())==6
+    write(O/"npc-final-candidates.csv",lastnpc)
+    # Model resources are not PNGs; preserve exact source paths for remaining IDs.
+    lastitem=[];lastvariant=[];modelstats=collections.Counter();vmstats=collections.Counter()
+    def modelpaths(i,b=None,f=None):
+        it=items[i];out=set()
+        for field in ("res_name","label"):
+            stem=it[field]
+            if not stem:continue
+            for suffix in ([""] if b is None else ["","ReBody"+b,"ReFabric"+f]):
+                p=ROOT+"Model/"+stem+suffix+SUF
+                if p in src:out.add((p,"exact_"+field+("_material" if suffix else "_base_model")))
+        return sorted(out)
+    for r in il:
+        if r["status"]!="unresolved":continue
+        i=r["item_id"];ps=modelpaths(i);modelstats["model_candidate" if ps else "no_exact_model"]+=1
+        for p,rule in ps or [("","no_exact_model")]:
+            lastitem.append(dict(item_id=i,name_CNzh=r["name_CNzh"],kind=r["kind"],res_name=r["res_name"],label=r["label"],model_path=p,git_blob=src[p]["git_blob"] if p else "",rule=rule,png_path="",status="model_only_not_png" if p else "unresolved"))
+    for r in vl:
+        if r["status"]!="unresolved":continue
+        ps=modelpaths(r["item_id"],r["body_index"],r["fabric_index"]);vmstats["model_candidate" if ps else "no_exact_model"]+=1
+        for p,rule in ps or [("","no_exact_model")]:
+            lastvariant.append(dict(item_id=r["item_id"],name_CNzh=r["name_CNzh"],kind=r["kind"],body_index=r["body_index"],fabric_index=r["fabric_index"],model_path=p,git_blob=src[p]["git_blob"] if p else "",rule=rule,png_path="",status="model_only_not_png" if p else "unresolved"))
+    assert sum(modelstats.values())==383 and sum(vmstats.values())==10
+    write(O/"item-final-model-candidates.csv",lastitem);write(O/"variant-final-model-candidates.csv",lastvariant)
     # Compact residual-only Markdown with every prior gap, actual paths and explicit status.
     def pages(stem,title,rs,columns,render):
         names=[]
@@ -144,10 +204,13 @@ def main():
     a=pages("Residual-Item","道具缺口关联",il,["ItemID","简中名","规则","ZS","PNG","状态"],lambda r:[r["item_id"],esc(r["name_CNzh"]),r["rule"],link(r["source_path"]),link(r["png_path"]),r["status"]])
     b=pages("Residual-Variant","改造缺口关联",vl,["ItemID","本体/布料","规则","ZS","PNG","状态"],lambda r:[r["item_id"],r["body_index"]+"/"+r["fabric_index"],r["rule"],link(r["source_path"]),link(r["png_path"]),r["status"]])
     c=pages("Residual-NPC","NPC缺口关联",nr,["BRTI","NPC","原始表行","规则","ZS","PNG","状态"],lambda r:[esc(r["brti_name"]),esc(r["npc_res_name"]),r["npc_type"]+"/"+r["npc_source_row"],r["rule"],link(r["source_path"]),link(r["png_path"]),r["status"]])
-    report=dict(item_gap=3625,item=dict(istat),variant_gap=4049,variant=dict(vstat),npc_gap=29,npc=dict(nst),item_unresolved_kind=dict(kindstats),variant_unresolved_kind=dict(vk),candidate_rows=dict(item=len(il),variant=len(vl),npc=len(nr)),pages=len(a+b+c),runtime_verified=False,pixels_rehashed_now=False)
+    d=pages("Residual-Final-Item","最后道具缺口原始模型",lastitem,["ItemID","简中名","类别","模型 ZS","状态"],lambda r:[r["item_id"],esc(r["name_CNzh"]),esc(r["kind"]),link(r["model_path"]),r["status"]])
+    e=pages("Residual-Final-Variant","最后款式缺口原始模型",lastvariant,["ItemID","本体/布料","模型 ZS","状态"],lambda r:[r["item_id"],r["body_index"]+"/"+r["fabric_index"],link(r["model_path"]),r["status"]])
+    f=pages("Residual-Final-NPC","最后 NPC 缺口候选",lastnpc,["BRTI","NPC","规则","PNG","状态"],lambda r:[esc(r["brti_name"]),esc(r["npc_res_name"]),r["rule"],link(r["png_path"]),r["status"]])
+    report=dict(final_npc=dict(nlast),final_item_model=dict(modelstats),final_variant_model=dict(vmstats),item_gap=3625,item=dict(istat),variant_gap=4049,variant=dict(vstat),npc_gap=29,npc=dict(nst),item_unresolved_kind=dict(kindstats),variant_unresolved_kind=dict(vk),candidate_rows=dict(item=len(il),variant=len(vl),npc=len(nr)),pages=len(a+b+c+d+e+f),runtime_verified=False,pixels_rehashed_now=False)
     (O/"summary.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-    lines=["# 剩余道具、款式及 NPC 图片补充关联","","返回 [全量映射](README.md) · [图片专题](../README.md) · [首页](../../../README.md)。","","原有精确关联不修改；补充候选使用 ItemParam.Label/ResName、ItemRemake 代表物品、NPC 的原始道具 ID。不同材质/图标族及同名 NPC 保留候选，不把候选当运行时已确认。","", "| 范围 | 原缺口 | PNG候选 | 仅源路径 | 未关联 |","| --- | ---: | ---: | ---: | ---: |",f"| 道具 | 3625 | {istat['png_candidate']} | {istat['source_only']} | {istat['unresolved']} |",f"| 改造 | 4049 | {vstat['png_candidate']} | {vstat['source_only']} | {vstat['unresolved']} |","","NPC："+esc(json.dumps(dict(nst),ensure_ascii=False)),"","CSV/JSON：[补充映射](https://github.com/969981/ACNH_Resources/tree/research/research/image-mapping/residual)。","","## 明细文档"]
-    lines += ["- ["+x+"]("+x+")" for x in a+b+c]
+    lines=["# 剩余道具、款式及 NPC 图片补充关联","","返回 [全量映射](README.md) · [图片专题](../README.md) · [首页](../../../README.md)。","","原有精确关联不修改；补充候选使用 ItemParam.Label/ResName、ItemRemake 代表物品、NPC 的原始道具 ID。不同材质/图标族及同名 NPC 保留候选，不把候选当运行时已确认。","", "| 范围 | 原缺口 | PNG候选 | 仅源路径 | 未关联 |","| --- | ---: | ---: | ---: | ---: |",f"| 道具 | 3625 | {istat['png_candidate']} | {istat['source_only']} | {istat['unresolved']} |",f"| 改造 | 4049 | {vstat['png_candidate']} | {vstat['source_only']} | {vstat['unresolved']} |","","NPC："+esc(json.dumps(dict(nst),ensure_ascii=False)),"","CSV/JSON：[补充映射](https://github.com/969981/ACNH_Resources/tree/research/research/image-mapping/residual)。","","第三轮剩余资源模型关联："+esc(json.dumps({"item":dict(modelstats),"variant":dict(vmstats),"npc":dict(nlast)},ensure_ascii=False)),"","模型候选不是 PNG；NPC 跨家族与相同 SHA 证据也不等于独占身份。","","## 明细文档"]
+    lines += ["- ["+x+"]("+x+")" for x in a+b+c+d+e+f]
     (DOC/"Residual.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps(report,ensure_ascii=False))
 if __name__=="__main__":main()
