@@ -29,3 +29,6 @@ Run 45558216971 / artifact 14996348802：220/248 哈希命中 HeavenTool headers
 ## HASH-009A：枚举、位域、类型提示与 SQLite 候选表
 HASH-008B CI 45558372365 PASS：220 个 typed/width compatible，28 未知，1,736,810 独立签名和 1,445,940 按表组合无新增。28 个哈希及全部位置永久保存。固定 HeavenTool 271 个 Git blob（262 CRC enum、5 bitfield、4 Murmur 词典），下载后校验 SHA1 与大小，按行序保留标签、碰撞、位序候选，重算 CRC32 / Murmur3 x86_32 seed0。逐原版字段检查值频率，严格区分 field-scoped label 与全局词典命中；不将 0 自动当作已匹配，不将位标签序号当作已验证游戏掩码。220 个字段候选写入 SQLite 独立 field_name_candidate 表，不覆盖 native_name。28 个未知保留原始字节频率与社区类型提示。
 社区 AnnotateBCSV 参考：https://acnhmodding.github.io/reverse-engineering/useful-scripts/；已知 BCSV 读者存在内联字段访问和共享 FindField，后续 HASH-007 需按类/缓存槽/ARM64 实际数据流确认，不以常量命中代替消费者。
+
+## HASH-007A 原生 Reader 入口和字段常量证据
+HASH-009A CI 45558581090 PASS：271 字典、6231 标签、285 位标签、220 哈希 257 候选位置，23 Murmur 字段 27 位置 1463 原值，1457 全局词典匹配。HASH-007A 固定 ELF SHA256，对全 234 张表扫描精确 .bcsv 字符串及 ADR/ADRP+ADD+RET 文件名 getter，查找 9 个可执行指针的候选 vtable；扫描全部 2075 字段 hash 的相邻 MOVZ/MOVN+MOVK 和 LDR W literal 物化位点，输出附近 BL 候选及 28 个专项入口。社区 9 槽布局作为假设；未解析全部重定位、间隔 MOVK、内联读者或 Ghidra P-code，不能把常量位点称为消费者。SQLite 独立证据表，不提升字段名。后续按 SetupRows/Clear、FindField 参数和缓存槽数据流逐项验证。
