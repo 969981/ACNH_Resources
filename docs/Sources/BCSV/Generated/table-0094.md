@@ -1,6 +1,6 @@
 # ItemPlayerTopsForm.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemPlayerTopsForm.bcsv`
 SHA256：`ede79e1affb7c28e95902976227ab12b766e90573cb28787aeaec05e6dac3829`
@@ -8,16 +8,18 @@ SHA256：`ede79e1affb7c28e95902976227ab12b766e90573cb28787aeaec05e6dac3829`
 
 行数 107，行长 376，数据起点 116。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_390F180D | 4 | 4 | 未知，保留原值 |
-| hash_7EAF62DD | 8 | 4 | 未知，保留原值 |
-| hash_B64FEDAD | 12 | 4 | 未知，保留原值 |
-| hash_1E4FF55F | 16 | 4 | 未知，保留原值 |
-| hash_54706054 | 20 | 2 | 未知，保留原值 |
-| hash_13AB5198 | 22 | 64 | 未知，保留原值 |
-| hash_036E8EBE | 86 | 64 | 未知，保留原值 |
-| hash_4E3EE3DE | 150 | 64 | 未知，保留原值 |
-| hash_DF7AB4C3 | 214 | 64 | 未知，保留原值 |
-| hash_48EF0398 | 278 | 64 | 未知，保留原值 |
-| hash_15D08D9A | 342 | 34 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_390F180D | NormalScaleMaskA | 法线 缩放 遮罩 A | 4 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_7EAF62DD | NormalScaleMaskB | 法线 缩放 遮罩 B | 8 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_B64FEDAD | NormalScaleMaskG | 法线 缩放 遮罩 G | 12 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_1E4FF55F | NormalScaleMaskR | 法线 缩放 遮罩 R | 16 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_54706054 | UniqueID | 唯一ID | 20 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_13AB5198 | Label | 标签 | 22 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_036E8EBE | Name | 名称 | 86 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_4E3EE3DE | NpcResName | NPC 资源 名称 | 150 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_DF7AB4C3 | NpcSpResName | NPC Sp 资源 名称 | 214 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_48EF0398 | ResName | 资源 名称 | 278 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_15D08D9A | TorsoResName | 躯干 资源 名称 | 342 | 34 | string32 | 未知，保留原值 | 未登记表级业务证据 |

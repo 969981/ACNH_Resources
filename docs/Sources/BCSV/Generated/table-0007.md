@@ -1,6 +1,6 @@
 # CalendarEventJuneBrideExchange.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/CalendarEventJuneBrideExchange.bcsv`
 SHA256：`a0b6fc8ef7c1778b5aab7d325a36d790b407118d5546b56c12bc645dad43d573`
@@ -8,10 +8,12 @@ SHA256：`a0b6fc8ef7c1778b5aab7d325a36d790b407118d5546b56c12bc645dad43d573`
 
 行数 26，行长 16，数据起点 68。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_598463C8 | 4 | 4 | 未知，保留原值 |
-| hash_612BC6CF | 8 | 4 | 未知，保留原值 |
-| hash_AD1E04AD | 12 | 2 | 未知，保留原值 |
-| hash_A0BB7510 | 14 | 1 | 未知，保留原值 |
-| hash_7C226372 | 15 | 1 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_598463C8 | RequiredNum | 必需 数量 | 4 | 4 | u32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_612BC6CF | UniqueID | 唯一ID | 8 | 4 | u32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_AD1E04AD | ExchangeItem | 交换 道具 | 12 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_A0BB7510 | DispInteriorMode | Disp Interior 模式 | 14 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_7C226372 | JuneBrideProgress | 6月 Bride Progress | 15 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |

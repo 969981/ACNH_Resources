@@ -16,3 +16,5 @@ Knowledge base: [BCSV documentation](https://github.com/969981/ACNH_Resources/tr
 ## 全量目录研究
 
 `uv run --script Scripts/bcsv/catalog.py --verify-git` 扫描全目录，生成 inventory.json、field-hashes.json、reference-candidates.json、summary.json 与自动 Markdown docs。引用是 CRC32 值域候选，不是已确认外键。详见 [catalog.py](catalog.py)。
+
+字段中文释义统一维护于 `field_hash_zh.json`；`field_hash_docs.py` 同步全量 Hash 字典和全部独立表文档，并检查字段出现次数与残余证据的表/偏移覆盖。可在仓库根目录运行 `uv run --script Scripts/bcsv/field_hash_docs.py`（仅重绘现有 Markdown），或运行上述全量 catalog 命令从原始 BCSV 重新生成。类型为 CRC 候选，不替代表级业务证据。

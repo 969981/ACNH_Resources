@@ -1,6 +1,6 @@
 # ItemUIContextMenu.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemUIContextMenu.bcsv`
 SHA256：`902309c9e718007552a86f5602f5d5e40ea840f8317a7cc7a6febeef6e28bc4f`
@@ -8,11 +8,13 @@ SHA256：`902309c9e718007552a86f5602f5d5e40ea840f8317a7cc7a6febeef6e28bc4f`
 
 行数 66，行长 140，数据起点 76。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_200DD382 | 4 | 2 | 未知，保留原值 |
-| hash_54706054 | 6 | 2 | id |
-| hash_F2CE6E17 | 8 | 1 | 未知，保留原值 |
-| hash_87BF00E8 | 9 | 32 | label |
-| hash_026F0892 | 41 | 32 | message_code_candidate |
-| hash_036E8EBE | 73 | 67 | description_ja |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_200DD382 | Priority | 优先级 | 4 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_54706054 | UniqueID | 唯一ID | 6 | 2 | u16 | id | 表级解析字典（TYPED） |
+| hash_F2CE6E17 | AutoDisappear | 自动 Disappear | 8 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_87BF00E8 | Label | 标签 | 9 | 32 | string32 | label | 表级解析字典（TYPED） |
+| hash_026F0892 | MSLabel | 消息文本标签（MS） | 41 | 32 | string32 | message_code_candidate | 表级解析字典（TYPED） |
+| hash_036E8EBE | Name | 名称 | 73 | 67 | string64 | description_ja | 表级解析字典（TYPED） |

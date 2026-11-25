@@ -1,6 +1,6 @@
 # StructureHouseWallParam.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/StructureHouseWallParam.bcsv`
 SHA256：`de58ca92bf2d9cc72052b813e426232e23268575a35f93137105a2de66355a7d`
@@ -8,14 +8,16 @@ SHA256：`de58ca92bf2d9cc72052b813e426232e23268575a35f93137105a2de66355a7d`
 
 行数 221，行长 84，数据起点 100。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_60680C93 | 4 | 4 | 未知，保留原值 |
-| hash_37D4E515 | 8 | 2 | 未知，保留原值 |
-| hash_9C2D6DC6 | 10 | 2 | 未知，保留原值 |
-| hash_B6F501D2 | 12 | 2 | 未知，保留原值 |
-| hash_54706054 | 14 | 2 | 未知，保留原值 |
-| hash_D2C59675 | 16 | 32 | 未知，保留原值 |
-| hash_39B5A93D | 48 | 32 | 未知，保留原值 |
-| hash_9E19C94C | 80 | 1 | 未知，保留原值 |
-| hash_0424930F | 81 | 3 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_60680C93 | HouseDoorStep | 房屋 门 步骤 | 4 | 4 | hshCstringRef | 未知，保留原值 | 未登记表级业务证据 |
+| hash_37D4E515 | CustomizeSortID | 自定义 排序 ID | 8 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_9C2D6DC6 | FloorColAttribute | 地板 Col 属性 | 10 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_B6F501D2 | HouseShapeUniqueID | 房屋 形状 唯一 ID | 12 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_54706054 | UniqueID | 唯一ID | 14 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_D2C59675 | LightParamName | 光照 参数 名称 | 16 | 32 | string32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_39B5A93D | ModelName | 模型 名称 | 48 | 32 | string32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_9E19C94C | UseCurtain | 使用 窗帘 | 80 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_0424930F | UseExteriorLight | 使用 外部 光照 | 81 | 3 | u8 | 未知，保留原值 | 未登记表级业务证据 |

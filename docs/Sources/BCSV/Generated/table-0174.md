@@ -1,6 +1,6 @@
 # SoundHaniwaOfDrum.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/SoundHaniwaOfDrum.bcsv`
 SHA256：`02ac7b33f8bb9083db3a405663d1d87bc3ea2f706c3496072b32e8cc10ea2fdf`
@@ -8,12 +8,14 @@ SHA256：`02ac7b33f8bb9083db3a405663d1d87bc3ea2f706c3496072b32e8cc10ea2fdf`
 
 行数 17，行长 20，数据起点 84。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_5FC0D92D | 4 | 4 | 未知，保留原值 |
-| hash_09AD7622 | 8 | 4 | 未知，保留原值 |
-| hash_3637EBB9 | 12 | 2 | 未知，保留原值 |
-| hash_54706054 | 14 | 2 | 未知，保留原值 |
-| hash_EAAF51C9 | 16 | 1 | 未知，保留原值 |
-| hash_AFAD124B | 17 | 1 | 未知，保留原值 |
-| hash_9B88EBFE | 18 | 2 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_5FC0D92D | HaniwaPartsType | 陶俑 部件 类型 | 4 | 4 | hshCstringRef | 未知，保留原值 | 未登记表级业务证据 |
+| hash_09AD7622 | TypePriority | 类型 优先级 | 8 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_3637EBB9 | RefItemUniqueID | 引用 道具 唯一 ID | 12 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_54706054 | UniqueID | 唯一ID | 14 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_EAAF51C9 | NoteMax | 备注 最大 | 16 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_AFAD124B | NoteMin | 备注 最小 | 17 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_9B88EBFE | SingTriggerRatio | Sing 触发 Ratio | 18 | 2 | u8 | 未知，保留原值 | 未登记表级业务证据 |

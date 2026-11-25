@@ -35,3 +35,23 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(render(result, n, [], g), result)
         with self.assertRaises(ValueError):
             render(s, n.replace("ItemUniqueID", "Invalid"), [], g)
+
+
+    def test_table_dictionary_backfill(self):
+        from field_hash_docs import enrich_tables, TABLE_HEADER
+        with tempfile.TemporaryDirectory() as tmp:
+            docs = Path(tmp)
+            path = docs / "table-0000.md"
+            path.write_text("# Sample.bcsv\n\n返回 [全量索引](README.md)。\n\n| Hash | 偏移 | 跨度 | 当前解释 |\n| --- | ---: | ---: | --- |\n| hash_12345678 | 4 | 4 | 未知，保留原值 |\n| hash_87654321 | 8 | 1 | id |\n", encoding="utf-8")
+            global_text = "| hash_12345678 | Example.hshCstringRef | 示例 | 1 | 4 | 未知 | CRC 候选 |\n| hash_87654321 | 未知 | 示例别名 | 1 | 1 | 未知 | 原名未恢复 |\n"
+            residual = [{"hash": "87654321", "occurrences": [{"table": "Sample", "offset": 8}], "semantic_status": "native_field_read", "observation": "example", "native_functions_ghidra_va": ["12345678"], "native_read_width": 1}]
+            enrich_tables(docs, global_text, residual)
+            content = path.read_text(encoding="utf-8")
+            self.assertIn(TABLE_HEADER, content)
+            self.assertIn("| hash_12345678 | Example | 示例 | 4 | 4 | hshCstringRef |", content)
+            self.assertIn("Ghidra VA：12345678", content)
+            self.assertIn("未登记表级业务证据", content)
+            enrich_tables(docs, global_text, residual)
+            self.assertEqual(path.read_text(encoding="utf-8"), content)
+            with self.assertRaises(ValueError):
+                enrich_tables(docs, global_text, [])

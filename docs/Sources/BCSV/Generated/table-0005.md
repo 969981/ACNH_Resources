@@ -1,6 +1,6 @@
 # CalendarEventHarvestFishExchange.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/CalendarEventHarvestFishExchange.bcsv`
 SHA256：`47246f6d8257810348768193ba0bff9eb63911dd238167ab4e0569ac3fbf934c`
@@ -8,14 +8,16 @@ SHA256：`47246f6d8257810348768193ba0bff9eb63911dd238167ab4e0569ac3fbf934c`
 
 行数 32，行长 20，数据起点 100。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_612BC6CF | 4 | 4 | 未知，保留原值 |
-| hash_20CB67BC | 8 | 2 | 未知，保留原值 |
-| hash_D1B5C570 | 10 | 1 | 未知，保留原值 |
-| hash_3CA0FC03 | 11 | 1 | 未知，保留原值 |
-| hash_C61BE841 | 12 | 1 | 未知，保留原值 |
-| hash_20DD4377 | 13 | 1 | 未知，保留原值 |
-| hash_1365B16D | 14 | 1 | 未知，保留原值 |
-| hash_DB015556 | 15 | 1 | 未知，保留原值 |
-| hash_1B525407 | 16 | 4 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_612BC6CF | UniqueID | 唯一ID | 4 | 4 | u32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_20CB67BC | ItemID | 道具ID | 8 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_D1B5C570 | HarvestFishExchangeIngredients | 收获 鱼 交换 Ingredients | 10 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_3CA0FC03 | IsAppearNorth | 是否 出现 北 | 11 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_C61BE841 | IsAppearSouth | 是否 出现 南 | 12 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_20DD4377 | IsGive | 是否 给予 | 13 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_1365B16D | IsWant | 是否 想要 | 14 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_DB015556 | Special | 特殊 | 15 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_1B525407 | StarMark | 星星 标记 | 16 | 4 | u8 | 未知，保留原值 | 未登记表级业务证据 |

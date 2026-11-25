@@ -64,10 +64,106 @@ def render(structural, names, residual, glossary):
     header += ["| Hash | CRC 匹配签名（候选） | 简体中文释义 | 表数 | 字段跨度集合 | 已登记解释（按表） | 证据状态 |","| --- | --- | --- | ---: | --- | --- | --- |"]
     return "\n".join(header + rows) + "\n"
 
+
+TABLE_NOTE = "英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。"
+TABLE_BACK = "返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。"
+TABLE_HEADER = "| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |"
+TABLE_SEPARATOR = "| --- | --- | --- | ---: | ---: | --- | --- | --- |"
+
+def signature_parts(signature):
+    if signature == "未知":
+        return "未知", "未知"
+    names, types = [], []
+    for sig in signature.split("; "):
+        if sig.endswith(".hshCstringRef"):
+            names.append(sig.removesuffix(".hshCstringRef"))
+            types.append("hshCstringRef")
+        else:
+            name, kind = sig.rsplit(" ", 1)
+            names.append(name)
+            types.append(kind)
+    return "；".join(names), "；".join(types)
+
+def table_cells(line):
+    return [x.strip() for x in re.split(r"(?<!\\)\|", line)[1:-1]]
+
+def safe_cell(value):
+    return str(value).replace("|", r"\|").replace("\r\n", " ").replace("\n", " ")
+
+def enrich_tables(docs, global_text, residual):
+    """Re-render table-local fields from the single rendered dictionary; retain raw layout."""
+    glossary = {}
+    for line in global_text.splitlines():
+        if re.match(r"^\| hash_[0-9A-F]{8} \|", line):
+            cells = table_cells(line)
+            if len(cells) != 7 or cells[0] in glossary:
+                raise ValueError("invalid global dictionary row: " + line)
+            glossary[cells[0]] = cells
+    remaining = {"hash_" + e["hash"]: e for e in residual}
+    seen, counts, matched = set(), {}, set()
+    outputs = {}
+    for path in sorted(docs.glob("table-*.md")):
+        lines = path.read_text(encoding="utf-8").splitlines()
+        table = lines[0].removeprefix("# ").removesuffix(".bcsv")
+        output = []
+        for line in lines:
+            if line.startswith("返回 [全量索引]"):
+                output.append(TABLE_BACK)
+            elif line == TABLE_NOTE:
+                continue
+            elif line == "| Hash | 偏移 | 跨度 | 当前解释 |" or line == TABLE_HEADER:
+                if output and output[-1] == "" and len(output) > 1 and output[-2] == "":
+                    output.pop()
+                output.extend([TABLE_NOTE, "", TABLE_HEADER])
+            elif line in ("| --- | ---: | ---: | --- |", TABLE_SEPARATOR):
+                output.append(TABLE_SEPARATOR)
+            elif re.match(r"^\| hash_[0-9A-F]{8} \|", line):
+                cells = table_cells(line)
+                if len(cells) == 4:
+                    h, off, width, meaning = cells
+                elif len(cells) == 8:
+                    h, _, _, off, width, _, meaning, _ = cells
+                    meaning = meaning.replace(r"\|", "|")
+                else:
+                    raise ValueError("invalid table row: " + line)
+                key = (table, h, int(off))
+                if key in seen or h not in glossary:
+                    raise ValueError("duplicate or missing hash: " + str(key))
+                seen.add(key)
+                counts[h] = counts.get(h, 0) + 1
+                _, sig, zh, *_ = glossary[h]
+                name, kind = signature_parts(sig)
+                evidence = "未登记表级业务证据" if meaning == "未知，保留原值" else "表级解析字典（TYPED）"
+                e = remaining.get(h)
+                if e and any(o["table"] == table and o["offset"] == int(off) for o in e["occurrences"]):
+                    matched.add(key)
+                    evidence += "；" + e["semantic_status"] + "：" + e["observation"]
+                    if e["native_functions_ghidra_va"]:
+                        evidence += "；Ghidra VA：" + ", ".join(e["native_functions_ghidra_va"])
+                    if e["native_read_width"] is not None:
+                        evidence += "；原生读取 " + str(e["native_read_width"]) + " B"
+                if sig == "未知" and key not in matched:
+                    raise ValueError("missing table-local residual record: " + str(key))
+                output.append("| " + " | ".join(map(safe_cell, (h, name, zh, off, width, kind, meaning, evidence))) + " |")
+            else:
+                output.append(line)
+        outputs[path] = "\n".join(output) + "\n"
+    if not outputs:
+        return
+    expected = {h: int(row[3]) for h, row in glossary.items()}
+    if counts != expected:
+        raise ValueError("table/global field occurrence counts differ")
+    expected_residual = {(o["table"], h, o["offset"]) for h, e in remaining.items() for o in e["occurrences"]}
+    if matched != expected_residual:
+        raise ValueError("residual occurrence coverage differs")
+    for path, content in outputs.items():
+        path.write_text(content, encoding="utf-8")
+
 def update(path=TARGET):
+    residual = json.loads(RESIDUAL.read_text(encoding="utf-8"))["fields"]
     content = render(path.read_text(encoding="utf-8"), NAMES.read_text(encoding="utf-8"),
-                     json.loads(RESIDUAL.read_text(encoding="utf-8"))["fields"],
-                     json.loads(GLOSSARY.read_text(encoding="utf-8")))
+                     residual, json.loads(GLOSSARY.read_text(encoding="utf-8")))
+    enrich_tables(path.parent, content, residual)
     path.write_text(content, encoding="utf-8")
 
 if __name__ == "__main__":

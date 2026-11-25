@@ -1,6 +1,6 @@
 # ItemOutfitInfo.bcsv
 
-返回 [全量索引](README.md)。
+返回 [全量索引](README.md) · [统一字段字典](Field-Hashes.md) · [名称恢复证据](../Field-Names.md) · [残余字段证据](../../../../research/hash008h/residual_fields.json)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemOutfitInfo.bcsv`
 SHA256：`3b54df231cbb5d5fbee880e5d5eb372c5ddec112ae70af77c42bde710d461d33`
@@ -8,22 +8,24 @@ SHA256：`3b54df231cbb5d5fbee880e5d5eb372c5ddec112ae70af77c42bde710d461d33`
 
 行数 162，行长 148，数据起点 164。
 
-| Hash | 偏移 | 跨度 | 当前解释 |
-| --- | ---: | ---: | --- |
-| hash_90466AFD | 4 | 4 | 未知，保留原值 |
-| hash_5195E4BD | 8 | 4 | 未知，保留原值 |
-| hash_B244D814 | 12 | 4 | 未知，保留原值 |
-| hash_8F24F1A4 | 16 | 4 | 未知，保留原值 |
-| hash_C8848B74 | 20 | 4 | 未知，保留原值 |
-| hash_ED7F3CFE | 24 | 4 | 未知，保留原值 |
-| hash_D01F154E | 28 | 4 | 未知，保留原值 |
-| hash_97BF6F9E | 32 | 4 | 未知，保留原值 |
-| hash_9F253177 | 36 | 4 | 未知，保留原值 |
-| hash_68DB76C2 | 40 | 2 | 未知，保留原值 |
-| hash_54706054 | 42 | 2 | 未知，保留原值 |
-| hash_46489CE7 | 44 | 1 | 未知，保留原值 |
-| hash_87BF00E8 | 45 | 32 | 未知，保留原值 |
-| hash_036E8EBE | 77 | 64 | 未知，保留原值 |
-| hash_04AC1BEA | 141 | 1 | 未知，保留原值 |
-| hash_BE782346 | 142 | 1 | 未知，保留原值 |
-| hash_C89FB7AF | 143 | 5 | 未知，保留原值 |
+英文名称及类型为 CRC32 签名候选，不等同于原版明文；中文取自统一字典。跨度为物理字段间距，可能包含填充。业务证据仅采用当前表、当前偏移的已登记解释或残余字段记录；无证据不推断。
+
+| Hash | 英文名称（CRC 候选） | 简体中文释义 | 偏移 | 跨度 | 数据类型（CRC 候选） | 当前解释 | 业务证据 |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| hash_90466AFD | Category | 分类 | 4 | 4 | hshCstringRef | 未知，保留原值 | 未登记表级业务证据 |
+| hash_5195E4BD | FloorScale | 地板 缩放 | 8 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_B244D814 | RotateOffsetX | 旋转 偏移 X | 12 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_8F24F1A4 | RotateOffsetY | 旋转 偏移 Y | 16 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_C8848B74 | RotateOffsetZ | 旋转 偏移 Z | 20 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_ED7F3CFE | TransOffsetX | 位移 偏移 X | 24 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_D01F154E | TransOffsetY | 位移 偏移 Y | 28 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_97BF6F9E | TransOffsetZ | 位移 偏移 Z | 32 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_9F253177 | WallScale | 墙壁 缩放 | 36 | 4 | f32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_68DB76C2 | BreakDamage | 破坏损伤值 | 40 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_54706054 | UniqueID | 唯一ID | 42 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_46489CE7 | HangerInfo | 衣架 信息 | 44 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_87BF00E8 | Label | 标签 | 45 | 32 | string32 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_036E8EBE | Name | 名称 | 77 | 64 | string64 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_04AC1BEA | SpecialELink | 特殊 E 链接 | 141 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_BE782346 | SpecialSLink | 特殊 S 链接 | 142 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+| hash_C89FB7AF | Storage | 收纳 | 143 | 5 | u8 | 未知，保留原值 | 未登记表级业务证据 |
