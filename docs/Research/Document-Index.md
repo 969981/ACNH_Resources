@@ -64,6 +64,8 @@
 
 ## docs/Sources/Message
 
+- [MSBT 原始文件全量中文目录（生成文档）](../Sources/Message/Members/README.md)（11 个归档专题由该索引维护）
+
 - [Sources/Message/Archive-Index.md](../Sources/Message/Archive-Index.md)
 - [Sources/Message/BDLI.md](../Sources/Message/BDLI.md)
 - [Sources/Message/Business-Mapping.md](../Sources/Message/Business-Mapping.md)
