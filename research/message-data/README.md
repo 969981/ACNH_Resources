@@ -11,10 +11,20 @@
 | control.csv.gz | 控制码结构候选、偏移、group/type、参数及完整原始 bytes |
 | binding.csv.gz | Item/NPC/分类/颜色历史关联与本轮精确资源匹配状态 |
 | summary.json / manifest.json | 实际覆盖及校验 |
-| message.sqlite3 | CI artifact 内查询数据库（避免在 Git 重复提交大二进制） |
+| message.sqlite3 | CI 原始查询数据库；Git 归档于 database/ 的无损分块 |
 
 gzip 是无损 CSV 压缩，CI 对账原 CSV SHA。所有文本 JSON 转义字段可保留控制字符、引号、换行及 null。UTF-16 控制 framing 0x000E/0x000F 为结构候选，不宣称 group/type 业务语义；其他编码原始 bytes 保留且不生成臆测显示文本。普通文本候选去除控制 token 但不渲染变量；不能直接视为最终游戏 UI 显示。未知 MSBT 节保持来源偏移及 SHA、由原始成员回溯。当前 binding 复用 Catalog 已有映射，保留原状态，精确资源命中不提升业务证据等级，分类数字标签不直接当 ID。
 
 运行：`uv run --script Scripts/message/build_message_data.py --historical historical`。historical 为固定历史解析器 f09e15460d02790060a374b2ad6ba569ba9b97ed 的工作树。运行状态及产物以实际 CI 为准。[CI](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-message-data.yml)。
 
 [知识库](../../docs/Sources/Message/README.md)
+
+## SQLite 永久归档
+
+复用已通过构建的 Run 45573308371 / Artifact 15003017972。database/message.sqlite3.part-*.gz 各自为32 MiB原始数据的无损gzip块（末块可能较小），manifest 按顺序记录每块及完整文件 SHA256。恢复命令：
+
+```powershell
+uv run --no-project python Scripts/message/archive_message_data.py restore research/message-data message.sqlite3
+```
+
+实际发布状态以 [归档工作流](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-message-archive.yml) 为准。原版 CSV 保留，不以 SQLite 代替。

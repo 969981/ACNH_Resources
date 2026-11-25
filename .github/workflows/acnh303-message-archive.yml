@@ -1,0 +1,44 @@
+name: ACNH archive validated MSBT database
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/message/archive_message_data.py','.github/workflows/acnh303-message-archive.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: |
+            Scripts/message
+            research/message-data
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-full-msbt-data
+          run-id: 45573308371
+          github-token: ${{ github.token }}
+          path: /tmp/msbt
+      - name: Pack and verify
+        run: python Scripts/message/archive_message_data.py pack /tmp/msbt /tmp/packed-msbt
+      - name: Publish without overwriting concurrent research
+        run: |
+          set -euo pipefail
+          baseline="$(git rev-parse HEAD:research/message-data)"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags --depth=1 origin research
+            test "$(git rev-parse FETCH_HEAD:research/message-data)" = "$baseline" || { echo "Destination changed; refuse overwrite"; exit 1; }
+            git checkout --detach FETCH_HEAD
+            cp -r /tmp/packed-msbt/. research/message-data/
+            git add research/message-data
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data(message): permanently archive verified MSBT CSV and SQLite blocks"
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
