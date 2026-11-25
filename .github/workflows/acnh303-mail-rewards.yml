@@ -4,6 +4,7 @@ on:
     branches: [research]
     paths:
       - 'Scripts/acnh303_mail_rewards.py'
+      - 'Scripts/acnh303_mail_context.py'
       - 'research/mail-rewards/**'
       - '.github/workflows/acnh303-mail-rewards.yml'
   workflow_dispatch:
@@ -24,6 +25,7 @@ jobs:
             /Scripts/acnh303_hash008e.py
             /Scripts/acnh303_hash008i.py
             /Scripts/acnh303_mail_rewards.py
+            /Scripts/acnh303_mail_context.py
             /research/hash008p-mail/native_enum_dictionary.json
             /research/hash008j/mail_category_dictionary.json
             /research/hash008o-mail/handler_evidence.json
@@ -37,6 +39,7 @@ jobs:
       - run: python -m pip install capstone==5.0.3 lz4==4.3.3
       - run: python -m py_compile Scripts/acnh303_mail_rewards.py
       - run: python Scripts/acnh303_mail_rewards.py --out artifacts/mail-rewards
+      - run: python Scripts/acnh303_mail_context.py --out artifacts/mail-rewards
       - uses: actions/upload-artifact@v4
         if: always()
         with:
