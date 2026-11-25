@@ -65,4 +65,13 @@ ItemFrom:
 
 ## P3
 
-Scripts/acnh303_hash008p3_native_enum_order.py 直接通过原版 GOT 与逐槽 RELR 提取 507 个字符串顺序，和 BCSV 逐项比较；生成原生索引 JSON/CSV、11178 项 ItemParam 对应关系及查找调用点。当前 P3 CI 45576933659 尚在执行，不能提前宣称已通过。
+Scripts/acnh303_hash008p3_native_enum_order.py 直接通过原版 GOT 与逐槽 RELR 提取 507 个字符串顺序，和 BCSV 逐项比较；生成原生索引 JSON/CSV、11178 项 ItemParam 对应关系及查找调用点。P3 已完成，结果见下节。
+
+## P3 原版原生枚举顺序验收（已完成）
+
+run 45576933659 / job 139077060154 / head 9433c1ec558d8c208598a4023d90fe76b712ee36：PASS。
+- ItemKind: Ghidra 0495C4B0 / ELF 0485C4B0，189/189 原版 RELR 名称槽，189/189 与 BCSV 原始行号一致，11178/11178 ItemParam CRC 唯一匹配；未用 SubToolEat / XmasDeco / None。
+- ItemFrom: Ghidra 0491FB98 / ELF 0481FB98，318/318 原版 RELR 名称槽，318/318 与 BCSV 原始行号一致，11178/11178 CRC 唯一匹配；未用 TkkNew / OneRoomCafe / OneRoomGradeUpReward / OneRoomPartyReward / OneRoomTsukutterReward / FutureItem。
+- 两套原生枚举索引及使用数量归档 native_enum_dictionary.json。完整逐行映射、原版字符串地址及 CSV 位于 CI artifact 15005171406（SHA256 331d07db67a2d0ecec5380da8d086c39a6ec5f70457fb39fdde0b6b6d910c57e）native-enums/itemparam_native_kind_from.csv。
+- 直接调用点：01A74128 BL 01A88150，返回索引 <189 否则0；01A6E478 BL 01A867B0，返回索引 <318 否则0。与本阶段记录的 01A74618 / 01A6E968 缓存 STRH 属于相邻生产者代码区域。尚未逐条闭合所有分支、字段读取及运行时缓存内存差分。
+- 后续基于真实枚举字典恢复 18 个邮件回调的类别与来源筛选规则，并针对 ItemKind/ItemFrom/价格与玩家上下文构建候选池。不将原版静态映射等同游戏运行时奖励池。
