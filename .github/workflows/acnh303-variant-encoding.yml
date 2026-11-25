@@ -1,0 +1,63 @@
+name: ACNH variant encoding audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/bcsv/audit_variant_encoding.py','.github/workflows/acnh303-variant-encoding.yml']
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            research/catalog/variants
+            research/bcsv-data/decoded
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: derived/3.0.3/ghidra12.2/c
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --script Scripts/bcsv/audit_variant_encoding.py --historical historical
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-variant-encoding
+          path: out/variant-encoding
+  publish:
+    needs: audit
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: research/catalog/variants/encoding
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-variant-encoding
+          path: /tmp/encoding
+      - run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags --depth=1 origin research
+            for p in Scripts/bcsv/audit_variant_encoding.py research/catalog/variants research/bcsv-data/decoded e10617820db06889e1638499478da0de_NCA/1; do
+              test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "FETCH_HEAD:$p")" || { echo "Changed input or destination: $p"; exit 1; }
+            done
+            git checkout --detach FETCH_HEAD
+            mkdir -p research/catalog/variants/encoding
+            cp /tmp/encoding/* research/catalog/variants/encoding/
+            git add research/catalog/variants/encoding
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data(catalog): archive static variant encoding validation"
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
