@@ -1,0 +1,36 @@
+name: ACNH303 HASH-008H residual name and semantic evidence
+on:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_hash008h*.py'
+      - 'research/hash008h/**'
+      - '.github/workflows/acnh303-hash008h.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008h.py
+            /Scripts/acnh303_hash008h_crc.py
+            /research/hash008h/
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - run: python Scripts/acnh303_hash008h.py --out artifacts/hash008h
+      - run: python Scripts/acnh303_hash008h_crc.py --out artifacts/hash008h
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-HASH008H
+          path: artifacts/hash008h/
+          if-no-files-found: warn
