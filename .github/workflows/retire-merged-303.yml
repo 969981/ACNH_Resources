@@ -1,0 +1,36 @@
+name: Retire merged 3.0.3 branch
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['.github/workflows/retire-merged-303.yml']
+permissions:
+  contents: write
+jobs:
+  retire:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      SOURCE: b4564113d90279009368dc1204df7a5b3187cd2d
+      MERGE: 873a461b3f205e239d0a930855dffa7368c1858d
+    steps:
+      - name: Verify merged source, unchanged tip and non-default branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$REPO" --jq .default_branch)" != "3.0.3"
+          if ! gh api "repos/$REPO/branches/3.0.3" > /tmp/source.json; then
+            echo "Cannot read source; no deletion performed."
+            exit 1
+          fi
+          test "$(jq -r .commit.sha /tmp/source.json)" = "$SOURCE"
+          test "$(gh api "repos/$REPO/commits/$MERGE" --jq '.parents[1].sha')" = "$SOURCE"
+          status="$(gh api "repos/$REPO/compare/$SOURCE...research" --jq .status)"
+          test "$status" = ahead -o "$status" = identical
+          test "$(gh api "repos/$REPO/contents/e10617820db06889e1638499478da0de_NCA?ref=research" --jq '.[0].name' | wc -l)" -ge 1
+          echo "Verified source tip is already in research history."
+      - name: Delete only merged 3.0.3 branch
+        run: |
+          test "$(gh api "repos/$REPO/branches/3.0.3" --jq .commit.sha)" = "$SOURCE"
+          gh api --method DELETE "repos/$REPO/git/refs/heads/3.0.3"
