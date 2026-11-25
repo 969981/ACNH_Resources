@@ -18,3 +18,11 @@ C blob 701b2f2125ad4058b0c6868ec5a971d25fff3701。8组原版月份位图：
 Scripts/acnh303_mail_context.py 生成独立 context_case/context_case_candidate SQLite 表，原版月份与半球输入、两个花种排除、家具状态及显式 NPC 排除适配器；还提取 01A4775C 的0x600原版 NSO/ELF指令窗口。运行时模板、完整 CanGift 判定、Type3 属性字段、原版 NPC 数据未全部闭合。所有最终池仍保持 NULL。
 
 当前专项 CI run 45634274189，结果以后续实际日志为准。PR #127 保持 Draft。
+
+## R1/R2 实际验收
+
+- 45634274189 / 139275412609 / 3927e23ae62bace39f1710f153435748e5c16d4e：PASS。新增 1572 条 context_case 和 13260 条成员记录；138/144 有已建模非空候选。实际 artifact 15032442299 SHA256 c38e10ecaf7018d0c013b758ab7b90e97d5e829c8a25725d5786a9ea5bfdc2c4，下载独立 SQLite integrity_check=ok，foreign_key_check=空。Type7 排除前9–12个，枚举两个显式排除序号后3–12个。
+- 45634605655 / 139276586644 / 2169cf47453166386a9127fc65854f374bbb5baa：PASS。artifact 15031578734 SHA256 c787524a62069fe4b4d592aa2e961a8863bc413fa78ab00b94911415c2fea13b。原版 47项字典候选完整匹配 A7C79784/B6BAFDFD 两个字段。发现两个真实索引写入者并复核机器码。
+- 01A727F4/01A727F8 materialize A7C79784，01A72900 BL 01A87710，01A72918 BL 01A87C30，01A729B4 STRH 到 05327438。01A729D4/01A729D8 materialize B6BAFDFD，01A72AE0/01A72AF8 调用同两个查询，01A72B94 STRH 到 05327448。两字典分别从 04A1BD10 与 04A1C110 读取47个指针。C blobs 8c7856d72712137d7b103e65e4cda99e92c836b0、afbb1238c1037eead748088b65702087267ac078。两字段 CRC 名称候选 ItemHHASituation1.hshCstringRef / ItemHHASituation2.hshCstringRef。
+- 01A4775C OR 比较两个u16缓存，合法值0..46，索引18=LivingRoom。01A47998 为相邻新入口，不属于该谓词。R3 针对两个真实表逐槽重定位、CRC 全量映射及类型3静态阶段建模；实际 CI 45634941978 尚未出结果。
+- Type3 静态代理：Situation1 OR Situation2 =18，原始价2000..20000（原版有效价格尚需运行时），来源2/3/4/5/7，再应用 CanGift 标志；玩家上下文排除后为空则回退，完整原生有效性与款式规则尚需差分。
