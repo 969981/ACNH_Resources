@@ -1,0 +1,59 @@
+name: ACNH 3.0.3 special remake resources
+on:
+  pull_request:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_remake_special.py'
+      - '.github/workflows/acnh303-remake-special.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  special:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_remake_special.py
+            /Scripts/acnh303_remake_model_binding.py
+            /Scripts/acnh303_remake_fmat_bindings.py
+            /Scripts/acnh303_round47_cedar_fmat.py
+            /Scripts/acnh303_media_l3.py
+            /Scripts/probe_acnh_babybed_textures.py
+            /Scripts/acnh_formats.py
+            /Scripts/acnh303_r100_nso_decode.py
+            /Scripts/acnh303_r99_relocation.py
+            /Scripts/acnh303_r96_native_tables.py
+            /Scripts/acnh303_r95_native_eventflags.py
+            /Scripts/acnh303_round11_elf_xref.py
+            /UnPack/1/Bcsv/ItemParam.json
+            /UnPack/1/Bcsv/ItemRemake.json
+            /UnPack/1/Bcsv/FgMainParam.json
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/FgMainParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /derived/3.0.3/ghidra12.2/c/df/0152df00.c
+            /derived/3.0.3/ghidra12.2/c/9f/01af9f50.c
+            /derived/3.0.3/ghidra12.2/c/9d/01af9d70.c
+            /derived/3.0.3/ghidra12.2/c/e3/01afe3e0.c
+            /derived/3.0.3/ghidra12.2/c/f9/01adf970.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install zstandard==0.25.0 lz4==4.4.4 capstone==5.0.6
+      - run: |
+          python Scripts/acnh303_remake_special.py --root . --out result --prepare
+          git sparse-checkout add --stdin < result/paths.txt
+          python Scripts/acnh303_remake_special.py --root . --out result
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: remake-special-evidence
+          path: result/
+          if-no-files-found: warn
