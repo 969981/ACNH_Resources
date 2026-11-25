@@ -45,3 +45,5 @@ FROM texture ORDER BY source,name;
 [构建脚本](https://github.com/969981/ACNH_Resources/blob/research/Scripts/image_catalog.py) · [CI](https://github.com/969981/ACNH_Resources/actions/runs/45621610195) · [BNTX 格式字典](BNTX-BRTI.md)。
 
 完整 CSV 及 SQLite 以实际 CI 结果为准。
+
+历史实际 PNG 提取与映射证据：[道具图片提取](Item-Extraction.md) · [村民图片提取](Villager-Extraction.md)。
