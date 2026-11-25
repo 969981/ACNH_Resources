@@ -50,3 +50,7 @@ uv run --script Scripts/bcsv/extract.py --table ItemParam --verify-303
 ```
 
 输出 out/bcsv/ItemParam.schema.json、ItemParam.csv、ItemParam.jsonl；CSV/JSONL 包含原始字段十六进制和显式类型列。解析方式见 [BCSV 二进制格式](Format.md)。脚本：[extract.py](https://github.com/969981/ACNH_Resources/blob/82b7c5ce5afc83ec63312157dd3be0f12afd6d42/Scripts/bcsv/extract.py)。执行结果需读取实际 CI 产物后确认。
+
+## 验收更新
+
+[Actions #45569451957](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) 已完成原始文件固定 blob、11,178 行/548 B/107 字段校验和导出。该结果不等于所有字段语义或跨表关联通过验收。

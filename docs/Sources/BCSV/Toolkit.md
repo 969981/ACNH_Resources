@@ -27,3 +27,7 @@ uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p
 原版字段十六进制列和 row_prefix_hex 保留行内原始字节；显式类型列是解释结果，不替代原始值。未知表只导出结构和 raw。--verify-303 核验九张已登记表的原始 Git blob 和形状。其他表只验证结构。当前严格要求文件长度与字段偏移符合支持格式；不支持的格式显式失败。已有专项脚本不被替换。
 
 [CI 工作流](https://github.com/969981/ACNH_Resources/blob/82b7c5ce5afc83ec63312157dd3be0f12afd6d42/.github/workflows/acnh303-bcsv-toolkit.yml)；本轮代码已提交，实际运行状态独立检查，不预先宣称通过。
+
+## 实际 CI 验收（2026-11-25）
+
+[Actions #45569451957](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) 对 research 提交 `82b7c5ce5afc83ec63312157dd3be0f12afd6d42` 实际执行成功。uv 安装、6 项解析器单元测试、九张核心表的固定 Git blob 与结构校验、CSV/JSONL/schema 导出、产物上传均成功。产物 `acnh303-bcsv-core-export`（2,638,784 字节）。九张表登记行数合计 13,298；其中 ItemParam 11,178 行通过形状与来源校验，原生 UI 分类表 256 行/60 组断言通过。尚未下载产物逐字段独立复核；不代表未知字段语义、跨表关联或物品业务规则已验证。

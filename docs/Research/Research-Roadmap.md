@@ -21,4 +21,4 @@ updated: 2026-11-25
 
 - [原版 UI 分类分组](../Items/Native-UI-Category-Groups.md)：60 组关联完成，57 名称候选；原生文本、ItemParam 与消费者待验收。
 
-- [BCSV 通用解析与导出](../Sources/BCSV/Toolkit.md)：uv 工具及 CI 已提交，九张核心表完整运行待验收；后续开展全量表目录、引用关系和字段语义研究。
+- [BCSV 通用解析与导出](../Sources/BCSV/Toolkit.md)：uv 工具及 CI 已提交，[九张核心表提取 CI 已通过](https://github.com/969981/ACNH_Resources/actions/runs/45569451957)；后续开展全量表目录、引用关系和字段语义研究。

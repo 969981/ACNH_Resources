@@ -22,3 +22,5 @@ version: "3.0.3"
 | [ItemFilter](ItemFilter.md) | 特定业务物品过滤 | 22 | 19 |
 
 本专题先覆盖九张物品相关核心表。其他 BCSV 可使用通用解析器导出原始字段，不自动推测语义。
+
+[实际 CI 运行及产物](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) 已通过九张核心表的结构与提取验收；详见 [工具手册](Toolkit.md)。
