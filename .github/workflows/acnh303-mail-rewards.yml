@@ -1,0 +1,44 @@
+name: ACNH303 HASH-008Q mail rewards database
+on:
+  pull_request:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_mail_rewards.py'
+      - 'research/mail-rewards/**'
+      - '.github/workflows/acnh303-mail-rewards.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008i.py
+            /Scripts/acnh303_mail_rewards.py
+            /research/hash008p-mail/native_enum_dictionary.json
+            /research/hash008j/mail_category_dictionary.json
+            /research/hash008o-mail/handler_evidence.json
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemMailAttachCategoryGroup.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresent.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresentSp.bcsv
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - run: python -m py_compile Scripts/acnh303_mail_rewards.py
+      - run: python Scripts/acnh303_mail_rewards.py --out artifacts/mail-rewards
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-MAIL-REWARDS
+          path: artifacts/mail-rewards/
+          if-no-files-found: warn
