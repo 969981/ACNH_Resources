@@ -25,3 +25,7 @@ python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global
 
 ## HASH-008A 实测与 HASH-008B
 Run 45558216971 / artifact 14996348802：220/248 哈希命中 HeavenTool headers.txt，197 个常规签名类型及宽度候选，23 个 stringMurmurHash 签名此前未被类型正则识别；剩余 28 个无候选。47,010 原版 ELF 标识符、10,329 编号词族、1,676,276 独立签名查询，未新增超出外部字典的命中。由真实日志抽取 220 条签名并重新计算 CRC32，保存 hash008a_ci_candidates.json。HASH-008B 补充 stringMurmurHash (4-byte candidate) 并增加按所属表词根组合的搜索，候选不升级原名；实际剩余队列在 CI 日志逐项输出。
+
+## HASH-009A：枚举、位域、类型提示与 SQLite 候选表
+HASH-008B CI 45558372365 PASS：220 个 typed/width compatible，28 未知，1,736,810 独立签名和 1,445,940 按表组合无新增。28 个哈希及全部位置永久保存。固定 HeavenTool 271 个 Git blob（262 CRC enum、5 bitfield、4 Murmur 词典），下载后校验 SHA1 与大小，按行序保留标签、碰撞、位序候选，重算 CRC32 / Murmur3 x86_32 seed0。逐原版字段检查值频率，严格区分 field-scoped label 与全局词典命中；不将 0 自动当作已匹配，不将位标签序号当作已验证游戏掩码。220 个字段候选写入 SQLite 独立 field_name_candidate 表，不覆盖 native_name。28 个未知保留原始字节频率与社区类型提示。
+社区 AnnotateBCSV 参考：https://acnhmodding.github.io/reverse-engineering/useful-scripts/；已知 BCSV 读者存在内联字段访问和共享 FindField，后续 HASH-007 需按类/缓存槽/ARM64 实际数据流确认，不以常量命中代替消费者。
