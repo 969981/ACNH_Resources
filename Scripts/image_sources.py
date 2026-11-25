@@ -20,17 +20,17 @@ def main():
     import acnh_formats as af
     from probe_acnh_babybed_textures import nested_files,valid_bntx_slices,parse_bntx
     tree={}
-    for line in git("ls-tree","-r","-l","-z","HEAD","--",ROM).split(b"\0"):
+    for line in git("ls-tree","-r","-z","HEAD","--",ROM).split(b"\0"):
         if not line:continue
-        meta,p=line.split(b"\t",1);mode,kind,blob,size=meta.decode().split();path=p.decode().removeprefix(ROM)
-        if kind=="blob":tree[path]=(blob,int(size))
+        meta,p=line.split(b"\t",1);mode,kind,blob=meta.decode().split();path=p.decode().removeprefix(ROM)
+        if kind=="blob":tree[path]=blob
     assert tree
     counts=collections.Counter(); extensions=collections.Counter(); candidates=[]
-    for p,(blob,size) in sorted(tree.items()):
+    for p,blob in sorted(tree.items()):
         d=p.split("/")[0]
         if d not in DIRS:continue
         c=category(p);counts[c]+=1;extensions[(d,Path(p).suffix.lower())]+=1
-        candidates.append(dict(path=p,category=c,bytes=size,git_blob=blob,evidence="git_tree_only"))
+        candidates.append(dict(path=p,category=c,git_blob=blob,evidence="git_tree_only"))
     out=args.out;out.mkdir(parents=True,exist_ok=True)
     with (out/"original-files.csv").open("w",encoding="utf-8-sig",newline="") as f:
         w=csv.DictWriter(f,fieldnames=list(candidates[0]));w.writeheader();w.writerows(candidates)
@@ -41,7 +41,7 @@ def main():
     samples=[]
     for p in picks:
         if p not in tree:samples.append(dict(path=p,status="absent"));continue
-        blob,size=tree[p];raw=git("cat-file","blob",blob);assert len(raw)==size
+        blob=tree[p];raw=git("cat-file","blob",blob);size=len(raw);assert hashlib.sha1(f"blob {size}\0".encode()+raw).hexdigest()==blob
         r=dict(path=p,git_blob=blob,sha256=hashlib.sha256(raw).hexdigest(),bytes=size,outer=af.detect(raw),leaves=[],textures=[],errors=[])
         try:
             for label,data in nested_files(raw,p,af):
