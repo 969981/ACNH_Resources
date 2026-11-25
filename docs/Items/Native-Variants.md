@@ -13,3 +13,7 @@
 运行：`uv run --script Scripts/bcsv/build_variants.py --historical historical`。 [原版历史研究](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/Scripts/acnh303_remake_model_binding.py)。首轮 CI 待验收。
 
 [数据目录](https://github.com/969981/ACNH_Resources/tree/research/research/catalog/variants)。
+
+## 验收更新
+
+[款式 catalog CI #45574390450](https://github.com/969981/ACNH_Resources/actions/runs/45574390450) 工作流成功，尚不代表全部实体运行时语义确认。返回 [商品专题](README.md) · [首页](../README.md) · [家具空间](../Furniture/Furniture-Spatial.md)。
