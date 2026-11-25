@@ -26,3 +26,56 @@ SHA256：`ec0a63cd2e5b4815efbc29ff1ffe735f3482578fae18e5033a06c53973035020`
 | hash_A073AA81 | GlassesPurposeLimit | 眼镜 用途 限制 | 31 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_74275E7A | MaskFrequencyWear | 遮罩 频率 穿着 | 32 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_CC198281 | MaskPurposeLimit | 遮罩 用途 限制 | 33 | 3 | u8 | 未知，保留原值 | 未登记表级业务证据 |
+
+<!-- table-business-catalog -->
+
+## 中文表名与业务用途
+
+**中文表名：** 度假群岛 NPC 装备规则
+
+**用途：** 按文件名与字段名称候选推测：用于配置或描述度假群岛 NPC 装备规则相关数据；具体消费逻辑待验证。
+
+**证据等级：** 名称推测
+
+## 数据文件
+
+[原始 Hash CSV](../../../../research/bcsv-data/raw/WherearenNpcEquipRule.csv) · [英文列名 CSV](../../../../research/bcsv-data/named/WherearenNpcEquipRule.csv) · [候选类型解码 CSV](../../../../research/bcsv-data/decoded/tables/WherearenNpcEquipRule.csv) · [结构 JSON](../../../../research/bcsv-data/schema/WherearenNpcEquipRule.json)
+
+## 实际原版数据样例
+
+选择首行、中间行、末行（去重）；每格展示原始完整字段字节及候选类型解码，不把候选类型视为已确认。
+
+| 字段 | 偏移 | 行 0（0 基） | 行 5（0 基） | 行 9（0 基） |
+| --- | ---: | --- | --- | --- |
+| `hash_1F401B52` 用途 分数 | 4 | 0 / hex:00000000 | 5 / hex:05000000 | 5 / hex:05000000 |
+| `hash_E765B554` 用途 标签 | 8 | 9 / hex:09000000 | 45 / hex:2d000000 | 40 / hex:28000000 |
+| `hash_CBBE9D2D` 分数 Multiplier | 12 | 3.0 / hex:00004040 | 4.0 / hex:00008040 | 4.0 / hex:00008040 |
+| `hash_79BE959D` 季节 分数 | 16 | 0 / hex:00000000 | 0 / hex:00000000 | 0 / hex:00000000 |
+| `hash_A3DC7C4C` 风格 分数 | 20 | 0 / hex:00000000 | 5 / hex:05000000 | 5 / hex:05000000 |
+| `hash_54706054` 唯一ID | 24 | 1 / hex:0100 | 6 / hex:0600 | 10 / hex:0a00 |
+| `hash_F9CF603A` 帽子 频率 穿着 | 26 | 0 / hex:00 | 0 / hex:00 | 3 / hex:03 |
+| `hash_2C2A379E` 帽子 用途 限制 | 27 | 0 / hex:00 | 0 / hex:00 | 1 / hex:01 |
+| `hash_FF299FC4` 服装 频率 穿着 | 28 | 0 / hex:00 | 3 / hex:03 | 3 / hex:03 |
+| `hash_7C60D6DB` 服装 用途 限制 | 29 | 0 / hex:00 | 1 / hex:01 | 1 / hex:01 |
+| `hash_744B3452` 眼镜 频率 穿着 | 30 | 0 / hex:00 | 0 / hex:00 | 0 / hex:00 |
+| `hash_A073AA81` 眼镜 用途 限制 | 31 | 0 / hex:00 | 0 / hex:00 | 0 / hex:00 |
+| `hash_74275E7A` 遮罩 频率 穿着 | 32 | 0 / hex:00 | 0 / hex:00 | 0 / hex:00 |
+| `hash_CC198281` 遮罩 用途 限制 | 33 | 0 / hex:000000 | 0 / hex:000000 | 0 / hex:000000 |
+
+## 枚举码值及实际分布
+
+仅对 hshCstringRef 候选字段统计原版前 4 字节。已登记标签来自 decoded 枚举证据，逐值校验 CRC32 与原版出现次数；中文为研究译名，候选冲突不强行合并。每字段最多展示 12 个高频值，完整映射见下方 JSON。
+
+本表无可按此规则识别的 CRC 枚举字段；不代表不存在数值枚举或位域。
+
+[完整码值与样例 JSON](../../../../research/bcsv-catalog/table-profiles.json) · [已有枚举证据 CSV](../../../../research/bcsv-data/decoded/enum-values.csv)
+
+## 跨表关联
+
+以下为原版 CRC32 标签值域统计候选，不是已确认的外键。
+
+| 方向 | 来源字段 | 目标字段 | 对端表 | 匹配记录 | 去重匹配 |
+| --- | --- | --- | --- | ---: | ---: |
+| — | — | — | 尚无已登记候选 | — | — |
+
+[完整关联候选](References.md) · [逐值匹配明细](../../../../research/bcsv-data/decoded/reference-values.csv)

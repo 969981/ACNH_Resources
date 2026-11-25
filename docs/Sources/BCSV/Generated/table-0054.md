@@ -15,3 +15,45 @@ SHA256：`1bb2eba0ab61a8a616ba69c26f969500c31565d9fe897de2804d6f0a355311ab`
 | hash_2DF085CC | GroundAttributeUniqueID | 地面 属性 唯一 ID | 4 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_AF88956B | InnerType | 内侧 类型 | 6 | 1 | u8 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_F68A2366 | MessageLabel | 消息 标签 | 7 | 33 | string32 | 未知，保留原值 | 未登记表级业务证据 |
+
+<!-- table-business-catalog -->
+
+## 中文表名与业务用途
+
+**中文表名：** 岛屿创作道路类型
+
+**用途：** 按文件名与字段名称候选推测：用于配置或描述岛屿创作道路类型相关数据；具体消费逻辑待验证。
+
+**证据等级：** 名称推测
+
+## 数据文件
+
+[原始 Hash CSV](../../../../research/bcsv-data/raw/FieldLandMakingRoadKindParam.csv) · [英文列名 CSV](../../../../research/bcsv-data/named/FieldLandMakingRoadKindParam.csv) · [候选类型解码 CSV](../../../../research/bcsv-data/decoded/tables/FieldLandMakingRoadKindParam.csv) · [结构 JSON](../../../../research/bcsv-data/schema/FieldLandMakingRoadKindParam.json)
+
+## 实际原版数据样例
+
+选择首行、中间行、末行（去重）；每格展示原始完整字段字节及候选类型解码，不把候选类型视为已确认。
+
+| 字段 | 偏移 | 行 0（0 基） | 行 4（0 基） | 行 8（0 基） |
+| --- | ---: | --- | --- | --- |
+| `hash_2DF085CC` 地面 属性 唯一 ID | 4 | 0 / hex:0000 | 34 / hex:2200 | 37 / hex:2500 |
+| `hash_AF88956B` 内侧 类型 | 6 | 0 / hex:00 | 8 / hex:08 | 12 / hex:0c |
+| `hash_F68A2366` 消息 标签 | 7 | "001" / hex:303031000000000000000000000000000000000000000000000000000000000000 | "005" / hex:303035000000000000000000000000000000000000000000000000000000000000 | "009" / hex:303039000000000000000000000000000000000000000000000000000000000000 |
+
+## 枚举码值及实际分布
+
+仅对 hshCstringRef 候选字段统计原版前 4 字节。已登记标签来自 decoded 枚举证据，逐值校验 CRC32 与原版出现次数；中文为研究译名，候选冲突不强行合并。每字段最多展示 12 个高频值，完整映射见下方 JSON。
+
+本表无可按此规则识别的 CRC 枚举字段；不代表不存在数值枚举或位域。
+
+[完整码值与样例 JSON](../../../../research/bcsv-catalog/table-profiles.json) · [已有枚举证据 CSV](../../../../research/bcsv-data/decoded/enum-values.csv)
+
+## 跨表关联
+
+以下为原版 CRC32 标签值域统计候选，不是已确认的外键。
+
+| 方向 | 来源字段 | 目标字段 | 对端表 | 匹配记录 | 去重匹配 |
+| --- | --- | --- | --- | ---: | ---: |
+| — | — | — | 尚无已登记候选 | — | — |
+
+[完整关联候选](References.md) · [逐值匹配明细](../../../../research/bcsv-data/decoded/reference-values.csv)

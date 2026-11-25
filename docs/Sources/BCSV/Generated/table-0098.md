@@ -21,3 +21,51 @@ SHA256：`8a1ecef9a68b4e1f238e0c8d0e1baaaab13373c6b765596c87abbf90093ead62`
 | hash_F16B7305 | StartMonthNorth | 开始 月份 北 | 16 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_6943E8AD | StartMonthSouth | 开始 月份 南 | 18 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_54706054 | UniqueID | 唯一ID | 20 | 4 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+
+<!-- table-business-catalog -->
+
+## 中文表名与业务用途
+
+**中文表名：** 道具季节性参数
+
+**用途：** 按文件名与字段名称候选推测：用于配置或描述道具季节性参数相关数据；具体消费逻辑待验证。
+
+**证据等级：** 名称推测
+
+## 数据文件
+
+[原始 Hash CSV](../../../../research/bcsv-data/raw/ItemSeasonalityParam.csv) · [英文列名 CSV](../../../../research/bcsv-data/named/ItemSeasonalityParam.csv) · [候选类型解码 CSV](../../../../research/bcsv-data/decoded/tables/ItemSeasonalityParam.csv) · [结构 JSON](../../../../research/bcsv-data/schema/ItemSeasonalityParam.json)
+
+## 实际原版数据样例
+
+选择首行、中间行、末行（去重）；每格展示原始完整字段字节及候选类型解码，不把候选类型视为已确认。
+
+| 字段 | 偏移 | 行 0（0 基） | 行 2（0 基） | 行 4（0 基） |
+| --- | ---: | --- | --- | --- |
+| `hash_A9B28820` 结束 日 北 | 4 | 31 / hex:1f00 | 31 / hex:1f00 | 29 / hex:1d00 |
+| `hash_319A1388` 结束 日 南 | 6 | 31 / hex:1f00 | 29 / hex:1d00 | 31 / hex:1f00 |
+| `hash_859C3E3E` 结束 月份 北 | 8 | 12 / hex:0c00 | 8 / hex:0800 | 2 / hex:0200 |
+| `hash_1DB4A596` 结束 月份 南 | 10 | 12 / hex:0c00 | 2 / hex:0200 | 8 / hex:0800 |
+| `hash_5FAD728F` 开始 日 北 | 12 | 1 / hex:0100 | 1 / hex:0100 | 1 / hex:0100 |
+| `hash_C785E927` 开始 日 南 | 14 | 1 / hex:0100 | 1 / hex:0100 | 1 / hex:0100 |
+| `hash_F16B7305` 开始 月份 北 | 16 | 1 / hex:0100 | 6 / hex:0600 | 12 / hex:0c00 |
+| `hash_6943E8AD` 开始 月份 南 | 18 | 1 / hex:0100 | 12 / hex:0c00 | 6 / hex:0600 |
+| `hash_54706054` 唯一ID | 20 | 0 / hex:00000000 | 2 / hex:02000000 | 4 / hex:04000000 |
+
+## 枚举码值及实际分布
+
+仅对 hshCstringRef 候选字段统计原版前 4 字节。已登记标签来自 decoded 枚举证据，逐值校验 CRC32 与原版出现次数；中文为研究译名，候选冲突不强行合并。每字段最多展示 12 个高频值，完整映射见下方 JSON。
+
+本表无可按此规则识别的 CRC 枚举字段；不代表不存在数值枚举或位域。
+
+[完整码值与样例 JSON](../../../../research/bcsv-catalog/table-profiles.json) · [已有枚举证据 CSV](../../../../research/bcsv-data/decoded/enum-values.csv)
+
+## 跨表关联
+
+以下为原版 CRC32 标签值域统计候选，不是已确认的外键。
+
+| 方向 | 来源字段 | 目标字段 | 对端表 | 匹配记录 | 去重匹配 |
+| --- | --- | --- | --- | ---: | ---: |
+| — | — | — | 尚无已登记候选 | — | — |
+
+[完整关联候选](References.md) · [逐值匹配明细](../../../../research/bcsv-data/decoded/reference-values.csv)

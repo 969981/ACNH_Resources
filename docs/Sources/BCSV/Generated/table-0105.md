@@ -17,3 +17,61 @@ SHA256：`b2db4eee277f0a5526350d7d4d841ba31c78e791b81de21b12b5e46271fea21f`
 | hash_A1249129 | RugItemId | Rug 道具 ID | 10 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_54706054 | UniqueID | 唯一ID | 12 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_350E1EF9 | WallItemId | 墙壁 道具 ID | 14 | 2 | u16 | 未知，保留原值 | 未登记表级业务证据 |
+
+<!-- table-business-catalog -->
+
+## 中文表名与业务用途
+
+**中文表名：** 婚礼季墙壁地板
+
+**用途：** 按文件名与字段名称候选推测：用于配置或描述婚礼季墙壁地板相关数据；具体消费逻辑待验证。
+
+**证据等级：** 名称推测
+
+## 数据文件
+
+[原始 Hash CSV](../../../../research/bcsv-data/raw/JuneBrideWallFloor.csv) · [英文列名 CSV](../../../../research/bcsv-data/named/JuneBrideWallFloor.csv) · [候选类型解码 CSV](../../../../research/bcsv-data/decoded/tables/JuneBrideWallFloor.csv) · [结构 JSON](../../../../research/bcsv-data/schema/JuneBrideWallFloor.json)
+
+## 实际原版数据样例
+
+选择首行、中间行、末行（去重）；每格展示原始完整字段字节及候选类型解码，不把候选类型视为已确认。
+
+| 字段 | 偏移 | 行 0（0 基） | 行 18（0 基） | 行 35（0 基） |
+| --- | ---: | --- | --- | --- |
+| `hash_23A01E5B` 主题 | 4 | 0x947F650A / hex:0a657f94 | 0x8C54AB51 / hex:51ab548c | 0x8D9318E0 / hex:e018938d |
+| `hash_4E718582` 地板 道具 ID | 8 | 12431 / hex:8f30 | 6843 / hex:bb1a | 5267 / hex:9314 |
+| `hash_A1249129` Rug 道具 ID | 10 | 12462 / hex:ae30 | 65534 / hex:feff | 12462 / hex:ae30 |
+| `hash_54706054` 唯一ID | 12 | 2 / hex:0200 | 30 / hex:1e00 | 51 / hex:3300 |
+| `hash_350E1EF9` 墙壁 道具 ID | 14 | 12466 / hex:b230 | 13318 / hex:0634 | 5528 / hex:9815 |
+
+## 枚举码值及实际分布
+
+仅对 hshCstringRef 候选字段统计原版前 4 字节。已登记标签来自 decoded 枚举证据，逐值校验 CRC32 与原版出现次数；中文为研究译名，候选冲突不强行合并。每字段最多展示 12 个高频值，完整映射见下方 JSON。
+
+### 主题（hash_23A01E5B）
+
+去重码值 9 个，已有标签候选 9 个。
+
+| 原始码值 | 出现次数 | 英文候选 | 中文释义 | 证据 |
+| --- | ---: | --- | --- | --- |
+| 0x3BA51DDC | 10 | Garden | Garden | crc_candidate |
+| 0x8C54AB51 | 10 | Cute | Cute | crc_candidate |
+| 0x8EA5525B | 10 | Chic | Chic | crc_candidate |
+| 0x33697E7C | 1 | Banquet3 | Banquet 3 | crc_candidate |
+| 0x446E4EEA | 1 | Banquet2 | Banquet 2 | crc_candidate |
+| 0x6509E978 | 1 | Banquet | Banquet | crc_candidate |
+| 0x8D9318E0 | 1 | Wedding3 | Wedding 3 | crc_candidate |
+| 0x947F650A | 1 | Wedding | Wedding | crc_candidate |
+| 0xFA942876 | 1 | Wedding2 | Wedding 2 | crc_candidate |
+
+[完整码值与样例 JSON](../../../../research/bcsv-catalog/table-profiles.json) · [已有枚举证据 CSV](../../../../research/bcsv-data/decoded/enum-values.csv)
+
+## 跨表关联
+
+以下为原版 CRC32 标签值域统计候选，不是已确认的外键。
+
+| 方向 | 来源字段 | 目标字段 | 对端表 | 匹配记录 | 去重匹配 |
+| --- | --- | --- | --- | ---: | ---: |
+| — | — | — | 尚无已登记候选 | — | — |
+
+[完整关联候选](References.md) · [逐值匹配明细](../../../../research/bcsv-data/decoded/reference-values.csv)

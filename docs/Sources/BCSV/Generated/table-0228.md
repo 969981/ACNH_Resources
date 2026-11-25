@@ -32,3 +32,62 @@ SHA256：`ba35df3beaf6dea901182a40d946911e05607d9e57ab104f6469a390c76003b1`
 | hash_C240123A | RefabricNum1 | 布料改造 数量 1 | 31 | 1 | s8 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_D0F5BDD4 | RefabricNum2 | 布料改造 数量 2 | 32 | 1 | s8 | 未知，保留原值 | 未登记表级业务证据 |
 | hash_6849DAB1 | RefabricNum3 | 布料改造 数量 3 | 33 | 3 | s8 | 未知，保留原值 | 未登记表级业务证据 |
+
+<!-- table-business-catalog -->
+
+## 中文表名与业务用途
+
+**中文表名：** 度假群岛委托
+
+**用途：** 按文件名与字段名称候选推测：用于配置或描述度假群岛委托相关数据；具体消费逻辑待验证。
+
+**证据等级：** 名称推测
+
+## 数据文件
+
+[原始 Hash CSV](../../../../research/bcsv-data/raw/WherearenRequest.csv) · [英文列名 CSV](../../../../research/bcsv-data/named/WherearenRequest.csv) · [候选类型解码 CSV](../../../../research/bcsv-data/decoded/tables/WherearenRequest.csv) · [结构 JSON](../../../../research/bcsv-data/schema/WherearenRequest.json)
+
+## 实际原版数据样例
+
+选择首行、中间行、末行（去重）；每格展示原始完整字段字节及候选类型解码，不把候选类型视为已确认。
+
+| 字段 | 偏移 | 行 0（0 基） | 行 240（0 基） | 行 479（0 基） |
+| --- | ---: | --- | --- | --- |
+| `hash_FA62611D` 音乐 | 4 | 2472 / hex:a809 | 2431 / hex:7f09 | 65535 / hex:ffff |
+| `hash_3CCCB782` 必须 家具 1 | 6 | 13746 / hex:b235 | 1412 / hex:8405 | 65535 / hex:ffff |
+| `hash_7B6CCD52` 必须 家具 2 | 8 | 14621 / hex:1d39 | 7189 / hex:151c | 65535 / hex:ffff |
+| `hash_460CE4E2` 必须 家具 3 | 10 | 65535 / hex:ffff | 13006 / hex:ce32 | 65535 / hex:ffff |
+| `hash_9D71641A` 室外 家具 1 | 12 | 12602 / hex:3a31 | 65535 / hex:ffff | 65535 / hex:ffff |
+| `hash_DAD11ECA` 室外 家具 2 | 14 | 65535 / hex:ffff | 65535 / hex:ffff | 65535 / hex:ffff |
+| `hash_B80A6246` 房间 X 方向尺寸 | 16 | 6 / hex:0600 | 6 / hex:0600 | -1 / hex:ffff |
+| `hash_856A4BF6` 房间 Y 方向尺寸 | 18 | 6 / hex:0600 | 6 / hex:0600 | -1 / hex:ffff |
+| `hash_BE6737AC` 排序 ID | 20 | 0 / hex:0000 | 240 / hex:f000 | 479 / hex:df01 |
+| `hash_54706054` 唯一ID | 22 | 0 / hex:0000 | 238 / hex:ee00 | 538 / hex:1a02 |
+| `hash_59979682` 室外 主体改造 数量 1 | 24 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_4B22396C` 室外 主体改造 数量 2 | 25 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_F15EDF7C` 室外 布料改造 数量 1 | 26 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_E3EB7092` 室外 布料改造 数量 2 | 27 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_3E249F92` 主体改造 数量 1 | 28 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_2C91307C` 主体改造 数量 2 | 29 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_942D5719` 主体改造 数量 3 | 30 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_C240123A` 布料改造 数量 1 | 31 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_D0F5BDD4` 布料改造 数量 2 | 32 | -1 / hex:ff | -1 / hex:ff | -1 / hex:ff |
+| `hash_6849DAB1` 布料改造 数量 3 | 33 | -1 / hex:ff0000 | -1 / hex:ff0000 | -1 / hex:ff0000 |
+
+## 枚举码值及实际分布
+
+仅对 hshCstringRef 候选字段统计原版前 4 字节。已登记标签来自 decoded 枚举证据，逐值校验 CRC32 与原版出现次数；中文为研究译名，候选冲突不强行合并。每字段最多展示 12 个高频值，完整映射见下方 JSON。
+
+本表无可按此规则识别的 CRC 枚举字段；不代表不存在数值枚举或位域。
+
+[完整码值与样例 JSON](../../../../research/bcsv-catalog/table-profiles.json) · [已有枚举证据 CSV](../../../../research/bcsv-data/decoded/enum-values.csv)
+
+## 跨表关联
+
+以下为原版 CRC32 标签值域统计候选，不是已确认的外键。
+
+| 方向 | 来源字段 | 目标字段 | 对端表 | 匹配记录 | 去重匹配 |
+| --- | --- | --- | --- | ---: | ---: |
+| — | — | — | 尚无已登记候选 | — | — |
+
+[完整关联候选](References.md) · [逐值匹配明细](../../../../research/bcsv-data/decoded/reference-values.csv)
