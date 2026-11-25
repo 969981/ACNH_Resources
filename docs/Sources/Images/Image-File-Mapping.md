@@ -65,3 +65,5 @@ version: "3.0.3"
 ## 剩余关联第二轮
 
 [补充关联 CI #45627289031](https://github.com/969981/ACNH_Resources/actions/runs/45627289031) 使用 ItemParam.Label、ResName、默认款式、ItemRemake 代表物品、NPC 原版海报/照片道具 ID 和保留造型后缀的候选关联；不覆盖第一轮直接匹配，不替换不同颜色的图像。未找到原版图标的记录不得标记为已导出。通用头像不归属某个具体 NPC，重复 ResName 使用多身份候选。
+
+[剩余关联明细](Mapping/Residual.md) 已验收：3,242 个原缺口 ItemID、4,039 个原缺口改造组合存在历史 PNG 候选；383 个道具及 10 个组合仍无已验证成品 PNG。NPC 29 张缺口分为 4 共享身份、18 候选、1 通用头像、6 尚未关联。第三轮 [CI #45627442407](https://github.com/969981/ACNH_Resources/actions/runs/45627442407) 进一步核对原始模型及 NPC 跨家族证据。
