@@ -50,8 +50,8 @@ jobs:
             for p in Scripts/bcsv/audit_variant_storage.py Scripts/bcsv/bcsv.py e10617820db06889e1638499478da0de_NCA; do
               test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "FETCH_HEAD:$p")"
             done
-            baseline="$(git rev-parse "$GITHUB_SHA:research/catalog/variants/storage" 2>/dev/null || true)"
-            current="$(git rev-parse "FETCH_HEAD:research/catalog/variants/storage" 2>/dev/null || true)"
+            baseline="$(git rev-parse --verify -q "$GITHUB_SHA:research/catalog/variants/storage" || true)"
+            current="$(git rev-parse --verify -q "FETCH_HEAD:research/catalog/variants/storage" || true)"
             test "$baseline" = "$current"
             git checkout --detach FETCH_HEAD
             mkdir -p research/catalog/variants/storage
