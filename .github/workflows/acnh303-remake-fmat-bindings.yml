@@ -1,0 +1,37 @@
+name: ACNH 3.0.3 remake FMAT bindings
+on:
+  pull_request:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_remake_fmat_bindings.py'
+      - '.github/workflows/acnh303-remake-fmat-bindings.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  babybed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_remake_fmat_bindings.py
+            /Scripts/acnh303_round47_cedar_fmat.py
+            /Scripts/acnh303_media_l3.py
+            /Scripts/probe_acnh_babybed_textures.py
+            /Scripts/acnh_formats.py
+            /assets/evidence/babybed_bntx_native.json
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybed*.Nin_NX_NVN.zs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install zstandard
+      - run: python Scripts/acnh303_remake_fmat_bindings.py --root . --out artifacts/remake-fmat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remake-fmat-babybed
+          path: artifacts/remake-fmat/
+          if-no-files-found: error
