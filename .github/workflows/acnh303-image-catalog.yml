@@ -1,0 +1,53 @@
+name: ACNH image resource catalog
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/image_catalog.py'
+      - '.github/workflows/acnh303-image-catalog.yml'
+permissions:
+  contents: read
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts
+            docs/Sources/Images
+            research/catalog/item.csv
+            research/catalog/variants/variant_combination.csv
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: Scripts
+      - run: python -m pip install zstandard==0.23.0
+      - run: python Scripts/image_sources.py --historical historical
+      - run: python Scripts/image_catalog.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: image-resource-catalog
+          path: out/image-sources
+      - name: Archive verified catalog
+        run: |
+          set -euo pipefail
+          mkdir -p research/image-catalog
+          cp out/image-sources/*.csv out/image-sources/*.json research/image-catalog/
+          git add --sparse research/image-catalog docs/Sources/Images/Source-Catalog.md
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -q -m 'research(images): archive verified source catalog'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/image_sources.py Scripts/image_catalog.py research/catalog/item.csv research/catalog/variants/variant_combination.csv e10617820db06889e1638499478da0de_NCA || { echo 'Inputs changed; refusing stale output'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
