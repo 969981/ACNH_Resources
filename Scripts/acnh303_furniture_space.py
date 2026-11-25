@@ -56,7 +56,7 @@ def native(root,labels):
 SCHEMA="""
 PRAGMA foreign_keys=ON;
 CREATE TABLE source(name TEXT PRIMARY KEY,path TEXT,sha256 TEXT,git_blob TEXT,rows INTEGER,stride INTEGER);
-CREATE TABLE size(id INTEGER PRIMARY KEY,label TEXT UNIQUE,crc INTEGER UNIQUE,source_row INTEGER UNIQUE,runtime_enum INTEGER UNIQUE,plane TEXT,half_width INTEGER,half_depth_or_height INTEGER,raw_area_count INTEGER,raw_price INTEGER,raw_float_bits INTEGER,raw_fields_json TEXT);
+CREATE TABLE size(id INTEGER PRIMARY KEY,label TEXT UNIQUE,crc INTEGER UNIQUE,source_row INTEGER UNIQUE,runtime_enum INTEGER UNIQUE,plane TEXT,half_width INTEGER,half_depth_or_height INTEGER,raw_09B64264 INTEGER,raw_3CF05708 INTEGER,raw_float_bits INTEGER,raw_fields_json TEXT);
 CREATE TABLE kind(id INTEGER PRIMARY KEY,label TEXT UNIQUE,source_row INTEGER UNIQUE,stack_raw_s16 INTEGER,can_ftr INTEGER,can_put INTEGER,can_set_item INTEGER,can_put_wall_floor INTEGER,raw_fields_json TEXT);
 CREATE TABLE action(family TEXT,label TEXT,crc INTEGER,source_id INTEGER,source_row INTEGER,raw_fields_json TEXT,PRIMARY KEY(family,crc));
 CREATE TABLE item(id INTEGER PRIMARY KEY,source_row INTEGER UNIQUE,label TEXT,model_name TEXT,raw_kind TEXT,kind_id INTEGER REFERENCES kind(id),kind_status TEXT,size_id INTEGER NOT NULL REFERENCES size(id),size_crc INTEGER NOT NULL,remake_id INTEGER,raw_fields_json TEXT);
@@ -112,8 +112,8 @@ def main(root,verified,out):
         rel=p.split("/1/",1)[1];d=rel.split("/",1)[0];dirs[d]+=1;name=Path(p).name
         stem=name.split(".",1)[0]
         if d=="Model" and not stem.startswith("Layout_"):cat="model"
-        elif re.search(r"(collision|kcl|hkcl|phive|physics|(^|/)col(lision)?/)",rel,re.I):cat="collision_path_candidate"
-        elif re.search(r"(ftr|furniture)",d,re.I):cat="furniture_resource_path_candidate"
+        elif re.search(r"(?:^|[/_.])(?:collision|physics|phive|kcl|hkcl|bphcl|bphsh|col)(?:$|[/_.])",rel,re.I):cat="collision_path_candidate"
+        elif d in ("Param","BDLI","AnimationInfo","AnimationSequence","EventFlow"):cat="auxiliary_resource_path_candidate"
         else:continue
         candidate_paths.append((p,b,cat));asset_index[stem].append((p,cat))
     c.executemany("INSERT INTO asset VALUES(?,?,?)",candidate_paths)
