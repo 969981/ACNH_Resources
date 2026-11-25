@@ -1,0 +1,56 @@
+# 跨表引用候选
+
+返回 [索引](README.md)。仅 CRC32 值域统计，非已确认外键；排除 0 和 FFFFFFFF，至少 3 个不同命中且行与去重覆盖率均 >=80%。
+
+| 源表 | 字段 | 目标表 | 匹配行 | 匹配去重值 |
+| --- | --- | --- | --- | --- |
+| CalendarEventRegionParam.bcsv | hash_82BFCF29 | CalendarEventCountryParam.bcsv | 76/76 | 17/17 |
+| FgFlowerHeredity.bcsv | hash_9B7AA0A0 | ItemUnitIcon.bcsv | 243/270 | 7/8 |
+| FishStatusParam.bcsv | hash_770288FD | ItemRemakeCommonPattern.bcsv | 85/85 | 5/5 |
+| FishStatusParam.bcsv | hash_7EC9ADA7 | ItemRemakeCommonPattern.bcsv | 85/85 | 5/5 |
+| ItemAct.bcsv | hash_A0839D12 | ItemNpcRoomReplaceCategory.bcsv | 81/82 | 4/5 |
+| ItemAct.bcsv | hash_A0839D12 | ItemUIFurnitureCategory.bcsv | 79/82 | 4/5 |
+| ItemClothGroup.bcsv | hash_263C3CED | ItemNpcWherearenFtrActionParam.bcsv | 1462/1462 | 26/26 |
+| ItemOutfitHangerInfo.bcsv | hash_E06FB090 | ItemSize.bcsv | 14/14 | 3/3 |
+| ItemOutfitInfo.bcsv | hash_90466AFD | ItemOutfitCategory.bcsv | 162/162 | 116/116 |
+| ItemParam.bcsv | hash_690E3379 | ItemClothGroup.bcsv | 11178/11178 | 1462/1462 |
+| ItemParam.bcsv | hash_A6B1A7FD | ItemColor.bcsv | 11178/11178 | 15/15 |
+| ItemParam.bcsv | hash_B7CCCD84 | ItemColor.bcsv | 11178/11178 | 15/15 |
+| ItemParam.bcsv | hash_F1246E5F | ItemAct.bcsv | 11178/11178 | 79/79 |
+| ItemParam.bcsv | hash_DB1A2F07 | ItemFrom.bcsv | 11178/11178 | 312/312 |
+| ItemParam.bcsv | hash_16A66E06 | ItemUIFurnitureCategory.bcsv | 11149/11178 | 4/5 |
+| ItemParam.bcsv | hash_5270EB75 | ItemKind.bcsv | 11178/11178 | 186/186 |
+| ItemParam.bcsv | hash_A69385C1 | ItemColor.bcsv | 11095/11178 | 10/11 |
+| ItemParam.bcsv | hash_348D7B06 | ItemMenuIcon.bcsv | 11178/11178 | 613/613 |
+| ItemParam.bcsv | hash_AA6A39C6 | ItemNpcFtrActionParam.bcsv | 11178/11178 | 19/19 |
+| ItemParam.bcsv | hash_EAD62C46 | ItemNpcRoomReplaceCategory.bcsv | 11178/11178 | 21/21 |
+| ItemParam.bcsv | hash_263C3CED | ItemNpcWherearenFtrActionParam.bcsv | 11178/11178 | 68/68 |
+| ItemParam.bcsv | hash_7724BF93 | ItemOutfitInfo.bcsv | 11178/11178 | 157/157 |
+| ItemParam.bcsv | hash_9FEB9DA6 | ItemPlayerTopsForm.bcsv | 11178/11178 | 104/104 |
+| ItemParam.bcsv | hash_E06FB090 | ItemSize.bcsv | 11178/11178 | 26/26 |
+| ItemParam.bcsv | hash_8221388C | ItemUIFurnitureCategory.bcsv | 11178/11178 | 251/251 |
+| ItemParam.bcsv | hash_010D74A6 | ItemUnitIcon.bcsv | 11178/11178 | 216/216 |
+| ItemParam.bcsv | hash_60C99A5E | ItemNpcOutfitInfo.bcsv | 11178/11178 | 20/20 |
+| ItemParam.bcsv | hash_041C3234 | ItemUIFurnitureCategory.bcsv | 11177/11178 | 5/6 |
+| ItemRemake.bcsv | hash_C54EAAD9 | ItemColor.bcsv | 1253/1306 | 10/11 |
+| ItemRemakeCommonPattern.bcsv | hash_90466AFD | ItemRemakeCommonPatternCategory.bcsv | 220/220 | 11/11 |
+| ItemRemakeCommonPattern.bcsv | hash_A6B1A7FD | ItemColor.bcsv | 220/220 | 14/14 |
+| ItemRemakeCommonPattern.bcsv | hash_B7CCCD84 | ItemColor.bcsv | 220/220 | 14/14 |
+| SeafoodStatusParam.bcsv | hash_AFEB1BF1 | ItemRemakeCommonPattern.bcsv | 42/42 | 5/5 |
+| WherearenFacilityActionSet.bcsv | hash_67C63FCC | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_DE3DE424 | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_CF408E5D | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_E060F48F | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_599B2F67 | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_48E6451E | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_F11D9EF6 | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_6A1C91EC | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenFacilityActionSet.bcsv | hash_91783E01 | WherearenFacilityActionTypeParam.bcsv | 3/3 | 3/3 |
+| WherearenRoll.bcsv | hash_416EAF25 | WherearenFacilityActionTypeParam.bcsv | 20/20 | 16/16 |
+| WherearenRoll.bcsv | hash_F89574CD | WherearenFacilityActionTypeParam.bcsv | 18/18 | 15/15 |
+| WherearenRoll.bcsv | hash_E9E81EB4 | WherearenFacilityActionTypeParam.bcsv | 11/11 | 9/9 |
+| WherearenRoll.bcsv | hash_5013C55C | WherearenFacilityActionTypeParam.bcsv | 10/10 | 6/6 |
+| WherearenRoll.bcsv | hash_CB12CA46 | WherearenFacilityActionTypeParam.bcsv | 9/9 | 7/7 |
+| WherearenRoll.bcsv | hash_72E911AE | WherearenFacilityActionTypeParam.bcsv | 4/4 | 3/3 |
+| WherearenRoll.bcsv | hash_7328DE13 | WherearenFacilityActionTypeParam.bcsv | 19/19 | 14/14 |
+| WherearenRollSet.bcsv | hash_2B54BEDD | WherearenRoll.bcsv | 10/11 | 10/11 |
