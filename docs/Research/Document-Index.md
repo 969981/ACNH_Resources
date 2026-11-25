@@ -102,3 +102,4 @@
 
 - [道具、家具及服装原版图片提取](../Sources/Images/Item-Extraction.md)
 - [村民原版图片提取](../Sources/Images/Villager-Extraction.md)
+- [ZS 原始文件与道具、村民图片映射字典](../Sources/Images/Image-File-Mapping.md)
