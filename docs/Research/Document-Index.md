@@ -96,3 +96,6 @@
 ## docs/Sources/Images
 
 - [原版图片、图标与纹理素材](../Sources/Images/README.md)
+
+- [BNTX/BRTI 原生纹理字典](../Sources/Images/BNTX-BRTI.md)
+- [全量素材分类字典（生成）](../Sources/Images/Source-Catalog.md)
