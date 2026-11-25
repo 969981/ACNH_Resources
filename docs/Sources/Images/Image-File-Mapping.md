@@ -69,3 +69,7 @@ version: "3.0.3"
 [剩余关联明细](Mapping/Residual.md) 已验收：3,242 个原缺口 ItemID、4,039 个原缺口改造组合存在历史 PNG 候选；383 个道具及 10 个组合仍无已验证成品 PNG。NPC 29 张缺口分为 4 共享身份、18 候选、1 通用头像、6 尚未关联。第三轮 [CI #45627442407](https://github.com/969981/ACNH_Resources/actions/runs/45627442407) 进一步核对原始模型及 NPC 跨家族证据。
 
 第三轮已归档：剩余 383 个道具中 330 个具备原始模型路径候选、53 个仍无精确模型；10 个剩余款式均有模型路径候选但无成品 PNG；6 张 NPC 图片均获跨家族、共享资源或相同 PNG SHA 候选，唯一通用 Villager.png 不分配个人身份。详见 [补充明细](Mapping/Residual.md)；模型不是 PNG，候选不是原生运行时证明。
+
+## 原生资源选择验收更新
+
+[原生资源选择与共享 RemakeID 对账](Native-Resource-Selection.md) 已通过 [CI #45630122439](https://github.com/969981/ACNH_Resources/actions/runs/45630122439)。53 个无精确模型的 ItemID 全部经 ItemMenu（348D7B06）→ ItemMenuIcon.Label CRC32 → ResName 定位到 17 个原版 MenuIcon ZS，并实读 17 个 BRTI。11,178 个 ItemMenu 引用全部唯一 CRC32 匹配。菜单符号不可冒充成品图标。共享 RemakeID 的 3,828 个代表物品同款对照中，3,824 个按自身 Label/ResName 定位的 PNG SHA 集合互不相交，4 个同一源路径集合；禁止仅凭共享 RemakeID 自动采用代表物品 PNG，历史 residual 候选仅供审计，不作为生产选图。10 个无成品图标组合的 12 个模型源实读 25 个 BRTI；实际渲染 PNG 仍为 0。
