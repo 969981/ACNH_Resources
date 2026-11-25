@@ -5,6 +5,7 @@ on:
     branches: [research]
     paths:
       - 'Scripts/message/member_docs.py'
+      - 'Scripts/message/member_pages.py'
       - 'research/message-data/manifest.json'
       - 'docs/Sources/Message/String-Member-Index.md'
       - '.github/workflows/acnh303-msbt-member-docs.yml'
@@ -27,7 +28,7 @@ jobs:
             research/message-data/summary.json
             research/message-data/entries
           sparse-checkout-cone-mode: false
-      - run: python3 Scripts/message/member_docs.py
+      - run: python3 Scripts/message/member_pages.py
       - uses: actions/upload-artifact@v4
         with:
           name: msbt-member-docs
@@ -37,9 +38,15 @@ jobs:
       - name: Publish verified documentation
         run: |
           set -euo pipefail
-          git add docs/Sources/Message/Members research/message-data/member-purpose-index.json
+          git add --sparse docs/Sources/Message/Members research/message-data/member-purpose-index.json
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'docs(msbt): publish verified all-family original member index'
-          git push origin HEAD:research
+          git commit -q -m 'docs(msbt): publish 3086 individual original-file notes'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/message/member_docs.py Scripts/message/member_pages.py research/message-data/manifest.json docs/Sources/Message/String-Member-Index.md || { echo "Source inputs changed; refusing stale output"; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
