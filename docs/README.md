@@ -16,7 +16,7 @@ updated: 2026-11-25
 | BCSV | 234 表、58,349 行、2,898 字段位置；2,047/2,075 字段名称候选 |
 | 枚举与关系 | 5,713/5,870 已登记 CRC；新增 99 项候选（85 有上下文），58 项未命中；96 项关系、450 项唯一键、394 项 0/1 值域候选 |
 | 商品 | 11,178 原版 ItemID；非可售商品或机器人派送清单 |
-| MSBT | 14 语言、133 项 String 资源；文本关联与原生消费者证据分层 |
+| MSBT | 14 语言、43,204 个 MSBT 成员、1,686,972 条文本；业务用途分层 |
 | 家具改造 | 1,306 原版定义；款式数量与组合候选不能等同运行时权限 |
 | 空间 | 28 尺寸定义；原生占用、高度、旋转与碰撞规则仍分层验证 |
 
@@ -52,7 +52,8 @@ updated: 2026-11-25
 | --- | --- |
 | [Message 专题首页](Sources/Message/README.md) | 消息归档与语言资源 |
 | [Zstandard / SARC](Sources/Message/Zstandard-SARC.md) · [MSBT](Sources/Message/MSBT.md) · [BDLI](Sources/Message/BDLI.md) | 压缩、归档、文本、索引格式 |
-| [原始归档](Sources/Message/Archive-Index.md) · [String 文本索引](Sources/Message/String-Member-Index.md) | 原版文件与用途 |
+| [原始归档（155 个文件）](Sources/Message/Archive-Index.md) · [MSBT 原始文件中文目录（全归档）](Sources/Message/Members/README.md) | 全部内部文件、中文用途、CNzh 条数与语言覆盖 | 
+| [String 133 项详细用途](Sources/Message/String-Member-Index.md) | 道具、分类、服装、款式、村民等词条 |
 | [全量文本数据库](Sources/Message/Text-Database.md) | 原文、标签、控制码、CSV/SQLite |
 | [业务映射](Sources/Message/Business-Mapping.md) · [原生标签生成规则](Sources/Message/Native-Label-Rules.md) | 商品、颜色、款式、村民与消费者 |
 
