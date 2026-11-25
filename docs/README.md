@@ -34,3 +34,7 @@ updated: 2026-11-25
 ## 全量数据字典
 
 [BCSV 全量目录与字段字典](Sources/BCSV/Full-Catalog.md)：234 张表、2,075 个字段 Hash、50 个引用候选。
+
+## 原版文本与多语言
+
+[Message / Zstd / SARC / MSBT / BDLI 专题](Sources/Message/README.md)：原始归档、133项文本文件、14语言映射及业务关联。
