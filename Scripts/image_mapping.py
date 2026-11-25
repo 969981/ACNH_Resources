@@ -102,30 +102,33 @@ def main():
         sl.append(dict(item_id=i,name_CNzh=name(i),res_name=byid[i]["res_name"],remake_id=r["remake_id"],axis=r["axis"],slot=r["slot"],expected_path=p,source_path=p if blob else "",source_git_blob=blob,role="material_not_composite_icon",status="path_exists" if blob else "missing_path"))
     write("item-image.csv",il);write("variant-image.csv",vl);write("variant-material.csv",sl)
     # Current original BCSV identity; historical R82 names are separately labelled.
-    npc={}; keys=collections.defaultdict(set)
+    npc={}; byres=collections.defaultdict(set); keys=collections.defaultdict(set)
     for typ,table,count in [("normal","NmlNpcParam",417),("special","SpNpcParam",74)]:
         rr=read("research/bcsv-data/named/"+table+".csv");assert len(rr)==count
         for r in rr:
-            s=r["ResName"];assert s not in npc
-            npc[s]=dict(npc_type=typ,npc_id=r["UniqueID"],source_row=r["_row_index"],res_name=s,poster_item_id=r["PosterItemID"],bromide_item_id=r["BromideItemID"],name_CNzh="",name_evidence="")
-            keys[re.sub(r"^Npc(Nml|Sp)","",s).lower()].add(s)
+            s=r["ResName"]; identity=(typ,int(r["_row_index"]));assert identity not in npc
+            npc[identity]=dict(npc_type=typ,npc_id=r["UniqueID"],source_row=r["_row_index"],res_name=s,poster_item_id=r["PosterItemID"],bromide_item_id=r["BromideItemID"],name_CNzh="",name_evidence="")
+            if s:
+                byres[s].add(identity);keys[re.sub(r"^Npc(Nml|Sp)","",s).lower()].add(identity)
     oldnpc=read(H/"assets/evidence/rom-database/r82-villagers-source-enriched.csv")
     assert len(oldnpc)==491
     for r in oldnpc:
-        n=npc[r["res_name"]];assert n["npc_id"]==str(int(r["unique_id"])) and n["npc_type"]==r["npc_type"]
+        n=npc[(r["npc_type"],int(r["source_index"]))];assert n["res_name"]==r["res_name"] and n["npc_id"]==str(int(r["unique_id"]))
         n["name_CNzh"]=r["name_CNzh"];n["name_evidence"]="historical_R82:"+r["name_status"]
     nl=[]; matched=set()
     for cat,p,png,brti in vill:
         token=brti
-        if cat=="icon":k=keys.get(brti.lower(),set());token=next(iter(k)) if len(k)==1 else ""
+        if cat=="icon":k=keys.get(brti.lower(),set())
         elif cat=="poster":token=brti.removeprefix("Poster")
         elif cat=="bromide_item":token=brti.removeprefix("Bromide").removesuffix("_Remake_0_0")
-        n=npc.get(token)
-        if n:matched.add(token)
+        if cat!="icon":k=byres.get(token,set())
+        ident=next(iter(k)) if len(k)==1 else None
+        n=npc.get(ident)
+        if n:matched.add(ident)
         rec=next(x for x in sources[p] if x["png_path"]==png)
         itemid=n["poster_item_id"] if n and cat=="poster" else n["bromide_item_id"] if n and cat=="bromide_item" else ""
         # Record BCSV item-ID linkage separately; a suffix match is not a runtime rule.
-        nl.append(dict(category=cat,npc_res_name=token if n else "",npc_type=n["npc_type"] if n else "",npc_id=n["npc_id"] if n else "",name_CNzh=n["name_CNzh"] if n else "",name_evidence=n["name_evidence"] if n else "",related_item_id=itemid,related_item_exists=int(itemid in byid),source_path=p,brti_name=brti,png_path=png,source_sha256=rec["source_sha256"],png_sha256=rec["png_sha256"],width=rec["width"],height=rec["height"],status="exact_resname_or_unique_npc_key" if n else "unlinked",runtime_verified=0))
+        nl.append(dict(category=cat,npc_res_name=n["res_name"] if n else "",npc_type=n["npc_type"] if n else "",npc_id=n["npc_id"] if n else "",name_CNzh=n["name_CNzh"] if n else "",name_evidence=n["name_evidence"] if n else "",related_item_id=itemid,related_item_exists=int(itemid in byid),source_path=p,brti_name=brti,png_path=png,source_sha256=rec["source_sha256"],png_sha256=rec["png_sha256"],width=rec["width"],height=rec["height"],status="exact_resname_or_unique_npc_key" if n else ("ambiguous_identity" if len(k)>1 else "unlinked"),runtime_verified=0))
     write("npc-image.csv",nl);write("npc.csv",list(npc.values()))
     # Markdown shards: full source-to-PNG, complete item/variant/material indexes, NPC images.
     def page_index(stem,title,rows,cols,n,render):
@@ -144,8 +147,8 @@ def main():
     mpage=page_index("Material","本体/布料材质源",sorted(sl,key=lambda r:(int(r["item_id"]),r["axis"],int(r["slot"]))),["ItemID","简中名","轴/索引","实际 ZS / 预期路径","状态"],250,lambda r:[r["item_id"],esc(r["name_CNzh"]),r["axis"]+"/"+r["slot"],link(r["source_path"]) if r["source_path"] else esc(Path(r["expected_path"]).name),r["status"]])
     np=page_index("NPC","村民 ResName → ZS → PNG",sorted(nl,key=lambda r:(r["npc_res_name"] or "~",r["category"],r["brti_name"])),["NPC","简中名","图片类别","道具ID","原始 ZS","历史 PNG","关联状态"],150,lambda r:[esc(r["npc_res_name"]) or "未关联",esc(r["name_CNzh"]),r["category"],esc(r["related_item_id"]),link(r["source_path"]),link(r["png_path"]),r["status"]])
     # Separate NPC roster includes characters with no exact image association.
-    rp=page_index("NPC-Roster","原版 NPC 身份与图片覆盖",sorted(npc.values(),key=lambda r:(r["npc_type"],int(r["source_row"]))),["类型","ID","ResName","简中名","海报ID","照片道具ID","图片关联"],150,lambda r:[r["npc_type"],r["npc_id"],esc(r["res_name"]),esc(r["name_CNzh"]),r["poster_item_id"],r["bromide_item_id"],"有精确候选" if r["res_name"] in matched else "无精确关联"])
-    report=dict(historical_commit=REF,original_model_tree_equal=True,historical_source_png_rows=len(raw),unique_original_sources=len(sources),four_family_sources=32145,villager_image_rows=len(nl),npc_count=len(npc),npc_linked_images=sum(bool(r["npc_res_name"]) for r in nl),npc_with_link=len(matched),item_rows=len(il),items_with_historical_png=len({r["item_id"] for r in il if r["png_path"]}),variant_rows=len(vl),variant_candidates_with_historical_png=len({(r["item_id"],r["body_index"],r["fabric_index"],r["fabric_mode"]) for r in vl if r["png_path"]}),material_slots=len(sl),generated_detail_pages=npage+ipage+vpage+mpage+np+rp,pixels_rehashed_now=False,runtime_verified=False)
+    rp=page_index("NPC-Roster","原版 NPC 身份与图片覆盖",sorted(npc.values(),key=lambda r:(r["npc_type"],int(r["source_row"]))),["类型","ID","ResName","简中名","海报ID","照片道具ID","图片关联"],150,lambda r:[r["npc_type"],r["npc_id"],esc(r["res_name"]),esc(r["name_CNzh"]),r["poster_item_id"],r["bromide_item_id"],"有精确候选" if (r["npc_type"],int(r["source_row"])) in matched else "无精确关联"])
+    report=dict(historical_commit=REF,original_model_tree_equal=True,historical_source_png_rows=len(raw),unique_original_sources=len(sources),four_family_sources=32145,villager_image_rows=len(nl),npc_count=len(npc),npc_linked_images=sum(bool(r["npc_res_name"]) for r in nl),npc_with_link=len(matched),duplicate_nonempty_resnames=sum(len(v)>1 for v in byres.values()),ambiguous_npc_images=sum(r["status"]=="ambiguous_identity" for r in nl),item_rows=len(il),items_with_historical_png=len({r["item_id"] for r in il if r["png_path"]}),variant_rows=len(vl),variant_candidates_with_historical_png=len({(r["item_id"],r["body_index"],r["fabric_index"],r["fabric_mode"]) for r in vl if r["png_path"]}),material_slots=len(sl),generated_detail_pages=npage+ipage+vpage+mpage+np+rp,pixels_rehashed_now=False,runtime_verified=False)
     (OUT/"summary.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
     save(DOC/"README.md",["# ZS、道具、款式与村民 PNG 全量映射","","返回 [图片专题](../README.md) · [知识库首页](../../../README.md)。","","原始 Model Git 树与固定历史提交完全一致。每条 PNG 来源来自历史原版提取报告，并检查历史 Git 中真实 PNG 路径；本轮未重解码、未验证运行时选图。","", "| 入口 | 范围 |","| --- | --- |","| [ZS → PNG](Source.md) | 原始文件、BRTI、真实导出图、尺寸、格式 |","| [道具 → PNG](Item.md) | ItemID、简中名、ResName、资源族 |","| [改造组合](Variant.md) | body/fabric、组合图标、缺失候选 |","| [改造材质](Material.md) | ReBody/ReFabric，非成品图标 |","| [村民图片](NPC.md) | 四类村民图片与原始身份 |","| [原版 NPC 名册](NPC-Roster.md) | 491 条身份，包含无匹配记录 |","","CSV/JSON：[机器可读映射](https://github.com/969981/ACNH_Resources/tree/research/research/image-mapping)。","","## 实际构建统计","","| 指标 | 数量 |","| --- | ---: |"]+[f"| {k} | {v} |" for k,v in report.items() if type(v)==int])
     print(json.dumps(report,ensure_ascii=False))
