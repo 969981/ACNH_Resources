@@ -1,21 +1,19 @@
 # ItemRemakeCommonPattern.bcsv
 
-返回 [全量索引](README.md) · [字段名称字典](../Field-Names.md)。
+返回 [全量索引](README.md)。
 
 原始路径：`e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemakeCommonPattern.bcsv`
 SHA256：`4d8445c36cdac4da2234c4899fbb9e8ba4a0853eabeba7472ff8e58a559eeca7`
-记录数 220，行长 120，字段数 7。回填 7 个字段。
+状态：parsed
 
-[原始 Hash CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/raw/ItemRemakeCommonPattern.csv) · [名称回填 CSV](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/named/ItemRemakeCommonPattern.csv) · [字段映射 JSON](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-data/schema/ItemRemakeCommonPattern.json)
+行数 220，行长 120，数据起点 84。
 
-候选名称及类型仅为签名匹配；CSV 单元格仍为未经业务加工的原始解析值。
-
-| Hash | 偏移 | 跨度 | 回填列名 | 类型候选 | 签名候选 | 证据状态 |
-| --- | ---: | ---: | --- | --- | --- | --- |
-| hash_90466AFD | 4 | 4 | Category | hshCstringRef | Category.hshCstringRef | candidate_name |
-| hash_A6B1A7FD | 8 | 4 | Color1 | hshCstringRef | Color1.hshCstringRef | candidate_name |
-| hash_B7CCCD84 | 12 | 4 | Color2 | hshCstringRef | Color2.hshCstringRef | candidate_name |
-| hash_8FB1ED85 | 16 | 4 | SortID | u32 | SortID u32 | candidate_name |
-| hash_54706054 | 20 | 2 | UniqueID | u16 | UniqueID u16 | candidate_name |
-| hash_87BF00E8 | 22 | 32 | Label | string32 | Label string32 | candidate_name |
-| hash_5AEBBFB5 | 54 | 66 | TextureResName | string64 | TextureResName string64 | candidate_name |
+| Hash | 偏移 | 跨度 | 当前解释 |
+| --- | ---: | ---: | --- |
+| hash_90466AFD | 4 | 4 | 未知，保留原值 |
+| hash_A6B1A7FD | 8 | 4 | 未知，保留原值 |
+| hash_B7CCCD84 | 12 | 4 | 未知，保留原值 |
+| hash_8FB1ED85 | 16 | 4 | 未知，保留原值 |
+| hash_54706054 | 20 | 2 | 未知，保留原值 |
+| hash_87BF00E8 | 22 | 32 | 未知，保留原值 |
+| hash_5AEBBFB5 | 54 | 66 | 未知，保留原值 |
