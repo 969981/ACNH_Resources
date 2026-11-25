@@ -1,5 +1,7 @@
 # HASH-008H 双线恢复：原始字段名称与业务语义
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 ## 证据字典
 
 [[ACNH303_HASH008G_DEFAULT_REMAKE]] · [[ACNH303_HASH008D_NATIVE_EVIDENCE]] · [[ACNH303_HASH008E_RECIPE_PLAYER]]
