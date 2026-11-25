@@ -67,3 +67,7 @@ updated: 2026-11-25
 ### 特殊道具资源选择与改造图标
 
 [原生资源选择审计](../Sources/Images/Native-Resource-Selection.md) [CI #45630122439](https://github.com/969981/ACNH_Resources/actions/runs/45630122439) 成功：53 个剩余特殊物品全部有菜单图标原始源，17 个独立源实读 BRTI；共享 RemakeID 不能作为 PNG 共用依据（3,824 个同款对照 SHA 集合不相交）；10 个缺失成品图标的 12 个模型源实读 25 个 BRTI。待研究 UI 选择消费者、菜单 PNG 解码、FMDL/FMAT 实际材质及相机、光照与渲染验证。无新成品 PNG。
+
+### 图片包全量兼容性对账
+
+[ImagePackCompatibilityAudit](../Sources/Images/Image-Pack-Compatibility-Audit.md) 已提交工具及 [首轮 CI #45632940762](https://github.com/969981/ACNH_Resources/actions/runs/45632940762)，实际运行结果待验收；不修改原版资源，不发布第三方图包。
