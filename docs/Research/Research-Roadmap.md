@@ -5,28 +5,42 @@ updated: 2026-11-25
 ---
 # 研究路线
 
-返回 [首页](../README.md) · [2026-11-25 研究记录](2026-11-25.md)。
+返回 [知识库首页](../README.md) · [研究日志](2026-11-25.md) · [原生研究](Native-Research.md) · [全部文档索引](Document-Index.md)。
 
-| 优先级 | 专题 | 状态 |
+## 当前验收与证据边界
+
+| 专题 | 当前结果 | 验收 |
 | --- | --- | --- |
-| P0 | [物品分类](../Items/Item-Classification.md) | NHSE 生成源码已确认；11178 项逐 ID 对账待 CI |
-| P0 | [家具尺寸](../Furniture/Item-Size.md) | 28 项定义已读取；逐物品关联待验收 |
-| P0 | [摆放与承载](../Furniture/Placement-and-Stacking.md) | 历史枚举已定位；原版字段待验证 |
-| P0 | STR_CategoryName / 14 语言 | 待关联 |
-| P1 | 家具用途、碰撞模型、交互点、旋转与承载层级 | 待研究 |
-| P1 | 旧机器人订单分类兼容 | 待验收 |
-| P2 | 2D/3D 家具布局编辑器 | 规划中 |
+| [全量 BCSV](../Sources/BCSV/Full-Catalog.md) | 234 表，58,349 行，2,898 字段位置 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45573360473) |
+| [字段名称](../Sources/BCSV/Generated/Field-Hashes.md) | 2,047/2,075 CRC 候选，28 未恢复 | 名称候选，不等于明文 |
+| [枚举与关系](../Sources/BCSV/Relation-Audit.md) | 5,713/5,870 已登记，85 上下文 +14 全局候选，58 未命中；96 关联、450 唯一键、394 布尔候选 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45574462546) |
+| [业务解析层](../Sources/BCSV/Decoded.md) | raw/named/decoded 与候选关系 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45571610003) |
+| [商品数据](../Items/Native-Item-Catalog.md) | 11,178 原版 ItemID，14 语言，业务映射保留证据等级 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45571966606) |
+| [MSBT 文本库](../Sources/Message/Text-Database.md) | 14 语言，原文本、标签及控制码 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45574483135) |
+| [MSBT 标签规则](../Sources/Message/Native-Label-Rules.md) | 原生标签生成规则与候选映射 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45573999603) |
+| [家具款式](../Items/Native-Variants.md) | 1,306 定义，数量与普通实体字候选 | [CI success](https://github.com/969981/ACNH_Resources/actions/runs/45574390450) |
+| [家具空间](../Furniture/Furniture-Spatial.md) | 28 尺寸定义，空间占用及高度已有证据；完整运行时规则未闭合 | [占用 CI 曾失败](https://github.com/969981/ACNH_Resources/actions/runs/45571717924)，本轮未复验 |
+| [邮件及奖励](Native-Research.md) | HASH-008L/M/N 已有运行记录 | [008N CI success](https://github.com/969981/ACNH_Resources/actions/runs/45574933713)，语义证据另审 |
 
-每次研究先补充专题结论与固定证据，再记录新进度；未运行的 CI 不标为通过。
+以上 CI success 表示对应工作流运行成功；本次导航整理仅复验运行状态，除已归档关系审计外不重新宣称各产物逐项通过。
 
-- [原版 UI 分类分组](../Items/Native-UI-Category-Groups.md)：60 组关联完成，57 名称候选；原生文本、ItemParam 与消费者待验收。
+## 下一阶段优先级
 
-- [BCSV 通用解析与导出](../Sources/BCSV/Toolkit.md)：uv 工具及 CI 已提交，[九张核心表提取 CI 已通过](https://github.com/969981/ACNH_Resources/actions/runs/45569451957)；后续开展全量表目录、引用关系和字段语义研究。
+| 优先级 | 任务 | 验收目标 |
+| --- | --- | --- |
+| P0 | CRC 枚举候选 | 逐项核验 85+14 候选，研究 58 未命中，回填后重新全量对账 |
+| P0 | 原生主外键、数值、布尔及位域 | 96 关系、450 键、394 布尔候选逐步验证消费者 |
+| P0 | 234 表业务用途 | 已有 9 专题，其他 225 张需独立证据 |
+| P0 | 原生邮件 | 处理函数、位图、ItemID 与实体构造 |
+| P0 | 家具空间 | 占用、碰撞、旋转、承载坐标及高度验证 |
+| P0 | MSBT / 改造 | 分类、颜色、款式生成规则与实际实体写入 |
+| P1 | MurmurHash3、复合键、中文术语 | 字典与独立证据 |
+| P1 | 订单协议兼容 | 网页导航与旧派送字段分离 |
+| P1 | ER 关系图 | 按证据等级展示关联 |
+| P2 | PostgreSQL DDL、2D/3D 家具布局 | 建立在确认的语义之上 |
 
-## 全量目录研究
+## 历史验收记录
 
-`uv run --script Scripts/bcsv/catalog.py --verify-git` 扫描全目录，生成 inventory.json、field-hashes.json、reference-candidates.json、summary.json 与自动 Markdown docs。引用是 CRC32 值域候选，不是已确认外键。详见 [全量字典研究](../Sources/BCSV/Full-Catalog.md)。
+[首轮 234 表验收 #45569991407](https://github.com/969981/ACNH_Resources/actions/runs/45569991407) · [九张核心表 #45569451957](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) · [关系审计永久记录](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-relations/ci-baseline.json)。
 
-## 首轮实际验收（2026-11-25）
-
-[Actions #45569991407](https://github.com/969981/ACNH_Resources/actions/runs/45569991407)：234/234 张原版 BCSV 结构解析通过，无不支持文件，58,349 条记录、2,898 个字段出现位置、2,075 个去重字段 Hash、50 个 CRC32 跨表引用候选。8 项测试通过。[完整产物](https://github.com/969981/ACNH_Resources/actions/runs/45569991407/artifacts/15002100441)（247,488 字节）。候选关系与未知字段仍需语义及消费者验证。
+每次研究先补充专题结论与固定证据，再更新首页、路线和日志；未知保留原值。
