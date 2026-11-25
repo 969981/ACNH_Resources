@@ -1,5 +1,7 @@
 # ACNH 3.0.3 — occupancy records, height and 3D grid
 
+返回 [知识库首页](README.md) · [专题索引](Furniture/Furniture-Spatial.md) · [研究路线](Research/Research-Roadmap.md)。
+
 ## Scope and provenance
 Research only. Existing branch research; old PR #126 base 3.0.3 was deleted (branch search returned 3.0.3_Unpack and research). New workflow now triggers push to research and supports workflow_dispatch. Connector only lists pull_request-triggered runs; no new CI acceptance confirmed in this stage. No branch recreation, merge or production changes. Source C from 3.0.3_Unpack: 01A50240 blob 7f2463206311004857fdf30a0d93a2c9dcf81d47; 0277DA10 5a7737aa8bae288e28b4abf9f7e07cb7646a6418; 0149A6F0 ae3c1729a42485c3c9f47ec2cf6d0b02f2f51dfd; 0149BE24 cb3c1189a8b36d992b7793f44f675c34b44e9d4f; 01A5033C d18fe690187bb937c35c17eeacb4642f6299c84c. Native machine replay for this stage implemented, not accepted.
 
