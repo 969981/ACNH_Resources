@@ -52,6 +52,17 @@ def main(root,out):
     h=header(b,0,b"FSHA");require(h["size"]==len(b),"FSHA length")
     out.mkdir(parents=True,exist_ok=True)
     dictionaries=fsha_dictionaries(b);records=[];rejected=[];program_counts=collections.Counter()
+    # Preserve header-linked regions for the v8 FSHA model/option investigation.
+    # Do not assume model pointer fields until their records are validated.
+    headerPointers=[]
+    for p in range(0x20,0x80,8):
+        v=struct.unpack_from("<Q",b,p)[0]
+        if 0x20<=v<len(b):
+            headerPointers.append({"fieldOffset":p,"targetOffset":v,"targetHex":b[v:v+256].hex()})
+    # Names are raw occurrences, not assignments or option enum definitions.
+    optionHits={}
+    for name in ("park_uber","material_select_roughness","material_select_roughness_channel","material_select_occlusion_channel","material_alpha_channel","const_float0","const_float1","_ex0","_s0","_grd0"):
+        optionHits[name]=[m.start() for m in re.finditer(re.escape(name.encode())+b"\\0",b)][:128]
     for m in re.finditer(b"BNSH",b):
         p=m.start()
         try:z=header(b,p,b"BNSH")
@@ -59,15 +70,15 @@ def main(root,out):
             rejected.append({"offset":p,"reason":str(e)});continue
         member=b[p:p+z["size"]];z["sha256"]=sha(member)
         try:
-            q=audit(member,"embedded@"+hex(p))
-            z.update(status="bounded_structure",variationCount=len(q["variation_records"]),programCount=len(q["distinct_shader_programs"]),reflectionCount=len(q["reflection_records"]),warnings=q["warnings"],grsc=q["grsc_blocks"])
+            q=audit(member,"embedded@"+hex(p),max_variations=16384)
+            z.update(status="bounded_structure" if all(g["link_status"]=="array_in_bounds" for g in q["grsc_blocks"]) else "partial_structure",variationCount=len(q["variation_records"]),programCount=len(q["distinct_shader_programs"]),reflectionCount=len(q["reflection_records"]),warnings=q["warnings"],grsc=q["grsc_blocks"])
             program_counts["variations"]+=z["variationCount"];program_counts["programs"]+=z["programCount"]
             # Keep bounded link evidence, but avoid copying multi-GB raw code to artifacts.
             write(out/("bnsh-"+str(p)+".json"),q)
         except ValueError as e:z.update(status="header_valid_structure_unresolved",error=str(e))
         records.append(z)
     require(bool(records),"No valid embedded BNSH headers")
-    report={"source":SOURCE,"gitBlob":blob,"sourceSha256":sha(raw),"member":x["source_member"],"fshaSha256":sha(b),"fshaHeader":h,"dictionaries":dictionaries,"embeddedBnsh":records,"rejectedMagic":rejected,"counts":dict(program_counts),"gpuSemanticsVerified":False,"optionProgramSelectionVerified":False}
+    report={"source":SOURCE,"gitBlob":blob,"sourceSha256":sha(raw),"member":x["source_member"],"fshaSha256":sha(b),"fshaHeader":h,"headerPointerCandidates":headerPointers,"optionNameOccurrences":optionHits,"dictionaries":dictionaries,"embeddedBnsh":records,"rejectedMagic":rejected,"counts":dict(program_counts),"gpuSemanticsVerified":False,"optionProgramSelectionVerified":False}
     write(out/"park-uber-audit.json",report)
     print(json.dumps({"fshaBytes":len(b),"version":h["version"],"dictionaries":len(dictionaries),"dictionaryKeys":sum(d["count"] for d in dictionaries),"bnshStatuses":dict(collections.Counter(r["status"] for r in records)),"counts":dict(program_counts),"rejectedMagic":len(rejected)}))
 if __name__=="__main__":
