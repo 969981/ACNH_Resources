@@ -92,10 +92,42 @@ def main():
         pair.append(row)
         if state=="distinct_png_sha_sets" and len(examples)<12:examples.append(row)
     write("shared-remake-comparison.csv",pair)
+    # Re-evaluate shared-remake with each item's own Label, never with the representative as fallback.
+    labelpairs=[];labelstats=collections.Counter();examples=[]
+    def ownpaths(i,b,f):
+        it=items.get(i,{})
+        return sorted({icon(it[k]+"_Remake_"+b+"_"+f) for k in ("label","res_name") if it.get(k) and icon(it[k]+"_Remake_"+b+"_"+f) in source})
+    for row in pair:
+        i=row["item_id"];rep=row["representative_item_id"];b=row["body_index"];f=row["fabric_index"]
+        pp=ownpaths(i,b,f);qq=ownpaths(rep,b,f)
+        aa=set().union(*(prov[p] for p in pp));bb=set().union(*(prov[p] for p in qq))
+        if not pp or not qq:state="own_icon_missing"
+        elif set(pp)==set(qq):state="same_original_path_set"
+        elif aa and bb and aa.isdisjoint(bb):state="distinct_png_sha_sets"
+        elif aa and bb and aa==bb:state="same_png_sha_set"
+        elif aa and bb:state="partial_png_sha_overlap"
+        else:state="different_paths_png_unknown"
+        labelstats[state]+=1
+        rec=dict(remake_id=row["remake_id"],item_id=i,representative_item_id=rep,kind=row["kind"],body_index=b,fabric_index=f,own_label=items[i]["label"],representative_label=items.get(rep,{}).get("label",""),own_paths=";".join(pp),representative_paths=";".join(qq),own_png_sha=";".join(sorted(aa)),representative_png_sha=";".join(sorted(bb)),comparison=state,automatic_substitution_allowed=0)
+        labelpairs.append(rec)
+        if state=="distinct_png_sha_sets" and len(examples)<12:examples.append(dict(row,direct_path=pp[0],representative_path=qq[0]))
+    write("shared-remake-own-label-comparison.csv",labelpairs)
     # Specific render test cases: actual BFRES/BNTX inputs for all 10 gaps, not renders.
     sys.path.insert(0,str(H/"Scripts"))
     import acnh_formats as af
     from probe_acnh_babybed_textures import nested_files,valid_bntx_slices,parse_bntx
+    menu_texture=[];menu_meta=[]
+    for p in sorted({r["menu_source_path"] for r in special if r["menu_source_path"]}):
+        b=Path(p).read_bytes();assert hashlib.sha1(("blob "+str(len(b))+"\0").encode()+b).hexdigest()==source[p]["git_blob"]
+        entries=[]
+        for member,data2 in nested_files(b,p,af):
+            for off,bn in ([(0,data2)] if af.detect(data2)=="bntx" else valid_bntx_slices(data2)):
+                for t in parse_bntx(bn):
+                    rec=dict(source_path=p,source_sha256=sha(b),member=member,bntx_offset=off,**t);entries.append(rec);menu_texture.append(rec)
+        assert entries,p
+        menu_meta.append(dict(path=p,source_sha256=sha(b),texture_count=len(entries)))
+    write("menu-textures.csv",menu_texture)
+    (O/"menu-source-metadata.json").write_text(json.dumps(menu_meta,indent=2)+"\n")
     modelrows=read(res/"variant-final-model-candidates.csv");paths=sorted({r["model_path"] for r in modelrows if r["model_path"]})
     samples=[];texture=[];assert len(paths)==12
     for p in paths:
@@ -120,11 +152,12 @@ def main():
         plan.append(dict(item_id=i,body_index=b,fabric_index=f,base=base,body=body if body in paths else "",fabric=fabric if fabric in paths else "",capture_preset=items[i]["capture_preset"],render_status="not_rendered",camera_verified=0,shader_verified=0))
     assert len(plan)==10
     write("render-plan.csv",plan)
-    summary=dict(special_items=53,special_empty_resname=53,menu_field=field,menu_reference_domain=dict(domain),special_menu_paths=dict(stat),kind_field_hash_90bc0855=matches,shared_remake_groups=len(shared),shared_remake_items=sum(map(len,shared.values())),representative_slot_comparisons=len(pair),comparison=dict(cmp),render_model_sources=len(samples),render_texture_descriptors=len(texture),render_cases=len(plan),actual_rendered_pngs=0,runtime_verified=False)
+    summary=dict(special_items=53,special_empty_resname=53,menu_field=field,menu_reference_domain=dict(domain),special_menu_paths=dict(stat),kind_field_hash_90bc0855=matches,shared_remake_groups=len(shared),shared_remake_items=sum(map(len,shared.values())),representative_slot_comparisons=len(pair),comparison=dict(cmp),own_label_comparison=dict(labelstats),menu_unique_sources=len(menu_meta),menu_texture_descriptors=len(menu_texture),render_model_sources=len(samples),render_texture_descriptors=len(texture),render_cases=len(plan),actual_rendered_pngs=0,runtime_verified=False)
     (O/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n")
     lines=["# 特殊道具原生资源选择、共享改造图标与模型渲染输入","","返回 [图片专题](README.md) · [图片映射](Image-File-Mapping.md) · [改造款式](../../Items/Native-Variants.md) · [知识库首页](../../README.md)。","","## 原生消费证据","","FUN_01adf970：读取 ItemParam hash 48EF0398 (ResName)，只有 FUN_01ae59b0 返回真且字符串空时使用 TemplateDummyFurniture1x1；不能对所有空 ResName 自动使用占位模型。FUN_01ae59b0 查类别索引缓存及 90BC0855，并受 wrapper+10 bit5 影响，不能简化为无条件 CanFtr。","","FUN_01afe3e0 / 01afeef4 生成本体/布料名；0152dba0 预加载，01530c60 查实际资源并经 01664b40 更新材质纹理绑定。照片有单独的 FtrBromideFrame/Wall 分支。该路径证明模型材质选择，不证明 UI 图标选择。","","## 53 个特殊物品","","| ItemID | 名称 | Kind | 菜单图标引用 | 菜单 ZS | 证据 |","| --- | --- | --- | --- | --- | --- |"]
     lines+=["| "+" | ".join([r["item_id"],esc(r["name_CNzh"]),r["kind"],str(r["menu_icon_raw"]),link(r["menu_source_path"]),r["menu_rule"]])+" |" for r in special]
     lines+=["","菜单图标是库存/UI 符号候选，不是物品完整外观，未输出冒充商品的 PNG。","","## 共享 RemakeID 对账","","| 状态 | 数量 |","| --- | ---: |"]+[f"| {k} | {v} |" for k,v in cmp.items()]
+    lines+=["","按每个物品自己的 Label 或 ResName、同一 body/fabric 索引重新对账（不使用代表物品回退）：","","| 状态 | 数量 |","| --- | ---: |"]+[f"| {k} | {v} |" for k,v in labelstats.items()]
     lines+=["","以下为真实原版路径不同且历史 PNG SHA 集合不相交的反例。哈希差异不单独证明视觉差异，但足以拒绝字节等价假设。","","| ItemID | 代表物品 | 款式 | 自身 ZS | 代表 ZS |","| --- | --- | --- | --- | --- |"]
     lines+=["| "+" | ".join([r["item_id"],r["representative_item_id"],r["body_index"]+"/"+r["fabric_index"],link(r["direct_path"]),link(r["representative_path"])])+" |" for r in examples]
     lines+=["","## 10 个模型渲染试验输入","","| ItemID | Body/Fabric | 基础模型 | 本体 | 布料 |","| --- | --- | --- | --- | --- |"]
