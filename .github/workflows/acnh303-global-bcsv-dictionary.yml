@@ -14,6 +14,8 @@ on:
       - 'Scripts/acnh303_global_bcsv_cache_xrefs.py'
       - 'Scripts/acnh303_global_bcsv_pcode.py'
       - 'Scripts/acnh303_global_bcsv_ssa.py'
+      - 'Scripts/acnh303_global_bcsv_pcode_batches.py'
+      - 'Scripts/acnh303_global_bcsv_interprocedural.py'
       - 'Scripts/test_acnh303_global_bcsv_ssa.py'
       - 'tools/ghidra/ExportBCSVHighPcode.java'
       - 'Scripts/test_acnh303_global_bcsv_native_reader.py'
@@ -107,22 +109,41 @@ jobs:
           python tools/ghidra/acnh_ghidra_pack.py join derived/3.0.3/ghidra12.2/project/ghidra_project.tar.manifest.json "$RUNNER_TEMP/ghidra_project.tar"
           tar -xf "$RUNNER_TEMP/ghidra_project.tar" -C "$RUNNER_TEMP/acnh-project"
           rm "$RUNNER_TEMP/ghidra_project.tar"
-      - name: Export all function ranges and priority High P-code
+      - name: Unit tests and first 400-function SSA acceptance
         shell: bash
         run: |
           set -euo pipefail
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_ssa.py -v
+          mkdir -p artifacts/first-dictionary
+          cp artifacts/global-bcsv/*.json artifacts/first-dictionary/
+          cp artifacts/global-bcsv/dictionary.sqlite3 artifacts/first-dictionary/
           python Scripts/acnh303_global_bcsv_pcode.py seed --dictionary artifacts/global-bcsv --pcode artifacts/pcode/seeds.tsv
           "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" "$RUNNER_TEMP/acnh-project" ACNH303 -process main.elf -noanalysis -readOnly -max-cpu 2 -scriptPath "$PWD/tools/ghidra" -postScript ExportBCSVHighPcode.java "$PWD/artifacts/pcode" "$PWD/artifacts/pcode/seeds.tsv" 400 25 -log "$PWD/artifacts/pcode/ghidra.log" -scriptlog "$PWD/artifacts/pcode/script.log"
           test -s artifacts/pcode/summary.json
           cat artifacts/pcode/summary.json
-          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/global-bcsv --pcode artifacts/pcode
-          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_ssa.py -v
-          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode
+          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/first-dictionary --pcode artifacts/pcode
+          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/first-dictionary --pcode artifacts/pcode
+          python -c 'import json; from pathlib import Path; s=json.loads(Path("artifacts/pcode/ssa_summary.json").read_text()); assert s["functions_analyzed"]==400, s'
+      - name: Complete selected functions only after SSA acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/pcode-tail artifacts/pcode-full
+          REMAINING=$(python -c 'import json; s=json.load(open("artifacts/pcode/summary.json")); print(s["selected_functions"]-s["attempted"])')
+          test "$REMAINING" -gt 0
+          "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" "$RUNNER_TEMP/acnh-project" ACNH303 -process main.elf -noanalysis -readOnly -max-cpu 2 -scriptPath "$PWD/tools/ghidra" -postScript ExportBCSVHighPcode.java "$PWD/artifacts/pcode-tail" "$PWD/artifacts/pcode/seeds.tsv" "$REMAINING" 25 400 -log "$PWD/artifacts/pcode-tail/ghidra.log" -scriptlog "$PWD/artifacts/pcode-tail/script.log"
+          python Scripts/acnh303_global_bcsv_pcode_batches.py artifacts/pcode artifacts/pcode-tail artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
+          python Scripts/acnh303_global_bcsv_interprocedural.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode-full
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ACNH303-native-high-pcode
           path: |
             artifacts/pcode/
+            artifacts/pcode-tail/summary.json
+            artifacts/pcode-tail/*.log
+            artifacts/pcode-full/
             artifacts/global-bcsv/dictionary.sqlite3
           if-no-files-found: warn

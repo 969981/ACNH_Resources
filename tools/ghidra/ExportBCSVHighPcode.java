@@ -50,9 +50,11 @@ public class ExportBCSVHighPcode extends GhidraScript {
     private static void line(BufferedWriter w,String s)throws IOException{w.write(s);w.newLine();}
     public void run()throws Exception{
         String[] a=getScriptArgs();
-        if(a.length!=4)throw new IllegalArgumentException("output seeds.tsv max_functions timeout_seconds");
+        if(a.length!=4 && a.length!=5)throw new IllegalArgumentException("output seeds.tsv max_functions timeout_seconds [start_index]");
         Path out=Paths.get(a[0]);Files.createDirectories(out);
         int limit=Integer.parseInt(a[2]),timeout=Integer.parseInt(a[3]);
+        int start=a.length==5?Integer.parseInt(a[4]):0;
+        if(start<0||limit<=0||timeout<=0)throw new IllegalArgumentException("invalid batch");
         FunctionManager fm=currentProgram.getFunctionManager();
         AddressSpace space=currentProgram.getAddressFactory().getDefaultAddressSpace();
         long base=currentProgram.getImageBase().getOffset();
@@ -86,9 +88,10 @@ public class ExportBCSVHighPcode extends GhidraScript {
         DecompInterface dc=new DecompInterface();dc.toggleCCode(false);dc.toggleSyntaxTree(true);
         dc.setSimplificationStyle("decompile");
         if(!dc.openProgram(currentProgram))throw new IllegalStateException("cannot open decompiler");
-        int attempted=0,ok=0,failed=0;
+        int attempted=0,ok=0,failed=0,selectedIndex=0;
         try(BufferedWriter w=writer(out.resolve("high_pcode.ndjson"))){
             for(Function f:selected.values()){
+                if(selectedIndex++<start)continue;
                 if(attempted>=limit)break;monitor.checkCancelled();attempted++;
                 String entry=addr(f.getEntryPoint());
                 try{
@@ -115,9 +118,9 @@ public class ExportBCSVHighPcode extends GhidraScript {
                     }
                     line(w,"{\"entry\":"+entry+",\"status\":\"ok\",\"blocks\":"+blocks+",\"ops\":"+ops+"}");ok++;
                 }catch(Exception ex){failed++;line(w,"{\"entry\":"+entry+",\"status\":\"failed\",\"error\":"+q(ex.toString())+"}");}
-                if(attempted%25==0){w.flush();println("High P-code "+attempted+" / "+Math.min(limit,selected.size()));}
+                if(attempted%25==0){w.flush();println("High P-code "+attempted+" / "+Math.min(limit,Math.max(0,selected.size()-start)));}
             }
         }finally{dc.dispose();}
-        Files.writeString(out.resolve("summary.json"),"{\"function_count\":"+count+",\"seeds\":"+seeds+",\"resolved_seeds\":"+resolved+",\"unresolved_seeds\":"+unresolved+",\"selected_functions\":"+selected.size()+",\"attempted\":"+attempted+",\"ok\":"+ok+",\"failed\":"+failed+",\"image_base\":\"100000\"}\n",StandardCharsets.UTF_8);
+        Files.writeString(out.resolve("summary.json"),"{\"function_count\":"+count+",\"seeds\":"+seeds+",\"resolved_seeds\":"+resolved+",\"unresolved_seeds\":"+unresolved+",\"selected_functions\":"+selected.size()+",\"start_index\":"+start+",\"attempted\":"+attempted+",\"ok\":"+ok+",\"failed\":"+failed+",\"image_base\":\"100000\"}\n",StandardCharsets.UTF_8);
     }
 }

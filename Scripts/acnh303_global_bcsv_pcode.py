@@ -46,10 +46,10 @@ def merge(src,pc):
         site=int(x["site"],16);e=int(x["entry"],16) if x["entry"] is not None else None
         if e is not None:require(e in entries and any(int(a,16)<=site<=int(z,16) for a,z in entries[e]["ranges"]),"owner outside function body")
         owner_map[site]=e
-    pcode=list(rows(pc/"high_pcode.ndjson"));require(len(pcode)==summary["attempted"],"pcode count")
+    pcode_path=pc/"high_pcode.ndjson";require(sum(1 for _ in rows(pcode_path))==summary["attempted"],"pcode count")
     # P-code uses the original Ghidra address domain. No slot association by numeric proximity.
     chains=[];stats=collections.Counter()
-    for f in pcode:
+    for f in rows(pcode_path):
         if f["status"]!="ok":continue
         e=int(f["entry"],16);require(e in entries,"missing entry")
         ops=f["ops"];index={o["id"]:o for o in ops};require(len(index)==len(ops),"duplicate op")
@@ -72,7 +72,7 @@ def merge(src,pc):
         db.executemany("INSERT INTO ghidra_function_body VALUES(?,?,?,?)",[(e-SLIDE,b["name"],b["byte_count"],json.dumps(b)) for e,b in entries.items()])
         db.executemany("INSERT INTO ghidra_function_range VALUES(?,?,?)",[(e-SLIDE,a-SLIDE,z-SLIDE) for a,z,e in ranges])
         db.executemany("INSERT INTO native_cache_exact_owner VALUES(?,?,?,?)",exact)
-        db.executemany("INSERT INTO ghidra_high_pcode VALUES(?,?,?)",[(int(f["entry"],16)-SLIDE,f["status"],json.dumps(f)) for f in pcode])
+        db.executemany("INSERT INTO ghidra_high_pcode VALUES(?,?,?)",((int(f["entry"],16)-SLIDE,f["status"],json.dumps(f)) for f in rows(pcode_path)))
         require(db.execute("PRAGMA integrity_check").fetchone()[0]=="ok","SQLite integrity")
     result={**summary,"body_ranges":len(ranges),"exact_cache_read_records":len(exact),"exact_cache_reader_functions":len({x[2] for x in exact}),"pcode_stats":dict(stats),"ssa_predecessor_records":len(chains),"verified_gameplay_consumers":0}
     (pc/"pcode_evidence_summary.json").write_text(json.dumps(result,indent=2)+"\n")
