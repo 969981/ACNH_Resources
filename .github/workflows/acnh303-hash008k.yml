@@ -1,0 +1,40 @@
+name: ACNH303 HASH-008K mail reward and trade predicate research
+on:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_hash008k.py'
+      - '.github/workflows/acnh303-hash008k.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008k.py
+            /research/hash008j/mail_category_dictionary.json
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemAct.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemMailAttachCategoryGroup.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresent.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresentSp.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/RecipeCraftParam.bcsv
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - run: python Scripts/acnh303_hash008k.py --out artifacts/hash008k
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-HASH008K
+          path: artifacts/hash008k/
+          if-no-files-found: warn

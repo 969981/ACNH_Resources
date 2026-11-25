@@ -360,7 +360,7 @@
       "name_status": "unresolved",
       "semantic_alias": "MailboxActionType",
       "semantic_status": "data_relation",
-      "observation": "Five mailbox labels match CRC32 values, 77 default 629B9E5B.",
+      "observation": "5 mailbox action labels exact CRC; default 629B9E5B=CRC32('Unknown'), 77 records; native dispatch pending.",
       "native_functions_ghidra_va": [],
       "native_read_width": null,
       "native_slot": null
@@ -644,11 +644,12 @@
       "original_name": null,
       "original_signature": null,
       "name_status": "unresolved",
-      "semantic_alias": "RecipeThresholdCondition",
-      "semantic_status": "native_field_read",
-      "observation": "Nonzero required on computed float >1000 path.",
+      "semantic_alias": "TradeTicketAbove1000Condition",
+      "semantic_status": "native_behavior",
+      "observation": "FUN_026253E0 computes six-slot material prices or preset TradeTicketBasePrice; FUN_02626600 accepts valid price <=1000, requires this field for >1000. Caller business context pending.",
       "native_functions_ghidra_va": [
-        "02626600"
+        "02626600",
+        "026253E0"
       ],
       "native_read_width": 1,
       "native_slot": 25
