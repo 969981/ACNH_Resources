@@ -1,0 +1,62 @@
+name: ACNH ZS image mapping
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/image_mapping.py'
+      - '.github/workflows/acnh303-image-mapping.yml'
+permissions:
+  contents: write
+jobs:
+  mapping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/image_mapping.py
+            research/catalog/item.csv
+            research/catalog/item_locale.csv
+            research/catalog/variants/variant_slot.csv
+            research/image-catalog/item-icon-links.csv
+            research/image-catalog/variant-icon-links.csv
+            research/bcsv-data/named/NmlNpcParam.csv
+            research/bcsv-data/named/SpNpcParam.csv
+            docs/Sources/Images
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: |
+            assets/evidence/rom-items/batch-*.json
+            assets/evidence/rom-villager
+            assets/evidence/rom-other-layout/report.json
+            assets/evidence/rom-clothing-layout/reconciliation.json
+            assets/evidence/rom-softdrink/report.json
+            assets/evidence/rom-completeness/native-layout-batches
+            assets/evidence/rom-database/r82-villagers-source-enriched.csv
+          sparse-checkout-cone-mode: false
+      - run: python Scripts/image_mapping.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zs-image-mapping
+          path: |
+            research/image-mapping
+            docs/Sources/Images/Mapping
+      - name: Archive mappings without modifying ROM
+        run: |
+          set -euo pipefail
+          git add --sparse research/image-mapping docs/Sources/Images/Mapping
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qm 'research(images): archive historical ZS PNG mapping indexes'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/image_mapping.py research/catalog/item.csv research/catalog/item_locale.csv research/catalog/variants/variant_slot.csv research/image-catalog/item-icon-links.csv research/image-catalog/variant-icon-links.csv research/bcsv-data/named/NmlNpcParam.csv research/bcsv-data/named/SpNpcParam.csv e10617820db06889e1638499478da0de_NCA || { echo 'Input changed; refusing stale archive'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
