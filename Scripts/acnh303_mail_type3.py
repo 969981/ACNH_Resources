@@ -15,23 +15,33 @@ def type3_exclusion(pool,excluded):
 def run(root,out):
     elf,nso,mapped,segments,raw,tags,relocs=decode(root);segs=parse_elf(elf)
     b,n,w,c,v,st,width=bcsv(root,"ItemParam");require(n==11178 and gitblob(b)=="431bbd26a575197a1bd963c1721b093ae3e4df84","ItemParam identity")
-    maps=[];domains=[]
-    for name,field,base,cache,store,fn in DOMAINS:
-        entries=[];counts=collections.Counter(v(i,field,4) for i in range(n))
+    # Both field writers choose the same lookup pair based on BCSV header byte 0x0b.
+    # 01A72900/01A72AE0 use 01A87710 if nonzero; otherwise 01A87C30.
+    header_flag=b[11]
+    require(header_flag!=0,"current ItemParam uses alternate encoding; inspect before joining")
+    tables=[]
+    for base,fn in ((0x04A1BD10,0x01A87710),(0x04A1C110,0x01A87C30)):
+        entries=[]
         for i in range(47):
             a=base-S+i*8;r=relocs[a];require(r["symbol"]==0 and r["type"] in ("RELR",1027) and r["addend"] is not None,"native enum slot")
             t=r["addend"];buf=bytearray()
-            for j in range(100):
+            for j in range(128):
                 x=raw(t+j,1);require(x==get_bytes_va(elf,segs,t+j,1),"NSO/ELF string mismatch")
                 if x==b"\0":break
                 buf.extend(x)
             else:raise ValueError("unterminated native string")
-            crc=zlib.crc32(buf);entries.append({"index":i,"label":buf.decode("ascii"),"crc32":hx(crc),"item_count":counts[crc],"slot_ghidra":hx(a+S),"string_ghidra":hx(t+S)})
-        by={int(e["crc32"],16):e for e in entries}
-        require(len(by)==47 and set(by)==set(counts),"complete CRC join")
-        require(entries[18]["label"]=="LivingRoom","type3 ordinal18")
-        maps.append(by);domains.append({"name":name,"field":field,"table_ghidra":hx(base),"cache_ghidra":hx(cache),"store_ghidra":hx(store),"lookup":hx(fn),"itemparam_rows":sum(counts.values()),"entries":entries})
-    require([x["label"] for x in domains[0]["entries"]]==[x["label"] for x in domains[1]["entries"]],"domain order differs")
+            entries.append({"index":i,"label":buf.decode("utf8",errors="replace"),"raw_hex":buf.hex(),"crc32":hx(zlib.crc32(buf)),"slot_ghidra":hx(a+S),"string_ghidra":hx(t+S)})
+        tables.append({"base":hx(base),"lookup":hx(fn),"entries":entries})
+    primary=tables[0]["entries"]
+    require(primary[18]["label"]=="LivingRoom","type3 ordinal18")
+    primary_by={int(e["crc32"],16):e for e in primary};require(len(primary_by)==47,"primary CRC uniqueness")
+    maps=[];domains=[]
+    for name,field,base,cache,store,fn in DOMAINS:
+        counts=collections.Counter(v(i,field,4) for i in range(n))
+        require(set(primary_by)==set(counts),"complete CRC join")
+        entries=[dict(e,item_count=counts[int(e["crc32"],16)]) for e in primary]
+        maps.append(primary_by);domains.append({"name":name,"field":field,"table_ghidra":"04A1BD10","alternate_table_ghidra":"04A1C110","cache_ghidra":hx(cache),"store_ghidra":hx(store),"lookup":"01A87710","alternate_lookup":"01A87C30","itemparam_rows":sum(counts.values()),"header_flag_0b":header_flag,"entries":entries})
+    dump(out/"hha_situation_name_tables.json",tables)
     db=sqlite3.connect(out/"mail_rewards.sqlite");db.execute("pragma foreign_keys=on")
     db.executescript("""CREATE TABLE IF NOT EXISTS item_hha_situation(item_id INTEGER PRIMARY KEY REFERENCES item(item_id),situation1_index INTEGER,situation1_label TEXT,situation2_index INTEGER,situation2_label TEXT);
     CREATE TABLE IF NOT EXISTS type3_stage(config_id TEXT REFERENCES config(config_id),stage TEXT,item_id INTEGER REFERENCES item(item_id),PRIMARY KEY(config_id,stage,item_id));""")
@@ -63,7 +73,7 @@ def run(root,out):
     with (out/"item_hha_situation.csv").open("w",encoding="utf-8-sig",newline="") as f:
         cw=csv.writer(f);cw.writerow(["item_id","situation1_index","situation1_label","situation2_index","situation2_label"]);cw.writerows(records)
     dump(out/"type3_candidates.json",{"config_ids":[x[0] for x in configs],"situation_union":sorted(living),"raw_price_proxy":sorted(selected),"source_filter":sorted(retained),"can_gift_proxy":sorted(gift),"final_runtime_pool":None})
-    summary={"dictionary_slots":94,"distinct_labels":47,"joined_item_fields":2*n,"situation1_18":sum(x[1]==18 for x in records),"situation2_18":sum(x[3]==18 for x in records),"living_room_union":len(living),"raw_price_proxy":len(selected),"source_filter":len(retained),"can_gift_proxy":len(gift),"type3_configs":len(configs),"covered_configs":coverage,"remaining":remaining,"runtime_final_verified":0,"sqlite_integrity":"ok"}
-    dump(out/"type3_summary.json",summary);print("TYPE3_SUMMARY",json.dumps(summary));print("TYPE3_ENUM",json.dumps(domains));print("TYPE3_IDS",json.dumps(sorted(gift)))
+    summary={"dictionary_slots":94,"distinct_primary_labels":47,"header_flag_0b":header_flag,"joined_item_fields":2*n,"situation1_18":sum(x[1]==18 for x in records),"situation2_18":sum(x[3]==18 for x in records),"living_room_union":len(living),"raw_price_proxy":len(selected),"source_filter":len(retained),"can_gift_proxy":len(gift),"type3_configs":len(configs),"covered_configs":coverage,"remaining":remaining,"runtime_final_verified":0,"sqlite_integrity":"ok"}
+    dump(out/"type3_summary.json",summary);print("TYPE3_SUMMARY",json.dumps(summary));print("TYPE3_ENUM",json.dumps(domains));print("TYPE3_ALT",json.dumps(tables[1],ensure_ascii=False));print("TYPE3_IDS",json.dumps(sorted(gift)))
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--out",type=Path,required=True);a=p.parse_args();run(a.root.resolve(),a.out.resolve())
