@@ -44,3 +44,14 @@ SELECT config_id,name FROM dependency ORDER BY config_id,name;
 - 价格条件、原始静态匹配与真正游戏最终候选集分离。不得以空 proxy 推断原版固定 fallback。
 
 本轮为可复现研究数据库，不更改原版资源、现有订单或机器人派送逻辑。PR #127 保持 Draft。
+
+## Q2 实际验收结果
+
+CI 45626813012 / job 139249076497 / commit 427da1374c9aba4869961098aeab1a1581f4aac4：PASS。完整 artifact 15028569976，SHA256 773d4d78890f56b10686d1216760744f8a8dbf538e79fad99315eedc268508f0。实际下载后复核 ZIP CRC、SQLite integrity_check 与 foreign_key_check。
+
+- 144 配置，11,178 道具，261,658 条五阶段成员关系，34 场景，130 项有静态候选，含显式场景后 134 项有候选；10 项仍无已建模候选（N035、N058..N060、S000、S014..S018）。144 项最终运行时候选数和奖励 ID 仍为 NULL。
+- 原版槽 04A395F0 -> 01B943A8、04A39618 -> 01B945E4：读取 79 项邮件分类缓存 05327268/05327270 的位图成员判断。
+- 04A395C8 -> 01B94004：相同邮件类别域的等值判断，Type2 selector 36..41 -> MailCategory 43..48，不是 ItemFrom。四配置的 24 场景均生成 1 或 3 个候选。
+- 049FF948 -> 01A49DB8 -> 01B032D0：读取 ItemKind 的 06012035 = CRC32("CanGift u8")，并包含改造状态与其他特殊类别前置拒绝条件。can_gift_proxy 是新增独立静态阶段；本批已建模的 64,713 成员全部通过 CanGift，仍不代表完整原生谓词。
+- 049FF628 -> 01A4775C 仍待闭合；Type3 动态增补、Type7 月份映射、Type9 上下文增补尚未恢复。context_pool 仅为显式上下文输入适配器，不是完整原版上下文解释器；缺失输入拒绝执行。季节、村民、状态、有效价格、改造的真实输入仍未完成。
+- verified_summary.json 固定真实 CI 统计及 144 项配置/34 场景计数。完整 SQLite/CSV/JSON 在 CI artifact；Git 内保留可复现生成器及统计证据，不提交 26 MB 二进制。PR #127 保持 Draft。
