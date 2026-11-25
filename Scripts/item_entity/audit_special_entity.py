@@ -21,7 +21,7 @@ def run(root,historical,out):
         return struct.unpack("<Q",raw(va,8))[0]
     source={}
     tables={}
-    for name in ("ItemParam","ItemKind","FgMainParam","FgFlowerHeredity","RecipeCraftParam"):
+    for name in ("ItemParam","ItemKind","FgMainParam","FgFlowerHeredity","RecipeCraftParam","NmlNpcParam"):
         p=root/ROM/(name+".bcsv");tables[name]=BCSV.read(p);source[name]=hashlib.sha256(p.read_bytes()).hexdigest()
     p,k,fg,h,r=(tables[n] for n in ("ItemParam","ItemKind","FgMainParam","FgFlowerHeredity","RecipeCraftParam"))
     require((p.count,k.count,fg.count,h.count,r.count)==(11178,189,540,270,924),"source baseline")
@@ -60,13 +60,32 @@ def run(root,historical,out):
             if name=="limits":limits=list(b)
             else:masks=list(struct.unpack("<35I",b))
         except (ValueError,struct.error) as e:pointer_evidence[name]={"status":"unmapped_or_unresolved","reason":str(e)}
+    producer_rows=[];prefixes=[];producer_status="unresolved_prefix_table"
+    try:
+        base=pointer(0x04bb9e38)
+        for i in range(35):
+            target=pointer(base+0xb0+i*8+0x100000)
+            prefixes.append(raw(target,4).split(b"\0")[0].decode("ascii"))
+        require(len(set(prefixes))==35 and all(len(x)==3 for x in prefixes),"native prefix domain")
+        npc=tables["NmlNpcParam"];require(npc.count==417,"villager baseline")
+        limits=[0]*35;masks=[0]*35;seen=set()
+        for i in range(npc.count):
+            label=npc.string(i,0x2f1b930d);require(len(label)==5 and label[3:].isdigit() and label[:3] in prefixes,"villager label domain "+label)
+            cat=prefixes.index(label[:3]);group=int(label[3:]);require(group<32 and (cat,group) not in seen,"villager index collision")
+            seen.add((cat,group));limits[cat]=max(limits[cat],group);masks[cat]|=1<<group
+            producer_rows.append(dict(category=cat,group=group,prefix=label[:3],label=label,npc_id=npc.uint(i,0x54706054),source_row=i,status="native_producer_static_reconstruction"))
+        require(len(seen)==417,"villager producer coverage")
+        producer_status="static_reconstruction_020FDD30"
+    except (ValueError,UnicodeError,struct.error) as e:
+        producer_status="unresolved: "+str(e);producer_rows=[]
+        limits=masks=None
     if limits is not None and masks is not None:
         for cat in range(35):
             for group in range(256):
                 if group<=limits[cat] and masks[cat]&(1<<(group&31)):
                     e=bottle_entity(0x16a1,0,0,15,cat,group,limits,masks)
                     require(bottle_view(e)["category_index"]==cat and bottle_view(e)["group_index"]==group,"bottle roundtrip")
-                    domain.append(dict(category=cat,group=group,limit=limits[cat],mask=f"{masks[cat]:08X}",status="static_mapped_table_candidate",runtime_verified=0))
+                    domain.append(dict(category=cat,group=group,limit=limits[cat],mask=f"{masks[cat]:08X}",status=producer_status,runtime_verified=0))
     # independent mask differential, all 16-bit high halfwords and six transfer types
     for high in range(65536):
         w=(high<<16)|0x1234
@@ -81,7 +100,9 @@ def run(root,historical,out):
     out.mkdir(parents=True,exist_ok=True)
     write(out/"money.csv",money);write(out/"plant_identity.csv",fields)
     if domain:write(out/"bottle_domain.csv",domain)
-    report=dict(money_rows=len(money),money_stack_maxes=dict(collections.Counter(str(x["stack_max_raw"]) for x in money)),plant_rows=len(fields),plant_status=dict(counts),plant_terminal_gene_candidates=sum(x["terminal_default_gene_candidate"] is not None for x in fields),bottle_domain_rows=len(domain),bottle_pointer_evidence=pointer_evidence,container_mask_cases=65536*6,quantity_cases=65536,complete_native_defaults=0,runtime_verified=0,source_sha256=source,nso_sha256=hashlib.sha256(nso).hexdigest())
+    if producer_rows:write(out/"bottle_npc_mapping.csv",producer_rows)
+    if producer_rows:require(len(domain)==417,"rebuilt domain count")
+    report=dict(money_rows=len(money),money_stack_maxes=dict(collections.Counter(str(x["stack_max_raw"]) for x in money)),plant_rows=len(fields),plant_status=dict(counts),plant_terminal_gene_candidates=sum(x["terminal_default_gene_candidate"] is not None for x in fields),bottle_domain_rows=len(domain),bottle_pointer_evidence=pointer_evidence,bottle_producer_status=producer_status,bottle_prefixes=prefixes,bottle_npc_rows=len(producer_rows),container_mask_cases=65536*6,quantity_cases=65536,complete_native_defaults=0,runtime_verified=0,source_sha256=source,nso_sha256=hashlib.sha256(nso).hexdigest())
     (out/"summary.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n");print(json.dumps(report,ensure_ascii=False))
 if __name__=="__main__":
     a=argparse.ArgumentParser();a.add_argument("--root",type=Path,default=Path("."));a.add_argument("--historical",type=Path,required=True);a.add_argument("--out",type=Path,default=Path("out/special-entity"));v=a.parse_args();run(v.root,v.historical,v.out)
