@@ -1,0 +1,38 @@
+name: ACNH303 global BCSV field dictionary
+on:
+  pull_request:
+    paths:
+      - 'Scripts/acnh303_global_bcsv_dictionary.py'
+      - 'Scripts/test_acnh303_global_bcsv_dictionary.py'
+      - 'derived/3.0.3/global_bcsv_dictionary/**'
+      - '.github/workflows/acnh303-global-bcsv-dictionary.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          sparse-checkout: |
+            Scripts
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+            UnPack/1/Bcsv
+            assets/evidence/rom-database/r82-npc-bcsv-field-dictionary.csv
+            assets/evidence/rom-database/r74-original-item-npc-stack-schema.json
+            assets/evidence/rom-database/r84/r84-field-hash-dictionary.csv
+            derived/3.0.3/npc_event_flags/semantics/field_semantics.json
+            derived/3.0.3/global_bcsv_dictionary
+          sparse-checkout-cone-mode: false
+      - name: Unit tests and full original audit
+        run: |
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_dictionary.py -v
+          python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global-bcsv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNH303-global-bcsv-dictionary
+          path: artifacts/global-bcsv/
+          if-no-files-found: error
