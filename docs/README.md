@@ -15,6 +15,8 @@ updated: 2026-11-25
 | --- | --- | --- |
 | 原版资源与 BCSV | [BCSV 数据索引](Sources/BCSV-Index.md) | 基础来源已建立 |
 | 商品与物品 | [物品分类](Items/Item-Classification.md) | NHSE 源码已确认，全量待验收 |
+| 商品与物品 | [原版 UI 家具分类](Items/Native-UI-Furniture-Category.md) | 256 条定义已读取 |
+| 网站 | [网页商品分类规划](Items/Web-Catalog-Taxonomy.md) | v0.1 待确认 |
 | 家具 | [家具空间属性](Furniture/Furniture-Spatial.md) | 研究中 |
 | 家具 | [原版尺寸定义](Furniture/Item-Size.md) | 28 条原始定义已读取 |
 | 家具 | [摆放与承载规则](Furniture/Placement-and-Stacking.md) | 历史枚举已定位 |

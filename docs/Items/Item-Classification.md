@@ -30,3 +30,7 @@ PokerCore 的 BuildDictionary 按文本读取分类，并将 Kind_ 分类中的 
 [NHSE GameBCSVDumper](https://github.com/kwsch/NHSE/blob/cb0745415945776f73375bf0a434a8babf059307/NHSE.Parsing/GameBCSVDumper.cs) · [PokerCore Utilities](https://github.com/969981/ACNHPokerCore/blob/85e50a1ad182c926b2ebd51c00abc612e0a859d5/ACNHPokerCore/Utilities/Utilities.cs#L442-L464) · [全量分类审计工具](https://github.com/969981/ACNH_Resources/blob/e6ca08582c8aff198f53073c44a9f54d88ea6bc0/research/item-classification/audit_native_kind.py)。
 
 全量逐 ID 对账及 STR_CategoryName 的 14 语言关联待验收。网站家具用途分类候选来源需原始字段和样本证明，不能直接将历史版本字段视为 3.0.3 证据。
+
+## 网页导航研究
+
+[原版 UI 家具分类定义](Native-UI-Furniture-Category.md) · [网页商品分类规划](Web-Catalog-Taxonomy.md)。原版定义表已读取 256 条，逐物品关联待验收。
