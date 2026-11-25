@@ -63,3 +63,7 @@ updated: 2026-11-25
 
 [补充关联](../Sources/Images/Mapping/Residual.md) [CI #45627289031](https://github.com/969981/ACNH_Resources/actions/runs/45627289031) 成功：3,242/3,625 个道具缺口、4,039/4,049 个改造缺口存在历史 PNG 候选。候选不是运行时选图；仍无成品 PNG 383/10。NPC 共享身份、造型及通用头像独立处理。
 第三轮 [CI #45627442407](https://github.com/969981/ACNH_Resources/actions/runs/45627442407) 已生成并归档，新增 330 道具及 10 款式的模型候选、6 张 NPC 的共享资源候选；仍待 53 项道具精确模型、383/10 成品 PNG 及运行时选择机制。
+
+### 特殊道具资源选择与改造图标
+
+[原生资源选择审计](../Sources/Images/Native-Resource-Selection.md) [CI #45630122439](https://github.com/969981/ACNH_Resources/actions/runs/45630122439) 成功：53 个剩余特殊物品全部有菜单图标原始源，17 个独立源实读 BRTI；共享 RemakeID 不能作为 PNG 共用依据（3,824 个同款对照 SHA 集合不相交）；10 个缺失成品图标的 12 个模型源实读 25 个 BRTI。待研究 UI 选择消费者、菜单 PNG 解码、FMDL/FMAT 实际材质及相机、光照与渲染验证。无新成品 PNG。
