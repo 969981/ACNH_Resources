@@ -1,0 +1,56 @@
+name: ACNH BCSV dual CSV views
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/bcsv/export_views.py','Scripts/bcsv/test_export_views.py','.github/workflows/acnh303-bcsv-views.yml','research/bcsv-hash/results/field-name-evidence.json']
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            research/bcsv-catalog
+            research/bcsv-hash/results
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p 'test_*.py'
+      - run: uv run --script Scripts/bcsv/export_views.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-bcsv-dual-csv
+          path: out/bcsv-views
+  publish:
+    needs: export
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: |
+            docs/Sources/BCSV
+            research/bcsv-data
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-bcsv-dual-csv
+          path: /tmp/bcsv-views
+      - name: Publish verified CSV and Markdown
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p research/bcsv-data docs/Sources/BCSV/Generated
+          cp -r /tmp/bcsv-views/data/. research/bcsv-data/
+          cp /tmp/bcsv-views/docs/*.md docs/Sources/BCSV/Generated/
+          git add research/bcsv-data docs/Sources/BCSV/Generated
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data(bcsv): publish raw and named CSV views and enriched table docs"
+          git push origin HEAD:research
