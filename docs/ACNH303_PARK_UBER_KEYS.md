@@ -1,5 +1,7 @@
 # ACNH 3.0.3 Park_UBER shader keys and material-pass candidates
 
+返回 [知识库首页](README.md) · [专题索引](Furniture/Furniture-Spatial.md) · [研究路线](Research/Research-Roadmap.md)。
+
 ## Source and verification
 Current research branch (base 3.0.3), draft PR #126. Original source Shader/Park_UBER_All.Nin_NX_NVN.szs Git blob b290dd85bf7ca23bc5b969a79e520048f5bde1af; FSHA SHA256 912fea96a6671db31f2cee83d72e8754af1851247c5f3742f21b715b174b1049. Uses prior verified helper scripts from retained commit b17b413c7344b85f46beb620f636ac98d6e988ba. Layout hints: KillzXGaming/ShaderLibrary BfshaLoader.cs blob faf5f6ea6d748bfbf79a007f67853500506de95f, Structs.cs blob 9a9aeb10d8f425a96c8097bcc8acefc2df0e356c, ShaderOptionSearcher.cs blob f00c14a6b7bf041447a47b4130bfd581f2c325c9; BfresLibrary 65c005275deed1e085069e72fea523247f955b87 ModelParser.cs/ShapeParser.cs. Original bytes and bounds checks are the evidence.
 
