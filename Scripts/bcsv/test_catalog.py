@@ -55,3 +55,11 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(path.read_text(encoding="utf-8"), content)
             with self.assertRaises(ValueError):
                 enrich_tables(docs, global_text, [])
+
+    def test_profile_samples(self):
+        from table_profiles import sample_value
+        self.assertEqual(sample_value(bytes.fromhex("ffff"), "X s16"), "-1")
+        self.assertEqual(sample_value(bytes.fromhex("01000000"), "X.hshCstringRef"), "0x00000001")
+        self.assertEqual(sample_value(bytes.fromhex("0101"), "X u8"), "raw:0101")
+        self.assertEqual(sample_value(bytes.fromhex("41000000"), "X string4"), '"A"')
+        self.assertEqual(sample_value(bytes.fromhex("0000807f"), "X f32"), "raw:0000807f")

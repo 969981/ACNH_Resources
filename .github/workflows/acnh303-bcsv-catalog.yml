@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [research]
-    paths: ['Scripts/bcsv/catalog.py','Scripts/bcsv/test_catalog.py','Scripts/bcsv/field_hash_docs.py','Scripts/bcsv/field_hash_zh.json','docs/Sources/BCSV/Field-Names.md','research/hash008h/residual_fields.json','.github/workflows/acnh303-bcsv-catalog.yml']
+    paths: ['Scripts/bcsv/catalog.py','Scripts/bcsv/test_catalog.py','Scripts/bcsv/field_hash_docs.py','Scripts/bcsv/field_hash_zh.json','Scripts/bcsv/table_profiles.py','Scripts/bcsv/table_zh.json','research/bcsv-data/decoded/enum-values.csv','docs/Sources/BCSV/Field-Names.md','research/hash008h/residual_fields.json','.github/workflows/acnh303-bcsv-catalog.yml']
 permissions:
   contents: read
 jobs:
@@ -16,6 +16,7 @@ jobs:
             Scripts/bcsv
             docs/Sources/BCSV/Field-Names.md
             research/hash008h/residual_fields.json
+            research/bcsv-data/decoded/enum-values.csv
             e10617820db06889e1638499478da0de_NCA/1/Bcsv
       - uses: astral-sh/setup-uv@v6
       - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/bcsv -p 'test_*.py'

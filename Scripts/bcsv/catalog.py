@@ -121,6 +121,8 @@ def run(root,out,verify_git=False):
     if root.resolve() == ROM.resolve():
         from field_hash_docs import update
         update(out/"docs/Field-Hashes.md")
+        from table_profiles import generate
+        generate(out, inventory, tables, relations)
     summary={"files":len(paths),"parsed":len(tables),"unsupported":len(paths)-len(tables),
              "rows":sum(b.count for b in tables.values()),"field_occurrences":sum(map(len,dictionary.values())),
              "unique_field_hashes":len(dictionary),"reference_candidates":len(relations)}
