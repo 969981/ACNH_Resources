@@ -95,3 +95,5 @@ BNTX 内可能使用 GPU 压缩或未压缩像素格式。具体 BC/ASTC/RGBA �
 CI #45613881319 成功：61,646 个图片相关候选文件；FtrIcon 25,794、ClosetIcon 5,480；11 个样本容器实读成功。并不表示全量 PNG 已解码。新增图片关系数据库及实际纹理元数据，验收见 [catalog CI](https://github.com/969981/ACNH_Resources/actions/runs/45621610195)。
 
 - [特殊道具原生资源选择、共享改造图标与模型渲染输入](Native-Resource-Selection.md)：53 项菜单资源闭合、共享 RemakeID 图标反例、10 个模型渲染输入。
+
+- [图片素材管理与上游项目对照](Asset-Management.md)
