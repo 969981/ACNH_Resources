@@ -44,7 +44,7 @@ class Bin:
         if not raw or any(v<0x20 or v>0x7e for v in raw):return None
         return raw.decode("ascii")
 
-def audit(buf,tag):
+def audit(buf,tag,*,max_variations=1024):
     b=Bin(buf);size=b.n;warnings=[]
     expected=b.u32(0x1c)
     if expected!=size:fail(f"file size header disagrees {expected} != {size}")
@@ -145,7 +145,7 @@ def audit(buf,tag):
              "variation_array_pointer_raw":vg_ptr,
              "binary_pool_pointer_raw":pool,
              "link_status":"unresolved"}
-        if vg_count<=1024 and b.ok(vg_ptr,vg_count*0x40) and vg_ptr>0:
+        if vg_count<=max_variations and b.ok(vg_ptr,vg_count*0x40) and vg_ptr>0:
             rec["link_status"]="array_in_bounds"
             for i in range(vg_count):
                 v=vg_ptr+i*0x40
