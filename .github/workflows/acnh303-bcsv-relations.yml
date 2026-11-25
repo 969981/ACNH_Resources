@@ -1,0 +1,27 @@
+name: ACNH BCSV relation and residual audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/bcsv/relation_audit.py'
+      - '.github/workflows/acnh303-bcsv-relations.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            docs/Sources/BCSV/Generated/Field-Hashes.md
+            research/bcsv-catalog
+            research/hash008h/residual_fields.json
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+      - run: python3 Scripts/bcsv/relation_audit.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-bcsv-relations
+          path: out/bcsv-relations
