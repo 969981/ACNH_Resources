@@ -4,6 +4,8 @@ on:
     branches: [research]
     paths:
       - 'Scripts/acnh303_hash008n_mail_handlers.py'
+      - 'Scripts/acnh303_hash008o_mail_predicates.py'
+      - 'Scripts/acnh303_item_init_core.py'
       - '.github/workflows/acnh303-hash008n-mail.yml'
   workflow_dispatch:
 permissions:
@@ -22,6 +24,8 @@ jobs:
           sparse-checkout: |
             /Scripts/acnh303_hash008e.py
             /Scripts/acnh303_hash008n_mail_handlers.py
+            /Scripts/acnh303_hash008o_mail_predicates.py
+            /Scripts/acnh303_item_init_core.py
             /e10617820db06889e1638499478da0de_NCA/0/main
             /e10617820db06889e1638499478da0de_NCA/0/main.elf
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
@@ -29,6 +33,8 @@ jobs:
       - run: python -m pip install capstone==5.0.3 lz4==4.3.3
       - run: python -m py_compile Scripts/acnh303_hash008n_mail_handlers.py
       - run: python Scripts/acnh303_hash008n_mail_handlers.py --out artifacts/hash008n-mail
+      - run: python Scripts/acnh303_item_init_core.py
+      - run: python Scripts/acnh303_hash008o_mail_predicates.py --out artifacts/hash008n-mail
       - uses: actions/upload-artifact@v4
         if: always()
         with:
