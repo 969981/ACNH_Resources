@@ -10,6 +10,12 @@ version: "3.0.3"
 
 本专题从游戏原始 ZS、历史 BNTX/BRTI 与 PNG 导出证据出发，连接当前 BCSV ItemID、RemakeID、NPC ResName 和已有关联的简中名称。保留所有不同图标族与候选，绝不将文件名相同视为同一图像或运行时选择已验证。
 
+## 全量映射入口（375 份明细文档）
+
+[进入全量映射总目录](Mapping/README.md) · [原始 ZS → PNG](Mapping/Source.md) · [道具](Mapping/Item.md) · [改造组合](Mapping/Variant.md) · [本体/布料材质](Mapping/Material.md) · [村民图片](Mapping/NPC.md) · [NPC 名册](Mapping/NPC-Roster.md)。
+
+[机器可读 CSV/JSON](https://github.com/969981/ACNH_Resources/tree/research/research/image-mapping) · [实际成功构建及归档 #45626758180](https://github.com/969981/ACNH_Resources/actions/runs/45626758180)。共 34,127 个历史源图关联记录、32,638 个独立原始源、7,553 个有历史 PNG 的 ItemID、13,135 个有历史 PNG 的静态改造组合、1,934 个村民图，其中 1,905 个关联到唯一 NPC 身份。2 个非空 ResName 重复组，4 张图片歧义保留；不自动匹配。原始 Model tree 与历史一致；本轮没有重新解码。
+
 ## 映射规则
 
 | 类型 | 原始文件（Model/ 下，统一追加 .Nin_NX_NVN.zs） | BRTI / PNG 名称 |
