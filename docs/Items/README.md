@@ -14,3 +14,7 @@ tags: [acnh, items, moc]
 相关专题：[BCSV](../Sources/BCSV/README.md) · [MSBT](../Sources/Message/README.md) · [家具空间](../Furniture/Furniture-Spatial.md) · [原生证据](../Research/Native-Research.md)。
 
 [商品数据库 CI #45571966606](https://github.com/969981/ACNH_Resources/actions/runs/45571966606) · [款式 CI #45574390450](https://github.com/969981/ACNH_Resources/actions/runs/45574390450)：工作流成功；不代表所有运行时规则已验证。
+
+## 物品实体
+
+[ItemEntityCodec — 8 字节实体与机器人兼容](Item-Entity-Codec.md)
