@@ -22,3 +22,6 @@ python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global
 
 ## HASH-008A 外部词典与独立搜索
 固定 HeavenTool commit 74e0f967f6305c4aa55b1e1726c0445e45593c36 的 6 份源文件 Git blob，CI 下载并重新哈希，不复制整套上游语料。只对首轮 248 个无历史签名的哈希搜索；区分外部 typed signature、无类型/值标签碰撞、已知类型提示及本地 ELF ASCII/编号词族 CRC32 候选。ELF 原始 SHA256 固定。未证明原始列头；候选保留全部碰撞和跨表出现位置。修复 HASH-006 split_signature 返回 tuple 的单测失败。候选列表和剩余队列归档为 CI artifact。
+
+## HASH-008A 实测与 HASH-008B
+Run 45558216971 / artifact 14996348802：220/248 哈希命中 HeavenTool headers.txt，197 个常规签名类型及宽度候选，23 个 stringMurmurHash 签名此前未被类型正则识别；剩余 28 个无候选。47,010 原版 ELF 标识符、10,329 编号词族、1,676,276 独立签名查询，未新增超出外部字典的命中。由真实日志抽取 220 条签名并重新计算 CRC32，保存 hash008a_ci_candidates.json。HASH-008B 补充 stringMurmurHash (4-byte candidate) 并增加按所属表词根组合的搜索，候选不升级原名；实际剩余队列在 CI 日志逐项输出。

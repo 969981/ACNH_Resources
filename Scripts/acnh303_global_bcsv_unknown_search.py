@@ -3,9 +3,9 @@
 import argparse, collections, hashlib, json, re, urllib.request, urllib.parse, zlib
 from pathlib import Path
 from acnh303_global_bcsv_dictionary import DATA, read, blob, require, split_signature, width
-TYPES=("u8","s8","u16","s16","u32","s32","f32","u64","s64","f64","string4","string8","string16","string20","string25","string30","string32","string33","string40","string48","string50","string60","string64","string65","string66","string128")
+TYPES=("u8","s8","u16","s16","u32","s32","f32","u64","s64","f64","string4","string8","string16","string20","string25","string30","string32","string33","string40","string48","string50","string60","string64","string65","string66","string128","stringMurmurHash")
 ID=re.compile(r"[A-Za-z_][A-Za-z0-9_]{1,95}\Z")
-SIG=re.compile(r"[A-Za-z_][A-Za-z0-9_]*(?: (?:[usf]\d+|string\d+)|\.hshCstringRef)\Z")
+SIG=re.compile(r"[A-Za-z_][A-Za-z0-9_]*(?: (?:[usf]\d+|string\d+|stringMurmurHash)|\.hshCstringRef)\Z")
 def crc(s):
     return f"{zlib.crc32(s.encode('utf-8')):08X}"
 def external(root,cache):
@@ -89,13 +89,54 @@ def run(root,dictionary,out,cache):
                 if sig in seen:continue
                 seen.add(sig);h=crc(sig)
                 if h in target:add(sig,h,source,"independent_crc_candidate")
+    # Table-specific recombination, only on targets not reached by the external
+    # and broad search. These are spelling hypotheses, not semantic evidence.
+    initial_missing=target-set(hits)
+    local_tested=set()
+    def tokens(n):
+        n=re.sub(r"([A-Z]+)([A-Z][a-z])",r"\1 \2",n)
+        n=re.sub(r"([a-z0-9])([A-Z])",r"\1 \2",n)
+        return [x for x in re.split(r"[^A-Za-z0-9]+",n) if x]
+    table_words=collections.defaultdict(set)
+    for f in fields:
+        table_words[f["table"]].add(f["table"])
+        for c in f["candidates"]:
+            n,_=split_signature(c["signature"])
+            if ID.fullmatch(n):table_words[f["table"]].add(n)
+    for h,cs in hits.items():
+        for c in cs.values():
+            if c["type"]:
+                for f in by_hash[h]:table_words[f["table"]].add(c["name"])
+    for h in sorted(initial_missing):
+        fs=by_hash[h]
+        vocab=set().union(*(table_words[f["table"]] for f in fs))
+        parts=set()
+        for n in vocab:
+            ts=tokens(n)
+            for i in range(len(ts)):
+                for j in range(i+1,min(i+3,len(ts))+1):
+                    parts.add("".join(ts[i:j]))
+        parts|={"Is","Can","Has","Use","Enable","Disable","Flag","Type","ID","Id","Num","Count","Max","Min","Rate","Time","Timing","Default","Hotel","Room","Cloud","Island","Player","Npc","Item","Unlock","Sort","Index","Name","Hash","Param","Value","Kind","Mode","Limit","Condition","Stage","Action","Label"}
+        maxspan=max(f["width_hint"] for f in fs)
+        suffixes=[""]+[(" "+t) for t in TYPES if width(t) is not None and width(t)<=maxspan]
+        if maxspan>=4:suffixes.append(".hshCstringRef")
+        for x in sorted(parts):
+            for y in sorted(parts):
+                n=x+y
+                if len(n)>96:continue
+                for suffix in suffixes:
+                    s=n+suffix
+                    # Same signature may be useful for several targets; hash once.
+                    if s in seen or s in local_tested:continue
+                    local_tested.add(s);v=crc(s)
+                    if v in initial_missing:add(s,v,"table_specific_token_pairs","independent_crc_candidate")
     def row(h):
         candidates=sorted(hits.get(h,{}).values(),key=lambda x:x["signature"])
         return {"hash":h,"occurrences":[{k:f[k] for k in ("table","ordinal","offset","width_hint","status")} for f in by_hash[h]],"external_type_hint":types.get(h),"candidates":candidates,"original_name_verified":False}
     result=[row(h) for h in sorted(target)]
     own={h for h,cs in hits.items() if any(any(s["grade"]=="independent_crc_candidate" for s in x["sources"]) and x["compatible_occurrences"] for x in cs.values())}
     typed={h for h,cs in hits.items() if any(x["type"] and x["compatible_occurrences"] for x in cs.values())}
-    summary={"baseline_target_hashes":len(target),"external_any_match":len(external_any),"external_typed_width_compatible":len(external_typed),"external_type_hints":len(types),"elf_identifier_count":len(elf_names),"generated_numbered_names":len(generated),"independent_signatures_tested":len(seen),"independent_candidate_hashes":len(own),"independent_new_beyond_external_any":len(own-external_any),"any_candidate_hashes":len(hits),"typed_width_compatible_candidate_hashes":len(typed),"still_no_candidate":len(target-set(hits)),"multiple_candidate_hashes":sum(len(cs)>1 for cs in hits.values()),"source_stats":source_stats,"original_name_verified":0}
+    summary={"baseline_target_hashes":len(target),"external_any_match":len(external_any),"external_typed_width_compatible":len(external_typed),"external_type_hints":len(types),"elf_identifier_count":len(elf_names),"generated_numbered_names":len(generated),"independent_signatures_tested":len(seen),"table_specific_signatures_tested":len(local_tested),"new_table_specific_hits":len(initial_missing & set(hits)),"independent_candidate_hashes":len(own),"independent_new_beyond_external_any":len(own-external_any),"any_candidate_hashes":len(hits),"typed_width_compatible_candidate_hashes":len(typed),"still_no_candidate":len(target-set(hits)),"multiple_candidate_hashes":sum(len(cs)>1 for cs in hits.values()),"source_stats":source_stats,"original_name_verified":0}
     out.mkdir(parents=True,exist_ok=True)
     for n,obj in [("unknown_hash_candidates",result),("unknown_hash_summary",summary),("unknown_hash_no_candidate",[x for x in result if not x["candidates"]])]:
         (out/(n+".json")).write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -104,6 +145,8 @@ def run(root,dictionary,out,cache):
     for x in result:
         if x["candidates"]:
             print(x["hash"],",".join(sorted({f["table"] for f in x["occurrences"]})),json.dumps([c["signature"] for c in x["candidates"]],ensure_ascii=False))
+        else:
+            print("UNRESOLVED",x["hash"],",".join(sorted({f["table"] for f in x["occurrences"]})),json.dumps(x["occurrences"],ensure_ascii=False))
     return summary
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--dictionary",type=Path,required=True);p.add_argument("--out",type=Path,required=True);p.add_argument("--cache",type=Path,required=True)

@@ -41,7 +41,7 @@ def split_signature(sig):
     return name, typ if sep else None
 
 def width(typ):
-    if typ=="hshCstringRef": return 4
+    if typ in ("hshCstringRef","stringMurmurHash"): return 4
     m=re.fullmatch(r"[usf](8|16|32|64)",typ or "")
     if m: return int(m[1])//8
     m=re.fullmatch(r"string(\d+)",typ or "")
