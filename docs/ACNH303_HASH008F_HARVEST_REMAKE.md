@@ -1,5 +1,7 @@
 # HASH-008F 感恩节家具默认款式研究
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 HASH-008E CI [45567828764](https://github.com/969981/ACNH_Resources/actions/runs/45567828764) PASS, artifact 15000956028. Actual original ItemParam / RecipeCraftParam 11178/924 rows, 8 exact joined model names. PlayerState cache ELF 0x5390074; three hypothesized slots each 0 read/9 write records under bounded scan (not proof of no readers). Previous raw_kind was incorrectly exported as integer of 32-byte field span; use string interpretation in this round.
 
 Original ItemRemake git blob 59a38b7951ee59b33e1d6c70752c93d382887445 directly parsed from 1306 rows:
