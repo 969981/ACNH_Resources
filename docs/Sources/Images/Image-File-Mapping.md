@@ -61,3 +61,7 @@ version: "3.0.3"
 [映射生成器](https://github.com/969981/ACNH_Resources/blob/research/Scripts/image_mapping.py) · [实际运行](https://github.com/969981/ACNH_Resources/actions/runs/45626594837)。
 
 详细历史流程：[道具提取](Item-Extraction.md) · [村民提取](Villager-Extraction.md) · [BNTX 字典](BNTX-BRTI.md)。
+
+## 剩余关联第二轮
+
+[补充关联 CI #45627289031](https://github.com/969981/ACNH_Resources/actions/runs/45627289031) 使用 ItemParam.Label、ResName、默认款式、ItemRemake 代表物品、NPC 原版海报/照片道具 ID 和保留造型后缀的候选关联；不覆盖第一轮直接匹配，不替换不同颜色的图像。未找到原版图标的记录不得标记为已导出。通用头像不归属某个具体 NPC，重复 ResName 使用多身份候选。
