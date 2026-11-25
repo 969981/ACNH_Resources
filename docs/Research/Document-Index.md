@@ -107,3 +107,5 @@
 - [剩余道具、款式及 NPC 图片补充关联（生成明细）](../Sources/Images/Mapping/Residual.md)
 
 - [特殊道具原生资源选择、共享改造图标与模型渲染输入](../Sources/Images/Native-Resource-Selection.md)
+
+- [ImagePackCompatibilityAudit 全量图片对账](../Sources/Images/Image-Pack-Compatibility-Audit.md)
