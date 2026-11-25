@@ -44,13 +44,14 @@ def main():
     missing=[r for r in read(res/"item-final-model-candidates.csv") if r["status"]=="unresolved"]
     assert len(missing)==53 and all(not raw[r["item_id"]]["ResName"] for r in missing)
     # Compare all table rows to infer representation, keeping CRC and ID matches separate.
-    assert "ItemMenuIcon" in next(iter(raw.values()))
+    field="ItemMenu" if "ItemMenu" in next(iter(raw.values())) else "hash_348D7B06"
+    assert crc("ItemMenu.hshCstringRef")==0x348d7b06 and field in next(iter(raw.values()))
     domain=collections.Counter()
     for r in raw.values():
-        v=int(r["ItemMenuIcon"]);domain["crc_unique"]+=len(menu_crc[v])==1;domain["id_unique"]+=len(menu_id[v])==1
+        v=int(r[field]);domain["crc_unique"]+=len(menu_crc[v])==1;domain["id_unique"]+=len(menu_id[v])==1
     special=[];stat=collections.Counter()
     for r in missing:
-        i=r["item_id"];it=raw[i];k=kinds[r["kind"]];v=int(it["ItemMenuIcon"])
+        i=r["item_id"];it=raw[i];k=kinds[r["kind"]];v=int(it[field])
         ms=menu_crc[v];ids=menu_id[v]
         opts=[]
         for rule,rr in (("exact_Label_CRC32",ms),("UniqueID_candidate",ids)):
@@ -119,7 +120,7 @@ def main():
         plan.append(dict(item_id=i,body_index=b,fabric_index=f,base=base,body=body if body in paths else "",fabric=fabric if fabric in paths else "",capture_preset=items[i]["capture_preset"],render_status="not_rendered",camera_verified=0,shader_verified=0))
     assert len(plan)==10
     write("render-plan.csv",plan)
-    summary=dict(special_items=53,special_empty_resname=53,menu_reference_domain=dict(domain),special_menu_paths=dict(stat),kind_field_hash_90bc0855=matches,shared_remake_groups=len(shared),shared_remake_items=sum(map(len,shared.values())),representative_slot_comparisons=len(pair),comparison=dict(cmp),render_model_sources=len(samples),render_texture_descriptors=len(texture),render_cases=len(plan),actual_rendered_pngs=0,runtime_verified=False)
+    summary=dict(special_items=53,special_empty_resname=53,menu_field=field,menu_reference_domain=dict(domain),special_menu_paths=dict(stat),kind_field_hash_90bc0855=matches,shared_remake_groups=len(shared),shared_remake_items=sum(map(len,shared.values())),representative_slot_comparisons=len(pair),comparison=dict(cmp),render_model_sources=len(samples),render_texture_descriptors=len(texture),render_cases=len(plan),actual_rendered_pngs=0,runtime_verified=False)
     (O/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n")
     lines=["# 特殊道具原生资源选择、共享改造图标与模型渲染输入","","返回 [图片专题](README.md) · [图片映射](Image-File-Mapping.md) · [改造款式](../../Items/Native-Variants.md) · [知识库首页](../../README.md)。","","## 原生消费证据","","FUN_01adf970：读取 ItemParam hash 48EF0398 (ResName)，只有 FUN_01ae59b0 返回真且字符串空时使用 TemplateDummyFurniture1x1；不能对所有空 ResName 自动使用占位模型。FUN_01ae59b0 查类别索引缓存及 90BC0855，并受 wrapper+10 bit5 影响，不能简化为无条件 CanFtr。","","FUN_01afe3e0 / 01afeef4 生成本体/布料名；0152dba0 预加载，01530c60 查实际资源并经 01664b40 更新材质纹理绑定。照片有单独的 FtrBromideFrame/Wall 分支。该路径证明模型材质选择，不证明 UI 图标选择。","","## 53 个特殊物品","","| ItemID | 名称 | Kind | 菜单图标引用 | 菜单 ZS | 证据 |","| --- | --- | --- | --- | --- | --- |"]
     lines+=["| "+" | ".join([r["item_id"],esc(r["name_CNzh"]),r["kind"],str(r["menu_icon_raw"]),link(r["menu_source_path"]),r["menu_rule"]])+" |" for r in special]
