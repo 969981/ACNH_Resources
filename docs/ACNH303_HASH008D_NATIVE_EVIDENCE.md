@@ -1,5 +1,7 @@
 # HASH-008D — 28 residual BCSV hashes: bounded CRC search and native cache evidence
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 Source evidence: archived commit `acabc03099dff264184465c7fd9c3b298dd1fcda`, Ghidra 12.2 decompiler exports under `derived/3.0.3/ghidra12.2/c/`. The active research branch is now `research`; no deleted branch is recreated.
 
 ## Executed searches
