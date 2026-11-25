@@ -24,3 +24,7 @@ status: partial
 | rotation / indoor_outdoor / max_support_depth | 待研究 |
 
 矩形尺寸不能直接等同碰撞体或桌面可摆放区域。地毯与落地家具、桌面与上层物品可在水平投影上重叠；实际限制须按原版规则验证。
+
+## 原生证据入口
+
+[原生空间研究](../ACNH303_FURNITURE_SPACE.md) · [放置运行时](../ACNH303_FURNITURE_PLACEMENT_RUNTIME.md) · [占用与高度](../ACNH303_SPACE_OCCUPANCY_HEIGHT.md) · [Park/Uber 键](../ACNH303_PARK_UBER_KEYS.md) · [改造款式](../Items/Native-Variants.md) · [原生研究总索引](../Research/Native-Research.md)。
