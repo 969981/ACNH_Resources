@@ -4,9 +4,8 @@
 Static consumer evidence only. Never identify PNGs as native renders, assume
 all Cartesian products selectable, or use catalog variant ordinal as a word.
 """
-import argparse, collections, csv, hashlib, json, re, subprocess
+import argparse, collections, csv, hashlib, json, re, struct, subprocess
 from pathlib import Path
-from acnh303_r105_gift_db import BCSV
 NCA="e10617820db06889e1638499478da0de_NCA"
 PREFIX=NCA+"/1/Model/"
 EXT=".Nin_NX_NVN.zs"
@@ -22,11 +21,30 @@ ANCHORS={
  "4b/01664b40":['FUN_038fe510','lVar9 + 0x88','lVar9 + 0x90','plVar3[10]','plVar3[0xf]'],
  "f0/01aff000":['FUN_01afee38','0x5aebbfb5'],
  "72/01ad7260":['-0x34a14cc1','-0x4fcfb4f3'],
- "cf/01afcfa0":['FUN_'] # count hash is verified separately in R107.
+ "cf/01afcfa0":['0xcb402a3','-0x34a14cc1','iVar4 < 8']
 }
 def require(ok,msg):
     if not ok:raise ValueError(msg)
 def sha(b):return hashlib.sha256(b).hexdigest()
+class BCSV:
+    # Same header/column checks as R105, independent of its native scanner dependencies.
+    def __init__(self,root,name):
+        self.path=root/NCA/"1/Bcsv"/(name+".bcsv");self.b=self.path.read_bytes()
+        self.n,self.stride=struct.unpack_from("<II",self.b)
+        nc=struct.unpack_from("<H",self.b,8)[0];start=28 if self.b[10] else 12
+        self.start=start+nc*8
+        self.cols={f"{h:08X}":p for h,p in struct.iter_unpack("<II",self.b[start:self.start])}
+        meta=json.loads((root/"UnPack/1/Bcsv"/(name+".json")).read_text("utf-8"))
+        require(len(self.cols)==nc and self.start+self.n*self.stride==len(self.b),"BCSV extent")
+        require((self.n,self.stride)==(meta["row_count"],meta["row_size"]) and self.cols=={x["crc32"]:x["offset"] for x in meta["columns"]},"BCSV metadata mismatch")
+        self.width={x["crc32"]:x["width_hint"] for x in meta["columns"]}
+    def raw(self,i,h,w=None):
+        w=self.width[h] if w is None else w
+        require(0<=i<self.n and self.cols[h]+w<=self.stride,"BCSV field bounds")
+        p=self.start+i*self.stride+self.cols[h];return self.b[p:p+w]
+    def val(self,i,h,signed=False,w=None):return int.from_bytes(self.raw(i,h,w),"little",signed=signed)
+    def string(self,i,h):return self.raw(i,h).split(b"\0",1)[0].decode("utf-8",errors="replace")
+    def source(self):return {"file":self.path.name,"sha256":sha(self.b),"rows":self.n,"stride":self.stride}
 def text(t,i,h,w):
     return t.raw(i,h,w).split(b'\0',1)[0].decode('utf-8',errors='strict')
 def count(raw):
