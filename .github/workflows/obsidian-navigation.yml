@@ -1,0 +1,86 @@
+name: Obsidian navigation audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/obsidian-navigation.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            docs
+            research/bcsv-catalog
+            research/bcsv-data
+            research/bcsv-relations
+            research/hash008h
+            .github/workflows
+      - name: Audit navigation graph and tracked relative targets
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import collections, json, posixpath, re, subprocess
+          from pathlib import Path
+          from urllib.parse import unquote
+          tracked=set(subprocess.check_output(['git','ls-files','-z']).decode().split('\0'))
+          docs={p for p in tracked if p.startswith('docs/') and p.endswith('.md')}
+          stems=collections.defaultdict(list)
+          for p in docs: stems[Path(p).stem].append(p)
+          graph={p:set() for p in docs}
+          broken=[]; unresolved_wiki=[]; external=0
+          for p in sorted(docs):
+              text=Path(p).read_text(encoding='utf-8-sig')
+              text=re.sub(r'(?ms)^ *```.*?^ *```[^\n]*','',text)
+              for m in re.finditer(r'\[[^\]\n]+\]\(([^)\n]+)\)',text):
+                  raw=m.group(1).strip().strip('<>')
+                  if re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:',raw): external+=1; continue
+                  name=unquote(raw.split('#',1)[0])
+                  if not name: continue
+                  target=posixpath.normpath(posixpath.join(posixpath.dirname(p),name))
+                  if target in docs: graph[p].add(target)
+                  elif target not in tracked and not any(t.startswith(target.rstrip('/')+'/') for t in tracked):
+                      broken.append([p,raw,target])
+              for m in re.finditer(r'\[\[([^\]\n]+)\]\]',text):
+                  name=m.group(1).split('|',1)[0].split('#',1)[0]
+                  if not name: continue
+                  relative=posixpath.normpath(posixpath.join(posixpath.dirname(p),name.removesuffix('.md')+'.md'))
+                  if relative in docs: graph[p].add(relative); continue
+                  candidates=stems[Path(name).stem]
+                  if len(candidates)==1: graph[p].add(candidates[0])
+                  else: unresolved_wiki.append([p,name])
+          def reach(root,g):
+              seen=set(); queue=[root]
+              while queue:
+                  n=queue.pop()
+                  if n in seen: continue
+                  seen.add(n); queue.extend(g[n]-seen)
+              return seen
+          root='docs/README.md'
+          reachable=reach(root,graph)
+          reverse={p:set() for p in docs}
+          for a,targets in graph.items():
+              for b in targets: reverse[b].add(a)
+          returns=reach(root,reverse)
+          orphan=sorted(docs-reachable); no_return=sorted(docs-returns)
+          report=dict(documents=len(docs),reachable=len(reachable),can_return_home=len(returns),
+                      unreachable=orphan,no_return_path=no_return,broken_relative_links=broken,
+                      unresolved_wikilinks=unresolved_wiki,external_links_not_checked=external,
+                      anchor_fragments_not_checked=True)
+          Path('obsidian-audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(report,ensure_ascii=False))
+          assert not orphan, 'Unreachable documentation'
+          assert not no_return, 'Missing return path to homepage'
+          assert not broken, 'Broken relative links'
+          assert not unresolved_wiki, 'Unresolved wikilinks'
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: obsidian-navigation-audit
+          path: obsidian-audit.json
