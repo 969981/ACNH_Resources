@@ -35,7 +35,13 @@ def descriptors(b):
     widths={a:b-a for a,b in zip(offsets,offsets[1:])}
     return rows,size,[{"ordinal":i,"hash":f"{h:08X}","offset":o,"width_hint":widths[o]} for i,(h,o) in enumerate(entries)]
 
+def split_signature(sig):
+    if sig.endswith(".hshCstringRef"): return sig.rsplit(".",1)
+    name, sep, typ = sig.partition(" ")
+    return name, typ if sep else None
+
 def width(typ):
+    if typ=="hshCstringRef": return 4
     m=re.fullmatch(r"[usf](8|16|32|64)",typ or "")
     if m: return int(m[1])//8
     m=re.fullmatch(r"string(\d+)",typ or "")
@@ -64,8 +70,7 @@ def run(root,out):
         h=key(h)
         require(crc(sig)==h,"historical CRC mismatch "+sig)
         hist_count[src]+=1
-        name,sep,typ=sig.partition(" ")
-        if not sep: typ=None
+        name,typ=split_signature(sig)
         entry=hist[h].setdefault(sig,{"signature":sig,"name":name,"type":typ,"sources":[]})
         entry["sources"].append({"source":src,"record":record})
     corpus=read(root/DATA/"r100_corpus.json")

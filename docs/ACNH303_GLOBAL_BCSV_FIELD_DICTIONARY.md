@@ -14,3 +14,8 @@
 python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_dictionary.py -v
 python Scripts/acnh303_global_bcsv_dictionary.py --root . --out artifacts/global-bcsv
 ```
+
+## 首次实际 CI 基线（2026-11-25）
+[Run 45557662193](https://github.com/969981/ACNH_Resources/actions/runs/45557662193) / [artifact 14996566115](https://github.com/969981/ACNH_Resources/actions/runs/45557662193/artifacts/14996566115)；234 表，58,349 行，2,898 字段出现，2,075 去重 hash，1,827 历史匹配（88.05%），248 未匹配。71 scoped_crc、2,538 historical_candidate、7 semantic_only、282 unresolved。5 个测试通过。此前 hshCstringRef 未单独识别类型，零 width mismatch 不代表该类已经验收。
+## HASH-006 全库类型候选与原值剖面
+识别 name.hshCstringRef（候选 u32 存储宽度），与常规 name + type 签名区分；遍历原始字段全部记录，保存 signed/unsigned 数值范围、float finite/nonfinite、字符串 UTF-8/NUL 统计、原始值频次。宽度为候选，数据分布不能单独证明类型；无 NUL 的定长字符串不必然无效。独立导出 type_profiles、type_summary 和 unresolved_types，SQLite 扩展 field_type_profile。未确认类型及语义保持未知。HASH-007–009 和原版明文、实机验证独立推进。
