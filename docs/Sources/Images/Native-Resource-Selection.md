@@ -75,10 +75,29 @@ FUN_01afe3e0 / 01afeef4 生成本体/布料名；0152dba0 预加载，01530c60 �
 | direct_icon_missing | 3824 |
 | same_original_path | 4 |
 
+按每个物品自己的 Label 或 ResName、同一 body/fabric 索引重新对账（不使用代表物品回退）：
+
+| 状态 | 数量 |
+| --- | ---: |
+| distinct_png_sha_sets | 3824 |
+| same_original_path_set | 4 |
+
 以下为真实原版路径不同且历史 PNG SHA 集合不相交的反例。哈希差异不单独证明视觉差异，但足以拒绝字节等价假设。
 
 | ItemID | 代表物品 | 款式 | 自身 ZS | 代表 ZS |
 | --- | --- | --- | --- | --- |
+| 370 | 6426 | 0/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_0_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_0_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_0_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_0_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 1/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_1_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_1_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_1_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_1_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 2/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_2_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_2_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_2_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_2_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 3/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_3_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_3_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_3_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_3_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 4/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_4_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_4_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_4_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_4_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 5/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_5_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_5_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_5_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_5_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 6/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_6_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_6_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_6_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_6_0.Nin_NX_NVN.zs) |
+| 370 | 6426 | 7/0 | [Layout_FtrIcon_BromideNpcSpAlp_Remake_7_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlp_Remake_7_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_7_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_7_0.Nin_NX_NVN.zs) |
+| 371 | 6426 | 0/0 | [Layout_FtrIcon_BromideNpcSpAlw_Remake_0_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlw_Remake_0_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_0_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_0_0.Nin_NX_NVN.zs) |
+| 371 | 6426 | 1/0 | [Layout_FtrIcon_BromideNpcSpAlw_Remake_1_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlw_Remake_1_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_1_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_1_0.Nin_NX_NVN.zs) |
+| 371 | 6426 | 2/0 | [Layout_FtrIcon_BromideNpcSpAlw_Remake_2_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlw_Remake_2_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_2_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_2_0.Nin_NX_NVN.zs) |
+| 371 | 6426 | 3/0 | [Layout_FtrIcon_BromideNpcSpAlw_Remake_3_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcSpAlw_Remake_3_0.Nin_NX_NVN.zs) | [Layout_FtrIcon_BromideNpcNmlAnt00_Remake_3_0.Nin_NX_NVN.zs](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/e10617820db06889e1638499478da0de_NCA/1/Model/Layout_FtrIcon_BromideNpcNmlAnt00_Remake_3_0.Nin_NX_NVN.zs) |
 
 ## 10 个模型渲染试验输入
 
@@ -126,6 +145,12 @@ FUN_01afe3e0 / 01afeef4 生成本体/布料名；0152dba0 预加载，01530c60 �
     "direct_icon_missing": 3824,
     "same_original_path": 4
   },
+  "own_label_comparison": {
+    "distinct_png_sha_sets": 3824,
+    "same_original_path_set": 4
+  },
+  "menu_unique_sources": 17,
+  "menu_texture_descriptors": 17,
   "render_model_sources": 12,
   "render_texture_descriptors": 25,
   "render_cases": 10,
