@@ -1,4 +1,6 @@
 # ACNH 3.0.3 — native furniture placement arithmetic
+
+返回 [知识库首页](README.md) · [专题索引](Furniture/Furniture-Spatial.md) · [研究路线](Research/Research-Roadmap.md)。
 ## Actual validation
 Draft PR #126, research branch, no merge. CI 45569318860 job 139051761948 success, artifact 15001960447. Original NSO SHA256 68c7fbeda353f8e4a283eac6a9b99e713e72a327048214bf6a4e7214616b87c1. Original ARM64 code mapped into Unicorn 2.1.4 with native relative relocations; controlled dependency stubs for valid item, ID, placement type, dimensions, axis mode and size enum; synthetic singleton/table for bounds. No game runtime, physics engine or full object graph emulation. Support function receives footprint stub independently checked by native bounds replay.
 - 01AFB7FC: 28 sizes ×4 directions ×2 axis modes =224 successful original instruction replays. Normal mode swaps dimensions for odd directions; axisMode=1 retains dimensions. Inclusive rectangle [0,0,w-1,h-1] in half-cell units.
