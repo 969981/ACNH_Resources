@@ -12,6 +12,7 @@ version: "3.0.3"
 ## 专题导航
 
 - [BNTX/BRTI 格式及像素编码字典](BNTX-BRTI.md)
+- [商品图标、改造及 ItemID 关联](Icon-Mapping.md)
 - [全量源文件分类及抽样纹理](Source-Catalog.md)
 - [原始清点验收 #45613881319](https://github.com/969981/ACNH_Resources/actions/runs/45613881319)
 
