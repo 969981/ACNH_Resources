@@ -62,3 +62,4 @@ updated: 2026-11-25
 ### 图片缺口补充关联
 
 [补充关联](../Sources/Images/Mapping/Residual.md) [CI #45627289031](https://github.com/969981/ACNH_Resources/actions/runs/45627289031) 成功：3,242/3,625 个道具缺口、4,039/4,049 个改造缺口存在历史 PNG 候选。候选不是运行时选图；仍无成品 PNG 383/10。NPC 共享身份、造型及通用头像独立处理。
+第三轮 [CI #45627442407](https://github.com/969981/ACNH_Resources/actions/runs/45627442407) 已生成并归档，新增 330 道具及 10 款式的模型候选、6 张 NPC 的共享资源候选；仍待 53 项道具精确模型、383/10 成品 PNG 及运行时选择机制。
