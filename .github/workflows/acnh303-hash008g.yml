@@ -1,0 +1,33 @@
+name: ACNH303 HASH-008G native default remake writers
+on:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_hash008g.py'
+      - '.github/workflows/acnh303-hash008g.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008g.py
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - run: python Scripts/acnh303_hash008g.py --out artifacts/hash008g
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-HASH008G
+          path: artifacts/hash008g/
+          if-no-files-found: warn
