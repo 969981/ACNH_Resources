@@ -62,3 +62,7 @@ asset-pack/3.0.3/r1/
 ## 下一步
 
 P0：MenuIcon 全量解码和 ItemMenu 引用字典；严格自身 Label/ResName 选图；统一资产 schema 与 manifest。P1：打包与增量更新工具、独立图包、SQLite 验收、兼容导出。P2：Web 缩略图/CDN、桌面读取器与模型派生渲染。当前仅完成研究和方案，不宣称图包已构建或测试。
+
+## 实际图包对照
+
+[ImagePackCompatibilityAudit](Image-Pack-Compatibility-Audit.md) 已建立，固定 ImgPack9 与历史原版 PNG，区分字节相同、RGBA 相同、像素差异、尺寸差异及缺口。实际结果以 CI 为准。
