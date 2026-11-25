@@ -41,3 +41,6 @@ HASH-007B CI 45559272839 PASS: 1242 lifecycle windows、6771 global refs、136 f
 
 ## HASH-007B.7 全 ELF 缓存反向索引
 HASH-007B.3–5 CI 45559675173 PASS：380793 原始 NSO relocation，373225 已解析指针，225/234 cache 候选，2511 slot 候选，143 unanimous、2 conflict、2366 unmapped；390 FindField call /46 targets；Ghidra 01d38ff0 指针重定位到 ELF flag 0x526b900、cache 0x526b904、32 slots（表归属未证实）。新扫描遍历整个 executable segment，以 cache range 与原生 relocation alias 页预筛选 ADR/ADRP，逐条输出读/写/地址形成/重定位指针/indexed-base 记录；Ghidra C Git tree 的最近 entry 仅作为 owner 候选，不能代替函数体或 CFG；查找同一 owner bucket 内未观察到已知 hash materialization 的 read-side 候选。仅在 helper 唯一 cache base 和表/slot 均一致时增加 FindField 参数投票，冲突不覆盖。SQLite 反向索引含多个表归属；不能证明所有读者，尚不支持跨块 reaching definition、任意 literal pointer、所有 indexed loads 或间接调用。无 hash materialization 仅表示当前检测模式未观察到。待新 CI。
+
+## HASH-007L Ghidra exact function body / High P-code
+复用原项目：59,997 functions，59,971 C ok，26 failures；现有 byte_count 不等于连续函数区间。新增只读 Ghidra 12.2 Java 导出全部 Function Body address ranges、getFunctionContaining(seed) 真正归属、High P-code SSA def ID、输入输出 varnode、basic-block successors。工作流恢复经 manifest SHA 验证的原项目，优先 28 unknown hash/materialization、focus table cache reads、lifecycle、FindField，首批 400 个去重函数（可扩展），逐失败记账；Python 验证 range byte count 和 owner containment，SQLite 独立 body/range/owner/pcode 表。并未自动证明 P-code consumer 或字段语义；跨块指针解析与 slot-to-field reaching definitions 尚需实现。新 job 依赖原始审计 artifact，待 CI。

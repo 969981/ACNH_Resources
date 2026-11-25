@@ -12,6 +12,8 @@ on:
       - 'Scripts/acnh303_global_bcsv_lifecycle.py'
       - 'Scripts/acnh303_global_bcsv_cache.py'
       - 'Scripts/acnh303_global_bcsv_cache_xrefs.py'
+      - 'Scripts/acnh303_global_bcsv_pcode.py'
+      - 'tools/ghidra/ExportBCSVHighPcode.java'
       - 'Scripts/test_acnh303_global_bcsv_native_reader.py'
       - 'derived/3.0.3/global_bcsv_dictionary/**'
       - '.github/workflows/acnh303-global-bcsv-dictionary.yml'
@@ -59,3 +61,64 @@ jobs:
           name: ACNH303-global-bcsv-dictionary
           path: artifacts/global-bcsv/
           if-no-files-found: error
+
+  ghidra-pcode:
+    needs: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GHIDRA_URL: https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip
+      GHIDRA_SHA256: 2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /tools/ghidra/
+            /derived/3.0.3/ghidra12.2/project/
+      - uses: actions/download-artifact@v4
+        with:
+          name: ACNH303-global-bcsv-dictionary
+          path: artifacts/global-bcsv
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: actions/cache@v4
+        id: ghidra-cache
+        with:
+          path: ${{ runner.temp }}/ghidra_12.2_PUBLIC
+          key: ghidra-12.2-20261016-sha256-2c2cd776-v1
+      - name: Restore pinned Ghidra and authenticated project
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -x "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" ]; then
+            curl --fail --location --retry 4 -o "$RUNNER_TEMP/ghidra_12.2.zip" "$GHIDRA_URL"
+            echo "$GHIDRA_SHA256  $RUNNER_TEMP/ghidra_12.2.zip" | sha256sum --check
+            unzip -q "$RUNNER_TEMP/ghidra_12.2.zip" -d "$RUNNER_TEMP"
+          fi
+          mkdir -p "$RUNNER_TEMP/acnh-project" artifacts/pcode
+          python tools/ghidra/acnh_ghidra_pack.py join derived/3.0.3/ghidra12.2/project/ghidra_project.tar.manifest.json "$RUNNER_TEMP/ghidra_project.tar"
+          tar -xf "$RUNNER_TEMP/ghidra_project.tar" -C "$RUNNER_TEMP/acnh-project"
+          rm "$RUNNER_TEMP/ghidra_project.tar"
+      - name: Export all function ranges and priority High P-code
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Scripts/acnh303_global_bcsv_pcode.py seed --dictionary artifacts/global-bcsv --pcode artifacts/pcode/seeds.tsv
+          "$RUNNER_TEMP/ghidra_12.2_PUBLIC/support/analyzeHeadless" "$RUNNER_TEMP/acnh-project" ACNH303 -process main.elf -noanalysis -readOnly -max-cpu 2 -scriptPath "$PWD/tools/ghidra" -postScript ExportBCSVHighPcode.java "$PWD/artifacts/pcode" "$PWD/artifacts/pcode/seeds.tsv" 400 25 -log "$PWD/artifacts/pcode/ghidra.log" -scriptlog "$PWD/artifacts/pcode/script.log"
+          test -s artifacts/pcode/summary.json
+          cat artifacts/pcode/summary.json
+          python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/global-bcsv --pcode artifacts/pcode
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-native-high-pcode
+          path: |
+            artifacts/pcode/
+            artifacts/global-bcsv/dictionary.sqlite3
+          if-no-files-found: warn
