@@ -48,14 +48,19 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
-          for p in Scripts/message/audit_label_rules.py research/bcsv-data/decoded e10617820db06889e1638499478da0de_NCA/1/Message research/message-label-rules; do
-            test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "HEAD:$p")" || { echo "Changed input or destination: $p"; exit 1; }
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags --depth=1 origin research
+            for p in Scripts/message/audit_label_rules.py research/bcsv-data/decoded e10617820db06889e1638499478da0de_NCA/1/Message research/message-label-rules; do
+              test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "FETCH_HEAD:$p")" || { echo "Changed input or destination: $p"; exit 1; }
+            done
+            git reset --hard FETCH_HEAD
+            mkdir -p research/message-label-rules
+            cp /tmp/rules/* research/message-label-rules/
+            git add research/message-label-rules
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data(message): archive native label rule coverage and candidate bindings"
+            if git push origin HEAD:research; then exit 0; fi
           done
-          mkdir -p research/message-label-rules
-          cp /tmp/rules/* research/message-label-rules/
-          git add research/message-label-rules
-          if git diff --cached --quiet; then exit 0; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data(message): archive native label rule coverage and candidate bindings"
-          git push origin HEAD:research
+          exit 1
