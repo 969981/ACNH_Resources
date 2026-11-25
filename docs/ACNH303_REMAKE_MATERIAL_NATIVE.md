@@ -17,3 +17,9 @@ python -m pip install lz4==4.4.4 capstone==5.0.6
 python Scripts/acnh303_remake_material_native.py --root . --out artifacts/remake-material-native
 ```
 No changes to acnh-web or robot payloads.
+
+## Stage 2 actual original NSO acceptance
+CI 45557112152, job 139011723936 SUCCESS. Original relative pointer table names in order: mReBody, mReFabric, mTops, mTopsFront, mTopsBack, mTopsLeft, mTopsRight, mBottoms, mSocks, mBody, mSoftmesh, mSub. Eight specified direct-call edges verified, including 01530DD0→01AFE3E0, 01530F4C→01AFEEF4, 01530E58→01664B40, 01664CB0→038FE510. This is authenticated original machine-code evidence; not a runtime rendering test.
+
+## Stage 3 Babybed FMAT source binding
+New Scripts/acnh303_remake_fmat_bindings.py, original 16 source SHA256 checked against babybed_bntx_native.json, all BRTI names re-read, FMAT v9 names +0x30, sampler array +0x40, dictionary +0x48, ShaderAssign +0x20. Reference BfresLibrary pinned 65c005275deed1e085069e72fea523247f955b87 MaterialParser.cs/SamplerSwitch.cs/ShaderAssign.cs/ResDict.cs. v9 reader and writer disagree on texture/sampler count byte order; require equal counts and dictionary count for current scope, explicitly reject unequal cases. Preserve raw 32-byte sampler settings, dictionary keys, shader sampler assignment pairs, unknown external textures. 2x2 replay and all 56 combinations use exact source texture name matching, retain base source on miss, record unresolved, verify changed source sets isolated to intended material. Container SHA is not per-texture pixel hash. First actual CI 45557828400 failed at ShaderAssign: +0x28 is runtime texture pointer rather than shader assignment; fixed +0x20 in 7dfa4ace806cd5ff790ec15161c912a05a875818. Revalidation pending. No generalization to 1306 definitions until actual sample passes and unequal-count cases handled. No GPU execution, pixel identity, runtime sampler slot claims.
