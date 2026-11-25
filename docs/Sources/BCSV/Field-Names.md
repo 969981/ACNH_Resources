@@ -1,5 +1,7 @@
 # 全量 BCSV 字段名称候选
 
+返回 [知识库首页](../../README.md) · [BCSV 专题](README.md) · [全量字段字典](Generated/Field-Hashes.md)。
+
 名称 CRC 匹配不等于业务语义或原始明文确认。NSO 名称 token 不等于字段消费者。
 
 | Hash | 候选签名 | 表数 | 残余语义证据 |
