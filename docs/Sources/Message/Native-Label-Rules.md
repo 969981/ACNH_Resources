@@ -27,3 +27,7 @@
 `uv run --script Scripts/message/audit_label_rules.py --historical historical`。固定14个原版语言归档 SHA256 与 decoded CSV manifest；输出 label-profile.csv、label-samples.csv、reverse-labels.csv、bindings.csv、summary.json。保留未匹配，不修改 Catalog 生产数据或机器人协议。实际覆盖待 CI。
 
 [脚本](https://github.com/969981/ACNH_Resources/blob/research/Scripts/message/audit_label_rules.py) · [工作流](https://github.com/969981/ACNH_Resources/actions/workflows/acnh303-msbt-label-rules.yml) · [数据目录](https://github.com/969981/ACNH_Resources/tree/research/research/message-label-rules)。
+
+## 本体款式数量原生证据
+
+[FUN_01ad7260](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/derived/3.0.3/ghidra12.2/c/72/01ad7260.c) 实际读取 ItemParam.RemakeID CB5EB33F（s16）并查找 ItemRemake，随后读取 ReBodyPatternNum B0304B0D（s8），正常有效记录分支在原值 <8 时返回 raw+1，否则0。-1→0，0→1，7→8；异常分支另有0或1回退。ReFabricPatternNum 0CB402A3 尚未证明使用相同规则。FUN_0277d6c4 原始 ItemID 在 byte+3 低2位为0时直接返回；特殊状态走其他ID转换，不能无条件使用代表物品ID。当前审计仍检查全部存储槽，只统计文本存在，不发布有效款式数量。
