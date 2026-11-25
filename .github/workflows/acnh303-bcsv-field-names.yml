@@ -1,0 +1,62 @@
+name: ACNH BCSV field name reconciliation
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/bcsv/recover_names.py','research/bcsv-hash/sources/**','.github/workflows/acnh303-bcsv-field-names.yml']
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/bcsv
+            research/bcsv-hash
+            research/hash008h
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+            e10617820db06889e1638499478da0de_NCA/0/main
+      - uses: actions/checkout@v4
+        with:
+          repository: kwsch/NHSE
+          ref: cb0745415945776f73375bf0a434a8babf059307
+          path: upstream-nhse
+          sparse-checkout: NHSE.Parsing/Resources/specs_130.txt
+          sparse-checkout-cone-mode: false
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --script Scripts/bcsv/recover_names.py --nhse upstream-nhse/NHSE.Parsing/Resources/specs_130.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-field-name-evidence
+          path: out/bcsv-hash
+  publish:
+    needs: recover
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: |
+            docs/Sources/BCSV
+            research/bcsv-hash
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-field-name-evidence
+          path: /tmp/hash-result
+      - run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p research/bcsv-hash/results
+          cp /tmp/hash-result/*.json research/bcsv-hash/results/
+          cp /tmp/hash-result/Field-Names.md docs/Sources/BCSV/Field-Names.md
+          git add research/bcsv-hash/results docs/Sources/BCSV/Field-Names.md
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs: publish reconciled BCSV field name evidence"
+          git push origin HEAD:research
