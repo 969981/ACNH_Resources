@@ -22,3 +22,16 @@ class CatalogTests(unittest.TestCase):
             out=Path(tmp)/"out";s=run(root,out)
             self.assertEqual((s["files"],s["parsed"],s["unsupported"],s["unique_field_hashes"]),(2,1,1,1))
             self.assertTrue((out/"docs/README.md").exists())
+
+    def test_field_hash_docs(self):
+        import json
+        from field_hash_docs import render, GLOSSARY
+        g = json.loads(GLOSSARY.read_text(encoding="utf-8"))
+        h = f"{crc32('ItemUniqueID u16'):08X}"
+        s = f"| hash_{h} | 1 | 2 | 未知 |\n"
+        n = f"| {h} | ItemUniqueID u16 | 1 | — |\n"
+        result = render(s, n, [], g)
+        self.assertIn("道具唯一ID", result)
+        self.assertEqual(render(result, n, [], g), result)
+        with self.assertRaises(ValueError):
+            render(s, n.replace("ItemUniqueID", "Invalid"), [], g)

@@ -118,6 +118,9 @@ def run(root,out,verify_git=False):
     write_json(out/"field-hashes.json",dictionary)
     write_json(out/"reference-candidates.json",relations)
     generate_docs(out,inventory,dictionary,relations)
+    if root.resolve() == ROM.resolve():
+        from field_hash_docs import update
+        update(out/"docs/Field-Hashes.md")
     summary={"files":len(paths),"parsed":len(tables),"unsupported":len(paths)-len(tables),
              "rows":sum(b.count for b in tables.values()),"field_occurrences":sum(map(len,dictionary.values())),
              "unique_field_hashes":len(dictionary),"reference_candidates":len(relations)}
