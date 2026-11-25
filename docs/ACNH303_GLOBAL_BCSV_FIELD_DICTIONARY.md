@@ -35,3 +35,6 @@ HASH-009A CI 45558581090 PASS：271 字典、6231 标签、285 位标签、220 �
 
 ## HASH-007B 原生 Reader 生命周期与缓存证据
 HASH-007A CI 45558944032 PASS：16,522,108 ARM64 words；228/234 文件名 Getter 和候选 VTable；393 VTable 候选；1980/2075 hash 物化、6074 位点；24/28 unknown、50 位点。社区 AnnotateBCSV 实际源码固定 commit 109450b2a46618c9b1698695f15b55464a2052e2，bcsv.py blob 78828e9b7e4bfce185d452a7b26f6bfc3a2033e0，bcsv_core.py blob 9384b5c867a4c3513a77f28ac8ce6a810aacb4b7。社区算法使用 High P-code 识别 init flag、-1 offset cache，partial caches 按哈希与实际读槽投票；FindField(row,w1 slot,w2 hash) 有 CMP W1 + CSEL HI 特征。独立 Capstone 5.0.3 扫描四个 lifecycle 方法窗口、局部全局地址引用、邻近调用和重点字段机器码；保留边界不确定性、局部寄存器追踪不等于 CFG。输出 SQLite lifecycle/FindField 候选；不提升缓存槽及消费者为已确认。尚未解析重定位 GOT、SIMD/memset 完整初始化、动态运行证据。后续需用 Ghidra High P-code 和机器码交叉验证。
+
+## HASH-007B.3–5 cache 地址及槽投票
+HASH-007B CI 45559272839 PASS: 1242 lifecycle windows、6771 global refs、136 flag/fill candidates、22/50 unknown windows overlapping lifecycle refs；8F30AA9F call 0x358ea00 -> 0x1c38ff0, slot14。原版 Ghidra C 01d38ff0（Ghidra slide +0x100000）确认该函数缓存32个 signed offset 槽，未查找 -1、未匹配 -2，描述符步进8字节。该 helper 所属表仍未证明，不能仅凭调用哈希归属认定其 Reader。新增原始 NSO RELA/JMPREL/RELR 解码、重定位指针解析、成对/向量 store 候选、连续全1填充识别及全部 6074 hash site 局部 read-slot 投票。每表保留零命中、冲突与候选，禁止按字段 ordinal 自动填充。实际 Ghidra anchor 地址须通过 NSO relocation 检查；结果待 CI。

@@ -10,6 +10,7 @@ on:
       - 'Scripts/acnh303_global_bcsv_enum_import.py'
       - 'Scripts/acnh303_global_bcsv_native_reader.py'
       - 'Scripts/acnh303_global_bcsv_lifecycle.py'
+      - 'Scripts/acnh303_global_bcsv_cache.py'
       - 'Scripts/test_acnh303_global_bcsv_native_reader.py'
       - 'derived/3.0.3/global_bcsv_dictionary/**'
       - '.github/workflows/acnh303-global-bcsv-dictionary.yml'
@@ -28,6 +29,8 @@ jobs:
             Scripts
             e10617820db06889e1638499478da0de_NCA/1/Bcsv
             e10617820db06889e1638499478da0de_NCA/0/main.elf
+            e10617820db06889e1638499478da0de_NCA/0/main
+            derived/3.0.3/ghidra12.2/c/8f/01d38ff0.c
             UnPack/1/Bcsv
             assets/evidence/rom-database/r82-npc-bcsv-field-dictionary.csv
             assets/evidence/rom-database/r74-original-item-npc-stack-schema.json
@@ -36,7 +39,7 @@ jobs:
             derived/3.0.3/global_bcsv_dictionary
           sparse-checkout-cone-mode: false
       - name: Install pinned disassembler
-        run: python -m pip install capstone==5.0.3
+        run: python -m pip install capstone==5.0.3 lz4==4.3.3
       - name: Unit tests and full original audit
         run: |
           python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_dictionary.py -v
@@ -48,6 +51,7 @@ jobs:
           python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_native_reader.py -v
           python Scripts/acnh303_global_bcsv_native_reader.py --root . --out artifacts/global-bcsv
           python Scripts/acnh303_global_bcsv_lifecycle.py --root . --out artifacts/global-bcsv
+          python Scripts/acnh303_global_bcsv_cache.py --root . --out artifacts/global-bcsv
       - uses: actions/upload-artifact@v4
         with:
           name: ACNH303-global-bcsv-dictionary
