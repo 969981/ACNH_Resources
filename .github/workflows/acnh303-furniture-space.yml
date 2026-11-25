@@ -4,6 +4,7 @@ on:
     branches: [3.0.3]
     paths:
       - 'Scripts/acnh303_furniture_space.py'
+      - 'Scripts/acnh303_space_model_probe.py'
       - '.github/workflows/acnh303-furniture-space.yml'
   workflow_dispatch:
 permissions:
@@ -19,6 +20,15 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /Scripts/acnh303_furniture_space.py
+            /Scripts/acnh303_space_model_probe.py
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBabybed.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrLampJapan.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrBearS.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrMovingboxS.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrMovingboxM.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrMovingboxL.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrTableSquareSimpleS.Nin_NX_NVN.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Model/FtrTableSquareSimpleL.Nin_NX_NVN.zs
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemSize.bcsv
             /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
@@ -39,8 +49,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6 zstandard==0.25.0
       - run: PYTHONPATH="$PWD/verified-tools/Scripts" python Scripts/acnh303_furniture_space.py --verified verified-tools --out result
+      - run: PYTHONPATH="$PWD/verified-tools/Scripts" python Scripts/acnh303_space_model_probe.py --out result
       - uses: actions/upload-artifact@v4
         if: always()
         with:
