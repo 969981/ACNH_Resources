@@ -1,0 +1,44 @@
+name: ACNH303 HASH-008L mail text and native attachment audit
+on:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_hash008l_mail.py'
+      - '.github/workflows/acnh303-hash008l-mail.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008i.py
+            /Scripts/acnh303_hash008l_mail.py
+            /research/hash008j/mail_category_dictionary.json
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemMailAttachCategoryGroup.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresent.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectPresentSp.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectDesign.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/MessageCardSelectDesignSp.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Message/Mail_*.sarc.zs
+            /e10617820db06889e1638499478da0de_NCA/1/Message/String_*.sarc.zs
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3 zstandard==0.23.0
+      - run: python -m py_compile Scripts/acnh303_hash008l_mail.py
+      - run: python Scripts/acnh303_hash008l_mail.py --native --out artifacts/hash008l-mail
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-HASH008L-MAIL
+          path: artifacts/hash008l-mail/
+          if-no-files-found: warn
