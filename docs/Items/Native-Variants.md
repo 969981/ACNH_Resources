@@ -10,7 +10,7 @@
 
 文件：remake_definition.csv、item_remake.csv、variant_slot.csv、variant_locale.csv、variant_combination.csv、remake_message.csv、variants.sqlite3、summary.json、manifest.json。
 
-运行：`uv run --script Scripts/bcsv/build_variants.py --historical historical`。 [原版历史研究](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/Scripts/acnh303_remake_model_binding.py)。首轮 CI 待验收。
+运行：`uv run --script Scripts/bcsv/build_variants.py --historical historical`。 [原版历史研究](https://github.com/969981/ACNH_Resources/blob/f09e15460d02790060a374b2ad6ba569ba9b97ed/Scripts/acnh303_remake_model_binding.py)。首轮 CI [#45574390450](https://github.com/969981/ACNH_Resources/actions/runs/45574390450) 工作流成功，运行时语义仍待验证。
 
 [数据目录](https://github.com/969981/ACNH_Resources/tree/research/research/catalog/variants)。
 
