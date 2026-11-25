@@ -21,3 +21,7 @@ version: "3.0.3"
 ## 全量文本数据库
 
 [MSBT 文本数据库及提取工具](Text-Database.md)：原始 TXT2 字节、标签、控制码、14 语言与业务关联。执行状态以 CI 为准。
+
+## 原生文本规则及验收
+
+[原生标签生成规则](Native-Label-Rules.md) · [商品专题](../../Items/README.md) · [家具改造款式](../../Items/Native-Variants.md) · [BCSV 专题](../BCSV/README.md)。[标签规则 CI](https://github.com/969981/ACNH_Resources/actions/runs/45573999603) 与 [归档验证 MSBT 数据库 CI](https://github.com/969981/ACNH_Resources/actions/runs/45574483135) 工作流成功；不代表所有业务映射已确认。
