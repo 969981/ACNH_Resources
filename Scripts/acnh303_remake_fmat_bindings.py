@@ -43,28 +43,30 @@ def parse_material(data,p):
     bounds(data,p,0xa8,"FMAT")
     require(data[p:p+4]==b"FMAT","FMAT magic")
     count_a,count_b=data[p+0x9c:p+0x9e]
-    # v9 reader/writer in reference differ in count order. Native 01664B40
-    # explicitly uses descriptor +0x9d for texture count. Check equal counts
-    # and dictionary count for this sample; refuse other layouts.
+    # Native consumer uses +0x9d for texture count. Dictionary independently
+    # checks +0x9c as sampler count. Unequal counts are retained separately,
+    # not paired by ordinal without additional evidence.
     keys=dictionary(data,u64(data,p+0x48))
-    require(count_a==count_b==len(keys),"Ambiguous sampler/texture count")
+    require(count_a==len(keys),"Sampler count disagrees with dictionary")
     n=count_b;tex=names(data,u64(data,p+0x30),n)
     sam=u64(data,p+0x40)
-    if n:bounds(data,sam,n*32,"Sampler array")
-    slots=[]
-    for i,(k,t) in enumerate(zip(keys,tex)):
+    if count_a:bounds(data,sam,count_a*32,"Sampler array")
+    samplers=[]
+    for i,k in enumerate(keys):
         q=sam+i*32;raw=data[q:q+32]
         u,v,w,cmp,border,aniso,flags,mn,mx,bias=struct.unpack_from("<6BH3f",raw)
         require(all(math.isfinite(z) for z in (mn,mx,bias)),"Sampler nonfinite")
-        slots.append({"index":i,"sampler":k,"texture":t,"textureNamePointer":u64(data,u64(data,p+0x30)+8*i),
+        samplers.append({"index":i,"sampler":k,
          "samplerOffset":q,"wrapRaw":[u,v,w],"compareRaw":cmp,"borderRaw":border,"anisotropyRaw":aniso,
          "filterFlags":flags,"minLod":mn,"maxLod":mx,"lodBias":bias,"rawHex":raw.hex()})
+    texture_refs=[{"index":i,"texture":t,"textureNamePointer":u64(data,u64(data,p+0x30)+8*i)} for i,t in enumerate(tex)]
+    slots=[{**s,**t} for s,t in zip(samplers,texture_refs)] if count_a==count_b else []
     a=assignment(data,u64(data,p+0x20))
     # Shader assignment values are material sampler names; unused aliases remain explicit.
     if a:
         for x in a["samplerAssigns"]:
-            x["materialSlotIndices"]=[s["index"] for s in slots if s["sampler"]==x["materialSampler"]]
-    return {"name":nw_name(data,u64(data,p+8)),"offset":p,"countBytes":[count_a,count_b],"slots":slots,"shaderAssign":a}
+            x["materialSlotIndices"]=[s["index"] for s in samplers if s["sampler"]==x["materialSampler"]]
+    return {"name":nw_name(data,u64(data,p+8)),"offset":p,"countBytes":[count_a,count_b],"slots":slots,"textureRefs":texture_refs,"samplers":samplers,"ordinalPairingSupported":count_a==count_b,"shaderAssign":a}
 def build(root,out):
     old=json.loads((root/"assets/evidence/babybed_bntx_native.json").read_text("utf-8"))
     expected={r["source_path"]:r for r in old["sources"]}
