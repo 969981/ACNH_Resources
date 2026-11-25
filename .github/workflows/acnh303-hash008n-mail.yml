@@ -1,0 +1,37 @@
+name: ACNH303 HASH-008N mail handlers and Item template
+on:
+  pull_request:
+    branches: [research]
+    paths:
+      - 'Scripts/acnh303_hash008n_mail_handlers.py'
+      - '.github/workflows/acnh303-hash008n-mail.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_hash008e.py
+            /Scripts/acnh303_hash008n_mail_handlers.py
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+      - run: git fetch --depth=1 --filter=blob:none origin f09e15460d02790060a374b2ad6ba569ba9b97ed
+      - run: python -m pip install capstone==5.0.3 lz4==4.3.3
+      - run: python -m py_compile Scripts/acnh303_hash008n_mail_handlers.py
+      - run: python Scripts/acnh303_hash008n_mail_handlers.py --out artifacts/hash008n-mail
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ACNH303-HASH008N-MAIL
+          path: artifacts/hash008n-mail/
+          if-no-files-found: warn
