@@ -57,6 +57,10 @@ updated: 2026-11-25
 | [全量文本数据库](Sources/Message/Text-Database.md) | 原文、标签、控制码、CSV/SQLite |
 | [业务映射](Sources/Message/Business-Mapping.md) · [原生标签生成规则](Sources/Message/Native-Label-Rules.md) | 商品、颜色、款式、村民与消费者 |
 
+## 原版图片、图标与纹理素材
+
+[图片素材源文件与格式专题](Sources/Images/README.md)：商品图标、服装图标、模型贴图、界面布局、BNTX/BFRES、原始路径及提取方法。
+
 ## 04 · 家具空间、碰撞、承载与模型
 
 | 入口 | 内容 |
