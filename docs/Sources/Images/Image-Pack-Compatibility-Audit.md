@@ -3,7 +3,7 @@ title: ImagePackCompatibilityAudit 全量图片对账
 aliases: [PokerCore 图片包对账, 原版 PNG 像素比较]
 tags: [acnh, images, audit]
 version: "3.0.3"
-status: partial
+status: verified
 ---
 # ImagePackCompatibilityAudit 全量图片对账
 
@@ -46,4 +46,25 @@ status: partial
 | zip-non-png.json | 非 PNG 文件清单 |
 | summary.json | 输入哈希、运行版本、全量计数及状态 |
 
-当前工作流已提交并触发，实际运行验收状态以 CI 为准；尚无全量结论。
+全量工作流已经成功；实际结果见下方验收。
+
+## 实际验收：2026-11-25
+
+[CI #45632940762](https://github.com/969981/ACNH_Resources/actions/runs/45632940762) 全部成功，实际日志与归档 summary.json 对账一致；[产物 15032356444](https://github.com/969981/ACNH_Resources/actions/runs/45632940762/artifacts/15032356444)，9,801,990 B，SHA256 bd68edd69833a0afa066b9ea3ed5ba0eb15b661db7829f9440723c80767cfe67。
+
+| 指标 | 数量 |
+| --- | ---: |
+| PokerCore PNG | 27085 |
+| 历史原版 PNG 独立路径 | 34127 |
+| 其他历史 PNG | 1553 |
+| 解码异常 | 0 |
+| PokerCore 有同尺寸原版名称候选 | 26442 |
+| PokerCore 仅有不同尺寸原版名称候选 | 1 |
+| PokerCore 无原版名称或像素候选 | 642 |
+| 原版候选同尺寸配对 | 28210 |
+| 原版候选不同尺寸配对 | 5483 |
+| 全局 PNG SHA 或 RGBA SHA 相同的跨库文件 | 0 |
+
+逐对 CSV 实际读取（Git blob dd87b88844e11f05a5a85c506761c7de1957c6a1）：28210 组同尺寸原版候选的四通道平均绝对差（0–255）中位数 1.62506104，均值 2.90093003，P90 4.60986328；16952 组均值≤2，26399 组≤5。所有配对 alpha 不完全相同、Gamma 元数据不相同；ICC 摘要相同。相同文件名（区分大小写）子集 27671 组中 FtrIcon 26693 组中位 1.56030273，NpcIcon 972 组中位 4.84753418。配对统计不可当作独立图片数。5483 个不同尺寸配对均为 Poker 128×128 与历史 256×256，其中 ClosetIcon 5480、CookingIcon 1、DIYRecipeIcon 2；不能单凭尺寸断言缩放，需先区分 FtrIcon/ClosetIcon 资源族。示例 FtrBabybed_Remake_0_0 平均绝对差 2.01051331、最大通道差 116；7_6 为 1.59693909、最大 80。
+
+642 个第三方无原版候选中，7 个另有其他历史名称候选，635 个在两类历史图中均无匹配候选。样例 Axe、Bag、AbsentMindedness、AmiiboTouchGuideCtrlJoy^w 等；仍需对照 MenuIcon、ManpuIcon、Layout 内部纹理及其他家族，不能直接认定缺失原始 ZS。现有审计仅证明文件与解码像素差异，未确定具体解码器、通道处理、缩放或版本差异原因。原版源树一致，本轮没有发布新素材。
