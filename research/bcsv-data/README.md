@@ -1,4 +1,4 @@
-# BCSV 两套 CSV 数据
+# BCSV 三层数据
 
 - raw/：234 张原始 Hash 列名 CSV，复现历史 UnPack 解析约定。
 - named/：234 张名称候选回填 CSV，仅替换列头，所有单元格、行序、列序完全一致。
@@ -12,3 +12,7 @@ uv run --script Scripts/bcsv/export_views.py
 ```
 
 生成在 out/bcsv-views，CI 验证后发布到本目录。 [Obsidian 表索引](../../docs/Sources/BCSV/Generated/README.md)。
+
+## 第三层
+
+[decoded/](decoded/README.md)：候选类型、枚举、跨表引用、分类和多语言。
