@@ -21,3 +21,5 @@
 ## 物品参数存储分发
 
 [原生存储分发与 Storage 位图](Native-Variant-Storage.md)：区分 wrapper+0xC/+0xE、普通 Item+4/+6 和原生枚举缓存。
+
+相关：[原版图片、图标与纹理素材](../Sources/Images/README.md)。
