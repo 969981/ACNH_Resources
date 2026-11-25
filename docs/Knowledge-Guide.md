@@ -14,7 +14,7 @@ tags: [acnh, guide]
 - Markdown 链接采用相对路径和 .md 后缀，例如 [原版尺寸定义](Furniture/Item-Size.md)，避免仅 GitHub 或仅 Obsidian 可识别的链接格式。跨专题添加反向链接。
 - 二进制资源保持在原目录；不把大文件或运行产物复制到 docs。外部源码使用固定 commit 链接。
 - 证据区分原始字节、第三方源码、历史版本数据、推测与待验收；不得把候选字段标为已确认。
-- 研究工具、CI、机器可读结果在 research 分支演进；3.0.3/docs 保存可复用的知识与来源。
+- research 分支统一维护原版资源、研究工具、CI、机器可读结果与 docs 知识库。
 
 ## Obsidian
 
