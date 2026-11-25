@@ -59,7 +59,7 @@ CREATE TABLE source(name TEXT PRIMARY KEY,path TEXT,sha256 TEXT,git_blob TEXT,ro
 CREATE TABLE size(id INTEGER PRIMARY KEY,label TEXT UNIQUE,crc INTEGER UNIQUE,source_row INTEGER UNIQUE,runtime_enum INTEGER UNIQUE,plane TEXT,half_width INTEGER,half_depth_or_height INTEGER,raw_09B64264 INTEGER,raw_3CF05708 INTEGER,raw_float_bits INTEGER,raw_fields_json TEXT);
 CREATE TABLE kind(id INTEGER PRIMARY KEY,label TEXT UNIQUE,source_row INTEGER UNIQUE,stack_raw_s16 INTEGER,can_ftr INTEGER,can_put INTEGER,can_set_item INTEGER,can_put_wall_floor INTEGER,raw_fields_json TEXT);
 CREATE TABLE action(family TEXT,label TEXT,crc INTEGER,source_id INTEGER,source_row INTEGER,raw_fields_json TEXT,PRIMARY KEY(family,crc));
-CREATE TABLE item(id INTEGER PRIMARY KEY,source_row INTEGER UNIQUE,label TEXT,model_name TEXT,raw_kind TEXT,kind_id INTEGER REFERENCES kind(id),kind_status TEXT,size_id INTEGER NOT NULL REFERENCES size(id),size_crc INTEGER NOT NULL,remake_id INTEGER,raw_fields_json TEXT);
+CREATE TABLE item(id INTEGER PRIMARY KEY,source_row INTEGER UNIQUE,label TEXT,model_name TEXT,raw_kind TEXT,base_kind_crc INTEGER NOT NULL,kind_id INTEGER REFERENCES kind(id),kind_status TEXT,size_id INTEGER NOT NULL REFERENCES size(id),size_crc INTEGER NOT NULL,remake_id INTEGER,raw_fields_json TEXT);
 CREATE TABLE action_candidate(item_id INTEGER REFERENCES item(id),field_hash TEXT,family TEXT,crc INTEGER,PRIMARY KEY(item_id,field_hash,family),FOREIGN KEY(family,crc) REFERENCES action(family,crc));
 CREATE TABLE asset(path TEXT PRIMARY KEY,git_blob TEXT NOT NULL,category TEXT NOT NULL);
 CREATE TABLE item_asset(item_id INTEGER REFERENCES item(id),path TEXT REFERENCES asset(path),match_rule TEXT,PRIMARY KEY(item_id,path,match_rule));
@@ -67,7 +67,7 @@ CREATE TABLE space_runtime(item_id INTEGER PRIMARY KEY REFERENCES item(id),can_p
 CREATE INDEX item_size ON item(size_id);
 CREATE INDEX item_kind ON item(raw_kind);
 CREATE INDEX action_lookup ON action_candidate(family,crc);
-CREATE VIEW item_space AS SELECT i.id,i.label,i.model_name,i.raw_kind,i.kind_status,s.label AS size_label,s.plane,s.half_width/2.0 AS width_tiles,s.half_depth_or_height/2.0 AS depth_or_height_tiles,s.half_width*s.half_depth_or_height/4.0 AS nominal_area_tiles,k.can_ftr,k.can_put,k.can_set_item,k.can_put_wall_floor,k.stack_raw_s16,r.can_place_on_surface,r.can_support_other,r.support_height,r.support_slots_json,r.collision_geometry_verified FROM item i JOIN size s ON i.size_id=s.id LEFT JOIN kind k ON k.id=i.kind_id JOIN space_runtime r ON r.item_id=i.id;
+CREATE VIEW item_space AS SELECT i.id,i.label,i.model_name,i.raw_kind,k.label AS base_kind,i.kind_status,s.label AS size_label,s.plane,s.half_width/2.0 AS width_tiles,s.half_depth_or_height/2.0 AS depth_or_height_tiles,s.half_width*s.half_depth_or_height/4.0 AS nominal_area_tiles,k.can_ftr,k.can_put,k.can_set_item,k.can_put_wall_floor,k.stack_raw_s16,r.can_place_on_surface,r.can_support_other,r.support_height,r.support_slots_json,r.collision_geometry_verified FROM item i JOIN size s ON i.size_id=s.id LEFT JOIN kind k ON k.id=i.kind_id JOIN space_runtime r ON r.item_id=i.id;
 """
 def main(root,verified,out):
     out.mkdir(parents=True,exist_ok=True);paths=tree(root);t={n:Table(root,n,paths) for n in TABLES};it=t["ItemParam"];sz=t["ItemSize"];ki=t["ItemKind"]
@@ -95,6 +95,7 @@ def main(root,verified,out):
         for i in range(v.n):
             name=v.text(i,"87BF00E8");h=crc(name);check(h not in actions[n],"Action CRC collision")
             actions[n][h]=name;c.execute("INSERT INTO action VALUES(?,?,?,?,?,?)",(n,name,h,v.val(i,"54706054",2),i,json.dumps(v.record(i))))
+    kind_crc={crc(k):v for k,v in kinds.items()};check(len(kind_crc)==len(kinds),"Kind CRC collision")
     # Candidate source fields: exact full-domain matches only, plus non-None evidence.
     hashes=[h for h,w in it.width.items() if w==4]
     coverage=collections.Counter();nonempty=collections.Counter()
@@ -119,8 +120,9 @@ def main(root,verified,out):
     c.executemany("INSERT INTO asset VALUES(?,?,?)",candidate_paths)
     for i in range(it.n):
         ident=it.val(i,"54706054",2);label=it.text(i,"3FEBC642");model=it.text(i,"48EF0398");kind=it.text(i,"FC275E86")
-        k=kind.removeprefix("Kind_");kid=kinds.get(k);h=it.val(i,"E06FB090",4);check(h in sizes,"Size CRC")
-        c.execute("INSERT INTO item VALUES(?,?,?,?,?,?,?,?,?,?,?)",(ident,i,label,model,kind,kid,"exact_kind_label" if kid is not None else "unresolved_subtype",sizes[h]["id"],h,it.val(i,"CB5EB33F",2),json.dumps(it.record(i),separators=(",",":"))))
+        k=kind.removeprefix("Kind_");exact=kinds.get(k);kh=it.val(i,"5270EB75",4);kid=kind_crc.get(kh);check(kid is not None and (exact is None or exact==kid),"Kind CRC cross-check")
+        h=it.val(i,"E06FB090",4);check(h in sizes,"Size CRC")
+        c.execute("INSERT INTO item VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(ident,i,label,model,kind,kh,kid,"exact_label_and_crc" if exact is not None else "exact_native_kind_crc",sizes[h]["id"],h,it.val(i,"CB5EB33F",2),json.dumps(it.record(i),separators=(",",":"))))
         c.execute("INSERT INTO space_runtime VALUES(?,?,?,?,?,?,?,?)",(ident,None,None,None,None,0,0,0))
         for fam,field in sorted(selected):
             v=it.val(i,field,4);c.execute("INSERT INTO action_candidate VALUES(?,?,?,?)",(ident,field,fam,v))
