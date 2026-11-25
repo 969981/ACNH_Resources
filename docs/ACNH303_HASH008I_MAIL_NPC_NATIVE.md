@@ -1,5 +1,7 @@
 # HASH-008I 邮件附件分类及 NPC 互动目标原生消费者
 
+返回 [知识库首页](README.md) · [专题索引](Research/Native-Research.md) · [研究路线](Research/Research-Roadmap.md)。
+
 [[ACNH303_HASH008H_RESIDUAL_DICTIONARY]]
 
 ## Accepted baseline
