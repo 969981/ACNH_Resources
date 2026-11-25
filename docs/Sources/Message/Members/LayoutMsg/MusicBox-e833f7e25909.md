@@ -1,0 +1,55 @@
+# MusicBox.msbt — 界面布局文字；名称线索：音乐
+
+返回 [归档目录](../LayoutMsg.md) · [全部 MSBT](../README.md) · [Message 专题](../../README.md) · [知识库首页](../../../../README.md)。
+
+## 一、原始文件与内容说明
+
+| 属性 | 内容 |
+| --- | --- |
+| 中文名称及用途 | 界面布局文字；名称线索：音乐 |
+| 证据等级 | 归档/文件名候选；原生触发条件另行验证 |
+| 原版内部路径 | MusicBox.msbt |
+| 原版归档 | LayoutMsg_语言代码.sarc.zs |
+| 语言成员 | 14 |
+| CNzh 文本条数 | 3 |
+| 文件格式 | MSBT / MsgStdBn；LBL1 标签，TXT2 文本 |
+
+## 二、原版语言文件与结构
+
+每种语言的归档来源、内部成员 SHA256 及实际节结构。MSBT 位于 SARC 内部，不是独立 Git 文件。
+
+| 语言 | 原始归档 | MSBT 字节数 | 成员 SHA256 | 节（起点:大小） |
+| --- | --- | ---: | --- | --- |
+| CNzh | [LayoutMsg_CNzh.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_CNzh.sarc.zs) | 208 | cd016e928640b87f0260447a4d018e4fdc32d5c6494488fc27a14c1f7c17c6e2 | LBL1 48:47, ATR1 112:8, TXT2 144:56 |
+| EUde | [LayoutMsg_EUde.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUde.sarc.zs) | 272 | cbf1afee2f89e0ea97af795aff10ba02b08c71cc607ba9238540775fef1cc45e | LBL1 48:47, ATR1 112:8, TXT2 144:122 |
+| EUen | [LayoutMsg_EUen.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUen.sarc.zs) | 272 | 7bf6cc885ce33870337db451338cf413260146c58ff38341e247d946b6849ff2 | LBL1 48:47, ATR1 112:8, TXT2 144:116 |
+| EUes | [LayoutMsg_EUes.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUes.sarc.zs) | 272 | 1f176dc90e7210cd41d3a004032ec1deaac0de09514c837ce861bdafd0e5c041 | LBL1 48:47, ATR1 112:8, TXT2 144:120 |
+| EUfr | [LayoutMsg_EUfr.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUfr.sarc.zs) | 272 | 4b23ee1ff1b8babdaacf6e8051e08cd8c0815d1a407d217fd527b9ae22ab8b1e | LBL1 48:47, ATR1 112:8, TXT2 144:124 |
+| EUit | [LayoutMsg_EUit.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUit.sarc.zs) | 256 | ea36de35929b797f6816217398955f78efb14641c1d79292edeff72426f6aaef | LBL1 48:47, ATR1 112:8, TXT2 144:100 |
+| EUnl | [LayoutMsg_EUnl.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUnl.sarc.zs) | 288 | 87380d281fe64d3dd6c3eed37969bd1a967a8c16fc939ae18afc4dd5ec2fcaa7 | LBL1 48:47, ATR1 112:8, TXT2 144:130 |
+| EUru | [LayoutMsg_EUru.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_EUru.sarc.zs) | 256 | 50689971bdf15b5d08994b63b184f701095381fa03ed43e63c79f8fd44a7bd7f | LBL1 48:47, ATR1 112:8, TXT2 144:110 |
+| JPja | [LayoutMsg_JPja.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_JPja.sarc.zs) | 272 | 9e65d355fc4d7e85d1ed9fd9fc079c5013fed6cbf1519edd79e9865a23ebe803 | LBL1 48:47, ATR1 112:8, TXT2 144:120 |
+| KRko | [LayoutMsg_KRko.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_KRko.sarc.zs) | 208 | 94232fb2eedf40a316af584d3d47fde65954ce786441f6200c5e4fdd0404b750 | LBL1 48:47, ATR1 112:8, TXT2 144:60 |
+| TWzh | [LayoutMsg_TWzh.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_TWzh.sarc.zs) | 208 | d1497af5a86dbb7603f3c81015d6fc246759d82c4b580f3f23d102e01fcd5812 | LBL1 48:47, ATR1 112:8, TXT2 144:52 |
+| USen | [LayoutMsg_USen.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_USen.sarc.zs) | 272 | 7bf6cc885ce33870337db451338cf413260146c58ff38341e247d946b6849ff2 | LBL1 48:47, ATR1 112:8, TXT2 144:116 |
+| USes | [LayoutMsg_USes.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_USes.sarc.zs) | 272 | 1f176dc90e7210cd41d3a004032ec1deaac0de09514c837ce861bdafd0e5c041 | LBL1 48:47, ATR1 112:8, TXT2 144:120 |
+| USfr | [LayoutMsg_USfr.sarc.zs](https://github.com/969981/ACNH_Resources/blob/daaf993a593ff128fa5cd66ced73a0b7ccc219b4/e10617820db06889e1638499478da0de_NCA/1/Message/LayoutMsg_USfr.sarc.zs) | 272 | 4b23ee1ff1b8babdaacf6e8051e08cd8c0815d1a407d217fd527b9ae22ab8b1e | LBL1 48:47, ATR1 112:8, TXT2 144:124 |
+
+## 三、实际原版文本内容
+
+小文件（<=8 条）展示全部 CNzh 文本，大文件取首、中、末等 5 条样本。JPja/USen 按原始标签唯一匹配；不按顺序猜测。显示文本省略控制码，不渲染变量；超过400字符的样本明确截断。
+
+| TXT2 索引 | 原始 LBL1 标签 | CNzh 原文 | JPja 原文 | USen 原文 | 控制码数 | TXT2 偏移 |
+| ---: | --- | --- | --- | --- | ---: | ---: |
+| 0 | 0101 |  |  |  | 1 | 16 |
+| 1 | 0201 | 没有已添加的曲目哦！ | 登録されている曲がないヨ！ | There are no registered songs. | 0 | 28 |
+| 2 | 0301 | 添加 | 登録 | Register | 0 | 50 |
+
+## 四、业务关联与完整数据
+
+原版文本和标签是实际解析证据；用途是文件词典或文件名候选，不等同原生消费者确认。完整条目、原始 TXT2 字节和控制码可在 CSV 按 member 精确筛选。
+
+[MSBT 标签生成规则](../../Native-Label-Rules.md) · [业务映射](../../Business-Mapping.md) · [BCSV 专题](../../../BCSV/README.md)。
+
+[CNzh 全量 CSV.gz](../../../../../research/message-data/entries/LayoutMsg_CNzh.csv.gz) · [JPja](../../../../../research/message-data/entries/LayoutMsg_JPja.csv.gz) · [USen](../../../../../research/message-data/entries/LayoutMsg_USen.csv.gz) · [全量数据库](../../Text-Database.md)。
+
