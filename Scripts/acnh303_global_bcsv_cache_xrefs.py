@@ -35,6 +35,7 @@ def run(root,out):
             for k in range(4):address[p["base"]+4*n+k].add((p["table"],p["base"],n))
     tracked=set(address)|set(flags)|{anchor["flag_va"]}|set(range(anchor["cache_va"],anchor["cache_va"]+4*anchor["slots"]))
     aliases={a:v for a,v in reloc.items() if v in tracked}
+    (out/"native_cache_relocation_aliases.json").write_text(json.dumps([{"slot_va":a,"target_va":v} for a,v in sorted(aliases.items())],indent=2)+"\n",encoding="utf-8")
     pages={v&~4095 for v in tracked|set(aliases)}
     exports={}
     p=subprocess.run(["git","ls-tree","-r","--name-only","HEAD","--",CROOT],cwd=root,check=True,capture_output=True,text=True)

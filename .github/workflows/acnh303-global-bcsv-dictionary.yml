@@ -13,6 +13,8 @@ on:
       - 'Scripts/acnh303_global_bcsv_cache.py'
       - 'Scripts/acnh303_global_bcsv_cache_xrefs.py'
       - 'Scripts/acnh303_global_bcsv_pcode.py'
+      - 'Scripts/acnh303_global_bcsv_ssa.py'
+      - 'Scripts/test_acnh303_global_bcsv_ssa.py'
       - 'tools/ghidra/ExportBCSVHighPcode.java'
       - 'Scripts/test_acnh303_global_bcsv_native_reader.py'
       - 'derived/3.0.3/global_bcsv_dictionary/**'
@@ -114,6 +116,8 @@ jobs:
           test -s artifacts/pcode/summary.json
           cat artifacts/pcode/summary.json
           python Scripts/acnh303_global_bcsv_pcode.py merge --dictionary artifacts/global-bcsv --pcode artifacts/pcode
+          python -m unittest discover -s Scripts -p test_acnh303_global_bcsv_ssa.py -v
+          python Scripts/acnh303_global_bcsv_ssa.py --dictionary artifacts/global-bcsv --pcode artifacts/pcode
       - uses: actions/upload-artifact@v4
         if: always()
         with:
