@@ -59,6 +59,8 @@ updated: 2026-11-25
 
 ## 原版图片、图标与纹理素材
 
+[道具图片提取详解](Sources/Images/Item-Extraction.md) · [村民图片提取详解](Sources/Images/Villager-Extraction.md)
+
 [图片素材源文件与格式专题](Sources/Images/README.md)：商品图标、服装图标、模型贴图、界面布局、BNTX/BFRES、原始路径及提取方法。
 
 ## 04 · 家具空间、碰撞、承载与模型
