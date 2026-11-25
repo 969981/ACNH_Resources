@@ -129,7 +129,7 @@ def run(root,out,nhse):
            "runtime_verified_this_round":0}
     def dump(n,d):(out/n).write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     dump("field-name-evidence.json",rows);dump("summary.json",stats);dump("unresolved.json",[r for r in rows if not r["name_candidates"]])
-    lines=["# 全量 BCSV 字段名称候选","","名称 CRC 匹配不等于业务语义或原始明文确认。NSO 名称 token 不等于字段消费者。","","| Hash | 候选签名 | 表数 | 残余语义证据 |","| --- | --- | ---: | --- |"]
+    lines=["# 全量 BCSV 字段名称候选","","返回 [知识库首页](../../README.md) · [BCSV 专题](README.md) · [全量字段字典](Generated/Field-Hashes.md)。","","名称 CRC 匹配不等于业务语义或原始明文确认。NSO 名称 token 不等于字段消费者。","","| Hash | 候选签名 | 表数 | 残余语义证据 |","| --- | --- | ---: | --- |"]
     for r in rows:
         lines.append("| "+r["hash"]+" | "+("; ".join(c["signature"] for c in r["name_candidates"]) or "未知")+" | "+str(len(r["occurrences"]))+" | "+(r["semantic_evidence"]["semantic_status"] if r["semantic_evidence"] else "—")+" |")
     (out/"Field-Names.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
