@@ -24,7 +24,7 @@
 | hash_01481890 | AddPaternNum u8 | 增加 款式 数量 | 1 | 1 | 未知 | CRC 候选 |
 | hash_0153341A | CanSelectEDay u8 | 可 选择 E 日 | 1 | 1 | 未知 | CRC 候选 |
 | hash_01997010 | RegionEventItem u8 | 地区 事件 道具 | 1 | 3 | 未知 | CRC 候选 |
-| hash_0207A2AF | SpNpcID u16 | Sp NPC ID | 1 | 2 | 未知 | CRC 候选 |
+| hash_0207A2AF | SpNpcID u16 | 特殊 NPC ID | 1 | 2 | 未知 | CRC 候选 |
 | hash_02169DC7 | ColorGroupSortId u16 | 颜色 分组 排序 ID | 1 | 2 | 未知 | CRC 候选 |
 | hash_021DF361 | UnlockTheme39 u16 | 解锁 主题 39 | 1 | 2 | 未知 | CRC 候选 |
 | hash_0239D7BC | RefabricPattern7LightColor u32 | 布料改造 款式 7 光照 颜色 | 1 | 4 | 未知 | CRC 候选 |
@@ -116,7 +116,7 @@
 | hash_0C98243C | AnimeTypeDrink string64 | 动画 类型 饮料 | 1 | 64 | 未知 | CRC 候选 |
 | hash_0CB1CDC5 | UnlockTheme25 u16 | 解锁 主题 25 | 1 | 2 | 未知 | CRC 候选 |
 | hash_0CB402A3 | ReFabricPatternNum s8 | 重新 布料 款式 数量 | 1 | 2 | 未知 | CRC 候选 |
-| hash_0CC4E7B5 | USes u8 | U Ses | 1 | 1 | 未知 | CRC 候选 |
+| hash_0CC4E7B5 | USes u8 | 美洲西班牙语（USes） | 1 | 1 | 未知 | CRC 候选 |
 | hash_0CD7F9C5 | FashionThemeRelax u8 | 时尚 主题 放松 | 1 | 1 | 未知 | CRC 候选 |
 | hash_0CE69142 | SaveCountMaxNum u16 | 保存 计数 最大 数量 | 1 | 2 | 未知 | CRC 候选 |
 | hash_0D492B5F | StartMoS2 u8 | 开始 月份 S 2 | 1 | 1 | 未知 | CRC 候选 |
@@ -260,7 +260,7 @@
 | hash_1EB65D06 | HobbyMusicLevel u8 | 爱好 音乐 等级 | 1 | 1 | 未知 | CRC 候选 |
 | hash_1ED42314 | N0Parts.hshCstringRef | N 0 部件 | 1 | 4 | 未知 | CRC 候选 |
 | hash_1EF061DD | DonateItemFifth u16 | 捐赠 道具 第五 | 1 | 2 | 未知 | CRC 候选 |
-| hash_1F301724 | EUen u8 | E Uen | 1 | 1 | 未知 | CRC 候选 |
+| hash_1F301724 | EUen u8 | 欧洲英语（EUen） | 1 | 1 | 未知 | CRC 候选 |
 | hash_1F3893E5 | WalkWatchOffsetX f32 | 行走 观察 偏移 X | 1 | 4 | 未知 | CRC 候选 |
 | hash_1F3BCF5E | LiveMotif u8 | 现场 图案 | 1 | 1 | 未知 | CRC 候选 |
 | hash_1F401B52 | PurposeScore s32 | 用途 分数 | 3 | 4 | 未知 | CRC 候选 |
@@ -546,7 +546,7 @@
 | hash_41F881E4 | ReBodyPattern7Color1 u8 | 重新 主体 款式 7 颜色 1 | 1 | 1 | 未知 | CRC 候选 |
 | hash_422A0706 | Rate1_5 s8 | 比率 1 5 | 1 | 1 | 未知 | CRC 候选 |
 | hash_423D1C4D | ClothesFrequencyWear.hshCstringRef | 服装 频率 穿着 | 1 | 4 | 未知 | CRC 候选 |
-| hash_425F85D3 | EUfr u8 | E Ufr | 1 | 1 | 未知 | CRC 候选 |
+| hash_425F85D3 | EUfr u8 | 欧洲法语（EUfr） | 1 | 1 | 未知 | CRC 候选 |
 | hash_42739AB0 | UseToolLeft u8 | 使用 工具 左 | 1 | 4 | 未知 | CRC 候选 |
 | hash_42AD246A | Misc u8 | 杂项 | 2 | 2, 4 | 未知 | CRC 候选 |
 | hash_42BDD56F | DoorMaterial u16 | 门 材质 | 2 | 2 | 未知 | CRC 候选 |
@@ -610,7 +610,7 @@
 | hash_49DC8060 | Day2056 u8 | 日 2056 | 1 | 1 | 未知 | CRC 候选 |
 | hash_49FEE297 | Day2032 u8 | 日 2032 | 1 | 1 | 未知 | CRC 候选 |
 | hash_4AB9B98A | StampRackNameTextLabel string32 | 印章 架子 名称 文本 标签 | 1 | 32 | 未知 | CRC 候选 |
-| hash_4AE88C28 | EUru u8 | E Uru | 1 | 1 | 未知 | CRC 候选 |
+| hash_4AE88C28 | EUru u8 | 欧洲俄语（EUru） | 1 | 1 | 未知 | CRC 候选 |
 | hash_4B072728 | StrSortIdUSfr u16 | 字符串 排序 ID U Sfr | 1 | 2 | 未知 | CRC 候选 |
 | hash_4B11B715 | UnlockTheme26 u16 | 解锁 主题 26 | 1 | 2 | 未知 | CRC 候选 |
 | hash_4B22396C | OutdoorRebodyNum2 s8 | 室外 主体改造 数量 2 | 1 | 1 | 未知 | CRC 候选 |
@@ -619,7 +619,7 @@
 | hash_4BCCC3F3 | SortIdEUes u16 | 排序 ID E Ues | 1 | 2 | 未知 | CRC 候选 |
 | hash_4BCCCE37 | UmbrellaWherearen u16 | 伞 度假岛 | 1 | 2 | 未知 | CRC 候选 |
 | hash_4BDCE2FF | Rate2_1 s8 | 比率 2 1 | 1 | 1 | 未知 | CRC 候选 |
-| hash_4BE509DE | Amiibo u16 | amiibo | 1 | 2 | 未知 | CRC 候选 |
+| hash_4BE509DE | Amiibo u16 | amiibo 标识 | 1 | 2 | 未知 | CRC 候选 |
 | hash_4C24F1CF | DefaultValue u32 | 默认 数值 | 5 | 4 | 未知 | CRC 候选 |
 | hash_4C777E9E | ResNameReplaceField string32 | 资源 名称 替换 场景 | 1 | 32 | 未知 | CRC 候选 |
 | hash_4C8935EC | WeekNorth u8 | 周 北 | 1 | 1 | 未知 | CRC 候选 |
@@ -689,14 +689,14 @@
 | hash_545F8769 | ReFabricPattern0Color0 u8 | 重新 布料 款式 0 颜色 0 | 1 | 1 | 未知 | CRC 候选 |
 | hash_546C2339 | StrSortIdEUfr u16 | 字符串 排序 ID E Ufr | 1 | 2 | 未知 | CRC 候选 |
 | hash_54706054 | UniqueID u16 | 唯一ID | 199 | 2, 4 | ItemAct.bcsv: id; ItemClothGroup.bcsv: id; ItemColor.bcsv: id; ItemFilter.bcsv: id; ItemKind.bcsv: id; ItemParam.bcsv: item_id; ItemSize.bcsv: id; ItemUIContextMenu.bcsv: id; ItemUIFurnitureCategory.bcsv: id | CRC 候选 |
-| hash_548A7EDA | TWzh u8 | T Wzh | 1 | 1 | 未知 | CRC 候选 |
+| hash_548A7EDA | TWzh u8 | 繁体中文（TWzh） | 1 | 1 | 未知 | CRC 候选 |
 | hash_54A1DF24 | PrioMethod.hshCstringRef | 优先级 方法 | 1 | 4 | 未知 | CRC 候选 |
 | hash_54A7C7E2 | SortIdUSes u16 | 排序 ID U Ses | 1 | 2 | 未知 | CRC 候选 |
 | hash_54AB2C62 | HobbyFitnessLevel u8 | 爱好 健身 等级 | 1 | 1 | 未知 | CRC 候选 |
 | hash_5504464E | ItemRandomColorGroup.hshCstringRef | 道具 随机 颜色 分组 | 1 | 4 | 未知 | CRC 候选 |
 | hash_555442AA | EquipOnlyOutdoor u8 | 装备 仅 室外 | 1 | 1 | 未知 | CRC 候选 |
 | hash_556F5625 | Month2015 u8 | 月份 2015 | 1 | 1 | 未知 | CRC 候选 |
-| hash_558685C5 | KRko u8 | K Rko | 1 | 1 | 未知 | CRC 候选 |
+| hash_558685C5 | KRko u8 | 韩语（KRko） | 1 | 1 | 未知 | CRC 候选 |
 | hash_55C343C4 | AnimeTypeFirewood string64 | 动画 类型 柴火 | 1 | 64 | 未知 | CRC 候选 |
 | hash_560004D4 | Stage3 string32 | 阶段 3 | 1 | 32 | 未知 | CRC 候选 |
 | hash_56612ACF | ProbOctoberMorning u16 | 10月 早晨概率 | 1 | 2 | 未知 | CRC 候选 |
@@ -801,7 +801,7 @@
 | hash_630F2B53 | 未知 | NPC 交互目标动作名称（语义别名：NpcInteractionTargetActionName） | 1 | 67 | 未知 | 原名未恢复 / native_behavior |
 | hash_632E952F | TopTransOffsetZ f32 | 顶部 位移 偏移 Z | 1 | 4 | 未知 | CRC 候选 |
 | hash_637B07A6 | ItemKind4 u16 | 道具 类别 4 | 1 | 2 | 未知 | CRC 候选 |
-| hash_638671F9 | JPja u8 | J Pja | 1 | 1 | 未知 | CRC 候选 |
+| hash_638671F9 | JPja u8 | 日语（JPja） | 1 | 1 | 未知 | CRC 候选 |
 | hash_638D595D | PrioMethod u8 | 优先级 方法 | 1 | 1 | 未知 | CRC 候选 |
 | hash_63947BD7 | FacilityActionType6.hshCstringRef | 设施 动作 类型 6 | 1 | 4 | 未知 | CRC 候选 |
 | hash_63A46970 | 未知 | 留言卡可选颜色或样式（语义别名：MessageCardOptionalColorOrStyle） | 1 | 2 | 未知 | 原名未恢复 / row_hypothesis |
@@ -851,7 +851,7 @@
 | hash_68D07B42 | ElectionRate7 u8 | 选举 比率 7 | 1 | 1 | 未知 | CRC 候选 |
 | hash_68D62CA8 | ClothesTemporarilyCreate.hshCstringRef | 服装 临时 创建 | 1 | 4 | 未知 | CRC 候选 |
 | hash_68DAF155 | EnableRodCloth u8 | 启用 钓竿 衣物 | 1 | 1 | 未知 | CRC 候选 |
-| hash_68DB76C2 | BreakDamage u16 | Break Damage | 1 | 2 | 未知 | CRC 候选 |
+| hash_68DB76C2 | BreakDamage u16 | 破坏损伤值 | 1 | 2 | 未知 | CRC 候选 |
 | hash_690E3379 | ClothGroup.hshCstringRef | 衣物 分组 | 1 | 4 | ItemParam.bcsv: cloth_group_ref_raw | CRC 候选 |
 | hash_6943E8AD | StartMonthSouth u16 | 开始 月份 南 | 1 | 2 | 未知 | CRC 候选 |
 | hash_69660415 | Amount3 u16 | 数量 3 | 1 | 2 | 未知 | CRC 候选 |
@@ -913,7 +913,7 @@
 | hash_72B57BDA | UnlockTheme18 u16 | 解锁 主题 18 | 1 | 2 | 未知 | CRC 候选 |
 | hash_72B9D25E | Param2.hshCstringRef | 参数 2 | 1 | 4 | 未知 | CRC 候选 |
 | hash_72E911AE | FacilityActionType5.hshCstringRef | 设施 动作 类型 5 | 1 | 4 | 未知 | CRC 候选 |
-| hash_730CEFC8 | BeesRunAway u8 | Bees Run Away | 1 | 1 | 未知 | CRC 候选 |
+| hash_730CEFC8 | BeesRunAway u8 | 蜜蜂逃离 | 1 | 1 | 未知 | CRC 候选 |
 | hash_7328DE13 | FacilityInsuranceAction.hshCstringRef | 设施 保险 动作 | 1 | 4 | 未知 | CRC 候选 |
 | hash_736ADCA8 | FlagAnim u16 | 标志 动画 | 1 | 2 | 未知 | CRC 候选 |
 | hash_73A932AE | EventEnd u8 | 事件 结束 | 1 | 1 | 未知 | CRC 候选 |
@@ -930,7 +930,7 @@
 | hash_74BCA9D0 | Day2046 u8 | 日 2046 | 1 | 1 | 未知 | CRC 候选 |
 | hash_74BE6041 | BridgePattern.hshCstringRef | 桥梁 款式 | 1 | 4 | 未知 | CRC 候选 |
 | hash_74EA1D73 | ProbAugMorningAndEvening u16 | 8月 早晨 及 傍晚概率 | 3 | 2 | 未知 | CRC 候选 |
-| hash_74F1F060 | MsID u16 | Ms ID | 1 | 2 | 未知 | CRC 候选 |
+| hash_74F1F060 | MsID u16 | 消息文本 ID（Ms） | 1 | 2 | 未知 | CRC 候选 |
 | hash_7500325B | NewBuild u16 | 新 Build | 1 | 2 | 未知 | CRC 候选 |
 | hash_753336DD | NameSeedLings u16 | 名称 Seed Lings | 1 | 2 | 未知 | CRC 候选 |
 | hash_754C57C7 | AN1Index s16 | AN 1 索引 | 1 | 2 | 未知 | CRC 候选 |
@@ -948,7 +948,7 @@
 | hash_76C190B2 | ReleaseKey u16 | 释放 键 | 1 | 2 | 未知 | CRC 候选 |
 | hash_76E5E67A | SatisfyMinute u16 | Satisfy 分钟 | 1 | 2 | 未知 | CRC 候选 |
 | hash_76E7FE08 | ChangeFg u16 | 变更 Fg | 1 | 2 | 未知 | CRC 候选 |
-| hash_770288FD | BuoyLv.hshCstringRef | Buoy Lv | 1 | 4 | 未知 | CRC 候选 |
+| hash_770288FD | BuoyLv.hshCstringRef | 浮标等级 | 1 | 4 | 未知 | CRC 候选 |
 | hash_7703D2DD | AsCommand string50 | As 指令 | 1 | 50 | 未知 | CRC 候选 |
 | hash_770B5B7D | ProbMarNight u16 | 3月 夜间概率 | 3 | 2 | 未知 | CRC 候选 |
 | hash_7724BF93 | ItemOutfitInfo.hshCstringRef | 道具 穿搭 信息 | 1 | 4 | 未知 | CRC 候选 |
@@ -1018,7 +1018,7 @@
 | hash_8048A3A7 | FashionThemeWork u8 | 时尚 主题 工作 | 1 | 1 | 未知 | CRC 候选 |
 | hash_804D64B0 | UnlockTheme36 u16 | 解锁 主题 36 | 1 | 2 | 未知 | CRC 候选 |
 | hash_805CDABB | ItemReleaseVersion u8 | 道具 释放 Version | 1 | 1 | 未知 | CRC 候选 |
-| hash_805CE6D3 | PlanYear.hshCstringRef | Plan Year | 1 | 4 | 未知 | CRC 候选 |
+| hash_805CE6D3 | PlanYear.hshCstringRef | 计划年份 | 1 | 4 | 未知 | CRC 候选 |
 | hash_8062290B | UseCulling u8 | 使用 剔除 | 1 | 1 | 未知 | CRC 候选 |
 | hash_806CFD72 | EventLabelShort string128 | 事件 标签 短 | 2 | 128, 129 | 未知 | CRC 候选 |
 | hash_8080315A | Rate3_1 s8 | 比率 3 1 | 1 | 1 | 未知 | CRC 候选 |
@@ -1060,7 +1060,7 @@
 | hash_85FB9DD5 | PointName string65 | 点 名称 | 1 | 65 | 未知 | CRC 候选 |
 | hash_8659E834 | FrontTransOffsetX f32 | 正面 位移 偏移 X | 1 | 4 | 未知 | CRC 候选 |
 | hash_866B76FE | BackTransOffsetX f32 | 背面 位移 偏移 X | 1 | 4 | 未知 | CRC 候选 |
-| hash_869B271F | SNpcID1 u16 | S NPC ID 1 | 1 | 2 | 未知 | CRC 候选 |
+| hash_869B271F | SNpcID1 u16 | S NPC ID 1（NPC 编号） | 1 | 2 | 未知 | CRC 候选 |
 | hash_869FB739 | Reward4 u32 | 奖励 4 | 1 | 4 | 未知 | CRC 候选 |
 | hash_86A4988E | Rate2 u8 | 比率 2 | 1 | 1 | 未知 | CRC 候选 |
 | hash_86AD0CE1 | GenderUsEu.hshCstringRef | 性别 Us Eu | 1 | 4 | 未知 | CRC 候选 |
@@ -1090,7 +1090,7 @@
 | hash_89F2F5B2 | SortIdTWzh u16 | 排序 ID T Wzh | 1 | 2 | 未知 | CRC 候选 |
 | hash_8A25BF6B | UnlockTheme15 u16 | 解锁 主题 15 | 1 | 2 | 未知 | CRC 候选 |
 | hash_8A28E471 | EditBaseUnitZ s16 | 编辑 基础 单位 Z | 1 | 2 | 未知 | CRC 候选 |
-| hash_8A377042 | AO.hshCstringRef | AO | 1 | 4 | 未知 | CRC 候选 |
+| hash_8A377042 | AO.hshCstringRef | AO 参数（缩写含义待验证） | 1 | 4 | 未知 | CRC 候选 |
 | hash_8A479556 | ApproachIncreasePerMissedNum u16 | 接近 增加 Per Missed 数量 | 1 | 2 | 未知 | CRC 候选 |
 | hash_8A647661 | CanPutDisplay u8 | 可 放置 Display | 1 | 1 | 未知 | CRC 候选 |
 | hash_8A7F8056 | W1Parts.hshCstringRef | W 1 部件 | 1 | 4 | 未知 | CRC 候选 |
@@ -1124,7 +1124,7 @@
 | hash_8E6ECCE5 | StartDayN6 u8 | 开始 日 N 6 | 1 | 1 | 未知 | CRC 候选 |
 | hash_8E768BD8 | SpotTalkKey string25 | 地点 对话 键 | 1 | 25 | 未知 | CRC 候选 |
 | hash_8EABC257 | WaitASType string32 | 等待 AS 类型 | 2 | 32, 34 | 未知 | CRC 候选 |
-| hash_8ED948DD | Rotatable u8 | Rotatable | 1 | 1 | 未知 | CRC 候选 |
+| hash_8ED948DD | Rotatable u8 | 可旋转 | 1 | 1 | 未知 | CRC 候选 |
 | hash_8EE763A2 | FacilityActionType8.hshCstringRef | 设施 动作 类型 8 | 1 | 4 | 未知 | CRC 候选 |
 | hash_8F18144C | Month2022 u8 | 月份 2022 | 1 | 1 | 未知 | CRC 候选 |
 | hash_8F24F1A4 | RotateOffsetY f32 | 旋转 偏移 Y | 1 | 4 | 未知 | CRC 候选 |
@@ -1200,9 +1200,9 @@
 | hash_95C19ABC | Seat3 u16 | 座位 3 | 1 | 2 | 未知 | CRC 候选 |
 | hash_95CC0F22 | LifeSupportStamp.hshCstringRef | 生活 Support 印章 | 1 | 4 | 未知 | CRC 候选 |
 | hash_95E42CCE | TshirtsHNormalScaleMaskB f32 | T恤 H 法线 缩放 遮罩 B | 1 | 4 | 未知 | CRC 候选 |
-| hash_960A51FE | LatchBolt u8 | Latch Bolt | 1 | 1 | 未知 | CRC 候选 |
+| hash_960A51FE | LatchBolt u8 | 门闩 | 1 | 1 | 未知 | CRC 候选 |
 | hash_9611C929 | NpcSpClothSet u16 | NPC Sp 衣物 集合 | 1 | 2 | 未知 | CRC 候选 |
-| hash_96BA28FE | Comment string64 | Comment | 1 | 64 | 未知 | CRC 候选 |
+| hash_96BA28FE | Comment string64 | 注释 | 1 | 64 | 未知 | CRC 候选 |
 | hash_96D80132 | StampRackNameTextLabelForUI string32 | 印章 架子 名称 文本 标签 用于 UI | 1 | 32 | 未知 | CRC 候选 |
 | hash_97136220 | Month2034 u8 | 月份 2034 | 1 | 1 | 未知 | CRC 候选 |
 | hash_973100D7 | Month2050 u8 | 月份 2050 | 1 | 1 | 未知 | CRC 候选 |
@@ -1249,8 +1249,8 @@
 | hash_9C4A43C0 | ProbAprDaytime u16 | 4月 白天概率 | 3 | 2 | 未知 | CRC 候选 |
 | hash_9C4EFA45 | TradeTicketBasePrice u32 | 交易 票券 基础 价格 | 1 | 4 | 未知 | CRC 候选 |
 | hash_9C88FB0B | Comic1 u32 | 漫画 1 | 1 | 4 | 未知 | CRC 候选 |
-| hash_9C8A400B | Construction u8 | Construction | 1 | 1 | 未知 | CRC 候选 |
-| hash_9CB82A1E | Sand u8 | Sand | 1 | 1 | 未知 | CRC 候选 |
+| hash_9C8A400B | Construction u8 | 建造 | 1 | 1 | 未知 | CRC 候选 |
+| hash_9CB82A1E | Sand u8 | 沙地 | 1 | 1 | 未知 | CRC 候选 |
 | hash_9CD5ABA6 | MainIslandItemDirection u8 | 主要 岛屿 道具 方向 | 1 | 1 | 未知 | CRC 候选 |
 | hash_9CDAD5D9 | Action3_2.hshCstringRef | 动作 3 2 | 1 | 4 | 未知 | CRC 候选 |
 | hash_9CDB630B | StartDayN5 u8 | 开始 日 N 5 | 1 | 1 | 未知 | CRC 候选 |
@@ -1341,7 +1341,7 @@
 | hash_A7058EF8 | Month2018 u8 | 月份 2018 | 1 | 1 | 未知 | CRC 候选 |
 | hash_A745C103 | FlagPlayerAnnounce s32 | 标志 玩家 公告 | 1 | 4 | 未知 | CRC 候选 |
 | hash_A75689FF | FlagLand1 s32 | 标志 土地 1 | 1 | 4 | 未知 | CRC 候选 |
-| hash_A78D0CC5 | NeglectSleep u8 | Neglect Sleep | 1 | 1 | 未知 | CRC 候选 |
+| hash_A78D0CC5 | NeglectSleep u8 | 忽略睡眠 | 1 | 1 | 未知 | CRC 候选 |
 | hash_A7C79784 | ItemHHASituation1.hshCstringRef | 道具 快乐家协会 情境 1 | 1 | 4 | 未知 | CRC 候选 |
 | hash_A7D14AA0 | ReBodyPattern2Color1 u8 | 重新 主体 款式 2 颜色 1 | 1 | 1 | 未知 | CRC 候选 |
 | hash_A802423D | 未知 | 演唱会家具摆放标志（语义别名：ConcertFurniturePlacementFlag） | 1 | 1 | 未知 | 原名未恢复 / row_hypothesis |
@@ -1383,7 +1383,7 @@
 | hash_AACF3AE7 | ReBodyPattern4Color1 u8 | 重新 主体 款式 4 颜色 1 | 1 | 1 | 未知 | CRC 候选 |
 | hash_AB39A678 | TshirtsNNormalScaleMaskG f32 | T恤 N 法线 缩放 遮罩 G | 1 | 4 | 未知 | CRC 候选 |
 | hash_AB51A3CF | DebugName string32 | 调试 名称 | 5 | 32 | 未知 | CRC 候选 |
-| hash_AB771EAE | Floorboards u16 | Floorboards | 2 | 2 | 未知 | CRC 候选 |
+| hash_AB771EAE | Floorboards u16 | 地板板材 | 2 | 2 | 未知 | CRC 候选 |
 | hash_AB9B88D6 | ItemKind1 u16 | 道具 类别 1 | 1 | 2 | 未知 | CRC 候选 |
 | hash_ABBD9449 | MessageLabel string8 | 消息 标签 | 1 | 8 | 未知 | CRC 候选 |
 | hash_AC0593CC | CanDoze u8 | 可 Doze | 1 | 1 | 未知 | CRC 候选 |
@@ -1404,7 +1404,7 @@
 | hash_AE3AEADA | ReBodyPattern6Color1 u8 | 重新 主体 款式 6 颜色 1 | 1 | 1 | 未知 | CRC 候选 |
 | hash_AE63CEF0 | NpcFtrActionHoldTime s32 | NPC 家具 动作 持有 时间 | 2 | 4 | 未知 | CRC 候选 |
 | hash_AE9F005C | OuterLNormalScaleMaskR f32 | 外侧 L 法线 缩放 遮罩 R | 1 | 4 | 未知 | CRC 候选 |
-| hash_AEB768F7 | USen u8 | U Sen | 1 | 1 | 未知 | CRC 候选 |
+| hash_AEB768F7 | USen u8 | 美洲英语（USen） | 1 | 1 | 未知 | CRC 候选 |
 | hash_AEBC09BC | ProbMayDaytime u16 | 5月 白天概率 | 4 | 2 | 未知 | CRC 候选 |
 | hash_AEE0FF23 | Stage8 string32 | 阶段 8 | 1 | 32 | 未知 | CRC 候选 |
 | hash_AEE9894E | Day2015 u8 | 日 2015 | 1 | 1 | 未知 | CRC 候选 |
@@ -1530,7 +1530,7 @@
 | hash_BB9C816E | Umbrella u16 | 伞 | 2 | 2 | 未知 | CRC 候选 |
 | hash_BB9DEC57 | ReFabricPattern1Color0 u8 | 重新 布料 款式 1 颜色 0 | 1 | 1 | 未知 | CRC 候选 |
 | hash_BBC20C54 | RefabricPattern6LightColor u32 | 布料改造 款式 6 光照 颜色 | 1 | 4 | 未知 | CRC 候选 |
-| hash_BBFB0EAF | SNpcID0 u16 | S NPC ID 0 | 1 | 2 | 未知 | CRC 候选 |
+| hash_BBFB0EAF | SNpcID0 u16 | S NPC ID 0（NPC 编号） | 1 | 2 | 未知 | CRC 候选 |
 | hash_BBFF9E89 | Reward5 u32 | 奖励 5 | 1 | 4 | 未知 | CRC 候选 |
 | hash_BC17575D | StartDayS4 u8 | 开始 日 S 4 | 1 | 1 | 未知 | CRC 候选 |
 | hash_BC5C26A0 | Day2016 u8 | 日 2016 | 1 | 1 | 未知 | CRC 候选 |
@@ -1539,7 +1539,7 @@
 | hash_BCF5D17A | DiyRecipeID s16 | DIY 配方 ID | 1 | 2 | 未知 | CRC 候选 |
 | hash_BD2D4D00 | UnlockTheme37 u16 | 解锁 主题 37 | 1 | 2 | 未知 | CRC 候选 |
 | hash_BD37BFD7 | Stage0 string32 | 阶段 0 | 1 | 32 | 未知 | CRC 候选 |
-| hash_BD439866 | EUes u8 | E Ues | 1 | 1 | 未知 | CRC 候选 |
+| hash_BD439866 | EUes u8 | 欧洲西班牙语（EUes） | 1 | 1 | 未知 | CRC 候选 |
 | hash_BD5D059F | UnlockTheme5 u16 | 解锁 主题 5 | 1 | 2 | 未知 | CRC 候选 |
 | hash_BD5EB43F | OnepieceLNormalScaleMaskA f32 | 连衣裙 L 法线 缩放 遮罩 A | 1 | 4 | 未知 | CRC 候选 |
 | hash_BD7682F5 | MaxValue u8 | 最大值 | 3 | 1 | 未知 | CRC 候选 |
@@ -1574,7 +1574,7 @@
 | hash_C0BD52A5 | TshirtsLNormalScaleMaskA f32 | T恤 L 法线 缩放 遮罩 A | 1 | 4 | 未知 | CRC 候选 |
 | hash_C1132E82 | DefaultWall u16 | 默认 墙壁 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C11AF347 | ProbDecMorningAndEvening u16 | 12月 早晨 及 傍晚概率 | 3 | 2 | 未知 | CRC 候选 |
-| hash_C13B5DCF | SNpcID2 u16 | S NPC ID 2 | 1 | 2 | 未知 | CRC 候选 |
+| hash_C13B5DCF | SNpcID2 u16 | S NPC ID 2（NPC 编号） | 1 | 2 | 未知 | CRC 候选 |
 | hash_C150FBA5 | EventFtrDirection.hshCstringRef | 事件 家具 方向 | 1 | 4 | 未知 | CRC 候选 |
 | hash_C1718183 | RoomSizeX s8 | 房间 X 方向尺寸 | 1 | 1 | 未知 | CRC 候选 |
 | hash_C17C7CA8 | MainDays u8 | 主要 天数 | 1 | 1 | 未知 | CRC 候选 |
@@ -1588,13 +1588,13 @@
 | hash_C25CDC73 | CheekOrangeColorB f32 | 脸颊 橙色 颜色 B | 1 | 4 | 未知 | CRC 候选 |
 | hash_C29A207D | Action1_6.hshCstringRef | 动作 1 6 | 1 | 4 | 未知 | CRC 候选 |
 | hash_C2D9B3C9 | ElectionRate5 u8 | 选举 比率 5 | 1 | 1 | 未知 | CRC 候选 |
-| hash_C2E9EEBE | EUnl u8 | E Unl | 1 | 1 | 未知 | CRC 候选 |
+| hash_C2E9EEBE | EUnl u8 | 欧洲荷兰语（EUnl） | 1 | 1 | 未知 | CRC 候选 |
 | hash_C3239C76 | Fog_S u8 | 雾 S | 1 | 1 | 未知 | CRC 候选 |
 | hash_C33A894E | ItemNameUniqueID u16 | 道具名称唯一ID | 5 | 2 | 未知 | CRC 候选 |
 | hash_C34424C7 | Food0 u32 | 食物 0 | 1 | 4 | 未知 | CRC 候选 |
 | hash_C35C5AF7 | BO1Index s16 | BO 1 索引 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C35F78ED | TargetShadow u8 | 目标 阴影 | 1 | 2 | 未知 | CRC 候选 |
-| hash_C37A683C | CantTakeOver u8 | Cant Take Over | 1 | 1 | 未知 | CRC 候选 |
+| hash_C37A683C | CantTakeOver u8 | 不可继承 | 1 | 1 | 未知 | CRC 候选 |
 | hash_C3BB3363 | SortIdEUnl u16 | 排序 ID E Unl | 1 | 2 | 未知 | CRC 候选 |
 | hash_C407CDFB | Stage16Hash stringMurmurHash | 阶段 16 哈希 | 1 | 4 | 未知 | CRC 候选 |
 | hash_C436CE69 | AttrClearNAChange u8 | 属性 清除 NA 变更 | 1 | 1 | 未知 | CRC 候选 |
@@ -1623,7 +1623,7 @@
 | hash_C79325F5 | AchievableNum u16 | Achievable 数量 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C79D56FF | UnlockTheme7 u16 | 解锁 主题 7 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C7A5B572 | NormalScaleBottomsA f32 | 法线 缩放 下装 A | 1 | 4 | 未知 | CRC 候选 |
-| hash_C7AD2FDF | CharacterId u32 | Character ID | 1 | 4 | 未知 | CRC 候选 |
+| hash_C7AD2FDF | CharacterId u32 | 角色 ID | 1 | 4 | 未知 | CRC 候选 |
 | hash_C7E37192 | ProbSeptemberMidnight u16 | 9月 午夜概率 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C7ED1E60 | UnlockTheme35 u16 | 解锁 主题 35 | 1 | 2 | 未知 | CRC 候选 |
 | hash_C7F82AFD | StepLevel.hshCstringRef | 步骤 等级 | 1 | 4 | 未知 | CRC 候选 |
@@ -1632,7 +1632,7 @@
 | hash_C86E60D5 | DefaultDoorUniqueID u16 | 默认 门 唯一 ID | 1 | 2 | 未知 | CRC 候选 |
 | hash_C8848B74 | RotateOffsetZ f32 | 旋转 偏移 Z | 1 | 4 | 未知 | CRC 候选 |
 | hash_C888BFFA | ProbAugustMidnight u16 | 8月 午夜概率 | 1 | 2 | 未知 | CRC 候选 |
-| hash_C89FB7AF | Storage u8 | Storage | 1 | 5 | 未知 | CRC 候选 |
+| hash_C89FB7AF | Storage u8 | 收纳 | 1 | 5 | 未知 | CRC 候选 |
 | hash_C8A5A762 | CanSetInTrashBox u8 | 可 集合 内 Trash Box | 1 | 1 | 未知 | CRC 候选 |
 | hash_C8B86E9C | Month2012 u8 | 月份 2012 | 1 | 1 | 未知 | CRC 候选 |
 | hash_C8EDB421 | NormalScaleNG f32 | 法线 缩放 NG | 1 | 4 | 未知 | CRC 候选 |
@@ -1702,7 +1702,7 @@
 | hash_D094759A | NWParts.hshCstringRef | NW 部件 | 1 | 4 | 未知 | CRC 候选 |
 | hash_D0B318F0 | Month2004 u8 | 月份 2004 | 1 | 1 | 未知 | CRC 候选 |
 | hash_D0F5BDD4 | RefabricNum2 s8 | 布料改造 数量 2 | 1 | 1 | 未知 | CRC 候选 |
-| hash_D15ACE6A | Identifier s8 | Identifier | 1 | 1 | 未知 | CRC 候选 |
+| hash_D15ACE6A | Identifier s8 | 标识符 | 1 | 1 | 未知 | CRC 候选 |
 | hash_D15BDBB6 | ItemKind3 u16 | 道具 类别 3 | 1 | 2 | 未知 | CRC 候选 |
 | hash_D1B1B453 | InvisibleEarR u8 | 不可见 耳朵 R | 1 | 1 | 未知 | CRC 候选 |
 | hash_D1B5C570 | HarvestFishExchangeIngredients u8 | 收获 鱼 交换 Ingredients | 1 | 1 | 未知 | CRC 候选 |
@@ -1710,7 +1710,7 @@
 | hash_D1F6DAE0 | Type u8 | 类型 | 1 | 3 | 未知 | CRC 候选 |
 | hash_D200FFD3 | WatchAngleY f32 | 观察 角度 Y | 1 | 4 | 未知 | CRC 候选 |
 | hash_D223F25C | CanPutWallAndFloor u8 | 可 放置 墙壁 及 地板 | 1 | 1 | 未知 | CRC 候选 |
-| hash_D22A8FC9 | CNzh u8 | C Nzh | 1 | 1 | 未知 | CRC 候选 |
+| hash_D22A8FC9 | CNzh u8 | 简体中文（CNzh） | 1 | 1 | 未知 | CRC 候选 |
 | hash_D244561E | TshirtsHNormalScaleMaskA f32 | T恤 H 法线 缩放 遮罩 A | 1 | 4 | 未知 | CRC 候选 |
 | hash_D261E06C | Seat0 u16 | 座位 0 | 1 | 2 | 未知 | CRC 候选 |
 | hash_D29880F2 | DesignAutumn1 u16 | 设计 秋季 1 | 2 | 2 | 未知 | CRC 候选 |
@@ -1873,7 +1873,7 @@
 | hash_E54E85D4 | SkinBaseColorG f32 | 皮肤 基础 颜色 G | 1 | 4 | 未知 | CRC 候选 |
 | hash_E550ABDF | HideFoodCounter u8 | 隐藏 食物 Counter | 1 | 1 | 未知 | CRC 候选 |
 | hash_E55664A5 | EndMoN5 u8 | 结束 月份 N 5 | 1 | 1 | 未知 | CRC 候选 |
-| hash_E5644DDE | EUit u8 | E Uit | 1 | 1 | 未知 | CRC 候选 |
+| hash_E5644DDE | EUit u8 | 欧洲意大利语（EUit） | 1 | 1 | 未知 | CRC 候选 |
 | hash_E5C221D5 | RadiusBOutdoor s8 | 半径 B 室外 | 1 | 1 | 未知 | CRC 候选 |
 | hash_E626F1B5 | Amount5 u16 | 数量 5 | 1 | 2 | 未知 | CRC 候选 |
 | hash_E6317726 | TalkValueVisitor u16 | 对话 数值 访客 | 1 | 2 | 未知 | CRC 候选 |
@@ -1974,7 +1974,7 @@
 | hash_F14285F2 | Day2033 u8 | 日 2033 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F15EDF7C | OutdoorRefabricNum1 s8 | 室外 布料改造 数量 1 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F160E705 | Day2057 u8 | 日 2057 | 1 | 1 | 未知 | CRC 候选 |
-| hash_F163E8BE | Weighting u8 | Weighting | 1 | 1 | 未知 | CRC 候选 |
+| hash_F163E8BE | Weighting u8 | 权重 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F16B7305 | StartMonthNorth u16 | 开始 月份 北 | 1 | 2 | 未知 | CRC 候选 |
 | hash_F179F796 | CaptureForceStateON u8 | 捕捉 Force 状态 开启 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F17C8674 | InnerType120 u8 | 内侧 类型 120 | 1 | 1 | 未知 | CRC 候选 |
@@ -1988,10 +1988,10 @@
 | hash_F2CE6E17 | AutoDisappear u8 | 自动 Disappear | 1 | 1 | 未知 | CRC 候选 |
 | hash_F360859A | Rate2_0 s8 | 比率 2 0 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F37316E6 | AIFlowName string64 | AI 流程 名称 | 1 | 64 | 未知 | CRC 候选 |
-| hash_F3D8FA00 | USfr u8 | U Sfr | 1 | 2 | 未知 | CRC 候选 |
+| hash_F3D8FA00 | USfr u8 | 美洲法语（USfr） | 1 | 2 | 未知 | CRC 候选 |
 | hash_F413ACD2 | AcceptSubWarpEx u8 | 接受 子 Warp Ex | 1 | 1 | 未知 | CRC 候选 |
 | hash_F4210974 | UnlockTheme28 u16 | 解锁 主题 28 | 1 | 2 | 未知 | CRC 候选 |
-| hash_F429D772 | HelmetID u16 | Helmet ID | 1 | 2 | 未知 | CRC 候选 |
+| hash_F429D772 | HelmetID u16 | 头盔 ID | 1 | 2 | 未知 | CRC 候选 |
 | hash_F43B77CD | LeftRotateOffsetY f32 | 左 旋转 偏移 Y | 1 | 4 | 未知 | CRC 候选 |
 | hash_F44FAB3B | ItemFtrToDishType.hshCstringRef | 道具 家具 至 Dish 类型 | 1 | 4 | 未知 | CRC 候选 |
 | hash_F45A96C6 | ReBodyPattern1Color0 u8 | 重新 主体 款式 1 颜色 0 | 1 | 1 | 未知 | CRC 候选 |
@@ -2003,7 +2003,7 @@
 | hash_F50743FB | ElectionRate0 u8 | 选举 比率 0 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F5206DC0 | VIPTheme u8 | VIP 主题 | 1 | 3 | 未知 | CRC 候选 |
 | hash_F5367C4F | UseSitOffset u8 | 使用 坐 偏移 | 1 | 1 | 未知 | CRC 候选 |
-| hash_F551B995 | EUde u8 | E Ude | 1 | 1 | 未知 | CRC 候选 |
+| hash_F551B995 | EUde u8 | 欧洲德语（EUde） | 1 | 1 | 未知 | CRC 候选 |
 | hash_F58109F5 | SilhouettePoint u8 | 轮廓 点 | 1 | 4 | 未知 | CRC 候选 |
 | hash_F588704D | ProbAugustDaytime u16 | 8月 白天概率 | 1 | 2 | 未知 | CRC 候选 |
 | hash_F5A73337 | Grow u8 | 成长 | 1 | 1 | 未知 | CRC 候选 |
@@ -2020,7 +2020,7 @@
 | hash_F78F76C7 | StampRackItemNameB u16 | 印章 架子 道具 名称 B | 1 | 2 | 未知 | CRC 候选 |
 | hash_F7E3CB4B | EndMoN6 u8 | 结束 月份 N 6 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F80E9FEE | ItemGender.hshCstringRef | 道具 性别 | 1 | 4 | 未知 | CRC 候选 |
-| hash_F8316716 | Depth f32 | Depth | 1 | 4 | 未知 | CRC 候选 |
+| hash_F8316716 | Depth f32 | 深度 | 1 | 4 | 未知 | CRC 候选 |
 | hash_F85C61D4 | InnerType001 u8 | 内侧 类型 001 | 1 | 1 | 未知 | CRC 候选 |
 | hash_F89574CD | FacilityActionType1.hshCstringRef | 设施 动作 类型 1 | 1 | 4 | 未知 | CRC 候选 |
 | hash_F8A892FC | CliffCreate u8 | Cliff 创建 | 1 | 1 | 未知 | CRC 候选 |
@@ -2050,9 +2050,9 @@
 | hash_FBB451BF | PoseTrans u8 | 姿势 位移 | 1 | 1 | 未知 | CRC 候选 |
 | hash_FBDE3E87 | Day2042 u8 | 日 2042 | 1 | 1 | 未知 | CRC 候选 |
 | hash_FBFC5C70 | Day2026 u8 | 日 2026 | 1 | 1 | 未知 | CRC 候选 |
-| hash_FC275E86 | CapturePreset string32 | 捕捉预设（原名直译） | 1 | 32 | ItemParam.bcsv: native_kind_label | CRC 候选 |
+| hash_FC275E86 | CapturePreset string32 | 捕捉预设（名称直译；ItemParam 中已登记为原生细分类标签） | 1 | 32 | ItemParam.bcsv: native_kind_label | CRC 候选 |
 | hash_FC3116B5 | CancelFootprint u8 | 取消 Footprint | 1 | 1 | 未知 | CRC 候选 |
-| hash_FC5B747F | SNpcID3 u16 | S NPC ID 3 | 1 | 2 | 未知 | CRC 候选 |
+| hash_FC5B747F | SNpcID3 u16 | S NPC ID 3（NPC 编号） | 1 | 2 | 未知 | CRC 候选 |
 | hash_FC5FE459 | Reward6 u32 | 奖励 6 | 1 | 4 | 未知 | CRC 候选 |
 | hash_FC6134E3 | WdaySouth u8 | 南半球星期 | 1 | 1 | 未知 | CRC 候选 |
 | hash_FC7A1955 | Timezone.hshCstringRef | 时区 | 1 | 4 | 未知 | CRC 候选 |
