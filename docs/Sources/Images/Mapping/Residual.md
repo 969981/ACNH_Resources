@@ -13,6 +13,10 @@ NPC：{"unresolved": 6, "shared_identity": 4, "candidate": 18, "generic_icon": 1
 
 CSV/JSON：[补充映射](https://github.com/969981/ACNH_Resources/tree/research/research/image-mapping/residual)。
 
+第三轮剩余资源模型关联：{"item": {"model_candidate": 330, "no_exact_model": 53}, "variant": {"model_candidate": 10}, "npc": {"candidate": 6}}
+
+模型候选不是 PNG；NPC 跨家族与相同 SHA 证据也不等于独占身份。
+
 ## 明细文档
 - [Residual-Item-001.md](Residual-Item-001.md)
 - [Residual-Item-002.md](Residual-Item-002.md)
@@ -130,3 +134,9 @@ CSV/JSON：[补充映射](https://github.com/969981/ACNH_Resources/tree/research
 - [Residual-Variant-065.md](Residual-Variant-065.md)
 - [Residual-Variant-066.md](Residual-Variant-066.md)
 - [Residual-NPC-001.md](Residual-NPC-001.md)
+- [Residual-Final-Item-001.md](Residual-Final-Item-001.md)
+- [Residual-Final-Item-002.md](Residual-Final-Item-002.md)
+- [Residual-Final-Item-003.md](Residual-Final-Item-003.md)
+- [Residual-Final-Item-004.md](Residual-Final-Item-004.md)
+- [Residual-Final-Variant-001.md](Residual-Final-Variant-001.md)
+- [Residual-Final-NPC-001.md](Residual-Final-NPC-001.md)
