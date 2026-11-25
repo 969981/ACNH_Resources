@@ -1,0 +1,83 @@
+name: ACNH TextureDecoderParityAudit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/texture_decoder_parity_audit.py'
+      - '.github/workflows/acnh303-texture-decoder-parity.yml'
+permissions:
+  contents: write
+concurrency:
+  group: acnh-texture-decoder-parity
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            Scripts/texture_decoder_parity_audit.py
+            Scripts/image_pack_compatibility_audit.py
+            research/image-mapping/source-png.csv
+            research/image-pack-audit/
+            research/texture-decoder-parity/
+            e10617820db06889e1638499478da0de_NCA/1/Layout/
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_MenuIcon_*
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_ManpuIcon_*
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_Book*Icon_*
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_CategoryS_*
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_DIYRecipeIcon_*
+            e10617820db06889e1638499478da0de_NCA/1/Model/Layout_CookingIcon_*
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            assets/images/
+            Scripts/acnh_formats.py
+            Scripts/probe_acnh_babybed_textures.py
+      - name: Install decoder and metrics dependencies
+        run: |
+          python -m pip install Pillow==12.0.0 numpy==2.2.6 scikit-image==0.25.2 texture2ddecoder==1.0.6 zstandard==0.23.0
+          sudo apt-get update
+          sudo apt-get install -y astcenc
+          astcenc -version
+          dpkg-query -W astcenc
+          python -m pip freeze
+      - name: Fetch and verify fixed image pack
+        run: |
+          curl --fail --location --retry 3 --max-time 600 -o "$RUNNER_TEMP/img.zip" https://github.com/MyShiLingStar/ACNHPokerCore/releases/download/ImgPack9/img.zip
+          echo "efe734cfb300959c83db3da9a102f083421e869d1ce5f9b38768729004ae4d9d  $RUNNER_TEMP/img.zip" | sha256sum -c -
+      - name: Full channel and texture parity audit
+        env:
+          PYTHONPATH: historical/Scripts
+        run: |
+          python -m py_compile Scripts/texture_decoder_parity_audit.py
+          python -u Scripts/texture_decoder_parity_audit.py --pack "$RUNNER_TEMP/img.zip"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: texture-decoder-parity
+          path: research/texture-decoder-parity/
+          if-no-files-found: warn
+      - name: Archive verified audit tables only
+        if: success()
+        run: |
+          set -euo pipefail
+          git add --sparse research/texture-decoder-parity
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qm 'research(images): archive texture parity and unmatched source evidence'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/texture_decoder_parity_audit.py Scripts/image_pack_compatibility_audit.py research/image-mapping/source-png.csv research/image-pack-audit e10617820db06889e1638499478da0de_NCA || { echo 'Input changed; refusing stale archive'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
