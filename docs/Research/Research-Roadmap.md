@@ -44,3 +44,7 @@ updated: 2026-11-25
 [首轮 234 表验收 #45569991407](https://github.com/969981/ACNH_Resources/actions/runs/45569991407) · [九张核心表 #45569451957](https://github.com/969981/ACNH_Resources/actions/runs/45569451957) · [关系审计永久记录](https://github.com/969981/ACNH_Resources/blob/research/research/bcsv-relations/ci-baseline.json)。
 
 每次研究先补充专题结论与固定证据，再更新首页、路线和日志；未知保留原值。
+
+## 图片素材
+
+[图片素材源文件与格式](../Sources/Images/README.md)：原始路径、容器格式、BNTX 元数据、图标与材质区分；新增全量路径清点及抽样解析 CI，像素与运行时选择待验证。
