@@ -28,3 +28,9 @@ version: "3.0.3"
 ## 全量目录研究
 
 `uv run --script Scripts/bcsv/catalog.py --verify-git` 扫描全目录，生成 inventory.json、field-hashes.json、reference-candidates.json、summary.json 与自动 Markdown docs。引用是 CRC32 值域候选，不是已确认外键。详见 [全量字典研究](Full-Catalog.md)。
+
+## 全量字典与关系导航
+
+[234 张表](Generated/README.md) · [字段 Hash](Generated/Field-Hashes.md) · [名称恢复](Field-Names.md) · [全量数据字典](Full-Catalog.md) · [业务解析层](Decoded.md) · [引用候选](Generated/References.md) · [剩余 CRC、主外键与布尔字段](Relation-Audit.md)。
+
+234 表结构已通过；5,713/5,870 枚举已登记，另 99 项候选；96 项关联仍非原生外键。[实际审计](https://github.com/969981/ACNH_Resources/actions/runs/45574462546)。相关：[商品专题](../../Items/README.md) · [MSBT 专题](../Message/README.md) · [原生程序](../../Research/Native-Research.md)。
