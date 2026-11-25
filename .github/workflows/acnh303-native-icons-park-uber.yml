@@ -1,0 +1,118 @@
+name: ACNH native FtrIcon and Park UBER research
+on:
+  pull_request:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_ftricon_full.py'
+      - 'Scripts/acnh303_ftricon_astc.py'
+      - 'Scripts/acnh303_round29_bnsh_links.py'
+      - 'Scripts/acnh303_park_uber_probe.py'
+      - '.github/workflows/acnh303-native-icons-park-uber.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  icon-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /assets/evidence/rom-items/batch-*.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt
+      - run: python Scripts/acnh303_ftricon_full.py plan --out inventory
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory/
+          if-no-files-found: error
+  decode:
+    needs: icon-inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt texture2ddecoder==1.0.6
+      - uses: actions/download-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory
+      - run: |
+          python - <<'PY'
+          import json
+          rows=json.load(open('inventory/inventory.json'))
+          with open('paths.txt','w') as f:
+              for r in rows:
+                  if r['status']=='needs_decode' or r['name'] in ('FtrBabybed_Remake_0_0','FtrBabybed_Remake_7_6'):
+                      print('/'+r['path'],file=f)
+                      if r.get('output'):print('/'+r['output'],file=f)
+          PY
+          git sparse-checkout add --stdin < paths.txt
+          python Scripts/acnh303_ftricon_astc.py --inventory inventory/inventory.json --out decoded
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-decode-0
+          path: decoded/
+          if-no-files-found: error
+  aggregate:
+    needs: decode
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: Scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r Scripts/requirements-media.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: ftricon-inventory
+          path: inventory
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ftricon-decode-*
+          path: parts
+      - run: python Scripts/acnh303_ftricon_full.py aggregate --inventory inventory/inventory.json --parts parts/*/results.json --out result
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ftricon-full-index
+          path: result/
+          if-no-files-found: error
+  shader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/1/Shader/Park_UBER_All.Nin_NX_NVN.szs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install zstandard==0.25.0
+      - run: python Scripts/acnh303_park_uber_probe.py --out result
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: park-uber-native-audit
+          path: result/
+          if-no-files-found: warn
