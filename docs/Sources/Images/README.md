@@ -11,6 +11,8 @@ version: "3.0.3"
 
 ## 专题导航
 
+- [ZS 原始文件与道具、村民图片映射字典](Image-File-Mapping.md)
+
 - [道具、家具及服装原版图片提取](Item-Extraction.md) — 原始路径、历史导出代码、32,145 个源验收、复现命令
 - [村民头像、照片、海报与照片道具提取](Villager-Extraction.md) — 1,934 个原始源、实际样例哈希、NPC/MSBT 关联
 
