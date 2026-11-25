@@ -193,11 +193,14 @@
       "original_signature": null,
       "name_status": "unresolved",
       "semantic_alias": "NpcInteractionTargetActionName",
-      "semantic_status": "data_relation",
-      "observation": "All 10 nonempty values exactly equal another row's Name, runtime consumption unverified.",
-      "native_functions_ghidra_va": [],
+      "semantic_status": "native_behavior",
+      "observation": "10/10 original target strings match same-table Name; FUN_01FD5450 and FUN_01FEAB40 resolve strings to runtime action index and use it in NPC lookup/target comparison.",
+      "native_functions_ghidra_va": [
+        "01FD5450",
+        "01FEAB40"
+      ],
       "native_read_width": null,
-      "native_slot": null
+      "native_slot": 15
     },
     {
       "hash": "63A46970",
@@ -616,12 +619,16 @@
       "original_name": null,
       "original_signature": null,
       "name_status": "unresolved",
-      "semantic_alias": "MailAttachmentCategoryHashList",
-      "semantic_status": "data_relation",
-      "observation": "Three pipe-separated hex CRC lists; cross-table category join pending CI.",
-      "native_functions_ghidra_va": [],
+      "semantic_alias": "MailAttachmentCategoryMurmurHashList",
+      "semantic_status": "native_behavior",
+      "observation": "Native pipe split, numeric parse, 79-name Murmur3 seed0 lookup, 10-byte bitmap set. None Murmur3 B6EEDE09 matches; complete original name table join pending CI. Direct ItemParam raw match 0/6.",
+      "native_functions_ghidra_va": [
+        "01ABA7E0",
+        "01ABAEE0",
+        "006BD550"
+      ],
       "native_read_width": null,
-      "native_slot": null
+      "native_slot": 1
     },
     {
       "hash": "EFA5DDA4",
