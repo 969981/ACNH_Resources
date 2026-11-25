@@ -55,7 +55,10 @@ jobs:
           path: /tmp/bcsv-decoded
       - run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
+          for p in Scripts/bcsv/decode.py Scripts/bcsv/bcsv.py Scripts/bcsv/export_views.py research/bcsv-data/schema research/bcsv-catalog/inventory.json research/bcsv-catalog/reference-candidates.json research/bcsv-hash/sources/external_enum_sources.json docs/Items/Native-UI-Category-Groups.json e10617820db06889e1638499478da0de_NCA/1/Bcsv research/bcsv-data/decoded; do
+            test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "HEAD:$p")" || { echo "Input or destination changed: $p"; exit 1; }
+          done
           mkdir -p research/bcsv-data/decoded
           cp -r /tmp/bcsv-decoded/. research/bcsv-data/decoded/
           git add research/bcsv-data/decoded
