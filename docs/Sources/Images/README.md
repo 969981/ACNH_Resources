@@ -9,6 +9,12 @@ version: "3.0.3"
 
 原始根目录：[RomFS / 1](https://github.com/969981/ACNH_Resources/tree/75e065bbf08561e762f944d6db73e8cc1ed12153/e10617820db06889e1638499478da0de_NCA/1)。以下路径均相对此目录；原始文件只读。PNG 是解码/导出格式，不假定原版直接存放 PNG。
 
+## 专题导航
+
+- [BNTX/BRTI 格式及像素编码字典](BNTX-BRTI.md)
+- [全量源文件分类及抽样纹理](Source-Catalog.md)
+- [原始清点验收 #45613881319](https://github.com/969981/ACNH_Resources/actions/runs/45613881319)
+
 ## 一、素材位置与用途
 
 | 原始目录或文件名模式 | 中文用途 | 格式与证据 |
@@ -77,3 +83,7 @@ BNTX 内可能使用 GPU 压缩或未压缩像素格式。具体 BC/ASTC/RGBA �
 ## 六、证据状态和后续
 
 本页是素材源文件及格式研究入口。当前目录和历史代码已读取；当前分支尚未在本轮全量解码像素。下一步通过原始 Git Tree 清点全部文件、按资源族分组，并抽取实际容器 magic、BRTI 元数据。对于尚未识别的资源保留 unknown；PNG 与运行时图标分开验收。
+
+## 全量清点验收更新
+
+CI #45613881319 成功：61,646 个图片相关候选文件；FtrIcon 25,794、ClosetIcon 5,480；11 个样本容器实读成功。并不表示全量 PNG 已解码。新增图片关系数据库及实际纹理元数据，验收见 [catalog CI](https://github.com/969981/ACNH_Resources/actions/runs/45621610195)。
