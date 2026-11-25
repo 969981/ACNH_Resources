@@ -1,0 +1,59 @@
+name: ACNH ImagePackCompatibilityAudit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/image_pack_compatibility_audit.py'
+      - '.github/workflows/acnh303-image-pack-audit.yml'
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/image_pack_compatibility_audit.py
+            research/image-mapping/source-png.csv
+            research/image-pack-audit
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: |
+            assets/images/
+          sparse-checkout-cone-mode: false
+      - name: Fetch fixed third-party comparison inputs
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --max-time 600 -o "$RUNNER_TEMP/img.zip" https://github.com/MyShiLingStar/ACNHPokerCore/releases/download/ImgPack9/img.zip
+          echo "efe734cfb300959c83db3da9a102f083421e869d1ce5f9b38768729004ae4d9d  $RUNNER_TEMP/img.zip" | sha256sum -c -
+          curl --fail --location --retry 3 -o "$RUNNER_TEMP/override.csv" https://raw.githubusercontent.com/MyShiLingStar/ACNHPokerCore/24e238f743143cdb92f149d47bd61bfcff0b544a/ACNHPokerCore/csv/override.csv
+          sha256sum "$RUNNER_TEMP/override.csv"
+      - run: python -m pip install Pillow==12.0.0
+      - run: python Scripts/image_pack_compatibility_audit.py --historical historical --pack "$RUNNER_TEMP/img.zip" --override "$RUNNER_TEMP/override.csv"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: image-pack-audit
+          path: research/image-pack-audit/
+          if-no-files-found: warn
+      - name: Archive audit data only
+        run: |
+          set -euo pipefail
+          git add --sparse research/image-pack-audit
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qm 'research(images): archive image pack byte and pixel comparison'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/image_pack_compatibility_audit.py research/image-mapping/source-png.csv e10617820db06889e1638499478da0de_NCA || { echo 'Input changed; refusing stale archive'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
