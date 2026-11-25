@@ -1,0 +1,68 @@
+name: ACNH special entity audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths: ['Scripts/item_entity/SpecialEntityCodec.py','Scripts/item_entity/audit_special_entity.py','Scripts/item_entity/test_special_entity.py','.github/workflows/acnh303-special-entity.yml']
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/item_entity
+            Scripts/bcsv
+            research/catalog/variants/storage
+            research/catalog/item-entity
+            e10617820db06889e1638499478da0de_NCA/0
+            e10617820db06889e1638499478da0de_NCA/1/Bcsv
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: Scripts
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.12 python -m unittest discover -s Scripts/item_entity -p 'test_*.py' -v
+      - run: uv run --no-project --python 3.12 --with lz4==4.3.3 --with capstone==5.0.3 python Scripts/item_entity/audit_special_entity.py --historical historical
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-special-entity
+          path: out/special-entity
+  publish:
+    needs: audit
+    if: github.ref == 'refs/heads/research'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research
+          sparse-checkout: research/catalog/special-entity
+      - uses: actions/download-artifact@v4
+        with:
+          name: acnh303-special-entity
+          path: /tmp/special-entity
+      - run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags --depth=1 origin research
+            for p in Scripts/item_entity/SpecialEntityCodec.py Scripts/item_entity/audit_special_entity.py Scripts/item_entity/ItemEntityCodec.py research/catalog/variants/storage research/catalog/item-entity e10617820db06889e1638499478da0de_NCA; do
+              test "$(git rev-parse "$GITHUB_SHA:$p")" = "$(git rev-parse "FETCH_HEAD:$p")"
+            done
+            test "$(git rev-parse --verify -q "$GITHUB_SHA:research/catalog/special-entity" || true)" = "$(git rev-parse --verify -q "FETCH_HEAD:research/catalog/special-entity" || true)"
+            git checkout --detach FETCH_HEAD
+            mkdir -p research/catalog/special-entity
+            cp /tmp/special-entity/* research/catalog/special-entity/
+            git add research/catalog/special-entity
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data(entity): archive native special entity evidence"
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
