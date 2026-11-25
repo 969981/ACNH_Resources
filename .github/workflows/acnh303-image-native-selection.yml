@@ -1,0 +1,67 @@
+name: ACNH native resource selection
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/image_native_selection.py'
+      - '.github/workflows/acnh303-image-native-selection.yml'
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/image_native_selection.py
+            research/image-mapping
+            research/image-catalog
+            research/catalog/item.csv
+            research/catalog/variants/item_remake.csv
+            research/bcsv-data/named/ItemParam.csv
+            research/bcsv-data/named/ItemKind.csv
+            research/bcsv-data/named/ItemMenuIcon.csv
+            docs/Sources/Images
+            e10617820db06889e1638499478da0de_NCA/1/Model/ToolSmartphoneNormal*.Nin_NX_NVN.zs
+            e10617820db06889e1638499478da0de_NCA/1/Model/FtrWherearenParasol*.Nin_NX_NVN.zs
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@v4
+        with:
+          ref: f09e15460d02790060a374b2ad6ba569ba9b97ed
+          path: historical
+          sparse-checkout: |
+            Scripts/acnh_formats.py
+            Scripts/probe_acnh_babybed_textures.py
+            derived/3.0.3/ghidra12.2/c/f9/01adf970.c
+            derived/3.0.3/ghidra12.2/c/59/01ae59b0.c
+            derived/3.0.3/ghidra12.2/c/e3/01afe3e0.c
+            derived/3.0.3/ghidra12.2/c/ee/01afeef4.c
+            derived/3.0.3/ghidra12.2/c/db/0152dba0.c
+            derived/3.0.3/ghidra12.2/c/0c/01530c60.c
+            derived/3.0.3/ghidra12.2/c/4b/01664b40.c
+          sparse-checkout-cone-mode: false
+      - run: python -m pip install zstandard
+      - run: python Scripts/image_native_selection.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-resource-selection
+          path: |
+            research/image-mapping/native-selection
+            docs/Sources/Images/Native-Resource-Selection.md
+      - name: Archive audit
+        run: |
+          set -euo pipefail
+          git add --sparse research/image-mapping/native-selection docs/Sources/Images/Native-Resource-Selection.md
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qm 'research(images): archive native selection and shared remake audit'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/image_native_selection.py research/image-mapping/residual research/image-mapping/source-png.csv research/image-catalog research/catalog/item.csv research/catalog/variants/item_remake.csv research/bcsv-data/named/ItemParam.csv research/bcsv-data/named/ItemKind.csv research/bcsv-data/named/ItemMenuIcon.csv e10617820db06889e1638499478da0de_NCA || { echo 'Input changed; refusing stale archive'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
