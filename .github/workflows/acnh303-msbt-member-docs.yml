@@ -1,0 +1,45 @@
+name: ACNH MSBT original member documentation
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/message/member_docs.py'
+      - 'research/message-data/manifest.json'
+      - 'docs/Sources/Message/String-Member-Index.md'
+      - '.github/workflows/acnh303-msbt-member-docs.yml'
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/message
+            docs
+            research/message-data/archive.csv
+            research/message-data/member.csv
+            research/message-data/manifest.json
+            research/message-data/summary.json
+            research/message-data/entries
+          sparse-checkout-cone-mode: false
+      - run: python3 Scripts/message/member_docs.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msbt-member-docs
+          path: |
+            docs/Sources/Message/Members
+            research/message-data/member-purpose-index.json
+      - name: Publish verified documentation
+        run: |
+          set -euo pipefail
+          git add docs/Sources/Message/Members research/message-data/member-purpose-index.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs(msbt): publish verified all-family original member index'
+          git push origin HEAD:research
