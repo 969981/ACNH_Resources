@@ -21,6 +21,7 @@ updated: 2026-11-25
 | 进度 | [研究路线](Research/Research-Roadmap.md) | 持续更新 |
 | 日志 | [2026-11-25](Research/2026-11-25.md) | 初始研究记录 |
 | 管理 | [知识库维护规范](Knowledge-Guide.md) | Markdown / Obsidian |
+| AI | [AI Agent 与研究技能](Agent-Guide.md) | 项目级工作流 |
 
 ## 打开方式
 
