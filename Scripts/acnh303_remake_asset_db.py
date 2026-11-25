@@ -9,11 +9,11 @@ from acnh303_remake_fmat_bindings import parse_material, parse_fres, u32, nested
 SCHEMA="""
 PRAGMA foreign_keys=ON;
 CREATE TABLE definition(id INTEGER PRIMARY KEY,source_row INTEGER NOT NULL,reverse_item_id INTEGER NOT NULL,body_count INTEGER NOT NULL CHECK(body_count BETWEEN 0 AND 8),fabric_count INTEGER NOT NULL CHECK(fabric_count BETWEEN 0 AND 8));
-CREATE TABLE item(item_id INTEGER PRIMARY KEY,remake_id INTEGER NOT NULL REFERENCES definition(id),label TEXT NOT NULL,model_name TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL);
+CREATE TABLE item(item_id INTEGER PRIMARY KEY,remake_id INTEGER NOT NULL REFERENCES definition(id),label TEXT NOT NULL,model_name TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL,scan_requested INTEGER NOT NULL CHECK(scan_requested IN (0,1)));
 CREATE TABLE resource(path TEXT PRIMARY KEY,git_blob TEXT,exists_in_tree INTEGER NOT NULL,scan_status TEXT NOT NULL DEFAULT 'not_scanned',sha256 TEXT,error TEXT);
 CREATE TABLE item_resource(item_id INTEGER REFERENCES item(item_id),channel TEXT NOT NULL,slot INTEGER NOT NULL,path TEXT NOT NULL REFERENCES resource(path),PRIMARY KEY(item_id,channel,slot));
 CREATE TABLE model(path TEXT REFERENCES resource(path),model_index INTEGER,name TEXT NOT NULL,PRIMARY KEY(path,model_index));
-CREATE TABLE material(path TEXT,model_index INTEGER,material_index INTEGER,name TEXT NOT NULL,fmat_offset INTEGER NOT NULL,shader_archive TEXT,shader_model TEXT,pairing_supported INTEGER NOT NULL,PRIMARY KEY(path,model_index,material_index),FOREIGN KEY(path,model_index) REFERENCES model(path,model_index));
+CREATE TABLE material(path TEXT,model_index INTEGER,material_index INTEGER,name TEXT NOT NULL,fmat_offset INTEGER NOT NULL,shader_archive TEXT,shader_model TEXT,pairing_supported INTEGER NOT NULL,parse_error TEXT,PRIMARY KEY(path,model_index,material_index),FOREIGN KEY(path,model_index) REFERENCES model(path,model_index));
 CREATE TABLE texture_ref(path TEXT,model_index INTEGER,material_index INTEGER,slot INTEGER,name TEXT NOT NULL,name_ptr INTEGER NOT NULL,PRIMARY KEY(path,model_index,material_index,slot),FOREIGN KEY(path,model_index,material_index) REFERENCES material(path,model_index,material_index));
 CREATE TABLE sampler(path TEXT,model_index INTEGER,material_index INTEGER,slot INTEGER,name TEXT NOT NULL,raw_hex TEXT NOT NULL,settings_json TEXT NOT NULL,PRIMARY KEY(path,model_index,material_index,slot),FOREIGN KEY(path,model_index,material_index) REFERENCES material(path,model_index,material_index));
 CREATE TABLE shader_assign(path TEXT,model_index INTEGER,material_index INTEGER,shader_sampler TEXT,material_sampler TEXT,material_slots_json TEXT NOT NULL,PRIMARY KEY(path,model_index,material_index,shader_sampler),FOREIGN KEY(path,model_index,material_index) REFERENCES material(path,model_index,material_index));
@@ -23,6 +23,20 @@ CREATE TABLE binding(item_id INTEGER,body_slot INTEGER,fabric_slot INTEGER,base_
 CREATE INDEX item_remake ON item(remake_id);
 CREATE INDEX item_resource_path ON item_resource(path);
 CREATE INDEX binding_source ON binding(source_path,texture_name);
+CREATE VIEW item_scan_status AS
+SELECT i.item_id,i.remake_id,i.status AS inventory_status,i.scan_requested,
+CASE WHEN i.scan_requested=0 THEN 'not_requested'
+WHEN i.status IN ('photo_special_candidate','empty_model_name','missing_remake_definition') THEN i.status
+WHEN NOT EXISTS(SELECT 1 FROM variant v WHERE v.item_id=i.item_id) THEN 'no_parsed_base_model'
+WHEN EXISTS(SELECT 1 FROM variant v WHERE v.item_id=i.item_id AND v.status!='ordinary_source_candidate') THEN 'partial_or_unresolved'
+ELSE 'ordinary_source_candidate' END AS binding_status
+FROM item i;
+CREATE VIEW definition_scan_status AS
+SELECT d.id AS remake_id,count(i.item_id) AS item_references,
+sum(CASE WHEN i.binding_status='ordinary_source_candidate' THEN 1 ELSE 0 END) AS ordinary_candidate_items,
+sum(CASE WHEN i.binding_status='not_requested' THEN 1 ELSE 0 END) AS not_requested_items,
+sum(CASE WHEN i.binding_status NOT IN ('not_requested','ordinary_source_candidate') THEN 1 ELSE 0 END) AS other_items
+FROM definition d LEFT JOIN item_scan_status i ON i.remake_id=d.id GROUP BY d.id;
 """
 def sha(b):return hashlib.sha256(b).hexdigest()
 def blob(b):return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
@@ -89,7 +103,7 @@ def build_db(rows,parts,out,require_full=False):
     with c:
         c.executemany("INSERT INTO definition VALUES(?,?,?,?,?)",[(d["remakeId"],d["sourceRow"],d["reverseItemId"],d["bodyCount"],d["fabricCount"]) for d in defs.values()])
         for r in rows:
-            c.execute("INSERT INTO item VALUES(?,?,?,?,?,?)",(r["itemId"],r["remakeId"],r["label"],r["modelName"],r["kind"],r["status"]))
+            c.execute("INSERT INTO item VALUES(?,?,?,?,?,?,?)",(r["itemId"],r["remakeId"],r["label"],r["modelName"],r["kind"],r["status"],int(r["itemId"] in seen)))
             for ch,i,x in links(r):
                 a=scans.get(x["path"],{})
                 c.execute("INSERT OR IGNORE INTO resource VALUES(?,?,?,?,?,?)",(x["path"],x["gitBlobSha1"],int(x["exists"]),a.get("status","not_scanned" if x["exists"] else "missing_path"),a.get("sha256"),a.get("error")))
@@ -101,7 +115,7 @@ def build_db(rows,parts,out,require_full=False):
                 for j,mat in enumerate(m["materials"]):
                     sh=mat.get("shaderAssign") or {}
                     key=(path,mi,j)
-                    c.execute("INSERT INTO material VALUES(?,?,?,?,?,?,?,?)",(*key,mat["name"],mat["offset"],sh.get("shaderArchive"),sh.get("shaderModel"),int(mat.get("ordinalPairingSupported",False))))
+                    c.execute("INSERT INTO material VALUES(?,?,?,?,?,?,?,?,?)",(*key,mat["name"],mat["offset"],sh.get("shaderArchive"),sh.get("shaderModel"),int(mat.get("ordinalPairingSupported",False)),mat.get("error")))
                     for t in mat.get("textureRefs",[]):c.execute("INSERT INTO texture_ref VALUES(?,?,?,?,?,?)",(*key,t["index"],t["texture"],t["textureNamePointer"]))
                     for s in mat.get("samplers",[]):c.execute("INSERT INTO sampler VALUES(?,?,?,?,?,?,?)",(*key,s["index"],s["sampler"],s["rawHex"],json.dumps(s,separators=(",",":"))))
                     for s in sh.get("samplerAssigns",[]):c.execute("INSERT INTO shader_assign VALUES(?,?,?,?,?,?)",(*key,s["shaderSampler"],s["materialSampler"],json.dumps(s["materialSlotIndices"])))
@@ -137,7 +151,7 @@ def build_db(rows,parts,out,require_full=False):
     samples=[]
     for ident in (79,725,1501):
         samples.append({"itemId":ident,"variants":dict(c.execute("SELECT status,count(*) FROM variant WHERE item_id=? GROUP BY status",(ident,))),"bindingStatuses":dict(c.execute("SELECT status,count(*) FROM binding WHERE item_id=? GROUP BY status",(ident,)))})
-    report={"counts":counts,"scannedItems":len(seen),"resourceStatuses":dict(c.execute("SELECT scan_status,count(*) FROM resource GROUP BY scan_status")),"variantStatuses":dict(c.execute("SELECT status,count(*) FROM variant GROUP BY status")),"samples":samples,"runtimeVerified":False,"pixelVerified":False,"allDefinitionsIndexed":True,"fullScanRequested":require_full}
+    report={"counts":counts,"scannedItems":len(seen),"resourceStatuses":dict(c.execute("SELECT scan_status,count(*) FROM resource GROUP BY scan_status")),"variantStatuses":dict(c.execute("SELECT status,count(*) FROM variant GROUP BY status")),"samples":samples,"itemScanStatuses":dict(c.execute("SELECT binding_status,count(*) FROM item_scan_status GROUP BY binding_status")),"runtimeVerified":False,"pixelVerified":False,"allDefinitionsIndexed":True,"fullScanRequested":require_full}
     c.close();write(out/"audit.json",report);print(json.dumps(report,ensure_ascii=False))
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("command",choices=["paths","scan","db"]);p.add_argument("--root",type=Path,default=Path("."));p.add_argument("--inventory",type=Path,required=True);p.add_argument("--out",type=Path,required=True);p.add_argument("--shard",type=int,default=0);p.add_argument("--shards",type=int,default=1);p.add_argument("--sample",action="store_true");p.add_argument("--full",action="store_true");p.add_argument("--parts",type=Path,nargs="*",default=[]);a=p.parse_args()
