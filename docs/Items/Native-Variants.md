@@ -23,3 +23,7 @@
 [原生存储分发与 Storage 位图](Native-Variant-Storage.md)：区分 wrapper+0xC/+0xE、普通 Item+4/+6 和原生枚举缓存。
 
 相关：[原版图片、图标与纹理素材](../Sources/Images/README.md)。
+
+## 共享 RemakeID 与图标独立性
+
+[原生图标选择审计](../Sources/Images/Native-Resource-Selection.md)：2 个共享 RemakeID 组共 481 个物品；3,828 个非代表物品同坐标对照中，3,824 个自身 Label/ResName 原版 PNG SHA 集合与代表物品不相交，4 个同路径集合。共享改造定义不是共享外观；生产选图必须保留自身 ItemID/Label，禁止仅凭代表物品回退自动替换。原生运行时 UI 选择仍未重放。
