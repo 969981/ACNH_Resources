@@ -60,6 +60,29 @@ def gene_byte(alleles,mapping):
 
 class ItemEntityFactory:
     @staticmethod
+    def construct_bottle_explicit(item_id, *, system, additional, recipe, category, group, limits, masks, recipe_bitmap):
+        """Explicit inputs plus native table/bitmap gates. Not a native default."""
+        from SpecialEntityCodec import bottle_entity
+        require(recipe_valid(recipe_bitmap,recipe),"recipe validity bit not set")
+        return bottle_entity(item_id,system,additional,recipe,category,group,limits,masks)
+
+    @staticmethod
+    def construct_container_explicit(item_id, *, system, additional, original_word, child_id, transfer_type, child_valid, body=0, fabric_return=0):
+        """Caller supplies validated native predicate and effective child identity."""
+        from SpecialEntityCodec import embedded_word
+        require(child_valid is True,"native child validity must be supplied")
+        require(item_id in (2579,3413,4245,5656,12634,13359,14341),"unverified container family")
+        if item_id==2579:
+            require(transfer_type==0,"unknown fossil only copies child ID")
+        return ItemEntity(item_id,system,additional,embedded_word(original_word,child_id,transfer_type,body,fabric_return))
+
+    @staticmethod
+    def money_value(entity, *, price, max_count, stack_gate, kind_index):
+        from SpecialEntityCodec import money_amount
+        require(kind_index==0x86 and entity.additional_param&3==0,"money identity gate")
+        return money_amount(price,entity.low,max_count,stack_gate)
+
+    @staticmethod
     def plan(seed,kind_index,ctx=Context()):
         if seed.entity_type in ("empty","extension"):
             return Plan(seed,(),(),(),"native_f248_early_return_only")
