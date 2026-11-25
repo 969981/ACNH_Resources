@@ -52,3 +52,7 @@ updated: 2026-11-25
 ### 原始图片素材验收
 
 61,646 个候选源文件；11 个实际容器样本通过，[清点 CI](https://github.com/969981/ACNH_Resources/actions/runs/45613881319)。[BNTX/BRTI 字典](../Sources/Images/BNTX-BRTI.md) 已编写；[全量分类与关系候选](../Sources/Images/Source-Catalog.md) 由 CI 生成。像素、运行时图标选择、UI 消费者及浏览器仍待验证。
+
+### 图片 ZS 关联
+
+[ZS 原始文件与道具、村民图片映射](../Sources/Images/Image-File-Mapping.md) 已创建；历史证据归并、全量生成由 [CI #45626594837](https://github.com/969981/ACNH_Resources/actions/runs/45626594837) 验收。运行时图标选择与本轮像素复验仍未完成。
