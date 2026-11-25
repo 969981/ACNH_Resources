@@ -1,0 +1,46 @@
+name: ACNH residual image mapping
+on:
+  workflow_dispatch:
+  push:
+    branches: [research]
+    paths:
+      - 'Scripts/image_mapping_residual.py'
+      - '.github/workflows/acnh303-image-residual.yml'
+permissions:
+  contents: write
+jobs:
+  residual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Scripts/image_mapping_residual.py
+            research/image-mapping
+            research/image-catalog/source-catalog.csv
+            research/catalog/item.csv
+            research/catalog/variants/item_remake.csv
+            docs/Sources/Images/Mapping
+          sparse-checkout-cone-mode: false
+      - run: python Scripts/image_mapping_residual.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: residual-image-mapping
+          path: |
+            research/image-mapping/residual
+            docs/Sources/Images/Mapping/Residual*.md
+      - name: Archive results
+        run: |
+          set -euo pipefail
+          git add --sparse research/image-mapping/residual docs/Sources/Images/Mapping/Residual*.md
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qm 'research(images): archive residual candidate mappings'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin research
+            git diff --quiet "$GITHUB_SHA" FETCH_HEAD -- Scripts/image_mapping_residual.py research/image-mapping/source-png.csv research/image-mapping/item-image.csv research/image-mapping/variant-image.csv research/image-mapping/npc-image.csv research/image-mapping/npc.csv research/image-catalog/source-catalog.csv research/catalog/item.csv research/catalog/variants/item_remake.csv e10617820db06889e1638499478da0de_NCA || { echo 'Input changed; refusing stale archive'; exit 1; }
+            git rebase FETCH_HEAD
+            if git push origin HEAD:research; then exit 0; fi
+          done
+          exit 1
