@@ -1,0 +1,146 @@
+name: ACNH 3.0.3 remake asset database
+on:
+  pull_request:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_remake_asset_db.py'
+      - '.github/workflows/acnh303-remake-asset-db.yml'
+  workflow_dispatch:
+    inputs:
+      full_scan:
+        description: Scan all ordinary model resources in eight partitions
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_remake_model_binding.py
+            /UnPack/1/Bcsv/ItemParam.json
+            /UnPack/1/Bcsv/ItemRemake.json
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemRemake.bcsv
+            /derived/3.0.3/ghidra12.2/c/e3/01afe3e0.c
+            /derived/3.0.3/ghidra12.2/c/ee/01afeef4.c
+            /derived/3.0.3/ghidra12.2/c/3a/01ae3a80.c
+            /derived/3.0.3/ghidra12.2/c/f9/01adf970.c
+            /derived/3.0.3/ghidra12.2/c/db/0152dba0.c
+            /derived/3.0.3/ghidra12.2/c/0c/01530c60.c
+            /derived/3.0.3/ghidra12.2/c/4b/01664b40.c
+            /derived/3.0.3/ghidra12.2/c/f0/01aff000.c
+            /derived/3.0.3/ghidra12.2/c/72/01ad7260.c
+            /derived/3.0.3/ghidra12.2/c/cf/01afcfa0.c
+      - run: python Scripts/acnh303_remake_model_binding.py --root . --out inventory
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-remake-inventory
+          path: inventory/
+          if-no-files-found: error
+  sample:
+    needs: inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_remake_asset_db.py
+            /Scripts/acnh303_remake_fmat_bindings.py
+            /Scripts/acnh303_round47_cedar_fmat.py
+            /Scripts/acnh303_media_l3.py
+            /Scripts/probe_acnh_babybed_textures.py
+            /Scripts/acnh_formats.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: original-remake-inventory
+          path: inventory
+      - run: python -m pip install zstandard==0.25.0
+      - run: |
+          python Scripts/acnh303_remake_asset_db.py paths --inventory inventory/remake-model-links.json --sample --out paths.txt
+          git sparse-checkout add --stdin < paths.txt
+          python Scripts/acnh303_remake_asset_db.py scan --inventory inventory/remake-model-links.json --sample --out sample
+          python Scripts/acnh303_remake_asset_db.py db --inventory inventory/remake-model-links.json --parts sample/scan.json --out result
+          python - <<'PY'
+          import json
+          a=json.load(open('result/audit.json'))
+          assert a['counts']['definition']==1306 and a['scannedItems']==3
+          assert a['samples'][0]['variants']=={'ordinary_source_candidate':56}
+          assert a['samples'][0]['bindingStatuses']=={'base_retained':336,'exact_override_name':224}
+          for row,expected in zip(a['samples'][1:],[15,24]):
+              assert sum(row['variants'].values())==expected,row
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remake-asset-db-sample
+          path: |
+            result/
+            sample/scan.json
+          if-no-files-found: error
+  scan:
+    needs: sample
+    if: github.event_name == 'workflow_dispatch' && inputs.full_scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_remake_asset_db.py
+            /Scripts/acnh303_remake_fmat_bindings.py
+            /Scripts/acnh303_round47_cedar_fmat.py
+            /Scripts/acnh303_media_l3.py
+            /Scripts/probe_acnh_babybed_textures.py
+            /Scripts/acnh_formats.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: original-remake-inventory
+          path: inventory
+      - run: python -m pip install zstandard==0.25.0
+      - run: |
+          python Scripts/acnh303_remake_asset_db.py paths --inventory inventory/remake-model-links.json --shard ${{ matrix.shard }} --shards 8 --out paths.txt
+          git sparse-checkout add --stdin < paths.txt
+          python Scripts/acnh303_remake_asset_db.py scan --inventory inventory/remake-model-links.json --shard ${{ matrix.shard }} --shards 8 --out scan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remake-scan-${{ matrix.shard }}
+          path: scan/scan.json
+          if-no-files-found: error
+  aggregate:
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: Scripts
+      - uses: actions/download-artifact@v4
+        with:
+          name: original-remake-inventory
+          path: inventory
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: remake-scan-*
+          path: scans
+      - run: python Scripts/acnh303_remake_asset_db.py db --inventory inventory/remake-model-links.json --parts scans/*/scan.json --full --out result
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remake-asset-db-full
+          path: result/
+          if-no-files-found: error
