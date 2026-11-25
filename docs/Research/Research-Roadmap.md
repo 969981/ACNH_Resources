@@ -58,3 +58,7 @@ updated: 2026-11-25
 [ZS 原始文件与道具、村民图片映射](../Sources/Images/Image-File-Mapping.md) 已创建；历史证据归并、全量生成由 [CI #45626594837](https://github.com/969981/ACNH_Resources/actions/runs/45626594837) 验收。运行时图标选择与本轮像素复验仍未完成。
 
 [全量映射目录](../Sources/Images/Mapping/README.md) 已由 [CI #45626758180](https://github.com/969981/ACNH_Resources/actions/runs/45626758180) 成功生成并归档：34,127 个历史关联记录，32,638 个原始源、375 份明细；NPC 重复身份保持歧义。实际 PNG 路径为历史固定提交，未复制图片。
+
+### 图片缺口补充关联
+
+[补充关联](../Sources/Images/Mapping/Residual.md) [CI #45627289031](https://github.com/969981/ACNH_Resources/actions/runs/45627289031) 成功：3,242/3,625 个道具缺口、4,039/4,049 个改造缺口存在历史 PNG 候选。候选不是运行时选图；仍无成品 PNG 383/10。NPC 共享身份、造型及通用头像独立处理。
