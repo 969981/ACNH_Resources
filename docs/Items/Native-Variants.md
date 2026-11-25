@@ -17,3 +17,7 @@
 ## 验收更新
 
 [款式 catalog CI #45574390450](https://github.com/969981/ACNH_Resources/actions/runs/45574390450) 工作流成功，尚不代表全部实体运行时语义确认。返回 [商品专题](README.md) · [首页](../README.md) · [家具空间](../Furniture/Furniture-Spatial.md)。
+
+## 物品参数存储分发
+
+[原生存储分发与 Storage 位图](Native-Variant-Storage.md)：区分 wrapper+0xC/+0xE、普通 Item+4/+6 和原生枚举缓存。
