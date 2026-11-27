@@ -39,6 +39,131 @@ def selftest():
     assert branch_target(0xd63f0000, 0x100) is None
     print("branch decoder synthetic tests passed")
 
+
+def focus_dispatch(code, start, matched, rel, cs, factory_candidates, out):
+    """Bounded static follow-up: pointer slot owners and constructor address windows."""
+    from acnh303_round11_elf_xref import adr_target, adrp_target, add_imm, ldr_uimm
+    from capstone.arm64 import ARM64_OP_REG, ARM64_OP_MEM
+    end=start+len(code)
+    slot=0x04BC38D8-BASE
+    def row(i):
+        return {"va":hex(i.address+BASE),"bytes":bytes(i.bytes).hex(),
+                "instruction":i.mnemonic+" "+i.op_str}
+    def window(a, size):
+        lo=max(start,a); hi=min(end,a+size)
+        return list(cs.disasm(code[lo-start:hi-start],lo))
+    def reloc_window(a, before=0x20, after=0x58):
+        rows=[]
+        for q in range((a-before+7)&~7,a+after,8):
+            b=matched(q,8)
+            if b is None: continue
+            rr=rel.get(q)
+            t=rr.get("addend") if rr else None
+            rows.append({"slot_va":hex(q+BASE),"bytes":b.hex(),"relocation":rr,
+                         "target_va":hex(t+BASE) if isinstance(t,int) and rr.get("symbol")==0 and rr.get("type") in ("RELR",1027) else None,
+                         "target_is_text":isinstance(t,int) and start<=t<end and rr.get("symbol")==0 and rr.get("type") in ("RELR",1027)})
+        return rows
+    # Exact and nearby address forms. Nearby matches are not proof of slot use.
+    targets={slot}|{q for q,rr in rel.items() if rr.get("symbol")==0 and rr.get("type") in ("RELR",1027) and rr.get("addend")==slot}
+    pages={q&~4095 for q in targets}
+    refs=[]
+    for off,(w,) in enumerate(struct.iter_unpack("<I",code)):
+        pc=start+4*off
+        a=adr_target(w,pc)
+        if a is not None and any(abs(a-t)<=0x40 for t in targets):
+            refs.append({"site_va":hex(pc+BASE),"formed_va":hex(a+BASE),"pattern":"ADR",
+                         "exact":a in targets,"context":[row(i) for i in window(pc-0x10,0x40)]})
+        page=adrp_target(w,pc)
+        if page not in pages: continue
+        rd=w&31
+        for step in range(1,7):
+            o=off*4+4*step
+            if o+4>len(code):break
+            follower=struct.unpack_from("<I",code,o)[0]
+            add=add_imm(follower); ldr=ldr_uimm(follower)
+            a=None; kind=None
+            if add and add["rn"]==rd:
+                a=page+add["imm"];kind="ADRP_ADD"
+            elif ldr and ldr["rn"]==rd:
+                a=page+ldr["imm"];kind="ADRP_LDR_slot"
+            if a is not None and any(abs(a-t)<=0x40 for t in targets):
+                refs.append({"site_va":hex(pc+BASE),"consumer_va":hex(pc+4*step+BASE),
+                             "formed_va":hex(a+BASE),"pattern":kind,"exact":a in targets,
+                             "context":[row(i) for i in window(pc-0x10,0x48)]})
+            if add and add["rd"]==rd:break
+    constructors=[]
+    cs.detail=True
+    for f in factory_candidates:
+        a=int(f["constructor_candidate_va"],16)-BASE
+        ins=window(a,0x180)
+        # Linear instruction window: may cross a function boundary. Preserve first
+        # terminal separately; do not call the complete window a recovered CFG.
+        first_terminal=next((i.address for i in ins if i.mnemonic in ("ret","br","b")),None)
+        addr_refs=[];stores=[];calls=[];regvals={}
+        for i in ins:
+            if first_terminal is not None and i.address>first_terminal:break
+            w=int.from_bytes(i.bytes,"little")
+            rd=w&31; new={}
+            aa=adr_target(w,i.address); page=adrp_target(w,i.address)
+            add=add_imm(w); ldr=ldr_uimm(w)
+            if aa is not None:new[rd]=aa
+            elif page is not None:new[rd]=page
+            elif add and add["rn"] in regvals:
+                v=regvals[add["rn"]]+add["imm"];new[add["rd"]]=v
+                if matched(v,8) is not None:
+                    rw=reloc_window(v)
+                    addr_refs.append({"site_va":hex(i.address+BASE),"address_va":hex(v+BASE),
+                                      "pattern":"address_formation","relocations":rw})
+            elif ldr and ldr["rn"] in regvals:
+                v=regvals[ldr["rn"]]+ldr["imm"];rr=rel.get(v,{})
+                t=rr.get("addend")
+                if isinstance(t,int) and rr.get("symbol")==0 and rr.get("type") in ("RELR",1027):
+                    new[ldr["rt"]]=t
+                    addr_refs.append({"site_va":hex(i.address+BASE),"address_va":hex(t+BASE),
+                                      "pointer_slot_va":hex(v+BASE),"pattern":"relocated_load",
+                                      "relocations":reloc_window(t)})
+            if i.mnemonic=="mov" and len(i.operands)==2 and all(o.type==ARM64_OP_REG for o in i.operands):
+                def idx(o):
+                    n=i.reg_name(o.reg)
+                    return int(n[1:]) if n.startswith("x") and n[1:].isdigit() else None
+                dr,sr=map(idx,i.operands)
+                if dr is not None and sr in regvals:new[dr]=regvals[sr]
+            if i.mnemonic in ("str","stur","stp") and i.operands:
+                for op in i.operands:
+                    if op.type==ARM64_OP_REG:
+                        n=i.reg_name(op.reg)
+                        if n.startswith("x") and n[1:].isdigit() and int(n[1:]) in regvals:
+                            v=regvals[int(n[1:])]
+                            stores.append({**row(i),"stored_address_candidate_va":hex(v+BASE),
+                                           "relocations":reloc_window(v)})
+            b=branch_target(w,i.address)
+            if b is not None:
+                calls.append({"site_va":hex(i.address+BASE),"target_va":hex(b+BASE),"mnemonic":i.mnemonic,
+                              "target_window":[row(x) for x in window(b,0x60)] if start<=b<end else []})
+            if i.mnemonic in ("bl","blr"):
+                regvals={k:v for k,v in regvals.items() if 19<=k<=28}
+            else:
+                try:
+                    _,writes=i.regs_access()
+                    for rr in writes:
+                        n=i.reg_name(rr)
+                        if n[0:1] in ("x","w") and n[1:].isdigit():regvals.pop(int(n[1:]),None)
+                except Exception:regvals={}
+            regvals.update(new)
+        constructors.append({"factory":f,"linear_window":[row(i) for i in ins],
+                             "first_terminal_va":hex(first_terminal+BASE) if first_terminal is not None else None,
+                             "address_candidates":addr_refs,"address_store_candidates":stores,
+                             "direct_branches":calls,"vtable_verified":False})
+    result={"schema":"acnh303-item-capability-dispatch-focus-v1",
+            "pointer_slot_va":hex(slot+BASE),"pointer_neighborhood":reloc_window(slot,0x80,0x88),
+            "slot_alias_candidates":[hex(t+BASE) for t in sorted(targets-{slot})],
+            "slot_reference_candidates":refs,"constructors":constructors,
+            "limits":"Bounded linear ADR/ADRP patterns and constructor windows; register tracking is not CFG dataflow, nearby matches are not call ownership; VTable and callback identities unverified.",
+            "runtime_verified":False}
+    (out/"dispatch_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("DISPATCH_FOCUS",json.dumps({"slot_refs":len(refs),"exact_slot_refs":sum(x["exact"] for x in refs),
+          "constructors":len(constructors),"address_stores":sum(len(x["address_store_candidates"]) for x in constructors)}))
+
 def run(root, out):
     import acnh303_r100_nso_decode as dec
     from acnh303_round11_elf_xref import parse_elf, get_bytes_va, survey, locate_xrefs
@@ -149,6 +274,7 @@ def run(root, out):
     summary["runtime_verified"]=False
     (out/"summary.json").write_text(json.dumps(summary,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(summary,indent=2))
+    focus_dispatch(code,start,matched,rel,cs,factories,out)
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
