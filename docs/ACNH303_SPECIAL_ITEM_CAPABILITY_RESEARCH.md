@@ -128,3 +128,54 @@ GitHub C 索引仅命中 028BCB18 自身定义，未恢复其上游直接/间接
 |CAP-09|P1|正常交互验证|授权测试环境的本地/访客场景观察；记录 UI、背包、Field 与保存结果，禁止据静态 flag 宣称交付成功|
 
 复现：从原版 NSO/ELF 使用仓库已有转换脚本与原始字节双镜像工作流，固定 Build ID，扫描直接/间接引用、函数边界及 CFG；记录输入输出 SHA256 与 CI artifact。仓库既有第29章记录的 Build ID 为 ff1d1c05670db6021c85b624a710b96300000000000000000000000000000000，本轮未独立复算，不提高当前证据级别。所有运行时未知字段保持 NULL。此文档只记录研究，不修改生产机器人逻辑或原始资源。
+
+## 9. CAP-01～05 增量：玩家数据复制、机场事件、拾取返回极性与原始 XREF 工具
+
+### CAP-01 / CAP-02
+[026F52AC](../derived/3.0.3/ghidra12.2/c/52/026f52ac.c) blob 95d35217a3a786aa99e3fabf3805aa19d1838253：管理对象+308/+310 非空检查、+370 状态1/2、+374/+376 锁策略、+338 mutex，按状态调用不同处理。
+[026F66E0](../derived/3.0.3/ghidra12.2/c/66/026f66e0.c) blob 385d8e246fb61826880218a3fd5935ad59cde769：遍历+128数量/+130数组，虚函数+28取得长度后 memcpy，清理关联链表；管理对象+10下+60..+98 八个槽，各非空对象的+10到+18复制0x74A40字节（477760字节）；锁与释放路径。不能仅凭此命名保存类型或认定八个槽均实际存在。
+[026F5394](../derived/3.0.3/ghidra12.2/c/53/026f5394.c) blob 43aefa299fa6a33f8e058dcb8da2ed2995cbb745：与+370状态和+338锁相关的结束处理。
+[0281CB30](../derived/3.0.3/ghidra12.2/c/cb/0281cb30.c) blob 23fc615e4a238c0805f036d6d7f8790c6ea43456：按0x3C步长读取记录+38，调用026570B0，并调用多个0281xxxx子过程。结合MoveOut分支、三容器过滤和大块数据复制，迁移/继承解释进一步增强；未证明028BCB18上游入口及 bit0 来源。
+
+### CAP-03：事件资源与绑定
+|源|事件索引|动作|参数|
+|---|---:|---|---|
+|SNPC_dod_30_Airport_DepartVisitor|0|EventFlowActionNetEnterVillage|{}|
+|同上|1|EventFlowActionOpenVillageGate|IsColDisable=true|
+|SNPC_dod_21_Airport_InetVisitor|30|EventFlowActionNetJoinSessionVillage|{}|
+|SNPC_dod_11_Airport_LocalVisitor|42|EventFlowActionNetJoinSessionVillage|{}|
+|SNPC_dod_AirPort|21|EventFlowActionNetLeaveSessionVillage|Command=cLeaveSession, IsErrorHandling=false|
+|同上|25|EventFlowActionNetDestroySessionVillage|Command=cDestroyVillage, IsErrorHandling=false|
+|同上|75/153|EventFlowActionNetEndSessionVillage|Command=cEndVillageSession, IsErrorHandling=false|
+|SNPC_tap_12_Indoor_ForCloudIsland_Guest|60/61|NetEnterVillage / NetJoinSessionVillage|{}|
+
+来源目录 [EventFlow](../UnPack/1/EventFlow/)，各 blob：DepartVisitor b775e1c86a960b8931de703606f0517a9c4b7d65；InetVisitor f61261f5d7c6e0d1169e7977076ff294a677195d；LocalVisitor 934ca30d20ebfd4f4d83bab8c99e928abf43f34c；AirPort dafcf4a48e1bee133ce2991a4c8b09fe5e4d42bb；CloudIsland Guest fcff32527c0bdcf7bd89e3fdf7416ee9c24749ba。索引是资源事件索引，不是 native enum。
+[BindInfo](../UnPack/1/EventFlow/Info/BindInfo.json) blob c360bec4524dd8367992a46ee67c974e029a8ff2：NetLeaveSessionVillage、NetEndSessionVillage、NetDestroySessionVillage 等显式别名映射至 EventFlowActionNetCommon。NetEnterVillage/NetJoinSessionVillage 在 ActionBindData 无此显式别名；不能假定也走NetCommon，也不能从不存在别名断言无注册。现有文本索引未定位 Native 回调。应使用已有 R97/R100 工具的 Murmur3/CRC32 与相对重定位候选记录，再追构造器、虚表及实际分派。
+
+### CAP-04：反例与可达性
+重新读取 ItemKind CSV 原始表头并按 hash_C37A683C 列取值，不使用固定猜测列号。
+|CSV行索引|类别|原版ID|CantTakeOver|CanPut|CanSetItem|
+|---|---|---:|---:|---:|---:|
+|0x8A|JohnnyQuest|149|0|0|1|
+|0x8C|PirateQuest|273|0|0|1|
+|0x8D|QuestWrapping|207|1|0|1|
+|0x8F|LostQuest|78|1|0|1|
+|0x92|TreasureQuest|178|1|0|1|
+|0x86|Money|2|0|1|1|
+|0x96|EasterEgg|101|0|1|1|
+
+重要反证：若 runtime 类别索引确实与 CSV 行一致，且字段成功解析，0x8D/8F/92 前置许可会拒绝，后段相应转换分支不能直接按正常路径宣称可达。必须核查 runtime 映射、资源异常分支或版本兼容逻辑；不能把分支存在等同实际转换。0x955/0x9F2 原版目标 ID 名称仍未确认。
+
+### CAP-05：普通获取与投放
+[025579BC](../derived/3.0.3/ghidra12.2/c/79/025579bc.c) blob df2b9208bd569844590ec4e32080e920e15c2f12：016E49E4 转换后，空记录返回0；目录有效时调用0232697C，其 bit0=1 返回0，bit0=0 返回1；目录异常路径按02677C70与40比较。因此0232697C不宜命名为 CanPickUp；025579BC与失败/容量处理相关的解释仍待上层语境确认。
+[024282D0](../derived/3.0.3/ghidra12.2/c/82/024282d0.c) blob ed1324c50b8f66124f3fd1de827287cc3347f574：多个条件及0232697C结果共同参与返回0/1，并复制物品和附加参数。
+[027FAA50](../derived/3.0.3/ghidra12.2/c/aa/027faa50.c) blob 12e598b51f63ee9b3ce78fcdef4d350ff4b6b56e：含堆叠相关记录转换及027FA2DC、0277E788/0277E8B4、0277B494路径，成功写入返回1，未写入有返回0。补强026738B0→02673A50→027FAA50→背包记录处理的静态链；未证明Field原子移除。
+[01392D64](../derived/3.0.3/ghidra12.2/c/2d/01392d64.c) blob c83a91d8d783a0c769e1fb85a00f1cede62aecf8：辅助目录按0x30、0x18、0x10、0x518记录层级取+2C字段，调用请求对象virtual+20；虚调用返回2时追加013964CC，输出映射1→1、3→3、其余→2。具体 virtual+20 目标未闭合，结果1仍不是Field持久化的独立证明。
+
+### 原始字节扫描入口（新建）
+- [Scripts/acnh303_item_capability_xrefs.py](../Scripts/acnh303_item_capability_xrefs.py)，commit 52991ee05c712e2eaeca615be07c1fa5465c126b。
+- [workflow](../.github/workflows/acnh303-item-capability-xrefs.yml)，commit e6015a89fd6c3f6108fcf6603a64bd9fe81b816f。
+- 复用R100原版SHA及NSO解析、匹配整个ELF/NSO text；扫描20个研究目标直接B/BL、RELR/RELATIVE指针、EventFlow full/short name Murmur3/CRC32 hash+constructor候选、字符串地址形成和事件别名。
+- 运行：python -m pip install lz4==4.4.4 capstone==5.0.6；python Scripts/acnh303_item_capability_xrefs.py --selftest；python Scripts/acnh303_item_capability_xrefs.py --root . --out artifacts/item-capability-xrefs。
+- 产物 evidence.json、summary.json；候选附原始字节、地址、邻近反汇编和重定位，最近C导出不是函数边界，hash命中不是回调绑定，间接调用不全覆盖。workflow由对应路径push触发；本轮未获取实际Actions验收结果，不登记任何未执行的命中数或成功状态。
+- CAP-01/02/03/04/05 仍为部分完成。所有运行时行为字段保持NULL。未修改游戏原始资源或生产派送实现。
