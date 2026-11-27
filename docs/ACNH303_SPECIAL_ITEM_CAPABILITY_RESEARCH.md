@@ -179,3 +179,42 @@ GitHub C 索引仅命中 028BCB18 自身定义，未恢复其上游直接/间接
 - 运行：python -m pip install lz4==4.4.4 capstone==5.0.6；python Scripts/acnh303_item_capability_xrefs.py --selftest；python Scripts/acnh303_item_capability_xrefs.py --root . --out artifacts/item-capability-xrefs。
 - 产物 evidence.json、summary.json；候选附原始字节、地址、邻近反汇编和重定位，最近C导出不是函数边界，hash命中不是回调绑定，间接调用不全覆盖。workflow由对应路径push触发；本轮未获取实际Actions验收结果，不登记任何未执行的命中数或成功状态。
 - CAP-01/02/03/04/05 仍为部分完成。所有运行时行为字段保持NULL。未修改游戏原始资源或生产派送实现。
+
+## 10. 专项原版 CI 实际验收：CantTakeOver 间接引用与机场工厂记录
+
+[Run 46031546150](https://github.com/969981/ACNH_Resources/actions/runs/46031546150)，head e6015a89fd6c3f6108fcf6603a64bd9fe81b816f，job 140616339139，各步骤 success。实际下载 [artifact 15214866352](https://github.com/969981/ACNH_Resources/actions/runs/46031546150/artifacts/15214866352)，ZIP 42927 bytes，复算 SHA256 0b4feced592223b31fd1438a953f23b2ca4e8f0a4b6e297684588e82acd30d49，与 GitHub digest 相等。实际解压 evidence.json、summary.json；ELF SHA256 145903c25d37a7c90e8818440bcf462b3dca490e11e45cf435605ab00d709664，NSO SHA256 68c7fbeda353f8e4a283eac6a9b99e713e72a327048214bf6a4e7214616b87c1，Build ID ff1d1c05670db6021c85b624a710b96300000000000000000000000000000000，ELF base 0。text 16522108 个字（66088432 bytes），20 个目标，166 个线性 B/BL 候选、9 个相对指针候选、6 个工厂记录候选、24 个事件资源。非完整 CFG/间接引用覆盖，不提升 runtime_verified。
+
+### CAP-01/02 原始指令与指针
+028BCB18 的直接 B/BL 目标命中数为0；存在一个 RELR slot VA 04BC38D8（RVA 04AC38D8），原始字节 18cb7b0200000000，addend RVA 027BCB18。尚未证实 slot 属于何种表、实际读取者、BLR 调用点及参数来源。
+|调用点 VA|目标 VA|原始字节|
+|---|---|---|
+|028BCFB4|02818BC0|036ffd97|
+|02818DF0|02813DF0|00ecff97|
+|02818E30|02813DF0|f0ebff97|
+|02813E78|0277C210|e6a0fd97|
+|02813EA8|0277C210|daa0fd97|
+|02813EE8|0277C210|caa0fd97|
+|0277C39C|01B04F00|d922ce97|
+|028BCB94|026F52AC|c6e1f897|
+|028BCB9C|026F66E0|d1e6f897|
+|028BCBA4|026F5394|fce1f897|
+|028BCD1C|0281CB30|857ffd97|
+
+上述边与此前 C 导出一致，原始指令已通过双镜像对账，但最近 C 导出不自动证明函数边界。LE_PlayerVillager_MoveOut 原始字符串 ELF RVA 03FB1BAA（Ghidra VA 040B1BAA），ADRP/ADD 地址形成 RVA 027BCC6C/027BCC70（VA 028BCC6C/028BCC70），附近 BL 与 C 导出一致。仅能证实原版字符串引用，不能据此断言另一个分支只在搬家时触发。
+
+### CAP-03 注册候选
+完整/短名明文 NetEnterVillage、NetJoinSessionVillage 未命中；完整名称 Murmur3 seed0 记录命中如下。原始 16 字节形状为 hash u32、未知 u32、8字节相对指针；均有 RELR，以下 target 为构造函数候选 VA。
+|后缀|hash|record VA|pointer slot VA|target VA|raw|
+|---|---|---|---|---|---|
+|NetEnterVillage|5257FD40|0497C330|0497C338|01111FA0|40fd575200000000a01f010100000000|
+|NetJoinSessionVillage|E23F617C|0497EFD0|0497EFD8|0113B4A0|7c613fe200000000a0b4030100000000|
+|NetCommon|CFAA4558|0497EA90|0497EA98|01136674|5845aacf000000007466030100000000|
+|OpenVillageGate|7E39072E|0497D130|0497D138|0111F2B4|2e07397e00000000b4f2010100000000|
+|NetEnterCloudIsland|A44053D0|0497DC50|0497DC58|01129258|d05340a4000000005892020100000000|
+|NetCloudIslandRevertSaveData|14AF59AF|0497B080|0497B088|01100D38|af59af1400000000380d000100000000|
+
+NetEnterVillage 其他候选哈希：完整 CRC32 F41814C5、短名 Murmur3 3FBDF258、短名 CRC32 339404CB；本次工厂形状记录只匹配完整名 Murmur3。不能据候选直接证明唯一性或运行时注册过程。NetCommon 与 Enter/Join 有独立记录候选，符合 BindInfo 区分。C 搜索 04bc38d8、01111fa0、0113b4a0、01136674 均无命中，不视作不存在代码。
+
+### CAP-01/03 下一步
+新增脚本 focus_dispatch（commit 9c695f243becb81f585de5ac10810116cc3cdd15）读取 04BC38D8 周边重定位及地址形成候选，提取六个构造函数有界线性窗口、地址存储与相邻重定位候选、直接分支目标窗口，输出 dispatch_focus.json。该轮待独立 CI 验收；线性寄存器追踪不是完整 CFG 数据流，不提前确认 vtable 或业务回调。
+现阶段可提升已对账的直接调用指令和相对指针记录至 ELF_BYTE_VERIFIED，业务解释仍 NATIVE_STATIC 或候选；普通联机转移资格和实际道具行为保持 NULL。
