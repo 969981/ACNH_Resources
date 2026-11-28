@@ -14,7 +14,9 @@ GLOBALS = (0x04BC00C8, 0x05326EC0, 0x05326EC8)
 TARGETS = (0x01B14730,0x0277E788,0x0277E8B4,0x0277E9E0,0x016E49E4,
            0x0277E56C,0x0124C1E8,0x01B09000,0x0232697C,0x025579BC,
            0x02677890,0x0267BA70,0x01AF0020,0x01AF02D0,0x027FAA50,
-           0x0242E2CC,0x026738B0,0x02673A50)
+           0x0242E2CC,0x026738B0,0x02673A50,0x027FE840,0x027FC440,
+           0x02805B60,0x02806344,0x02677C70,0x01AEDD20,0x01AF0964,
+           0x01A5A3E8,0x01A59500,0x01B14990,0x01AF2610,0x0277D6C4)
 def sha(b): return hashlib.sha256(b).hexdigest()
 def run(root,out):
     import acnh303_r100_nso_decode as dec
@@ -47,6 +49,11 @@ def run(root,out):
     targets={a-BASE for a in TARGETS}
     assert all(start<=a<end for a in targets)
     refs=[]; branches=[]; seen=set()
+    # Look for a MOVZ+MOVK pair materializing ItemParam's class CRC column key.
+    # Bounded, same-register candidates only, not proof of reaching definition.
+    hash_refs=[]
+    key=0x5270EB75
+    low,high=key&0xffff,key>>16
     def add_ref(pc,site,a,form):
         key=(pc,site,a)
         if key in seen:return
@@ -58,6 +65,13 @@ def run(root,out):
                      "writer_proven":False})
     for j,(w,) in enumerate(struct.iter_unpack("<I",code)):
         pc=start+j*4
+        if (w&0x7f800000)==0x52800000 and ((w>>5)&0xffff)==low and ((w>>21)&3)==0:
+            for step in range(1,9):
+                off=(j+step)*4
+                if off+4>len(code):break
+                f=struct.unpack_from("<I",code,off)[0]
+                if (f&0x7f800000)==0x72800000 and ((f>>5)&0xffff)==high and ((f>>21)&3)==1 and (f&31)==(w&31):
+                    hash_refs.append({"site_va":hex(pc+BASE),"consumer_va":hex(pc+4*step+BASE),"context":window(pc,16,64),"field_consumer_proven":False})
         t=branch_target(w,pc)
         if t in targets:
             branches.append({"site_va":hex(pc+BASE),"target_va":hex(t+BASE),
@@ -87,12 +101,12 @@ def run(root,out):
             "nso_sha256":sha(nso),"build_id":nso[0x40:0x60].hex(),
             "global_vas":[hex(a) for a in GLOBALS],
             "relative_alias_candidates":[{"slot_va":hex(a+BASE),"target_va":hex(t+BASE)} for a,t in sorted(alias.items())],
-            "address_candidates":refs,"direct_branch_candidates":branches,
-            "runtime_verified":False,"kind_mapping_verified":False,
+            "address_candidates":refs,"direct_branch_candidates":branches,"kind_hash_materialization_candidates":hash_refs,
+            "runtime_verified":False,"kind_mapping_verified":False,"kind_hash_static_join_verified_by_separate_dataset":True,
             "limits":"Matched original text, bounded linear ADR/ADRP patterns. Register clobbers, aliases and control flow are not proven; direct stores need reaching-definition and object-identity checks. Does not recover dynamic array contents or actual visitor pickup."}
     out.mkdir(parents=True,exist_ok=True)
     (out/"adb_native_xrefs.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8")
-    counts={"address_candidates":len(refs),"direct_branches":len(branches),
+    counts={"address_candidates":len(refs),"direct_branches":len(branches),"kind_hash_materialization_candidates":len(hash_refs),
             "direct_store_candidates":sum(x["form"]=="ADRP_STR" for x in refs),
             "build_id":report["build_id"],"runtime_verified":False}
     (out/"adb_native_summary.json").write_text(json.dumps(counts,indent=2)+"\n",encoding="utf-8")
