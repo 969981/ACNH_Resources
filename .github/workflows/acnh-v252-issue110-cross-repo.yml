@@ -1,0 +1,140 @@
+name: ACNH RC3 private cross-repository verification
+on:
+  push:
+    branches: [ci/acnh-v252-issue110-cross-repo]
+    paths: ['.github/workflows/acnh-v252-issue110-cross-repo.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  TARGET_SHA: 1e90f330168433f2cf4394a2395fe4ebc526bf7a
+  SDK_SHA: 03d1b9cff2a71d2130c24cb762ef01b9ad833497
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/ci/acnh-v252-issue110-cross-repo' && github.repository == '969981/ACNH_Resources' && github.actor == github.repository_owner && github.triggering_actor == github.repository_owner
+    environment: acnh-private-access
+    runs-on: windows-2025
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [legacy, rc3]
+    env:
+      SDK_MODE: ${{ matrix.sdk }}
+    steps:
+      - name: Validate private target and authorization
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.ACNH_ORDERS_PUSH_TOKEN }}
+          TARGET: ${{ secrets.ACNH_ORDERS_TARGET_REPO }}
+        run: |
+          $ErrorActionPreference='Stop'
+          if (!$env:GH_TOKEN -or $env:TARGET -ne '969981/SysBot.ACNHOrders.CHS'){throw 'ACNH dedicated authorization is missing or target differs'}
+          $meta=& gh api "repos/$env:TARGET" 2>$null
+          if($LASTEXITCODE){throw 'Private access check failed'}
+          $repo=$meta | ConvertFrom-Json
+          if(!$repo.private -or $repo.full_name -ne $env:TARGET){throw 'Private target check failed'}
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: 969981/SysBot.ACNHOrders.CHS
+          ref: ${{ env.TARGET_SHA }}
+          token: ${{ secrets.ACNH_ORDERS_PUSH_TOKEN }}
+          persist-credentials: false
+          path: target
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          dotnet-version: '10.0.x'
+      - name: Compile and test (private diagnostics only)
+        working-directory: target
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $PSNativeCommandUseErrorActionPreference=$false
+          $out=Join-Path $env:RUNNER_TEMP 'acnh-private-evidence'
+          New-Item -ItemType Directory -Force $out | Out-Null
+          function RunStage($name,[string[]]$cmd){
+            & dotnet @cmd *> (Join-Path $out "$name.log")
+            if($LASTEXITCODE){throw "$name failed"}
+          }
+          try {
+            if((git rev-parse HEAD).Trim() -ne $env:TARGET_SHA){throw 'Target pin mismatch'}
+            $dll=(Resolve-Path 'deps/SysBot.Base.dll').Path
+            if((git hash-object $dll).Trim() -ne '0a246cdf4f9ab0a24a9998e7884fa45198b58ddb'){throw 'Legacy DLL blob mismatch'}
+            $rc3='false'
+            if($env:SDK_MODE -eq 'rc3'){
+              $sdk=Join-Path $env:RUNNER_TEMP 'rc3-source'
+              git clone --no-checkout https://github.com/969981/SysBot.Platform.git $sdk *> "$out/sdk-prepare.log"
+              if($LASTEXITCODE){throw 'SDK clone failed'}
+              git -C $sdk checkout --detach $env:SDK_SHA *>> "$out/sdk-prepare.log"
+              if($LASTEXITCODE -or (git -C $sdk rev-parse HEAD).Trim() -ne $env:SDK_SHA){throw 'SDK pin mismatch'}
+              RunStage 'sdk-build' @('build',"$sdk/src/SysBot.Base/SysBot.Base.csproj",'-c','Release')
+              $dll=(Resolve-Path "$sdk/src/SysBot.Base/bin/Release/net10.0/SysBot.Base.dll").Path
+              if((Get-FileHash $dll).Hash -ne '7C0C52B15F46C35D115D3FDD68AF30000243F70222A38F9B6B1370788D0C6CF0'){throw 'RC3 SHA256 mismatch'}
+              $rc3='true'
+            }
+            $expected=(Get-FileHash $dll).Hash
+            $props=@("-p:SysBotDllPath=$dll","-p:SysBotRc3=$rc3")
+            $p='Tests/SysBot.ACNHOrders.Tests/SysBot.ACNHOrders.Tests.csproj'
+            RunStage 'restore' (@('restore',$p)+$props)
+            RunStage 'build' (@('build',$p,'-c','Release','--no-restore')+$props)
+            $identity=@(foreach($file in @('bin/Release/net10.0/SysBot.Base.dll','Tests/SysBot.ACNHOrders.Tests/bin/Release/net10.0/SysBot.Base.dll')){
+              $actual=(Get-FileHash $file).Hash
+              if($actual -ne $expected){throw 'Output SDK identity mismatch'}
+              @{file=$file;sha256=$actual}
+            })
+            ConvertTo-Json -InputObject $identity | Set-Content "$out/identities.json"
+            RunStage 'tests' (@('test',$p,'-c','Release','--no-build','--no-restore','--logger','trx;LogFileName=tests.trx','--results-directory',$out)+$props)
+            if(!(Test-Path "$out/tests.trx")){throw 'Missing test evidence'}
+            Write-Host 'Private ACNH build and test PASS'
+          }catch{
+            $_ | Out-String | Set-Content "$out/fatal.log"
+            Write-Host '::error::Private matrix failed; inspect private evidence'
+            exit 1
+          }
+      - name: Retain bounded diagnostics in private repo only
+        if: always() && !cancelled()
+        shell: pwsh
+        working-directory: target
+        env:
+          GH_TOKEN: ${{ secrets.ACNH_ORDERS_PUSH_TOKEN }}
+          TARGET: ${{ secrets.ACNH_ORDERS_TARGET_REPO }}
+        run: |
+          $ErrorActionPreference='Stop'
+          $PSNativeCommandUseErrorActionPreference=$false
+          $out=Join-Path $env:RUNNER_TEMP 'acnh-private-evidence'
+          if(!(Test-Path $out)){throw 'Private evidence missing'}
+          if((git rev-parse HEAD).Trim() -ne $env:TARGET_SHA){throw 'Private pin mismatch'}
+          if($env:TARGET -ne '969981/SysBot.ACNHOrders.CHS'){throw 'Private destination mismatch'}
+          $meta=& gh api "repos/$env:TARGET" 2>$null
+          if($LASTEXITCODE){throw 'Private destination inaccessible'}
+          $repo=$meta | ConvertFrom-Json
+          if(!$repo.private -or $repo.full_name -ne $env:TARGET){throw 'Private destination visibility mismatch'}
+          $logs=@(Get-ChildItem $out -Filter '*.log' -File | ForEach-Object {
+            $lines=@(Get-Content $_.FullName)
+            @{stage=$_.BaseName;tail=@($lines | Select-Object -Last 50 | ForEach-Object {$_.Substring(0,[Math]::Min(1200,$_.Length))});diagnostics=@($lines | Where-Object {$_ -match 'error|failed|exception|assert|passed|total'} | Select-Object -Last 50 | ForEach-Object {$_.Substring(0,[Math]::Min(1200,$_.Length))})}
+          })
+          $tests=$null;$ids=$null
+          if(Test-Path "$out/tests.trx"){[xml]$trx=Get-Content "$out/tests.trx" -Raw;$c=$trx.TestRun.ResultSummary.Counters;$tests=@{total=$c.total;passed=$c.passed;failed=$c.failed;notExecuted=$c.notExecuted}}
+          if(Test-Path "$out/identities.json"){$ids=Get-Content "$out/identities.json" -Raw | ConvertFrom-Json}
+          New-Item -ItemType Directory -Force 'docs/ci' | Out-Null
+          $path="docs/ci/acnh-rc3-$env:SDK_MODE-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT.json"
+          @{target=$env:TARGET_SHA;sdk=$env:SDK_SHA;mode=$env:SDK_MODE;tests=$tests;identities=$ids;logs=$logs} | ConvertTo-Json -Depth 8 | Set-Content $path -Encoding utf8NoBOM
+          git add -- $path *> "$out/publish.log"
+          if($LASTEXITCODE){throw 'Evidence staging failed'}
+          $staged=@(git diff --cached --name-only)
+          if($staged.Count -ne 1 -or $staged[0] -ne $path){throw 'Unexpected staged files'}
+          gh auth setup-git --hostname github.com *>> "$out/publish.log"
+          if($LASTEXITCODE){throw 'Private auth failed'}
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'test: retain private ACNH RC3 matrix evidence' *>> "$out/publish.log"
+          if($LASTEXITCODE){throw 'Private commit failed'}
+          git push "https://github.com/$env:TARGET.git" "HEAD:refs/heads/ci/acnh-rc3-$env:SDK_MODE-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT" *>> "$out/publish.log"
+          if($LASTEXITCODE){throw 'Private evidence push failed'}
+          Write-Host 'Private evidence retained'
+      - name: Cleanup
+        if: always()
+        shell: pwsh
+        run: |
+          Remove-Item (Join-Path $env:RUNNER_TEMP 'acnh-private-evidence') -Recurse -Force -ErrorAction SilentlyContinue
+          Remove-Item (Join-Path $env:GITHUB_WORKSPACE 'target') -Recurse -Force -ErrorAction SilentlyContinue
