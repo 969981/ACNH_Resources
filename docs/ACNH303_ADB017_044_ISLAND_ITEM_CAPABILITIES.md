@@ -314,3 +314,45 @@ hash_5270EB75 为原版 ItemParam 行内 offset 112、宽4的数值字段；实�
 - [本轮已实际生成的静态审计证据](../assets/evidence/rom-database/adb-crc32-static-audit-v1.json)，commit 11c65b68f5789c078bfb3f70a21417756790987d：189类别/186使用、全部25细类、全量flags及stack计数、118面额记录、548条特殊掉落记录。来源为完整 Git CSV（不是本轮新原始字节CI产物），raw_bcsv_byte_verification_in_this_run=false、runtime_verified=false。
 - 已有历史原版文档 29-PutUnitIcon物品资格与放置结果边界明确 GOT 04BC00C8 RELR→05326EC0（已闭合别名），05326EC8为其+8，修正此前将二者作为独立表的保守表述。后续重点在动态数组实际初始化及写入。
 - 未修改原版资源、现有 v2 网站导出、生产机器人；新 CI 尚未获得可确认运行编号或产物，不能宣称新SQLite已实际构建通过。下一轮先验收 V1.1 CI，再集中恢复548特殊实例的场景/访客/拾取/保存闭环及面额的拆分和合并。
+
+
+## 9. 第四轮：V1.1 CI 验收与原版容量消费者复核（2026-11-28）
+
+本轮直接读取 GitHub Actions 的实际 job steps、完整日志及 artifact metadata，非依据工作流配置推定。以下验收替代前文“尚未取得 CI 产物”的历史状态。
+
+|工作流|实际运行|结论|Artifact|
+|---|---|---|---|
+|ItemCapabilityCore V1.1|[46158985091](https://github.com/969981/ACNH_Resources/actions/runs/46158985091)，17a7e02|success；Python 编译、自测、完整原始 BCSV 核验、SQLite 生成及上传均通过|[15269255776](https://github.com/969981/ACNH_Resources/actions/runs/46158985091/artifacts/15269255776)，1933536 bytes|
+|ADB native XREF|[46159022145](https://github.com/969981/ACNH_Resources/actions/runs/46159022145)，cabf381|success；原版静态扫描及上传通过|[15268303126](https://github.com/969981/ACNH_Resources/actions/runs/46159022145/artifacts/15268303126)，2516247 bytes|
+
+日志中的 manifest：11178 ID、189 类、186 使用、6076 精确及5102 CRC32 恢复、0未关联；candidate=10486、review=692、enabled=0；runtime_verified=false、全部运行时能力字段为NULL。源 BCSV SHA256：ItemKind=5c0f6c574422ddd71e26d7fcc5b8ec80305c606d8f7d4216ea3d2a74f28ce9df，ItemParam=9f31230158ab9ace881fe6e5c64579e206f5318646d8d77d8ac7c197abed3609。SQLite SHA256=cbc942968d0b8d81b3f5f39e08a3d60e375d92c97460b3367b0127d75c2556c7；ZIP SHA256=4b56ceba3c60489aa9b001a205abdba795e0c5f5785269bc0157ddfd917fcbe2。XREF ZIP SHA256=84a32fc6d715bab1a6454a4b058f59c7e13d411ec653a28a7a5b2b8c6dfc8ab6。日志与 artifact metadata 一致；本轮未独立解包 ZIP 或重新运行 SQLite 查询，完整性、外键与运行时 NULL 断言由已成功的生成器执行。
+
+XREF 实际 summary：address_candidates=1868、direct_branches=14544、kind_hash_materialization_candidates=1、direct_store_candidates=0；Build ID ff1d1c05670db6021c85b624a710b96300000000000000000000000000000000。唯一 hash 物化候选仍需函数级数据流核实，零直接写候选不代表没有间接写入者。
+
+### 9.1 ADB-072～075 静态消费者增量
+
+- [01B14990](../derived/3.0.3/ghidra12.2/c/49/01b14990.c) 读取 ItemKind CRC32 DAE27694（反编译有符号常量 -0x251D896C）。本轮实际计算 CRC32("CanSetChest u8")=DAE27694，且 ItemKind.json 显示 offset 45、宽1。与 [0277E9E0](../derived/3.0.3/ghidra12.2/c/e9/0277e9e0.c) 结合，非空正常路径是 CanSetItem 后再检查 CanSetChest；空 0xFFFE 可直接返回1。此为独立能力消费者，不得当成所有访客拾取或最终入仓的充分条件。
+- [027FE840](../derived/3.0.3/ghidra12.2/c/e8/027fe840.c) 仅作容量返回，不在函数内写入钱包或背包记录；默认可用量99999，满足钱包字段校验时改用解码表达式计算的量。与 [01AED730](../derived/3.0.3/ghidra12.2/c/d7/01aed730.c) 的价值比较，若可用量足够则 true，否则扫描两组各至多20槽寻找 0xFFFE，返回有效槽位判据。由 [0267BA70](../derived/3.0.3/ghidra12.2/c/ba/0267ba70.c) 在角色资源门控后调用。钱包不够与背包无空位须分开；此处尚未证余额写入、找零、面额重新分配或拆分。
+- [01AED730](../derived/3.0.3/ghidra12.2/c/d7/01aed730.c) 读取 Price CRC32 718B024D，普通堆叠路径使用01AF02D0的计数，否则乘1；另有类别0x57的特殊价值调整，不能将整个函数命名为仅铃钱金额 getter。
+- [01AEDD20](../derived/3.0.3/ghidra12.2/c/dd/01aedd20.c) 与 [01AF0964](../derived/3.0.3/ghidra12.2/c/09/01af0964.c) 均限制原版行索引0x59并读取 Price，后一函数在有效路径返回 Price×param_2。未确定调用者的数量参数语义、面额ID选取及真正写入事务。ADB-073仍为部分静态。
+- [027FC440](../derived/3.0.3/ghidra12.2/c/c4/027fc440.c) 先扫描两组空槽；满包时检查普通堆叠资格，依模式选择20/30/40槽扫描上限，依 [01AF28AC](../derived/3.0.3/ghidra12.2/c/28/01af28ac.c) 判定实例兼容，使用 [01AF2610](../derived/3.0.3/ghidra12.2/c/26/01af2610.c) 读取的 signed MultiHoldMaxNum 和01AF02D0 数量更新剩余需求。反编译累计式需原始指令再核对，不将其直接移植为生产堆叠算法。
+- [01AF28AC](../derived/3.0.3/ghidra12.2/c/28/01af28ac.c) 两个记录都须满足普通堆叠资格；存在01B032D0与记录 byte3低2位门控、0277D7B4比较及类别0x78的附加参数比较，因此相同ID不充分。byte3和类别特殊位的完整语义仍待恢复。
+- [02806344](../derived/3.0.3/ghidra12.2/c/63/02806344.c) 首先调用02805B60，之后扫描0x100字节共32条8字节记录进行0277D7B4匹配，进一步按01AF2E60、02806010及01AF02D0做容量比较。01AF2E60读取另一个 u16 字段0CE69142（offset30），不同于 MultiHoldMaxNum；不把这条32记录路径与普通40槽背包混为一谈。
+
+本节是实际重新阅读仓库已有 Ghidra C 后的静态复核，不是新实机验证，也未独立对每条函数做本轮 ELF 字节级核验。未改变运行时行为字段或生产策略。
+
+### 9.2 状态与下一轮验收
+
+|任务|状态|剩余验收|
+|---|---|---|
+|ADB-068～071|原始 BCSV CI 验收通过|动态索引初始化另行研究|
+|ADB-072|部分静态|真实铃钱拆分、合并、溢出与记录提交|
+|ADB-073|部分静态|面额转换、调用参数、拆分合并和实际记录写入|
+|ADB-074|部分静态|548 ID 按角色、场景、背包、实例状态验证|
+|ADB-075|部分静态|角色字段来源、访客与好友权限完整分支|
+|ADB-076|待研究|地图移除及事务回滚|
+|ADB-077|待深入|正常离岛、存档及重新加载|
+|ADB-078|CI通过|可选独立解包复核 SHA 与 SQLite 查询|
+|ADB-079|待实施|版本锁定、只读预览接入、正式上架保持关闭|
+
+下一轮优先从 XREF 产物中定位唯一 hash 物化候选及间接写入者，再完成容量/拆分的写入消费者和地图移除提交链。不要把候选扫描计数当作闭合调用证据。本轮仅更新研究文档，不修改原版资源、生产商城、机器人或数据库生成器。
