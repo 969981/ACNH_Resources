@@ -35,6 +35,7 @@ status: active
 - [[ACNH303_R84_ITEMPARAM_107_FIELDS_SOURCE_AND_EXPORT|R84 11,178 个道具的原版 107 字段、模型/图标和改造映射数据库]]
 - [[ACNH303_R84_RUNTIME_ITEM_RESTRICTIONS_EVIDENCE|R84 道具拾取、投放、联机转移 Native 行为验证边界]]
 - [[ACNH303_SPECIAL_ITEM_CAPABILITY_RESEARCH|特殊道具行为、CantTakeOver 玩家迁移候选链与 ItemCapabilityCore]]
+- [[ACNH303_ADB017_044_ISLAND_ITEM_CAPABILITIES|ADB-017～044 道具岛拾取、背包资格与派送行为]]
 - [[04-Output-Rules|UnPack 命名与映射规范]]
 - [[05-Progress|已验证成果、限制与后续]]
 - [[06-Evidence|校验、格式研究及历史记录]]
