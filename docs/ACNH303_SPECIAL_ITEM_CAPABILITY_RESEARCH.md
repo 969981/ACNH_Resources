@@ -310,3 +310,40 @@ Enter +40=00D72184，00D721B0 tail B Main RVA 01CBECB8（VA 01DBECB8），X2=act
 
 ### 第四轮专项
 脚本 commit e962992c2dc2054544db2f27d3483748f9d167bd，增加 focus_save_sync：提取04A92240/04A92260适配器虚表、GOT、11状态的22个注册地址有界反汇编、+58读取/BLR/BR候选及完整Enter/Join +40/+48方法区间。输出 save_sync_focus.json。待独立CI验收；不宣称所有BLR已恢复，不修改生产代码，业务行为字段仍NULL。
+
+## 13. 第四轮验收：StartSave 回调链及参数最低位来源已闭合
+
+[Run 46092064868](https://github.com/969981/ACNH_Resources/actions/runs/46092064868)，head e962992c2dc2054544db2f27d3483748f9d167bd，job 140815019366，全步骤 success。实际下载 artifact 15241886767（186877 bytes），复算 SHA256 51bdcc6ca53aa111d715180e3a8462833632bb0100cdaec9d4d993f96f528755 与 GitHub digest 一致。ZIP含五个JSON；save_sync_focus.json 实际读取22个状态注册入口、4个network methods、4个adapter窗口、2个+58 load候选。以下 Ghidra VA，原始反汇编PC-relative operand使用Main RVA。
+
+### 回调适配器（原版重定位及原始指令）
+04A92260+0 → 028BD090（raw 90d07b0200000000），+8 → 028BD0A4，+10 → 01D3FA88；+18 起有零槽，不默认归入此表。04A92240+0/+8 为028BC93C/028BCA04，独立的内嵌所有者析构表。028BD090完整指令：
+```asm
+028BD090 ldr x2,[x0,#8]
+028BD094 cbz x2,028BD0A0
+028BD098 and w0,w1,#1
+028BD09C br x2
+028BD0A0 ret
+```
+即对象+8非空时 tail-call callback(arg & 1)。此前007BAF6C确认初始化+0=04A92260、+8=028BCB18；007BDEB4确认将055B2618发布到 manager+F98所指同步器+58。因此在已发布对象仍有效的条件下，实际调用 target 与 bit0 参数链闭合；不能从静态初始化断言每次运行时都非空或未替换。
+
+|state|条件检查 VA|回调对象读取|参数生产|间接调用|
+|---|---|---|---|---|
+|cHostStartSave (2)|01DE5EC0/EC4，sync+70==0|01DE5EC8|01DE5EE0 LDRB W1,[manager,0x2078]|01DE5EEC BLR X8|
+|cVisitStartSave (6)|01DE642C/6434，sync+70==0|01DE6438|01DE6450 LDRB W1,[manager,0x2078]|01DE645C BLR X8|
+
+两处 LDR X0,[X19,#58] raw 602e40f9，参数加载 raw 01696938，BLR raw 00013fd6；先判回调非空，再经对象+0读取vtable+0目标。04BB21D0 RELR → 05358908 (raw 0889250500000000)；manager=*05358908。两条调用传入的是同一manager+2078的byte，经028BD090与1相与，不是简单的Host/Visit角色位。028BCB18 bit1分支记录 LE_PlayerVillager_MoveOut 并处理玩家数据；bit0分支先026F52AC/66E0/5394，再在多个描述符、状态及指针守卫通过后进入02818BC0 → 02813DF0 → 0277C210 → 01B04F00。不可把进入bit0分支等同必然过滤。
+
+### 三个指定状态的真实行为
+- cHostSyncCommit 01DE60A0：生成同步时间候选，保存+78；发送含命令1、sync+70、参与者掩码的0x20记录，经01CAB2E0/01CAB5E0；01DE61AC请求转state5，registered_4 01DE61C4仅RET。本状态窗口没有+58回调调用。
+- cVisitCommit 01DE6820：构造SaveProc请求，flags OR 0x200/0x2000；01DE687C tail B 0283E2D0。registered_4 01DE6880检查请求+54 bit0、sync+83、+80，发送命令2并转state9或0（01DE6940）。窗口内未见+58回调。
+- cRollback 01DE6A90：请求flags OR 0x4000；manager+2078非零时低四位改为1；01DE6B08 tail B 0283E2D0。registered_4 01DE6B0C等待请求+54 bit0再转0。该状态读取manager+2078但未在本入口窗口调用+58回调。
+- [0283E2D0](../derived/3.0.3/ghidra12.2/c/e2/0283e2d0.c) blob 686a289a3aa82483517291e8bc6f4cfedd1d443e：WaitLightEvent、0283C2A8请求检查、登记param_1+10，持锁加入0x38队列节点，原版名称SaveProc，失败/提前完成路径SignalLightEvent。[0283D404](../derived/3.0.3/ghidra12.2/c/d4/0283d404.c) blob 87ce54730591e4ed2679550f3985c1a8c37fe895：类似门控但调用0283D4C4。禁止由入口未命中+58推断整个下游闭包无回调。
+- 两个StartSave均调用0283E2D0，且sync+70==0时按manager+2078全字节是否为0选择请求flags 0x50或0x10；+70非零直接选择0x10，跳过回调；再OR 0x200/0x1000。这是独立于callback最低位的判断，不能混同。
+
+### 状态迁移和参数生产者新证据
+cIdle registered_4 01DE5C58：要求 manager+2070所指首字节非零、manager+2078==0（01DE5C88..90），其余虚调用门控通过后，接收0x20记录（01CAB720/01CAC0D8/01CAB920）；01DE5D3C 把栈中消息+0x14（sp+0x1C，接收缓冲起点sp+8）的u32写sync+70，01DE5D40写+60掩码，01DE5D44请求state6。HostStartSave将sync+70放入发送记录+0x14（01DE5E78/80），因此普通访客进入该路径时至少在cIdle接收时manager+2078==0；不能证明直到StartSave该字节不变，不能据此断言所有普通联机必然过滤。Host端+70的运行时生产者和+2078置1入口尚未闭合。
+[01C9E150](../derived/3.0.3/ghidra12.2/c/e1/01c9e150.c) blob 0484c8049f828cc26758beb1e64f524cf8ea487b：清零param_1+2078的u16（同时2078/2079），同函数访问2070/F88/F90/F78，强支持manager reset；未证所有实例均为*05358908。
+HostStartSave registered_4：01DE608C可转state3，01DE5FEC/6064..8C可转state10。HostSyncCommit转5。VisitStartSave registered_4 01DE65C0..C4转7；VisitWaitCommit registered_4 01DE6804..08转8，01DE66A8可转10。VisitCommit按条件转9或0；Rollback完成转0。仅列有原版证据的边，非穷尽CFG。
+
+### 第五轮专项与证据边界
+脚本 commit af2a9bb84e17092f9d31c61795611090b505feb9 增加 focus_save_mode：扫描MOVZ 2078/2079及有界索引访存、直接宽存储覆盖2078/2079、网络相关C文件字段窗口、同步器+70 store候选；输出save_mode_focus.json。缺少派生base、复合计算及跨块到达定义，结果须按对象身份筛选；本轮未验收第五轮产物。原始静态证据已证明回调属于存档同步StartSave准备阶段，仍不能将CantTakeOver直接映射为所有普通联机携带限制，更不能宣称实机已验证。业务字段保持NULL，未修改生产代码。
