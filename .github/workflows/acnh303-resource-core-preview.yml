@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 2
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /ResourceCore/Database/
@@ -65,4 +65,17 @@ jobs:
           git add "$dest"
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "ADB: archive verified ResourceCore research preview"
-          git push origin HEAD:refs/heads/adb-category-core-v1
+          # Publish only if the build inputs have not changed since checkout.
+          # A concurrent documentation-only commit is safe to rebase onto.
+          for attempt in 1 2 3; do
+            git fetch --depth=50 origin refs/heads/adb-category-core-v1:refs/remotes/origin/adb-category-core-v1
+            git merge-base --is-ancestor "$GITHUB_SHA" origin/adb-category-core-v1
+            if ! git diff --quiet "$GITHUB_SHA" origin/adb-category-core-v1 -- ResourceCore/Database/build.py ResourceCore/CategoryCore/output/ACNHCategoryCore.sqlite3.gz UnPack/1/Bcsv/WherearenCatalogOpen.csv UnPack/1/Bcsv/WherearenItemKind.csv UnPack/1/Bcsv/ItemKind.csv derived/3.0.3/ghidra12.2/c .github/workflows/acnh303-resource-core-preview.yml ResourceCore/Database/output; then
+              echo "::error::Build inputs or archive changed; refusing stale publication"
+              exit 1
+            fi
+            git rebase origin/adb-category-core-v1
+            if git push origin HEAD:refs/heads/adb-category-core-v1; then exit 0; fi
+          done
+          echo "::error::Archive push rejected after three attempts"
+          exit 1
