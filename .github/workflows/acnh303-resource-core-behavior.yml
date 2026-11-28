@@ -1,0 +1,73 @@
+name: ACNH ResourceCore V1 Behavior Evidence
+on:
+  push:
+    branches: [adb-category-core-v1]
+    paths:
+      - ResourceCore/Database/build_behavior.py
+      - .github/workflows/acnh303-resource-core-behavior.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-resource-core-behavior-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  behavior:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ResourceCore/Database/build_behavior.py
+            /ResourceCore/Database/catalog-output/ACNHResourceCore.sqlite3.gz
+            /ResourceCore/Database/behavior-output/
+            /UnPack/1/EventFlow/NNPC_Reaction_Moving.json
+            /derived/3.0.3/ghidra12.2/c/00/01af0020.c
+            /derived/3.0.3/ghidra12.2/c/02/01af02d0.c
+            /derived/3.0.3/ghidra12.2/c/dd/01aedd20.c
+            /derived/3.0.3/ghidra12.2/c/df/01aedf10.c
+            /derived/3.0.3/ghidra12.2/c/d4/01aed4b8.c
+            /derived/3.0.3/ghidra12.2/c/d7/01aed730.c
+            /derived/3.0.3/ghidra12.2/c/96/024b9644.c
+            /derived/3.0.3/ghidra12.2/c/3a/02673a50.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build and verify behavior evidence
+        run: python ResourceCore/Database/build_behavior.py --root . --out "${RUNNER_TEMP}/behavior"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNHResourceCore-v1-behavior-preview
+          path: ${{ runner.temp }}/behavior/
+          if-no-files-found: error
+      - name: Archive verified behavior evidence
+        if: github.ref == 'refs/heads/adb-category-core-v1'
+        run: |
+          dest=ResourceCore/Database/behavior-output
+          mkdir -p "$dest"
+          cp "${RUNNER_TEMP}/behavior/"*.csv "${RUNNER_TEMP}/behavior/"*.json "$dest/"
+          gzip -n -9 -c "${RUNNER_TEMP}/behavior/ACNHResourceCore.sqlite3" > "$dest/ACNHResourceCore.sqlite3.gz"
+          gzip -dc "$dest/ACNHResourceCore.sqlite3.gz" | cmp - "${RUNNER_TEMP}/behavior/ACNHResourceCore.sqlite3"
+          (cd "$dest" && sha256sum ACNHResourceCore.sqlite3.gz *.csv *.json > SHA256SUMS)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dest"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "ADB: archive validated behavior preview"
+          for attempt in 1 2 3; do
+            git fetch --depth=50 origin refs/heads/adb-category-core-v1:refs/remotes/origin/adb-category-core-v1
+            git merge-base --is-ancestor "$GITHUB_SHA" origin/adb-category-core-v1
+            if ! git diff --quiet "$GITHUB_SHA" origin/adb-category-core-v1 -- ResourceCore/Database/build_behavior.py ResourceCore/Database/catalog-output/ACNHResourceCore.sqlite3.gz ResourceCore/Database/behavior-output UnPack/1/EventFlow/NNPC_Reaction_Moving.json derived/3.0.3/ghidra12.2/c .github/workflows/acnh303-resource-core-behavior.yml; then
+              echo "::error::Build inputs or archive changed; refusing stale publication"
+              exit 1
+            fi
+            git rebase origin/adb-category-core-v1
+            if git push origin HEAD:refs/heads/adb-category-core-v1; then exit 0; fi
+          done
+          exit 1
