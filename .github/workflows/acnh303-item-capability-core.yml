@@ -1,0 +1,39 @@
+name: ACNH 3.0.3 ItemCapabilityCore V1
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_item_capability_core.py'
+      - '.github/workflows/acnh303-item-capability-core.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/acnh303_item_capability_core.py
+            /UnPack/1/Bcsv/ItemKind.csv
+            /UnPack/1/Bcsv/ItemKind.json
+            /UnPack/1/Bcsv/ItemParam.csv
+            /UnPack/1/Bcsv/ItemParam.json
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemKind.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/ItemParam.bcsv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile Scripts/acnh303_item_capability_core.py
+      - run: python Scripts/acnh303_item_capability_core.py --selftest
+      - run: python Scripts/acnh303_item_capability_core.py --root . --out artifacts/item-capability-core
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-item-capability-core-v1
+          path: artifacts/item-capability-core/
+          if-no-files-found: error
