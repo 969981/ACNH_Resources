@@ -170,3 +170,62 @@ print("stack", collections.Counter(s16(r["hash_4C9BA961"]) for r in rows))
 ```
 
 原版行为仍处于部分静态证据阶段；本轮没有重跑历史 CI、没有实机拾取记录、没有更改原版资源、网站或机器人。下一阶段先验收已有 save_mode_focus，再闭合 Y 输入/拾取、Field 移除以及 25 个 ItemKind 细类映射。
+
+
+## 7. 第二轮：全量静态资格、原版索引消费者、ItemCapabilityCore V1 实现
+
+2026-11-28。实际重新读取 R74 全量 CSV（blob 01889b01d0087759c7f85720c6d710fb8d3cd6ad）和 ItemKind.csv（blob bee0408c96266c5b21f27d43bfe9d44a598aad7c），CSV 解析、ID 去重和精确 label join 全部 11178 行。不是新实机报告。
+
+|CanSetItem/CanPut/CantTakeOver|item count|
+|---|---:|
+|1/1/0|4987|
+|1/0/0|548|
+|1/0/1|64|
+|1/1/1|4|
+|0/0/0|454|
+|0/1/0|19|
+|未证明类别转换|5102|
+
+5603 个精确关联道具具备静态 SetItem 正候选；473 个静态值为0；5102 未知。548 个 1/0/0 中 Fish80、Insect80、DiveFish40、FlowerBud184、Tree50、Bush39、其余75。不是 5603 个已确认商品。
+
+### 7.1 细分类转换的真正消费者
+
+|候选父类|原版子类数量|item 数量|证据|
+|---|---:|---:|---|
+|Ftr|5|1376|前缀候选|
+|Tops|3|1330|前缀候选|
+|OnePiece|4|1071|前缀候选|
+|Bottoms|3|765|前缀候选|
+|Shoes|2|508|前缀候选|
+|UnitIcon_Flw*|8|52|未知|
+|合计|25|5102|原版映射尚未闭合|
+
+8 个花类通过真实内部名可关联品种但不能推断其行为类别：Cosmos6、Tulip7、Pansy6、Rose8、Lily6、Anemone6、Hyacinth7、Mum6。示例 2304 FlwCosmosRed、2931 FlwRoseWhite、5175 FlwMumGreen。不能因名称包含 Flw 自动套用 Flower 或 FlowerBud。
+
+重新读取 [01B14730](../derived/3.0.3/ghidra12.2/c/47/01b14730.c)（blob 3f80f8540d94c5cd4fdc90fdbc3a85ec2d71418e）：
+- param_1+10 为空时类别索引 0xBC；非空时依据原版 BCSV 行头回指、记录大小和行首地址求行序号，再查 PTR_DAT_04BC00C8 处 count 及 +8 指针的 u16 映射，限制 <0xBD（189）；失败有类别0回退。与 CSV 行号相等、类别 UniqueID 或 label 字符串映射都尚未证明。
+- 依据 DAT_0532A778 的 +1C0 状态选择直接 BCSV / 缓存行指针路径，含行有效性门控。
+- 字段查找哈希 49129B27，缓存 PTR_DAT_04BBFEB8+5C；缺失字段与无效行可返回 false。不能简化为只读 ItemKind CSV 字节。
+- 0232697C 另用 DAT_05326EC0/05326EC8 的 u16 表；是否与 04BC00C8 为别名尚待原版重定位验证。下一阶段直接找这两组数组的分配、写入者和来源，而不是继续按字符串猜测。
+
+### 7.2 背包与 Field 转换
+
+[0277E788](../derived/3.0.3/ghidra12.2/c/e7/0277e788.c)（4dfc633c219bdf53257ab889d719607697bab82d）、[0277E8B4](../derived/3.0.3/ghidra12.2/c/e8/0277e8b4.c)（6e8ff297babe59027a18bd08ee0d8c86d4bb9dac）分别在目录校验后构造 8-byte 记录上下文并调用 01B14730；0xFFFE 空记录直接返回1，因此这两个函数的 true 不能直接等于可发货物品。文本索引另找到 0277E9E0 调用 01B14730 后进行额外条件判断。待原始 B/BL 以及间接引用扫描。
+
+[016E49E4](../derived/3.0.3/ghidra12.2/c/49/016e49e4.c)（b39926808aa48accb427fc7322d1d3c0109dc4be）复制 u16/u8/u8/u32，调用 [0277E56C](../derived/3.0.3/ghidra12.2/c/e5/0277e56c.c)（02f15445ea1a17f97f2f57692f821fdc9afb0ca4），再次验证转换后目录；失败使用 PTR_DAT_04BB37E0 默认记录。0277E56C 存在两条目录路径：
+- [0124C1E8](../derived/3.0.3/ghidra12.2/c/c1/0124c1e8.c)（f5bfc7868127ae7cf046c320acb9db8a5542cf8c）带 param_2 & 1；内含 0124C4C0/0124C70C、类别 0x21/0x22、特殊结果 0x8A5。目标 ID 语义待验证。
+- [01B09000](../derived/3.0.3/ghidra12.2/c/90/01b09000.c)（e03ff1d09b355e63896070df6f755d2e80d8af6d）含第一 u32 AND 0xFFDFFFFF（清 bit21，即记录 byte+2 的 bit5）与后四字节 AND 0xFFFEFFFF 的条件路径；不能把所有分支简化为统一清位操作。包装、特殊物品及转换前后 ID/参数需分别确认。
+
+### 7.3 访客资格与堆叠
+
+[0232697C](../derived/3.0.3/ghidra12.2/c/69/0232697c.c)（9ca51194b7d2f9202215829a4bb960d811957256）先经过 016E6498、场景位、玩家索引（>7规范为0xFF）、016E49E4、0277E788，后经类别0x86特殊路径0267BA70或02677890。失败路径返回1；[025579BC](../derived/3.0.3/ghidra12.2/c/79/025579bc.c)（df2b9208bd569844590ec4e32080e920e15c2f12）反向消费 bit0，并对无效目录/40槽容量另行判断。尚未确认最终输入动作、玩家角色身份来源及场景全部条件；不能把返回1称作成功捡拾。
+
+[01AF0020](../derived/3.0.3/ghidra12.2/c/00/01af0020.c)（e962dfd528ba5223e6b18f05052c08a0c32bec77）消费 MultiHoldMaxNum 及额外分支；[01AF02D0](../derived/3.0.3/ghidra12.2/c/02/01af02d0.c)（741c21c7605fea9dcd23928fd81d02290d180832）先调用 01AF0020，否返回1；否则计算 (u16 at context+0xC +1)&0xFF，再与类别 s16 上限比较，超出返回1。这里 context+0xC 为包装上下文中的偏移，需独立核实实际 8-byte FreeParam 位置，不把它直接描述为所有记录的计数。负值 Money/Turnip 必须追踪特殊路径。未证包装语义与所有 FreeParam 变体。
+
+### 7.4 已提交的可执行实现及 CI
+
+- [ItemCapabilityCore 生成器](../Scripts/acnh303_item_capability_core.py)，commit a2503ec3c0263da3f2ca12cb05e82ee2f16385f4：标准库 Python；检查原版 BCSV 记录与解码 CSV 的 ID、label、kind、name、堆叠值、18 flags，保存逐行 SHA256；全量 SQLite（source、kind、identity、capability、policy、observation）、JSON 和 manifest。精确静态字段与候选类别独立；全部运行时行为保持 null，enabled=0；CanPut=0 不是排除条件。实际全量生成需 CI 验收。
+- [构建工作流](../.github/workflows/acnh303-item-capability-core.yml)，commit 1acd9cf316efcf7ffe6feffc01584f32db26dbf2；输出 artifact acnh303-item-capability-core-v1。运行 python Scripts/acnh303_item_capability_core.py --selftest 及 python Scripts/acnh303_item_capability_core.py --root . --out artifacts/item-capability-core。
+- [原版分类与拾取专项 XREF](../Scripts/acnh303_adb_native_xrefs.py)，commit 54d6e76b63125c562ef0aeec523b539e75ac85e7：复用 R100 原版 NSO/ELF text 逐页比对；18 个函数 B/BL，3 个分类全局及重定位别名，ADR/ADRP ADD/LDR/STR 窗口。只输出候选，不把窗口中的 STR 或线性地址形成当完整数据流。
+- [原版专项工作流](../.github/workflows/acnh303-adb-native-xrefs.yml)，commit 0da25841e523430e87f04c650b16f876d6257845，输出 adb_native_xrefs.json / adb_native_summary.json。两条 CI 均设 push 与手动触发；本轮未获取成功产物，不宣称新 SQLite 已实际生成或 ELF 新扫描成功。
+- 后续验收：核对两个工作流真实运行及 artifact SHA；先恢复原版索引表生产者，闭合 25 个细类，再进行访客权限、Field 原子移除、特殊包装及同步存档。未修改原版 ROM、现有 v2 导出或生产派送代码。
