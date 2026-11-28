@@ -332,6 +332,78 @@ def focus_save_sync(code,start,matched,rel,cs,out):
     (out/"save_sync_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("SAVE_SYNC_FOCUS",json.dumps({"state_methods":len(methods),"network_methods":len(network),"adapters":len(adapters),"offset58_candidates":sum(len(m["offset_58_load_candidates"]) for m in methods)}))
 
+
+def focus_save_mode(root,code,start,cs,out):
+    """Find producers of network mode byte and save-kind word; candidate scan only."""
+    import re
+    from capstone.arm64 import ARM64_OP_MEM
+    end=start+len(code)
+    cs.detail=True
+    def row(i):
+        return {"va":hex(i.address+BASE),"bytes":bytes(i.bytes).hex(),
+                "instruction":i.mnemonic+" "+i.op_str}
+    def window(a,n):
+        lo=max(start,a);hi=min(end,a+n)
+        return list(cs.disasm(code[lo-start:hi-start],lo))
+    def context(a):
+        return [row(i) for i in window(a-0x28,0x80)]
+    def regnum(i,r):
+        n=i.reg_name(r)
+        return int(n[1:]) if n[:1] in ("x","w") and n[1:].isdigit() else None
+    # Offsets >=4096 need indexed byte accesses, or a derived base, or scaled
+    # wider accesses. The scan below covers exact MOVZ offset literals and
+    # direct unsigned immediate stores whose written byte range overlaps the flag.
+    exact_literals=[]; indexed=[]; scaled=[]; nearby=[]
+    for k,(w,) in enumerate(struct.iter_unpack("<I",code)):
+        pc=start+k*4
+        if (w&0x7f800000)==0x52800000:
+            imm=((w>>5)&0xffff) << (16*((w>>21)&3))
+            if imm in (0x2078,0x2079):
+                rd=w&31
+                exact_literals.append({"va":hex(pc+BASE),"offset":hex(imm),"bytes":struct.pack("<I",w).hex()})
+                for i in window(pc+4,0x60):
+                    if i.mnemonic in ("ret","b","br","bl","blr") or i.mnemonic.startswith("b."):break
+                    for op in i.operands:
+                        if op.type==ARM64_OP_MEM and regnum(i,op.mem.index)==rd:
+                            indexed.append({"literal_va":hex(pc+BASE),"offset":hex(imm),**row(i),
+                                            "is_store":i.mnemonic.startswith("st"),"context":context(i.address)})
+                    try:
+                        _,wr=i.regs_access()
+                        if any(regnum(i,x)==rd for x in wr):break
+                    except Exception:break
+        # STR{B,H,W,X} unsigned immediate, base identity unknown.
+        if w&0x3fc00000==0x39000000:
+            width=1<<((w>>30)&3)
+            imm=((w>>10)&0xfff)*width
+            if imm<=0x2079 and imm+width>0x2078:
+                ins=window(pc,4)
+                if ins:scaled.append({**row(ins[0]),"offset":hex(imm),"width":width,"context":context(pc)})
+    # Preserve the network-manager and synchronization C export anchors, including
+    # offset writes expressed as char arrays or multi-byte initialization.
+    croot=root/"derived/3.0.3/ghidra12.2/c"
+    for p in sorted(croot.rglob("*.c")):
+        if not p.stem.startswith(("01c8","01c9","01ca","01d3","01db","01de","01df")):continue
+        s=p.read_text("utf-8",errors="replace").splitlines()
+        relevant=[i for i,l in enumerate(s) if re.search(r"0x207[89]|0x[fF]98",l)]
+        if relevant:
+            nearby.append({"path":p.relative_to(root).as_posix(),"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+                           "windows":[{"line":i+1,"text":"\n".join(s[max(0,i-5):i+6])} for i in relevant]})
+    # Additional mode-word stores in the already named sync and network regions.
+    mode=[]
+    for va,n in ((0x01DE57A8,0x1700),(0x01C9CC70,0x2800),(0x01C9E150,0x100)):
+        for i in window(va-BASE,n):
+            if not i.mnemonic.startswith("st"):continue
+            if any(o.type==ARM64_OP_MEM and o.mem.disp==0x70 for o in i.operands):
+                mode.append({**row(i),"context":context(i.address)})
+    result={"schema":"acnh303-item-capability-save-mode-v1","mode_offset_literals":exact_literals,
+            "indexed_candidates":indexed,"scaled_store_candidates":scaled,
+            "network_c_windows":nearby,"sync_mode_word_store_candidates":mode,
+            "runtime_verified":False,
+            "limits":"Exact MOVZ + bounded register-indexed accesses and scaled stores only; misses computed offsets, derived bases, paired stores and aliases. No object identity or complete reaching-definitions proof. C windows are static leads."}
+    (out/"save_mode_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("SAVE_MODE_FOCUS",json.dumps({"literals":len(exact_literals),"indexed":len(indexed),
+          "scaled_stores":len(scaled),"c_files":len(nearby),"mode_word_stores":len(mode)}))
+
 def run(root, out):
     import acnh303_r100_nso_decode as dec
     from acnh303_round11_elf_xref import parse_elf, get_bytes_va, survey, locate_xrefs
@@ -445,6 +517,7 @@ def run(root, out):
     focus_dispatch(code,start,matched,rel,cs,factories,out)
     focus_vtables(code,start,matched,rel,cs,out)
     focus_save_sync(code,start,matched,rel,cs,out)
+    focus_save_mode(root,code,start,cs,out)
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
