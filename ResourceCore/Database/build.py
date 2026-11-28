@@ -6,6 +6,7 @@ import argparse,collections,csv,gzip,hashlib,json,shutil,sqlite3,zlib
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 BASE_SHA='c3737b30829273c0c706af758f324c43a385f5f032eb6684a85841b76fa04c07'
+GROUP_KEYS='Mermaid Mushroom Oriental Wooden Rattan Antique Block Lego Cool MyMelody Splatoon Cardboard Vintage Nordic Shell Cute Wedding Country Carnival Log Halloween Zelda Patchwork Simple Easter Pirate Iron Marble Mario Kids Elegant Gold Bamboo Ice Harvest Christmas HelloKitty Pompompurin Mother Plaza Moroccan IronWood Fruit AmericanRetro Star KikiLala Flower Kerokerokeroppi Cinnamoroll CherryBlossom JapaneseModern'.split()
 SRC={
 'WherearenCatalogOpen':('eeb5b32450ed87d9af928f902777c275722ffff4',251),
 'WherearenItemKind':('d54e721a8154ba94f5743cf07f0437b9ea2b151c',11178),
@@ -59,7 +60,10 @@ def run(root,out):
  """)
  groups=db.execute('SELECT group_crc_candidate,COUNT(*) FROM item WHERE group_crc_candidate IS NOT NULL GROUP BY group_crc_candidate').fetchall()
  assert len(groups)==56 and sum(n for _,n in groups)==701
- db.executemany('INSERT INTO furniture_group_candidate VALUES(?,?,NULL,?)',[(c,n,'raw_group_crc_only') for c,n in groups])
+ group_names={zlib.crc32(k.encode()):k for k in GROUP_KEYS}
+ assert len(group_names)==51 and set(group_names)<=set(c for c,n in groups)
+ assert sum(n for c,n in groups if c in group_names)==657
+ db.executemany('INSERT INTO furniture_group_candidate VALUES(?,?,?,?)',[(c,n,group_names.get(c),'crc32_key_candidate_native_enum_pending' if c in group_names else 'raw_group_crc_only') for c,n in groups])
  db.execute('INSERT INTO furniture_group_member SELECT id,group_crc_candidate FROM item WHERE group_crc_candidate IS NOT NULL')
  ids={x[0] for x in db.execute('SELECT id FROM item')}
  cat=source(root,'WherearenCatalogOpen')
@@ -71,8 +75,16 @@ def run(root,out):
  assert len({(r['hash_6D932B1B'],r['hash_E1FBFEDB']) for r in cat})==250
  raw=source(root,'WherearenItemKind')
  assert len([k for k in raw[0] if k.startswith('hash_')])==44
+ assert zlib.crc32(b'ItemUniqueID u16')==0xFD9AF1E1
+ raw_ids=[int(r['hash_FD9AF1E1']) for r in raw]
+ assert len(raw_ids)==len(set(raw_ids))==len(ids)==11178 and set(raw_ids)==ids
+ source_rows=dict(db.execute('SELECT source_row,id FROM item'))
+ assert sum(source_rows.get(int(r['_row_index']))==int(r['hash_FD9AF1E1']) for r in raw)==0
  for r in raw:
-  db.execute('INSERT INTO dlc_wherearen_raw VALUES(?,?,?,NULL,?)',(int(r['_row_index']),int(r['_row_offset_raw']),json.dumps({k:v for k,v in r.items() if k.startswith('hash_')},sort_keys=True,ensure_ascii=False),'row_identity_unresolved'))
+  db.execute('INSERT INTO dlc_wherearen_raw VALUES(?,?,?,?,?)',(int(r['_row_index']),int(r['_row_offset_raw']),json.dumps({k:v for k,v in r.items() if k.startswith('hash_')},sort_keys=True,ensure_ascii=False),int(r['hash_FD9AF1E1']),'item_unique_id_crc_and_exact_set_join_native_consumer_pending'))
+ db.execute('CREATE UNIQUE INDEX dlc_wherearen_item_identity ON dlc_wherearen_raw(item_id_verified)')
+ db.execute('CREATE VIEW dlc_item_core AS SELECT i.id,i.resource_name,i.name_cn,d.source_row,d.raw_fields_json,d.identity_status FROM item i JOIN dlc_wherearen_raw d ON d.item_id_verified=i.id')
+ assert db.execute('SELECT COUNT(*) FROM dlc_item_core').fetchone()[0]==11178
  db.execute("""INSERT INTO dlc_acquisition_candidate SELECT i.id,a.key,NULL,NULL,NULL,'acquisition_route_only' FROM item i JOIN acquisition_source a ON a.id=i.source_id WHERE a.key LIKE '%OneRoom%' OR a.key='ManCatalogSpTab'""")
  for r in source(root,'ItemKind'):
   kid=int(r['hash_54706054']);s=int(r['hash_4C9BA961']);s=s-65536 if s>32767 else s
@@ -91,11 +103,14 @@ def run(root,out):
  assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok' and db.execute('PRAGMA foreign_key_check').fetchall()==[]
  assert db.execute('SELECT COUNT(*) FROM capability_context WHERE can_pickup IS NOT NULL OR can_drop IS NOT NULL OR can_carry_across_island IS NOT NULL OR can_save_after_return IS NOT NULL OR can_auto_deliver IS NOT NULL').fetchone()[0]==0
  assert db.execute('SELECT COUNT(*) FROM item_capability_core').fetchone()[0]==11178
- queries={'furniture_groups.csv':'SELECT * FROM furniture_group_candidate ORDER BY member_count DESC,group_crc','furniture_group_members.csv':'SELECT g.group_crc,i.id,i.name_cn,i.resource_name FROM furniture_group_member g JOIN item i ON i.id=g.item_id ORDER BY g.group_crc,i.id','dlc_catalog_links.csv':'SELECT d.*,a.name_cn AS first_name,b.name_cn AS second_name FROM dlc_catalog_link d LEFT JOIN item a ON a.id=d.first_item_id LEFT JOIN item b ON b.id=d.second_item_id ORDER BY source_row','dlc_acquisition_candidates.csv':'SELECT d.*,i.name_cn,i.resource_name FROM dlc_acquisition_candidate d JOIN item i ON i.id=d.item_id ORDER BY source_key,item_id','item_capability_core.csv':'SELECT * FROM item_capability_core ORDER BY id','native_evidence.csv':'SELECT * FROM capability_evidence ORDER BY topic,native_va'}
+ queries={'furniture_groups.csv':'SELECT * FROM furniture_group_candidate ORDER BY member_count DESC,group_crc','furniture_group_members.csv':'SELECT g.group_crc,i.id,i.name_cn,i.resource_name FROM furniture_group_member g JOIN item i ON i.id=g.item_id ORDER BY g.group_crc,i.id','dlc_catalog_links.csv':'SELECT d.*,a.name_cn AS first_name,b.name_cn AS second_name FROM dlc_catalog_link d LEFT JOIN item a ON a.id=d.first_item_id LEFT JOIN item b ON b.id=d.second_item_id ORDER BY source_row','dlc_acquisition_candidates.csv':'SELECT d.*,i.name_cn,i.resource_name FROM dlc_acquisition_candidate d JOIN item i ON i.id=d.item_id ORDER BY source_key,item_id','dlc_item_identity.csv':'SELECT id,resource_name,name_cn,source_row,identity_status FROM dlc_item_core ORDER BY id','item_capability_core.csv':'SELECT * FROM item_capability_core ORDER BY id','native_evidence.csv':'SELECT * FROM capability_evidence ORDER BY topic,native_va'}
  for n,q in queries.items():export(db,out,n,q)
  counts={t:db.execute('SELECT COUNT(*) FROM '+t).fetchone()[0] for t in ('item','furniture_group_candidate','furniture_group_member','dlc_catalog_link','dlc_wherearen_raw','dlc_acquisition_candidate','capability_static_kind','capability_evidence','capability_context')}
  counts['dlc_catalog_both_ids_matched']=db.execute('SELECT COUNT(*) FROM dlc_catalog_link WHERE first_item_id IS NOT NULL AND second_item_id IS NOT NULL').fetchone()[0]
  counts['dlc_wherearen_verified_item_ids']=db.execute('SELECT COUNT(*) FROM dlc_wherearen_raw WHERE item_id_verified IS NOT NULL').fetchone()[0]
+ counts['group_crc_key_candidates']=len(group_names)
+ counts['group_crc_key_candidate_members']=sum(n for c,n in groups if c in group_names)
+ counts['dlc_row_position_id_matches']=0
  counts['stack_modes_by_item']=dict(db.execute('SELECT stack_mode_candidate,COUNT(*) FROM item_capability_core GROUP BY stack_mode_candidate'))
  counts['dlc_acquisition_by_route']=dict(db.execute('SELECT source_key,COUNT(*) FROM dlc_acquisition_candidate GROUP BY source_key'))
  counts['integrity_check']='ok';counts['foreign_key_violations']=0;counts['runtime_verified']=False;counts['release_status']='research_preview'
