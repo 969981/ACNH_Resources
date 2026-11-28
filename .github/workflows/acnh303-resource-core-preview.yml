@@ -1,0 +1,68 @@
+name: ACNH ResourceCore V1 Research Preview
+on:
+  push:
+    branches: [adb-category-core-v1]
+    paths:
+      - ResourceCore/Database/build.py
+      - .github/workflows/acnh303-resource-core-preview.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: acnh-resource-core-preview-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ResourceCore/Database/
+            /ResourceCore/CategoryCore/output/ACNHCategoryCore.sqlite3.gz
+            /UnPack/1/Bcsv/WherearenCatalogOpen.csv
+            /UnPack/1/Bcsv/WherearenItemKind.csv
+            /UnPack/1/Bcsv/ItemKind.csv
+            /derived/3.0.3/ghidra12.2/c/47/01b14730.c
+            /derived/3.0.3/ghidra12.2/c/e7/0277e788.c
+            /derived/3.0.3/ghidra12.2/c/48/01b04850.c
+            /derived/3.0.3/ghidra12.2/c/e7/0317e7e0.c
+            /derived/3.0.3/ghidra12.2/c/e2/0242e2cc.c
+            /derived/3.0.3/ghidra12.2/c/79/025579bc.c
+            /derived/3.0.3/ghidra12.2/c/c9/0231c94c.c
+            /derived/3.0.3/ghidra12.2/c/ee/0242ee64.c
+            /derived/3.0.3/ghidra12.2/c/fb/024bfb68.c
+            /derived/3.0.3/ghidra12.2/c/aa/027faa50.c
+            /derived/3.0.3/ghidra12.2/c/4f/01b04f00.c
+            /derived/3.0.3/ghidra12.2/c/c2/0277c210.c
+            /derived/3.0.3/ghidra12.2/c/cb/028bcb18.c
+            /derived/3.0.3/ghidra12.2/c/b8/036db890.c
+            /derived/3.0.3/ghidra12.2/c/68/01b168d0.c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build and verify preview database
+        run: python ResourceCore/Database/build.py --root . --out "${RUNNER_TEMP}/resource-core"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNHResourceCore-v1-research-preview
+          path: ${{ runner.temp }}/resource-core/
+          if-no-files-found: error
+      - name: Archive verified preview
+        if: github.ref == 'refs/heads/adb-category-core-v1'
+        run: |
+          dest=ResourceCore/Database/output
+          mkdir -p "$dest"
+          cp "${RUNNER_TEMP}/resource-core/"*.csv "${RUNNER_TEMP}/resource-core/"*.json "$dest/"
+          gzip -n -9 -c "${RUNNER_TEMP}/resource-core/ACNHResourceCore.sqlite3" > "$dest/ACNHResourceCore.sqlite3.gz"
+          gzip -dc "$dest/ACNHResourceCore.sqlite3.gz" | cmp - "${RUNNER_TEMP}/resource-core/ACNHResourceCore.sqlite3"
+          (cd "$dest" && sha256sum ACNHResourceCore.sqlite3.gz *.csv *.json > SHA256SUMS)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dest"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "ADB: archive verified ResourceCore research preview"
+          git push origin HEAD:refs/heads/adb-category-core-v1
