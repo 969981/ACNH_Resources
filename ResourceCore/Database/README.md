@@ -32,3 +32,12 @@ ADB-006: trace host/guest pickup, capacity, field removal and save.
 ADB-008: trace normal airport departure/return and persistence separately from migration.
 ADB-010–013/017: integrate villager and recipe cores after separate source validation.
 Release V1.0 only after scope and evidence gate review; preview can support catalog browsing, not automatic delivery decisions.
+
+## 2026-11-28 — second acceptance and identity recovery
+
+- CI 46159467208 built/uploaded artifact 15269197397 successfully; archive push rejected (fetch first) because documentation advanced the branch. Downloaded artifact ZIP SHA256 ff62a403981642f21cd27b091f41cfa16fd9d20c489efc366d1cea6a44f797bd and all manifest hashes match; SQLite integrity and FK checks pass. Fixed guarded rebase, CI 46161129904 success.
+- 456 DLC acquisition-route candidates; 251/251 catalog links resolve both item IDs; 252 items positive stack raw, 118 special signed stack, 10808 zero-single candidates. Runtime permissions remain NULL.
+- WherearenItemKind field FD9AF1E1 equals CRC32("ItemUniqueID u16"); 11178 unique IDs exactly match ItemParam, 0 matches by positional row. Explicit ID join now generated, no inferred positional association. 01242C70 and 0123EF30 consume signed hash -0x2650e1f; latter compares result against FUN_0277D6C4(param_2). Exact table binding and field-specific semantics still require original ELF validation.
+- 51/56 raw group CRC keys (657/701 members) match candidate ASCII strings by CRC32. Remaining groups 71879236 (5),1109759743 (5),2154119502 (17),2337948507 (7),2541425820 (10). Candidate labels are not proof of recovered native enum definitions. No per-item manual tag assignment.
+- 024B9644 reads player+17CC bit6; when valid item and bit set, converts record through 016E49E4 and calls 026738B0. This connects the state bit to an inventory insertion path, not yet a ground removal or save transaction proof. 02426E2C passes bit6 to 022BBADC and further descriptor; 024C46BC sets/clears bit6. Additional native C paths: derived/3.0.3/ghidra12.2/c/96/024b9644.c, /6e/02426e2c.c, /46/024c46bc.c, /2c/01242c70.c, /ef/0123ef30.c.
+- Build commit 92c74d95c0161c931dbb1fbb8c6f5cc5bce443be adds unique DLC item identity view, CSV and 51 CRC key candidates. This supersedes the earlier row identity unresolved note once CI passes. No runtime verification or default branch merge.
