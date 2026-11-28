@@ -1,0 +1,62 @@
+name: ACNH 3.0.3 CategoryCore V1
+on:
+  push:
+    branches: [adb-category-core-v1]
+    paths:
+      - ResourceCore/CategoryCore/build.py
+      - ResourceCore/CategoryCore/web_kind_mapping.csv
+      - .github/workflows/acnh303-category-core-v1.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-category-core-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ResourceCore/CategoryCore/
+            /UnPack/1/Bcsv/ItemUIFurnitureCategory.csv
+            /UnPack/1/Bcsv/ItemFrom.csv
+            /UnPack/1/Bcsv/ItemOutfitCategory.csv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download and verify pinned source artifact
+        run: |
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/14830765861/zip" > "${RUNNER_TEMP}/r84.zip"
+          echo "98874de045b29a4f937ee2c89b2264f47605d6bb5adac1496098ee0e02c38f1e  ${RUNNER_TEMP}/r84.zip" | sha256sum -c -
+      - name: Build and validate static database
+        run: |
+          python ResourceCore/CategoryCore/build.py "${RUNNER_TEMP}/r84.zip" "${RUNNER_TEMP}/category-core" --root .
+      - name: Upload validated SQLite and CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: ACNHCategoryCore-v1
+          path: ${{ runner.temp }}/category-core/
+          if-no-files-found: error
+      - name: Archive generated database in research branch
+        if: github.ref == 'refs/heads/adb-category-core-v1'
+        run: |
+          dest=ResourceCore/CategoryCore/output
+          mkdir -p "$dest"
+          cp "${RUNNER_TEMP}/category-core/"*.csv "${RUNNER_TEMP}/category-core/"*.json "$dest/"
+          gzip -n -9 -c "${RUNNER_TEMP}/category-core/ACNHCategoryCore.sqlite3" > "$dest/ACNHCategoryCore.sqlite3.gz"
+          gzip -dc "$dest/ACNHCategoryCore.sqlite3.gz" | cmp - "${RUNNER_TEMP}/category-core/ACNHCategoryCore.sqlite3"
+          (cd "$dest" && sha256sum ACNHCategoryCore.sqlite3.gz *.csv *.json > SHA256SUMS)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dest"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "ADB: publish validated CategoryCore V1 database and CSV"
+          git push origin HEAD:refs/heads/adb-category-core-v1
