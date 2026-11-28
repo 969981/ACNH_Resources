@@ -253,6 +253,85 @@ def focus_vtables(code,start,matched,rel,cs,out):
     (out/"vtable_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("VTABLE_FOCUS",json.dumps({"tables":len(tables),"callback_target_candidates":len(callback_targets),"global_aliases":len(aliases),"global_refs":len(refs),"direct_candidates":len(calls)}))
 
+
+def focus_save_sync(code,start,matched,rel,cs,out):
+    """Byte-matched bounded save-sync states and callback adapters; no runtime claims."""
+    from acnh303_round11_elf_xref import ldr_uimm
+    end=start+len(code)
+    def row(i):
+        return {"va":hex(i.address+BASE),"bytes":bytes(i.bytes).hex(),
+                "instruction":i.mnemonic+" "+i.op_str}
+    def window(va,n):
+        a=va-BASE
+        if a<start or a+n>end:return []
+        return [row(i) for i in cs.disasm(code[a-start:a-start+n],a)]
+    def pointer(va):
+        a=va-BASE; b=matched(a,8); rr=rel.get(a,{})
+        t=rr.get("addend")
+        return {"slot_va":hex(va),"raw":b.hex() if b is not None else None,
+                "relocation":rr,"target_va":hex(t+BASE) if b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0 and isinstance(t,int) else None}
+    # Proven registration GOT slots and related network-manager address slots.
+    got=[pointer(x) for x in (0x04BB21D0,0x04BB2230,0x04BB27D0,0x04BB32E0,0x04BC38D8,0x04BC38E0,0x04BC38E8,0x04BC38F0,0x04BC38F8,0x04BD4738)]
+    adapters=[]
+    for va in (0x04A92240,0x04A92260,0x04A5BC70,0x04B64428):
+        slots=[]
+        for off in range(-0x10,0x40,8):
+            q=pointer(va+off);t=q["target_va"]
+            q["offset"]=off
+            if t is not None:
+                q["entry_window"]=window(int(t,16),0x100)
+            slots.append(q)
+        adapters.append({"address_point_va":hex(va),"slots":slots,"method_roles_verified":False})
+    # Original named state entries recovered from 01DE57A8. Bound each window
+    # by the next registered address, not a claim of a complete function CFG.
+    states=[
+      ("cIdle",0x01DE5C50,0x01DE5C58),
+      ("cHostPreProc",0x01DE5DCC,0x01DE5DE4),
+      ("cHostStartSave",0x01DE5E2C,0x01DE5FB0),
+      ("cHostSyncCommit",0x01DE60A0,0x01DE61C4),
+      ("cHostSyncRollback",0x01DE61C8,0x01DE61CC),
+      ("cHostCommitAndWait",0x01DE61D0,0x01DE6250),
+      ("cVisitStartSave",0x01DE6420,0x01DE6530),
+      ("cVisitWaitCommit",0x01DE65D4,0x01DE6670),
+      ("cVisitCommit",0x01DE6820,0x01DE6880),
+      ("cVisitFinalizeWait",0x01DE6960,0x01DE696C),
+      ("cRollback",0x01DE6A90,0x01DE6B0C)]
+    anchors=sorted({a for _,x,y in states for a in (x,y)}|{0x01DE6B30})
+    methods=[]
+    for name,x,y in states:
+        for role,a in (("registered_2",x),("registered_4",y)):
+            limit=anchors[anchors.index(a)+1]
+            ins=window(a,limit-a)
+            edges=[];indirect=[];offset58=[]
+            for i in ins:
+                w=int.from_bytes(bytes.fromhex(i["bytes"]),"little");pc=int(i["va"],16)-BASE
+                t=branch_target(w,pc)
+                if t is not None:edges.append({"site_va":i["va"],"target_va":hex(t+BASE),"instruction":i["instruction"],"target_window":window(t+BASE,0x80)})
+                if i["instruction"].split()[0] in ("blr","br"):indirect.append(i)
+                ld=ldr_uimm(w)
+                if ld and ld["imm"]==0x58:offset58.append(i)
+            methods.append({"state":name,"role":role,"va":hex(a),"end_bound_va":hex(limit),"rows":ins,
+                            "direct_edges":edges,"indirect_sites":indirect,"offset_58_load_candidates":offset58})
+    # Preserve the complete bounded +40/+48 method regions from the known tables.
+    network=[]
+    for name,a,b in (("enter_start",0x00D72184,0x00D721B4),
+                     ("enter_result",0x00D721B4,0x00D7229C),
+                     ("join_start",0x00D76A04,0x00D76BF4),
+                     ("join_result",0x00D76BF4,0x00D76D2C)):
+        ins=window(a,b-a)
+        edges=[]
+        for i in ins:
+            w=int.from_bytes(bytes.fromhex(i["bytes"]),"little")
+            t=branch_target(w,int(i["va"],16)-BASE)
+            if t is not None:
+                edges.append({"site_va":i["va"],"target_va":hex(t+BASE),"instruction":i["instruction"],"target_window":window(t+BASE,0x100)})
+        network.append({"role":name,"entry_va":hex(a),"end_bound_va":hex(b),"rows":ins,"direct_edges":edges})
+    result={"schema":"acnh303-item-capability-save-sync-v1","got_slots":got,"callback_adapters":adapters,
+            "state_methods":methods,"network_methods":network,"publication_context":window(0x007BDE94,0x28),
+            "runtime_verified":False,"limits":"State registration addresses from C export; bounded linear intervals, not complete CFG; +58 load alone is not object identity. Adapter slots can include adjacent tables. No proof of normal online item filter invocation or parameter polarity."}
+    (out/"save_sync_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("SAVE_SYNC_FOCUS",json.dumps({"state_methods":len(methods),"network_methods":len(network),"adapters":len(adapters),"offset58_candidates":sum(len(m["offset_58_load_candidates"]) for m in methods)}))
+
 def run(root, out):
     import acnh303_r100_nso_decode as dec
     from acnh303_round11_elf_xref import parse_elf, get_bytes_va, survey, locate_xrefs
@@ -365,6 +444,7 @@ def run(root, out):
     print(json.dumps(summary,indent=2))
     focus_dispatch(code,start,matched,rel,cs,factories,out)
     focus_vtables(code,start,matched,rel,cs,out)
+    focus_save_sync(code,start,matched,rel,cs,out)
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
