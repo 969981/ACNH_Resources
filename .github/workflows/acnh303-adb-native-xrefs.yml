@@ -1,0 +1,35 @@
+name: ACNH 3.0.3 ADB native kind-map and pickup XREFs
+on:
+  push:
+    branches: [3.0.3_Unpack]
+    paths:
+      - 'Scripts/acnh303_adb_native_xrefs.py'
+      - '.github/workflows/acnh303-adb-native-xrefs.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Scripts/
+            /e10617820db06889e1638499478da0de_NCA/0/main
+            /e10617820db06889e1638499478da0de_NCA/0/main.elf
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lz4==4.4.4 capstone==5.0.6
+      - run: python -m py_compile Scripts/acnh303_adb_native_xrefs.py
+      - run: python Scripts/acnh303_adb_native_xrefs.py --root . --out artifacts/adb-native-xrefs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acnh303-adb-native-xrefs
+          path: artifacts/adb-native-xrefs/
+          if-no-files-found: error
