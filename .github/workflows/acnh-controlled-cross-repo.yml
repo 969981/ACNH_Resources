@@ -1,0 +1,54 @@
+name: ACNH controlled cross-repository access
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Operation
+        type: choice
+        default: read
+        options:
+          - read
+          - write-probe
+          - dispatch
+permissions: {}
+concurrency:
+  group: acnh-controlled-cross-repo
+  cancel-in-progress: false
+jobs:
+  access:
+    if: ${{ github.ref == 'refs/heads/3.0.3_Unpack' && github.actor == github.repository_owner && github.triggering_actor == github.repository_owner }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: acnh-private-access
+    steps:
+      - name: Controlled operation (no private output)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.ACNH_ORDERS_PUSH_TOKEN }}
+          TARGET: ${{ secrets.ACNH_ORDERS_TARGET_REPO }}
+          MODE: ${{ inputs.mode }}
+          GH_PROMPT_DISABLED: '1'
+        run: |
+          set -euo pipefail
+          fail() { echo "::error::Cross-repository operation failed; inspect target privately."; exit 1; }
+          test -n "$GH_TOKEN" && test -n "$TARGET" || fail
+          [[ "$TARGET" =~ ^969981/[A-Za-z0-9._-]+$ ]] || fail
+          [[ "$(gh api "repos/$TARGET" --jq '.private' 2>/dev/null)" == true ]] || fail
+          sha="$(gh api "repos/$TARGET/git/ref/heads/main" --jq '.object.sha' 2>/dev/null)" || fail
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || fail
+          case "$MODE" in
+            read)
+              echo "Private repository read PASS" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            write-probe)
+              ref="ci/access-probe-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+              gh api --silent -X POST "repos/$TARGET/git/refs" -f "ref=refs/heads/$ref" -f "sha=$sha" >/dev/null 2>&1 || fail
+              gh api --silent -X DELETE "repos/$TARGET/git/refs/heads/$ref" >/dev/null 2>&1 || fail
+              echo "Temporary ref create/delete PASS; main unchanged" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            dispatch)
+              gh workflow run acnh-private-ci.yml --repo "$TARGET" --ref main >/dev/null 2>&1 || fail
+              echo "Private CI dispatch accepted; verify result in target repository" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *) fail ;;
+          esac
