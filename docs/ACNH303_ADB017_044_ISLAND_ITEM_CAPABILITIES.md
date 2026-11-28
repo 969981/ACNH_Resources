@@ -229,3 +229,88 @@ print("stack", collections.Counter(s16(r["hash_4C9BA961"]) for r in rows))
 - [原版分类与拾取专项 XREF](../Scripts/acnh303_adb_native_xrefs.py)，commit 54d6e76b63125c562ef0aeec523b539e75ac85e7：复用 R100 原版 NSO/ELF text 逐页比对；18 个函数 B/BL，3 个分类全局及重定位别名，ADR/ADRP ADD/LDR/STR 窗口。只输出候选，不把窗口中的 STR 或线性地址形成当完整数据流。
 - [原版专项工作流](../.github/workflows/acnh303-adb-native-xrefs.yml)，commit 0da25841e523430e87f04c650b16f876d6257845，输出 adb_native_xrefs.json / adb_native_summary.json。两条 CI 均设 push 与手动触发；本轮未获取成功产物，不宣称新 SQLite 已实际生成或 ELF 新扫描成功。
 - 后续验收：核对两个工作流真实运行及 artifact SHA；先恢复原版索引表生产者，闭合 25 个细类，再进行访客权限、Field 原子移除、特殊包装及同步存档。未修改原版 ROM、现有 v2 导出或生产派送代码。
+
+
+## 8. 第三轮：ItemKind CRC32 全量闭合、特殊数量模型及拾取容量条件（2026-11-28）
+
+实际读取完整 ItemParam.csv（Git blob 00592e4add3f85c0c6518d2eb6864b93b1fd8efd，11178行×107 hash字段）与 ItemKind.csv（bee0408c96266c5b21f27d43bfe9d44a598aad7c，189类）。通过逐列比对发现：
+
+```python
+kind_index = {zlib.crc32(k["hash_87BF00E8"].encode("utf-8")) & 0xffffffff: k for k in kinds}
+assert len(kind_index) == 189
+rule = kind_index[int(item["hash_5270EB75"])]
+```
+
+hash_5270EB75 为原版 ItemParam 行内 offset 112、宽4的数值字段；实际官方字段名仍待恢复，不把自定义别名冒充 Nintendo 字段名。hash_FC275E86 是细粒度字符串，不能当唯一行为类别。189个 Label 的 CRC32 无冲突；全部11178个 ID 命中；6076条已有精确字符串关联全部与 CRC32 一致；另外5102条恢复，0未匹配，实际使用186个原版类别（未使用 None、SubToolEat、XmasDeco）。本轮已经对完整 CSV 做实际计算，不是把历史候选当证实；新的原始 BCSV 字节逐条核验 CI 尚未验收，运行时映射表生产者尚未闭合。
+
+### 8.1 25个原版细类映射（全部由 CRC32 数据关联恢复）
+
+|细分类|原版规则关联|数量|
+|---|---|---:|
+|Ftr_1x1_Floor|Ftr|857|
+|Ftr_2x2_Floor|Ftr|115|
+|Ftr_2x1_Floor|Ftr|275|
+|Ftr_2x1_Bed|Ftr|31|
+|Ftr_1x1_Chair|Ftr|98|
+|Top_Short|Tops445 / TopsDefault1|446|
+|Top_Middle|Tops|561|
+|Top_Long|Tops|323|
+|Onepiece_Long|OnePiece522 / MarineSuit9|531|
+|Onepiece_Dress|OnePiece|49|
+|Onepiece_Middle|OnePiece|432|
+|Onepiece_Short|OnePiece|59|
+|Bottoms_Middle|Bottoms|271|
+|Bottoms_Long|Bottoms429 / BottomsDefault1|430|
+|Bottoms_Short|Bottoms|64|
+|Shoes_Boots|Shoes|310|
+|Shoes_Pumps|Shoes|198|
+|UnitIcon_FlwCosmos|Flower|6|
+|UnitIcon_FlwTulip|Flower|7|
+|UnitIcon_FlwPansy|Flower|6|
+|UnitIcon_FlwRose|Flower|8|
+|UnitIcon_FlwLily|Flower|6|
+|UnitIcon_FlwAnemone|Flower|6|
+|UnitIcon_FlwHyacinth|Flower|7|
+|UnitIcon_FlwMum|Flower|6|
+
+9个 MarineSuit ID：12970、12981、12986、13098–13103；其原版 CRC32=947132273。普通 OnePiece CRC32=1426486595。2302、2303分别为 TopsDefault、BottomsDefault，原版 SetItem=0、Put=0，修正旧前缀假设。1323 FtrLampLeaf 对应 Ftr，旧网站未收录。8个花卉细类共52条全部关联 Flower（CRC32=2692465900），不是 FlowerBud；加上原已精确关联的2963 FlwRoseGold 合计53个 Flower，原版静态 stack=10、CanSetItem=1、CanPut=1、CantTakeOver=0。ItemUnitIcon.csv 中8个花种的 label 与花瓣图标（另有金玫瑰）提供独立的图标上下文旁证，不直接当拾取证据。
+
+### 8.2 最新全量行为规则统计（替代前文候选计数）
+
+|CanSetItem/CanPut/CantTakeOver|数量|
+|---|---:|
+|1/1/0|10087|
+|1/0/0|548|
+|1/0/1|64|
+|1/1/1|4|
+|0/0/0|456|
+|0/1/0|19|
+
+10703个 CanSetItem=1，其中10635个 CantTakeOver=0，68个 CantTakeOver=1；475个 CanSetItem=0；未知类别0。10635仅静态研究集合（含特殊面额和其他须审核对象），非正式商城可派送数。CanPut=0且SetItem=1且CantTakeOver=0的548个数量不变；不把它们当实机通过。
+
+原版堆叠 s16：0=10808，3=4，5=2，10=183，30=26，50=36，99=1，-1=118；未知0。0仍为单件候选，正数为类别静态容量，实例包装、参数及实际行为独立验证。
+
+### 8.3 118个特殊面额记录
+
+108个 Money（ID2105–2212，100至99000铃钱）、10个 Turnip（ID2632–2641，10至100棵，每10棵一个ID）；实际完整名称和数值逐项比较，与原版 hash_718B024D（已在 R103 复核为 CRC32("Price s32")）全部相等。Price 字段是价格/价值字段，不称为通用 FreeParam 数量。它与原始内部名一起提供面额旁证。
+- 01AF0020 C 读取 s16 MultiHoldMaxNum，小于2直接走 false；01AF02D0 在该普通堆叠资格为false时返回1。所以 -1 绝不能替代普通堆叠10。
+- ItemKind 第89行 Turnip：01AEDD20（blob 6aec385c2f1b6bb9d861a0cd50e5fa88ef477c62）对索引0x59读取Price；01AF0964（411d820b7904078abd5cd2f113f427cf3c117ecd）读同字段再乘调用参数。说明 Turnip 特殊数值消费，尚未证全部数量组合/拆分与 FreeParam。
+- ItemKind 第134行 Money：0232697C 在类别0x86时且 mode!=1分流至0267BA70；其进一步调用027FE840（45ce690b0b1e892c8b37cf5ad87bf72b01476795），后者读取01AED730价值、99999常量及背包状态，说明独立钱币/容量分支，具体钱包与背包规则需新原始指令及调用边确认。
+- 数据库新增 quantity_model=denomination_item_id、nominal_amount、nominal_unit；max_stack、FreeParam运行时语义保持NULL，独立于普通物品堆叠。策略保持review，不直接上架。订购的面额和订单所需记录数量分别建模。
+
+### 8.4 548个特殊掉落与玩家背包容量
+
+重新读取02677890（blob 0e3fd74ea5c29c3dba4e6e9fd03420feea565d8f）、0267BA70（6bada513ae8d15d838b943b27b054971590a5cde）、02677C70（6f787eeb88b5f4159666bec084ad92e1bac17ea1）：
+- 以玩家索引<8、02582D8C返回索引<8、记录stride0x13F0的+13D4/+13D6门控及 player+194B0 的资源选择；当前不能命名为 host、visitor 或 best friend 单一判断。
+- 02677890 有两组资源路径：02805B60→02806344 和 027FC440。后者（ddb064047e94949c45fafb5b4c2c4a26110573ca）读取普通堆叠资格、兼容性与剩余容量；02806344（be231be514080c0325152f20fdeb48a118058d7c）比较重复记录、数量与剩余容量。
+- 02677C70 明确分别扫描两组最多20槽，8字节步长，空ID=0xFFFE，第二组返回索引+20。025579BC 有单独容量与反向返回位路径，必须结合调用者理解，不以返回值单独宣称成功捡拾。
+- 0277E9E0（eba2d36e5e25b68e22a05e7a7f3fae0f915c2fd3）在 CanSetItem 成立后再调用01B14990。继续追此 Getter 与实际地图移除及访客同步链。
+- 548条具体 ID 已纳入静态证据清单，实际拾取、离岛保存字段全部NULL。原版输入、地图对象状态与正常退出事务仍未实机验证。
+
+### 8.5 实际提交、验收边界
+
+- [ItemCapabilityCore V1.1](../Scripts/acnh303_item_capability_core.py)，commit 17a7e02a8eff36ddfb13d10a8be00c678998d5ea：用真实 CRC32 关联替代前缀；CI对原始 BCSV 字段字节、189类无冲突、11178唯一ID、6076交叉一致、5102恢复、52花朵、118面额、最新flags及stack统计设置断言。新增 item_kind_subtype_mapping.json、item_special_denominations.json 及SQLite字段。所有runtime字段维持NULL。
+- [原版 XREF 扩展](../Scripts/acnh303_adb_native_xrefs.py)，commit cabf381d369304635c66a903b3b6ecf00e51d260：增加 hash_5270EB75 MOVZ/MOVK同寄存器候选、12个附加函数，检查原版 NSO/ELF 一致性。扫描窗口仍不是完整数据流。
+- [本轮已实际生成的静态审计证据](../assets/evidence/rom-database/adb-crc32-static-audit-v1.json)，commit 11c65b68f5789c078bfb3f70a21417756790987d：189类别/186使用、全部25细类、全量flags及stack计数、118面额记录、548条特殊掉落记录。来源为完整 Git CSV（不是本轮新原始字节CI产物），raw_bcsv_byte_verification_in_this_run=false、runtime_verified=false。
+- 已有历史原版文档 29-PutUnitIcon物品资格与放置结果边界明确 GOT 04BC00C8 RELR→05326EC0（已闭合别名），05326EC8为其+8，修正此前将二者作为独立表的保守表述。后续重点在动态数组实际初始化及写入。
+- 未修改原版资源、现有 v2 网站导出、生产机器人；新 CI 尚未获得可确认运行编号或产物，不能宣称新SQLite已实际构建通过。下一轮先验收 V1.1 CI，再集中恢复548特殊实例的场景/访客/拾取/保存闭环及面额的拆分和合并。
