@@ -218,3 +218,37 @@ NetEnterVillage 其他候选哈希：完整 CRC32 F41814C5、短名 Murmur3 3FBD
 ### CAP-01/03 下一步
 新增脚本 focus_dispatch（commit 9c695f243becb81f585de5ac10810116cc3cdd15）读取 04BC38D8 周边重定位及地址形成候选，提取六个构造函数有界线性窗口、地址存储与相邻重定位候选、直接分支目标窗口，输出 dispatch_focus.json。该轮待独立 CI 验收；线性寄存器追踪不是完整 CFG 数据流，不提前确认 vtable 或业务回调。
 现阶段可提升已对账的直接调用指令和相对指针记录至 ELF_BYTE_VERIFIED，业务解释仍 NATIVE_STATIC 或候选；普通联机转移资格和实际道具行为保持 NULL。
+
+## 11. 第二轮原版 CI：函数指针发布及 EventFlow 对象最终虚表地址
+
+[Run 46034419168](https://github.com/969981/ACNH_Resources/actions/runs/46034419168)，head 9c695f243becb81f585de5ac10810116cc3cdd15，job 140626090803，全步骤 success。下载 artifact 15215173691，76709 bytes，实际复算 ZIP SHA256 e08f1fef7f69082bc5f0f4fa1990133d73dbbc7efc17109e063f40ba698a123c 与 GitHub digest 一致；包含 evidence.json、summary.json、dispatch_focus.json。日志 DISPATCH_FOCUS：slot_refs 157，exact_slot_refs 1，constructors 6，address_stores 0。最后一项因第一条无条件 B 停止线性分析，不能视为没有虚表写入；完整窗口可人工恢复下述汇合点。反汇编 operand PC-relative 地址使用 Main RVA，行地址使用 Ghidra VA。
+
+### CAP-01：028BCB18 发布者
+|VA|bytes|instruction（操作数采用RVA）|
+|---|---|---|
+|007BAF64|482002b0|adrp x8, #0x4ac3000|
+|007BAF68|086d44f9|ldr x8, [x8, #0x8d8]|
+|007BAF6C|a92200a9|stp x9, x8, [x21]|
+|007BAF70|482002b0|adrp x8, #0x4ac3000|
+|007BAF74|087944f9|ldr x8, [x8, #0x8f0]|
+|007BAF78|150100f9|str x21, [x8]|
+
+04BC38D8 → 028BCB18 已验证；04BC38F0 RELR → 055B2618；STP 写入 x21+0/+8，其中+8 为回调指针；全局 055B2618 发布 x21。上游 x9、x21 生产者及后续真实调用点未闭合。04BC38E8 RELR → 055B2610。该指针持有对象不能简单认定为拥有者本身或虚表。
+
+[028BC93C](../derived/3.0.3/ghidra12.2/c/c9/028bc93c.c) blob 9ce30a3c54e95aa3db629f5c7e8c10dd3951d5aa 与 [028BCA04](../derived/3.0.3/ghidra12.2/c/ca/028bca04.c) blob 2baf03e009bbf88aa3a8ddbc410f8d1649064af7：当 DAT_055b2610 == param_1 时同时清零 DAT_055b2610、DAT_055b2618；重设基类表 PTR_FUN_04b64428、移除链表节点并处理 mutex，后者还负责释放。证据支持相关对象生命周期，但尚不能将 2610/2618 对象直接等同，或认定回调仅供迁移。
+
+### CAP-03：六个工厂完整窗口的最终地址存储
+|名称后缀|构造VA|分配大小|最终主对象+0写入VA|最终地址点VA|
+|---|---|---|---|---|
+|NetEnterVillage|01111FA0|0xD8|01112070|049521A0|
+|NetJoinSessionVillage|0113B4A0|0xD8|0113B570|04952730|
+|NetEnterCloudIsland|01129258|0xB8|01129314|049520C0|
+|NetCloudIslandRevertSaveData|01100D38|0xB8|01100DF4|04951558|
+|OpenVillageGate|0111F2B4|0xE8|0111F380|04954268|
+|NetCommon|01136674|0x140|0113677C|由 GOT 04BB84D0 所指 +0x10，待读重定位|
+
+EnterVillage 在0111204C ADRP x8,#0x4852000；01112050 ADD x8,x8,#0x190；0111206C ADD x8,x8,#0x10；01112070 STR x8,[x0]，故 VA 049521A0。JoinSessionVillage 相同流程但 ADD #0x720，最终 VA 04952730。两者同为0xD8大小，初始化+0xB0/+0xB8/+0xC0/+0xC8/+0xD0等字段，不能据相似布局判定回调相同；不同最终地址点是明确静态证据。共同分配分支使用 virtual +0x30 或 fallback BL RVA 0x2478c0；不能把分配虚调用当业务执行。
+NetCommon 另有 +0xC0、+0xF0 子对象地址写入，主对象使用独立 GOT，Command 等字段的具体语义待验证。OpenVillageGate 等地址点同样仅由窗口手工恢复，表槽目标及语义待后续原版读表。
+
+### 第三轮专项
+提交 e3195f2b679d5cf3797ee9028320764b40ee89a0，新增 focus_vtables，读五个已知地址点和 NetCommon GOT，提取有界 RELR/RELATIVE 表槽及目标代码窗口；扫描 055B2610/055B2618 及其相对指针别名的 ADR/ADRP/ADD/LDR/STR 候选；输出 vtable_focus.json。第三轮结果需独立验收，未声称业务回调已闭合。原版游戏行为及联机转移限制保持未知。
