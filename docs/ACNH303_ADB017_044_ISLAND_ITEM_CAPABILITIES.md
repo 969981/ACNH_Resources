@@ -50,7 +50,7 @@ runtime_verified: false
 |0|1|0|3|
 |0|0|0|30|
 
-156 类 CanSetItem=1，130 类 CanPut=1，31 类 SetItem=1 且 Put=0。分类计数不能当成物品 ID 数。
+156 类 CanSetItem=1，130 类 CanPut=1，29 类 SetItem=1 且 Put=0。分类计数不能当成物品 ID 数。
 
 |label|UniqueID|SetItem|Put|CantTakeOver|CanFtr|stack s16|
 |---|---:|---:|---:|---:|---:|---:|
