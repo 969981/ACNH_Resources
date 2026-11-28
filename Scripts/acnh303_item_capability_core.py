@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ADB ItemCapabilityCore V1: ROM static rules and separate delivery policy.
 
-Never equates CanPut with pickup, or an unverified prefix with native kind.
+Never equates CanPut with pickup. Kind association uses original label CRC32.
 Inputs are checked against raw BCSV; outputs are new files, not ROM edits.
 """
 import argparse
@@ -22,8 +22,15 @@ FLAGS = ("CanBury", "CanEat", "CanFtr", "CanGift", "CanNpcBirthdayPresent",
     "CanNpcPresent", "CanPlant", "CanPut", "CanPutWallAndFloor", "CanSell",
     "CanSellSimple", "CanSetChest", "CanSetCloset", "CanSetInTrashBox",
     "CanSetItem", "CanUsePhotoStudio", "CantTakeOver", "IsCollectAchievement")
-PARENTS = {"Ftr_": "Ftr", "Top_": "Tops", "Onepiece_": "OnePiece",
-           "Bottoms_": "Bottoms", "Shoes_": "Shoes"}
+KIND_HASH = "hash_5270EB75"
+PRICE = "hash_718B024D"  # CRC32("Price s32")
+def label_crc(label):
+    return zlib.crc32(label.encode("utf-8")) & 0xffffffff
+
+def kind_crc_index(kinds):
+    result = {label_crc(label): label for label in kinds}
+    assert len(result) == len(kinds), "ItemKind label CRC32 collision"
+    return result
 RUNTIME = ("can_inventory", "can_native_drop", "can_native_place",
            "can_spawn_dropped", "can_visitor_pickup", "can_take_home",
            "can_wrap", "can_discard", "can_storage", "max_stack", "free_param_type")
@@ -69,14 +76,15 @@ def load_table(root, name, count, size, check_fields):
     sources = {str(p.relative_to(root)): sha(p.read_bytes()) for p in (cp,mp,rp)}
     return rows, sources
 
-def join_kind(raw, kinds):
-    label = raw.removeprefix("Kind_")
-    if label in kinds:
-        return label, "exact_ItemKind_label"
-    for prefix, parent in PARENTS.items():
-        if label.startswith(prefix) and parent in kinds:
-            return parent, "prefix_candidate_not_proven"
-    return None, "unmapped_unknown"
+def join_kind(r, kinds, crc_index):
+    raw = r[KIND].removeprefix("Kind_")
+    label = crc_index.get(int(r[KIND_HASH]))
+    if label is None:
+        raise ValueError("unresolved native kind hash: " + r[ID])
+    if raw in kinds:
+        assert raw == label, (r[ID], raw, label)
+        return label, "exact_label_and_crc32"
+    return label, "native_label_crc32"
 
 def s16(n):
     assert 0 <= n <= 65535
@@ -91,20 +99,33 @@ def rule_record(r):
             "stack_s16":s16(int(r[STACK])), "flags":flags,
             "raw_fields":{k:v for k,v in r.items() if k.startswith("hash_")}}
 
-def item_record(r, kinds):
-    parent, evidence = join_kind(r[KIND], kinds)
-    rule = kinds[parent] if evidence == "exact_ItemKind_label" else None
-    flags = rule["flags"] if rule else None
-    raw = rule["stack_s16"] if rule else None
+def item_record(r, kinds, crc_index):
+    parent, evidence = join_kind(r, kinds, crc_index)
+    rule = kinds[parent]
+    flags = rule["flags"]
+    raw = rule["stack_s16"]
     candidate = None if flags is None else bool(flags["CanSetItem"])
     # CanPut is NOT a delivery filter. TakeOver is not automatically a travel ban.
-    label = r[KIND].removeprefix("Kind_")
+    label = parent
+    amount, unit = None, None
+    quantity_model = "ordinary_stack_candidate" if raw > 0 else "single_record_candidate"
+    if raw < 0:
+        quantity_model = "special_unresolved"
+        if parent == "Money" and r[NAME].endswith("Bell"):
+            amount, unit = int(r[NAME].removesuffix("Bell")), "bell"
+        elif parent == "Turnip" and r[NAME].startswith("Kabu_"):
+            amount, unit = int(r[NAME].removeprefix("Kabu_")), "turnip"
+        if amount is not None:
+            assert amount == int(r[PRICE]), (r[ID], amount, r[PRICE])
+            quantity_model = "denomination_item_id"
     reasons = []
     if candidate is None: reasons.append("kind_mapping_unproven")
     elif not candidate: reasons.append("static_CanSetItem_zero")
     if flags and flags["CantTakeOver"]: reasons.append("takeover_restriction_needs_context")
     if label.startswith("Dummy") or "Quest" in label or label in ("HousePost","ShopTorso"):
         reasons.append("special_object_review")
+    if raw < 0:
+        reasons.append("special_denomination_operation_review")
     if candidate and not reasons:
         policy = "candidate"
         reasons.append("static_inventory_candidate_not_runtime_verified")
@@ -112,7 +133,9 @@ def item_record(r, kinds):
         policy = "review"
     return {"item_id":int(r[ID]), "internal_name":r[NAME],
             "original_kind":r[KIND], "base_kind":parent,
-            "base_kind_evidence":evidence, "static_flags":flags,
+            "base_kind_evidence":evidence, "kind_label_crc32":int(r[KIND_HASH]),
+            "static_flags":flags, "quantity_model":quantity_model,
+            "nominal_amount":amount, "nominal_unit":unit,
             "inventory_static_candidate":candidate,
             "max_stack_raw_s16":raw,
             "max_stack_candidate":raw if raw is not None and raw>0 else 1 if raw==0 else None,
@@ -124,17 +147,28 @@ def item_record(r, kinds):
 def selftest():
     flags = {x:0 for x in FLAGS}
     flags["CanSetItem"] = 1
-    kinds = {"Fish":{"flags":flags,"stack_s16":0}, "Ftr":{"flags":flags,"stack_s16":-1}}
-    r = {ID:"42",NAME:"test",KIND:"Kind_Fish","_row_index":"0","_row_offset_raw":"0","_row_sha256":"x"}
-    x = item_record(r,kinds)
+    kinds = {"Fish":{"flags":flags,"stack_s16":0}, "Ftr":{"flags":flags,"stack_s16":0},
+             "Flower":{"flags":flags,"stack_s16":10}, "Turnip":{"flags":flags,"stack_s16":-1}}
+    idx=kind_crc_index(kinds)
+    r = {ID:"42",NAME:"test",KIND:"Kind_Fish",KIND_HASH:str(label_crc("Fish")),
+         PRICE:"0","_row_index":"0","_row_offset_raw":"0","_row_sha256":"x"}
+    x = item_record(r,kinds,idx)
     assert x["policy"]=="candidate" and x["static_flags"]["CanPut"]==0
     assert x["can_visitor_pickup"] is None and x["max_stack"] is None
-    x = item_record(dict(r, **{KIND:"Ftr_1x1_Floor"}),kinds)
-    assert x["base_kind"]=="Ftr" and x["static_flags"] is None and x["policy"]=="review"
-    x = item_record(dict(r, **{KIND:"Kind_Ftr"}),kinds)
+    x = item_record(dict(r, **{KIND:"Ftr_1x1_Floor",KIND_HASH:str(label_crc("Ftr"))}),kinds,idx)
+    assert x["base_kind"]=="Ftr" and x["base_kind_evidence"]=="native_label_crc32"
+    x = item_record(dict(r, **{KIND:"UnitIcon_FlwCosmos",KIND_HASH:str(label_crc("Flower"))}),kinds,idx)
+    assert x["max_stack_candidate"]==10
+    x = item_record(dict(r, **{KIND:"Kind_Turnip",KIND_HASH:str(label_crc("Turnip")),NAME:"Kabu_100",PRICE:"100"}),kinds,idx)
     assert x["max_stack_raw_s16"]==-1 and x["max_stack_candidate"] is None
+    assert x["nominal_amount"]==100 and x["nominal_unit"]=="turnip" and x["policy"]=="review"
+    for bad in (dict(r,**{KIND_HASH:"0"}),dict(r,**{KIND_HASH:str(label_crc("Flower"))})):
+        try: join_kind(bad,kinds,idx)
+        except (ValueError,AssertionError): pass
+        else: raise AssertionError("invalid native kind mapping accepted")
     assert s16(65535)==-1
-    print("ADB synthetic policy tests passed")
+    assert zlib.crc32(b"Price s32") & 0xffffffff == int(PRICE[5:],16)
+    print("ADB synthetic CRC32, denomination and policy tests passed")
 
 def jsonwrite(p, o):
     p.write_text(json.dumps(o, ensure_ascii=False, sort_keys=True, separators=(",",":"))+"\n", encoding="utf-8")
@@ -142,19 +176,31 @@ def jsonwrite(p, o):
 def run(root,out):
     root, out = root.resolve(),out.resolve()
     kr, ks = load_table(root,"ItemKind",189,152,{ID:2,LABEL:"text",STACK:2,**{flag_hash(n):1 for n in FLAGS}})
-    ir, ins = load_table(root,"ItemParam",11178,548,{ID:2,KIND:"text",NAME:"text"})
+    ir, ins = load_table(root,"ItemParam",11178,548,{ID:2,KIND:"text",NAME:"text",KIND_HASH:4,PRICE:4})
     kinds = {r[LABEL]:rule_record(r) for r in kr}
     assert len(kinds)==189
-    items = sorted((item_record(r,kinds) for r in ir),key=lambda x:x["item_id"])
+    idx = kind_crc_index(kinds)
+    items = sorted((item_record(r,kinds,idx) for r in ir),key=lambda x:x["item_id"])
     assert len(items)==len({x["item_id"] for x in items})==11178
     assoc=collections.Counter(x["base_kind_evidence"] for x in items)
-    assert dict(assoc)=={"exact_ItemKind_label":6076,"prefix_candidate_not_proven":5050,"unmapped_unknown":52}, assoc
+    assert dict(assoc)=={"exact_label_and_crc32":6076,"native_label_crc32":5102}, assoc
     flag_groups=collections.Counter(
         "/".join(str(x["static_flags"][n]) for n in ("CanSetItem","CanPut","CantTakeOver"))
         if x["static_flags"] is not None else "unresolved" for x in items)
-    assert dict(flag_groups)=={"1/1/0":4987,"unresolved":5102,"1/0/0":548,"0/0/0":454,"0/1/0":19,"1/0/1":64,"1/1/1":4},flag_groups
-    gaps=collections.Counter(x["original_kind"] for x in items if x["base_kind_evidence"]!="exact_ItemKind_label")
-    assert len(gaps)==25
+    assert dict(flag_groups)=={"1/1/0":10087,"1/0/0":548,"0/0/0":456,"0/1/0":19,"1/0/1":64,"1/1/1":4},flag_groups
+    converted=collections.defaultdict(collections.Counter)
+    for x in items:
+        if x["base_kind_evidence"]=="native_label_crc32":
+            converted[x["original_kind"]][x["base_kind"]]+=1
+    assert len(converted)==25
+    assert dict(converted["Onepiece_Long"])=={"OnePiece":522,"MarineSuit":9}
+    assert sum(v["Flower"] for k,v in converted.items() if k.startswith("UnitIcon_Flw"))==52
+    stack_counts=collections.Counter(x["max_stack_raw_s16"] for x in items)
+    assert dict(stack_counts)=={0:10808,3:4,5:2,10:183,30:26,50:36,99:1,-1:118}, stack_counts
+    denom=[x for x in items if x["quantity_model"]=="denomination_item_id"]
+    assert collections.Counter(x["nominal_unit"] for x in denom)=={"bell":108,"turnip":10}
+    assert sorted(x["nominal_amount"] for x in denom if x["nominal_unit"]=="turnip")==list(range(10,101,10))
+    assert len({x["base_kind"] for x in items})==186
     out.mkdir(parents=True, exist_ok=True)
     # Do not overwrite a database in use. Write to a fresh temporary directory.
     with tempfile.TemporaryDirectory(dir=out) as tmp:
@@ -167,11 +213,12 @@ def run(root,out):
           source_row_index INTEGER NOT NULL, stack_s16 INTEGER NOT NULL, flags_json TEXT NOT NULL, record_json TEXT NOT NULL);
         CREATE TABLE item_identity(item_id INTEGER PRIMARY KEY, internal_name TEXT NOT NULL,
           original_kind TEXT NOT NULL, base_kind TEXT REFERENCES item_kind_rule(label),
-          base_kind_evidence TEXT NOT NULL, source_row_index INTEGER NOT NULL UNIQUE,
+          base_kind_evidence TEXT NOT NULL, kind_label_crc32 INTEGER NOT NULL, source_row_index INTEGER NOT NULL UNIQUE,
           source_row_sha256 TEXT NOT NULL);
         CREATE TABLE item_capability(item_id INTEGER PRIMARY KEY REFERENCES item_identity(item_id),
           inventory_static_candidate INTEGER, static_flags_json TEXT, max_stack_raw_s16 INTEGER,
           max_stack_candidate INTEGER, stack_evidence TEXT NOT NULL,
+          quantity_model TEXT NOT NULL, nominal_amount INTEGER, nominal_unit TEXT,
           can_inventory INTEGER, can_native_drop INTEGER, can_native_place INTEGER,
           can_spawn_dropped INTEGER, can_visitor_pickup INTEGER, can_take_home INTEGER,
           can_wrap INTEGER, can_discard INTEGER, can_storage INTEGER, max_stack INTEGER, free_param_type TEXT);
@@ -188,11 +235,11 @@ def run(root,out):
             [(k["label"],k["kind_id"],k["source_row_index"],k["stack_s16"],json.dumps(k["flags"]),json.dumps(k,ensure_ascii=False)) for k in kinds.values()])
         for x in items:
             ident=x["item_id"]
-            db.execute("INSERT INTO item_identity VALUES (?,?,?,?,?,?,?)",
-                (ident,x["internal_name"],x["original_kind"],x["base_kind"],x["base_kind_evidence"],x["source_row_index"],x["source_row_sha256"]))
-            db.execute("INSERT INTO item_capability VALUES ("+",".join("?" for _ in range(6+len(RUNTIME)))+")",
+            db.execute("INSERT INTO item_identity VALUES (?,?,?,?,?,?,?,?)",
+                (ident,x["internal_name"],x["original_kind"],x["base_kind"],x["base_kind_evidence"],x["kind_label_crc32"],x["source_row_index"],x["source_row_sha256"]))
+            db.execute("INSERT INTO item_capability VALUES ("+",".join("?" for _ in range(9+len(RUNTIME)))+")",
                 (ident,x["inventory_static_candidate"],json.dumps(x["static_flags"]) if x["static_flags"] is not None else None,
-                 x["max_stack_raw_s16"],x["max_stack_candidate"],x["stack_evidence"],*(x[n] for n in RUNTIME)))
+                 x["max_stack_raw_s16"],x["max_stack_candidate"],x["stack_evidence"],x["quantity_model"],x["nominal_amount"],x["nominal_unit"],*(x[n] for n in RUNTIME)))
             db.execute("INSERT INTO item_delivery_policy VALUES (?,?,?)",(ident,x["policy"],json.dumps(x["policy_reasons"])))
         db.commit()
         assert db.execute("PRAGMA integrity_check").fetchone()[0]=="ok"
@@ -204,9 +251,13 @@ def run(root,out):
         jsonwrite(p/"item_capabilities_v1.json",items)
         jsonwrite(p/"item_kind_rules_v1.json",list(kinds.values()))
         jsonwrite(p/"item_delivery_catalog_v1.json",[{"item_id":x["item_id"],"policy":x["policy"],"reasons":x["policy_reasons"]} for x in items])
-        jsonwrite(p/"item_kind_mapping_gaps.json",dict(sorted(gaps.items())))
-        summary={"schema":"acnh-item-capability-core-v1","game_version":"3.0.3",
+        jsonwrite(p/"item_kind_mapping_gaps.json",{})
+        jsonwrite(p/"item_kind_subtype_mapping.json",dict(sorted(converted.items())))
+        jsonwrite(p/"item_special_denominations.json",denom)
+        summary={"schema":"acnh-item-capability-core-v1.1","game_version":"3.0.3",
             "item_count":len(items),"kind_count":len(kinds),"kind_associations":dict(assoc),
+            "kind_used_count":186,"kind_unresolved":0,"kind_join_field":KIND_HASH,
+            "stack_s16_counts":dict(stack_counts),"special_denomination_count":len(denom),
             "flag_groups":dict(flag_groups),"policy_counts":dict(collections.Counter(x["policy"] for x in items)),
             "runtime_verified":False,"runtime_capability_fields_all_null":True,
             "source_sha256":ks|ins,"files":{f.name:sha(f.read_bytes()) for f in sorted(p.iterdir())}}
