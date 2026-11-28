@@ -252,3 +252,61 @@ NetCommon 另有 +0xC0、+0xF0 子对象地址写入，主对象使用独立 GOT
 
 ### 第三轮专项
 提交 e3195f2b679d5cf3797ee9028320764b40ee89a0，新增 focus_vtables，读五个已知地址点和 NetCommon GOT，提取有界 RELR/RELATIVE 表槽及目标代码窗口；扫描 055B2610/055B2618 及其相对指针别名的 ADR/ADRP/ADD/LDR/STR 候选；输出 vtable_focus.json。第三轮结果需独立验收，未声称业务回调已闭合。原版游戏行为及联机转移限制保持未知。
+
+## 12. 第三轮 CI：联机动作虚表差分与同步存档回调关联（重要修正）
+
+[Run 46090542190](https://github.com/969981/ACNH_Resources/actions/runs/46090542190)，head e3195f2b679d5cf3797ee9028320764b40ee89a0，job 140810162135，所有步骤 success。实际下载 artifact 15240419851，123995 bytes，ZIP SHA256 d580bb67f03ed1112af5137de6bad08adda0f22aba5753542b0730682f5f94ff，与 GitHub digest 一致。实际解压 vtable_focus.json（878930 bytes）及前三个 JSON。报告6套表、64个去重目标候选（含相邻表）、2个global aliases、11条全局地址形成候选（非11个独立函数）、0条表槽目标的直接B/BL命中。后者不等于没有虚调用。
+
+### CAP-03 两套虚表对照（Ghidra VA）
+|offset|Enter 049521A0|Join 04952730|
+|---|---|---|
+|00|00D722A0|00D76D30|
+|08|00D7232C|00D76DBC|
+|10|00D720BC|00D7693C|
+|18|00D720EC|00D7696C|
+|20|00D7217C|00D769FC|
+|28|00AD9494|00AD9494|
+|30|00AD9498|00AD9498|
+|38|00AD94A0|00AD94A0|
+|40|00D72184|00D76A04|
+|48|00D721B4|00D76BF4|
+|50|00D7229C|00D76D2C|
+|58|00AD94AC|00AD94AC|
+
+连续12个非空重定位槽，4个共享函数；+60/+68为零，+70/+78不计入本表（可能相邻类型）。+10/+18为析构样式（重置地址点，断开+0xB8关联并可释放）；+20 返回1，+50立即RET。+40/+48为请求/状态处理强候选，尚未恢复上层虚调用槽调度器。NetCommon GOT解引用后主虚表为04951868；+40=00D6E160，+48=00D6E35C；CloudIsland Enter +40=00D71C5C/+48=00D71C64；Revert +40=00D6CF4C/+48=00D6CF54；OpenGate +40=00D95240/+48=00D95278。
+
+Enter +40=00D72184，00D721B0 tail B Main RVA 01CBECB8（VA 01DBECB8），X2=action+0xB8、X1=action+8所指对象+0x2A8或默认、X0由 GOT 04BB27D0 解引用。[01DBECB8](../derived/3.0.3/ghidra12.2/c/ec/01dbecb8.c) blob 6e8856e5f0dfb9335fb04e14f2bc1f7e17cdb2b7：玩家索引<8，经007B36C8恢复16字节身份，匹配DAT_053719b8+8所指身份；后端param_1+0x10非空，state +0x380∈{10,12,13,15}时设置+0x3E0=0x10，注册双向请求指针+0x3F0/action+0xB8，清零请求+8/+0x10；其余失败设置请求+8=0x32FFFFFFFF、+0x10=0。返回1是请求接受，不是完成旅行或道具许可。Enter +48 检查action+0xC0>=2、+0xC4/+0xC8状态码，特定分支设置+B0=1以及action+8→+0x288的+20=2/+24=1。Join +40 有独立状态、+0x28对象、virtual+0x18、标志+0x10/+0x11/+0x12；+48有C0==1独立分支，其他状态类似Enter。当前C索引对应00D7函数路径404，使用原版窗口，不虚构C函数名。
+
+### CAP-01/02 新的全局发布与存档同步关联
+第三轮完整注册窗口显示：007BAE68/6C分配大小0x30、align8（另有malloc fallback）；007BAE84 X21=X0；007BAE9C/A0 X20=X21+0x10，初始化内嵌对象；007BAF58 发布X20到055B2610；007BAF60 写X21+0x10地址点04A92240；007BAF6C 写X21+0=04A92260、+8=028BCB18；007BAF78 发布X21到055B2618。故两全局的注册值相差0x10，不应视为同一指针。既有析构判等与内嵌对象一致。
+
+关键新增消费者（operand为RVA）：
+007BDE94 ADRP X8,#0x4AB2000
+007BDE98 LDR X8,[X8,#0x1D0]
+007BDE9C LDR X8,[X8]
+007BDEA0 LDR X8,[X8,#0xF98]
+007BDEA4 CBZ X8,...
+007BDEA8 ADRP X9,#0x4AC3000
+007BDEAC LDR X9,[X9,#0x8F0]
+007BDEB0 LDR X9,[X9]
+007BDEB4 STR X9,[X8,#0x58]
+即 055B2618 回调持有对象被发布到由 GOT 04BB21D0 间接获得的 manager+F98 子对象+58。非实际间接调用。
+[01C9CC70](../derived/3.0.3/ghidra12.2/c/cc/01c9cc70.c) blob 165fbc1b062751dbe842a0fb07ddbb77081eacbf：构造0x88对象、初始化+58=0，写入param_1+F98，再调用 [01DE57A8](../derived/3.0.3/ghidra12.2/c/57/01de57a8.c) blob 2a1bc8eb051e6cb2259b2f628ee417d4a2956d0e。该构造与上述manager+F98路径高度一致，尚需核对manager实例及GOT。01DE57A8明确注册下表，原版字符串：
+|state|name|registered+0x10 VA|registered+0x20 VA|
+|---|---|---|---|
+|0|cIdle|01DE5C50|01DE5C58|
+|1|cHostPreProc|01DE5DCC|01DE5DE4|
+|2|cHostStartSave|01DE5E2C|01DE5FB0|
+|3|cHostSyncCommit|01DE60A0|01DE61C4|
+|4|cHostSyncRollback|01DE61C8|01DE61CC|
+|5|cHostCommitAndWait|01DE61D0|01DE6250|
+|6|cVisitStartSave|01DE6420|01DE6530|
+|7|cVisitWaitCommit|01DE65D4|01DE6670|
+|8|cVisitCommit|01DE6820|01DE6880|
+|9|cVisitFinalizeWait|01DE6960|01DE696C|
+|10|cRollback|01DE6A90|01DE6B0C|
+[01DE6B30](../derived/3.0.3/ghidra12.2/c/6b/01de6b30.c) blob c5f1acf3f987e459d2ba1f56c0f9140a53ce20b7：直接消费PTR_DAT_04bb21d0+2078/F88；维护+60/+68参与者掩码、+82变化标志；按+18当前状态、+38数量、+40记录基址以0x40步长取调度对象，并调用其虚函数。不能将+58回调对象等同状态调度对象。
+重要修正：CantTakeOver 不能继续被概括为搬家专用。现在已证实回调持有对象与manager后端字段连接，候选对应有主客机提交/回滚状态的存档同步器。MoveOut 与过滤分支仍互斥；尚未确认回调实际调用点、bit0来源、是否普通联机触发及运行时道具效果。先区分正常提交、回滚及迁移，再更新业务语义。
+
+### 第四轮专项
+脚本 commit e962992c2dc2054544db2f27d3483748f9d167bd，增加 focus_save_sync：提取04A92240/04A92260适配器虚表、GOT、11状态的22个注册地址有界反汇编、+58读取/BLR/BR候选及完整Enter/Join +40/+48方法区间。输出 save_sync_focus.json。待独立CI验收；不宣称所有BLR已恢复，不修改生产代码，业务行为字段仍NULL。
