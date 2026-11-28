@@ -1,0 +1,74 @@
+name: ACNH ResourceCore V1 Catalog Integration
+on:
+  push:
+    branches: [adb-category-core-v1]
+    paths:
+      - ResourceCore/Database/build_catalog.py
+      - .github/workflows/acnh303-resource-core-catalog.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: acnh-resource-core-catalog-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ResourceCore/Database/build_catalog.py
+            /ResourceCore/Database/output/ACNHResourceCore.sqlite3.gz
+            /ResourceCore/Database/catalog-output/
+            /UnPack/1/Bcsv/NmlNpcParam.csv
+            /UnPack/1/Bcsv/NmlNpcParam.json
+            /UnPack/1/Bcsv/RecipeCraftParam.csv
+            /UnPack/1/Bcsv/RecipeCraftParam.json
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv
+            /e10617820db06889e1638499478da0de_NCA/1/Bcsv/RecipeCraftParam.bcsv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download pinned native locale artifact
+        run: |
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/14830765861/zip" > "${RUNNER_TEMP}/r84.zip"
+          echo "98874de045b29a4f937ee2c89b2264f47605d6bb5adac1496098ee0e02c38f1e  ${RUNNER_TEMP}/r84.zip" | sha256sum -c -
+      - name: Build and verify complete catalog database
+        run: python ResourceCore/Database/build_catalog.py --root . --artifact "${RUNNER_TEMP}/r84.zip" --out "${RUNNER_TEMP}/catalog"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ACNHResourceCore-v1-catalog-preview
+          path: ${{ runner.temp }}/catalog/
+          if-no-files-found: error
+      - name: Archive verified catalog
+        if: github.ref == 'refs/heads/adb-category-core-v1'
+        run: |
+          dest=ResourceCore/Database/catalog-output
+          mkdir -p "$dest"
+          cp "${RUNNER_TEMP}/catalog/"*.csv "${RUNNER_TEMP}/catalog/"*.json "$dest/"
+          gzip -n -9 -c "${RUNNER_TEMP}/catalog/ACNHResourceCore.sqlite3" > "$dest/ACNHResourceCore.sqlite3.gz"
+          gzip -dc "$dest/ACNHResourceCore.sqlite3.gz" | cmp - "${RUNNER_TEMP}/catalog/ACNHResourceCore.sqlite3"
+          (cd "$dest" && sha256sum ACNHResourceCore.sqlite3.gz *.csv *.json > SHA256SUMS)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dest"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "ADB: archive validated unified catalog preview"
+          for attempt in 1 2 3; do
+            git fetch --depth=50 origin refs/heads/adb-category-core-v1:refs/remotes/origin/adb-category-core-v1
+            git merge-base --is-ancestor "$GITHUB_SHA" origin/adb-category-core-v1
+            if ! git diff --quiet "$GITHUB_SHA" origin/adb-category-core-v1 -- ResourceCore/Database/build_catalog.py ResourceCore/Database/output/ACNHResourceCore.sqlite3.gz ResourceCore/Database/catalog-output UnPack/1/Bcsv/NmlNpcParam.csv UnPack/1/Bcsv/NmlNpcParam.json UnPack/1/Bcsv/RecipeCraftParam.csv UnPack/1/Bcsv/RecipeCraftParam.json e10617820db06889e1638499478da0de_NCA/1/Bcsv/NmlNpcParam.bcsv e10617820db06889e1638499478da0de_NCA/1/Bcsv/RecipeCraftParam.bcsv .github/workflows/acnh303-resource-core-catalog.yml; then
+              echo "::error::Build inputs or archive changed; refusing stale publication"
+              exit 1
+            fi
+            git rebase origin/adb-category-core-v1
+            if git push origin HEAD:refs/heads/adb-category-core-v1; then exit 0; fi
+          done
+          exit 1
