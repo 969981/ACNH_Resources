@@ -164,6 +164,95 @@ def focus_dispatch(code, start, matched, rel, cs, factory_candidates, out):
     print("DISPATCH_FOCUS",json.dumps({"slot_refs":len(refs),"exact_slot_refs":sum(x["exact"] for x in refs),
           "constructors":len(constructors),"address_stores":sum(len(x["address_store_candidates"]) for x in constructors)}))
 
+
+def focus_vtables(code,start,matched,rel,cs,out):
+    """Read constructor-proven address points and callback owner global references."""
+    from acnh303_round11_elf_xref import adr_target,adrp_target,add_imm,ldr_uimm
+    end=start+len(code)
+    def row(i):
+        return {"va":hex(i.address+BASE),"bytes":bytes(i.bytes).hex(),"instruction":i.mnemonic+" "+i.op_str}
+    def window(a,n):
+        lo=max(start,a);hi=min(end,a+n)
+        return [row(i) for i in cs.disasm(code[lo-start:hi-start],lo)] if hi>lo else []
+    def ptr(a):
+        rr=rel.get(a,{})
+        t=rr.get("addend")
+        b=matched(a,8)
+        return t if b is not None and rr.get("type") in ("RELR",1027) and rr.get("symbol")==0 and isinstance(t,int) else None
+    # Manually recovered from the complete, byte-matched constructor windows.
+    specs=[
+      ("NetEnterVillage",0x01112070,0x049521A0),
+      ("NetJoinSessionVillage",0x0113B570,0x04952730),
+      ("NetEnterCloudIsland",0x01129314,0x049520C0),
+      ("NetCloudIslandRevertSaveData",0x01100DF4,0x04951558),
+      ("OpenVillageGate",0x0111F380,0x04954268)]
+    common=ptr(0x04BB84D0-BASE)
+    if common is not None:
+        specs.append(("NetCommon",0x0113677C,common+BASE+0x10))
+    tables=[]
+    callback_targets=set()
+    for name,store,va in specs:
+        a=va-BASE
+        if matched(a,8) is None:raise ValueError("unmatched vtable address "+name)
+        slots=[]
+        # Deliberately bounded; extent and ABI slot semantics are not assumed.
+        for off in range(-0x10,0x80,8):
+            q=a+off;b=matched(q,8);t=ptr(q)
+            if b is None:continue
+            in_text=t is not None and start<=t<end and t%4==0
+            rec={"offset":off,"slot_va":hex(q+BASE),"raw":b.hex(),
+                 "target_va":hex(t+BASE) if t is not None else None,
+                 "target_is_text":in_text,"relocation":rel.get(q)}
+            if in_text:
+                callback_targets.add(t)
+                rec["entry_window"]=window(t,0x100)
+            slots.append(rec)
+        tables.append({"action":name,"store_va":hex(store),"address_point_va":hex(va),
+                       "store_window":window(store-0x28-BASE,0x30),"slots":slots,
+                       "slot_semantics_verified":False})
+    globals_va=(0x055B2610,0x055B2618)
+    targets={x-BASE for x in globals_va}
+    aliases={q for q in rel if rel[q].get("addend") in targets and ptr(q) in targets}
+    watched=targets|aliases
+    pages={x&~4095 for x in watched}
+    refs=[];calls=[]
+    for off,(w,) in enumerate(struct.iter_unpack("<I",code)):
+        pc=start+off*4
+        t=branch_target(w,pc)
+        if t in callback_targets:
+            calls.append({"site_va":hex(pc+BASE),"target_va":hex(t+BASE),"bytes":struct.pack("<I",w).hex()})
+        a=adr_target(w,pc)
+        if a in watched:
+            refs.append({"site_va":hex(pc+BASE),"formed_va":hex(a+BASE),"kind":"ADR",
+                         "context":window(pc-0x20,0x80)})
+        page=adrp_target(w,pc)
+        if page not in pages:continue
+        rd=w&31
+        for step in range(1,7):
+            o=(off+step)*4
+            if o+4>len(code):break
+            f=struct.unpack_from("<I",code,o)[0]
+            ad=add_imm(f);ld=ldr_uimm(f)
+            a=None;k=None
+            if ad and ad["rn"]==rd:a=page+ad["imm"];k="ADRP_ADD"
+            elif ld and ld["rn"]==rd:a=page+ld["imm"];k="ADRP_LDR"
+            # Direct global STR/LDR forms (64 bit, unsigned immediate).
+            elif f&0xffc00000==0xf9000000 and (f>>5)&31==rd:
+                a=page+((f>>10)&0xfff)*8;k="ADRP_STR"
+            if a in watched:
+                refs.append({"site_va":hex(pc+BASE),"consumer_va":hex(pc+step*4+BASE),
+                             "formed_va":hex(a+BASE),"kind":k,"context":window(pc-0x20,0x80)})
+            if ad and ad["rd"]==rd:break
+    result={"schema":"acnh303-item-capability-vtables-v1","tables":tables,
+            "owner_globals":[hex(x) for x in globals_va],
+            "global_aliases":[{"slot_va":hex(q+BASE),"target_va":hex(ptr(q)+BASE)} for q in sorted(aliases)],
+            "global_address_candidates":refs,"vtable_target_direct_candidates":calls,
+            "registration_context":window(0x007BAF64-BASE-0x100,0x180),
+            "runtime_verified":False,
+            "limits":"Bounded vtable windows may include adjacent tables; constructor store identifies address point, not method semantics. Global address formations are linear candidates, not proof of BLR argument flow. No claims about actual online restriction."}
+    (out/"vtable_focus.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("VTABLE_FOCUS",json.dumps({"tables":len(tables),"callback_target_candidates":len(callback_targets),"global_aliases":len(aliases),"global_refs":len(refs),"direct_candidates":len(calls)}))
+
 def run(root, out):
     import acnh303_r100_nso_decode as dec
     from acnh303_round11_elf_xref import parse_elf, get_bytes_va, survey, locate_xrefs
@@ -275,6 +364,7 @@ def run(root, out):
     (out/"summary.json").write_text(json.dumps(summary,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(summary,indent=2))
     focus_dispatch(code,start,matched,rel,cs,factories,out)
+    focus_vtables(code,start,matched,rel,cs,out)
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
